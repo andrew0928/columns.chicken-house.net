@@ -1,0 +1,256 @@
+---
+layout: post
+title: "Thread Sync #1. 概念篇 - 如何化被動為主動?"
+categories:
+- ".NET"
+- "多執行緒"
+- "技術隨筆"
+- "物件導向"
+tags: [".NET","多執行緒","技術隨筆","物件導向"]
+published: true
+comments: true
+permalink: "/2008/08/14/thread-sync-1-概念篇-如何化被動為主動/"
+redirect_from:
+  - /columns/post/2008/08/14/Thread-Sync-1-e6a682e5bfb5e7af87-e5a682e4bd95e58c96e8a2abe58b95e782bae4b8bbe58b95.aspx/
+  - /post/2008/08/14/Thread-Sync-1-e6a682e5bfb5e7af87-e5a682e4bd95e58c96e8a2abe58b95e782bae4b8bbe58b95.aspx/
+  - /post/Thread-Sync-1-e6a682e5bfb5e7af87-e5a682e4bd95e58c96e8a2abe58b95e782bae4b8bbe58b95.aspx/
+  - /columns/2008/08/14/Thread-Sync-1-e6a682e5bfb5e7af87-e5a682e4bd95e58c96e8a2abe58b95e782bae4b8bbe58b95.aspx/
+  - /columns/Thread-Sync-1-e6a682e5bfb5e7af87-e5a682e4bd95e58c96e8a2abe58b95e782bae4b8bbe58b95.aspx/
+wordpress_postid: 80
+---
+<p>
+別以為我轉行了... 這篇不是勵志文章，教你用主動積極的態度面對人生.... 而是討論執行緒同步機制及如何用來解決惱人的流程問題。會寫這篇的念頭來自<a href="http://blog.darkthread.net/blogs/darkthreadtw/archive/2008/08/09/coding-for-fun-rfc.aspx">黑暗程式魔人辦的猜數字程式設計大賽</a>，在處理的過程中想到的解法...，不過這篇要講的不是猜數字，而是不相干的東西: Thread Sync (執行緒的同步機制)。
+</p>
+<p>
+&nbsp;
+</p>
+<p>
+一般程式寫久了，會很習慣一路到底的思考方式，程式也完全照這樣的思路被設計出來。不過寫 GAME 這類的程式就不是這麼一回事了。就先舉十五年前我用 C 寫的俄羅斯方塊的遊戲當例子 (大驚! 十... 十五年?)，腦袋裡想的流程八九不離十，一定是像這樣:
+</p>
+<p>
+&quot;<em><font color="#008000">隨機從上面掉一個方塊下來，時間到了就往下掉，USER有按方向鍵就左右移動或是旋轉，直到卡到底下或是其它方塊為止...</font></em>&quot;
+</p>
+<p>
+很正確的想法，很可惜你的程式完全不能這樣寫，為什麼? 當你沒有使用多執行緒或是其它的技巧時，你的主程式流程一定得被限定在固定時間 refresh 畫面的無窮迴圈... 上面的邏輯怎麼辦? 會被迫拆成好幾塊，然後被主程式定期呼叫... 程式寫起來大概會像這樣:
+</p>
+<div>
+<strong>TETRIS</strong> 
+<div style="border: 1px solid">
+<div class="csharpcode">
+<pre class="alt">
+<span class="lnum">   1:  </span><span class="kwrd">public</span> <span class="kwrd">void</span> ProcessBrick()
+</pre>
+<pre>
+<span class="lnum">   2:  </span>{
+</pre>
+<pre class="alt">
+<span class="lnum">   3:  </span>    <span class="kwrd">switch</span> (status)
+</pre>
+<pre>
+<span class="lnum">   4:  </span>    {
+</pre>
+<pre class="alt">
+<span class="lnum">   5:  </span>        <span class="kwrd">case</span> 1:
+</pre>
+<pre>
+<span class="lnum">   6:  </span>            <span class="rem">//</span>
+</pre>
+<pre class="alt">
+<span class="lnum">   7:  </span>            <span class="rem">//  按右鍵, 往右移一格</span>
+</pre>
+<pre>
+<span class="lnum">   8:  </span>            <span class="rem">//</span>
+</pre>
+<pre class="alt">
+<span class="lnum">   9:  </span>            <span class="kwrd">break</span>;
+</pre>
+<pre>
+<span class="lnum">  10:  </span>        <span class="kwrd">case</span> 2:
+</pre>
+<pre class="alt">
+<span class="lnum">  11:  </span>            <span class="rem">//</span>
+</pre>
+<pre>
+<span class="lnum">  12:  </span>            <span class="rem">//  按左鍵, 往左移一格</span>
+</pre>
+<pre class="alt">
+<span class="lnum">  13:  </span>            <span class="rem">//</span>
+</pre>
+<pre>
+<span class="lnum">  14:  </span>            <span class="kwrd">break</span>;
+</pre>
+<pre class="alt">
+<span class="lnum">  15:  </span>        <span class="kwrd">case</span> 3:
+</pre>
+<pre>
+<span class="lnum">  16:  </span>            <span class="rem">//</span>
+</pre>
+<pre class="alt">
+<span class="lnum">  17:  </span>            <span class="rem">//  按上鍵, 順時針旋轉 90 度</span>
+</pre>
+<pre>
+<span class="lnum">  18:  </span>            <span class="rem">//</span>
+</pre>
+<pre class="alt">
+<span class="lnum">  19:  </span>            <span class="kwrd">break</span>;
+</pre>
+<pre>
+<span class="lnum">  20:  </span>        <span class="kwrd">case</span> 4:
+</pre>
+<pre class="alt">
+<span class="lnum">  21:  </span>            <span class="rem">//</span>
+</pre>
+<pre>
+<span class="lnum">  22:  </span>            <span class="rem">//  按下鍵, 往下移一格</span>
+</pre>
+<pre class="alt">
+<span class="lnum">  23:  </span>            <span class="rem">//</span>
+</pre>
+<pre>
+<span class="lnum">  24:  </span>            <span class="kwrd">break</span>;
+</pre>
+<pre class="alt">
+<span class="lnum">  25:  </span>        <span class="kwrd">case</span> 5:
+</pre>
+<pre>
+<span class="lnum">  26:  </span>            <span class="rem">//</span>
+</pre>
+<pre class="alt">
+<span class="lnum">  27:  </span>            <span class="rem">//  .......</span>
+</pre>
+<pre>
+<span class="lnum">  28:  </span>            <span class="rem">//</span>
+</pre>
+<pre class="alt">
+<span class="lnum">  29:  </span>            <span class="kwrd">break</span>;
+</pre>
+<pre>
+<span class="lnum">  30:  </span>    }
+</pre>
+<pre class="alt">
+<span class="lnum">  31:  </span>}
+</pre>
+</div>
+</div>
+<!-- end of code area -->
+</div>
+<p>
+&nbsp;
+</p>
+<p>
+原本好好的邏輯被切成好幾塊，然後再藉著狀態等資訊，每次的 LOOP 各挑這次要執行的那一小段，然後拼湊出原本的邏輯...。別哀怨，誰叫你寫的 CODE 不是老大? 老大是控制畫面的主程式，你既然是當小的就乖乖躲在旁邊被呼叫... 委屈一點是應該的...。
+</p>
+<p>
+&nbsp;
+</p>
+<p>
+真是黑心啊... 誰叫老闆永遠是對的。這次黑心... 不，黑暗魔人出的題目正好又讓我聯想到一樣的狀況。黑暗魔人出的題目，是先實作了 GameHost 類別 (就是老大啦)，及 Player 抽象型別 (小角色就是他)，再藉著多型 (Polymorphism) 的方式，由 GameHost 不斷的呼叫 Player 提供的 GuessNum( )，來讓 Player 問問題，同時把上一次問題的答案傳給 Player ...
+</p>
+<p>
+&nbsp;
+</p>
+<p>
+程式也不難寫，大家都玩過 1A1B 的遊戲吧? 腦袋裡一定是這樣想的:
+</p>
+<p>
+&nbsp;
+</p>
+<p>
+<font color="#008000">&quot;<em>一開始先隨便猜幾個，把結果記下來....。</em>&quot;</font>
+</p>
+<p>
+<font color="#008000">&quot;<em>再來刪去法，比較可能的幾個數字再猜一猜...。</em>&quot;</font>
+</p>
+<p>
+<font color="#008000">&quot;<em>快猜到了，幾種組合列出來想一想怎麼辦好? 好! 就猜這個...。</em>&quot;</font>
+</p>
+<p>
+<font color="#008000">...</font>
+</p>
+<p>
+<font color="#008000">...</font>
+</p>
+<p>
+<font color="#008000">...</font>
+</p>
+<p>
+<font color="#008000">&quot;<em>BINGO! 猜中了!!!</em>&quot;</font>
+</p>
+<p>
+&nbsp;
+</p>
+<p>
+很高興的想好流程後，真的要開始寫就傻住了... 這堆流程跟邏輯，要我拆成一直會被重複呼叫的 &quot;單一個&quot; method, 每一回合會被呼叫一次...。意思是一連串複雜的處理過程，要依序切成完全一樣的片段 (就是指重複呼叫同一段程式碼) ? 更慘的是這次問的問題，下一次呼叫才拿的到答案!? MY GOD... 要想出怎麼猜到對方的數字已經夠頭痛了，還得來處理這些 &quot;行政&quot; 問題?
+</p>
+<p>
+&nbsp;
+</p>
+<p>
+My God, 頭越想越痛，這樣下去來我大概只能寫出比 DummyPlayer (註: 參賽程式附的 Player 範例，隨機產生問題，無腦的一直問，直到猜中為止...) 高明一點點的程式而已了。曾 MSN 跟<a href="http://blog.darkthread.net/">黑暗魔人</a>討論過，看看能不能讓 GameHost 化主動為被動，改由 GameHost 提供 callback 讓 Player 呼叫的可能性? 不過後來想想不對，那有主持人在旁邊看等著被來賓訪問的道理? 何況如果以後是兩個 Player 對戰怎麼辦? 誰要來當 &quot;小的&quot; ?? 問題還是一樣沒解決...
+</p>
+<p>
+&nbsp;
+</p>
+<p>
+過去大家對於 THREAD 的印象都是 &quot;多工&quot;，需要用 thread 解決的問題大多是在改善執行效能上面，因為同時用兩個 thread 可以做兩件事，效率會比較好。其實 thread 也很適合解決這類的問題，因為執行緒讓我們有機會，不需切斷 GameHost / Player 的 &quot;思路&quot;，讓兩邊都能用很直覺的思考方式寫程式。
+</p>
+<p>
+&nbsp;
+</p>
+<p>
+大概畫一下時序圖對照一下，先看看原本的作法:
+</p>
+<p>
+<img style="border: 0px" src="/wp-content/be-files/WindowsLiveWriter/ThreadSync1_32F9/%E6%8A%95%E5%BD%B1%E7%89%872_1.png" border="0" alt="投影片2" width="660" height="500" /> 
+</p>
+<p>
+&nbsp;
+</p>
+<p>
+&nbsp;
+</p>
+<p>
+&nbsp;
+</p>
+<p>
+&nbsp;
+</p>
+<p>
+再看一下改用兩個執行緒的作法:
+</p>
+<p>
+<img style="border: 0px" src="/wp-content/be-files/WindowsLiveWriter/ThreadSync1_32F9/%E6%8A%95%E5%BD%B1%E7%89%873_1.png" border="0" alt="投影片3" width="660" height="500" /> 
+</p>
+<p>
+&nbsp;
+</p>
+<p>
+&nbsp;
+</p>
+<p>
+不管之中的技術障礙怎麼克服，至少這樣改起來，兩邊都能各自用更合理簡單的方式思考自己的問題，也更接近實際的情況 (莊家跟玩家不會共用一個腦子吧...)。也唯有把問題簡化之後，我們才有辦法想出更複雜的方式來解決問題，科技不就是這樣進步的嘛?
+</p>
+<p>
+&nbsp;
+</p>
+<p>
+這次的例子裡，執行緒是用來簡化問題的，而不是拿來增進效率的。兩個人腦袋各自想著問題，總要溝通吧? thread 之間溝通的機制就很單純了，共用變數加上同步機制，來確定對方是否準備好我要的東西，或是對方是否已經準備好要接招了?
+</p>
+<p>
+&nbsp;
+</p>
+<p>
+這次搬出來的是過去<a href="/post/ThreadPool-e5afa6e4bd9c-3-AutoResetEvent-ManualResetEvent.aspx">說明 thread pool 提到的 AutoResetEvent</a>，現在又重現江湖了。方法很簡單，要拿資料的那一方，就去 Wait( ) 等資料準備好，另一方把資料放在共用變數之後就呼叫 Set( )，叫醒另一個還在 Wait( ) 的執行緒，可以起床拿東西閃人了...。
+</p>
+<p>
+&nbsp;
+</p>
+<p>
+接下來當然就各忙各的，直到雙方又有交換資料的需求，同樣的方式就再來一次。只是隨著資料交換的方向不同 (比如問問題是把題目由 player --&gt; host，而取得答案則是 host --&gt; player)，上述的動作雙方角色要互換才能順利進行。
+</p>
+<p>
+&nbsp;
+</p>
+<p>
+Orz，本來想一篇打完的，不過打到快睡著，加上內容還剩不少... 就分兩集吧! 程式碼及實作各位就耐心點，下一篇會端出實際操作執行緒的範例。
+</p>

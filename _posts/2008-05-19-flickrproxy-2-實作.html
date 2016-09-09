@@ -1,0 +1,570 @@
+---
+layout: post
+title: "FlickrProxy #2 - 實作"
+categories:
+- ".NET"
+- "ASP.NET"
+- "作品集"
+tags: [".NET","ASP.NET","作品集"]
+published: true
+comments: true
+permalink: "/2008/05/19/flickrproxy-2-實作/"
+redirect_from:
+  - /columns/post/2008/05/19/FlickrProxy-2-e5afa6e4bd9c.aspx/
+  - /post/2008/05/19/FlickrProxy-2-e5afa6e4bd9c.aspx/
+  - /post/FlickrProxy-2-e5afa6e4bd9c.aspx/
+  - /columns/2008/05/19/FlickrProxy-2-e5afa6e4bd9c.aspx/
+  - /columns/FlickrProxy-2-e5afa6e4bd9c.aspx/
+  - /columns/post/2008/05/19/FlickrProxy-2---e5afa6e4bd9c.aspx/
+  - /post/2008/05/19/FlickrProxy-2---e5afa6e4bd9c.aspx/
+  - /post/FlickrProxy-2---e5afa6e4bd9c.aspx/
+  - /columns/2008/05/19/FlickrProxy-2---e5afa6e4bd9c.aspx/
+  - /columns/FlickrProxy-2---e5afa6e4bd9c.aspx/
+  - /blogs/chicken/archive/2008/05/19/3243.aspx/
+wordpress_postid: 105
+---
+<p>
+整個進度算是很順利，初版已經可以運作了，而且也成功的套用在<a href="http://michadel.chicken-house.net/blogs/michadel/default.aspx" target="_blank">小熊子的 BLOG</a> 上... 因為過去已經有幾個<a href="/post/e4b889e5808be5a5bde794a8e79a84-ASPNET-HttpHandler.aspx" target="_blank">類似的 HttpHandler</a> 的 code 可以直接拿來改了，反而真正的瓶頸是在瞭解如何操控 FlickrNet 這個 .NET 版的 Flickr API 身上 Orz。FlickrNet 碰到的問題後面再說明，先來看一下整個 Project 的源頭: system design。 
+</p>
+<p>
+&nbsp;
+</p>
+<p>
+這個程式的目標很明確，就是我不想改變任何的使用習慣，我要讓 blogger (比如我家大人) 完全不用理會 flickr 這東西的存在，也不需要在寫文章時去傷腦筋該把照片先放到 Flickr 然後再放到網頁上這類瑣事.. 因此我需要的是在 blog server 上有某些自動的機制，能夠自動把照片丟到 flickr 上，也能夠自動的把網頁上要顯示的照片轉到 flickr 那邊。而必要時，這些機制都能夠取消或調整，不會影響到 blog 的資料等等問題。 
+</p>
+<p>
+初步的想法就是從接手這些圖檔的 HttpHandler 著手。如果前端 (BROWSER) 到 BLOG SERVER 上要求下載照片的要求都能經過我的控制，理論上我就能達成這個目的。因為前端的 Http Request 不需要修改，因此我這次的任務不需要像<a href="http://www.darkthread.net/" target="_blank">黑暗大哥</a>那樣辛苦的去<a href="http://blog.darkthread.net/blogs/darkthreadtw/archive/2008/05/10/replace-html-of-asp-net.aspx" target="_blank">調整每一頁的 HTML code</a> (雖然我的方法也沒多輕鬆.. Orz)，這是我決定採用這個方式的主要優點。HTML不用改，我也不用改變原本上傳圖檔的方式，因此所有的調整都不會影響到最重要的 DATA，所有改變都是可以還原的。 
+</p>
+<p>
+負責處理照片的 Http Handler 只要能依照這流程作事就夠了，因此等等會看到的程式碼也是很簡單: 
+</p>
+<ol>
+	<li>接收 Http Request，如果條件符合 (確認這是要轉到 Flickr 的照片，檔案大小超過指定值... 等等) 則進行下一個步驟，否則就像一般的靜態檔案一樣，直接回傳檔案內容。 </li>
+	<li>先檢查 CACHE 是否已經有對應的資訊 ( ASP.NET 內建的 Cache, 及在暫存目錄建立的 cache file ... 等等 )，有的話直接把 Http Request 重新導向到 Flickr 上同一張照片的網址。 </li>
+	<li>如果 (2) 不成立的話，就要執行主要的動作 - 上傳到 Flickr 並且建立必要的 CACHE 資訊，然後重複 (2) 的動作。主要的動作包括: 
+	<ul>
+		<li>計算 HASH，建立 CACHE 檔案 </li>
+		<li>透過 Flickr API，把檔案丟到 Flickr 服務上，並且取得 URL 等資訊 </li>
+		<li>把取得的資訊放在 CACHE 檔案裡 </li>
+		<li>執行 (2)，直接把 Http Request 重新導向到 Flickr URL</li>
+	</ul>
+	</li>
+</ol>
+<p>
+這樣就完成了。我把它畫成 UML Sequency Diagram: 
+</p>
+<p>
+&nbsp;
+</p>
+<p>
+<img style="border-width: 0px" src="/wp-content/be-files/WindowsLiveWriter/FlickrProxy2_EC39/1_3.png" border="0" alt="1" width="620" height="682" /> 
+</p>
+<p>
+&nbsp;
+</p>
+<p>
+&nbsp;
+</p>
+<p>
+接下來就是看 Code 了，寫這樣的程式，關鍵有幾個，大部份都是 IIS / ASP.NET 的設定要正確，讓 IIS 能把 REQUEST 轉到你的程式，剩下的就沒什麼特別的了。對 HttpHandler 不熟的人可以先參考一下這幾篇 ( From MSDN ): 
+</p>
+<p>
+<a href="ms-help://MS.MSDNQTR.v90.en/dv_vwdcon/html/f5d7bdde-f52d-4f5e-8f86-397378ed1024.htm">How to: Configure an HTTP Handler Extension in IIS</a><br />
+<a href="ms-help://MS.MSDNQTR.v90.en/dv_vwdcon/html/d5633f9a-03fb-4ccc-a799-dc67d656fa60.htm">How to: Register HTTP Handlers</a><br />
+<a href="ms-help://MS.MSDNQTR.v90.en/dv_vwdcon/html/f540bdeb-d22e-4e1d-ba8a-fe6c9926283b.htm">HTTP Handlers and HTTP Modules Overview</a><br />
+<a href="ms-help://MS.MSDNQTR.v90.en/dv_vwdcon/html/daa90a3b-47d7-45f7-98cc-188fa56424c9.htm">Walkthrough: Creating a Synchronous HTTP Handler</a> 
+</p>
+<p>
+在 IIS 上寫這些東西，比較麻煩的是 configuration，反而不是程式... 初學者常會卡在這裡，而這部份的行為正好又跟 Visual Studio 內建的 DevWeb 差很多 (真的差很多... 有時連抓到的 Path Info 都會不一樣 @_@)，強烈建議開發階段就直接在 IIS 上面開發... 
+</p>
+<p>
+要克服的第一個設定，就是 IIS。預設情況下，IIS 看到圖檔的 request，毫不考慮就會把內容丟回去了，你程式怎麼寫都沒機會攔到，所以要在應用程式對應這邊，先把 *.JPG 的控制權交給 .NET Framework 的 ISAPI filter .. 
+</p>
+<p>
+有兩個選擇，你心藏夠力的話可以把所有的 Request 都指到 .NET Framework，或是只指定 .JPG 就好。我這邊是以 .JPG 為例: 
+</p>
+<p>
+<a href="/wp-content/be-files/WindowsLiveWriter/FlickrProxy2_EC39/image_6.png"><img style="border-width: 0px" src="/wp-content/be-files/WindowsLiveWriter/FlickrProxy2_EC39/image_thumb_2.png" border="0" alt="image" width="433" height="247" /></a> 
+</p>
+<p>
+仔細看一下可以發現，其實所有 ASP.NET 的附檔名，通通都是指向同一個 ISAPI Filter: aspnet_isapi.dll。至於每一種附擋名會有什麼不同的行為，那是 .NET 自己關起門來解決的事，這邊不用傷腦筋... 直接 COPY 別的設定過來最快.. 
+</p>
+<p>
+&nbsp;
+</p>
+<p>
+IIS 的部份搞定了，如果現在就透過 IIS 去看網站上的 .JPG，全部都會破圖... 因為所有的 Request 全都被 .NET 接管了。除非你整個 WEB APP 的 .JPG 都要透過你的 HTTP HANDLER，否則請先在 WEB.CONFIG 裡加上這段: 
+</p>
+<p>
+加在 /configuration/system.web/httpHandlers 下 (這是 XPath): 
+</p>
+<div>
+<strong>用內建的 StaticFileHandler 來處理 *.JPG 的 Http Request</strong><span class="copycode">[copy code]</span> 
+<div style="display: none">
+<pre style="display: none">
+    &lt;httpHandlers&gt;      &lt;add path=&quot;*.jpg&quot; verb=&quot;*&quot; type=&quot;System.Web.StaticFileHandler&quot; /&gt;    &lt;/httpHandlers&gt;
+</pre>
+</div>
+<div style="border: 1px solid">
+<div class="csharpcode">
+<pre class="alt">
+<span class="lnum">   1:  </span><span class="kwrd">&lt;</span><span class="html">httpHandlers</span><span class="kwrd">&gt;</span>
+</pre>
+<pre>
+<span class="lnum">   2:  </span>  <span class="kwrd">&lt;</span><span class="html">add</span> <span class="attr">path</span><span class="kwrd">=&quot;*.jpg&quot;</span> <span class="attr">verb</span><span class="kwrd">=&quot;*&quot;</span> <span class="attr">type</span><span class="kwrd">=&quot;System.Web.StaticFileHandler&quot;</span> <span class="kwrd">/&gt;</span>
+</pre>
+<pre class="alt">
+<span class="lnum">   3:  </span><span class="kwrd">&lt;/</span><span class="html">httpHandlers</span><span class="kwrd">&gt;</span>
+</pre>
+</div>
+</div>
+<!-- end of code area -->
+</div>
+<p>
+&nbsp;
+</p>
+<p>
+System.Web.StaticFileHandler 是 ASP.NET 內建的，是跟 IIS 預設一樣的行為，就是原封不動的把檔案的 BINARY DATA 照傳回去而以。預設的還有其它幾個，Forbidden 等等的都可以用同樣的方式指定。 
+</p>
+<p>
+這一段加上去等於繞了一圈，IIS把 .JPG 交給 ASP.NET，而 ASP.NET 又原封不動的傳了回去。沒錯，一切都是為了後面作準備... 接下來要把未來會放照片的目錄，重新指定 HttpHandler。我的例子是 ~/storage 下的 *.JPG 通通都要轉到 Flickr，因此我在 Web.config 加上這段 (當然，你直接放在 ~/storage/web.config 也是可以): 
+</p>
+<div>
+<strong>重新指定在 ~/storage 目錄下的 HttpHandlers</strong><span class="copycode">[copy code]</span> 
+<div style="display: none">
+<pre style="display: none">
+  &lt;location path=&quot;storage&quot;&gt;    &lt;system.web&gt;      &lt;httpHandlers&gt;        &lt;add path=&quot;*.jpg&quot; verb=&quot;*&quot; type=&quot;ChickenHouse.Web.HttpHandlers.FlickrProxyHttpHandler,App_Code&quot; /&gt;      &lt;/httpHandlers&gt;    &lt;/system.web&gt;  &lt;/location&gt;
+</pre>
+</div>
+<div style="border: 1px solid">
+<div class="csharpcode">
+<pre class="alt">
+<span class="lnum">   1:  </span><span class="kwrd">&lt;</span><span class="html">location</span> <span class="attr">path</span><span class="kwrd">=&quot;storage&quot;</span><span class="kwrd">&gt;</span>
+</pre>
+<pre>
+<span class="lnum">   2:  </span>  <span class="kwrd">&lt;</span><span class="html">system.web</span><span class="kwrd">&gt;</span>
+</pre>
+<pre class="alt">
+<span class="lnum">   3:  </span>    <span class="kwrd">&lt;</span><span class="html">httpHandlers</span><span class="kwrd">&gt;</span>
+</pre>
+<pre>
+<span class="lnum">   4:  </span>      <span class="kwrd">&lt;</span><span class="html">add</span> <span class="attr">path</span><span class="kwrd">=&quot;*.jpg&quot;</span> <span class="attr">verb</span><span class="kwrd">=&quot;*&quot;</span> <span class="attr">type</span><span class="kwrd">=&quot;ChickenHouse.Web.HttpHandlers.FlickrProxyHttpHandler,App_Code&quot;</span> <span class="kwrd">/&gt;</span>
+</pre>
+<pre class="alt">
+<span class="lnum">   5:  </span>    <span class="kwrd">&lt;/</span><span class="html">httpHandlers</span><span class="kwrd">&gt;</span>
+</pre>
+<pre>
+<span class="lnum">   6:  </span>  <span class="kwrd">&lt;/</span><span class="html">system.web</span><span class="kwrd">&gt;</span>
+</pre>
+<pre class="alt">
+<span class="lnum">   7:  </span><span class="kwrd">&lt;/</span><span class="html">location</span><span class="kwrd">&gt;</span>
+</pre>
+</div>
+</div>
+<!-- end of code area -->
+</div>
+<p>
+&nbsp;
+</p>
+<p>
+設定的部份大功告成，剩下的就是程式碼了。看一下主要的部份: 
+</p>
+<div>
+<strong>FlickrProxyHttpHandler 主程式片段</strong><span class="copycode">[copy code]</span> 
+<div style="display: none">
+<pre style="display: none">
+            //            //  確認 CACHE 目錄已存在            //            if (Directory.Exists(this.CacheFolder) == false)            {                Directory.CreateDirectory(this.CacheFolder);            }            XmlDocument cacheInfoDoc = new XmlDocument();            string flickrURL = null;            if (File.Exists(this.CacheInfoFile) == false)            {                //                //  CACHE INFO 不存在，重新建立                //                flickrURL = this.BuildCacheInfoFile(context);            }            else            {                //                //  CACHE INFO 已經存在。確認 CACHE 的正確性後就可以直接導到 FLICKR URL                //                string cacheKey = &quot;flickr.proxy.&quot; + this.GetFileHash();                flickrURL = context.Cache[cacheKey] as string;                if (flickrURL == null)                {                    cacheInfoDoc.Load(this.CacheInfoFile);                    flickrURL = cacheInfoDoc.DocumentElement.GetAttribute(&quot;url&quot;);                    context.Cache.Insert(                        cacheKey,                        flickrURL,                        new CacheDependency(this.CacheInfoFile));                                    }            }            context.Response.Redirect(flickrURL);
+</pre>
+</div>
+<div style="border: 1px solid">
+<div class="csharpcode">
+<pre class="alt">
+<span class="lnum">   1:  </span><span class="rem">//</span>
+</pre>
+<pre>
+<span class="lnum">   2:  </span><span class="rem">//  確認 CACHE 目錄已存在</span>
+</pre>
+<pre class="alt">
+<span class="lnum">   3:  </span><span class="rem">//</span>
+</pre>
+<pre>
+<span class="lnum">   4:  </span><span class="kwrd">if</span> (Directory.Exists(<span class="kwrd">this</span>.CacheFolder) == <span class="kwrd">false</span>)
+</pre>
+<pre class="alt">
+<span class="lnum">   5:  </span>{
+</pre>
+<pre>
+<span class="lnum">   6:  </span>    Directory.CreateDirectory(<span class="kwrd">this</span>.CacheFolder);
+</pre>
+<pre class="alt">
+<span class="lnum">   7:  </span>}
+</pre>
+<pre>
+<span class="lnum">   8:  </span>XmlDocument cacheInfoDoc = <span class="kwrd">new</span> XmlDocument();
+</pre>
+<pre class="alt">
+<span class="lnum">   9:  </span><span class="kwrd">string</span> flickrURL = <span class="kwrd">null</span>;
+</pre>
+<pre>
+<span class="lnum">  10:  </span><span class="kwrd">if</span> (File.Exists(<span class="kwrd">this</span>.CacheInfoFile) == <span class="kwrd">false</span>)
+</pre>
+<pre class="alt">
+<span class="lnum">  11:  </span>{
+</pre>
+<pre>
+<span class="lnum">  12:  </span>    <span class="rem">//</span>
+</pre>
+<pre class="alt">
+<span class="lnum">  13:  </span>    <span class="rem">//  CACHE INFO 不存在，重新建立</span>
+</pre>
+<pre>
+<span class="lnum">  14:  </span>    <span class="rem">//</span>
+</pre>
+<pre class="alt">
+<span class="lnum">  15:  </span>    flickrURL = <span class="kwrd">this</span>.BuildCacheInfoFile(context);
+</pre>
+<pre>
+<span class="lnum">  16:  </span>}
+</pre>
+<pre class="alt">
+<span class="lnum">  17:  </span><span class="kwrd">else</span>
+</pre>
+<pre>
+<span class="lnum">  18:  </span>{
+</pre>
+<pre class="alt">
+<span class="lnum">  19:  </span>    <span class="rem">//</span>
+</pre>
+<pre>
+<span class="lnum">  20:  </span>    <span class="rem">//  CACHE INFO 已經存在。確認 CACHE 的正確性後就可以直接導到 FLICKR URL</span>
+</pre>
+<pre class="alt">
+<span class="lnum">  21:  </span>    <span class="rem">//</span>
+</pre>
+<pre>
+<span class="lnum">  22:  </span>    <span class="kwrd">string</span> cacheKey = <span class="str">&quot;flickr.proxy.&quot;</span> + <span class="kwrd">this</span>.GetFileHash();
+</pre>
+<pre class="alt">
+<span class="lnum">  23:  </span>    flickrURL = context.Cache[cacheKey] <span class="kwrd">as</span> <span class="kwrd">string</span>;
+</pre>
+<pre>
+<span class="lnum">  24:  </span>    <span class="kwrd">if</span> (flickrURL == <span class="kwrd">null</span>)
+</pre>
+<pre class="alt">
+<span class="lnum">  25:  </span>    {
+</pre>
+<pre>
+<span class="lnum">  26:  </span>        cacheInfoDoc.Load(<span class="kwrd">this</span>.CacheInfoFile);
+</pre>
+<pre class="alt">
+<span class="lnum">  27:  </span>        flickrURL = cacheInfoDoc.DocumentElement.GetAttribute(<span class="str">&quot;url&quot;</span>);
+</pre>
+<pre>
+<span class="lnum">  28:  </span>        context.Cache.Insert(
+</pre>
+<pre class="alt">
+<span class="lnum">  29:  </span>            cacheKey,
+</pre>
+<pre>
+<span class="lnum">  30:  </span>            flickrURL,
+</pre>
+<pre class="alt">
+<span class="lnum">  31:  </span>            <span class="kwrd">new</span> CacheDependency(<span class="kwrd">this</span>.CacheInfoFile));
+</pre>
+<pre>
+<span class="lnum">  32:  </span>    }
+</pre>
+<pre class="alt">
+<span class="lnum">  33:  </span>}
+</pre>
+<pre>
+<span class="lnum">  34:  </span>context.Response.Redirect(flickrURL);
+</pre>
+</div>
+</div>
+<!-- end of code area -->
+</div>
+<p>
+&nbsp;
+</p>
+<p>
+刪掉了一些無關緊要的 CODE。主程式很簡單，就上面提到了邏輯而以。想辦法取得照片在 Flickr 那邊的正確網址，Redirect回去就好。如何得知網址? 第一次如何把照片傳上去? 這次來看看主角: BuildCacheInfoFile。 
+</p>
+<div>
+<strong>Method: BuildCacheInfoFile( )</strong><span class="copycode">[copy code]</span> 
+<div style="display: none">
+<pre style="display: none">
+        private string BuildCacheInfoFile(HttpContext context)        {            Flickr flickr = new Flickr(                ConfigurationManager.AppSettings[&quot;flickrProxy.API.key&quot;],                ConfigurationManager.AppSettings[&quot;flickrProxy.API.security&quot;]);            flickr.AuthToken = ConfigurationManager.AppSettings[&quot;flickrProxy.API.token&quot;];            string photoID = flickr.UploadPicture(this.FileLocation);            PhotoInfo pi = flickr.PhotosGetInfo(photoID);            string flickrURL = null;            try            {                flickrURL = this.CheckFlickrUrlAvailability(pi.MediumUrl);                flickrURL = this.CheckFlickrUrlAvailability(pi.LargeUrl);                flickrURL = this.CheckFlickrUrlAvailability(pi.OriginalUrl);            }            catch { }            XmlDocument cacheInfoDoc = new XmlDocument();            cacheInfoDoc.LoadXml(&quot;&lt;proxy /&gt;&quot;);            cacheInfoDoc.DocumentElement.SetAttribute(                &quot;src&quot;,                this.FileLocation);            cacheInfoDoc.DocumentElement.SetAttribute(                &quot;url&quot;,                flickrURL);            cacheInfoDoc.DocumentElement.SetAttribute(                &quot;photoID&quot;,                photoID);            cacheInfoDoc.Save(this.CacheInfoFile);                        return flickrURL;        }
+</pre>
+</div>
+<div style="border: 1px solid">
+<div class="csharpcode">
+<pre class="alt">
+<span class="lnum">   1:  </span><span class="kwrd">private</span> <span class="kwrd">string</span> BuildCacheInfoFile(HttpContext context)
+</pre>
+<pre>
+<span class="lnum">   2:  </span>{
+</pre>
+<pre class="alt">
+<span class="lnum">   3:  </span>    Flickr flickr = <span class="kwrd">new</span> Flickr(
+</pre>
+<pre>
+<span class="lnum">   4:  </span>        ConfigurationManager.AppSettings[<span class="str">&quot;flickrProxy.API.key&quot;</span>],
+</pre>
+<pre class="alt">
+<span class="lnum">   5:  </span>        ConfigurationManager.AppSettings[<span class="str">&quot;flickrProxy.API.security&quot;</span>]);
+</pre>
+<pre>
+<span class="lnum">   6:  </span>    flickr.AuthToken = ConfigurationManager.AppSettings[<span class="str">&quot;flickrProxy.API.token&quot;</span>];
+</pre>
+<pre class="alt">
+<span class="lnum">   7:  </span>    <span class="kwrd">string</span> photoID = flickr.UploadPicture(<span class="kwrd">this</span>.FileLocation);
+</pre>
+<pre>
+<span class="lnum">   8:  </span>    PhotoInfo pi = flickr.PhotosGetInfo(photoID);
+</pre>
+<pre class="alt">
+<span class="lnum">   9:  </span>    <span class="kwrd">string</span> flickrURL = <span class="kwrd">null</span>;
+</pre>
+<pre>
+<span class="lnum">  10:  </span>    <span class="kwrd">try</span>
+</pre>
+<pre class="alt">
+<span class="lnum">  11:  </span>    {
+</pre>
+<pre>
+<span class="lnum">  12:  </span>        flickrURL = <span class="kwrd">this</span>.CheckFlickrUrlAvailability(pi.MediumUrl);
+</pre>
+<pre class="alt">
+<span class="lnum">  13:  </span>        flickrURL = <span class="kwrd">this</span>.CheckFlickrUrlAvailability(pi.LargeUrl);
+</pre>
+<pre>
+<span class="lnum">  14:  </span>        flickrURL = <span class="kwrd">this</span>.CheckFlickrUrlAvailability(pi.OriginalUrl);
+</pre>
+<pre class="alt">
+<span class="lnum">  15:  </span>    }
+</pre>
+<pre>
+<span class="lnum">  16:  </span>    <span class="kwrd">catch</span> { }
+</pre>
+<pre class="alt">
+<span class="lnum">  17:  </span>    XmlDocument cacheInfoDoc = <span class="kwrd">new</span> XmlDocument();
+</pre>
+<pre>
+<span class="lnum">  18:  </span>    cacheInfoDoc.LoadXml(<span class="str">&quot;&lt;proxy /&gt;&quot;</span>);
+</pre>
+<pre class="alt">
+<span class="lnum">  19:  </span>    cacheInfoDoc.DocumentElement.SetAttribute(
+</pre>
+<pre>
+<span class="lnum">  20:  </span>        <span class="str">&quot;src&quot;</span>,
+</pre>
+<pre class="alt">
+<span class="lnum">  21:  </span>        <span class="kwrd">this</span>.FileLocation);
+</pre>
+<pre>
+<span class="lnum">  22:  </span>    cacheInfoDoc.DocumentElement.SetAttribute(
+</pre>
+<pre class="alt">
+<span class="lnum">  23:  </span>        <span class="str">&quot;url&quot;</span>,
+</pre>
+<pre>
+<span class="lnum">  24:  </span>        flickrURL);
+</pre>
+<pre class="alt">
+<span class="lnum">  25:  </span>    cacheInfoDoc.DocumentElement.SetAttribute(
+</pre>
+<pre>
+<span class="lnum">  26:  </span>        <span class="str">&quot;photoID&quot;</span>,
+</pre>
+<pre class="alt">
+<span class="lnum">  27:  </span>        photoID);
+</pre>
+<pre>
+<span class="lnum">  28:  </span>    cacheInfoDoc.Save(<span class="kwrd">this</span>.CacheInfoFile);
+</pre>
+<pre class="alt">
+<span class="lnum">  29:  </span>    <span class="kwrd">return</span> flickrURL;
+</pre>
+<pre>
+<span class="lnum">  30:  </span>}
+</pre>
+</div>
+</div>
+<!-- end of code area -->
+</div>
+<p>
+&nbsp;
+</p>
+<p>
+寫這段，其實時間都花在怎麼用 Flickr API。Flickr API 很重視使用者的安全。認證部份一定要使用者親自到 Flickr 網站登入，同時按下授權後，API才能正常使用。經過這一連串動作，可以拿到三組序號: 
+</p>
+<ol>
+	<li>API Key </li>
+	<li>Share Security Key </li>
+	<li>Token</li>
+</ol>
+<p>
+其中 (1) 及 (2) 是使用者要自己到 Flickr 網站申請的 (<a href="http://www.flickr.com/services/api/keys">http://www.flickr.com/services/api/keys</a>)，第三個 TOKEN 就是要程式呼叫過程中會要求使用者連上網啟用後才能得到的。這邊我沒另外寫程式，我是直接用 <a href="http://www.codeplex.com/FlickrNet" target="_blank">FlickrNet</a> 的作者提供的 <a href="http://www.codeplex.com/FlickrNet/Wiki/View.aspx?title=Examples&amp;referringTitle=Home" target="_blank">SAMPLE CODE</a>，照著操作就可以拿到 TOKEN 了。 
+</p>
+<p>
+有了這三段序號 API 才能正常運作。之後只要上傳 (第七行) 取得 photoID 回來就算完成。接下來第 12 行取得網址就 OK 了。 
+</p>
+<p>
+&nbsp;
+</p>
+<p>
+不過這邊也是卡最久的地方... 有人說 flickr server 忙的時後連到照片網址，有時會出現 &quot;photo not available&quot; 的訊習，有時又正常。有人則說某些照片只會有特定 SIZE，像是 original / large size 的有時也會發生 &quot;photo not available&quot; 的狀況... 
+</p>
+<p>
+試了幾次，實在是抓不出它的規則，也找不出避開的辦法... 只好硬著頭皮，每個取得的網址就都用 HTTP 硬給它試看看... 因為 Flickr API 取得網址的 property 在失敗時會丟出 EXCEPTION，因此這段 code 寫成這樣: 
+</p>
+<div>
+<strong>取得 SIZE 最大的可用網址</strong><span class="copycode">[copy code]</span> 
+<div style="display: none">
+<pre style="display: none">
+            try            {                flickrURL = this.CheckFlickrUrlAvailability(pi.MediumUrl);                flickrURL = this.CheckFlickrUrlAvailability(pi.LargeUrl);                flickrURL = this.CheckFlickrUrlAvailability(pi.OriginalUrl);            }            catch { }
+</pre>
+</div>
+<div style="border: 1px solid">
+<div class="csharpcode">
+<pre class="alt">
+<span class="lnum">   1:  </span><span class="kwrd">try</span>
+</pre>
+<pre>
+<span class="lnum">   2:  </span>{
+</pre>
+<pre class="alt">
+<span class="lnum">   3:  </span>    flickrURL = <span class="kwrd">this</span>.CheckFlickrUrlAvailability(pi.MediumUrl);
+</pre>
+<pre>
+<span class="lnum">   4:  </span>    flickrURL = <span class="kwrd">this</span>.CheckFlickrUrlAvailability(pi.LargeUrl);
+</pre>
+<pre class="alt">
+<span class="lnum">   5:  </span>    flickrURL = <span class="kwrd">this</span>.CheckFlickrUrlAvailability(pi.OriginalUrl);
+</pre>
+<pre>
+<span class="lnum">   6:  </span>}
+</pre>
+<pre class="alt">
+<span class="lnum">   7:  </span><span class="kwrd">catch</span> { }
+</pre>
+</div>
+</div>
+<!-- end of code area -->
+</div>
+<p>
+&nbsp;
+</p>
+<p>
+CheckFlickrUrlAvailability() 是我自己寫的，就是真正連到 Flickr 判定到底照片能不能從這網址下載... 任一行只要發生 EXCEPTION 就會跳出，flickrURL 變數就可以保留最後一個 (最大) 可用的網址...。 
+</p>
+<p>
+&nbsp;
+</p>
+<p>
+好，程式碼看完了... 最後來看看<a href="http://demo.chicken-house.net/MediaProxy/storage/HTMLPage.htm" target="_blank">測試網站</a>。我放了一個很簡單的網頁，簡單的幾行 HTML，加上一張圖。 
+</p>
+<div>
+<strong>測試用的 HTML 檔</strong><span class="copycode">[copy code]</span> 
+<div style="display: none">
+<pre style="display: none">
+&lt;!DOCTYPE html PUBLIC &quot;-//W3C//DTD XHTML 1.0 Transitional//EN&quot; &quot;http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd&quot;&gt;&lt;html xmlns=&quot;http://www.w3.org/1999/xhtml&quot;&gt;&lt;head&gt;    &lt;title&gt;Untitled Page&lt;/title&gt;&lt;/head&gt;&lt;body&gt;&lt;hr /&gt;&lt;img src=&quot;smile_sunkist.jpg&quot; mce_src=&quot;smile_sunkist.jpg&quot; alt=&quot;test image&quot; /&gt;&lt;hr /&gt;&lt;/body&gt;&lt;/html&gt;
+</pre>
+</div>
+<div style="border: 1px solid">
+<div class="csharpcode">
+<pre class="alt">
+<span class="lnum">   1:  </span><span class="kwrd">&lt;!</span><span class="html">DOCTYPE</span> <span class="attr">html</span> <span class="attr">PUBLIC</span> <span class="kwrd">&quot;-//W3C//DTD XHTML 1.0 Transitional//EN&quot;</span> <span class="kwrd">&quot;http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd&quot;</span><span class="kwrd">&gt;</span>
+</pre>
+<pre>
+<span class="lnum">   2:  </span>&nbsp;
+</pre>
+<pre class="alt">
+<span class="lnum">   3:  </span><span class="kwrd">&lt;</span><span class="html">html</span> <span class="attr">xmlns</span><span class="kwrd">=&quot;http://www.w3.org/1999/xhtml&quot;</span><span class="kwrd">&gt;</span>
+</pre>
+<pre>
+<span class="lnum">   4:  </span><span class="kwrd">&lt;</span><span class="html">head</span><span class="kwrd">&gt;</span>
+</pre>
+<pre class="alt">
+<span class="lnum">   5:  </span>    <span class="kwrd">&lt;</span><span class="html">title</span><span class="kwrd">&gt;</span>Untitled Page<span class="kwrd">&lt;/</span><span class="html">title</span><span class="kwrd">&gt;</span>
+</pre>
+<pre>
+<span class="lnum">   6:  </span><span class="kwrd">&lt;/</span><span class="html">head</span><span class="kwrd">&gt;</span>
+</pre>
+<pre class="alt">
+<span class="lnum">   7:  </span><span class="kwrd">&lt;</span><span class="html">body</span><span class="kwrd">&gt;</span>
+</pre>
+<pre>
+<span class="lnum">   8:  </span>&nbsp;
+</pre>
+<pre class="alt">
+<span class="lnum">   9:  </span><span class="kwrd">&lt;</span><span class="html">hr</span> <span class="kwrd">/&gt;</span>
+</pre>
+<pre>
+<span class="lnum">  10:  </span>&nbsp;
+</pre>
+<pre class="alt">
+<span class="lnum">  11:  </span><span class="kwrd">&lt;</span><span class="html">img</span> <span class="attr">src</span><span class="kwrd">=&quot;smile_sunkist.jpg&quot;</span> <span class="attr">alt</span><span class="kwrd">=&quot;test image&quot;</span> <span class="kwrd">/&gt;</span>
+</pre>
+<pre>
+<span class="lnum">  12:  </span>&nbsp;
+</pre>
+<pre class="alt">
+<span class="lnum">  13:  </span><span class="kwrd">&lt;</span><span class="html">hr</span> <span class="kwrd">/&gt;</span>
+</pre>
+<pre>
+<span class="lnum">  14:  </span>&nbsp;
+</pre>
+<pre class="alt">
+<span class="lnum">  15:  </span>&nbsp;
+</pre>
+<pre>
+<span class="lnum">  16:  </span><span class="kwrd">&lt;/</span><span class="html">body</span><span class="kwrd">&gt;</span>
+</pre>
+<pre class="alt">
+<span class="lnum">  17:  </span><span class="kwrd">&lt;/</span><span class="html">html</span><span class="kwrd">&gt;</span>
+</pre>
+</div>
+</div>
+<!-- end of code area -->
+</div>
+<p>
+&nbsp;
+</p>
+<p>
+網頁上看到的結果: 
+</p>
+<p>
+<a href="/wp-content/be-files/WindowsLiveWriter/FlickrProxy2_EC39/image_8.png"><img style="border-width: 0px" src="/wp-content/be-files/WindowsLiveWriter/FlickrProxy2_EC39/image_thumb_3.png" border="0" alt="image" width="578" height="586" /></a> 
+</p>
+<p>
+&nbsp;
+</p>
+<p>
+這有啥好看的? 只是證明 USER 看起來完全正常而以... 哈哈，拿出 Fiddler 看一下: 
+</p>
+<p>
+<a href="/wp-content/be-files/WindowsLiveWriter/FlickrProxy2_EC39/image_10.png"><img style="border-width: 0px" src="/wp-content/be-files/WindowsLiveWriter/FlickrProxy2_EC39/image_thumb_4.png" border="0" alt="image" width="621" height="229" /></a> 
+</p>
+<p>
+&nbsp;
+</p>
+<p>
+#0 及 01 都是正常情況下就會有的 HTTP REQUEST，代表 IE 要下載 HTML 跟 JPG。不過在下載 JPG 檔，卻收到了 302 (OBJECT MOVE) 的重新導向的結果，因此 IE 就接著再到 Flickr 去下載照片，最後秀在網頁上。不過照片真的有出現在 Flickr 上嗎? 用我的帳號登入看看... 
+</p>
+<p>
+<a href="/wp-content/be-files/WindowsLiveWriter/FlickrProxy2_EC39/image_12.png"><img style="border-width: 0px" src="/wp-content/be-files/WindowsLiveWriter/FlickrProxy2_EC39/image_thumb_5.png" border="0" alt="image" width="929" height="705" /></a> 
+</p>
+<p>
+&nbsp;
+</p>
+<p>
+哈哈，果然出現了。看來這沒幾行的 CODE 真正發恢它的作用了。網站什麼都不用改，只要加上這 HttpHandler，配合調一些設定，馬上下載圖片的頻寬就省下來了。不過最少還是得花一次頻寬啦。BLOGGER把圖檔傳上來就不說了，圖檔第一次有人來看的時後，程式還是需要把檔案傳出去，放到 Flickr 上。不過一旦放成功了，以後第二次第三次.... 的頻寬就都省下來了。要花的只有 Fiddler 抓到的 #1 那少少的 302 REDIR 回應而以。 
+</p>
+<p>
+&nbsp;
+</p>
+<p>
+這個 Project 告一段落，後續還是會繼續改進，不過就都是小地方的調整，一些重構及把舊的 code 整理在一起的動作而以。對程式碼有興趣的人可以再跟我聯絡。 
+</p>

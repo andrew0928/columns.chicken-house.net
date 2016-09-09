@@ -1,0 +1,48 @@
+---
+layout: post
+title: "泛型 + Singleton Patterns (II)"
+categories:
+- ".NET"
+tags: [".NET"]
+published: true
+comments: true
+permalink: "/2006/10/27/泛型-singleton-patterns-ii/"
+redirect_from:
+  - /columns/post/2006/10/27/e6b39be59e8b-2b-Singleton-Patterns-(II).aspx/
+  - /post/2006/10/27/e6b39be59e8b-2b-Singleton-Patterns-(II).aspx/
+  - /post/e6b39be59e8b-2b-Singleton-Patterns-(II).aspx/
+  - /columns/2006/10/27/e6b39be59e8b-2b-Singleton-Patterns-(II).aspx/
+  - /columns/e6b39be59e8b-2b-Singleton-Patterns-(II).aspx/
+  - /blogs/chicken/archive/2006/10/27/1894.aspx/
+wordpress_postid: 218
+---
+<P>上篇因為貼 code , 放一起實在太長了, 只好分兩篇... 吊完胃口, 不囉唆了, 直接看我想出來的解法. 原則還是跟一般的函式庫一樣, 我希望先做出一個 base class, 把 singleton 的實作細節都處理掉, 函式庫的目的是讓使用你 lib 的人會很快樂才對, 因此 base class 可以辛苦點沒關係, 但是絕不能讓用你 code 的人得做苦工...</P>
+<P>好了, 我實做出來的版本, code 如下:</P>
+<DIV class=code>
+<DIV style="FONT-SIZE: 12pt; BACKGROUND: white; COLOR: black; FONT-FAMILY: fixedsys">
+<P style="MARGIN: 0px"><SPAN style="COLOR: #2b91af">&nbsp;&nbsp;&nbsp;&nbsp;7</SPAN>&nbsp;&nbsp;&nbsp;&nbsp; <SPAN style="COLOR: blue">public</SPAN> <SPAN style="COLOR: blue">class</SPAN> <SPAN style="COLOR: teal">GenericSingletonBase</SPAN>&lt;T&gt;</P>
+<P style="MARGIN: 0px"><SPAN style="COLOR: #2b91af">&nbsp;&nbsp;&nbsp;&nbsp;8</SPAN>&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; <SPAN style="COLOR: blue">where</SPAN> T: <SPAN style="COLOR: teal">GenericSingletonBase</SPAN>&lt;T&gt;,</P>
+<P style="MARGIN: 0px"><SPAN style="COLOR: #2b91af">&nbsp;&nbsp;&nbsp;&nbsp;9</SPAN>&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; <SPAN style="COLOR: blue">new</SPAN>()</P>
+<P style="MARGIN: 0px"><SPAN style="COLOR: #2b91af">&nbsp;&nbsp;&nbsp;10</SPAN>&nbsp;&nbsp;&nbsp;&nbsp; {</P>
+<P style="MARGIN: 0px"><SPAN style="COLOR: #2b91af">&nbsp;&nbsp;&nbsp;11</SPAN>&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; <SPAN style="COLOR: blue">public</SPAN> <SPAN style="COLOR: blue">readonly</SPAN> <SPAN style="COLOR: blue">static</SPAN> T Instance = <SPAN style="COLOR: blue">new</SPAN> T();</P>
+<P style="MARGIN: 0px"><SPAN style="COLOR: #2b91af">&nbsp;&nbsp;&nbsp;12</SPAN>&nbsp;&nbsp;&nbsp;&nbsp; }</P></DIV></DIV>
+<P>沒看錯, 就是只有這幾行...&nbsp;接下來貼的 code 是, 如果我自己要實作 singleton pattern 的 class 時, 該如何來用這個 lib:</P>
+<DIV class=code>
+<DIV style="FONT-SIZE: 12pt; BACKGROUND: white; COLOR: black; FONT-FAMILY: fixedsys">
+<P style="MARGIN: 0px"><SPAN style="COLOR: #2b91af">&nbsp;&nbsp;&nbsp;14</SPAN>&nbsp;&nbsp;&nbsp;&nbsp; <SPAN style="COLOR: blue">public</SPAN> <SPAN style="COLOR: blue">class</SPAN> <SPAN style="COLOR: teal">GenericSingletonImpl1</SPAN></P>
+<P style="MARGIN: 0px"><SPAN style="COLOR: #2b91af">&nbsp;&nbsp;&nbsp;15</SPAN>&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; : <SPAN style="COLOR: teal">GenericSingletonBase</SPAN>&lt;<SPAN style="COLOR: teal">GenericSingletonImpl1</SPAN>&gt;</P>
+<P style="MARGIN: 0px"><SPAN style="COLOR: #2b91af">&nbsp;&nbsp;&nbsp;16</SPAN>&nbsp;&nbsp;&nbsp;&nbsp; {</P>
+<P style="MARGIN: 0px"><SPAN style="COLOR: #2b91af">&nbsp;&nbsp;&nbsp;17</SPAN>&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; <SPAN style="COLOR: blue">public</SPAN> GenericSingletonImpl1()</P>
+<P style="MARGIN: 0px"><SPAN style="COLOR: #2b91af">&nbsp;&nbsp;&nbsp;18</SPAN>&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; : <SPAN style="COLOR: blue">base</SPAN>()</P>
+<P style="MARGIN: 0px"><SPAN style="COLOR: #2b91af">&nbsp;&nbsp;&nbsp;19</SPAN>&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; {</P>
+<P style="MARGIN: 0px"><SPAN style="COLOR: #2b91af">&nbsp;&nbsp;&nbsp;20</SPAN>&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; <SPAN style="COLOR: teal">Console</SPAN>.WriteLine(<SPAN style="COLOR: maroon">"GenericSingletonImpl1.ctor()"</SPAN>);</P>
+<P style="MARGIN: 0px"><SPAN style="COLOR: #2b91af">&nbsp;&nbsp;&nbsp;21</SPAN>&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; }</P>
+<P style="MARGIN: 0px"><SPAN style="COLOR: #2b91af">&nbsp;&nbsp;&nbsp;22</SPAN>&nbsp;&nbsp;&nbsp;&nbsp; }</P></DIV></DIV>
+<P>扣掉非必要的 constructor, 其實 class 繼承的部份寫完, 就沒有其它必要的 code 了, 很好, 又滿足了我一個要求... </P>
+<P>再來就剩最後一個, 要用這個 class 的 code 會不會像上一篇的例子一樣醜? 每次都要自己 casting ? 再看一下 code ...</P>
+<DIV class=code>
+<DIV style="FONT-SIZE: 12pt; BACKGROUND: white; COLOR: black; FONT-FAMILY: fixedsys">
+<P style="MARGIN: 0px"><SPAN style="COLOR: #2b91af">&nbsp;&nbsp;&nbsp;21</SPAN>&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; <SPAN style="COLOR: teal">GenericSingletonImpl1</SPAN> o1 = <SPAN style="COLOR: teal">GenericSingletonImpl1</SPAN>.Instance;</P>
+<P style="MARGIN: 0px"><SPAN style="COLOR: #2b91af">&nbsp;&nbsp;&nbsp;22</SPAN>&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; <SPAN style="COLOR: teal">GenericSingletonImpl1</SPAN> o2 = <SPAN style="COLOR: teal">GenericSingletonImpl1</SPAN>.Instance;</P>
+<P style="MARGIN: 0px"><SPAN style="COLOR: #2b91af">&nbsp;&nbsp;&nbsp;23</SPAN>&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; <SPAN style="COLOR: teal">GenericSingletonImpl1</SPAN> o3 = <SPAN style="COLOR: teal">GenericSingletonImpl1</SPAN>.Instance;</P></DIV></DIV>
+<P>很好, 收工... 哈哈... 謝謝大家的收看 [:D]</P>

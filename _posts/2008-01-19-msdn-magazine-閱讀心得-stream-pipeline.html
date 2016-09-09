@@ -1,0 +1,46 @@
+---
+layout: post
+title: "MSDN Magazine 閱讀心得: Stream Pipeline"
+categories:
+- ".NET"
+- "多執行緒"
+tags: [".NET","多執行緒"]
+published: true
+comments: true
+permalink: "/2008/01/19/msdn-magazine-閱讀心得-stream-pipeline/"
+redirect_from:
+  - /columns/post/2008/01/19/MSDN-Magazine-e996b1e8ae80e5bf83e5be97-Stream-Pipeline.aspx/
+  - /post/2008/01/19/MSDN-Magazine-e996b1e8ae80e5bf83e5be97-Stream-Pipeline.aspx/
+  - /post/MSDN-Magazine-e996b1e8ae80e5bf83e5be97-Stream-Pipeline.aspx/
+  - /columns/2008/01/19/MSDN-Magazine-e996b1e8ae80e5bf83e5be97-Stream-Pipeline.aspx/
+  - /columns/MSDN-Magazine-e996b1e8ae80e5bf83e5be97-Stream-Pipeline.aspx/
+  - /blogs/chicken/archive/2008/01/19/2948.aspx/
+wordpress_postid: 125
+---
+<p>前一陣子研究了幾種可以在 .NET 善用多核心的作法之後, 最近剛好又在在 MSDN Magazine 看到這篇不錯的文章: <a title="http://msdn.microsoft.com/msdnmag/issues/08/02/NETMatters/default.aspx" href="http://msdn.microsoft.com/msdnmag/issues/08/02/NETMatters/default.aspx">http://msdn.microsoft.com/msdnmag/issues/08/02/NETMatters/default.aspx</a> 裡面點出了另一種作法: 串流管線 (Stream Pipeline)...</p>
+<p>如果你是以多核心能有效利用為目標, 那這篇對你可能沒什麼用... 不過如果你要處理的資料必需經過幾個 Stream 處理的話, 這篇就派的上用場. 這篇是以一個常見的例子為起點: 資料壓縮 + 加密...</p>
+<p>在 .NET 要壓縮資料很簡單, 只要把資料寫到 GzipStream 就好, 建立 GzipStream 時再指定它要串接的 FileStream 就可以寫到檔案了 (串 Network 就可以透過網路傳出去... etc), 而加密則是用 CryptoStream, 也是一樣的用法, 可以串接其它的 Stream ...</p>
+<p>正好利用這個特性, 資料要壓縮又要加密, 可以這樣作:</p>
+<p>(single thread) [INPUT] --&gt; GzipStream --&gt; CryptoStream --&gt; [OUTPUT]</p>
+<p>不過那裡跟多核 CPU 扯上關係? 因為壓縮跟加密都是需要大量 CPU 運算, 這樣的作法等於是只用單一 thread 來負責 Gzip 跟 Crypto 的工作. 即使透過串接 stream , 動作被切成很多小段, 壓縮一點就加密一點, 但是仍然只有一個 thread... 再忙也仍然只有用到單一核心, 除非等到未來改板, 用類似上一篇 [TPL] 的方法改寫的 library 才有機會改善...</p>
+<p>作者提出另一個觀點, 這兩個 stream 能不能分在兩個 thread 各別執行? 弄的像生產線 (pipeline) 一樣, 第一個作業員負責壓縮, 第二個作業員負責加密, 同時進行, 就可以有兩倍的處理速度... 答案當然是 "可以" ! 我佩服 Stephen Toub 的地方在於他很漂亮的解決了這個問題, 就是它寫了 BlockingStream 就把問題解掉了, 乾淨又漂亮... 真是甘拜下風.. 這也是我為什麼想多寫這篇的原因.</p>
+<p>之前在念作業系統, 講到多工的課題, 有提過 "生產者 / 消費者" 的設計, 就是一部份模組負責丟出一堆工作, 而另一個模組則負責把工作處理掉. 如何在中間協調管控就是個重要的課題. 生產的太快工作會太多, 因此多到某個程度就要降低生產者的速度, 通常就是暫停. 消費者消化的太快也會沒事作, 就需要暫停來休息一下等待新的工作. 而消費者這端如果是用 thread pool 來實作, 就剛好是 [上篇] 提到的動態調整 thread pool 裡的 worker thread 數量的機制. 工作太多會動態增加 worker thread 來處理, 工作太少就會讓多餘的 worker thread 睡覺, 睡太久就把它砍了...</p>
+<p>而這次 Stephen Toub 解決的方式: BlockingStream 則是處理生產者跟消費者之間的橋樑. Stream 這種類型, 正好是身兼消費及生產者的角色. 他舉了郵件處理的例子. 如果你有一堆信要寄, 你也許會找一個人把卡片折好, 放進信封貼郵票. 這些動作由一個人 (one thread) 來作, 就是原本的作法. 生產者就是那堆要寄的信件, 這個可憐的工人就是要把這些信裝好信封貼好郵票的消費者.</p>
+<p>如果有第二個人呢? 他們可以分工, 一個裝信封, 一個黏郵票. 第一個人 ( thread 1 ) 裝好信封交給第二個人 (thread 2), 第二個人再黏郵票就搞定了. 這就是典型的生產線模式. 這樣在第一個人裝信封的同時, 第二個人可以貼上一封信的郵票... 因此除了裝第一封信, 第二個人沒事作, 及貼最後一張郵票, 第一個人沒事作之外, 其它過程中兩個人都有工作, 對應到程式就是一個 thread 負責壓縮, 壓縮好一部份後就交給後面的 thread 負責加密, 同時前面的 thread 則繼續壓縮下一塊資料... 剛好搭配雙核 cpu, 效能就能提高. 兩個 stream 之間就靠 StreamPipeline 及 BlockingStream 隔開在兩個不同的 thread. 原本的流程改為:</p>
+<p>[INPUT] --&gt; GzipStream (thread 1) --&gt; BlockingStream --&gt; CryptoStream (thread 2) --&gt; [OUTPUT]</p>
+<p>雖然技術細節才是精華, 但是這部份就請各位看原文就好, 我寫再多也比不過原文講的清楚... 我想要比較的是這樣作跟之前碰到的幾種平行處理 or thread pool 差在那裡? 這種作法有什麼好處?</p>
+<p>其實最大的差異在於, pipeline 以外的作法 (TPL, ThreadPool) 都是把大量的工作分散給多個工人來處理. 每個人處理的內容其實都是獨立的. 比如之前我處理的問題, 要把一堆照片轉成縮圖. 每個動作都互獨立, 可以很容易的分給多個人處理, 也能得到明顯的加速, 更大的好處是人手越多效能越好.</p>
+<p>但是事情不是一直這麼理想. 某些情況是另一個極端, 沒有辦法靠人海戰術解決. 比如這個寄信的例子, 折信紙裝到信封不難, 但是要貼郵票的話, 工人可能就得放下信紙, 到旁邊拿起郵票膠水貼上去. 反覆下來他會浪費時間在交換作這兩件事情上. 這時較好的分工就不是找兩個人一人各處理一半的信, 而是一人負責折信裝信封, 一人負責貼郵票.</p>
+<p>當然還有另外一種考量, 如果這些信 *必需* 依照順序處理, 你也無法用 thread pool 這種人海戰術來處理, 一定要把工作切成不同階段, 由專人負責才可以. 這就是 pipeline 能夠應用的時機. 其實這種作法在 CPU 很普遍, 多虧之前修過 micro-processor, 也多少學到皮毛. X86 CPU 從 80386 開始稱作 "超純量" (super scaler) CPU, 就是代表它在單一 clock cycle 能執行完超過一個指令, 靠的也是 pipeline.</p>
+<p>再講下去就離題了, 簡單的說以往平行處理都是用 multi thread 來分配工作, 就像銀行有好幾個櫃台, 每個客戶在單一櫃台就辦完他的手續. 而 pipeline 就像拿選票一樣, 第一位查證件, 第二位蓋章, 第三位給你選票, 第四位問你要不要領公投票... 咳咳 (我實在不支持公投題目這麼無聊, 無關黨派)... 這是屬於兩種不同維度的工作切割方式. 使用 pipeline 的方式切割有幾個好處:</p>
+<ol>
+<li>每個階段都負責單一工作, 動作簡單明確, 因此就可以更簡潔快速, 不會有額外的浪費 </li>
+<li>不會像 thread pool 那樣, 會有不固定個數的 worker thread 在服務, thread 數量一定是固定的, 減少了 thread create / destory 的成本</li>
+</ol>
+<p>不過呢, 缺點也不少, 文章內也列了幾點:</p>
+<ol>
+<li>效能不見得能照比例提升. 整個 pipeline 過程中只要有一階段較慢, 會卡住整條生產線. 以此例來說, 只提升了 20% 的效能, 因為管線的兩個階段花費的時間並不相等. </li>
+<li>如果我有足夠的人手, 但是工作的特質不見得能切成這麼多階段, 因此擴充性有限, 以此例來說, 你用四核CPU就派不上用處了, 仍然只能分成兩階來處理.&nbsp; </li>
+<li>pipeline 啟動及結束的成本較高. 一開始只有前面階段有工作做, 最後只有後面階段有工作做. pipeline 切越多 stage 問題就越嚴重. 這在 CPU 的架構設計上比較常在探討這問題, 就是管線清空後造成的效能折損. 這也是為什麼常聽到園區停電一分鐘, 台積電就會損失幾億的原因... 因為它的生產線很長, 停掉生產線跟啟動生產線的成本高的嚇人.</li>
+</ol>
+<p>廢話講了很多, 主要是這篇文章提供了另一種平行處理的方式, 是較少看到的, 就順手把心得寫一寫了, 自己留個心得, 以後才不會忘掉 [:D]. 最後, 很豬頭的是, 整篇英文很辛苦的 K 完, 才發現有中文版的, 真是... 下次各位看文章前請先注意一下有沒有中文版 [H], 當然你英文很好的話就沒差... 哈哈..</p>
