@@ -26,16 +26,6 @@
   </title>
 
   <!-- CSS -->
-<<<<<<< HEAD
-  <link rel="stylesheet" href="/public/css/poole.css">
-  <link rel="stylesheet" href="/public/css/syntax.css">
-  <link rel="stylesheet" href="/public/css/lanyon.css">
-  <link rel="stylesheet" href="/public/css/codinfox.css">
-
-  <!-- Icons -->
-  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/public/apple-touch-icon-144-precomposed.png">
-  <link rel="shortcut icon" href="/public/favicon.ico">
-=======
   <link rel="stylesheet" href="{{ site.baseurl }}/public/css/main.css">
   <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=PT+Serif:400,400italic,700%7CPT+Sans:400">
@@ -43,48 +33,14 @@
   <!-- Icons -->
   <link rel="apple-touch-icon-precomposed" sizes="144x144" href="{{ site.baseurl }}/public/apple-touch-icon-precomposed.png">
   <link rel="shortcut icon" href="{{ site.baseurl }}/public/favicon.ico">
->>>>>>> dev
 
   <!-- RSS -->
   <link rel="alternate" type="application/rss+xml" title="RSS" href="/atom.xml">
 
-<<<<<<< HEAD
-  <script type="text/x-mathjax-config">
-
- MathJax.Hub.Config({
-     jax: ["input/TeX","output/SVG"],
-     extensions: ["tex2jax.js","mml2jax.js","MathMenu.js","MathZoom.js"],
-     TeX: {
-         extensions: ["AMSmath.js","AMSsymbols.js","noErrors.js","noUndefined.js"]
-     },
-     tex2jax: {
-         inlineMath: [ ['$','$'], ["\\(","\\)"] ],
-         processEscapes: true
-     }
- });
-
- </script>
-
-<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js"></script>
-
-
-      <script>
-  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
-  ga('create', 'UA-XXXXXXX-X', 'auto');
-  ga('require', 'displayfeatures');
-  ga('send', 'pageview');
-
-</script>
-=======
   {% if site.mathjax %}
   <script type="text/javascript" async src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_SVG"> </script>
   <script type="text/x-mathjax-config">
 MathJax.Hub.Config({ tex2jax: { inlineMath: [ ['$','$'], ["\\(","\\)"] ], processEscapes: true } });
   </script>
   {% endif %}
->>>>>>> dev
 </head>

@@ -4,16 +4,6 @@ layout: default
 
 <div class="post">
   <h1 class="post-title">{{ page.title }}</h1>
-<<<<<<< HEAD
-  <span>
-    <span class="post-date" style="display:inline-block;">{{ page.date | date_to_string }}</span> |
-    {% for tag in page.tags %}
-      <span class="codinfox-tag-mark">{{ tag }}</span>
-    {% endfor %}
-  </span>
-
-  {{ content }}
-=======
   <span class="post-date">{{ page.date | date_to_string }}</span>
   {% if page.tags %} | 
   {% for tag in page.tags %}
@@ -24,7 +14,6 @@ layout: default
   <article>
     {{ content }}
   </article>
->>>>>>> dev
 </div>
 
 <div class="related">
@@ -43,25 +32,7 @@ layout: default
   </ul>
 </div>
 
-<<<<<<< HEAD
-{% if page.comments %}
-<div class="comments">
-  <h2>Comments</h2>
-  <div id="disqus_thread"></div>
-  <script type="text/javascript">
-    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
-        var disqus_shortname = 'yourname'; // required: replace example with your forum shortname
 
-        /* * * DON'T EDIT BELOW THIS LINE * * */
-        (function() {
-          var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-          dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-          (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-        })();
-  </script>
-  <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-  <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
-=======
 {% if site.disqus_short_name %}
 <div class="comments">
   <h2>Comments</h2>
@@ -79,6 +50,5 @@ var disqus_config = function () {
 })();
   </script>
   <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
->>>>>>> dev
 </div>
 {% endif %}
