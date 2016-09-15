@@ -47,6 +47,8 @@ nav:
     - '/'
     - { Categories: '/categories/' }
     - { Tags: '/tags/' }
+  Codes:
+    - 'https://github.com/andrew0928'
   About:          
     - '/about/'
   Facebook Pages: 
