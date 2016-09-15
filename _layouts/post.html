@@ -4,6 +4,7 @@ layout: default
 
 <div class="post">
   <h1 class="post-title">{{ page.title }}</h1>
+<<<<<<< HEAD
   <span>
     <span class="post-date" style="display:inline-block;">{{ page.date | date_to_string }}</span> |
     {% for tag in page.tags %}
@@ -12,6 +13,18 @@ layout: default
   </span>
 
   {{ content }}
+=======
+  <span class="post-date">{{ page.date | date_to_string }}</span>
+  {% if page.tags %} | 
+  {% for tag in page.tags %}
+    <a href="{{ site.baseurl }}{{ site.tag_page }}#{{ tag | slugify }}" class="post-tag">{{ tag }}</a>
+  {% endfor %}
+  {% endif %}
+  <div class="fb-like" data-href="{{ site.url }}{{ page.url }}" data-layout="standard" data-action="like" data-size="small" data-show-faces="false" data-share="true"></div>
+  <article>
+    {{ content }}
+  </article>
+>>>>>>> dev
 </div>
 
 <div class="related">
@@ -30,6 +43,7 @@ layout: default
   </ul>
 </div>
 
+<<<<<<< HEAD
 {% if page.comments %}
 <div class="comments">
   <h2>Comments</h2>
@@ -47,5 +61,24 @@ layout: default
   </script>
   <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
   <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+=======
+{% if site.disqus_short_name %}
+<div class="comments">
+  <h2>Comments</h2>
+  <div id="disqus_thread"></div>
+  <script>
+var disqus_config = function () {
+  this.page.url = '{{ site.url }}{{ page.url }}'; // Replace PAGE_URL with your page's canonical URL variable
+  this.page.identifier = '{{ page.id }}'; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+};
+(function() {
+  var d = document, s = d.createElement('script');
+  s.src = '//{{ site.disqus_short_name }}.disqus.com/embed.js';
+  s.setAttribute('data-timestamp', +new Date());
+  (d.head || d.body).appendChild(s);
+})();
+  </script>
+  <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+>>>>>>> dev
 </div>
 {% endif %}

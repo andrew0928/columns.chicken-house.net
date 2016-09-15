@@ -4,6 +4,16 @@
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
   <meta name="description" content="{{ site.description }}">
 
+
+  <!-- facebook open graph object settings -->
+  <meta property="fb:app_id"          content="500757300092333" /> 
+  <meta property="og:type"            content="article" /> 
+  <meta property="og:url"             content="{{ page.url | replace:'index.html','' | prepend: site.baseurl | prepend: site.url }}" /> 
+  <meta property="og:title"           content="{% if page.title %}{{ page.title | escape }}{% else %}{{ site.title | escape }}{% endif %}" /> 
+  <meta property="og:image"           content="{{ site.url }}{% if page.logo %}{{ page.logo }}{% else %}{{ site.logo }}{% endif %}" /> 
+  <meta property="og:description"     content="{% if page.excerpt %}{{ page.excerpt | strip_html | strip_newlines | truncate: 160 }}{% else %}{{ site.description }}{% endif %}" />
+
+
   <!-- Enable responsiveness on mobile devices-->
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
 
@@ -16,6 +26,7 @@
   </title>
 
   <!-- CSS -->
+<<<<<<< HEAD
   <link rel="stylesheet" href="/public/css/poole.css">
   <link rel="stylesheet" href="/public/css/syntax.css">
   <link rel="stylesheet" href="/public/css/lanyon.css">
@@ -24,10 +35,20 @@
   <!-- Icons -->
   <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/public/apple-touch-icon-144-precomposed.png">
   <link rel="shortcut icon" href="/public/favicon.ico">
+=======
+  <link rel="stylesheet" href="{{ site.baseurl }}/public/css/main.css">
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=PT+Serif:400,400italic,700%7CPT+Sans:400">
+
+  <!-- Icons -->
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="{{ site.baseurl }}/public/apple-touch-icon-precomposed.png">
+  <link rel="shortcut icon" href="{{ site.baseurl }}/public/favicon.ico">
+>>>>>>> dev
 
   <!-- RSS -->
   <link rel="alternate" type="application/rss+xml" title="RSS" href="/atom.xml">
 
+<<<<<<< HEAD
   <script type="text/x-mathjax-config">
 
  MathJax.Hub.Config({
@@ -58,4 +79,12 @@
   ga('send', 'pageview');
 
 </script>
+=======
+  {% if site.mathjax %}
+  <script type="text/javascript" async src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_SVG"> </script>
+  <script type="text/x-mathjax-config">
+MathJax.Hub.Config({ tex2jax: { inlineMath: [ ['$','$'], ["\\(","\\)"] ], processEscapes: true } });
+  </script>
+  {% endif %}
+>>>>>>> dev
 </head>

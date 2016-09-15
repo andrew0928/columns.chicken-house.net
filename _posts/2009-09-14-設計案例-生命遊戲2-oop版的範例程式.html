@@ -1,0 +1,218 @@
+---
+layout: post
+title: "[設計案例] 生命遊戲#2, OOP版的範例程式"
+categories:
+- ".NET"
+- "C#"
+- "作品集"
+- "技術隨筆"
+- "物件導向"
+- "系列文章: 生命遊戲"
+tags: [".NET","C#","作品集","技術隨筆","物件導向","系列文章: 生命遊戲"]
+published: true
+comments: true
+permalink: "/2009/09/14/設計案例-生命遊戲2-oop版的範例程式/"
+redirect_from:
+  - /columns/post/2009/09/14/e8a8ade8a888e6a188e4be8b-e7949fe591bde9818ae688b22-OOPe78988e79a84e7af84e4be8be7a88be5bc8f.aspx/
+  - /post/2009/09/14/e8a8ade8a888e6a188e4be8b-e7949fe591bde9818ae688b22-OOPe78988e79a84e7af84e4be8be7a88be5bc8f.aspx/
+  - /post/e8a8ade8a888e6a188e4be8b-e7949fe591bde9818ae688b22-OOPe78988e79a84e7af84e4be8be7a88be5bc8f.aspx/
+  - /columns/2009/09/14/e8a8ade8a888e6a188e4be8b-e7949fe591bde9818ae688b22-OOPe78988e79a84e7af84e4be8be7a88be5bc8f.aspx/
+  - /columns/e8a8ade8a888e6a188e4be8b-e7949fe591bde9818ae688b22-OOPe78988e79a84e7af84e4be8be7a88be5bc8f.aspx/
+wordpress_postid: 33
+---
+<p>還好，第一版的程式沒有難產。這版的目的很簡單，就是把題目實作出來，同時我會盡量套用物件導向的理念去設計程式的結構，而不是只把結果算出來而已。其實我一直覺的，這類生命模擬的程式，是非常適合用OOPL來實作的範例，大概OOPL所有強調的特性 (封裝、繼承、多型、動態聯結... 等等) 都用的到，算是完美的應用範例題吧! </p>  <p>不過很奇怪的，我特地 GOOGLE 了一下，不知 OOPL 高手都不屑寫這種範例還是怎樣，找到的範例程式，不管用什麼語言 (C/C++/Java/C#都有) 寫的，清一色都很沒有物件導向的 fu ... 好吧，只好自己來寫一個。</p>  <p>第一步，一定是先看看你的程式，分析出需要那些類別/物件，及它們之間的關係。比較正規的作法就是 UML 的 UseCase 了。不過這範例其實不大，我就直接跳到 Class Diagram 了 (因為VS2008剛好有現成的...)... 主要的類別有兩個: World (世界) 及 Cell (細胞)。</p>  <p>World 就是給 Cell 生活的空間，我們只訂義一個有限大小的二維空間，就一個 M x N 的棋盤這樣。而 Cell 則是一個細胞，描述單一一個細胞本身，在各種不同的條件下會有什麼反應。先貼一下 class diagram:</p>  <p>&#160;</p>  <p><img style="border-right-width: 0px; display: inline; border-top-width: 0px; border-bottom-width: 0px; border-left-width: 0px" title="image" border="0" alt="image" src="/wp-content/be-files/WindowsLiveWriter/2OOP/38218C71/image.png" width="453" height="343" />&#160;&#160; <br />圖1. class diagram (World &amp; Cell)</p>  <p>老實說，這張圖還蠻乏善可陳的，World對外公開的介面，大概包含了幾個主要功能，就是取得指定座標的 Cell (GetCell), 及把目前的整個 World 狀態印出來 (ShowMaps) 的 method 而已。而 Cell 的公開介面，不外乎是它目前是活著還是死的，還有它的建構式，及呼叫後會把狀態轉移到下一次狀態的 method。</p>  <p>其它都是 World / Cell 互相溝通用，或是 Init 用的 Method / Prop, 就不多作介紹。先來看看主程式，扮演上帝的你，如何讓這堆單細胞生物，在你的世界裡活起來:</p>  
+
+
+<div><b>Game Of Life 主程式</b><span class="copycode" title="copy code into clipboard."></span>
+
+<pre>        static void Main(string[] args)
+        {
+            int worldSizeX = 30;
+            int worldSizeY = 30;
+            int maxGenerationCount = 100;
+
+            World realworld = new World(worldSizeX, worldSizeY);
+            for (int generation = 1; generation &lt;= maxGenerationCount; generation++)
+            {
+                realworld.ShowMaps(string.Format(&quot;Generation: {0}&quot;, generation));
+                Thread.Sleep(1000);
+
+                for (int positionX = 0; positionX &lt; worldSizeX; positionX++)
+                {
+                    for (int positionY = 0; positionY &lt; worldSizeY; positionY++)
+                    {
+                        // do day pass
+                        Cell cell = realworld.GetCell(positionX, positionY) as Cell;
+                        cell.OnNextStateChange();
+                    }
+                }
+            }
+        }</pre>
+<!-- end of code area --></div>
+
+<p>&#160;</p>
+
+<p>主程式我還沒把不相干的動作刪掉，也才廿一行... line 1 ~ 5 只是初始值，line 6 建立整個世界，之後就每跑完一個世代 (generation) 就休息一秒鍾，繼續下一次進化。這樣隨著時間的過去，畫面上會一直更新整個世界的狀態... 直到只定的次數到了為止。</p>
+
+<p>&#160;</p>
+
+<p>class World 的部份就沒什麼特別的，就只是把一個二維陣列包裝一下而已。直接貼 Code 就混過去吧 XD，一樣沒有刪掉程式碼，原 CODE 照貼:</p>
+
+<div><b>class World 的程式碼</b>
+    <pre>    public class World
+    {
+        private int SizeX = 0;
+        private int SizeY = 0;
+        private Cell[,] _map;
+        public World(int maxPosX, int maxPosY)
+        {
+            this._map = new Cell[maxPosX, maxPosY];
+            this.SizeX = maxPosX;
+            this.SizeY = maxPosY;
+
+            for (int posX = 0; posX &lt; maxPosX; posX++)
+            {
+                for (int posY = 0; posY &lt; maxPosY; posY++)
+                {
+                    this._map[posX, posY] = new Cell(this, posX, posY);
+                }
+            }
+        }
+
+        internal void PutOn(Cell item, int posX, int posY)
+        {
+            if (this._map[posX, posY] == null)
+            {
+                this._map[posX, posY] = item;
+                item.PosX = posX;
+                item.PosY = posY;
+            }
+            else
+            {
+                throw new ArgumentException();
+            }
+        }
+
+        public Cell GetCell(int posX, int posY)
+        {
+            if (posX &gt;= this.SizeX) return null;
+            if (posY &gt;= this.SizeY) return null;
+            if (posX &lt; 0) return null;
+            if (posY &lt; 0) return null;
+
+            return this._map[posX, posY];
+        }
+
+        public void ShowMaps(string title)
+        {
+            Console.Title = title;
+            Console.SetWindowSize(this.SizeX * 2, this.SizeY);
+            Console.SetCursorPosition(0, 0);
+            Console.Clear();
+
+            for (int y = 0; y &lt; this.SizeY; y++)
+            {
+                for (int x = 0; x &lt; this.SizeX; x++)
+                {
+                    Cell item = this.GetCell(x, y);
+                    Console.SetCursorPosition(x * 2, y);
+                    Console.Write(item.IsAlive? &quot;●&quot;:&quot;○&quot;);
+                }
+            }
+        }
+    }</pre>
+<!-- end of code area --></div>
+
+<p>&#160;</p>
+
+<p>接下來是封裝每個細胞本身跟環境互動的影響，把上一篇講的規則對應成程式碼的樣子。先來看看 CODE:</p>
+
+<div><b>class Cell 的程式碼</b>
+    <pre>    public class Cell //: Life
+    {
+        protected World CurrentWorld { get; private set; }
+
+        internal int PosX = 0;
+        internal int PosY = 0;
+
+        private const double InitAliveProbability = 0.2D;
+
+
+        private static Random _rnd = new Random();
+        public Cell(World world, int posX, int posY) //: base(world, posX, posY)
+        {
+            this.CurrentWorld = world;
+
+            // setup world
+            this.PosX = posY;
+            this.PosY = posY;
+            this.CurrentWorld.PutOn(this, posX, posY);
+
+            this.IsAlive = (_rnd.NextDouble() &lt; InitAliveProbability);
+        }
+
+        public bool IsAlive { get; private set; }
+
+        protected IEnumerable&lt;Cell&gt; FindNeighbors()
+        {
+            foreach (Cell item in new Cell[] {
+                this.CurrentWorld.GetCell(this.PosX -1, this.PosY-1),
+                this.CurrentWorld.GetCell(this.PosX, this.PosY-1),
+                this.CurrentWorld.GetCell(this.PosX+1, this.PosY-1),
+                this.CurrentWorld.GetCell(this.PosX-1, this.PosY),
+                this.CurrentWorld.GetCell(this.PosX+1, this.PosY),
+                this.CurrentWorld.GetCell(this.PosX-1, this.PosY+1),
+                this.CurrentWorld.GetCell(this.PosX, this.PosY+1),
+                this.CurrentWorld.GetCell(this.PosX+1, this.PosY+1)})
+            {
+                if (item != null) yield return item;
+            }
+            yield break;
+        }
+
+        public void OnNextStateChange()
+        {
+            int livesCount = 0;
+            foreach (Cell item in this.FindNeighbors())
+            {
+                if (item.IsAlive == true) livesCount++;
+            }
+
+            if (this.IsAlive == true &amp;&amp; livesCount &lt;1)
+            {
+                //孤單死亡：如果細胞的鄰居小於一個，則該細胞在下一次狀態將死亡。
+                this.IsAlive = false;
+            }
+            else if (this.IsAlive == true &amp;&amp; livesCount &gt;= 4)
+            {
+                //擁擠死亡：如果細胞的鄰居在四個以上，則該細胞在下一次狀態將死亡。
+                this.IsAlive = false;
+            }
+            else if (this.IsAlive == true &amp;&amp; (livesCount == 2 || livesCount == 3))
+            {
+                //穩定：如果細胞的鄰居為二個或三個，則下一次狀態為穩定存活。
+                //this.IsAlive = true;
+            }
+            else if (this.IsAlive == false &amp;&amp; livesCount == 3)
+            {
+                //復活：如果某位置原無細胞存活，而該位置的鄰居為三個，則該位置將復活一細胞。
+                this.IsAlive = true;
+            }
+            else
+            {
+                // ToDo: 未定義的狀態? assert
+            }
+        }
+    }</pre>
+<!-- end of code area --></div>
+
+<p>這裡開始應用到 OOPL 第一個特性: 封裝。從程式碼可以看到，主要的邏輯都被包在裡面了，就 Game Of Life 裡提到的四條規則。</p>
+
+<p>程式這樣寫起來，比那些作業的標準答案看起來舒服多了吧? 雖然行數多了一些，不過看起來比較有 OO 的樣子了。當然只是看起來爽是沒用的，這樣的架構，到目前為只除了邏輯清楚一點之外，還看不到其它很明顯的好處。不過當這個規責稍微複雜一點，OOPL的優點就會被突顯出來了。</p>
+
+<p>下回，把題目做點變化，再來看看程式該如何調整…&#160;&#160; ((待續))</p>
+
+<p>--
+  <br />附件: 範例程式碼 </p>
+
+<div style="padding-bottom: 0px; margin: 0px; padding-left: 0px; padding-right: 0px; display: inline; float: none; padding-top: 0px" id="scid:8eb9d37f-1541-4f29-b6f4-1eea890d4876:02bb5ed8-262e-4d77-bdb5-6100d1a9a8c3" class="wlWriterEditableSmartContent"><p><div><a href="http://columns.chicken-house.net/wp-content/be-files/WindowsLiveWriter/2OOP/35ED9624/BLOG_2.zip" target="_self">SourceCode.zip</a></div></p></div>

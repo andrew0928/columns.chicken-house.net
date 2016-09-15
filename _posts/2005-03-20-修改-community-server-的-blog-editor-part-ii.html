@@ -1,0 +1,26 @@
+---
+layout: post
+title: "修改 Community Server 的 blog editor ( Part II )"
+categories:
+- ".NET"
+- "技術隨筆"
+tags: [".NET","技術隨筆"]
+published: true
+comments: true
+permalink: "/2005/03/20/修改-community-server-的-blog-editor-part-ii/"
+redirect_from:
+  - /columns/post/2005/03/20/e4bfaee694b9-Community-Server-e79a84-blog-editor-(-Part-II-).aspx/
+  - /post/2005/03/20/e4bfaee694b9-Community-Server-e79a84-blog-editor-(-Part-II-).aspx/
+  - /post/e4bfaee694b9-Community-Server-e79a84-blog-editor-(-Part-II-).aspx/
+  - /columns/2005/03/20/e4bfaee694b9-Community-Server-e79a84-blog-editor-(-Part-II-).aspx/
+  - /columns/e4bfaee694b9-Community-Server-e79a84-blog-editor-(-Part-II-).aspx/
+  - /blogs/chicken/archive/2005/03/20/346.aspx/
+wordpress_postid: 267
+---
+
+		<p>
+				<img style="BORDER-RIGHT: #000000 1px solid; BORDER-TOP: #000000 1px solid; BORDER-LEFT: #000000 1px solid; BORDER-BOTTOM: #000000 1px solid; FONT-FAMILY: ; textIdent: " src="/wp-content/be-files/cs_editor_part2.jpg" />
+		</p>
+		<p>花了點時間研究 CommunityServer 1.0 的 source code, 發現三位作者的架構設計的相當漂亮, 上一篇提到的 TextEditor Wrapper, 就是用 Provider Pattern 的樣式設計出來的. 整套系統很多地方都用到 Provider Pattern, 包括安全機制 ( membership, roles, auth... etc) 也都採用一樣的作法, 未來可以很簡單的寫另一套 Provider, 然後只要改一下 configuration, 馬上就整個切換到新的 Provider.</p>
+		<p>這次我先拿 TextEditorWrapper 下手, 繼承下來後把我想要的東西都加上去, 然後在 communityserver.config 裡頭把我自己寫的 Wrapper 掛上去, 哇哈哈, 我上一篇說沒辦法改的東西都改好了 <img src="/Emoticons/emotion-11.gif" />, 不但把表情符號都加到 Toolbar 裡, 同時原有 FreeTextBox 的一些進階功能也打開了. 雖然會用到的還是那幾個, 不過用起來爽度就是不一樣 <img src="/Emoticons/emotion-2.gif" /></p>
+		<p>下次再來改別的地方試試看..<br /></p>

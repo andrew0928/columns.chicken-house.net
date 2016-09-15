@@ -1,0 +1,648 @@
+---
+layout: post
+title: "ThreadPool 實作 #3. AutoResetEvent / ManualResetEvent"
+categories:
+- ".NET"
+- "作業系統"
+- "多執行緒"
+- "技術隨筆"
+tags: [".NET","作業系統","多執行緒","技術隨筆"]
+published: true
+comments: true
+permalink: "/2007/12/17/threadpool-實作-3-autoresetevent-manualresetevent/"
+redirect_from:
+  - /columns/post/2007/12/17/ThreadPool-e5afa6e4bd9c-3-AutoResetEvent-ManualResetEvent.aspx/
+  - /post/2007/12/17/ThreadPool-e5afa6e4bd9c-3-AutoResetEvent-ManualResetEvent.aspx/
+  - /post/ThreadPool-e5afa6e4bd9c-3-AutoResetEvent-ManualResetEvent.aspx/
+  - /columns/2007/12/17/ThreadPool-e5afa6e4bd9c-3-AutoResetEvent-ManualResetEvent.aspx/
+  - /columns/ThreadPool-e5afa6e4bd9c-3-AutoResetEvent-ManualResetEvent.aspx/
+  - /columns/post/2007/12/17/ThreadPool-e5afa6e4bd9c-3-AutoResetEvent--ManualResetEvent.aspx/
+  - /post/2007/12/17/ThreadPool-e5afa6e4bd9c-3-AutoResetEvent--ManualResetEvent.aspx/
+  - /post/ThreadPool-e5afa6e4bd9c-3-AutoResetEvent--ManualResetEvent.aspx/
+  - /columns/2007/12/17/ThreadPool-e5afa6e4bd9c-3-AutoResetEvent--ManualResetEvent.aspx/
+  - /columns/ThreadPool-e5afa6e4bd9c-3-AutoResetEvent--ManualResetEvent.aspx/
+  - /blogs/chicken/archive/2007/12/17/2894.aspx/
+wordpress_postid: 128
+---
+<p>
+續上篇, 從眾多閒置的 worker thread 挑選一個起來接工作有兩種策略作法. 一種作法是 Thread Pool 自己決定, 最基本的就是誰等最久就叫誰起來, 或是 Thread Pool 有自己的演算法挑一個最菜的 worker thread 來做工都可以... 另一種作法就是不管它, 每個 worker thread 都靠運氣, 交給上天 (OS) 決定, 看誰搶到下一個 job. 看起來第一種好像比較好, 事實上不見得. 每個 thread 之間的排程是個學問, OS 多工的效率好不好就看這個. 舉例來說, 如果每個 worker thread 的優先順序不同, 或是某些 thread 正好碰到 GC, 或是正好被移到 virtaual memory 等等, 硬去叫它起來工作反而要花更多的時間. 而這些資訊都在 OS 的排程器裡才有足夠的資訊可以判斷, 以寫 AP 的角度很難顧級到這個層面. 這時最好的辦法就是不管它, 用齊頭式的平等, 把選擇權交給 OS 決定.
+</p>
+<p>
+又是一個說起來比 code 多的例子. 這兩種不同的策略, 寫成 code 其實只差一行... 就是選用 AutoResetEvent 跟 ManualResetEvent 的差別而以. .NET SDK 的 Class Reference 上這樣寫著:
+</p>
+<p>
+AutoResetEvent: Notifies <strong><font color="#ff0000">a</font></strong> waiting thread that an event has occurred.
+</p>
+<p>
+ManualResetEvent: Notifies <strong><font color="#ff0000">one or more</font></strong> waiting threads that an event has occurred.
+</p>
+<p>
+真正寫成 Code 來測試一下... 
+</p>
+<div class="csharpcode">
+<pre class="alt">
+<span class="lnum">   1:  </span><span class="kwrd">static</span> <span class="kwrd">void</span> Main(<span class="kwrd">string</span>[] args)
+</pre>
+<pre>
+<span class="lnum">   2:  </span>{
+</pre>
+<pre class="alt">
+<span class="lnum">   3:  </span>    <span class="kwrd">for</span> (<span class="kwrd">int</span> count = 0; count &lt; 5; count++)
+</pre>
+<pre>
+<span class="lnum">   4:  </span>    {
+</pre>
+<pre class="alt">
+<span class="lnum">   5:  </span>        Thread t = <span class="kwrd">new</span> Thread(<span class="kwrd">new</span> ThreadStart(ThreadTest));
+</pre>
+<pre>
+<span class="lnum">   6:  </span>        t.Start();
+</pre>
+<pre class="alt">
+<span class="lnum">   7:  </span>    }
+</pre>
+<pre>
+<span class="lnum">   8:  </span>    Thread.Sleep(1000);
+</pre>
+<pre class="alt">
+<span class="lnum">   9:  </span>    wait.Set();
+</pre>
+<pre>
+<span class="lnum">  10:  </span>    Thread.Sleep(1000);
+</pre>
+<pre class="alt">
+<span class="lnum">  11:  </span>    wait.Set();
+</pre>
+<pre>
+<span class="lnum">  12:  </span>    Thread.Sleep(1000);
+</pre>
+<pre class="alt">
+<span class="lnum">  13:  </span>    wait.Set();
+</pre>
+<pre>
+<span class="lnum">  14:  </span>    Thread.Sleep(1000);
+</pre>
+<pre class="alt">
+<span class="lnum">  15:  </span>    wait.Set();
+</pre>
+<pre>
+<span class="lnum">  16:  </span>    Thread.Sleep(1000);
+</pre>
+<pre class="alt">
+<span class="lnum">  17:  </span>    wait.Set();
+</pre>
+<pre>
+<span class="lnum">  18:  </span>}
+</pre>
+<pre class="alt">
+<span class="lnum">  19:  </span>&nbsp;
+</pre>
+<pre>
+<span class="lnum">  20:  </span><span class="kwrd">private</span> <span class="kwrd">static</span> AutoResetEvent wait = <span class="kwrd">new</span> AutoResetEvent(<span class="kwrd">false</span>);
+</pre>
+<pre class="alt">
+<span class="lnum">  21:  </span><span class="kwrd">private</span> <span class="kwrd">static</span> <span class="kwrd">void</span> ThreadTest()
+</pre>
+<pre>
+<span class="lnum">  22:  </span>{
+</pre>
+<pre class="alt">
+<span class="lnum">  23:  </span>    Console.WriteLine(<span class="str">&quot;Thread[{0}]: wait...&quot;</span>, Thread.CurrentThread.ManagedThreadId);
+</pre>
+<pre>
+<span class="lnum">  24:  </span>    wait.WaitOne();
+</pre>
+<pre class="alt">
+<span class="lnum">  25:  </span>    Console.WriteLine(<span class="str">&quot;Thread[{0}]: wakeup...&quot;</span>, Thread.CurrentThread.ManagedThreadId);
+</pre>
+<pre>
+<span class="lnum">  26:  </span>}
+</pre>
+</div>
+<p>
+執行結果:
+</p>
+<p>
+Thread[ 3 ]: wait...<br />
+Thread[ 5 ]: wait...<br />
+Thread[ 4 ]: wait...<br />
+Thread[ 6 ]: wait...<br />
+Thread[ 7 ]: wait...<br />
+Thread[ 3 ]: wakeup...<br />
+Thread[ 4 ]: wakeup...<br />
+Thread[ 6 ]: wakeup...<br />
+Thread[ 5 ]: wakeup...<br />
+Thread[ 7 ]: wakeup... 
+</p>
+<p>
+程式過程中我加了幾個 Sleep, 首先我用同一個 AutoResetEvent, 讓五個 thread 都去等待同一個 notify event 來叫醒它. 而 AutoResetEvent 一次只能叫醒一個被 WaitOne blocked 住的 thread. 就是第一種先到先贏的作法, 後面幾行 wakeup 的 message 每隔一秒會跳一行出來.
+</p>
+<p>
+&nbsp;
+</p>
+<p>
+再來看一下 ManualResetEvent ...
+</p>
+<div class="csharpcode">
+<pre class="alt">
+<span class="lnum">   1:  </span><span class="kwrd">static</span> <span class="kwrd">void</span> Main(<span class="kwrd">string</span>[] args)
+</pre>
+<pre>
+<span class="lnum">   2:  </span>{
+</pre>
+<pre class="alt">
+<span class="lnum">   3:  </span>    <span class="kwrd">for</span> (<span class="kwrd">int</span> count = 0; count &lt; 5; count++)
+</pre>
+<pre>
+<span class="lnum">   4:  </span>    {
+</pre>
+<pre class="alt">
+<span class="lnum">   5:  </span>        Thread t = <span class="kwrd">new</span> Thread(<span class="kwrd">new</span> ThreadStart(ThreadTest));
+</pre>
+<pre>
+<span class="lnum">   6:  </span>        t.Start();
+</pre>
+<pre class="alt">
+<span class="lnum">   7:  </span>    }
+</pre>
+<pre>
+<span class="lnum">   8:  </span>&nbsp;
+</pre>
+<pre class="alt">
+<span class="lnum">   9:  </span>    Thread.Sleep(1000);
+</pre>
+<pre>
+<span class="lnum">  10:  </span>    wait.Set();
+</pre>
+<pre class="alt">
+<span class="lnum">  11:  </span>}
+</pre>
+<pre>
+<span class="lnum">  12:  </span>&nbsp;
+</pre>
+<pre class="alt">
+<span class="lnum">  13:  </span><span class="kwrd">private</span> <span class="kwrd">static</span> ManualResetEvent wait = <span class="kwrd">new</span> ManualResetEvent(<span class="kwrd">false</span>);
+</pre>
+<pre>
+<span class="lnum">  14:  </span><span class="kwrd">private</span> <span class="kwrd">static</span> <span class="kwrd">void</span> ThreadTest()
+</pre>
+<pre class="alt">
+<span class="lnum">  15:  </span>{
+</pre>
+<pre>
+<span class="lnum">  16:  </span>    Console.WriteLine(<span class="str">&quot;Thread[{0}]: wait...&quot;</span>, Thread.CurrentThread.ManagedThreadId);
+</pre>
+<pre class="alt">
+<span class="lnum">  17:  </span>    wait.WaitOne();
+</pre>
+<pre>
+<span class="lnum">  18:  </span>    Console.WriteLine(<span class="str">&quot;Thread[{0}]: wakeup...&quot;</span>, Thread.CurrentThread.ManagedThreadId);
+</pre>
+<pre class="alt">
+<span class="lnum">  19:  </span>}
+</pre>
+</div>
+<p>
+執行結果:
+</p>
+<p>
+Thread[ 3 ]: wait...<br />
+Thread[ 4 ]: wait...<br />
+Thread[ 5 ]: wait...<br />
+Thread[ 6 ]: wait...<br />
+Thread[ 7 ]: wait...<br />
+Thread[ 5 ]: wakeup...<br />
+Thread[ 4 ]: wakeup...<br />
+Thread[ 6 ]: wakeup...<br />
+Thread[ 3 ]: wakeup...<br />
+Thread[ 7 ]: wakeup... 
+</p>
+<p>
+除了把型別宣告從 AutoResetEvent 換成 ManualResetEvent 之外, 其它都沒變. 當然 line 10 一次就能叫醒所有的 thread, 所以後面四次 Set( ) 我就直接刪掉了. 程式 run 到 line 10, 後面五行 wakeup 的訊息就會一次全出現, 而出現的順序是隨機的, 每次都不大一樣.
+</p>
+<p>
+這種作法的解釋, 是一次 Set( ), 卡在 WaitOne( ) 的五個 thread 就全被叫醒了. 而這個現象如果套用在 SimpleThreadPool 的實作上, 它的作用相當於第二種作法. 一瞬間把所有的 worker thread 從 blocked 狀態移到 waiting 狀態. 而到底是那一個 thread 有幸第一個被 OS 移到 running 狀態? 就是根據 OS 自己的排程策略而定. 第一個移到 running 狀態的 thread 通常就能搶到 job queue 裡的工作, 剩下的沒搶到, 則又會因為沒有工作好做, 再度進入閒置狀態, 等待下一次機會再一起來碰一次運氣...
+</p>
+<p>
+就這一行, 花了最多篇幅來說明, 因為它最抽象. 說明這段的目的, 如果你的 ThreadPool 要更進階一點, 如果你想要改用先排隊先贏的策略, 把 WaitHandle 的型別改成 AutoResetEvent 就好. 如果你希望根據工作的特性來微調每個 thread 的 priority, 你就必需用 ManualResetEvent.
+</p>
+<p>
+好, 沒想到一百行左右的 SimpleThreadPool 有這麼多東西可以寫, 完整的 code 我直接貼在底下, 歡迎引用. 好用的話記得給個回應. 要用在你的 project 也歡迎, 只要禮貌性的支會我一聲. 讓我知道我寫的 code 被用在什麼地方就好. 寫到這裡總算告一段落. 謝謝收看 [:D] 
+</p>
+<p>
+&nbsp;
+</p>
+<p>
+--<br />
+完整的 SimpleThreadPool.cs 原始碼:
+</p>
+<p>
+&nbsp;
+</p>
+<div class="csharpcode">
+<pre class="alt">
+<span class="lnum">   1:  </span><span class="kwrd">using</span> System;
+</pre>
+<pre>
+<span class="lnum">   2:  </span><span class="kwrd">using</span> System.Collections.Generic;
+</pre>
+<pre class="alt">
+<span class="lnum">   3:  </span><span class="kwrd">using</span> System.Text;
+</pre>
+<pre>
+<span class="lnum">   4:  </span><span class="kwrd">using</span> System.Threading;
+</pre>
+<pre class="alt">
+<span class="lnum">   5:  </span><span class="kwrd">using</span> System.Diagnostics;
+</pre>
+<pre>
+<span class="lnum">   6:  </span>&nbsp;
+</pre>
+<pre class="alt">
+<span class="lnum">   7:  </span><span class="kwrd">namespace</span> ChickenHouse.Core.Threading
+</pre>
+<pre>
+<span class="lnum">   8:  </span>{
+</pre>
+<pre class="alt">
+<span class="lnum">   9:  </span>    <span class="kwrd">public</span> <span class="kwrd">class</span> SimpleThreadPool : IDisposable
+</pre>
+<pre>
+<span class="lnum">  10:  </span>    {
+</pre>
+<pre class="alt">
+<span class="lnum">  11:  </span>        <span class="kwrd">private</span> List&lt;Thread&gt; _workerThreads = <span class="kwrd">new</span> List&lt;Thread&gt;();
+</pre>
+<pre>
+<span class="lnum">  12:  </span>&nbsp;
+</pre>
+<pre class="alt">
+<span class="lnum">  13:  </span>        <span class="kwrd">private</span> <span class="kwrd">bool</span> _stop_flag = <span class="kwrd">false</span>;
+</pre>
+<pre>
+<span class="lnum">  14:  </span>        <span class="kwrd">private</span> <span class="kwrd">bool</span> _cancel_flag = <span class="kwrd">false</span>;
+</pre>
+<pre class="alt">
+<span class="lnum">  15:  </span>&nbsp;
+</pre>
+<pre>
+<span class="lnum">  16:  </span>        <span class="kwrd">private</span> TimeSpan _maxWorkerThreadTimeout = TimeSpan.FromMilliseconds(3000);
+</pre>
+<pre class="alt">
+<span class="lnum">  17:  </span>        <span class="kwrd">private</span> <span class="kwrd">int</span> _maxWorkerThreadCount = 0;
+</pre>
+<pre>
+<span class="lnum">  18:  </span>        <span class="kwrd">private</span> ThreadPriority _workerThreadPriority = ThreadPriority.Normal;
+</pre>
+<pre class="alt">
+<span class="lnum">  19:  </span>&nbsp;
+</pre>
+<pre>
+<span class="lnum">  20:  </span>        <span class="kwrd">private</span> Queue&lt;WorkItem&gt; _workitems = <span class="kwrd">new</span> Queue&lt;WorkItem&gt;();
+</pre>
+<pre class="alt">
+<span class="lnum">  21:  </span>        <span class="kwrd">private</span> ManualResetEvent enqueueNotify = <span class="kwrd">new</span> ManualResetEvent(<span class="kwrd">false</span>);
+</pre>
+<pre>
+<span class="lnum">  22:  </span>&nbsp;
+</pre>
+<pre class="alt">
+<span class="lnum">  23:  </span>        <span class="kwrd">public</span> SimpleThreadPool(<span class="kwrd">int</span> threads, ThreadPriority priority)
+</pre>
+<pre>
+<span class="lnum">  24:  </span>        {
+</pre>
+<pre class="alt">
+<span class="lnum">  25:  </span>            <span class="kwrd">this</span>._maxWorkerThreadCount = threads;
+</pre>
+<pre>
+<span class="lnum">  26:  </span>            <span class="kwrd">this</span>._workerThreadPriority = priority;
+</pre>
+<pre class="alt">
+<span class="lnum">  27:  </span>        }
+</pre>
+<pre>
+<span class="lnum">  28:  </span>&nbsp;
+</pre>
+<pre class="alt">
+<span class="lnum">  29:  </span>        <span class="kwrd">private</span> <span class="kwrd">void</span> CreateWorkerThread()
+</pre>
+<pre>
+<span class="lnum">  30:  </span>        {
+</pre>
+<pre class="alt">
+<span class="lnum">  31:  </span>            Thread worker = <span class="kwrd">new</span> Thread(<span class="kwrd">new</span> ThreadStart(<span class="kwrd">this</span>.DoWorkerThread));
+</pre>
+<pre>
+<span class="lnum">  32:  </span>            worker.Priority = <span class="kwrd">this</span>._workerThreadPriority;
+</pre>
+<pre class="alt">
+<span class="lnum">  33:  </span>            <span class="kwrd">this</span>._workerThreads.Add(worker);
+</pre>
+<pre>
+<span class="lnum">  34:  </span>            worker.Start();
+</pre>
+<pre class="alt">
+<span class="lnum">  35:  </span>        }
+</pre>
+<pre>
+<span class="lnum">  36:  </span>&nbsp;
+</pre>
+<pre class="alt">
+<span class="lnum">  37:  </span>        <span class="kwrd">public</span> <span class="kwrd">bool</span> QueueUserWorkItem(WaitCallback callback)
+</pre>
+<pre>
+<span class="lnum">  38:  </span>        {
+</pre>
+<pre class="alt">
+<span class="lnum">  39:  </span>            <span class="kwrd">return</span> <span class="kwrd">this</span>.QueueUserWorkItem(callback, <span class="kwrd">null</span>);
+</pre>
+<pre>
+<span class="lnum">  40:  </span>        }
+</pre>
+<pre class="alt">
+<span class="lnum">  41:  </span>&nbsp;
+</pre>
+<pre>
+<span class="lnum">  42:  </span>        <span class="kwrd">public</span> <span class="kwrd">bool</span> QueueUserWorkItem(WaitCallback callback, <span class="kwrd">object</span> state)
+</pre>
+<pre class="alt">
+<span class="lnum">  43:  </span>        {
+</pre>
+<pre>
+<span class="lnum">  44:  </span>            <span class="kwrd">if</span> (<span class="kwrd">this</span>._stop_flag == <span class="kwrd">true</span>) <span class="kwrd">return</span> <span class="kwrd">false</span>;
+</pre>
+<pre class="alt">
+<span class="lnum">  45:  </span>&nbsp;
+</pre>
+<pre>
+<span class="lnum">  46:  </span>            WorkItem wi = <span class="kwrd">new</span> WorkItem();
+</pre>
+<pre class="alt">
+<span class="lnum">  47:  </span>            wi.callback = callback;
+</pre>
+<pre>
+<span class="lnum">  48:  </span>            wi.state = state;
+</pre>
+<pre class="alt">
+<span class="lnum">  49:  </span>&nbsp;
+</pre>
+<pre>
+<span class="lnum">  50:  </span>            <span class="kwrd">if</span> (<span class="kwrd">this</span>._workitems.Count &gt; 0 &amp;&amp; <span class="kwrd">this</span>._workerThreads.Count &lt; <span class="kwrd">this</span>._maxWorkerThreadCount) <span class="kwrd">this</span>.CreateWorkerThread();
+</pre>
+<pre class="alt">
+<span class="lnum">  51:  </span>&nbsp;
+</pre>
+<pre>
+<span class="lnum">  52:  </span>            <span class="kwrd">this</span>._workitems.Enqueue(wi);
+</pre>
+<pre class="alt">
+<span class="lnum">  53:  </span>            <span class="kwrd">this</span>.enqueueNotify.Set();
+</pre>
+<pre>
+<span class="lnum">  54:  </span>&nbsp;
+</pre>
+<pre class="alt">
+<span class="lnum">  55:  </span>            <span class="kwrd">return</span> <span class="kwrd">true</span>;
+</pre>
+<pre>
+<span class="lnum">  56:  </span>        }
+</pre>
+<pre class="alt">
+<span class="lnum">  57:  </span>&nbsp;
+</pre>
+<pre>
+<span class="lnum">  58:  </span>        <span class="kwrd">public</span> <span class="kwrd">void</span> EndPool()
+</pre>
+<pre class="alt">
+<span class="lnum">  59:  </span>        {
+</pre>
+<pre>
+<span class="lnum">  60:  </span>            <span class="kwrd">this</span>.EndPool(<span class="kwrd">false</span>);
+</pre>
+<pre class="alt">
+<span class="lnum">  61:  </span>        }
+</pre>
+<pre>
+<span class="lnum">  62:  </span>&nbsp;
+</pre>
+<pre class="alt">
+<span class="lnum">  63:  </span>        <span class="kwrd">public</span> <span class="kwrd">void</span> CancelPool()
+</pre>
+<pre>
+<span class="lnum">  64:  </span>        {
+</pre>
+<pre class="alt">
+<span class="lnum">  65:  </span>            <span class="kwrd">this</span>.EndPool(<span class="kwrd">true</span>);
+</pre>
+<pre>
+<span class="lnum">  66:  </span>        }
+</pre>
+<pre class="alt">
+<span class="lnum">  67:  </span>&nbsp;
+</pre>
+<pre>
+<span class="lnum">  68:  </span>        <span class="kwrd">public</span> <span class="kwrd">void</span> EndPool(<span class="kwrd">bool</span> cancelQueueItem)
+</pre>
+<pre class="alt">
+<span class="lnum">  69:  </span>        {
+</pre>
+<pre>
+<span class="lnum">  70:  </span>            <span class="kwrd">if</span> (<span class="kwrd">this</span>._workerThreads.Count == 0) <span class="kwrd">return</span>;
+</pre>
+<pre class="alt">
+<span class="lnum">  71:  </span>&nbsp;
+</pre>
+<pre>
+<span class="lnum">  72:  </span>            <span class="kwrd">this</span>._stop_flag = <span class="kwrd">true</span>;
+</pre>
+<pre class="alt">
+<span class="lnum">  73:  </span>            <span class="kwrd">this</span>._cancel_flag = cancelQueueItem;
+</pre>
+<pre>
+<span class="lnum">  74:  </span>            <span class="kwrd">this</span>.enqueueNotify.Set();
+</pre>
+<pre class="alt">
+<span class="lnum">  75:  </span>&nbsp;
+</pre>
+<pre>
+<span class="lnum">  76:  </span>            <span class="kwrd">do</span>
+</pre>
+<pre class="alt">
+<span class="lnum">  77:  </span>            {
+</pre>
+<pre>
+<span class="lnum">  78:  </span>                Thread worker = <span class="kwrd">this</span>._workerThreads[0];
+</pre>
+<pre class="alt">
+<span class="lnum">  79:  </span>                worker.Join();
+</pre>
+<pre>
+<span class="lnum">  80:  </span>                <span class="kwrd">this</span>._workerThreads.Remove(worker);
+</pre>
+<pre class="alt">
+<span class="lnum">  81:  </span>            } <span class="kwrd">while</span> (<span class="kwrd">this</span>._workerThreads.Count &gt; 0);
+</pre>
+<pre>
+<span class="lnum">  82:  </span>        }
+</pre>
+<pre class="alt">
+<span class="lnum">  83:  </span>&nbsp;
+</pre>
+<pre>
+<span class="lnum">  84:  </span>        <span class="kwrd">private</span> <span class="kwrd">void</span> DoWorkerThread()
+</pre>
+<pre class="alt">
+<span class="lnum">  85:  </span>        {
+</pre>
+<pre>
+<span class="lnum">  86:  </span>            <span class="kwrd">while</span> (<span class="kwrd">true</span>)
+</pre>
+<pre class="alt">
+<span class="lnum">  87:  </span>            {
+</pre>
+<pre>
+<span class="lnum">  88:  </span>                <span class="kwrd">while</span> (<span class="kwrd">this</span>._workitems.Count &gt; 0)
+</pre>
+<pre class="alt">
+<span class="lnum">  89:  </span>                {
+</pre>
+<pre>
+<span class="lnum">  90:  </span>                    WorkItem item = <span class="kwrd">null</span>;
+</pre>
+<pre class="alt">
+<span class="lnum">  91:  </span>                    <span class="kwrd">lock</span> (<span class="kwrd">this</span>._workitems)
+</pre>
+<pre>
+<span class="lnum">  92:  </span>                    {
+</pre>
+<pre class="alt">
+<span class="lnum">  93:  </span>                        <span class="kwrd">if</span> (<span class="kwrd">this</span>._workitems.Count &gt; 0) item = <span class="kwrd">this</span>._workitems.Dequeue();
+</pre>
+<pre>
+<span class="lnum">  94:  </span>                    }
+</pre>
+<pre class="alt">
+<span class="lnum">  95:  </span>                    <span class="kwrd">if</span> (item == <span class="kwrd">null</span>) <span class="kwrd">continue</span>;
+</pre>
+<pre>
+<span class="lnum">  96:  </span>&nbsp;
+</pre>
+<pre class="alt">
+<span class="lnum">  97:  </span>                    <span class="kwrd">try</span>
+</pre>
+<pre>
+<span class="lnum">  98:  </span>                    {
+</pre>
+<pre class="alt">
+<span class="lnum">  99:  </span>                        item.Execute();
+</pre>
+<pre>
+<span class="lnum"> 100:  </span>                    }
+</pre>
+<pre class="alt">
+<span class="lnum"> 101:  </span>                    <span class="kwrd">catch</span> (Exception)
+</pre>
+<pre>
+<span class="lnum"> 102:  </span>                    {
+</pre>
+<pre class="alt">
+<span class="lnum"> 103:  </span>                        <span class="rem">//</span>
+</pre>
+<pre>
+<span class="lnum"> 104:  </span>                        <span class="rem">//  ToDo: exception handler</span>
+</pre>
+<pre class="alt">
+<span class="lnum"> 105:  </span>                        <span class="rem">//</span>
+</pre>
+<pre>
+<span class="lnum"> 106:  </span>                    }
+</pre>
+<pre class="alt">
+<span class="lnum"> 107:  </span>&nbsp;
+</pre>
+<pre>
+<span class="lnum"> 108:  </span>                    <span class="kwrd">if</span> (<span class="kwrd">this</span>._cancel_flag == <span class="kwrd">true</span>) <span class="kwrd">break</span>;
+</pre>
+<pre class="alt">
+<span class="lnum"> 109:  </span>                }
+</pre>
+<pre>
+<span class="lnum"> 110:  </span>&nbsp;
+</pre>
+<pre class="alt">
+<span class="lnum"> 111:  </span>                <span class="kwrd">if</span> (<span class="kwrd">this</span>._stop_flag == <span class="kwrd">true</span> || <span class="kwrd">this</span>._cancel_flag == <span class="kwrd">true</span>) <span class="kwrd">break</span>;
+</pre>
+<pre>
+<span class="lnum"> 112:  </span>                <span class="kwrd">if</span> (<span class="kwrd">this</span>.enqueueNotify.WaitOne(<span class="kwrd">this</span>._maxWorkerThreadTimeout, <span class="kwrd">true</span>) == <span class="kwrd">true</span>) <span class="kwrd">continue</span>;
+</pre>
+<pre class="alt">
+<span class="lnum"> 113:  </span>                <span class="kwrd">break</span>;
+</pre>
+<pre>
+<span class="lnum"> 114:  </span>            }
+</pre>
+<pre class="alt">
+<span class="lnum"> 115:  </span>&nbsp;
+</pre>
+<pre>
+<span class="lnum"> 116:  </span>            <span class="kwrd">this</span>._workerThreads.Remove(Thread.CurrentThread);
+</pre>
+<pre class="alt">
+<span class="lnum"> 117:  </span>        }
+</pre>
+<pre>
+<span class="lnum"> 118:  </span>&nbsp;
+</pre>
+<pre class="alt">
+<span class="lnum"> 119:  </span>        <span class="kwrd">private</span> <span class="kwrd">class</span> WorkItem
+</pre>
+<pre>
+<span class="lnum"> 120:  </span>        {
+</pre>
+<pre class="alt">
+<span class="lnum"> 121:  </span>            <span class="kwrd">public</span> WaitCallback callback;
+</pre>
+<pre>
+<span class="lnum"> 122:  </span>            <span class="kwrd">public</span> <span class="kwrd">object</span> state;
+</pre>
+<pre class="alt">
+<span class="lnum"> 123:  </span>&nbsp;
+</pre>
+<pre>
+<span class="lnum"> 124:  </span>            <span class="kwrd">public</span> <span class="kwrd">void</span> Execute()
+</pre>
+<pre class="alt">
+<span class="lnum"> 125:  </span>            {
+</pre>
+<pre>
+<span class="lnum"> 126:  </span>                <span class="kwrd">this</span>.callback(<span class="kwrd">this</span>.state);
+</pre>
+<pre class="alt">
+<span class="lnum"> 127:  </span>            }
+</pre>
+<pre>
+<span class="lnum"> 128:  </span>        }
+</pre>
+<pre class="alt">
+<span class="lnum"> 129:  </span>&nbsp;
+</pre>
+<pre>
+<span class="lnum"> 130:  </span>        <span class="kwrd">public</span> <span class="kwrd">void</span> Dispose()
+</pre>
+<pre class="alt">
+<span class="lnum"> 131:  </span>        {
+</pre>
+<pre>
+<span class="lnum"> 132:  </span>            <span class="kwrd">this</span>.EndPool(<span class="kwrd">false</span>);
+</pre>
+<pre class="alt">
+<span class="lnum"> 133:  </span>        }
+</pre>
+<pre>
+<span class="lnum"> 134:  </span>    }
+</pre>
+<pre class="alt">
+<span class="lnum"> 135:  </span>}
+</pre>
+</div>

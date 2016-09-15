@@ -1,0 +1,274 @@
+---
+layout: post
+title: "原來是 IPv6 搞的鬼..."
+categories:
+- ".NET"
+- "ASP.NET"
+tags: [".NET","ASP.NET"]
+published: true
+comments: true
+permalink: "/2008/08/12/原來是-ipv6-搞的鬼/"
+redirect_from:
+  - /columns/post/2008/08/13/e58e9fe4be86e698af-IPv6-e6909ee79a84e9acbc.aspx/
+  - /post/2008/08/13/e58e9fe4be86e698af-IPv6-e6909ee79a84e9acbc.aspx/
+  - /post/e58e9fe4be86e698af-IPv6-e6909ee79a84e9acbc.aspx/
+  - /columns/2008/08/13/e58e9fe4be86e698af-IPv6-e6909ee79a84e9acbc.aspx/
+  - /columns/e58e9fe4be86e698af-IPv6-e6909ee79a84e9acbc.aspx/
+wordpress_postid: 82
+---
+<p>
+以前 (古早以前) 寫過一個簡單的 LIBRARY，就是去抓現在連上網頁的 CLIENT IP，然後簡單的套上 NET MASK，看看是不是在指定的網段內? 是的話就作些特別的處理 blah blah... 原本的 code 有點雜，我精簡之後變這樣，如果是 192.168.2.0 / 24 這範圍內的使用者連到這網頁，就會顯示 &quot;Is Intranet? YES&quot; ... 夠簡單吧? (怎麼連幾篇都這種不入流的 sample code ...)
+</p>
+<p>
+這段 code 一直都運作的很好，沒碰過什麼大問題，不過就是把 IP address 切成四個 bytes, 然後利用位元運算併成 unsing integer, 方便跟後面的 netmask 作 bits and ...。不過某日興沖沖裝好 vista x64 + IIS7 之後發現，程式竟然不動了!? 
+</p>
+<p>
+&nbsp;
+</p>
+<p>
+先來看一下原始碼:
+</p>
+<p>
+&nbsp;
+</p>
+<div>
+<strong>ASP.NET 程式範例</strong><span class="copycode">[copy code]</span> 
+<div style="display: none">
+<pre style="display: none">
+&lt;%@ Page Language=&quot;C#&quot; Trace=&quot;true&quot; %&gt;&lt;!DOCTYPE html PUBLIC &quot;-//W3C//DTD XHTML 1.0 Transitional//EN&quot; &quot;http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd&quot;&gt;&lt;script runat=&quot;server&quot;&gt;    protected void Page_Load(object sender, EventArgs e)    {        this.Trace.Warn(System.Net.IPAddress.Parse(this.Request[&quot;REMOTE_HOST&quot;]).AddressFamily.ToString());        this.IPLabel.Text = this.IsInSubNetwork(            &quot;192.168.2.0&quot;,            &quot;255.255.255.0&quot;,            this.Request.ServerVariables[&quot;REMOTE_HOST&quot;]) ? (&quot;YES&quot;) : (&quot;NO&quot;);    }    private bool IsInSubNetwork(string network, string mask, string address)    {        uint netval = _IP2INT(network);        uint maskval = _IP2INT(mask);        uint addval = _IP2INT(address);        return (netval &amp; maskval) == (addval &amp; maskval);    }        private uint _IP2INT(string address)    {        string[] segments = address.Split(&#39;.&#39;);        uint ipval = 0;        foreach (string segment in segments)        {            ipval = ipval * 256 + uint.Parse(segment);        }        return ipval;    } &lt;/script&gt;&lt;html xmlns=&quot;http://www.w3.org/1999/xhtml&quot;&gt;&lt;head runat=&quot;server&quot;&gt;    &lt;title&gt;Untitled Page&lt;/title&gt;&lt;/head&gt;&lt;body&gt;    &lt;form id=&quot;form1&quot; runat=&quot;server&quot;&gt;    &lt;div&gt;    Is Intranet? &lt;asp:Label ID=&quot;IPLabel&quot; runat=&quot;server&quot; /&gt;    &lt;/div&gt;    &lt;/form&gt;&lt;/body&gt;&lt;/html&gt;
+</pre>
+</div>
+<div style="border: 1px solid">
+<div class="csharpcode">
+<pre class="alt">
+<span class="lnum">   1:  </span><span class="asp">&lt;%@ Page Language=&quot;C#&quot; Trace=&quot;true&quot; %&gt;</span>
+</pre>
+<pre>
+<span class="lnum">   2:  </span><span class="kwrd">&lt;!</span><span class="html">DOCTYPE</span> <span class="attr">html</span> <span class="attr">PUBLIC</span> <span class="kwrd">&quot;-//W3C//DTD XHTML 1.0 Transitional//EN&quot;</span> <span class="kwrd">&quot;http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd&quot;</span><span class="kwrd">&gt;</span>
+</pre>
+<pre class="alt">
+<span class="lnum">   3:  </span><span class="kwrd">&lt;</span><span class="html">script</span> <span class="attr">runat</span><span class="kwrd">=&quot;server&quot;</span><span class="kwrd">&gt;</span>
+</pre>
+<pre>
+<span class="lnum">   4:  </span>&nbsp;
+</pre>
+<pre class="alt">
+<span class="lnum">   5:  </span>    <span class="kwrd">protected</span> <span class="kwrd">void</span> Page_Load(<span class="kwrd">object</span> sender, EventArgs e)
+</pre>
+<pre>
+<span class="lnum">   6:  </span>    {
+</pre>
+<pre class="alt">
+<span class="lnum">   7:  </span>        <span class="kwrd">this</span>.Trace.Warn(System.Net.IPAddress.Parse(<span class="kwrd">this</span>.Request[<span class="str">&quot;REMOTE_HOST&quot;</span>]).AddressFamily.ToString());
+</pre>
+<pre>
+<span class="lnum">   8:  </span>        <span class="kwrd">this</span>.IPLabel.Text = <span class="kwrd">this</span>.IsInSubNetwork(
+</pre>
+<pre class="alt">
+<span class="lnum">   9:  </span>            <span class="str">&quot;192.168.2.0&quot;</span>,
+</pre>
+<pre>
+<span class="lnum">  10:  </span>            <span class="str">&quot;255.255.255.0&quot;</span>,
+</pre>
+<pre class="alt">
+<span class="lnum">  11:  </span>            <span class="kwrd">this</span>.Request.ServerVariables[<span class="str">&quot;REMOTE_HOST&quot;</span>]) ? (<span class="str">&quot;YES&quot;</span>) : (<span class="str">&quot;NO&quot;</span>);
+</pre>
+<pre>
+<span class="lnum">  12:  </span>    }
+</pre>
+<pre class="alt">
+<span class="lnum">  13:  </span>&nbsp;
+</pre>
+<pre>
+<span class="lnum">  14:  </span>&nbsp;
+</pre>
+<pre class="alt">
+<span class="lnum">  15:  </span>    <span class="kwrd">private</span> <span class="kwrd">bool</span> IsInSubNetwork(<span class="kwrd">string</span> network, <span class="kwrd">string</span> mask, <span class="kwrd">string</span> address)
+</pre>
+<pre>
+<span class="lnum">  16:  </span>    {
+</pre>
+<pre class="alt">
+<span class="lnum">  17:  </span>        <span class="kwrd">uint</span> netval = _IP2INT(network);
+</pre>
+<pre>
+<span class="lnum">  18:  </span>        <span class="kwrd">uint</span> maskval = _IP2INT(mask);
+</pre>
+<pre class="alt">
+<span class="lnum">  19:  </span>        <span class="kwrd">uint</span> addval = _IP2INT(address);
+</pre>
+<pre>
+<span class="lnum">  20:  </span>&nbsp;
+</pre>
+<pre class="alt">
+<span class="lnum">  21:  </span>        <span class="kwrd">return</span> (netval &amp; maskval) == (addval &amp; maskval);
+</pre>
+<pre>
+<span class="lnum">  22:  </span>    }
+</pre>
+<pre class="alt">
+<span class="lnum">  23:  </span>    
+</pre>
+<pre>
+<span class="lnum">  24:  </span>    <span class="kwrd">private</span> <span class="kwrd">uint</span> _IP2INT(<span class="kwrd">string</span> address)
+</pre>
+<pre class="alt">
+<span class="lnum">  25:  </span>    {
+</pre>
+<pre>
+<span class="lnum">  26:  </span>        <span class="kwrd">string</span>[] segments = address.Split(<span class="str">&#39;.&#39;</span>);
+</pre>
+<pre class="alt">
+<span class="lnum">  27:  </span>&nbsp;
+</pre>
+<pre>
+<span class="lnum">  28:  </span>        <span class="kwrd">uint</span> ipval = 0;
+</pre>
+<pre class="alt">
+<span class="lnum">  29:  </span>        <span class="kwrd">foreach</span> (<span class="kwrd">string</span> segment <span class="kwrd">in</span> segments)
+</pre>
+<pre>
+<span class="lnum">  30:  </span>        {
+</pre>
+<pre class="alt">
+<span class="lnum">  31:  </span>            ipval = ipval * 256 + <span class="kwrd">uint</span>.Parse(segment);
+</pre>
+<pre>
+<span class="lnum">  32:  </span>        }
+</pre>
+<pre class="alt">
+<span class="lnum">  33:  </span>&nbsp;
+</pre>
+<pre>
+<span class="lnum">  34:  </span>        <span class="kwrd">return</span> ipval;
+</pre>
+<pre class="alt">
+<span class="lnum">  35:  </span>    }
+</pre>
+<pre>
+<span class="lnum">  36:  </span> 
+</pre>
+<pre class="alt">
+<span class="lnum">  37:  </span>&nbsp;
+</pre>
+<pre>
+<span class="lnum">  38:  </span><span class="kwrd">&lt;/</span><span class="html">script</span><span class="kwrd">&gt;</span>
+</pre>
+<pre class="alt">
+<span class="lnum">  39:  </span>&nbsp;
+</pre>
+<pre>
+<span class="lnum">  40:  </span><span class="kwrd">&lt;</span><span class="html">html</span> <span class="attr">xmlns</span><span class="kwrd">=&quot;http://www.w3.org/1999/xhtml&quot;</span><span class="kwrd">&gt;</span>
+</pre>
+<pre class="alt">
+<span class="lnum">  41:  </span><span class="kwrd">&lt;</span><span class="html">head</span> <span class="attr">runat</span><span class="kwrd">=&quot;server&quot;</span><span class="kwrd">&gt;</span>
+</pre>
+<pre>
+<span class="lnum">  42:  </span>    <span class="kwrd">&lt;</span><span class="html">title</span><span class="kwrd">&gt;</span>Untitled Page<span class="kwrd">&lt;/</span><span class="html">title</span><span class="kwrd">&gt;</span>
+</pre>
+<pre class="alt">
+<span class="lnum">  43:  </span><span class="kwrd">&lt;/</span><span class="html">head</span><span class="kwrd">&gt;</span>
+</pre>
+<pre>
+<span class="lnum">  44:  </span><span class="kwrd">&lt;</span><span class="html">body</span><span class="kwrd">&gt;</span>
+</pre>
+<pre class="alt">
+<span class="lnum">  45:  </span>    <span class="kwrd">&lt;</span><span class="html">form</span> <span class="attr">id</span><span class="kwrd">=&quot;form1&quot;</span> <span class="attr">runat</span><span class="kwrd">=&quot;server&quot;</span><span class="kwrd">&gt;</span>
+</pre>
+<pre>
+<span class="lnum">  46:  </span>    <span class="kwrd">&lt;</span><span class="html">div</span><span class="kwrd">&gt;</span>
+</pre>
+<pre class="alt">
+<span class="lnum">  47:  </span>    Is Intranet? <span class="kwrd">&lt;</span><span class="html">asp:Label</span> <span class="attr">ID</span><span class="kwrd">=&quot;IPLabel&quot;</span> <span class="attr">runat</span><span class="kwrd">=&quot;server&quot;</span> <span class="kwrd">/&gt;</span>
+</pre>
+<pre>
+<span class="lnum">  48:  </span>    <span class="kwrd">&lt;/</span><span class="html">div</span><span class="kwrd">&gt;</span>
+</pre>
+<pre class="alt">
+<span class="lnum">  49:  </span>    <span class="kwrd">&lt;/</span><span class="html">form</span><span class="kwrd">&gt;</span>
+</pre>
+<pre>
+<span class="lnum">  50:  </span><span class="kwrd">&lt;/</span><span class="html">body</span><span class="kwrd">&gt;</span>
+</pre>
+<pre class="alt">
+<span class="lnum">  51:  </span><span class="kwrd">&lt;/</span><span class="html">html</span><span class="kwrd">&gt;</span>
+</pre>
+</div>
+</div>
+<!-- end of code area -->
+</div>
+<p>
+&nbsp;
+</p>
+<p>
+&nbsp;
+</p>
+<p>
+後來追了半天才意外發現問題出在這... 打開 ASP.NET Trace, 看一下 REMOTE_ADDR 到底抓到啥子東西? 
+</p>
+<p>
+&nbsp;
+</p>
+<p>
+<img style="border-width: 0px" src="/wp-content/be-files/WindowsLiveWriter/IPv6_13D1E/image_21.png" border="0" alt="image" width="514" height="233" /> 
+</p>
+<p>
+&nbsp;
+</p>
+<p>
+嘖嘖嘖，搞半天原來是 Vista 預設把 IPv6 給開了起來，IIS7 / DevWeb 都中獎，直接回報 IPv6 格式的 IP Address 回來... 怎麼解? 這種問題說穿了就不值錢，強迫用 IPv4 就好。我試過幾種可行的方式，有:
+</p>
+<p>
+&nbsp;
+</p>
+<p>
+&nbsp;
+</p>
+<ol>
+	<li>直接用 IPv4 的位址連線: 這簡單，以我來說，URL 從 <a href="http://localhost/default.aspx">http://localhost/default.aspx</a> 改成 <a href="http://192.168.100.40/default.aspx">http://192.168.100.40/default.aspx</a> 就好了。不過這樣對 DevWeb 就沒用了，DevWeb 只接受來自 localhost 的連線...<br />
+	<img style="border-width: 0px" src="/wp-content/be-files/WindowsLiveWriter/IPv6_13D1E/image_22.png" border="0" alt="image" width="546" height="222" /> <br />
+	<br />
+	<br />
+	<br />
+	</li>
+	<li>改 IIS 設定，直接綁到 IPv4 的位址，不過這招試不出來，似呼沒啥用，localhost 不會連到 192.168.100.40，而我直接打這 IP 的話就會變成範例1...<br />
+	<img style="border-width: 0px" src="/wp-content/be-files/WindowsLiveWriter/IPv6_13D1E/image_23.png" border="0" alt="image" width="510" height="288" /><br />
+	<br />
+	</li>
+	<li>改 c:\windows\system32\drivers\etc\hosts<br />
+	無意間 PING 看看 localhost, 才發現連 localhost 都被對應到 IPv6 了... <br />
+	<img style="border-width: 0px" src="/wp-content/be-files/WindowsLiveWriter/IPv6_13D1E/image_29.png" border="0" alt="image" width="495" height="262" /> <br />
+	<br />
+	打開 C:\windows\system32\drivers\etc\hosts 這檔案看一看，果然...<br />
+	<img style="border-width: 0px" src="/wp-content/be-files/WindowsLiveWriter/IPv6_13D1E/image_28.png" border="0" alt="image" width="627" height="353" /> <br />
+	<br />
+	<br />
+	把 IPv6 那行拿掉後再試試 ping localhost ...<br />
+	<img style="border-width: 0px" src="/wp-content/be-files/WindowsLiveWriter/IPv6_13D1E/image_27.png" border="0" alt="image" width="470" height="188" />&nbsp;<br />
+	<br />
+	<br />
+	耶! 這次 IP 就變成 IPv4 的了... 開 IE, 連 <a href="http://localhost/default.aspx">http://localhost/default.aspx</a> 看看，it works!<br />
+	<img style="border-width: 0px" src="/wp-content/be-files/WindowsLiveWriter/IPv6_13D1E/image_26.png" border="0" alt="image" width="467" height="215" /><br />
+	<br />
+	因為這招是直接把 localhost 對應到 127.0.0.1，因此對於鎖 localhost 的 WEBDEV 也可以用。<br />
+	<br />
+	</li>
+	<li>大絕招: 直接關掉 IPv6 ...<br />
+	真是個沒品的傢伙，打不過就來這套... <br />
+	<img style="border-width: 0px" src="/wp-content/be-files/WindowsLiveWriter/IPv6_13D1E/image_25.png" border="0" alt="image" width="404" height="499" /><br />
+	<br />
+	<img style="border-width: 0px" src="/wp-content/be-files/WindowsLiveWriter/IPv6_13D1E/image_24.png" border="0" alt="image" width="500" height="223" /> <br />
+	這樣也可以...</li>
+</ol>
+<p>
+&nbsp;
+</p>
+<p>
+&nbsp;
+</p>
+<p>
+&nbsp;
+</p>
+<p>
+碰到這種怪問題，一時之間還熊熊不知道是那裡掛掉，還真是麻煩... 特地記一下這篇，讓一樣吃過 IPv6 苦頭的人參考一下。至於怎樣作才對? 當然是用 &quot;正規&quot; 的方式來處理 IP Address...&nbsp;&nbsp; System.Net.IPAddress 類別包含一個靜態方法: IPAddress Parse(string ipaddress), 用它可以把字串格式的 IP 換成這個類別的 instance, 用它內建的 property: AddressFamily，看看值是 enum 型態的 InterNetwork 還是 InterNetworkV6 就知道了，不要像我當年年少不更事一樣，自己硬去拆字串... Orz
+</p>

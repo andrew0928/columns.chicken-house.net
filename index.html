@@ -1,9 +1,96 @@
 ---
 layout: default
-title: Home
+title: Blog
 ---
+<!-- redir /?p=123 url -->
+<script language='javascript'>
+var posts_map = {};
+{% for page in site.posts %}
+  {% if page.wordpress_postid %}
+    posts_map[{{ page.wordpress_postid }}] = '{{ page.url }}'
+  {% endif %}
+{% endfor %}
 
+function getParameterByName(name) {
+    name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+    var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+        results = regex.exec(location.search);
+    return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+}
+
+var id = getParameterByName('p');
+var url = posts_map[id];
+
+if (url) {
+  window.location.replace(url);
+}
+</script>
+
+<<<<<<< HEAD
 <div class="codinfox-index-bg">
   <img src="/public/imgs/we_will_be_giants_by_yalestewart.jpg" />
   <p>Original Artwork &copy; <a href="http://yalestewart.deviantart.com/art/We-Will-Be-Giants-370176475">Yale Stewart</a></p>
 </div>
+=======
+<div class="posts">
+  {% for post in paginator.posts %}
+  <div class="post">
+    <h1 class="post-title">
+      <a href="{{ site.baseurl }}{{ post.url }}">
+        {{ post.title }}
+      </a>
+    </h1>
+
+    <span class="post-date">{{ post.date | date_to_string }}</span>
+    {% if post.tags %} | 
+    {% for tag in post.tags %}
+    <a href="{{ site.baseurl }}{{ site.tag_page }}#{{ tag | slugify }}" class="post-tag">{{ tag }}</a>
+    {% endfor %}
+    {% endif %}
+    
+    <div class="fb-like" data-href="{{ site.url }}{{ post.url }}" data-layout="standard" data-action="like" data-size="small" data-show-faces="false" data-share="true"></div>
+
+    <article>
+      {{ post.excerpt }}
+    <article>
+    <div class="post-more">
+      {% if site.disqus_short_name %}
+      <a href="{{ site.baseurl }}{{ post.url }}#disqus_thread"> <i class="fa fa-comments" aria-hidden="true"></i>
+      <span class="disqus-comment-count" data-disqus-url="{{ site.url }}{{ post.url }}"></span>
+      </a>&nbsp;
+      {% endif %}
+      <a href="{{ site.baseurl }}{{ post.url }}"><i class="fa fa-plus-circle" aria-hidden="true"></i>Read more</a>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+
+<div class="pagination">
+  {% if paginator.next_page %}
+    <a class="pagination-item older" href="{{ site.baseurl }}/page{{paginator.next_page}}">Older</a>
+  {% else %}
+    <span class="pagination-item older">Older</span>
+  {% endif %}
+
+  {% for count in (1..paginator.total_pages) %}
+  {% if count == paginator.page %}
+  <span class="pagination-item">{{ count }}</span>
+  {% else %}
+  <a class="pagination-item older" href="{{ site.baseurl }}/page{{count}}">{{count}}</a>
+  {% endif %}
+  {% endfor %}
+
+  {% if paginator.previous_page %}
+    {% if paginator.page == 2 %}
+      <a class="pagination-item newer" href="{{ site.baseurl }}/">Newer</a>
+    {% else %}
+      <a class="pagination-item newer" href="{{ site.baseurl }}/page{{paginator.previous_page}}">Newer</a>
+    {% endif %}
+  {% else %}
+    <span class="pagination-item newer">Newer</span>
+  {% endif %}
+</div>
+
+<!-- disqus comments count lib -->
+<script id="dsq-count-scr" src="http://andrew0928.disqus.com/count.js" async></script>
+>>>>>>> dev

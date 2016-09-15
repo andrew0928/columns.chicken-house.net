@@ -1,0 +1,24 @@
+---
+layout: post
+title: "[RUN! PC] 2010 五月號 - TxF讓檔案系統也能達到交易控制"
+categories:
+- ".NET"
+- "RUN! PC"
+- "Transactional NTFS"
+- "作品集"
+- "作業系統"
+- "技術隨筆"
+- "物件導向"
+tags: [".NET","RUN! PC","Transactional NTFS","作品集","作業系統","技術隨筆","物件導向"]
+published: true
+comments: true
+permalink: "/2010/05/05/run-pc-2010-五月號-txf讓檔案系統也能達到交易控制/"
+redirect_from:
+  - /columns/post/2010/05/05/RUNPC-2010-05.aspx/
+  - /post/2010/05/05/RUNPC-2010-05.aspx/
+  - /post/RUNPC-2010-05.aspx/
+  - /columns/2010/05/05/RUNPC-2010-05.aspx/
+  - /columns/RUNPC-2010-05.aspx/
+wordpress_postid: 15
+---
+<p>&#160;</p>  <p><img style="border-bottom: 0px; border-left: 0px; display: inline; border-top: 0px; border-right: 0px" title="image" border="0" alt="image" src="/wp-content/be-files/image_10.png" width="660" height="418" />&#160; </p>  <p>五月號就刊出來，還真有點意外 :D，這次稿件趕不及，晚了幾天才交出去，編輯大人還是讓我上五月號啦，真是感謝 :D</p>  <p>之前執行緒的系列，是打算把各種應用執行緒的演算法都介紹一下，寫了五篇就沒靈感了。實際寫CODE的技巧倒是很多可以介紹，不過 .NET FX 4.0 出來之後，這些鎖碎的 coding 技巧又大幅簡化了，除非有特別的演算法需要 (如同之前那五篇 :D)，否則還自己拿 Thread 物件硬幹已經沒什麼意義了，所以就換另一個我有興趣的主題 - Transactional NTFS 來寫。</p>  <p>這系列第一篇出爐了，主要就是先介紹它的觀念及如何入門，國內這類資訊還不多，我就野人獻曝寫了一篇，試著寫看看了。較鎖碎的實作技巧 (如 P/Invoke) 我會直接貼 BLOG，而較完整的概念及實作探討等等就會整理成文章拿來投稿了。</p>  <p>再次感謝各位支持啦，底下有範例程式跟一些參考資源的 LINK，需要的歡迎取用 :D</p>  <p>&#160;</p>  <p>範例程式:</p>  <ol>   <li>Visual Studio 2008 Project (C#) File: <a href="/wp-content/be-files/TransactionDemo.zip" target="_blank">TransactionDemo.zip</a> </li> </ol>  <p>&#160;</p>  <p>參考資訊:</p>  <ol>   <li>AlphaFS: Brining Advanced Windows FileSystem Support to .NET      <br /><a href="http://alphafs.codeplex.com/">http://alphafs.codeplex.com/</a> </li>    <li>MSDN magazine (July 2007): Enhance Your Apps With File System Transactions      <br /><a href="http://msdn.microsoft.com/en-us/magazine/cc163388.aspx">http://msdn.microsoft.com/en-us/magazine/cc163388.aspx</a> </li>    <li>B# .NET BLOG: Windows Vista - Introducing TxF In C#      <br />Part 1: <a href="http://community.bartdesmet.net/blogs/bart/archive/2006/11/05/Windows-Vista-_2D00_-Introducing-TxF-in-C_2300_-_2800_part-1_2900_-_2D00_-Transacted-file-delete.aspx">Transacted File Delete</a>       <br />Part 2: <a href="http://community.bartdesmet.net/blogs/bart/archive/2006/11/19/Windows-Vista-_2D00_-Introducing-TxF-in-C_2300_-_2800_part-2_2900_-_2D00_-Using-System.Transactions-and-the-DTC.aspx">Using System.Transactions and the DTC</a>       <br />Part 3: <a href="http://community.bartdesmet.net/blogs/bart/archive/2007/02/21/windows-vista-introducing-txf-in-c-part-3-createfiletransacted-demo.aspx">CreateFileTransacted Demo</a> </li>    <li>Code Project: Windows Vista TxF / TxR      <br /><a href="http://www.codeproject.com/KB/vista/KTM.aspx">http://www.codeproject.com/KB/vista/KTM.aspx</a> </li>    <li>BLOG: Because we can      <br /><a href="http://blogs.msdn.com/because_we_can/archive/2005/05/18/419809.aspx">http://blogs.msdn.com/because_we_can/archive/2005/05/18/419809.aspx</a>       <br />Discussion and explanation relating to the Transactional NTFS feature coming in Longhorn, plus any other interesting anecdotes... </li>    <li>Performance Consoderations for Transactional NTFS      <br /><a href="http://msdn.microsoft.com/en-us/library/ee240893(VS.85).aspx">http://msdn.microsoft.com/en-us/library/ee240893(VS.85).aspx</a> </li>    <li>When to Use Transactional NTFS      <br /><a href="http://msdn.microsoft.com/en-us/library/aa365738(VS.85).aspx">http://msdn.microsoft.com/en-us/library/aa365738(VS.85).aspx</a> </li> </ol>
