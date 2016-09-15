@@ -2,6 +2,29 @@
 layout: default
 title: Blog
 ---
+<!-- redir /?p=123 url -->
+<script language='javascript'>
+var posts_map = {};
+{% for page in site.posts %}
+  {% if page.wordpress_postid %}
+    posts_map[{{ page.wordpress_postid }}] = '{{ page.url }}'
+  {% endif %}
+{% endfor %}
+
+function getParameterByName(name) {
+    name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+    var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+        results = regex.exec(location.search);
+    return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+}
+
+var id = getParameterByName('p');
+var url = posts_map[id];
+
+if (url) {
+  window.location.replace(url);
+}
+</script>
 
 <div class="posts">
   {% for post in paginator.posts %}
@@ -20,7 +43,7 @@ title: Blog
     {% endif %}
 
     <article>
-      {{ post.excerpt | markdownify }}
+      {{ post.excerpt }}
     <article>
     <div class="post-more">
       {% if site.disqus_short_name %}

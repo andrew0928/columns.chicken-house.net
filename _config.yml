@@ -10,6 +10,8 @@ logo: '/public/logo.png'
 # Site configurations
 gems:
   - jekyll-paginate
+  - jekyll-redirect-from
+  
 markdown: kramdown
 kramdown:
   input: GFM
