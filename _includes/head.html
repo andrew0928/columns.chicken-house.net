@@ -3,6 +3,16 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
 
+
+  <!-- facebook open graph object settings -->
+  <meta property="fb:app_id"          content="500757300092333" /> 
+  <meta property="og:type"            content="article" /> 
+  <meta property="og:url"             content="{{ page.url | replace:'index.html','' | prepend: site.baseurl | prepend: site.url }}" /> 
+  <meta property="og:title"           content="{% if page.title %}{{ page.title | escape }}{% else %}{{ site.title | escape }}{% endif %}" /> 
+  <meta property="og:image"           content="{{ site.url }}{% if page.logo %}{{ page.logo }}{% else %}{{ site.logo }}{% endif %}" /> 
+  <meta property="og:description"     content="{% if page.excerpt %}{{ page.excerpt | strip_html | strip_newlines | truncate: 160 }}{% else %}{{ site.description }}{% endif %}" />
+
+
   <!-- Enable responsiveness on mobile devices-->
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
 

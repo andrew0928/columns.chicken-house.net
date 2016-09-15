@@ -68,27 +68,24 @@ library / component 的方式，把 code / binary 組裝成一個大型的 appli
 
 從這些根本的差異，其實就看的出來它們的特性，跟適用的情境了。從軟體開發的角度來看，我把 code reuse 的方式分為幾種:
 
-1. **source code**
+1. **source code**  
+使用的時候，必須拿到要被重複利用的 source code。
+code snippet, design patterns, scripts 等等都屬於這種。
+reuse 的層級只在 compile time, 且限定為同一種語言 (廢話), 需要 develop team 重新編譯發行才能使用。
+若 source code 有異動，application 通常得經過重新編譯及之後的所有程序 (如測試、發行等等) 才能升級。
 
-> 使用的時候，必須拿到要被重複利用的 source code。
-> code snippet, design patterns, scripts 等等都屬於這種。
-> reuse 的層級只在 compile time, 且限定為同一種語言 (廢話), 需要 develop team 重新編譯發行才能使用。
-> 若 source code 有異動，application 通常得經過重新編譯及之後的所有程序 (如測試、發行等等) 才能升級。
+2. **binary code**  
+常見於元件(component)、套件(package)、插件(plugins)或是涵式庫(library / class library)。編譯過後的 library 通常有
+一定的規範，例如 java jar, 或是 .net 的 assembly (.dll) 等等。reuse 的層級在 develop time, 不過 binary code
+通常有較完整的規範，若不影響對外的介面 (如 c external signature, 或是 .net public class 等等)，可以直接替換 binary
+而不需要經過重新編譯等過程。
 
-2. **binary code**
-
-> 常見於元件(component)、套件(package)、插件(plugins)或是涵式庫(library / class library)。編譯過後的 library 通常有
-> 一定的規範，例如 java jar, 或是 .net 的 assembly (.dll) 等等。reuse 的層級在 develop time, 不過 binary code
-> 通常有較完整的規範，若不影響對外的介面 (如 c external signature, 或是 .net public class 等等)，可以直接替換 binary
-> 而不需要經過重新編譯等過程。
-
-3. **Service**
-
-> 更高層級的 reuse. 你使用的已經是個完整的服務了，只是你必須透過事先定義的 API or protocol 來使用他。最典型的例子就是 database.
-> 你是架設好之後，開個 database, 就可以連線使用了。以 Microsoft SQL server 為例，他有他專屬的 protocol (TCP port 1433), 
-> 你甚至必須使用對應的 library (data provider) 才能使用。若服務的
-> 抽象畫及介面定義的夠好，你甚至可以抽換不同的服務，例如 wordpress 可以用 mysql, 也可以換成 sqlite 這樣的的案例就是。
-> 升級 service 時，你的 application 不需要異動，甚至可以不用停機就能完成。reuse 的層級是 runtime.
+3. **Service**  
+更高層級的 reuse. 你使用的已經是個完整的服務了，只是你必須透過事先定義的 API or protocol 來使用他。最典型的例子就是 database.
+你是架設好之後，開個 database, 就可以連線使用了。以 Microsoft SQL server 為例，他有他專屬的 protocol (TCP port 1433), 
+你甚至必須使用對應的 library (data provider) 才能使用。若服務的
+抽象畫及介面定義的夠好，你甚至可以抽換不同的服務，例如 wordpress 可以用 mysql, 也可以換成 sqlite 這樣的的案例就是。
+升級 service 時，你的 application 不需要異動，甚至可以不用停機就能完成。reuse 的層級是 runtime.
 
 從這角度 (開發者) 來看，單體式APP的開發，主要就是把APP內切割成多個模組或子系統，用 (1) or (2) 的方式實作出來的開發方式。而微服務架構，
 則是以 (3) 的方式來解構整個 application, 之後每個 service 的開發，才會考慮到 (1) or (2) 開發方式的架構。 

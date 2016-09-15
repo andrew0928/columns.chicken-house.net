@@ -1,7 +1,8 @@
 # Site Info
-title: Codinfox Lanyon
-tagline: 'A Jekyll theme based on Lanyon'
-description: 'A Jekyll theme adapted from <a href="http://lanyon.getpoole.com/" target="_blank">Lanyon</a>. Made by <a href="http://codinfox.github.io" target="_blank">@codinfox</a>.'
+title: 安德魯的部落格
+tagline: '安德魯的部落格'
+description: '123'
+
 # baseurl: "/lanyon"
 baseurl: ""
 url: http://columns.chicken-house.net
@@ -11,7 +12,7 @@ logo: '/public/logo.png'
 gems:
   - jekyll-paginate
   - jekyll-redirect-from
-  
+
 markdown: kramdown
 kramdown:
   input: GFM
@@ -19,7 +20,7 @@ kramdown:
 sass:
   style: compressed
   sass_dir: _scss    
-paginate: 5
+paginate: 10
 paginate_path: '/page:num'
 # permalink: pretty
 permalink: /:year/:month/:day/:slug/
@@ -29,29 +30,28 @@ version: 1.0.0
 
 # About/contact
 author:
-  name: Codinfox
-  description: A passionate <strong>developer and researcher</strong>, learning to be a giant.
-  gravatar: 3c2986ad7ac1f2230ea3596f44563328 # md5 hash of your email address
+  name: Andrew Wu
+  description: 
+#  gravatar: 3c2986ad7ac1f2230ea3596f44563328 # md5 hash of your email address
   contact:
-    linkedin:  https://www.linkedin.com/in/lizhihao
-    github:    https://github.com/codinfox
-    # facebook:  <hide>
-    twitter:   https://twitter.com/Li_Zhihao
-    weibo:     http://weibo.com/41173780
-    email:     http://www.google.com/recaptcha/mailhide/d?k=01I3lZFiZYng9N3QxYEtsDaQ==&c=31wAnZkuKqcG0ATAqJN8Z3ln5kkYLA9TwkGc-IbygpM=
+    linkedin:  https://www.linkedin.com/in/andrew0928
+    github:    https://github.com/andrew0928
+    facebook:  https://www.facebook.com/andrew.blog.0928
+    #twitter:   https://twitter.com/Li_Zhihao
+    #weibo:     http://weibo.com/41173780
+    #email:     http://www.google.com/recaptcha/mailhide/d?k=01I3lZFiZYng9N3QxYEtsDaQ==&c=31wAnZkuKqcG0ATAqJN8Z3ln5kkYLA9TwkGc-IbygpM=
+logo: /public/logo.png
 
 # Navigation (2nd level links supported)
 nav:
-  Home:           
-    - '/'
   Blog:           
     - '/'
     - { Categories: '/categories/' }
     - { Tags: '/tags/' }
   About:          
     - '/about/'
-  Github Project: 
-    - 'http://codinfox.github.io/'
+  Facebook Pages: 
+    - 'https://www.facebook.com/andrew.blog.0928'
 
 # Where are tags and categories displayed
 tag_page: '/tags/'
@@ -63,6 +63,6 @@ hero:
 
 # Puglins
 mathjax: true # whether support mathjax
-google_analytics_token: 'UA-00000000-1' # leave blank if you don't want google analytics
+google_analytics_token: 'UA-68797023-1' # leave blank if you don't want google analytics
 disqus_short_name: 'andrew0928' # leave blank if you don't want disqus
 

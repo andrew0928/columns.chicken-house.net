@@ -41,13 +41,17 @@ if (url) {
     <a href="{{ site.baseurl }}{{ site.tag_page }}#{{ tag | slugify }}" class="post-tag">{{ tag }}</a>
     {% endfor %}
     {% endif %}
+    
+    <div class="fb-like" data-href="{{ site.url }}{{ post.url }}" data-layout="standard" data-action="like" data-size="small" data-show-faces="false" data-share="true"></div>
 
     <article>
       {{ post.excerpt }}
     <article>
     <div class="post-more">
       {% if site.disqus_short_name %}
-      <a href="{{ site.baseurl }}{{ post.url }}#disqus_thread"> <i class="fa fa-comments" aria-hidden="true"></i>Comment</a>&nbsp;
+      <a href="{{ site.baseurl }}{{ post.url }}#disqus_thread"> <i class="fa fa-comments" aria-hidden="true"></i>
+      <span class="disqus-comment-count" data-disqus-url="{{ site.url }}{{ post.url }}"></span>
+      </a>&nbsp;
       {% endif %}
       <a href="{{ site.baseurl }}{{ post.url }}"><i class="fa fa-plus-circle" aria-hidden="true"></i>Read more</a>
     </div>
@@ -81,3 +85,5 @@ if (url) {
   {% endif %}
 </div>
 
+<!-- disqus comments count lib -->
+<script id="dsq-count-scr" src="http://andrew0928.disqus.com/count.js" async></script>
