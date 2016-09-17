@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Blog as code !!"
+title: "Blogging as code !!"
 categories:
 - "有的沒的"
 tags: ["有的沒的"]
@@ -9,13 +9,14 @@ comments: true
 logo: /wp-content/uploads/2016/09/blog-as-code-workflow.png
 ---
 
-## TL;DR 
+# TL;DR 
 
 想想我開始寫 blog 的這十幾年 (Orz, 這麼久了)，用的部落格系統也換了不少套了, 從最早我自己土炮寫的 asp.net 1.1 blog 開始算, 中間光是系統就換了 5 套, 還不包括
 同一套系統的版本升級... 這些 post 都還能留下來也真算是奇蹟了.. 不過再怎麼換, 終究是有套 "系統" 需要去維護，不管是自己管還是代管都一樣，開始想走純樸路線，省點
 運算資源，好好照顧一下北極熊...
 
-於是就決定改採最低科技的路線，Hosting 的方式用最宅的 GitHub... 現在流行什麼都冠上 xxxx as code, 那就來個 blog as code 吧 XD
+於是就決定改採最低科技的路線，丟掉所有的 "系統"，直接採用最單純的靜態檔案。至於 Hosting 的方式，就用最宅的 GitHub 附屬的服務: GitHub Pages... 
+現在流行什麼都冠上 xxxx as code, 那就來個 blogging as code 吧 XD
 
 <!--more-->
 
@@ -28,20 +29,22 @@ logo: /wp-content/uploads/2016/09/blog-as-code-workflow.png
 5. **2015** - Word Press 
   
   
-這些系統一路用過來，總覺得少了點什麼... 功能強大，但是對於 developer 來說其實都有更多好用的工具可以取代，例如 Blog System 提供的版本控制
-遠遠不如 developer 常用的 github, TFS, subversion 等等 (用過就知道差別，完全是兩個檔次), 另一個主要 HTML editor 也是，寫文章還是 markdown
-最好用啊，不過就算我換到 wordpress, 對於 markdown 的支援度仍然跟 github 比起來差一大截..
+看來 Blog Engine 是最長壽的一套系統啊，有很大的原因是因為他維護很方便 (不需要 database). 這些系統一路用過來，總覺得少了點什麼... 雖然功能強大，
+但是對於 developer 來說其實都有更多好用的工具可以取代，例如 Blog System 提供的版本控制遠遠不如 developer 常用的 github, TFS, subversion 等等
+ (用過就知道差別，完全是兩個檔次), 另一個主要 HTML editor 也是，寫文章還是 markdown 最好用啊，不過就算我換到 wordpress, 對於 markdown 的支援度
+ 仍然跟 github 比起來差一大截.. 需要的功能沒得用，不需要的功能卻又太多，同時為了維護他也需要花費對等的心力...
 
 所以這次就興起一個念頭，打算全部拋掉這些 "系統" ... 養一個用不到 5% 功能的系統，卻要顧好他的 SLA 也是挺煩人的. 這次我打算反璞歸真，改用完全靜態
 的網站來取代，會這樣決定，其實我已經想過這幾個問題了:
 
-1. 沒有權限問題  
-只要你願意看，我的文章都歡迎你 XD, 對於讀者來說不需要會員管理。對於發文者來說也只有我一個人...
-2. 沒有後台問題  
-如果我用靜態網站，發布的部分就不需要後台了，我可以直接在我本機寫好再上傳。我的文章都是在 PC 寫的，那種隨手寫兩句就 PO 文的內容，直接貼 FB 就好
-3. 版本控制問題
+1. **沒有權限及會員管理的問題**  
+只要你願意看，我的文章都歡迎你 XD, 對於讀者來說不需要會員管理。對於發文者來說也只有我一個人。額外要為了一個帳號，搞一整套會員管理機制實在有點多餘。
+2. **沒有後台管理問題**    
+如果我用靜態網站，發布的部分就不需要後台了，只要要給 user 看的內容才需要上傳。撰寫的環境可以接受只在 PC 端。我文章都不算短，根本沒機會在手機上面寫。
+在 web 上寫是有機會，通常是改改錯字或是片段的編輯而以。真正幾句話，或是分享資訊，交給 facebook 粉絲專頁就夠了。
+3. **版本控制問題**  
 如果都變成靜態檔案，版本控制直接丟 git 啊，版本控制，備份，還原一次解決。你願意的話還可以 branch / merge.. 
-4. 互動問題
+4. **讀者互動問題**  
 如 comments, 按讚等等, 都有第三方服務可以 plugin 啊, 靜態 html 插一段 HTML code 就能解決
 
 從更根本的角度來看，關鍵在於你的 web site 是否真的有 "runtime process" 的需要? 如果沒有任何內容或是訊息 100% 需要在當下才能決定的話，那代表
@@ -49,11 +52,12 @@ logo: /wp-content/uploads/2016/09/blog-as-code-workflow.png
 網站流量統計等等則必須是動態的，但是這些都可以直接嵌入第三方服務 (ex: facebook social plugins, google analystic, disqus...) 就能搞定，所以
 對我來說只要產生正確的 html code, 這些功能也算是靜態的。 
 
-越想越覺得可行，既然現在很流行 xxx as code, 那這種用法就給他個名稱, 就叫他 "blogging as code" 吧! 背後的涵義也剛好代表, 這是逐步轉為
-以 developer 為中心的思考方式。
+越想越覺得可行，既然現在很流行 **xxx as code**, 那這種用法就給他個名稱, 就叫他 **"blogging as code"** 吧! 背後的涵義也剛好代表, 這是逐步轉為
+以 developer 為中心的思考方式。要就徹底一點，現在都講求 open source, 既然 blogging 都要 as code 了，把整個 blog 都 open source, 也是個改變。
+通通都放上 github, 如果有人願意取用我的文章，不違反我的授權原則我通通都歡迎!
 
 
-## Solution: GitHub Pages Service + Visual Studio Code
+# Solution: GitHub Pages Service + Visual Studio Code
 
 GitHub Pages 是 GitHub 在 Repository 上面提供的附加服務，原本目的只是讓 open source project 能有個簡單的 project site 可以使用。
 這些 site 用途跟 blog 很類似，就是發佈一些消息跟文章。背後的架構是 github repository 要指定某個 branch 的內容就是要給大家看的內容。
@@ -69,7 +73,6 @@ GitHub Pages 是 GitHub 在 Repository 上面提供的附加服務，原本目�
 * [Blogging: WordPress or Jekyll](https://www.sitepoint.com/blogging-wordpress-or-jekyll/)
 * [WordPress vs. Jekyll: Why You Might Want to Switch](https://www.sitepoint.com/wordpress-vs-jekyll-might-want-make-switch/)
 * [5 reasons you should use Jekyll](http://cloudcannon.com/jekyll/2015/03/04/5-reasons-you-should-use-jekyll.html)
-
 
 
 
@@ -100,7 +103,7 @@ GitHub Pages 是 GitHub 在 Repository 上面提供的附加服務，原本目�
 
 
 
-### Workflow: How to create a new post ?
+## Workflow: How to create a new post ?
 
 既然要認真轉移系統，那麼平常寫作的方式，還有搭配的環境跟設施，就要好好的來規劃一下。我還是習慣在 windows 下工作，不過這些
 solution 並非 windows 的原住民, 總是有些小地方要處理.. 這邊紀錄一下我的作法:
@@ -121,7 +124,7 @@ solution 並非 windows 的原住民, 總是有些小地方要處理.. 這邊紀
 這是 for windows 最讚的解決方案了，犧牲一些效能, 換來幾行指令就可搞定的方案。
 
 
-#### running Jekyll on docker-for-windows
+## running Jekyll on docker-for-windows
 
 這個很無腦，裝好 docker for windows 後就幾乎完成了。在 dos command prompt 下輸入這段指令:
 
@@ -148,7 +151,7 @@ docker run -ti --rm -p 4000:4000 -v D:\Blog:/srv/jekyll jekyll/jekyll:pages jeky
 ![jekyll on docker-for-windows, docker stats](/wp-content/uploads/2016/09/blog-as-code-dfw-stats.png)
 
 
-#### running Jekyll on windows
+## running Jekyll on windows
 
 有鑑於效能差異實在不小 (jekyll for windows, build 一次要 40 sec, 快了近一倍), 實際在改文章時半分鐘的延遲還可接受，而且 file system
 notification 的機制也能正常運作, rebuild 時間跟正常 build 的也一樣大約半分鐘，所以正常情況下我還是用 for windows 版本的 jekyll,
@@ -162,7 +165,10 @@ jekyll 需要安裝 ruby, 不過要用到的套件有些指定不相容最新的
 2. webserver:  
 jekyll 本身自帶 web server, 在 windows 下不支援中文檔名, 所以我最後用 jekyll build, 然後另外開 iisexpress 來用..
 原本的 jekyll 就剩下 build 的功能
-3. IIS .aspx http module problem:  
+3. IIS vs GitHub Pages 檔名大小寫差異問題:
+不同系統存在著根本的差異，這種小問題找了半天才找出來 @@, 檔名大小寫是有差別的，比如我 MD 插入圖檔 URL 寫 a.png, 實際檔名 a.PNG,
+在 IIS 上面看都一切正常, 放上 GitHub Pages 後就會掉圖 T_T
+4. IIS .aspx http module problem:  
 由於我的文章的舊網址包含 .aspx 這樣的路徑, 我設定 jekyll 可以幫我產生 xxx.aspx/index.html 這樣的靜態網站, 若有 user 點了
 舊的網址格式，web server 只要把 .aspx 當成目錄，自動引導到該目錄下的 index.html 就可以相容了。可是 iisexpress 看到 .aspx 就會
 交給 asp.net hosting module 去執行，這種靜態網頁在 iisexpress 會跑出404。我不大想解決這種衍生問題，所以這種時候就再切回 jekyll .. 
@@ -181,7 +187,7 @@ jekyll 本身自帶 web server, 在 windows 下不支援中文檔名, 所以我�
 ![Jekyll Preview](/wp-content/uploads/2016/09/blog-as-code-local-preview.png)
 
 
-## 結論
+# 結論
 
 過程中還有很多沒沒角角我沒寫的，包含怎麼轉資料，怎麼匯入 comments，還有如何用 Liquid template engine 的語法打造自己的 template 等等。
 這邊純做個架構介紹，告訴大家這樣用的優缺點。我用的環境算是比較怪的，一般會用 jekyll 這類 solution 的都是熟 linux / open source 的人，
