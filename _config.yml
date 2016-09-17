@@ -47,7 +47,7 @@ nav:
     - '/'
     - { Categories: '/categories/' }
     - { Tags: '/tags/' }
-  Codes:
+  My Codes @ GitHub.com:
     - 'https://github.com/andrew0928'
   About:          
     - '/about/'
