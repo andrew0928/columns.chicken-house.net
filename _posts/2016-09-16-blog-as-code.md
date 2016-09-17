@@ -3,7 +3,7 @@ layout: post
 title: "Blogging as code !!"
 categories:
 - "有的沒的"
-tags: ["有的沒的"]
+tags: ["Jekyll", "Liquid", "Wordpress", "Blogging", "GitHub", "VSCode"]
 published: true
 comments: true
 logo: /wp-content/uploads/2016/09/blog-as-code-workflow.png
@@ -118,7 +118,7 @@ solution 並非 windows 的原住民, 總是有些小地方要處理.. 這邊紀
 這是 for windows 最讚的解決方案了，犧牲一些效能, 換來幾行指令就可搞定一切的方案。
 
 
-## running Jekyll on docker-for-windows
+## Running Jekyll on docker-for-windows
 
 這個很無腦，裝好 docker for windows 後就幾乎完成了。在 dos command prompt 下輸入這段指令:
 
@@ -148,7 +148,7 @@ docker run -ti --rm -p 4000:4000 -v D:\Blog:/srv/jekyll jekyll/jekyll:pages jeky
 如果你想省事，打算採用 docker for windows 來執行 jekyll 的話，給你一個良心的建議... 別用 ```--watch``` 模式了，有異動的話手動 restart container
 會比較簡單，或是你有辦法的話，用 powershell 寫段簡單的 script, 在檔案有異動時 restart container ..
 
-## running Jekyll on windows
+## Running Jekyll on windows
 
 有鑑於效能差異實在不小 (jekyll for windows, build 一次要 30 sec, 快了一倍), 實際在改文章時半分鐘的延遲還可接受，而且 file system
 notification 的機制也能正常運作, rebuild 時間跟正常 build 的也一樣大約半分鐘，所以正常情況下我還是用 for windows 版本的 jekyll,
@@ -267,7 +267,7 @@ jekyll s --draft -w
 Clone Code Here: [ImportWordpressToJekyll](https://github.com/andrew0928/ImportWordpressToJekyll)
 
 
-# 結論
+# Conclusion
 
 過程中還有很多沒沒角角我沒寫的，包含怎麼轉資料，怎麼匯入 comments，還有如何用 Liquid template engine 的語法打造自己的 template 等等。
 這邊純做個架構介紹，告訴大家這樣用的優缺點。我用的環境算是比較怪的，一般會用 jekyll 這類 solution 的都是熟 linux / open source 的人，
