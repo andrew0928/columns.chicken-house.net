@@ -1,0 +1,199 @@
+---
+layout: post
+title: "Blog as code !!"
+categories:
+- "有的沒的"
+tags: ["有的沒的"]
+published: true
+comments: true
+logo: /wp-content/uploads/2016/09/blog-as-code-workflow.png
+---
+
+## TL;DR 
+
+想想我開始寫 blog 的這十幾年 (Orz, 這麼久了)，用的部落格系統也換了不少套了, 從最早我自己土炮寫的 asp.net 1.1 blog 開始算, 中間光是系統就換了 5 套, 還不包括
+同一套系統的版本升級... 這些 post 都還能留下來也真算是奇蹟了.. 不過再怎麼換, 終究是有套 "系統" 需要去維護，不管是自己管還是代管都一樣，開始想走純樸路線，省點
+運算資源，好好照顧一下北極熊...
+
+於是就決定改採最低科技的路線，Hosting 的方式用最宅的 GitHub... 現在流行什麼都冠上 xxxx as code, 那就來個 blog as code 吧 XD
+
+<!--more-->
+
+先回顧一下，我到底換過幾套 BLOG 系統 ...
+
+1. **2002** - 土炮 blog (asp.net 1.1 + sql server)  
+2. **2004** - .Text  
+3. **2005** - Community Server  
+4. **2008** - Blog Engine  
+5. **2015** - Word Press 
+  
+  
+這些系統一路用過來，總覺得少了點什麼... 功能強大，但是對於 developer 來說其實都有更多好用的工具可以取代，例如 Blog System 提供的版本控制
+遠遠不如 developer 常用的 github, TFS, subversion 等等 (用過就知道差別，完全是兩個檔次), 另一個主要 HTML editor 也是，寫文章還是 markdown
+最好用啊，不過就算我換到 wordpress, 對於 markdown 的支援度仍然跟 github 比起來差一大截..
+
+所以這次就興起一個念頭，打算全部拋掉這些 "系統" ... 養一個用不到 5% 功能的系統，卻要顧好他的 SLA 也是挺煩人的. 這次我打算反璞歸真，改用完全靜態
+的網站來取代，會這樣決定，其實我已經想過這幾個問題了:
+
+1. 沒有權限問題  
+只要你願意看，我的文章都歡迎你 XD, 對於讀者來說不需要會員管理。對於發文者來說也只有我一個人...
+2. 沒有後台問題  
+如果我用靜態網站，發布的部分就不需要後台了，我可以直接在我本機寫好再上傳。我的文章都是在 PC 寫的，那種隨手寫兩句就 PO 文的內容，直接貼 FB 就好
+3. 版本控制問題
+如果都變成靜態檔案，版本控制直接丟 git 啊，版本控制，備份，還原一次解決。你願意的話還可以 branch / merge.. 
+4. 互動問題
+如 comments, 按讚等等, 都有第三方服務可以 plugin 啊, 靜態 html 插一段 HTML code 就能解決
+
+從更根本的角度來看，關鍵在於你的 web site 是否真的有 "runtime process" 的需要? 如果沒有任何內容或是訊息 100% 需要在當下才能決定的話，那代表
+你的 web site 其實是可以事先把所有內容都先產生出來的。我的 blog 有沒有需要? 文章內容，文章清單，分類、標籤、分頁等等都可以是靜態的。回應、按讚、
+網站流量統計等等則必須是動態的，但是這些都可以直接嵌入第三方服務 (ex: facebook social plugins, google analystic, disqus...) 就能搞定，所以
+對我來說只要產生正確的 html code, 這些功能也算是靜態的。 
+
+越想越覺得可行，既然現在很流行 xxx as code, 那這種用法就給他個名稱, 就叫他 "blogging as code" 吧! 背後的涵義也剛好代表, 這是逐步轉為
+以 developer 為中心的思考方式。
+
+
+## Solution: GitHub Pages Service + Visual Studio Code
+
+GitHub Pages 是 GitHub 在 Repository 上面提供的附加服務，原本目的只是讓 open source project 能有個簡單的 project site 可以使用。
+這些 site 用途跟 blog 很類似，就是發佈一些消息跟文章。背後的架構是 github repository 要指定某個 branch 的內容就是要給大家看的內容。
+當這個 branch 內容有所異動的時候，就會觸發靜態網站產生器 (github 用的是 jekyll) 更新網站內容。
+
+上面這些其實都是全自動的，我要做什麼? 除了第一次把網站的 template 跟 config 弄好, push 上去 github 之外，剩下的就是用 markdown 寫好
+文章 push 上去正確的 branch, 就完成了。
+
+很簡單吧? 真的很簡單，其實我已經參考了很多別人的經驗談，這些參考資料我就列在這邊了:
+
+* [Is Jekyll Better Than Joomla! and WordPress?](http://digitalshore.io/jekyll-better-choice-than-joomla-wordpress/)
+* [Which is a better platform for a blog, WordPress or Jekyll+GitHub?](https://www.quora.com/Which-is-a-better-platform-for-a-blog-WordPress-or-Jekyll+GitHub)
+* [Blogging: WordPress or Jekyll](https://www.sitepoint.com/blogging-wordpress-or-jekyll/)
+* [WordPress vs. Jekyll: Why You Might Want to Switch](https://www.sitepoint.com/wordpress-vs-jekyll-might-want-make-switch/)
+* [5 reasons you should use Jekyll](http://cloudcannon.com/jekyll/2015/03/04/5-reasons-you-should-use-jekyll.html)
+
+
+
+
+當然，也有人用過後，又回頭去用 wordpress 的例子:
+
+* [Why I switched from Jekyll back to WordPress](http://vitobotta.com/switched-jekyll-back-wordpress/)
+
+
+
+主要的服務決定用 GitHub Pages 之後, 我自己 local 好歹也要有個像樣的 tools. 
+雖然下 git 指令對我沒什麼障礙, 但是有時還是想偷懶一點... 想找個好用的 local tools 方便管理網站的 template 跟 data.. 需求不多，只要這幾個:  
+1. 能管理整個 git local repository, 可以隨時 commit, push, pull ... 等等 git 基本操作
+2. 要能編寫 .md, .html, yml 等常見的格式。我需要直接編寫 source code, 最好能有 syntax highlight, 能有 intelligent sense 更好, 能有 live preview 更好
+3. 小巧，簡單，快速.. 我不想要安裝一大包工具...
+
+這不就是 visual studio code 嗎? 看來太完美了，都是 for developer 用的黃金組合... github + vscode
+用過的就知道了，不用我多介紹啦~ 貼張 vscode 寫 markdown 的圖意思一下就好:  
+
+![用 visual studio code 編輯 markdown, 同步預覽](/wp-content/uploads/2016/09/vscode-for-blogging.png)  
+
+
+至於，第一次該如何把 blog 轉移到 github pages? 我參考了很多人的做法跟建議, 一樣這些都是別人寫得比我好的分享, 直接貼 references:
+
+*
+*
+*
+
+
+
+
+### Workflow: How to create a new post ?
+
+既然要認真轉移系統，那麼平常寫作的方式，還有搭配的環境跟設施，就要好好的來規劃一下。我還是習慣在 windows 下工作，不過這些
+solution 並非 windows 的原住民, 總是有些小地方要處理.. 這邊紀錄一下我的作法:
+
+![blogging as code workflow](/wp-content/uploads/2016/09/blog-as-code-workflow.png)
+
+流程很簡單，就是按照圖上的標示，由 1, 2, 3, 4, 2, 3, 4, 2, 3, 4 ...., 5 的順序不斷重複而以。這邊 GitHub Pages 跟 VS Code
+都不會有什麼大問題，裝了就是了。問題最大在 local 要架設 jekyll 的話會是個大工程 (尤其是在 windows 下) ... 我試過這三種作法，
+給大家參考看看
+
+1. install jekyll on linux
+這是最佳的解決方案，效能, 相容性, 支援程度都是最好的, 連 vscode 也有 for linux 的版本。不過... 我主要工作環境是 windows ... 暫時不考慮 XDD
+
+2. install jekyll on windows
+這是 for windows 效能最佳的方案, 不過相容性也是最糟糕... 對 ruby 沒經驗的人 (就是我 T_T) 會很痛苦
+
+3. using jekyll on docker (using docker for windows)
+這是 for windows 最讚的解決方案了，犧牲一些效能, 換來幾行指令就可搞定的方案。
+
+
+#### running Jekyll on docker-for-windows
+
+這個很無腦，裝好 docker for windows 後就幾乎完成了。在 dos command prompt 下輸入這段指令:
+
+```
+docker run -ti --rm -p 4000:4000 -v D:\Blog:/srv/jekyll jekyll/jekyll:pages jekyll s --watch --force_polling
+```
+
+要留意的是，```D:\Blog``` 是你自己 local 的 git repository 路徑，需要把他掛上 docker, 掛在 ```/srv/jekyll``` 下面。
+```--watch``` 這參數是告訴 jekyll 要不斷監控 D:\Blog 這目錄是否有異動? 若有檔案變更會立即更新產生出來的網站。
+
+不過，docker volume 有個老問題, 底層的 file system change notification, 經過 docker volume 的包裝, 這些 notification
+沒辦法正確的傳遞到 container 內，[這邊有類似的例子](https://github.com/boot2docker/boot2docker/issues/652)。這個問題
+並不大，jekyll 提供額外的參數: ```--force_polling``` 改用 polling 的方式，不斷檢查每個檔案有沒有異動，可以解決這問題。
+
+不過，polling 是要付出代價的，I/O 跟 CPU 效能影響還蠻大的，回應速度也比 notification 慢，尤其你的檔案數量不少時更明顯。只是
+至少是個解決方案。以我的例子，更新了檔案至少要 15 sec 後才會有反應 (正常情況下，不到 1 sec 就偵測到了)。Polling 的效能應該會跟你的
+檔案數量大小有直接關聯吧，我的 blog 文章約 400 篇, CPU: i7-2600k, 24GB RAM, Seagate 5TB 7200RPM Enterprise HDD.. 
+
+貼張圖就結束這回合了 XD, 以我的 case, build 一次 website 約需要 70 sec, 效能受限於我分配給 docker 的資源 (2 cpu, 2048 mb ram).
+偵測到異動後的 rebuild 則要花上近 20 min...
+![jekyll on docker-for-windows, screenshot](/wp-content/uploads/2016/09/blog-as-code-dfw-screenshot.png)
+
+執行時間的 CPU usage 果然也慘不忍睹..
+![jekyll on docker-for-windows, docker stats](/wp-content/uploads/2016/09/blog-as-code-dfw-stats.png)
+
+
+#### running Jekyll on windows
+
+有鑑於效能差異實在不小 (jekyll for windows, build 一次要 40 sec, 快了近一倍), 實際在改文章時半分鐘的延遲還可接受，而且 file system
+notification 的機制也能正常運作, rebuild 時間跟正常 build 的也一樣大約半分鐘，所以正常情況下我還是用 for windows 版本的 jekyll,
+儘管有很多障礙需要克服...
+
+* [Windows下用jekyll写博客所需要的环境](http://www.badnotes.com/2014/04/13/win_install_ruby/)
+
+不過實際使用上的障礙還真的不少，雖然都是小問題。我踩過這幾個地雷，真的要實作的讀者們請小心:
+1. ruby runtime version:  
+jekyll 需要安裝 ruby, 不過要用到的套件有些指定不相容最新的 2.3 版 ruby, 搞了半天搞不定，最後我裝 2.2 ..
+2. webserver:  
+jekyll 本身自帶 web server, 在 windows 下不支援中文檔名, 所以我最後用 jekyll build, 然後另外開 iisexpress 來用..
+原本的 jekyll 就剩下 build 的功能
+3. IIS .aspx http module problem:  
+由於我的文章的舊網址包含 .aspx 這樣的路徑, 我設定 jekyll 可以幫我產生 xxx.aspx/index.html 這樣的靜態網站, 若有 user 點了
+舊的網址格式，web server 只要把 .aspx 當成目錄，自動引導到該目錄下的 index.html 就可以相容了。可是 iisexpress 看到 .aspx 就會
+交給 asp.net hosting module 去執行，這種靜態網頁在 iisexpress 會跑出404。我不大想解決這種衍生問題，所以這種時候就再切回 jekyll .. 
+
+基本上最麻煩的就是安裝了 (我足足搞了幾個晚上)，剩下的其實改變一下習慣就好。只要我要開始寫文章，我現在的標準動作就是這幾個:
+1. 開啟 visual studio code: ```code d:\blog```
+2. 啟動 jekyll serve, 並持續監控檔案異動: ``` jekyll b --draft -w```
+3. 啟動 iisexpress: ``` "c:\Program Files\IIS Express\iisexpress.exe" /port:4001 /path:d:\blog\_site ```
+
+沒啥畫面，就是這兩個程式執行的 console 訊息而以:
+![jekyll on windows screenshot](/wp-content/uploads/2016/09/blog-as-code-win-screenshot.png)
+
+畫面上可以看到，Jekyll for Windows 的效能明顯好很多 (其實 docker 版也不差，只是敗在 polling), 初次 build 大約在 40 sec 上下
+異動後的 rebuild 也在 30 sec 上下就能完成。這邊我啟用了 ```--drafts``` 參數，因此 jekyll 會替我把未發布的 drafts post 也產生出來。
+這種模式方便我自己測試，不用擔心還沒寫好的 POST 不小心就發佈出去..
+![Jekyll Preview](/wp-content/uploads/2016/09/blog-as-code-local-preview.png)
+
+
+## 結論
+
+過程中還有很多沒沒角角我沒寫的，包含怎麼轉資料，怎麼匯入 comments，還有如何用 Liquid template engine 的語法打造自己的 template 等等。
+這邊純做個架構介紹，告訴大家這樣用的優缺點。我用的環境算是比較怪的，一般會用 jekyll 這類 solution 的都是熟 linux / open source 的人，
+這些應該都不成問題，我這種算是特例 XD
+
+不過整體而言，我覺得這方案算是一大進步，完全顛覆了過去的做法。光是用 github 做版本控制，我認為就值回票價了。因為他能控制的，不再是 **單一一篇文章**
+的版本而已，他能一次控制多篇文章內容及屬性(是否發布等等)，還有你網站的設定，一次 push 上去。另外網站改版時，也能讓你用另一個 branch 測到
+好之後，再 merge 回來上線。說穿了就跟你寫 code 控制一堆 source code 一模一樣，只是你的 language 是 HTML + MD, 你的編譯器變成 jekyll ..
+如此而已
+
+最後來點平衡報導吧! 全部放到 github 也不全然是好處。其中一個風險就是，別人要把你的網站拿走就更容易了，只要下個 git clone 就好了 XDDD
+這點我是想通了，我寫 BLOG 的目的本來就是分享，有人要 clone 去拿走我的文章，我會覺得你是在幫我宣傳，只要你按照我要求的 CC 授權，標記
+出處就好。過去碰過太多盜文的事件，只要是公開的東西，我相信就算不是放在 github 上，也一樣會很容易的被複製.. XD
+
+我的架站經過 & 心得就整理到這裡，趁著中秋假期，在這特別的日子就讓新網站上線吧! 請各位繼續支持 :D
