@@ -91,14 +91,8 @@ GitHub Pages 是 GitHub 在 Repository 上面提供的附加服務，原本目�
 這不就是 visual studio code 嗎? 看來太完美了，都是 for developer 用的黃金組合... github + vscode
 用過的就知道了，不用我多介紹啦~ 貼張 vscode 寫 markdown 的圖意思一下就好:  
 
-![用 visual studio code 編輯 markdown, 同步預覽](/wp-content/uploads/2016/09/blog-as-code-vscode.PNG)  
+[![用 visual studio code 編輯 markdown, 同步預覽](/wp-content/uploads/2016/09/blog-as-code-vscode.PNG)](/wp-content/uploads/2016/09/blog-as-code-vscode.PNG)  
 
-
-至於，第一次該如何把 blog 轉移到 github pages? 我參考了很多人的做法跟建議, 一樣這些都是別人寫得比我好的分享, 直接貼 references:
-
-*
-*
-*
 
 
 
@@ -108,7 +102,7 @@ GitHub Pages 是 GitHub 在 Repository 上面提供的附加服務，原本目�
 既然要認真轉移系統，那麼平常寫作的方式，還有搭配的環境跟設施，就要好好的來規劃一下。我還是習慣在 windows 下工作，不過這些
 solution 並非 windows 的原住民, 總是有些小地方要處理.. 這邊紀錄一下我的作法:
 
-![blogging as code workflow](/wp-content/uploads/2016/09/blog-as-code-workflow.png)
+[![blogging as code workflow](/wp-content/uploads/2016/09/blog-as-code-workflow.png)](/wp-content/uploads/2016/09/blog-as-code-workflow.png)
 
 流程很簡單，就是按照圖上的標示，由 1, 2, 3, 4, 2, 3, 4, 2, 3, 4 ...., 5 的順序不斷重複而以。這邊 GitHub Pages 跟 VS Code
 都不會有什麼大問題，裝了就是了。問題最大在 local 要架設 jekyll 的話會是個大工程 (尤其是在 windows 下) ... 我試過這三種作法，
@@ -145,10 +139,10 @@ docker run -ti --rm -p 4000:4000 -v D:\Blog:/srv/jekyll jekyll/jekyll:pages jeky
 
 貼張圖就結束這回合了 XD, 以我的 case, build 一次 website 約需要 70 sec, 效能受限於我分配給 docker 的資源 (2 cpu, 2048 mb ram).
 偵測到異動後的 rebuild 則要花上近 20 min...
-![jekyll on docker-for-windows, screenshot](/wp-content/uploads/2016/09/blog-as-code-dfw-screenshot.png)
+[![jekyll on docker-for-windows, screenshot](/wp-content/uploads/2016/09/blog-as-code-dfw-screenshot.png)](/wp-content/uploads/2016/09/blog-as-code-dfw-screenshot.png)
 
 執行時間的 CPU usage 果然也慘不忍睹..
-![jekyll on docker-for-windows, docker stats](/wp-content/uploads/2016/09/blog-as-code-dfw-stats.png)
+[![jekyll on docker-for-windows, docker stats](/wp-content/uploads/2016/09/blog-as-code-dfw-stats.png)](/wp-content/uploads/2016/09/blog-as-code-dfw-stats.png)
 
 
 ## running Jekyll on windows
@@ -160,16 +154,16 @@ notification 的機制也能正常運作, rebuild 時間跟正常 build 的也�
 * [Windows下用jekyll写博客所需要的环境](http://www.badnotes.com/2014/04/13/win_install_ruby/)
 
 不過實際使用上的障礙還真的不少，雖然都是小問題。我踩過這幾個地雷，真的要實作的讀者們請小心:
-1. ruby runtime version:  
+1. **ruby runtime version**:  
 jekyll 需要安裝 ruby, 不過要用到的套件有些指定不相容最新的 2.3 版 ruby, 搞了半天搞不定，最後我裝 2.2 ..
-2. webserver:  
+2. **webserver**:  
 jekyll 本身自帶 web server, 在 windows 下不支援中文檔名, 所以我最後用 jekyll build, 然後另外開 iisexpress 來用..
 原本的 jekyll 就剩下 build 的功能
-3. IIS vs GitHub Pages 檔名大小寫差異問題:
+3. **IIS vs GitHub Pages 檔名大小寫差異問題**:
 不同系統存在著根本的差異，這種小問題找了半天才找出來 @@, 檔名大小寫是有差別的，比如我 MD 插入圖檔 URL 寫 a.png, 實際檔名 a.PNG,
 在 IIS 上面看都一切正常, 放上 GitHub Pages 後就會掉圖 T_T，氣的是如果已經 push, 我在 local 改掉檔名大小寫, vscode 認不出來要跟
 git push 這項異動... 
-4. IIS .aspx http module problem:  
+4. **IIS .aspx http module problem**:  
 由於我的文章的舊網址包含 .aspx 這樣的路徑, 我設定 jekyll 可以幫我產生 xxx.aspx/index.html 這樣的靜態網站, 若有 user 點了
 舊的網址格式，web server 只要把 .aspx 當成目錄，自動引導到該目錄下的 index.html 就可以相容了。可是 iisexpress 看到 .aspx 就會
 交給 asp.net hosting module 去執行，這種靜態網頁在 iisexpress 會跑出404。我不大想解決這種衍生問題，所以這種時候就再切回 jekyll .. 
@@ -186,6 +180,66 @@ git push 這項異動...
 異動後的 rebuild 也在 30 sec 上下就能完成。這邊我啟用了 ```--drafts``` 參數，因此 jekyll 會替我把未發布的 drafts post 也產生出來。
 這種模式方便我自己測試，不用擔心還沒寫好的 POST 不小心就發佈出去..
 ![Jekyll Preview](/wp-content/uploads/2016/09/blog-as-code-local-preview.png)
+
+
+## Wordpress to GitHub Pages Migration
+
+最後就是來聊聊我怎麼把 wordpress 的資料轉移到 github pages? 其實網路上很多同好分享過，我實在也沒力氣慢慢寫 XD
+先貼一下我參考過的作法:
+
+* [Jekyll 官方提供的 Jekyll-Import 模組及說明](https://import.jekyllrb.com/docs/home/)
+* [Import your old & busted site or blog for use with Jekyll. - Offical Site](http://import.jekyllrb.com/)
+* [Wordpress Plugin - Jekyll Exporter](https://wordpress.org/plugins/jekyll-exporter/)
+* [How to migrate programming blog from Wordpress to Jekyll](http://www.codingpedia.org/ama/how-to-migrate-programming-blog-from-wordpress-to-jekyll/)
+* [將Wordpress轉移到Jekyll及Disqus - 大貓共和國](http://blog.miaout17.net/2011/05/08/convert-wordpress-to-jekyll-and-disqus/)
+
+其實這幾篇看下來，大概都有共同點，就是:
+1. 官方提供的對於中文網址支援不良，會編碼成一堆 %00%00%00 這種 url escape 過的 unicode characters. 網址我可以無視，可是實際匯出放在 /_post 的檔名也長這樣
+2. 有的只支援 category, 有的只支援 tags ...
+3. 大都不支援 comments, 要另外自己處理
+4. comments 一致推薦 disqus 的服務，反而我原本用的 facebook comments 沒人推薦
+
+接下來我列一下我解決過的幾個問題，讓大家知道一下有啥地雷要注意，如果你真的碰過這些問題，在這邊留話吧，我再補上來 :D
+
+* 解決 URL 及檔名的中文問題
+* 解決 comment 與 url 對應的問題
+> *Hint*: wordpress 匯出的 xml 中文網址就是 %00%00, 如果只解決上面那項中文網址問題，結果會變成留言都看不到了。
+> 因此 wordpress 匯出的 XML 本身就需要先處理中文網址問題了。可參考我寫的 C# 匯入工具
+* 解決分類及標籤問題
+> *Hint*: 挑對 themes ，找個支援 categories / tags cloud 的 template 就夠了，剩下就是匯出時標上正確的分類跟標籤
+* 解決舊網站的轉址問題
+> *Hint*: 不只 wordpress, 還有更早 blogengine, community server 的連結.. 可參考我[這篇文章](/2015/12/03/casestudy-nginx-as-reverseproxy/)要解決的問題, 很多外來的連結都是這種
+> 解決方式，加裝 [jekyll-redirect-from](https://help.github.com/articles/redirects-on-github-pages/) 模組，然後在匯出的 post 內標示這篇文章可能從哪幾個 URL 轉址過來。同樣的可以參考我的 C# 匯入工具
+> 舉個例子，只要是舊文章，我都會匯出像這樣的 post header (請注意 **redirect_from** 的部分)
+```
+---
+layout: post
+title: "終於升速了!"
+categories:
+- "敗家"
+- "有的沒的"
+tags: ["敗家","有的沒的"]
+published: true
+comments: true
+permalink: "/2008/10/10/終於升速了/"
+redirect_from:
+  - /columns/post/2008/10/10/e7b582e696bce58d87e9809fe4ba86!.aspx/
+  - /post/2008/10/10/e7b582e696bce58d87e9809fe4ba86!.aspx/
+  - /post/e7b582e696bce58d87e9809fe4ba86!.aspx/
+  - /columns/2008/10/10/e7b582e696bce58d87e9809fe4ba86!.aspx/
+  - /columns/e7b582e696bce58d87e9809fe4ba86!.aspx/
+wordpress_postid: 59
+---
+```
+* 補上 google analystics
+* 補上 google adsense
+* 補上 facebook open graph meta tags
+* 補上 facebook like / share button
+
+有些好心人，用 ruby 寫了自己的匯出工具，解決 tags / category / 中文檔名問題，不過 ruby 我不會寫啊，加上要處理的問題也不難，
+所以我自己也貢獻了一個 C# 版的 :D 有需要請自行取用。
+
+Clone Code Here: https://github.com/andrew0928/ImportWordpressToJekyll
 
 
 # 結論
