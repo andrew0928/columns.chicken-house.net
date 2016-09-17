@@ -157,8 +157,7 @@ notification 的機制也能正常運作, rebuild 時間跟正常 build 的也�
 1. **ruby runtime version**:  
 jekyll 需要安裝 ruby, 不過要用到的套件有些指定不相容最新的 2.3 版 ruby, 搞了半天搞不定，最後我裝 2.2 ..
 2. **webserver**:  
-jekyll 本身自帶 web server, 在 windows 下不支援中文檔名, 所以我最後用 jekyll build, 然後另外開 iisexpress 來用..
-原本的 jekyll 就剩下 build 的功能
+jekyll 本身自帶 web server, 在 windows 下不支援中文檔名, 所以我最後用 jekyll s, 開 --watch 持續監控檔案異動, 負責 port: 4000, 然後另外開 iisexpress 負責 port: 4001, 我自己視需要決定要連哪個 site..
 3. **IIS vs GitHub Pages 檔名大小寫差異問題**:
 不同系統存在著根本的差異，這種小問題找了半天才找出來 @@, 檔名大小寫是有差別的，比如我 MD 插入圖檔 URL 寫 a.png, 實際檔名 a.PNG,
 在 IIS 上面看都一切正常, 放上 GitHub Pages 後就會掉圖 T_T，氣的是如果已經 push, 我在 local 改掉檔名大小寫, vscode 認不出來要跟
