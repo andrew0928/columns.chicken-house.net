@@ -209,7 +209,8 @@ git push 這項異動...
 * 解決舊網站的轉址問題
 > *Hint*: 不只 wordpress, 還有更早 blogengine, community server 的連結.. 可參考我[這篇文章](/2015/12/03/casestudy-nginx-as-reverseproxy/)要解決的問題, 很多外來的連結都是這種
 > 解決方式，加裝 [jekyll-redirect-from](https://help.github.com/articles/redirects-on-github-pages/) 模組，然後在匯出的 post 內標示這篇文章可能從哪幾個 URL 轉址過來。同樣的可以參考我的 C# 匯入工具
-> 舉個例子，只要是舊文章，我都會匯出像這樣的 post header (請注意 **redirect_from** 的部分)
+> 舉個例子，只要是舊文章，我都會匯出像這樣的 post header (請注意 **redirect_from** 的部分)  各位可以直接試試看，這些舊網址，是不是真的會動 :D
+
 ```
 ---
 layout: post
