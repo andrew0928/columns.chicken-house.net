@@ -88,7 +88,7 @@ GitHub Pages 是 GitHub 在 Repository 上面提供的附加服務，原本目�
 這不就是 visual studio code 嗎? 看來太完美了，都是 for developer 用的黃金組合... github + vscode
 用過的就知道了，不用我多介紹啦~ 貼張 vscode 寫 markdown 的圖意思一下就好:  
 
-![用 visual studio code 編輯 markdown, 同步預覽](/wp-content/uploads/2016/09/vscode-for-blogging.png)  
+![用 visual studio code 編輯 markdown, 同步預覽](/wp-content/uploads/2016/09/blog-as-code-vscode.png)  
 
 
 至於，第一次該如何把 blog 轉移到 github pages? 我參考了很多人的做法跟建議, 一樣這些都是別人寫得比我好的分享, 直接貼 references:
