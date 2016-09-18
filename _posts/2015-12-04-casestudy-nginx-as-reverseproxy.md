@@ -50,7 +50,12 @@ if ($uri ~* "^(/columns)?/post(/\d+)?(/\d+)?(/\d+)?/(.*).aspx$") {
 }
 ```
 
-Nginx 的 Map 簡潔到不能再簡潔了，加上他用的 C Like 設定擋語法，老是讓我有個錯覺，覺得我在寫得是 script 而不是在寫設定擋... 然而簡潔到極致的 Map 用法，我看了半天才看出他的端倪...   上面這幾行，背後有條看不見的線，把 $slug 跟 $slugwpid 這兩個變數串起來... 當我把某個數值 assign 給 $slug 時，Map 的機制就會偷偷的啟動，用 $slug 的值去查表，把查到的結果放到 $slugwpid, 然後接著 run 後面的 script / config. 上面這幾行，意思就是每個 request, 會把他的 URI 部分 (不含 hostname) 抓出來，用後面的 regular express 比對，抓出第五個 match ($5) 的內容，指定到 $slug 這個變數內。接著透過 MAP 的機制，下一段指令 return 301 /?p=$slugwpid; 就是用 HTTP 301 的方式轉址，轉到 /?p=xxxx 這樣的網址。 這看不到的機制，靠的就是整個 nginx 設定擋的另一個部分定義 MAP 的效果:
+Nginx 的 Map 簡潔到不能再簡潔了，加上他用的 C Like 設定擋語法，老是讓我有個錯覺，覺得我在寫得是 script 而不是在寫設定擋...
+然而簡潔到極致的 Map 用法，我看了半天才看出他的端倪...   上面這幾行，背後有條看不見的線，把 $slug 跟 $slugwpid 這兩個變數串起來...
+當我把某個數值 assign 給 ```$slug``` 時，Map 的機制就會偷偷的啟動，用 ```$slug``` 的值去查表，把查到的結果放到 ```$slugwpid```, 然後接著 run 後面
+的 script / config. 上面這幾行，意思就是每個 request, 會把他的 URI 部分 (不含 hostname) 抓出來，用後面的 regular express 比對，
+抓出第五個 ```match ($5)``` 的內容，指定到 ```$slug``` 這個變數內。接著透過 MAP 的機制，下一段指令 ```return 301 /?p=$slugwpid;``` 就是
+用 HTTP 301 的方式轉址，轉到 ```/?p=xxxx``` 這樣的網址。 這看不到的機制，靠的就是整個 nginx 設定擋的另一個部分定義 MAP 的效果:
 
 ```yml
     map $slug $slugwpid {
