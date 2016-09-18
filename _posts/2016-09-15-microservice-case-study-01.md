@@ -1,11 +1,10 @@
 ---
 layout: post
-title: "微服務架構 #1, WHY and HOW?"
+title: "微服務架構 #1, WHY Microservices?"
 categories:
-- "Microservices"
-- "Windows Container"
 - "專欄"
 - "系列文章: .NET + Windows Container, 微服務架構設計"
+tags: ["Microservices", "Monolithic", "Windows Container", "Container"]
 published: true
 comments: true
 logo: /wp-content/uploads/2016/09/stateless-authentication-for-microservices-12-6381.jpg
