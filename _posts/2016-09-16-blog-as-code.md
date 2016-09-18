@@ -44,7 +44,11 @@ logo: /wp-content/uploads/2016/09/blog-as-code-workflow.png
 在 web 上寫是有機會，通常是改改錯字或是片段的編輯而以。真正幾句話，或是分享資訊，交給 facebook 粉絲專頁就夠了。
 3. **版本控制問題**  
 如果都變成靜態檔案，版本控制直接丟 git 啊，版本控制，備份，還原一次解決。你願意的話還可以 branch / merge, or pull request.. 
-4. **讀者互動問題**  
+4. **內容編輯問題**
+其實我一直覺得 HTML based HTML editor 是個很 OOXX 的東西。一來文章一長，編輯效率很糟糕，二來所謂的 WYSIWIG 也是很雞肋，只要樣式 CSS
+換掉後，可能你編排半天的格式都變了樣。文章內容其實不需要太多編排啊，基本的文字、引用CODE、還有標題、斜體、黑體等等就夠了。用 markdown 
+對我來說是最好也最有效率的選擇，用 HTML editor, 或是額外的 blogging tools (ex: live writer) 其實都有點多餘..
+5. **讀者互動問題**  
 如 comments, 按讚等等, 都有第三方服務可以 plugin 啊, 靜態 html 插一段 HTML code 就能解決
 
 查了一下，其實有同樣想法的人不少耶，不過跟我一樣用 **"blogging as code"** 的方式來說明這個理念，我只 google 到一篇 
