@@ -47,6 +47,11 @@ logo: /wp-content/uploads/2016/09/blog-as-code-workflow.png
 4. **讀者互動問題**  
 如 comments, 按讚等等, 都有第三方服務可以 plugin 啊, 靜態 html 插一段 HTML code 就能解決
 
+查了一下，其實有同樣想法的人不少耶，不過跟我一樣用 **"blogging as code"** 的方式來說明這個理念，我只 google 到一篇 
+[The Journey to GitHub Pages](http://allthelayers.com/blogging/The-Journey-to-GitHub-Pages/) 
+老外講話就是比較簡潔明快，他講的很有道理啊，developer 就是都在跟 text mode 奮鬥, 靠的是 version control 來管理工作成果，所以
+會愛用 markdown + github 是理所當然的啊 XD
+
 從更根本的角度來看，關鍵在於你的 web site 是否真的有 "runtime process" 的需要? 如果沒有任何內容或是訊息 100% 需要在當下才能決定的話，那代表
 你的 web site 其實是可以事先把所有內容都先產生出來的。我的 blog 有沒有需要? 文章內容，文章清單，分類、標籤、分頁等等都可以是靜態的。回應、按讚、
 網站流量統計等等則必須是動態的，但是這些都可以直接嵌入第三方服務 (ex: facebook social plugins, google analystic, disqus...) 就能搞定，所以
