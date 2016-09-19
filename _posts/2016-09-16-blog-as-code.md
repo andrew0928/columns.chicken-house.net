@@ -38,18 +38,23 @@ logo: /wp-content/uploads/2016/09/blog-as-code-workflow.png
 的網站來取代，會這樣決定，其實我已經想過這幾個問題了:
 
 1. **沒有權限及會員管理的問題**  
-只要你願意看，我的文章都歡迎你 XD, 對於讀者來說不需要會員管理。對於發文者來說也只有我一個人。額外要為了一個帳號，搞一整套會員管理機制實在有點多餘。
+只要你願意看，我的文章都歡迎你 XD, 對於讀者來說不需要會員管理。對於發文者來說也只有我一個人。額外要為了一個帳號，搞一整套會員管理機制實在有點多餘。  
+
 2. **沒有後台管理問題**    
 如果我用靜態網站，發布的部分就不需要後台了，只要要給 user 看的內容才需要上傳。撰寫的環境可以接受只在 PC 端。我文章都不算短，根本沒機會在手機上面寫。
-在 web 上寫是有機會，通常是改改錯字或是片段的編輯而以。真正幾句話，或是分享資訊，交給 facebook 粉絲專頁就夠了。
+在 web 上寫是有機會，通常是改改錯字或是片段的編輯而以。真正幾句話，或是分享資訊，交給 facebook 粉絲專頁就夠了。  
+
 3. **版本控制問題**  
-如果都變成靜態檔案，版本控制直接丟 git 啊，版本控制，備份，還原一次解決。你願意的話還可以 branch / merge, or pull request.. 
+如果都變成靜態檔案，版本控制直接丟 git 啊，版本控制，備份，還原一次解決。你願意的話還可以 branch / merge, or pull request..  
+
 4. **內容編輯問題**
 其實我一直覺得 HTML based HTML editor 是個很 OOXX 的東西。一來文章一長，編輯效率很糟糕，二來所謂的 WYSIWIG 也是很雞肋，只要樣式 CSS
 換掉後，可能你編排半天的格式都變了樣。文章內容其實不需要太多編排啊，基本的文字、引用CODE、還有標題、斜體、黑體等等就夠了。用 markdown 
-對我來說是最好也最有效率的選擇，用 HTML editor, 或是額外的 blogging tools (ex: live writer) 其實都有點多餘..
+對我來說是最好也最有效率的選擇，用 HTML editor, 或是額外的 blogging tools (ex: live writer) 其實都有點多餘..  
+
 5. **讀者互動問題**  
-如 comments, 按讚等等, 都有第三方服務可以 plugin 啊, 靜態 html 插一段 HTML code 就能解決
+如 comments, 按讚等等, 都有第三方服務可以 plugin 啊, 靜態 html 插一段 HTML code 就能解決  
+
 
 查了一下，其實有同樣想法的人不少耶，不過跟我一樣用 **"blogging as code"** 的方式來說明這個理念，我只 google 到一篇 
 [The Journey to GitHub Pages](http://allthelayers.com/blogging/The-Journey-to-GitHub-Pages/) 
@@ -93,9 +98,16 @@ GitHub Pages 是 GitHub 在 Repository 上面提供的附加服務，原本目�
 
 主要的服務決定用 GitHub Pages 之後, 我自己 local 好歹也要有個像樣的 tools. 
 雖然下 git 指令對我沒什麼障礙, 但是有時還是想偷懶一點... 想找個好用的 local tools 方便管理網站的 template 跟 data.. 需求不多，只要這幾個:  
-1. **能管理整個 git local repository**, 可以隨時 commit, push, pull ... 等等 git 基本操作
-2. **要能編寫 .md, .html, yml 等常見的格式**。我需要直接編寫 source code, 最好能有 syntax highlight, 能有 intelligent sense 更好, 能有 live preview 更好
-3. **小巧，簡單，快速**.. 我不想要安裝一大包工具...
+
+1. **能管理整個 git local repository**  
+可以隨時 commit, push, pull ... 等等 git 基本操作  
+
+2. **要能編寫 .md, .html, yml 等常見的格式**:  
+我需要直接編寫 source code, 最好能有 syntax highlight, 能有 intelligent sense 更好, 能有 live preview 更好  
+
+3. **小巧，簡單，快速**:  
+我不想要安裝一大包工具...  
+
 
 這不就是 [visual studio code](http://code.visualstudio.com/) 嗎? 看來太完美了，都是 for developer 用的黃金組合... github + vscode
 用過的就知道了，不用我多介紹啦~ 貼張 vscode 寫 markdown 的圖意思一下就好:  
@@ -165,19 +177,24 @@ notification 的機制也能正常運作, rebuild 時間跟正常 build 的也�
 
 * [Windows下用jekyll写博客所需要的环境](http://www.badnotes.com/2014/04/13/win_install_ruby/)
 
-不過實際使用上的障礙還真的不少，雖然都是小問題。我踩過這幾個地雷，真的要實作的讀者們請小心:
+不過實際使用上的障礙還真的不少，雖然都是小問題。我踩過這幾個地雷，真的要實作的讀者們請小心:  
+
 1. **ruby runtime version**:  
-jekyll 需要安裝 ruby, 不過要用到的套件有些指定不相容最新的 2.3 版 ruby, 搞了半天搞不定，最後我裝 2.2 ..
+jekyll 需要安裝 ruby, 不過要用到的套件有些指定不相容最新的 2.3 版 ruby, 搞了半天搞不定，最後我裝 2.2 ..  
+
 2. **webserver**:  
-jekyll 本身自帶 web server, 在 windows 下不支援中文檔名, 所以我最後用 jekyll s, 開 --watch 持續監控檔案異動, 負責 port: 4000, 然後另外開 iisexpress 負責 port: 4001, 我自己視需要決定要連哪個 site..
+jekyll 本身自帶 web server, 在 windows 下不支援中文檔名, 所以我最後用 jekyll s, 開 --watch 持續監控檔案異動, 負責 port: 4000, 然後另外開 iisexpress 負責 port: 4001, 我自己視需要決定要連哪個 site..  
+
 3. **IIS vs GitHub Pages 檔名大小寫差異問題**:
 不同系統存在著根本的差異，這種小問題找了半天才找出來 @@, 檔名大小寫是有差別的，比如我 MD 插入圖檔 URL 寫 a.png, 實際檔名 a.PNG,
 在 IIS 上面看都一切正常, 放上 GitHub Pages 後就會掉圖 T_T，氣的是如果已經 push, 我在 local 改掉檔名大小寫, vscode 認不出來要跟
-git push 這項異動... 
+git push 這項異動...  
+
 4. **IIS .aspx http module problem**:  
 由於我的文章的舊網址包含 .aspx 這樣的路徑, 我設定 jekyll 可以幫我產生 xxx.aspx/index.html 這樣的靜態網站, 若有 user 點了
 舊的網址格式，web server 只要把 .aspx 當成目錄，自動引導到該目錄下的 index.html 就可以相容了。可是 iisexpress 看到 .aspx 就會
-交給 asp.net hosting module 去執行，這種靜態網頁在 iisexpress 會跑出404。我不大想解決這種衍生問題，所以這種時候就再切回 jekyll .. 
+交給 asp.net hosting module 去執行，這種靜態網頁在 iisexpress 會跑出404。我不大想解決這種衍生問題，所以這種時候就再切回 jekyll ..  
+
 
 基本上最麻煩的就是安裝了 (我足足搞了幾個晚上)，剩下的其實改變一下習慣就好。只要我要開始寫文章，我現在的標準動作就是這幾個:
 1. **開啟 visual studio code**:  
