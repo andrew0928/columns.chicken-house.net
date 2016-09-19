@@ -6,7 +6,6 @@ categories:
 tags: ["Jekyll", "NAS", "Docker", "Tips"]
 published: true
 comments: true
-redirect_from:
 logo: /wp-content/uploads/2016/09/run-jekyll-on-nas-logo.png
 ---
 
