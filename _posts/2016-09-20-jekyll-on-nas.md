@@ -97,18 +97,19 @@ Configuration file: /srv/jekyll/_config.yml
 那麼，build web site 的時間是否會很慢? 這點倒是也大出我意料之外.. 看來我之前用的 jekyll on docker for windows 的效能那麼糟糕，
 應該有其他原因... 我拿 PC 上的 Jekyll for Win32 當對比:
 
-**My PC**:
-- CPU: Intel i7-2600k
-- RAM: DDR3 24GB
-- DISK: Seagate Enterprise HDD 5TB / 7200RPM
-- Build Time: **30 seconds**
-
-**My NAS**:
-- Model: Synology DS-412+
-- CPU: Intel Atom D2701
-- RAM: DDR3 2GB
-- DISK: Seagate Enterprise HDD 5TB / 7200RPM
-- Build Time: **42 seconds**
-
+**My PC**:  
+- CPU: Intel i7-2600k  
+- RAM: DDR3 24GB  
+- DISK: Seagate Enterprise HDD 5TB / 7200RPM  
+- Build Time: **30 seconds**  
+  
+**My NAS**:  
+- Model: Synology DS-412+  
+- CPU: Intel Atom D2701  
+- RAM: DDR3 2GB  
+- DISK: Seagate Enterprise HDD 5TB / 7200RPM  
+- Build Time: **42 seconds**  
+  
+  
 沒想到 CPU 差了這麼多檔次，結果效能也沒有差很多嘛，這對我來說其實已經可以接受了。真的有需要用 Jekyll, 不想放在 GitHub 上，想要自己
 Hosting 在 NAS 的朋友可以試試喔。Blog 改用靜態網站，嫌以前用 wordpress 跑太慢的話，換這個你一定會滿意的 :D 
