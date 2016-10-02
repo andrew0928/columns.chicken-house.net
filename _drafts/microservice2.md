@@ -5,7 +5,7 @@ categories:
 - "專欄"
 - "系列文章: .NET + Windows Container, 微服務架構設計"
 tags: []
-published: truennnnnnnnnnnnnnnnnnnnnn
+published: true
 comments: true
 # redirect_from:
 logo: 
@@ -18,66 +18,77 @@ logo:
 其實軟體開發的觀念，說穿了都很類似。當你的程式碼架構良好的時候，不僅 code 維護容易，要切割
 出獨立的服務也會相對輕鬆。因此，不論你打算做甚麼架構調整，我通常會做的第一步就是 "程式碼重構" !!
 
+這篇我先跳過評估及決定服務邊界的問題，先從最基本的程式碼體質改善做起。體質良好你想怎麼改都很
+容易。這篇就先藉由重構，說明把一些顯而易見的服務切割出來的過程。
+
 <!--more-->
 
-# 程式碼重構 - 一定要做的事
+# 一定要做的事: 程式碼重構，
 
 重構的技巧，很多大師都說過了，應該也輪不到我來獻醜 XD，不過我這邊要講的不是技巧，而是你可以先
 想清楚你現在做 *重構* 的目的是什麼?
 
-舉個例子，如果後面會講到的重點你都掌握到了，你也許現在就能預想之後有哪些模組要變成服務切割出去，
-那麼你現在重構的目標就很明確。沒有抓清楚目標的話，你的重構可能就是漫無目的地進行，盲目的 code review，
-哪裡看不順眼就改一改.. 這樣是沒有幫助的，你只能做局部的最佳化，但是對整體架構而言沒有任何助益。
+通常，你都會看到目前程式碼架構上的缺陷，或是有其他目的想達成，而必須改變程式碼架構的前提，才會進行
+重構，這就是我指的 "重構的目的"。以我自己的習慣，我會這樣做:
 
-以我自己的習慣，我會這樣做。先構思我想要切割的服務有哪些，在那之前先把這些服務的邊界定義出來，然後
-我重構的目的，就是將這些即將會被拆出來的服務，用 design pattern 裡提到的 Proxy 去改造他。只要我的
-系統用到這模組，都會透過 Proxy 來進行的話，那將來這模組切出來變成獨立服務時，我只要改寫 Proxy 就可
-以達成目標了。甚至是在切割出去的過程中，我可以不斷的用單元測試，或是同時使用兩種版本的技巧 (註)，隨時
-確認我的動作沒有問題。
+1. 架構設計:  
+先構思我要改變什麼架構? 有哪些模組要被切割獨立成服務?
+
+2. 程式碼重構:  
+使用 proxy + factory 這兩個 design patterns, 盡可能的將這些模組調整成高內聚+低耦合的狀態
+
+3. 建構服務:  
+開始將服務獨立出來，增加 remote proxy, 改變 factory, 將調用這些模組的 code 無痛的轉移到外部服務
+
+4. 驗證轉移的結果:  
+運用單元測試，以及雙重驗證技巧，確保移轉過程順利進行。
 
 這樣講有點抽象，我寫一小段 code 來說明我的想法好了。就舉最常見的會員系統為例。大部分的系統，總是要
-有個會員管理吧? 於是，你的系統可能到處都會出現這樣的 code:
+有個會員管理吧? 於是，你的系統可能到處都會出現這樣的 code, 會員管理的功能四處散落在你的 code 內:
 
 ```C#
-        // your application code here...
-        public void LoginCheck()
-        {
-            // user login, and get login token
-            LoginToken token = this.UserLogin(
-                "andrew",
-                this.ComputePasswordHash("1234567890"));
+// your application code here...
+public void LoginCheck()
+{
+    // user login, and get login token
+    LoginToken token = this.UserLogin(
+        "andrew",
+        this.ComputePasswordHash("1234567890"));
 
-            if (token == null)
-            {
-                // do something when login failure...
-            }
-            else
-            {
-                // login success.
-                // ...
-            }
-        }
+    if (token == null)
+    {
+        // do something when login failure...
+    }
+    else
+    {
+        // login success.
+        // ...
+    }
+}
 
+private string ComputePasswordHash(string password)
+{
+    // 
+    return null;
+}
 
-        private string ComputePasswordHash(string password)
-        {
-            // 
-            return null;
-        }
+public LoginToken UserLogin(string userid, string pwdhash)
+{
+    // query membership database ...
+    return null;
+}
 
-        public LoginToken UserLogin(string userid, string pwdhash)
-        {
-            // query membership database ...
-            return null;
-        }
-
-
-        public class LoginToken
-        {
-            // token 的類別定義
-        }
-
+public class LoginToken
+{
+    // token 的類別定義
+}
 ```
+
+如果你的系統還處於這種狀態，那我強烈建議，先別急著把它微服務化吧! 相信我，變成微服務架構後，問題的偵錯
+的難度會遠高於單體式架構。微服務架構的系統，是很要求架構的正確性的，這也意味著你程式碼的結構也必須正確
+才有可能。否則未來規模越來越大，架構越來越複雜，體質不佳的程式碼 + 微服務架構，你維護起來應該會很想哭吧...。
+
+# STEP 1, 決定架構，訂定重構的目標
 
 其實很多系統，一開始發展時並不重視架構，老闆可能認為 time to market 最重要，programmer 自然而然
 就寫出這樣的 code 也不足為奇。但是若這套系統要持續發展，這些欠下的技術債總是要逐步償還的。若公司發展
@@ -94,7 +105,7 @@ logo:
 會將會員機制獨立成專屬的服務，會員服務有自己的 service, 有自己的 database, 也會定義標準的 API，供
 其他服務來使用會員機制。
 
-# 重構目標: 模組化
+# STEP 2, 重構目標 - 模組化
 
 上述的例子，大概就是停留在 (1) 的程度而已。若要進展到 (2), 其實要做的就是會員機制程式碼的重構。各種
 架構上的原則都可以套用上來，例如這個模組要高內聚(對模組內)與低偶合(對其他模組)，單一責任原則，封閉開放
@@ -106,79 +117,78 @@ logo:
 
 系統主程式:
 ```C#
-        public void LoginCheck()
-        {
-            LoginServiceBase lsb = LoginServiceBase.Create();
+public void LoginCheck()
+{
+    LoginServiceBase lsb = LoginServiceBase.Create();
 
-            // user login, and get login token
-            LoginToken token = lsb.UserLogin("andrew", "1234567890");
+    // user login, and get login token
+    LoginToken token = lsb.UserLogin("andrew", "1234567890");
 
-            if (token == null)
-            {
-                // do something when login failure...
-            }
-            else
-            {
-                // login success.
-                // ...
-            }
-        }
+    if (token == null)
+    {
+        // do something when login failure...
+    }
+    else
+    {
+        // login success.
+        // ...
+    }
+}
 ```
 
 登入機制 library:
 ```C#
-    public abstract class LoginServiceBase
+public abstract class LoginServiceBase
+{
+    public static LoginServiceBase Create()
     {
-        public static LoginServiceBase Create()
-        {
-            // 目前只有 local database 的會員機制實作。預留將來擴充其他的登入機制，先在這邊
-            // 採用 Factory Pattern.
-            return new LocalDatabaseService();
-        }
-
-        protected string ComputePasswordHash(string password)
-        {
-            // 傳回 password 的 hash value, 做驗證用途。hash 的方式應該包括在 API 規格內，不應隨意更動
-        }
-
-        public virtual LoginToken UserLogin(string userid, string password)
-        {
-            string hash = this.ComputePasswordHash(password);
-            if (this.VerifyPassword(userid, hash))
-            {
-                // 密碼驗證成功，應傳回正確的 login token
-                return new LoginToken();
-            }
-            else
-            {
-                // 密碼驗證失敗
-                return null;
-            }
-        }
-
-        protected abstract bool VerifyPassword(string userid, string passwordHash);
+        // 目前只有 local database 的會員機制實作。預留將來擴充其他的登入機制，先在這邊
+        // 採用 Factory Pattern.
+        return new LocalDatabaseService();
     }
 
-
-    public class LocalDatabaseService : LoginServiceBase
+    protected string ComputePasswordHash(string password)
     {
-        internal LocalDatabaseService()
-        {
+        // 傳回 password 的 hash value, 做驗證用途。hash 的方式應該包括在 API 規格內，不應隨意更動
+    }
 
+    public virtual LoginToken UserLogin(string userid, string password)
+    {
+        string hash = this.ComputePasswordHash(password);
+        if (this.VerifyPassword(userid, hash))
+        {
+            // 密碼驗證成功，應傳回正確的 login token
+            return new LoginToken();
         }
-
-        protected override bool VerifyPassword(string userid, string passwordHash)
+        else
         {
-            // 查詢會員資料庫，確認 userid 與 password hash 的內容正確。
+            // 密碼驗證失敗
+            return null;
         }
     }
 
+    protected abstract bool VerifyPassword(string userid, string passwordHash);
+}
 
-    public class LoginToken
+
+public class LocalDatabaseService : LoginServiceBase
+{
+    internal LocalDatabaseService()
     {
-        // token 的類別定義
+
     }
 
+    protected override bool VerifyPassword(string userid, string passwordHash)
+    {
+        // 查詢會員資料庫，確認 userid 與 password hash 的內容正確。
+    }
+}
+
+
+public class LoginToken
+{
+    // token 的類別定義
+}
 ```
 
 這樣改變有幾個目的，第一就是引入 Factory 這設計模式。在可見的未來，架構師已經預期到會員資料庫總有獨立的
@@ -191,7 +201,7 @@ abstract class 實作出來的低耦合的設計。這部分在之後也會進�
 投入人力去為了 (3) 提供任何的實作。這樣也算是做到開放封閉原則了 - 對修改封閉，對擴充開放。
 
 
-# 重構目標: 服務化
+# STEP 3, 重構目標 - 服務化
 
 若公司的業務持續擴大，(3) 的需求已經需要去滿足他的一天到來，那麼這系統會如何進化? 首先，我們一定要有一個
 獨立的會員服務，將所有會員機制相關的 server side code, 還有會員資料庫，都集中到這個服務身上。我就簡單的
@@ -231,72 +241,72 @@ Flickr 有很清楚的 HTTP API doc, 但是它也提供了 Flickr.Net, 包裝成
 對應我們改善後的 SDK (其實就是從上個例子的 class library 進化而來的)，code 長的會像這樣:
 
 ```C#
-    public class RemoteLoginService : LoginServiceBase
+public class RemoteLoginService : LoginServiceBase
+{
+    private readonly Uri serviceBaseUri = null;
+    internal RemoteLoginService(Uri serviceUri)
     {
-        private readonly Uri serviceBaseUri = null;
-        internal RemoteLoginService(Uri serviceUri)
+        this.serviceBaseUri = serviceUri;
+    }
+    public override LoginToken UserLogin(string userid, string password)
+    {
+        using (var client = new HttpClient())
         {
-            this.serviceBaseUri = serviceUri;
-        }
-        public override LoginToken UserLogin(string userid, string password)
-        {
-            using (var client = new HttpClient())
+            client.BaseAddress = this.serviceBaseUri;
+            var content = new FormUrlEncodedContent(new[]
             {
-                client.BaseAddress = this.serviceBaseUri;
-                var content = new FormUrlEncodedContent(new[]
-                {
-                    new KeyValuePair<string, string>("userid", userid),
-                    new KeyValuePair<string, string>("passwordHash", this.ComputePasswordHash(password))
-                });
-                var result = client.PostAsync("/api/login", content).Result;
-                string resultContent = result.Content.ReadAsStringAsync().Result;
-                return new LoginToken(resultContent);
-            }
-        }
-
-
-        protected override bool VerifyPassword(string userid, string passwordHash)
-        {
-            // 不支援，這動作直接隱含在 server side api 內執行
-            throw new NotSupportedException();
+                new KeyValuePair<string, string>("userid", userid),
+                new KeyValuePair<string, string>("passwordHash", this.ComputePasswordHash(password))
+            });
+            var result = client.PostAsync("/api/login", content).Result;
+            string resultContent = result.Content.ReadAsStringAsync().Result;
+            return new LoginToken(resultContent);
         }
     }
+
+
+    protected override bool VerifyPassword(string userid, string passwordHash)
+    {
+        // 不支援，這動作直接隱含在 server side api 內執行
+        throw new NotSupportedException();
+    }
+}
 ```
 
 然而，這樣的改變，需要調整一下 Factory 的部分。其實只要改一行就好了:
 ```C#
-    public abstract class LoginServiceBase
+public abstract class LoginServiceBase
+{
+    public static LoginServiceBase Create()
     {
-        public static LoginServiceBase Create()
-        {
-            //return new LocalDatabaseService();
-            return new RemoteLoginService(new Uri("http://localhost:50000"));
-        }
-        // ...
+        //return new LocalDatabaseService();
+        return new RemoteLoginService(new Uri("http://localhost:50000"));
+    }
+    // ...
 ```
 
 最後，真正要呼叫這些服務的 code, 完全不用改, 維持原樣，重新編譯 & 更新 SDK 後就能正常執行:
 ```C#
-        public void LoginCheck()
-        {
-            LoginServiceBase lsb = LoginServiceBase.Create();
+public void LoginCheck()
+{
+    LoginServiceBase lsb = LoginServiceBase.Create();
 
-            // user login, and get login token
-            LoginToken token = lsb.UserLogin("andrew", "1234567890");
+    // user login, and get login token
+    LoginToken token = lsb.UserLogin("andrew", "1234567890");
 
-            if (token == null)
-            {
-                // do something when login failure...
-            }
-            else
-            {
-                // login success.
-                // ...
-            }
-        }
+    if (token == null)
+    {
+        // do something when login failure...
+    }
+    else
+    {
+        // login success.
+        // ...
+    }
+}
 ```
 
-# 重構的技巧: 雙重驗證
+# STEP 4, 確保服務化過程的正確性
 
 
 
@@ -306,87 +316,3 @@ Flickr 有很清楚的 HTTP API doc, 但是它也提供了 Flickr.Net, 包裝成
 
 NEXT: 怎麼決定要將那些模組，切割為獨立服務?
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-# 按照業務流程切割服務
-
-
-
-# 原則 1: 高內聚 + 低偶合
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-# 拆解單體式系統
-
-## 找出合適的模組邊界
-
-## 圍繞著業務概念去塑模
-## 自動化
-## 封裝 - 隱藏內部細節
-## 去中央化
-## 可獨立部署
-## 隔離失敗
-## 高度可觀察
-
-## Anti-Patterns: 何時不該用微服務?
-
-## 拆解的目的
-
-## 相依性
-
-## 資料庫
-
-## 交易邊界
-
-
-
-
-
-# 部署
-
-## 目標: 持續整合
-
-## 目標: 持續交付
-
-## IMMUTABLE SERVER
-
-## 服務組態
-
-## 服務與主機對應
-
-
-
-# 測試
-
-# 監控
-
-# 資安
