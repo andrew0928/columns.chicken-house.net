@@ -40,7 +40,7 @@ WPF寫起來很簡單, 效率的問題就先擺一邊了 (很理想的預期 can
 </p>
 <ol>
 	<li>Canon Codec 的效能不怎麼樣, G9 的檔案 (4000x3000, 15mb 左右) 全幅解開, 接上 JpegEncoder 存同尺寸 100% quality 檔案, 在我的 Core2Duo E6300 (2GB ram, XP MCE2005 SP2) 足足要 80 sec ...</li>
-	<li>多處理器佔不到便宜. 雙核CPU跑下去, 處理器只有約 50% ~ 60% 使用率. 改了改程式, 開兩個 thread 下去也一樣, 殘念... ( M$ 的就要誇一下, 內建的 codec 就運作的很好... 又快, thread pool 用下去也享受的到全速.. [Y])</li>
+	<li>多處理器佔不到便宜. 雙核CPU跑下去, 處理器只有約 50% ~ 60% 使用率. 改了改程式, 開兩個 thread 下去也一樣, 殘念... ( Microsoft 的就要誇一下, 內建的 codec 就運作的很好... 又快, thread pool 用下去也享受的到全速.. [Y])</li>
 	<li>怪的很, Microsoft 提供的 viewer 直接看 G2 的 .CRW 一切正常, 不過透過 WPF 就會得到 Exception .. 還沒解.</li>
 </ol>
 <p>

@@ -44,13 +44,13 @@ wordpress_postid: 124
 	<li>最重要的原因: 都買了正版 Vista 了, 放著不用是怎樣... [H]</li>
 </ol>
 <p>
-補充個事後才發現的好處, Vista Complete PC 是內建的磁碟備份工具, 類似 GHOST 那樣, 是把你整顆硬碟做成映像檔. M$ 當然用它推廣的格式 *.vhd, 正好跟我常用的 Virtual PC / Virtual Server 的格式一致. 多好用? 簡單在 Vista 內點兩下就可以做 Disk Image, 以後需要的話可以直接用 Vista DVD 還原, 就像 GHOST 一樣. 或是直接用 Virtual Server 2005 R2 SP1 附的工具: <a href="/post/Using-VHDMount-with-Virtual-PC.aspx">VHDMOUNT</a>, 直接掛起來用 [Y]
+補充個事後才發現的好處, Vista Complete PC 是內建的磁碟備份工具, 類似 GHOST 那樣, 是把你整顆硬碟做成映像檔. Microsoft 當然用它推廣的格式 *.vhd, 正好跟我常用的 Virtual PC / Virtual Server 的格式一致. 多好用? 簡單在 Vista 內點兩下就可以做 Disk Image, 以後需要的話可以直接用 Vista DVD 還原, 就像 GHOST 一樣. 或是直接用 Virtual Server 2005 R2 SP1 附的工具: <a href="/post/Using-VHDMount-with-Virtual-PC.aspx">VHDMOUNT</a>, 直接掛起來用 [Y]
 </p>
 <p>
 另外一點也要特別提一下. 原本搜遍了 GOOGLE, 得到的答案清一色都是 Canon Raw Codec 不支援 Vista X64. 官方說法跟使用者討論都是這樣. 我是硬著頭皮先在 VM 裡試了一下, 耶? 至少還可以安裝上去. 不過果然不行. 我自己寫的<a href="/post/Canon-Raw-Codec-2b-WPF-12c-WPF-Image-Codec2c-Metadata.aspx">轉檔工具</a>不能用, 如預期的找不到對應的 Codec. 在 Windows Live Gallery 及檔案總管下也不能直接看到 .CR2 的縮圖...
 </p>
 <p>
-不過想到過去跟 X64 + WOW (是 Windows On Windows, 不是魔獸世界) 奮戰的經驗, 其實 M$ 做的 32 位元回朔相容作的還不錯. 只是有一個大前題: 32 / 64 兩種 CODE 不能混在一起執行. 同一個處理程序 (Process) 內必需都是 32 或是 64 位元的 code. 第一個碰到這種問題的就是各式軟應體的 driver. 硬體的就不說了, 軟體的像一堆 &quot;虛擬&quot; 裝置, virtual cdrom, virtual disk, virtual network adapter ... 等等. 第二個碰到的就是各式的 DLL, 它本來就是讓你載入到你的 Process 內使用的, 像一堆 ODBC driver, COM 元件, ActiveX Control, Video Codec, 加上 WPF 使用的 Image Codec, 都在此列. 這種才是真正的問題, 就像 M$ 可以把 IE 重新用 64 位元改寫, 但是它無法替所有的 ActiveX Control 改寫為 64 位元, 因此未來的五年內, 光是 IE 這東西, 你大概還是甩不掉 32 位元版本...
+不過想到過去跟 X64 + WOW (是 Windows On Windows, 不是魔獸世界) 奮戰的經驗, 其實 Microsoft 做的 32 位元回朔相容作的還不錯. 只是有一個大前題: 32 / 64 兩種 CODE 不能混在一起執行. 同一個處理程序 (Process) 內必需都是 32 或是 64 位元的 code. 第一個碰到這種問題的就是各式軟應體的 driver. 硬體的就不說了, 軟體的像一堆 &quot;虛擬&quot; 裝置, virtual cdrom, virtual disk, virtual network adapter ... 等等. 第二個碰到的就是各式的 DLL, 它本來就是讓你載入到你的 Process 內使用的, 像一堆 ODBC driver, COM 元件, ActiveX Control, Video Codec, 加上 WPF 使用的 Image Codec, 都在此列. 這種才是真正的問題, 就像 Microsoft 可以把 IE 重新用 64 位元改寫, 但是它無法替所有的 ActiveX Control 改寫為 64 位元, 因此未來的五年內, 光是 IE 這東西, 你大概還是甩不掉 32 位元版本...
 </p>
 <p>
 這類相容問題通常都是整套用 32 位元版本就可以解決, 就像 IE 你只要開啟 32 位元版本的話, 即使你是在 x64 OS, 也不會有太大問題. 32 位元的程式在 64 位元 OS 下執行, 還附帶了一些額外的好處. 記憶體管理就佔了不少便宜. 光是記憶體各種管理的動作就快很多 (以前看過相關文章, 不過找不到了 [:P], 下次寫 code 來測看看), 加上 32 位元的基本限制: 4GB memory size, 因為 OS 已經是 64 位元了, 4GB 可用的定址空間不用再切 2GB 給 OS 使用... 因此你的程式可用的定址空間也從 2GB 擴張到 4GB, 不無小補.
@@ -59,7 +59,7 @@ wordpress_postid: 124
 想到這些案例, 我就試了一下... 我自己寫的歸檔工具不能跑, 如果我把它切到 32 位元模式呢? 改了改 compile option, target platform 從原本的 &quot;Any CPU&quot; 改為 &quot;x86&quot;, 耶! 可以了耶... 程式能正確的抓到 Canon Codec, 並且正確的解碼跟抓到 metadata.
 </p>
 <p>
-再試一下 Windows Live Gallery, M$ 還算有良心, 裝好後就有兩種 32/64 版本. 我開了 32 位元版, .CR2 的照片也都可以正確顯示.. 哇哈哈... 讚 [Y]
+再試一下 Windows Live Gallery, Microsoft 還算有良心, 裝好後就有兩種 32/64 版本. 我開了 32 位元版, .CR2 的照片也都可以正確顯示.. 哇哈哈... 讚 [Y]
 </p>
 <p>
 不過 Windows Live Gallery 有些地方要注意, 它似忽載入後會留著, 類似古早的 OLE server 一樣的技術, 跑起來後就會留在系統內, 待下次有人要執行時繼續使用. 因此如果沒有在 BOOT 後第一次就開正確的版本, 以後就有可能你開 32 位元版, 它還是跑 64 位元的給你看...

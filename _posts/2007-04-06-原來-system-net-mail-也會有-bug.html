@@ -122,7 +122,7 @@ class: System.Net.Mail.MailAddress
       return this.fullAddress;
   }
 </pre>
-Ouch, 真是想罵人, 問題就在這裡... 看起來是 M$ 工程師為了避開重複作編碼的動作, 每次呼叫 ToEncodedString( ) 及 ToString( ) 時都會去看看 fullAddress 這個 private field 是否有值? 有的話代表之前已經作過編碼了, 就直接撿現成. 問題出在第一次呼叫時, 編碼的動作在 ToString( ) 及 ToEncodedString( ) 各寫了一次 (果然沒有做好 refactoring ... 哈哈), 結果 ToString( ) 的這份 code implementation 是錯的, 跟本沒編碼 [:@] ... 我沒事雞婆在寄信前呼叫 ToString( ) 印 Messabe 算我運氣背, 就碰到這個 Bug.. [:@]
+Ouch, 真是想罵人, 問題就在這裡... 看起來是 Microsoft 工程師為了避開重複作編碼的動作, 每次呼叫 ToEncodedString( ) 及 ToString( ) 時都會去看看 fullAddress 這個 private field 是否有值? 有的話代表之前已經作過編碼了, 就直接撿現成. 問題出在第一次呼叫時, 編碼的動作在 ToString( ) 及 ToEncodedString( ) 各寫了一次 (果然沒有做好 refactoring ... 哈哈), 結果 ToString( ) 的這份 code implementation 是錯的, 跟本沒編碼 [:@] ... 我沒事雞婆在寄信前呼叫 ToString( ) 印 Messabe 算我運氣背, 就碰到這個 Bug.. [:@]
 
 </div>
-花了近兩天, 不過最後有找到 Bug, 而且還是 M$ 的 Bug, 哈哈, 總算證明人不是我殺的 [:D], submit M$ 的 Bug 有獎金嘛? 不只 Bug, 連問題都找到了... 有的話通知一下 [:D]
+花了近兩天, 不過最後有找到 Bug, 而且還是 Microsoft 的 Bug, 哈哈, 總算證明人不是我殺的 [:D], submit Microsoft 的 Bug 有獎金嘛? 不只 Bug, 連問題都找到了... 有的話通知一下 [:D]

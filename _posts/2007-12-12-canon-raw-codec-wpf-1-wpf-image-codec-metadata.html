@@ -33,7 +33,7 @@ wordpress_postid: 133
 RAW support 在我看來是必要的. 照片可不能等十年後再搭時光機回來照, 而現有的 JPEG 又已經是老古董的規格了, 未來是一定會有取而代之的新規格. 會是什麼我不曉得, 不過留著 RAW 準沒錯. 只要 Canon 沒倒, 未來一定有辦法把 RAW 轉成新的通用格式, 而不用經過 JPEG 的折損... 
 </p>
 <p>
-未來看起來很美好, 不過當 G9 入手後, 事情沒有想像的順利, 有了 WPF + Codec, 我自己必需寫些小程式來簡化未來例行的相片歸檔動作. Codec 只要去 Canon 下載就有, WPF 則是新東西, 得自己先研究一番... 搭配 WPF, Microsoft 也推出了新的圖型檔格式: HD Photo. 它的一堆好處我就不多說了, M$ 網站多的是. 我在意的是, HD Photo 提供的新功能, 包括廣大的色域等, 也會對應的在 image codec 裡提供. 因此如果 RAW file 本身就包含這些資訊的話, 透過 codec 讀出來就不會有資訊的折損, 存成 JPEG 就沒有這些好處了. 
+未來看起來很美好, 不過當 G9 入手後, 事情沒有想像的順利, 有了 WPF + Codec, 我自己必需寫些小程式來簡化未來例行的相片歸檔動作. Codec 只要去 Canon 下載就有, WPF 則是新東西, 得自己先研究一番... 搭配 WPF, Microsoft 也推出了新的圖型檔格式: HD Photo. 它的一堆好處我就不多說了, Microsoft 網站多的是. 我在意的是, HD Photo 提供的新功能, 包括廣大的色域等, 也會對應的在 image codec 裡提供. 因此如果 RAW file 本身就包含這些資訊的話, 透過 codec 讀出來就不會有資訊的折損, 存成 JPEG 就沒有這些好處了. 
 </p>
 <p>
 實作第一步, 當然是先研究 WPF 關於 Image 物件的基本處理. 嗯, 果然是跟之前的 GDI / GDI+ 不一樣. 感覺起來 GDI 典型 application 就是像 &quot;小畫家&quot; 這類的 AP, 而 WPF 典型的 application 就是像 flash 這類的, 裡面的物件已經變成圖型來源, 套用各種 transform, 層層處理套上去後得到的結果才是你看到的東西, 大概就類似 photoshop 的 layer 那樣的東西. 

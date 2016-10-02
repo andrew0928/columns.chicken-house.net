@@ -12078,7 +12078,7 @@ Orz, 總算回家了, 真是辛苦的自助出差啊... 親愛的老闆, 下次�
 <a href="/wp-content/be-files/WindowsLiveWriter/270e9852b4ec_2F71/image_2.png"><img style="border: 0px" src="/wp-content/be-files/WindowsLiveWriter/270e9852b4ec_2F71/image_thumb.png" border="0" alt="image" width="420" height="240" /></a> 
 </p>
 <p>
-Microsoft 也為了這系列服務, 提供 SDK, 我可以自己開發一些 AP, 來管理我專屬 domain 的服務, 看來 M$ 真的是跟 Google 槓上了... 其它還有一些額外的應用, 不過我就沒啥興趣了... 像是 <a href="http://space.chicken-house.net">http://space.chicken-house.net</a>, http://s<a href="mailto:search@chicken-house.net">earch.chicken-house.net</a> ... 等等.
+Microsoft 也為了這系列服務, 提供 SDK, 我可以自己開發一些 AP, 來管理我專屬 domain 的服務, 看來 Microsoft 真的是跟 Google 槓上了... 其它還有一些額外的應用, 不過我就沒啥興趣了... 像是 <a href="http://space.chicken-house.net">http://space.chicken-house.net</a>, http://s<a href="mailto:search@chicken-house.net">earch.chicken-house.net</a> ... 等等.
 </p>
 <p>
 雖然這年頭自己架 mail server 不是啥難事, 不過全要弄到好, 還要包含 web mail, 加上維護, 還真有點囉唆... 看到 hotmail 改版, 空間變 5G, outlook express 也升級為 windows live mail, 可以直接收發 live mail, 加上 domain 是我自己的, 以後要換成 gmail 的服務或是自己搬回家 hosting 都不是問題 (<strong><font color="#ff0000">這才是重點</font></strong>)... 可以用免費的服務, 以後不用也不會被迫要換 email address 等, 不會有被綁架在它們服務上的感覺, 真的是一舉數得. 就先用免費的吧 [:D]
@@ -15142,7 +15142,7 @@ sea的: <a href="/blogs/sea">http://community.chicken-house.net/blogs/sea</a>
 <OL>
 <LI>App_Code 沒有對應的實體 *.dll<BR>雖然在 c:\Windows\Microsoft.NET\Framework\Temporary ASP.NET Files\ 下找的到, 但是目錄編碼過, 每次都有可能不一樣, 就算找的到也很不方便 
 <LI>App_Code 下的程式大都仰賴 ASP.NET Hosting 提供的環境才能執行<BR>比如 HttpContext ... NUnit 提供的 Test Runner 會另外用獨立的 AppDomain 下執行, 結果是跟 Hosting 環境相關的 code 就沒機會測試了</LI></OL>
-<P>試了半天, 宣告放棄, 實在是找不到好方法完成這任務...&nbsp;M$ 自己的 Unit Test Framework 出局, NUnit 也出局, 我甚至去挖了 NUnit 的 source code 來看, 看的臉都綠了...</P>
+<P>試了半天, 宣告放棄, 實在是找不到好方法完成這任務...&nbsp;Microsoft 自己的 Unit Test Framework 出局, NUnit 也出局, 我甚至去挖了 NUnit 的 source code 來看, 看的臉都綠了...</P>
 <P>NUnit Test Runner 做的非常嚴謹, core 裡就把每個 test 執行的環境準備好了獨立的 AppDomain, 從指定的 assembly 載入 class 後就會丟到獨立的 AppDomain 下開始跑 test ... 本來想改掉, trace 了一陣子後就放棄了, 我只是要跑單元測試啊, 我不想要有我自己改過的 NUnit Framework 啊啊啊啊...</P>
 <P>後來 google 找了一堆相關網站, 總算找到救星了... <A href="http://www.codeplex.com/Wiki/View.aspx?ProjectName=NUnitLite" target=_blank>NUnitLite</A>. 看了它的 <A href="http://www.codeplex.com/Wiki/View.aspx?ProjectName=NUnitLite&amp;title=NUnitLite%20Vision" target=_blank>vision</A>, 不錯, 正好是我需要的...</P>
 <P>&nbsp;</P>
@@ -15409,7 +15409,7 @@ VS2005 真是大怪獸]]></wp:comment_content>
 		<dc:creator><![CDATA[chicken]]></dc:creator>
 		<guid isPermaLink="false">/columns/post/2006/09/25/Microsoft-Windows-XP-Media-Center-Edition-2005.aspx</guid>
 		<description></description>
-		<content:encoded><![CDATA[<p>最近裝了台 PC, 灌了 MCE 2005 ... 用起來只有一個字... 爽!!!</p> <p>最近台灣引進了 TiVo 這套系統,&nbsp;應該不少人聽過吧? PC + TV card +&nbsp;MCE2005 就是像 TiVo 這樣子的東西, 只不過都是 M$ 靠一堆軟體弄的... 不用額外買專用的機器, 也不用像 TiVo 要付月租費...</p> <p>用起來如何? 就是用電腦看電視而以, 我沒有接在電視上, 而是直接用 LCD monitor 看, 爽度差了點, 不過我也習慣了, 我們家都是用 monitor 在看電視... 哈哈. 用 MCE 跟一般 TV card 付的軟體看電視, 差別蠻大的... 我列幾個我覺的特別好用的地方:</p> <ol> <li>Microsoft 的軟體很多人覺的不怎麼樣, 不過再怎麼樣也比電視卡廠商寫的軟體強多了...  <li>Microsoft 提供線上的節目表更新, 因此選台爽多了, 第幾頻道名字是啥, 現在播的節目是啥, 還有節目簡介通通都有了...  <li>有節目表後, 預約錄影也簡單多了, 選節目按錄影就搞定, 連續劇也是選好後直接幫你把每一集都錄下來  <li>Time Shift, 節目看一半可以隨時按暫停 or 倒轉, 要上廁所倒飲料不用等到廣告...  <li>錄到硬碟, 要看要刪很方便  <li>電腦沒用會自動進入待機狀態, 預約錄影時間到時會自己醒來開始錄...</li></ol> <p>其它當然有一堆好處, 我就不提了, 反正我也用不到... 如果以後買了 LCD TV,&nbsp;我一定要擺台電腦在旁邊.. [:D]</p> <p>抓幾張畫面...</p> <p><img style="border-right: 0px; border-top: 0px; border-left: 0px; border-bottom: 0px" height="300" src="http://community.chicken-house.net/blogs/images/MicrosoftWindowsXPMediaCenterEdition2005_2895/021.png" width="400" border="0">&nbsp;</p> <p><a href="http://community.chicken-house.net/blogs/images/MicrosoftWindowsXPMediaCenterEdition2005_2895/031.png" atomicselection="true"></a>預約錄影清單... 當然節目的相關資訊都在裡面.</p> <p>&nbsp;</p> <p><img style="border-right: 0px; border-top: 0px; border-left: 0px; border-bottom: 0px" height="300" src="http://community.chicken-house.net/blogs/images/MicrosoftWindowsXPMediaCenterEdition2005_2895/05.png" width="400" border="0"></p></a> <p>節目表... 左下角會用PIP方式顯示目前正在播放的節目畫面..</p> <p>&nbsp;</p> <p><img style="border-right: 0px; border-top: 0px; border-left: 0px; border-bottom: 0px" height="300" src="http://community.chicken-house.net/blogs/images/MicrosoftWindowsXPMediaCenterEdition2005_2895/03.png" width="400" border="0">&nbsp;&nbsp; </p> <p>播放畫面, 我錄的 "超人特攻隊" ... 它的操作界面都是特別針對電視能看的清楚的畫面, 還有都是能搭配搖控器操作... keyboard / mouse 不是必需品.</p> <p>&nbsp;</p> <p><img style="border-right: 0px; border-top: 0px; border-left: 0px; border-bottom: 0px" height="300" src="http://community.chicken-house.net/blogs/images/MicrosoftWindowsXPMediaCenterEdition2005_2895/06.png" width="400" border="0"> </p> <p>選台時下方會出現的頻道 and 節目資訊..</p> <p>&nbsp;</p> <p>&nbsp;</p> <p>&nbsp;</p> <p>Orz, 這篇是勸敗文嘛...</p>]]></content:encoded>
+		<content:encoded><![CDATA[<p>最近裝了台 PC, 灌了 MCE 2005 ... 用起來只有一個字... 爽!!!</p> <p>最近台灣引進了 TiVo 這套系統,&nbsp;應該不少人聽過吧? PC + TV card +&nbsp;MCE2005 就是像 TiVo 這樣子的東西, 只不過都是 Microsoft 靠一堆軟體弄的... 不用額外買專用的機器, 也不用像 TiVo 要付月租費...</p> <p>用起來如何? 就是用電腦看電視而以, 我沒有接在電視上, 而是直接用 LCD monitor 看, 爽度差了點, 不過我也習慣了, 我們家都是用 monitor 在看電視... 哈哈. 用 MCE 跟一般 TV card 付的軟體看電視, 差別蠻大的... 我列幾個我覺的特別好用的地方:</p> <ol> <li>Microsoft 的軟體很多人覺的不怎麼樣, 不過再怎麼樣也比電視卡廠商寫的軟體強多了...  <li>Microsoft 提供線上的節目表更新, 因此選台爽多了, 第幾頻道名字是啥, 現在播的節目是啥, 還有節目簡介通通都有了...  <li>有節目表後, 預約錄影也簡單多了, 選節目按錄影就搞定, 連續劇也是選好後直接幫你把每一集都錄下來  <li>Time Shift, 節目看一半可以隨時按暫停 or 倒轉, 要上廁所倒飲料不用等到廣告...  <li>錄到硬碟, 要看要刪很方便  <li>電腦沒用會自動進入待機狀態, 預約錄影時間到時會自己醒來開始錄...</li></ol> <p>其它當然有一堆好處, 我就不提了, 反正我也用不到... 如果以後買了 LCD TV,&nbsp;我一定要擺台電腦在旁邊.. [:D]</p> <p>抓幾張畫面...</p> <p><img style="border-right: 0px; border-top: 0px; border-left: 0px; border-bottom: 0px" height="300" src="http://community.chicken-house.net/blogs/images/MicrosoftWindowsXPMediaCenterEdition2005_2895/021.png" width="400" border="0">&nbsp;</p> <p><a href="http://community.chicken-house.net/blogs/images/MicrosoftWindowsXPMediaCenterEdition2005_2895/031.png" atomicselection="true"></a>預約錄影清單... 當然節目的相關資訊都在裡面.</p> <p>&nbsp;</p> <p><img style="border-right: 0px; border-top: 0px; border-left: 0px; border-bottom: 0px" height="300" src="http://community.chicken-house.net/blogs/images/MicrosoftWindowsXPMediaCenterEdition2005_2895/05.png" width="400" border="0"></p></a> <p>節目表... 左下角會用PIP方式顯示目前正在播放的節目畫面..</p> <p>&nbsp;</p> <p><img style="border-right: 0px; border-top: 0px; border-left: 0px; border-bottom: 0px" height="300" src="http://community.chicken-house.net/blogs/images/MicrosoftWindowsXPMediaCenterEdition2005_2895/03.png" width="400" border="0">&nbsp;&nbsp; </p> <p>播放畫面, 我錄的 "超人特攻隊" ... 它的操作界面都是特別針對電視能看的清楚的畫面, 還有都是能搭配搖控器操作... keyboard / mouse 不是必需品.</p> <p>&nbsp;</p> <p><img style="border-right: 0px; border-top: 0px; border-left: 0px; border-bottom: 0px" height="300" src="http://community.chicken-house.net/blogs/images/MicrosoftWindowsXPMediaCenterEdition2005_2895/06.png" width="400" border="0"> </p> <p>選台時下方會出現的頻道 and 節目資訊..</p> <p>&nbsp;</p> <p>&nbsp;</p> <p>&nbsp;</p> <p>Orz, 這篇是勸敗文嘛...</p>]]></content:encoded>
 		<excerpt:encoded><![CDATA[]]></excerpt:encoded>
 		<wp:post_id>221</wp:post_id>
 		<wp:post_date><![CDATA[2006-09-25 02:53:13]]></wp:post_date>
@@ -15816,7 +15816,7 @@ honga,你的留言成功!]]></wp:comment_content>
 <P><A onclick=StatsDotNet.TrackSearch(0,1,1) href="http://support.microsoft.com/kb/894435/zh-tw"><FONT color=#000000><STRONG>如何在 64 位元版的 Windows 上切換 32 位元版的 ASP.NET 1.1 與 64 位元版的 ASP.NET 2.0</STRONG></FONT></A><FONT color=#000000><STRONG> </STRONG></FONT>
 <P style="BACKGROUND-COLOR: #f5f5dc" color="#000000"><FONT color=#000000><STRONG>IIS 6.0 同時支援 32 位元模式及 64 位元模式。但是，IIS 6.0 不支援同時在 64 位元版的 Windows 上執行兩種模式。ASP.NET 1.1 只能在 32 位元模式中執行。ASP.NET 2.0 可以在 32 位元模式或 64 位元模式中執行。因此，如果要同時執行 ASP.NET 1.1 和 ASP.NET 2.0，您必須在 32 位元模式中執行 IIS。</STRONG></FONT></P>
 <P></P>
-<P>嘖嘖嘖, CS 1.0 只能在 ASP.NET 1.1 環境下運作, 直接丟在 ASP.NET 2.0 下會跑不了. 偏偏 M$ 又不提供 64 位元版本的 .NET 1.1 Runtime, 搞到最後, 為了這舊版的 CS, 我整個 IIS 都得在 32 位元模式下運作... [:@]</P>
+<P>嘖嘖嘖, CS 1.0 只能在 ASP.NET 1.1 環境下運作, 直接丟在 ASP.NET 2.0 下會跑不了. 偏偏 Microsoft 又不提供 64 位元版本的 .NET 1.1 Runtime, 搞到最後, 為了這舊版的 CS, 我整個 IIS 都得在 32 位元模式下運作... [:@]</P>
 <P>真是枉費我破除萬難升級上來的新系統, 嘖嘖嘖... 所以只好忍痛暫時犧牲我修改的那些功能, 改用官方的 2,0 beta 3 版本 (就是現在用的這套).</P>
 <P>其實換完之後感覺還不錯, 雖然少掉我之前修正了不少 sea 不滿意的地方, 但是我頂多改改別人的小地方, 官方版本才有辦法做根本上的改進, 到底好在那裡, 用過就知道啦 [H], 以後再慢慢講...</P>]]></content:encoded>
 		<excerpt:encoded><![CDATA[]]></excerpt:encoded>
@@ -15927,7 +15927,7 @@ honga,你的留言成功!]]></wp:comment_content>
 			<wp:comment_date_gmt><![CDATA[2006-02-01 22:38:07]]></wp:comment_date_gmt>
 			<wp:comment_content><![CDATA[這套 blog 是收到留言定期處理... 所以有時要等個五分鐘才會出現...
 
-M$ Mouse 保固三年, 不過我也搞不清楚它保固怎麼算的啦, 反正寄去就換來了...]]></wp:comment_content>
+Microsoft Mouse 保固三年, 不過我也搞不清楚它保固怎麼算的啦, 反正寄去就換來了...]]></wp:comment_content>
 			<wp:comment_approved><![CDATA[1]]></wp:comment_approved>
 			<wp:comment_type><![CDATA[]]></wp:comment_type>
 			<wp:comment_parent>0</wp:comment_parent>
@@ -16525,7 +16525,7 @@ http://tw.page.bid.yahoo.com/tw/auction/1138692198?rr=1292293055]]></wp:comment_
 		<dc:creator><![CDATA[chicken]]></dc:creator>
 		<guid isPermaLink="false">/columns/post/2006/12/06/Volume-Shadow-Copy-Service-.aspx</guid>
 		<description></description>
-		<content:encoded><![CDATA[<p>windows 2003 提供的 "新" 功能... 其實也不算新了, 都已經要邁入第四年了, 不過卻是個很實用的東西..</p> <p>簡單的說, vss 是建立在 file system 以下的服務, 它可以替你的 storage 做 snapshot, 跟一般的備份不一樣, 它是用 "copy on write" 的方式. 意思就是, 當我要求現在替我的硬碟做一次 snapshot, 只要這份 snapshot 不刪除, 我都隨時可以找到這時的檔案內容.</p> <p>聽起來就是一般的備份嘛, 不過它的作法完全不同. snapshot 很快就可以作好, 是快到 0.x sec 這種程度, 它只是在目前的資料上做個記號, 只要檔案沒更新, 完全沒有資料需要被備份. 而已經作了 snapshot 的資料要被更新時, 它才立即做了一份 copy, 實際上的更新動作是 copy 一份出來才 update. 這就是 "copy on write" 的作法.</p> <p>講那麼多幹嘛? 因為當年研究所考試台大有考 "copy on write" ... 當時年紀輕什麼都不懂, 想破頭也寫不出來, 後來考完出來翻書才恍然大悟, 只怪書翻的太晚... :~ 所以印相就特別清楚.. 哈哈</p> <p>win2003 提供的 vss 其實不只如此, 它還提供了 provider 的架構, 意思是做 snapshot 的機制, 有可能換成其它軟體來處理, 或是其它硬體, 像是 M$ 自己的 SQL2005, Exchange2007, Data Protection 2006, 還有其它備份軟體... 等等工具都會受惠. 這些軟體可以基於 vss&nbsp;再開發出更進階的功能, 像 SQL2005 也在 db 上提供了 snapshot, Exchange2007 也靠 vss 做出更完整的檔案備份及複寫功能...</p> <p>不過這些對大部份自己用的電腦都沒啥用, 大家不都是現成電腦買來, windows 灌好就開始用了... 最近花了些時間研究一下, 發現還挺好用的:</p> <ol> <li>在 disk properties 上可以看到 shadow copy 的畫面, 你可以定期做 snapshot</li> <li>做好 snapshot 後, 透過網路芳鄰來看這個 share folder 就會有額外的 options</li> <li>按下 view 就可以把過去的備份叫出來, 也可以還原到某個時間的檔案內容</li></ol> <p>很棒的功能, 不過跟我的需求有點差距... 我希望用 snapshot 解決我碰到的一些問題:</p> <ol> <li>我必需要更可靠的備份作業, 我要把資料 "真正" 的 copy 出來, 而不是只留著 snapshot.</li> <li>copy 的動作要花一些時間, 但是 copy 時有可能資料也正在被修改 or 鎖定..</li> <li>我需要隨時做這些動作, 而不是像 2003 內建的, 只能排排程定期做.. 最好是可以寫成批次檔 (老人家的壞習慣... Orz)</li></ol> <p>最後找到的方式, 很陽春, 不過已經足夠解決我的問題了 (H), 就順手貼出來, 邏輯上的步驟, 是:</p> <ol> <li>要開始備份前, 先做一次 snapshot</li> <li>之後備份作業從 snapshot copy 出來, 而不是從 current state copy 出來, 就不會有 lock or update 的問題</li> <li>動作完成後, snapshot 就可以砍了, 當然要留著也無所謂...</li></ol> <p>要做成批次檔, 一次完成的話, 則有這兩項關鍵:</p> <ol> <li>命令列執行建立及刪除 snapshot 的方式: 用 vssadmin.exe</li> <li>讓其它工具 (我用 RAR.exe) 直接讀取 snapshot 的方式, vss 是以 UNC 的路逕提供:<br>\\localhost\d$\@GMT-2006.11.28-23.00.01</li></ol> <p>其中 \\nest\Home 是一般的 UNC 路逕, 後面加的 @GMT-...... 則是做 snapshot 的 timestamp, 以我來說, 要備份這目錄只要這樣下：<br><br>RAR.exe a -r c:\backup.rar \\nest\Home\@GMT-2006.11.28-23.00.01</p> <p>說穿了沒啥特別的, 只不過找到了最後兩項關鍵, 命令列指令, 跟存取 snapshot 的路逕, 解決掉了我多年來的困擾, 每次要備份檔案一下這個 lock 一下那個 lock, 不然就是得先關一堆程式才能 copy 的困擾. 不過 windows xp 的 vss 好像就沒這麼完整, 這些作法目前只有 windows 2003 能夠用, 殘念...&nbsp;不知道 vista 有沒有類似的東西可以用? :D</p>]]></content:encoded>
+		<content:encoded><![CDATA[<p>windows 2003 提供的 "新" 功能... 其實也不算新了, 都已經要邁入第四年了, 不過卻是個很實用的東西..</p> <p>簡單的說, vss 是建立在 file system 以下的服務, 它可以替你的 storage 做 snapshot, 跟一般的備份不一樣, 它是用 "copy on write" 的方式. 意思就是, 當我要求現在替我的硬碟做一次 snapshot, 只要這份 snapshot 不刪除, 我都隨時可以找到這時的檔案內容.</p> <p>聽起來就是一般的備份嘛, 不過它的作法完全不同. snapshot 很快就可以作好, 是快到 0.x sec 這種程度, 它只是在目前的資料上做個記號, 只要檔案沒更新, 完全沒有資料需要被備份. 而已經作了 snapshot 的資料要被更新時, 它才立即做了一份 copy, 實際上的更新動作是 copy 一份出來才 update. 這就是 "copy on write" 的作法.</p> <p>講那麼多幹嘛? 因為當年研究所考試台大有考 "copy on write" ... 當時年紀輕什麼都不懂, 想破頭也寫不出來, 後來考完出來翻書才恍然大悟, 只怪書翻的太晚... :~ 所以印相就特別清楚.. 哈哈</p> <p>win2003 提供的 vss 其實不只如此, 它還提供了 provider 的架構, 意思是做 snapshot 的機制, 有可能換成其它軟體來處理, 或是其它硬體, 像是 Microsoft 自己的 SQL2005, Exchange2007, Data Protection 2006, 還有其它備份軟體... 等等工具都會受惠. 這些軟體可以基於 vss&nbsp;再開發出更進階的功能, 像 SQL2005 也在 db 上提供了 snapshot, Exchange2007 也靠 vss 做出更完整的檔案備份及複寫功能...</p> <p>不過這些對大部份自己用的電腦都沒啥用, 大家不都是現成電腦買來, windows 灌好就開始用了... 最近花了些時間研究一下, 發現還挺好用的:</p> <ol> <li>在 disk properties 上可以看到 shadow copy 的畫面, 你可以定期做 snapshot</li> <li>做好 snapshot 後, 透過網路芳鄰來看這個 share folder 就會有額外的 options</li> <li>按下 view 就可以把過去的備份叫出來, 也可以還原到某個時間的檔案內容</li></ol> <p>很棒的功能, 不過跟我的需求有點差距... 我希望用 snapshot 解決我碰到的一些問題:</p> <ol> <li>我必需要更可靠的備份作業, 我要把資料 "真正" 的 copy 出來, 而不是只留著 snapshot.</li> <li>copy 的動作要花一些時間, 但是 copy 時有可能資料也正在被修改 or 鎖定..</li> <li>我需要隨時做這些動作, 而不是像 2003 內建的, 只能排排程定期做.. 最好是可以寫成批次檔 (老人家的壞習慣... Orz)</li></ol> <p>最後找到的方式, 很陽春, 不過已經足夠解決我的問題了 (H), 就順手貼出來, 邏輯上的步驟, 是:</p> <ol> <li>要開始備份前, 先做一次 snapshot</li> <li>之後備份作業從 snapshot copy 出來, 而不是從 current state copy 出來, 就不會有 lock or update 的問題</li> <li>動作完成後, snapshot 就可以砍了, 當然要留著也無所謂...</li></ol> <p>要做成批次檔, 一次完成的話, 則有這兩項關鍵:</p> <ol> <li>命令列執行建立及刪除 snapshot 的方式: 用 vssadmin.exe</li> <li>讓其它工具 (我用 RAR.exe) 直接讀取 snapshot 的方式, vss 是以 UNC 的路逕提供:<br>\\localhost\d$\@GMT-2006.11.28-23.00.01</li></ol> <p>其中 \\nest\Home 是一般的 UNC 路逕, 後面加的 @GMT-...... 則是做 snapshot 的 timestamp, 以我來說, 要備份這目錄只要這樣下：<br><br>RAR.exe a -r c:\backup.rar \\nest\Home\@GMT-2006.11.28-23.00.01</p> <p>說穿了沒啥特別的, 只不過找到了最後兩項關鍵, 命令列指令, 跟存取 snapshot 的路逕, 解決掉了我多年來的困擾, 每次要備份檔案一下這個 lock 一下那個 lock, 不然就是得先關一堆程式才能 copy 的困擾. 不過 windows xp 的 vss 好像就沒這麼完整, 這些作法目前只有 windows 2003 能夠用, 殘念...&nbsp;不知道 vista 有沒有類似的東西可以用? :D</p>]]></content:encoded>
 		<excerpt:encoded><![CDATA[]]></excerpt:encoded>
 		<wp:post_id>202</wp:post_id>
 		<wp:post_date><![CDATA[2006-12-06 03:22:09]]></wp:post_date>
@@ -16829,7 +16829,7 @@ http://www.chicken-house.net/files/chicken/TechED2001.mht
 		<dc:creator><![CDATA[chicken]]></dc:creator>
 		<guid isPermaLink="false">/columns/post/2006/11/11/CSS-e6938be58fb3e98db5.aspx</guid>
 		<description></description>
-		<content:encoded><![CDATA[<p>先講在前面, 我是很不喜歡這種無聊的網站... 擋右鍵幹嘛? 也許站長真的覺的他的內容很了不起大家都想偷... 不過右鍵按下去一堆功能, 又不是每個人點右鍵都是要偷內容... 被當小偷看待的感覺真的挺不爽.. 真的要看, fillder 開下去什麼都看的到..</p> <p>好, 牢騷發完了 (H), 今天不是要講這個.. 因為工作的關係, 開發的系統是處理企業內部的 web content, 免不了有這種檔右鍵的需求, 這種 code 大家或多或少都寫過, 不過都寫的很煩吧...</p> <p>"什麼!!! 每一頁都要檔?"</p> <p>"每一頁都加 code 要加到什麼時後..."</p> <p>接到這種需求大概都想扁人吧, 咳咳... 我就是因為懶所以想到一招省事的... 先來看一下這個網頁, 看看大家追不追的到右鍵是怎麼擋的...</p> <p><a href="http://www.chicken-house.net/files/chicken/htc-sample.zip/index.html" target="_blank">test html page</a>&nbsp;(<a href="http://www.chicken-house.net/files/chicken/htc-sample.zip">full source</a>)</p> <p>看出來為什麼右鍵被停用了嗎? 沒有 script tag, 也沒有 include 啥鬼東西, 開這個 page 的 link 也沒動啥手腳... 開 page 時 ie 也沒要求下載啥奇怪的軟體...</p> <p>不過, 右鍵的確是被 disable 了, 秘密就在這段 css ..</p> <p><font color="#0000ff">body { behavior:url('context-menu-blocker.htc'); }</font></p> <p>這是 M$ 在 IE5 之後就引進的 DHTML Behaviors. CSS 是為了樣式而設計出來的, 目的就是希望一組網頁只要有共通的樣式, 就不用每一頁去調字型顏色等等... 只要透過 CSS 就可以把整個網站的每一頁, 在特定 tag 套用特定的樣式...</p> <p>"只能套用外觀嗎? 如果程式也可以這樣撒出去就好了"</p> <p>沒錯, behavior 就是這個目的, 把你想怎樣 "改造" 這個 tag 的 script 寫在 .htc 裡, 再用 css 把它綁到 tag 上, 一切就完成了.</p> <p>這個例子的 htc 只有去攔捷 oncontextmenu 事件, 攔下來後只有做取消事件的動作而以. 藉著 css 就可以把這功能套用到 page 上了... 當然, 你的網站有 css 的話, 這個功能馬上就套用到你所有的網頁了.</p> <p>這些技巧果然說穿了就不值錢... 咳咳, 不過 HTC 還有很多其它更讚的應用, 因為它很精巧的把 code 跟 tag binding 處理的很好, 很可惜這技術好像不大登的上抬面, 用過的人似乎不多, IE5.0 推出後, IE5.5 對 htc 有些改進, 之後就沒有啥新的進展了..</p> <p>不知道 IE7 對 htc 有啥改進? 有空再來試試了 :D</p>]]></content:encoded>
+		<content:encoded><![CDATA[<p>先講在前面, 我是很不喜歡這種無聊的網站... 擋右鍵幹嘛? 也許站長真的覺的他的內容很了不起大家都想偷... 不過右鍵按下去一堆功能, 又不是每個人點右鍵都是要偷內容... 被當小偷看待的感覺真的挺不爽.. 真的要看, fillder 開下去什麼都看的到..</p> <p>好, 牢騷發完了 (H), 今天不是要講這個.. 因為工作的關係, 開發的系統是處理企業內部的 web content, 免不了有這種檔右鍵的需求, 這種 code 大家或多或少都寫過, 不過都寫的很煩吧...</p> <p>"什麼!!! 每一頁都要檔?"</p> <p>"每一頁都加 code 要加到什麼時後..."</p> <p>接到這種需求大概都想扁人吧, 咳咳... 我就是因為懶所以想到一招省事的... 先來看一下這個網頁, 看看大家追不追的到右鍵是怎麼擋的...</p> <p><a href="http://www.chicken-house.net/files/chicken/htc-sample.zip/index.html" target="_blank">test html page</a>&nbsp;(<a href="http://www.chicken-house.net/files/chicken/htc-sample.zip">full source</a>)</p> <p>看出來為什麼右鍵被停用了嗎? 沒有 script tag, 也沒有 include 啥鬼東西, 開這個 page 的 link 也沒動啥手腳... 開 page 時 ie 也沒要求下載啥奇怪的軟體...</p> <p>不過, 右鍵的確是被 disable 了, 秘密就在這段 css ..</p> <p><font color="#0000ff">body { behavior:url('context-menu-blocker.htc'); }</font></p> <p>這是 Microsoft 在 IE5 之後就引進的 DHTML Behaviors. CSS 是為了樣式而設計出來的, 目的就是希望一組網頁只要有共通的樣式, 就不用每一頁去調字型顏色等等... 只要透過 CSS 就可以把整個網站的每一頁, 在特定 tag 套用特定的樣式...</p> <p>"只能套用外觀嗎? 如果程式也可以這樣撒出去就好了"</p> <p>沒錯, behavior 就是這個目的, 把你想怎樣 "改造" 這個 tag 的 script 寫在 .htc 裡, 再用 css 把它綁到 tag 上, 一切就完成了.</p> <p>這個例子的 htc 只有去攔捷 oncontextmenu 事件, 攔下來後只有做取消事件的動作而以. 藉著 css 就可以把這功能套用到 page 上了... 當然, 你的網站有 css 的話, 這個功能馬上就套用到你所有的網頁了.</p> <p>這些技巧果然說穿了就不值錢... 咳咳, 不過 HTC 還有很多其它更讚的應用, 因為它很精巧的把 code 跟 tag binding 處理的很好, 很可惜這技術好像不大登的上抬面, 用過的人似乎不多, IE5.0 推出後, IE5.5 對 htc 有些改進, 之後就沒有啥新的進展了..</p> <p>不知道 IE7 對 htc 有啥改進? 有空再來試試了 :D</p>]]></content:encoded>
 		<excerpt:encoded><![CDATA[]]></excerpt:encoded>
 		<wp:post_id>209</wp:post_id>
 		<wp:post_date><![CDATA[2006-11-11 03:00:28]]></wp:post_date>
@@ -17248,7 +17248,7 @@ Vista 已經到手了, 裡面有附 32 / 64 位元版, 不過正式換裝又是�
 </p>
 <ol>
 	<li><a href="http://www.codeproject.com/ce/rcmd.asp">http://www.codeproject.com/ce/rcmd.asp</a><br />
-	透過 M$ 提供的 RAPI, 寫了一個 command line 的 tools 可以辦到</li>
+	透過 Microsoft 提供的 RAPI, 寫了一個 command line 的 tools 可以辦到</li>
 	<li><a href="http://www.microsoft.com/taiwan/msdn/library/2004/...">http://www.microsoft.com/taiwan/msdn/library/2004/...</a><br />
 	MSDN 的文章, 介紹如何用 .net 開發像 (1) 這樣的 tools ...</li>
 </ol>
@@ -17281,7 +17281,7 @@ Vista 已經到手了, 裡面有附 32 / 64 位元版, 不過正式換裝又是�
 	</p>
 </blockquote>
 <p>
-不過即使如此, 還是花了點時間看了 MSDN 那篇文章, 原來 M$ 官方都沒有把 ActiveSync 提供的 Remote API 包成 .net 版的 class library, open source 的組織就已經做好了, 連 MSDN 官方文件都引用它來試範... 哈哈, 提供一下 link:
+不過即使如此, 還是花了點時間看了 MSDN 那篇文章, 原來 Microsoft 官方都沒有把 ActiveSync 提供的 Remote API 包成 .net 版的 class library, open source 的組織就已經做好了, 連 MSDN 官方文件都引用它來試範... 哈哈, 提供一下 link:
 </p>
 <p>
 <a href="http://www.opennetcf.org/communication.asp">OpenNETCF 網站</a>
@@ -17616,7 +17616,7 @@ http://www.babyhome.com.tw/bb/101028]]></wp:comment_content>
 			<wp:comment_date_gmt><![CDATA[2007-03-01 13:56:12]]></wp:comment_date_gmt>
 			<wp:comment_content><![CDATA[補一下後續..
 
-為了避開直接去執行外部 .exe 的動作, 去反組譯 MSBuild 裡內建的 AL task, 好樣的, M$ 自己也是 Create Process 去呼叫現成的 AL.exe ...
+為了避開直接去執行外部 .exe 的動作, 去反組譯 MSBuild 裡內建的 AL task, 好樣的, Microsoft 自己也是 Create Process 去呼叫現成的 AL.exe ...
 
 後來再去反組譯 AL.exe 來看, 真是讚, .net sdk 附的 AL.exe 跟本不是 .net assembly ...
 
@@ -17809,7 +17809,7 @@ public bool IsDisposed { get; private set; }]]></wp:comment_content>
 看起來沒啥了不起的標題, 哈哈... 自從IE7推出以來, 這是第四次升級了... 之前每次裝好後, 一開IE7就應用程式錯誤, IE7就自己關掉了, 連進去打網址的機會都沒有 :~
 </p>
 <p>
-之後每次看到 M$ 有新的 update 之後, 就會試著再裝一次, 終於這次過年前一大票的 security patch 裝了之後, IE7 就正常了 :D
+之後每次看到 Microsoft 有新的 update 之後, 就會試著再裝一次, 終於這次過年前一大票的 security patch 裝了之後, IE7 就正常了 :D
 </p>
 <p>
 原來裝 IE7 也是要看時辰的, 大年初一就 ok .. Orz
@@ -18176,10 +18176,10 @@ Windows Live Writer (以下簡稱 WLW) 用過的都說好, 老實說它做的真
 &nbsp;
 </p>
 <p>
-本來是想從 MetaBlog API 下手, 因為這個管道也可以 upload image, 不過試了半天宣告放棄, 大概是 M$ 怕有人寫 Plugins 來偷密碼吧? 也可能是 Plugins 都被定位在 &quot;edit blog&quot; 的部份, 而不是 &quot;publish&quot; 的部份, 因此完全拿不到 WLW 的 Weblog Account 相關資訊... 這條路宣告放棄, 就算要作, 也得分開 config, 沒辦法... 
+本來是想從 MetaBlog API 下手, 因為這個管道也可以 upload image, 不過試了半天宣告放棄, 大概是 Microsoft 怕有人寫 Plugins 來偷密碼吧? 也可能是 Plugins 都被定位在 &quot;edit blog&quot; 的部份, 而不是 &quot;publish&quot; 的部份, 因此完全拿不到 WLW 的 Weblog Account 相關資訊... 這條路宣告放棄, 就算要作, 也得分開 config, 沒辦法... 
 </p>
 <p>
-現在這個版本其實只是自己做爽的而以, 所以就不用跟我要 .dll 了, 不成氣候的作品... 因為不知 M$ 下一版會不會改掉這鳥問題? 有的話這外掛就變廢物了, 二來現在太陽春, 連個防呆都沒有... 哈哈... 只是花兩個小時邊 K 邊寫的本來就只能玩玩... 不過做過這個 plugin 後, 寫法跟能運用的範圍大概都有個底了, 下次來改寫的話, 我打算 option 那邊就改成 MetaBlogAPI 需要的設定, 如 Blog URL, account, password 等資訊, 不然放個網芳真的是沒啥用... 
+現在這個版本其實只是自己做爽的而以, 所以就不用跟我要 .dll 了, 不成氣候的作品... 因為不知 Microsoft 下一版會不會改掉這鳥問題? 有的話這外掛就變廢物了, 二來現在太陽春, 連個防呆都沒有... 哈哈... 只是花兩個小時邊 K 邊寫的本來就只能玩玩... 不過做過這個 plugin 後, 寫法跟能運用的範圍大概都有個底了, 下次來改寫的話, 我打算 option 那邊就改成 MetaBlogAPI 需要的設定, 如 Blog URL, account, password 等資訊, 不然放個網芳真的是沒啥用... 
 </p>
 ]]></content:encoded>
 		<excerpt:encoded><![CDATA[]]></excerpt:encoded>
@@ -18210,7 +18210,7 @@ Windows Live Writer (以下簡稱 WLW) 用過的都說好, 老實說它做的真
 既然要勸敗, 就要勸的徹底一點, 不過我當然寫不出那種從開箱就一堆照片, 然後啥 ooxx 很有質感, 接著再拿一堆手機出來疊疊樂的文章, 咳咳.. 
 </p>
 <p>
-發現買 Dopod C720W 這支手機的人似乎不多, 討論也是少到可憐, 不過這款手機倒是有不少優點, 我事前除了做足了功課之外, 還專程去抓了 M$ 的 Smartphone SDK + Device Emulator, 把我要的功能都試了好幾次, 確認跟我想的一樣才跑去買... 我就挑幾個合我胃口的優點講一講:
+發現買 Dopod C720W 這支手機的人似乎不多, 討論也是少到可憐, 不過這款手機倒是有不少優點, 我事前除了做足了功課之外, 還專程去抓了 Microsoft 的 Smartphone SDK + Device Emulator, 把我要的功能都試了好幾次, 確認跟我想的一樣才跑去買... 我就挑幾個合我胃口的優點講一講:
 </p>
 <p>
 &nbsp;
@@ -19271,7 +19271,7 @@ Microsoft Virtual Server 2005 R2 SP1 (好長的名字...) 在兩個禮拜前出�
 這年頭應該不少人用過各種的 virtual cd-rom 軟體, 可以把 .iso 檔當成光碟片, &quot;塞&quot; 進 virtual cd-rom 來使用. VHDMount 也是一樣, 只不過它的對相是 vpc 用的硬碟映象檔 *.vhd, 而不是光碟的映象檔 *.iso ...
 </p>
 <p>
-vmware 則是提供這種工具好久了, M$ 終於也支援了, 而且在 mount vhd 時會啟用 undo disk 的機制, dismount 時可以選則要不要 commit 這些 change, 真是不錯 [Y], 以後不用為了改 vhd 的內容, 還得大費周張的 boot guest os...
+vmware 則是提供這種工具好久了, Microsoft 終於也支援了, 而且在 mount vhd 時會啟用 undo disk 的機制, dismount 時可以選則要不要 commit 這些 change, 真是不錯 [Y], 以後不用為了改 vhd 的內容, 還得大費周張的 boot guest os...
 </p>
 <p>
 因為 VPC 跟 VS2005 R2 SP1 用的 vhd 格式是互通的, 因此你可以放心的在你的 XP 上面裝 Virtual Server 2005 R2 SP1, 其它項目都不要選, 只要安裝 VHDMount 這個工具就好了, 這麼一來即使你只是用 VPC, 也可以享受到 VHDMount 帶來的好處...
@@ -19324,7 +19324,7 @@ vmware 則是提供這種工具好久了, M$ 終於也支援了, 而且在 mount
 <P>其實也沒啥大問題, 只不過換了 vista 一兩個月, 發現還是不到時後, 就決定換回來了, 因為:</P>
 <OL>
 <LI>vista 的 volume shadow copy 仍然不到我的標準, 看起來它的 vss writer 實作方式仍然跟我慣用的 win2003 有差, 常常不知不覺 (不到 2 weeks), 250GB 放照片等檔案的硬碟, 剩下的 150GB 就會被塞爆... 跟我所知的 copy on write 好像有很大的距離...</LI>
-<LI>vista 介面倒是都習慣了, 不過相容性倒是個大問題, 我是很喜歡用內建軟體的人, 只要內建的 (包括 m$ 自己出的一堆小工具) 別太差勁, 我通常會選內建的而不用外加的軟體. 不過換到 vista, 大部份都不能用, Orz... 包括: XP PowerToys (我常用裡面附的 Image Resizer, Raw Image Viewer), Resource Kit Tools ( cdburn / dvdburn 很好用 ), 還有就是 Canon 遲遲不出 .CRW 的 codec ..</LI>
+<LI>vista 介面倒是都習慣了, 不過相容性倒是個大問題, 我是很喜歡用內建軟體的人, 只要內建的 (包括 Microsoft 自己出的一堆小工具) 別太差勁, 我通常會選內建的而不用外加的軟體. 不過換到 vista, 大部份都不能用, Orz... 包括: XP PowerToys (我常用裡面附的 Image Resizer, Raw Image Viewer), Resource Kit Tools ( cdburn / dvdburn 很好用 ), 還有就是 Canon 遲遲不出 .CRW 的 codec ..</LI>
 <LI>File System 的安全機制有點怪, 常常搬檔案跟我講沒有權限... 奇的是同樣的操作, 換成 copy + delete 就可以過的去, 家裡用的電腦就懶的去追究原因了...</LI>
 <LI>慢! 雖然已經是 Core2 Duo E6300 + 2GB RAM, 不過仍然常操作到一半就得等一下... </LI>
 <LI>MCE錄製節目常多錄... 比如我只預約錄某個節目, 結果它重播的也給我自動錄下來... !@#%@#$... (不過後來發現我冤枉 vista 了, 是節目表剛好有問題...)</LI></OL>
@@ -20110,10 +20110,10 @@ HTTP 401, 看起來就像是 vs2005 傳出去的身份驗證機制沒有成功�
 我用的冷門工具在 vista 裡又碰到問題了 [:S]
 </p>
 <p>
-Windows Media Encoder 9 附的 script: WMCmd.vbs, 在 vista 下執行時, cscript.exe 就會因為 DEP 的原因發生問題, 被攔下來, 看來 M$ 自己的 code 也是到處都藏著地雷, 隨便也碰到 data segment 被執行的狀況, 然後 DEP 就啟動了...
+Windows Media Encoder 9 附的 script: WMCmd.vbs, 在 vista 下執行時, cscript.exe 就會因為 DEP 的原因發生問題, 被攔下來, 看來 Microsoft 自己的 code 也是到處都藏著地雷, 隨便也碰到 data segment 被執行的狀況, 然後 DEP 就啟動了...
 </p>
 <p>
-本想把 DEP 關掉了事, 不過 cscript.exe 在 vista 還被限定非得開啟 DEP 不可, Orz, 只好 Google / M$ support 查看看有沒有解了. 沒想到運氣還真不錯, 果然在官方網站找到 solution:
+本想把 DEP 關掉了事, 不過 cscript.exe 在 vista 還被限定非得開啟 DEP 不可, Orz, 只好 Google / Microsoft support 查看看有沒有解了. 沒想到運氣還真不錯, 果然在官方網站找到 solution:
 </p>
 <p>
 &nbsp;
@@ -20380,10 +20380,10 @@ class: System.Net.Mail.MailAddress
       return this.fullAddress;
   }
 </pre>
-Ouch, 真是想罵人, 問題就在這裡... 看起來是 M$ 工程師為了避開重複作編碼的動作, 每次呼叫 ToEncodedString( ) 及 ToString( ) 時都會去看看 fullAddress 這個 private field 是否有值? 有的話代表之前已經作過編碼了, 就直接撿現成. 問題出在第一次呼叫時, 編碼的動作在 ToString( ) 及 ToEncodedString( ) 各寫了一次 (果然沒有做好 refactoring ... 哈哈), 結果 ToString( ) 的這份 code implementation 是錯的, 跟本沒編碼 [:@] ... 我沒事雞婆在寄信前呼叫 ToString( ) 印 Messabe 算我運氣背, 就碰到這個 Bug.. [:@]
+Ouch, 真是想罵人, 問題就在這裡... 看起來是 Microsoft 工程師為了避開重複作編碼的動作, 每次呼叫 ToEncodedString( ) 及 ToString( ) 時都會去看看 fullAddress 這個 private field 是否有值? 有的話代表之前已經作過編碼了, 就直接撿現成. 問題出在第一次呼叫時, 編碼的動作在 ToString( ) 及 ToEncodedString( ) 各寫了一次 (果然沒有做好 refactoring ... 哈哈), 結果 ToString( ) 的這份 code implementation 是錯的, 跟本沒編碼 [:@] ... 我沒事雞婆在寄信前呼叫 ToString( ) 印 Messabe 算我運氣背, 就碰到這個 Bug.. [:@]
 
 </div>
-花了近兩天, 不過最後有找到 Bug, 而且還是 M$ 的 Bug, 哈哈, 總算證明人不是我殺的 [:D], submit M$ 的 Bug 有獎金嘛? 不只 Bug, 連問題都找到了... 有的話通知一下 [:D]]]></content:encoded>
+花了近兩天, 不過最後有找到 Bug, 而且還是 Microsoft 的 Bug, 哈哈, 總算證明人不是我殺的 [:D], submit Microsoft 的 Bug 有獎金嘛? 不只 Bug, 連問題都找到了... 有的話通知一下 [:D]]]></content:encoded>
 		<excerpt:encoded><![CDATA[]]></excerpt:encoded>
 		<wp:post_id>169</wp:post_id>
 		<wp:post_date><![CDATA[2007-04-06 15:01:00]]></wp:post_date>
@@ -20606,7 +20606,7 @@ http://connect.microsoft.com/VisualStudio/feedback/ViewFeedback.aspx?FeedbackID=
 真是太讚了 [:@], 打到這邊已經打錯好幾個字, 十幾年來養成的習慣, 不知道要啥時才有可能習慣... Orz, 之前從windows2000就在耽心, 傳統的笨注音何時會被拿掉, 看來 vista 已經是第一步了... [:&#39;(]
 </p>
 <p>
-而 (4), 不能裝 RAW Image Viewer, 連帶的讓我自己寫的<a href="/wp-content/be-files/archive/2006/12/23/cr2-supported.aspx">歸檔</a>程式都不能用 (因為我是靠它的 wrapper 才能讀取 canon raw file)... 真是... 查了一下 M$DN,&nbsp;原來 vista 裡已經全面改用 WPF 處理, 因此原本內建的 image 相關軟體都換過了, 以 .NET 來說, 就是從原本的 GDI+ (System.Draw) 改到 WIC (Windows Imaging Component, System.Media.Imaging). 像 video 一樣, 針對各種不同的 image file 也改用 codec 的方式來處理了. 這也是 Microsoft 在 HD Photo 計劃裡重要的一環, 藉著 WPF 首次引入 <a href="http://en.wikipedia.org/wiki/HD_Photo">HD Photo</a> ( Windows Media Photo ), 目標是把 JPEG 換掉, 不過應該有好一段路要走.... 看起來以後會有較正式的 API 可以存取 RAW file, 不用像我之前一樣要走旁門... 不過, Nikon 已經提供了 NFE 檔的 WIC codec 下載, Canon 的 CRW 咧? [:&#39;(] 看起來是該把歸檔程式用 WIC 改一下了... 只要 Canon Codec 快點出來...
+而 (4), 不能裝 RAW Image Viewer, 連帶的讓我自己寫的<a href="/wp-content/be-files/archive/2006/12/23/cr2-supported.aspx">歸檔</a>程式都不能用 (因為我是靠它的 wrapper 才能讀取 canon raw file)... 真是... 查了一下 MicrosoftDN,&nbsp;原來 vista 裡已經全面改用 WPF 處理, 因此原本內建的 image 相關軟體都換過了, 以 .NET 來說, 就是從原本的 GDI+ (System.Draw) 改到 WIC (Windows Imaging Component, System.Media.Imaging). 像 video 一樣, 針對各種不同的 image file 也改用 codec 的方式來處理了. 這也是 Microsoft 在 HD Photo 計劃裡重要的一環, 藉著 WPF 首次引入 <a href="http://en.wikipedia.org/wiki/HD_Photo">HD Photo</a> ( Windows Media Photo ), 目標是把 JPEG 換掉, 不過應該有好一段路要走.... 看起來以後會有較正式的 API 可以存取 RAW file, 不用像我之前一樣要走旁門... 不過, Nikon 已經提供了 NFE 檔的 WIC codec 下載, Canon 的 CRW 咧? [:&#39;(] 看起來是該把歸檔程式用 WIC 改一下了... 只要 Canon Codec 快點出來...
 </p>
 <p>
 (5) 則是大名鼎鼎的 <a href="http://technet.microsoft.com/en-us/windowsvista/aa906021.aspx">UAC</a>, 可以預防管理者不知不覺做了啥危險的動作. 只要你執行的程式要做較危險的動作, 就會跳出來跟你確認一下... 用意很好, 不過實在有點煩人, 感覺好像以前用 AntiVirus, 我自己有一些 script 用 FileSystemObject 在做事, Norton AV 老跳出來警告我, 認為我寫的 script 是病毒... 現在又是一樣的感覺, 真是... 不過隨便 GOOGLE 查了一下, 沒想到賽門鐵克 (就是賣 AntiVirus 的公司) 還會<a href="http://cpro.com.tw/channel/news/content/index.php?news_id=53758">放話說 UAC 不好</a>,&nbsp;真是, 要嘲笑鱉沒尾巴也不是這樣笑的....
@@ -20718,7 +20718,7 @@ Vista 試了兩天, 果然是有隱藏很多驚喜在裡頭. Microsoft 真是家
 <strong><font color="#ff0000">[Volume Shadow Copy]</font></strong>
 </p>
 <p>
-因為我是把原本 file server 的工作都移到 desktop 上, 因此 vista 終於把 vss 納入, 真是福音一件啊 [:D], 原本我的 server 放照片的那區, 有雙重保護 ( RAID-1 + Volume Shadow Copy ), 換到 XP 時心裡很不安, 保護都沒有了. RAID 可以用主機版上面的取代, 不過可以預防不小心被吳小皮 or 老婆大人砍掉照片的 VSS 就沒有了. 昨天發現 Vista 有提供 VSS 真是感動啊... ( M$ 你什麼時後才要把 RAID-1 加進來...? 用主機板內建的 RAID 很可怕啊...&nbsp;)
+因為我是把原本 file server 的工作都移到 desktop 上, 因此 vista 終於把 vss 納入, 真是福音一件啊 [:D], 原本我的 server 放照片的那區, 有雙重保護 ( RAID-1 + Volume Shadow Copy ), 換到 XP 時心裡很不安, 保護都沒有了. RAID 可以用主機版上面的取代, 不過可以預防不小心被吳小皮 or 老婆大人砍掉照片的 VSS 就沒有了. 昨天發現 Vista 有提供 VSS 真是感動啊... ( Microsoft 你什麼時後才要把 RAID-1 加進來...? 用主機板內建的 RAID 很可怕啊...&nbsp;)
 </p>
 <p>
 &nbsp;
@@ -20730,7 +20730,7 @@ Vista 試了兩天, 果然是有隱藏很多驚喜在裡頭. Microsoft 真是家
 另一個驚喜, 是老早就知道的, 就是 vista 開始內建 disk image 的工具 ( windows complete pc,&nbsp;ultima 版限定, 像 ghost 那樣的東西 ), 這沒什麼特別的, 不過試用一下的發現才發現, 做出來的檔案格式, 就是 VHD ( virtual hard disk ).
 </p>
 <p>
-頓時覺的, M$ 真是間可怕的公司, 難怪他老是立於不敗之地. VHD 是 M$ 在 virtual machine 上面推廣的 virtuah hard disk 格式. Virtual PC / Virtual Server 都是以這個格式為 vm 的 disk. 一年多前才公開了 vhd 的 spec, 廣邀各方拿去使用, Virtual Server 2005 R2 SP1 也將會提供 VHD mount 的工具. 這樣佈局下來, ghost 早已不是對手了, 我還沒試過, 不過未來 vista pc 要移到 virtual machine 內應該就更簡單了, 只要做好 disk image, 再用 vm 掛起來, 搞定收工. 這麼讚的事一定要找時間來試一試.
+頓時覺的, Microsoft 真是間可怕的公司, 難怪他老是立於不敗之地. VHD 是 Microsoft 在 virtual machine 上面推廣的 virtuah hard disk 格式. Virtual PC / Virtual Server 都是以這個格式為 vm 的 disk. 一年多前才公開了 vhd 的 spec, 廣邀各方拿去使用, Virtual Server 2005 R2 SP1 也將會提供 VHD mount 的工具. 這樣佈局下來, ghost 早已不是對手了, 我還沒試過, 不過未來 vista pc 要移到 virtual machine 內應該就更簡單了, 只要做好 disk image, 再用 vm 掛起來, 搞定收工. 這麼讚的事一定要找時間來試一試.
 </p>
 <p>
 &nbsp;
@@ -20739,16 +20739,16 @@ Vista 試了兩天, 果然是有隱藏很多驚喜在裡頭. Microsoft 真是家
 <strong><font color="#ff0000">[Microsoft iSCSI Initiator]</font></strong>
 </p>
 <p>
-另一個驚喜, 是 vista 竟然已經內建 Microsoft iSCSI initiator... 這個倒沒什麼特別的, M$ 老早就 free download 了. 不過我覺的它背後的意義, 是不是代表 client 已經做好 iSCSI client 的準備, 未來 windows server 就會內建 iSCSI target ? 會的話, 格式就會直接用 .vhd ? Virtual PC / Virtual Server 就有進一步的機會直接從 iSCSI target mount disk 來 boot vm ? 哇哈哈, 之前我找半天才湊起來的 solution, 看來以後有望內建了 [Y]
+另一個驚喜, 是 vista 竟然已經內建 Microsoft iSCSI initiator... 這個倒沒什麼特別的, Microsoft 老早就 free download 了. 不過我覺的它背後的意義, 是不是代表 client 已經做好 iSCSI client 的準備, 未來 windows server 就會內建 iSCSI target ? 會的話, 格式就會直接用 .vhd ? Virtual PC / Virtual Server 就有進一步的機會直接從 iSCSI target mount disk 來 boot vm ? 哇哈哈, 之前我找半天才湊起來的 solution, 看來以後有望內建了 [Y]
 </p>
 <p>
 &nbsp;
 </p>
 <p>
-M$ 真是個不簡單的公司, 它總是很能利用 software 要 reuse 才有價值的理念, 打贏過去的每一場仗. 從當年的 office, 到 netscape, 到現在的 visualization solution, 還有 .net technology 都是... M$ 要跟 netscape 對打, 不是做出更好的 IE 內建而以. 它既然花了心力去打造 IE 這瀏覽器, M$ 一定會有 SDK, 讓到處都可以用的到 IE. 從 HTML Help, 檔案總管, windows 桌面, 到每一個小軟體都可以開網頁 (像 msn messenger 裡玩 game 就是), 還有一堆 m$ 的管理工具都看的到 IE 的影子, 除非你不用 M$ 的軟體了, 不然就算你用 FireFox, 你還是甩不掉 IE...
+Microsoft 真是個不簡單的公司, 它總是很能利用 software 要 reuse 才有價值的理念, 打贏過去的每一場仗. 從當年的 office, 到 netscape, 到現在的 visualization solution, 還有 .net technology 都是... Microsoft 要跟 netscape 對打, 不是做出更好的 IE 內建而以. 它既然花了心力去打造 IE 這瀏覽器, Microsoft 一定會有 SDK, 讓到處都可以用的到 IE. 從 HTML Help, 檔案總管, windows 桌面, 到每一個小軟體都可以開網頁 (像 msn messenger 裡玩 game 就是), 還有一堆 Microsoft 的管理工具都看的到 IE 的影子, 除非你不用 Microsoft 的軟體了, 不然就算你用 FireFox, 你還是甩不掉 IE...
 </p>
 <p>
-其實這樣的例子很多, M$ 每一場重要的戰爭都是這樣贏的吧, 不知道 vista 裡還有什麼驚奇, 我再來研究看看... [:D]
+其實這樣的例子很多, Microsoft 每一場重要的戰爭都是這樣贏的吧, 不知道 vista 裡還有什麼驚奇, 我再來研究看看... [:D]
 </p>
 ]]></content:encoded>
 		<excerpt:encoded><![CDATA[]]></excerpt:encoded>
@@ -23436,7 +23436,7 @@ Darkthread:
 RAW support 在我看來是必要的. 照片可不能等十年後再搭時光機回來照, 而現有的 JPEG 又已經是老古董的規格了, 未來是一定會有取而代之的新規格. 會是什麼我不曉得, 不過留著 RAW 準沒錯. 只要 Canon 沒倒, 未來一定有辦法把 RAW 轉成新的通用格式, 而不用經過 JPEG 的折損... 
 </p>
 <p>
-未來看起來很美好, 不過當 G9 入手後, 事情沒有想像的順利, 有了 WPF + Codec, 我自己必需寫些小程式來簡化未來例行的相片歸檔動作. Codec 只要去 Canon 下載就有, WPF 則是新東西, 得自己先研究一番... 搭配 WPF, Microsoft 也推出了新的圖型檔格式: HD Photo. 它的一堆好處我就不多說了, M$ 網站多的是. 我在意的是, HD Photo 提供的新功能, 包括廣大的色域等, 也會對應的在 image codec 裡提供. 因此如果 RAW file 本身就包含這些資訊的話, 透過 codec 讀出來就不會有資訊的折損, 存成 JPEG 就沒有這些好處了. 
+未來看起來很美好, 不過當 G9 入手後, 事情沒有想像的順利, 有了 WPF + Codec, 我自己必需寫些小程式來簡化未來例行的相片歸檔動作. Codec 只要去 Canon 下載就有, WPF 則是新東西, 得自己先研究一番... 搭配 WPF, Microsoft 也推出了新的圖型檔格式: HD Photo. 它的一堆好處我就不多說了, Microsoft 網站多的是. 我在意的是, HD Photo 提供的新功能, 包括廣大的色域等, 也會對應的在 image codec 裡提供. 因此如果 RAW file 本身就包含這些資訊的話, 透過 codec 讀出來就不會有資訊的折損, 存成 JPEG 就沒有這些好處了. 
 </p>
 <p>
 實作第一步, 當然是先研究 WPF 關於 Image 物件的基本處理. 嗯, 果然是跟之前的 GDI / GDI+ 不一樣. 感覺起來 GDI 典型 application 就是像 &quot;小畫家&quot; 這類的 AP, 而 WPF 典型的 application 就是像 flash 這類的, 裡面的物件已經變成圖型來源, 套用各種 transform, 層層處理套上去後得到的結果才是你看到的東西, 大概就類似 photoshop 的 layer 那樣的東西. 
@@ -23598,7 +23598,7 @@ WPF寫起來很簡單, 效率的問題就先擺一邊了 (很理想的預期 can
 </p>
 <ol>
 	<li>Canon Codec 的效能不怎麼樣, G9 的檔案 (4000x3000, 15mb 左右) 全幅解開, 接上 JpegEncoder 存同尺寸 100% quality 檔案, 在我的 Core2Duo E6300 (2GB ram, XP MCE2005 SP2) 足足要 80 sec ...</li>
-	<li>多處理器佔不到便宜. 雙核CPU跑下去, 處理器只有約 50% ~ 60% 使用率. 改了改程式, 開兩個 thread 下去也一樣, 殘念... ( M$ 的就要誇一下, 內建的 codec 就運作的很好... 又快, thread pool 用下去也享受的到全速.. [Y])</li>
+	<li>多處理器佔不到便宜. 雙核CPU跑下去, 處理器只有約 50% ~ 60% 使用率. 改了改程式, 開兩個 thread 下去也一樣, 殘念... ( Microsoft 的就要誇一下, 內建的 codec 就運作的很好... 又快, thread pool 用下去也享受的到全速.. [Y])</li>
 	<li>怪的很, Microsoft 提供的 viewer 直接看 G2 的 .CRW 一切正常, 不過透過 WPF 就會得到 Exception .. 還沒解.</li>
 </ol>
 <p>
@@ -29024,13 +29024,13 @@ Bot Check (required)
 	<li>最重要的原因: 都買了正版 Vista 了, 放著不用是怎樣... [H]</li>
 </ol>
 <p>
-補充個事後才發現的好處, Vista Complete PC 是內建的磁碟備份工具, 類似 GHOST 那樣, 是把你整顆硬碟做成映像檔. M$ 當然用它推廣的格式 *.vhd, 正好跟我常用的 Virtual PC / Virtual Server 的格式一致. 多好用? 簡單在 Vista 內點兩下就可以做 Disk Image, 以後需要的話可以直接用 Vista DVD 還原, 就像 GHOST 一樣. 或是直接用 Virtual Server 2005 R2 SP1 附的工具: <a href="/post/Using-VHDMount-with-Virtual-PC.aspx">VHDMOUNT</a>, 直接掛起來用 [Y]
+補充個事後才發現的好處, Vista Complete PC 是內建的磁碟備份工具, 類似 GHOST 那樣, 是把你整顆硬碟做成映像檔. Microsoft 當然用它推廣的格式 *.vhd, 正好跟我常用的 Virtual PC / Virtual Server 的格式一致. 多好用? 簡單在 Vista 內點兩下就可以做 Disk Image, 以後需要的話可以直接用 Vista DVD 還原, 就像 GHOST 一樣. 或是直接用 Virtual Server 2005 R2 SP1 附的工具: <a href="/post/Using-VHDMount-with-Virtual-PC.aspx">VHDMOUNT</a>, 直接掛起來用 [Y]
 </p>
 <p>
 另外一點也要特別提一下. 原本搜遍了 GOOGLE, 得到的答案清一色都是 Canon Raw Codec 不支援 Vista X64. 官方說法跟使用者討論都是這樣. 我是硬著頭皮先在 VM 裡試了一下, 耶? 至少還可以安裝上去. 不過果然不行. 我自己寫的<a href="/post/Canon-Raw-Codec-2b-WPF-12c-WPF-Image-Codec2c-Metadata.aspx">轉檔工具</a>不能用, 如預期的找不到對應的 Codec. 在 Windows Live Gallery 及檔案總管下也不能直接看到 .CR2 的縮圖...
 </p>
 <p>
-不過想到過去跟 X64 + WOW (是 Windows On Windows, 不是魔獸世界) 奮戰的經驗, 其實 M$ 做的 32 位元回朔相容作的還不錯. 只是有一個大前題: 32 / 64 兩種 CODE 不能混在一起執行. 同一個處理程序 (Process) 內必需都是 32 或是 64 位元的 code. 第一個碰到這種問題的就是各式軟應體的 driver. 硬體的就不說了, 軟體的像一堆 &quot;虛擬&quot; 裝置, virtual cdrom, virtual disk, virtual network adapter ... 等等. 第二個碰到的就是各式的 DLL, 它本來就是讓你載入到你的 Process 內使用的, 像一堆 ODBC driver, COM 元件, ActiveX Control, Video Codec, 加上 WPF 使用的 Image Codec, 都在此列. 這種才是真正的問題, 就像 M$ 可以把 IE 重新用 64 位元改寫, 但是它無法替所有的 ActiveX Control 改寫為 64 位元, 因此未來的五年內, 光是 IE 這東西, 你大概還是甩不掉 32 位元版本...
+不過想到過去跟 X64 + WOW (是 Windows On Windows, 不是魔獸世界) 奮戰的經驗, 其實 Microsoft 做的 32 位元回朔相容作的還不錯. 只是有一個大前題: 32 / 64 兩種 CODE 不能混在一起執行. 同一個處理程序 (Process) 內必需都是 32 或是 64 位元的 code. 第一個碰到這種問題的就是各式軟應體的 driver. 硬體的就不說了, 軟體的像一堆 &quot;虛擬&quot; 裝置, virtual cdrom, virtual disk, virtual network adapter ... 等等. 第二個碰到的就是各式的 DLL, 它本來就是讓你載入到你的 Process 內使用的, 像一堆 ODBC driver, COM 元件, ActiveX Control, Video Codec, 加上 WPF 使用的 Image Codec, 都在此列. 這種才是真正的問題, 就像 Microsoft 可以把 IE 重新用 64 位元改寫, 但是它無法替所有的 ActiveX Control 改寫為 64 位元, 因此未來的五年內, 光是 IE 這東西, 你大概還是甩不掉 32 位元版本...
 </p>
 <p>
 這類相容問題通常都是整套用 32 位元版本就可以解決, 就像 IE 你只要開啟 32 位元版本的話, 即使你是在 x64 OS, 也不會有太大問題. 32 位元的程式在 64 位元 OS 下執行, 還附帶了一些額外的好處. 記憶體管理就佔了不少便宜. 光是記憶體各種管理的動作就快很多 (以前看過相關文章, 不過找不到了 [:P], 下次寫 code 來測看看), 加上 32 位元的基本限制: 4GB memory size, 因為 OS 已經是 64 位元了, 4GB 可用的定址空間不用再切 2GB 給 OS 使用... 因此你的程式可用的定址空間也從 2GB 擴張到 4GB, 不無小補.
@@ -29039,7 +29039,7 @@ Bot Check (required)
 想到這些案例, 我就試了一下... 我自己寫的歸檔工具不能跑, 如果我把它切到 32 位元模式呢? 改了改 compile option, target platform 從原本的 &quot;Any CPU&quot; 改為 &quot;x86&quot;, 耶! 可以了耶... 程式能正確的抓到 Canon Codec, 並且正確的解碼跟抓到 metadata.
 </p>
 <p>
-再試一下 Windows Live Gallery, M$ 還算有良心, 裝好後就有兩種 32/64 版本. 我開了 32 位元版, .CR2 的照片也都可以正確顯示.. 哇哈哈... 讚 [Y]
+再試一下 Windows Live Gallery, Microsoft 還算有良心, 裝好後就有兩種 32/64 版本. 我開了 32 位元版, .CR2 的照片也都可以正確顯示.. 哇哈哈... 讚 [Y]
 </p>
 <p>
 不過 Windows Live Gallery 有些地方要注意, 它似忽載入後會留著, 類似古早的 OLE server 一樣的技術, 跑起來後就會留在系統內, 待下次有人要執行時繼續使用. 因此如果沒有在 BOOT 後第一次就開正確的版本, 以後就有可能你開 32 位元版, 它還是跑 64 位元的給你看...
@@ -29639,7 +29639,7 @@ C:\inetpub\wwwroot\App_Data]]></wp:comment_content>
 		<dc:creator><![CDATA[chicken]]></dc:creator>
 		<guid isPermaLink="false">/columns/post/2008/07/23/x86-x64-e582bbe582bbe58886e4b88de6b885e6a59a.aspx</guid>
 		<description></description>
-		<content:encoded><![CDATA[<p>雖然常在 x86 / x64 兩種模式下打轉，不過一不留神還真的會吃到虧... 最近平常下班跟工作都碰到 x64 的問題，因此這裡記一下心得，免的以後又吃到虧... 這篇又是無聊的碎碎唸 + 流水帳，沒耐心的人就直接跳過去吧 :D</p>  <p>&#160;</p>  <p>除非你的程式非得用 C/C++ 不可，否則想要平順的從 x86 跨到 x64 的環境，最簡單的方式還是用 .NET。不過別以為你用 .NET 然後編譯的 PLATFORM 選 ANY CPU 就可以高枕無憂，好戲現在才開始...。</p>  <p>&#160;</p>  <p>碎碎唸的內容太雜了，先列個摘要:</p>  <ol>   <li>16 位元到 32 位元 v.s. 32 位元到 64 位元</li>    <li>x64 + wow</li>    <li>同時使用 x86 only COM / x64 only COM</li> </ol>  <p>&#160;</p>  <p>過去從 16 位元模式轉到 32 位元模式的路我沒有經歷過，雖然我寫過 16 bits 的程式，不過大都是像俄羅斯方塊，或是貪吃蛇之流的小程式，寫爽的... 也沒怎麼在用，跟本沒有轉移的問題。DOS時代我一直撐著，沒怎麼在用 WIN 3.1，後來 IBM OS/2 出來我有認真的用了一下，直到 Win95 的年代才開始真正在用 Windows... </p>  <p>不過 Windows 95 用了沒多久，實在受不了它的穩定性 (之前被 OS/2 慣壞了)，就直接跳到 NT4 workstation，從此就一路一直用 NT 家族的作業系統 ( NT4、2000、XP... )，大部份時間都是窩在 32 位元的環境下作業。</p>  <p>&#160;</p>  <p>Microsoft 替 32 -&gt; 64 鋪的路，跟 16 -&gt; 32 不大一樣。16 -&gt; 32 靠的是 v86 mode 來提供 16 位元的相容模式，在 windows 下則是以 wowexec 把所有的 16 位元成式集中在這個 process 下執行。不過到了 32 -&gt; 64 的年代，提供相容環境的作法已經不一樣了，直接在 user mode 下提供相容的模式，唯一的限制是同一個 process 不能同時存在兩種模式的 code，要嘛 32 要嘛 64，一定要選邊站就是了。只要你不碰到 COM 這類 in-process 的程式，都不會有太大的問題。</p>  <p>另外系統的目錄也開始分兩份...。安裝過 64 位元版的 windows 就知道，Program Files目錄變成兩個 ( Program Files / Program Files (x86) )，而 System32 目錄也變兩個了 ( System32 / SysWow64 )，其它像是 Registry 等也都有兩份...。</p>  <p>&#160;</p>  <p>談談我碰過的幾個案例，工作上碰到的例子很多，其實自己寫的都是 script / assembly，都不大需要跟平台榜在一起。不過寫過 ASP / VB 的都知道，拿掉 COM 元件的話，大概就什麼都不剩了... 只要你需要的 COM 元件有一個沒有提供 64 位元版，很抱歉... 你就要乖乖回到 32 位元模式...。像 JET / ODBC driver 就沒有 64 位元版...。不過 .NET 倒是得天獨厚，因為有類似 Java VM 的 CLR 擋在 .NET 及 OS 之間，因此絕大部份的 .NET 2.0 程式碼都可以自在的跨 x86 / x64 兩種模式執行，除了... 除了我碰到的情況之外 -_-。</p>  <p>&#160;</p>  <p>討厭的是這些自己寫的 .NET / SCRIPT 程式，沒有特別指定的話當然都會用原生的 64 位元模式執行，直到出錯你找半天找不到問題，無意之間才想到是 32/64 的鳥問題...，害我抓最久的就是 .NET 包裝的 SMTP 元件，CDO 沒有提供 64 位元版，但是 .NET 編譯成 ANY CPU 模式卻又沒有任何問題，直到執行時才給你 run time error ...。另一個例子是我自己在用的 WPF Image Codec... 因為我有用到 CANON 提供的 RAW CODEC，但是 CANON 遲遲不肯推出 64 位元版... Orz，我只好將就著點在 Vista x64 下跑 32 位元的版本。第一步就是重新 compile 自己寫的 Media Filer，通通編譯成 x86 platform。</p>  <p>&#160;</p>  <p>程式看起來跑的好好的，不過問題現在才開始。家裡大人常愛用相機拍 AVI 下來，原本的程式是叫用 Media Encoder 把 AVI 重新編碼程我要的規格。32位元下呼叫 CSCRIPT.exe, 然後再叫用 WMEnc.vbs 出來轉檔... 才發現問題大條了，怎麼找不到元件? @_@</p>  <p>&#160;</p>  <p>我一直以為 M$ 的東西，64位元版都會一次安裝兩種版本... 結果原來要個別去抓 32 / 64 位元的 Media Encoder 9 回來裝才能用... 好，硬碟就花下去，裝兩種就裝兩種...。執行過後又發現怪怪的，透過 media encoder components 啟動 media encoder 轉檔，怎麼轉完就停在 100% 不會自動關掉? 實在是搞不定，試了 64 位元版的沒問題，只好想辦法改用 64 位元版的 media encoder ...。</p>  <p>&#160;</p>  <p>它ㄨ的，問題一個接著一個來... 弄到這裡才發現，32 位元模式下的程式，沒辦法叫 64 位元版的 COM 元件來幫我做事，Orz... 如果換 64 位元的話，又用不到 Canon Raw Codec ...。最後沒辦法，只好程式大搬家，拆成幾個獨立的 .exe，各自用適合的版本運作... 以功能來說，這樣已經達成我的目的了。正好並行效果不大好的 Canon Raw Codec，在這樣的模式下還能吃掉四核CPU的80%運算能力，算是偷笑了... 這篇雜七雜八的 x64 / x86 大亂鬥就到這裡為止，謝謝觀賞 :D。</p>  <p>&#160;</p>  <p><img style="border-right: 0px; border-top: 0px; border-left: 0px; border-bottom: 0px" height="491" alt="image" src="/wp-content/be-files/WindowsLiveWriter/x86x64_146BF/image_9.png" width="660" border="0" /></p>]]></content:encoded>
+		<content:encoded><![CDATA[<p>雖然常在 x86 / x64 兩種模式下打轉，不過一不留神還真的會吃到虧... 最近平常下班跟工作都碰到 x64 的問題，因此這裡記一下心得，免的以後又吃到虧... 這篇又是無聊的碎碎唸 + 流水帳，沒耐心的人就直接跳過去吧 :D</p>  <p>&#160;</p>  <p>除非你的程式非得用 C/C++ 不可，否則想要平順的從 x86 跨到 x64 的環境，最簡單的方式還是用 .NET。不過別以為你用 .NET 然後編譯的 PLATFORM 選 ANY CPU 就可以高枕無憂，好戲現在才開始...。</p>  <p>&#160;</p>  <p>碎碎唸的內容太雜了，先列個摘要:</p>  <ol>   <li>16 位元到 32 位元 v.s. 32 位元到 64 位元</li>    <li>x64 + wow</li>    <li>同時使用 x86 only COM / x64 only COM</li> </ol>  <p>&#160;</p>  <p>過去從 16 位元模式轉到 32 位元模式的路我沒有經歷過，雖然我寫過 16 bits 的程式，不過大都是像俄羅斯方塊，或是貪吃蛇之流的小程式，寫爽的... 也沒怎麼在用，跟本沒有轉移的問題。DOS時代我一直撐著，沒怎麼在用 WIN 3.1，後來 IBM OS/2 出來我有認真的用了一下，直到 Win95 的年代才開始真正在用 Windows... </p>  <p>不過 Windows 95 用了沒多久，實在受不了它的穩定性 (之前被 OS/2 慣壞了)，就直接跳到 NT4 workstation，從此就一路一直用 NT 家族的作業系統 ( NT4、2000、XP... )，大部份時間都是窩在 32 位元的環境下作業。</p>  <p>&#160;</p>  <p>Microsoft 替 32 -&gt; 64 鋪的路，跟 16 -&gt; 32 不大一樣。16 -&gt; 32 靠的是 v86 mode 來提供 16 位元的相容模式，在 windows 下則是以 wowexec 把所有的 16 位元成式集中在這個 process 下執行。不過到了 32 -&gt; 64 的年代，提供相容環境的作法已經不一樣了，直接在 user mode 下提供相容的模式，唯一的限制是同一個 process 不能同時存在兩種模式的 code，要嘛 32 要嘛 64，一定要選邊站就是了。只要你不碰到 COM 這類 in-process 的程式，都不會有太大的問題。</p>  <p>另外系統的目錄也開始分兩份...。安裝過 64 位元版的 windows 就知道，Program Files目錄變成兩個 ( Program Files / Program Files (x86) )，而 System32 目錄也變兩個了 ( System32 / SysWow64 )，其它像是 Registry 等也都有兩份...。</p>  <p>&#160;</p>  <p>談談我碰過的幾個案例，工作上碰到的例子很多，其實自己寫的都是 script / assembly，都不大需要跟平台榜在一起。不過寫過 ASP / VB 的都知道，拿掉 COM 元件的話，大概就什麼都不剩了... 只要你需要的 COM 元件有一個沒有提供 64 位元版，很抱歉... 你就要乖乖回到 32 位元模式...。像 JET / ODBC driver 就沒有 64 位元版...。不過 .NET 倒是得天獨厚，因為有類似 Java VM 的 CLR 擋在 .NET 及 OS 之間，因此絕大部份的 .NET 2.0 程式碼都可以自在的跨 x86 / x64 兩種模式執行，除了... 除了我碰到的情況之外 -_-。</p>  <p>&#160;</p>  <p>討厭的是這些自己寫的 .NET / SCRIPT 程式，沒有特別指定的話當然都會用原生的 64 位元模式執行，直到出錯你找半天找不到問題，無意之間才想到是 32/64 的鳥問題...，害我抓最久的就是 .NET 包裝的 SMTP 元件，CDO 沒有提供 64 位元版，但是 .NET 編譯成 ANY CPU 模式卻又沒有任何問題，直到執行時才給你 run time error ...。另一個例子是我自己在用的 WPF Image Codec... 因為我有用到 CANON 提供的 RAW CODEC，但是 CANON 遲遲不肯推出 64 位元版... Orz，我只好將就著點在 Vista x64 下跑 32 位元的版本。第一步就是重新 compile 自己寫的 Media Filer，通通編譯成 x86 platform。</p>  <p>&#160;</p>  <p>程式看起來跑的好好的，不過問題現在才開始。家裡大人常愛用相機拍 AVI 下來，原本的程式是叫用 Media Encoder 把 AVI 重新編碼程我要的規格。32位元下呼叫 CSCRIPT.exe, 然後再叫用 WMEnc.vbs 出來轉檔... 才發現問題大條了，怎麼找不到元件? @_@</p>  <p>&#160;</p>  <p>我一直以為 Microsoft 的東西，64位元版都會一次安裝兩種版本... 結果原來要個別去抓 32 / 64 位元的 Media Encoder 9 回來裝才能用... 好，硬碟就花下去，裝兩種就裝兩種...。執行過後又發現怪怪的，透過 media encoder components 啟動 media encoder 轉檔，怎麼轉完就停在 100% 不會自動關掉? 實在是搞不定，試了 64 位元版的沒問題，只好想辦法改用 64 位元版的 media encoder ...。</p>  <p>&#160;</p>  <p>它ㄨ的，問題一個接著一個來... 弄到這裡才發現，32 位元模式下的程式，沒辦法叫 64 位元版的 COM 元件來幫我做事，Orz... 如果換 64 位元的話，又用不到 Canon Raw Codec ...。最後沒辦法，只好程式大搬家，拆成幾個獨立的 .exe，各自用適合的版本運作... 以功能來說，這樣已經達成我的目的了。正好並行效果不大好的 Canon Raw Codec，在這樣的模式下還能吃掉四核CPU的80%運算能力，算是偷笑了... 這篇雜七雜八的 x64 / x86 大亂鬥就到這裡為止，謝謝觀賞 :D。</p>  <p>&#160;</p>  <p><img style="border-right: 0px; border-top: 0px; border-left: 0px; border-bottom: 0px" height="491" alt="image" src="/wp-content/be-files/WindowsLiveWriter/x86x64_146BF/image_9.png" width="660" border="0" /></p>]]></content:encoded>
 		<excerpt:encoded><![CDATA[]]></excerpt:encoded>
 		<wp:post_id>85</wp:post_id>
 		<wp:post_date><![CDATA[2008-07-23 00:52:49]]></wp:post_date>
@@ -30191,7 +30191,7 @@ Provider 依賴的是事先定義好的 ProviderBase (abstract class) 類別。�
 		<dc:creator><![CDATA[chicken]]></dc:creator>
 		<guid isPermaLink="false">/columns/post/2008/07/02/BlogEngineNET-Widgets.aspx</guid>
 		<description></description>
-		<content:encoded><![CDATA[<p>原本只是想找找有沒有 BlogEngine.NET Extension 存放自訂設定值的說明，無意間找到這個令人 Orz 的東西，BlogEngine.NET 專用的 Widgets ...</p> <p>Widgets 這名字到處都有人用，指的不外乎是能留在桌面或是網頁的 "小工具"。拜物件技術所賜，這種東西越來越好作了。當年還在用 ET 的時代，一篇報告要插張圖，就有一堆技巧得拿出來用... 先下好控制碼把位子空出來，列印... 然後再印張圖，貼上去..</p> <p>中間年代有些工具可以直接插圖的就不管了，真正有革命性的改變，是 WIN3.1 時代的 OLE (Object Linkage and Embedded) ，其實這也不是 M$ 先發展出來的，較早是 APPLE 的 OpenDoc ... 這些物件的技術開始可以讓兩種獨立的 AP，在同一份文件或是畫面上共同處理一樣的資料...。</p> <p>幹嘛扯這些? 因為我碩士論文就是弄這些五四三的物件導向技術，哈哈...。沒什麼，只是看到 BlogEngine Widget 這麼好寫，沒幾行 CODE 就搞定，那當年我的研究論文跟本是寫好玩的.. @_@</p> <p>&nbsp;</p> <p><a title="http://rtur.net/blog/post/2008/03/24/BlogEngine-Widgets-Tutorial.aspx" href="http://rtur.net/blog/post/2008/03/24/BlogEngine-Widgets-Tutorial.aspx">http://rtur.net/blog/post/2008/03/24/BlogEngine-Widgets-Tutorial.aspx</a></p> <p>原本要找 Extension, 後來逛到這位強者的網站，它擺了一段很簡單的 CODE，就是之前研究過一陣子的 FlickrNet。它寫了一個簡單的 USER CONTROL，透過 FlickrNet 抓幾張圖回來，顯示在 User Control 的範圍內。</p> <p>另外他寫了另一個 User Control，用來編輯第一個 User Control 可能會用到的設定值，畫面上幾個 Text Box 也搞定了。</p> <p>然後，放到 BlogEngine.NET 的 ~/Widgets/ 目錄下就好了? 簡單到想打人...</p> <p>&nbsp;</p> <p>現在回頭來看看，這樣做出來的 widget 能幹嘛? 我現在用的版面，右側有一堆 "BOX"，有 Google 的廣告，有 "安德魯是誰?"，有最新回應...，沒錯，在 BlogEngine 1.4 之後，這些就變成真正的元件了。大概就像 M$ 的 Web Parts 一樣。網頁的主人可以很簡單的在畫面上拉一塊新的 "widget" 出來，直接用拖拉的方式放到喜歡的位子，按下 [EDIT]，畫面就會切到編輯用的 User Control，OK就存檔...</p> <p>要做到這堆事，你只要會寫 USER CONTROL，照 BE 的規舉，繼承指定的 CLASS，把檔案放到指定的目錄就好了... Orz</p> <p>&nbsp;</p> <p>有時後東西弄的太簡單也很令人洩氣，尤其是 BLOG 剛搬完家，差不多要完工時 @_@，才發現 BlogEngine 在 2008/06/30 推出 1.4 版，主要就是加上 widget 的功能... 哈哈，那個<a href="http://www.michadel.net/" target="_blank">小熊子</a>應該比我更想哭吧 (H)</p> <p>&nbsp;</p> <p>不過事情倒還很順利，之前有作好準備，花了一兩個小時試一下就動工了，動啥工? 看看底下的版本... 已經搬到 1.4 版了 :D，唯一美中不足的是，過去花太多工夫在這個樣板上面，所以只好連樣板一起搬過來... 而這個樣版並不支援 Widget 的功能。看來又有得忙了... </p>]]></content:encoded>
+		<content:encoded><![CDATA[<p>原本只是想找找有沒有 BlogEngine.NET Extension 存放自訂設定值的說明，無意間找到這個令人 Orz 的東西，BlogEngine.NET 專用的 Widgets ...</p> <p>Widgets 這名字到處都有人用，指的不外乎是能留在桌面或是網頁的 "小工具"。拜物件技術所賜，這種東西越來越好作了。當年還在用 ET 的時代，一篇報告要插張圖，就有一堆技巧得拿出來用... 先下好控制碼把位子空出來，列印... 然後再印張圖，貼上去..</p> <p>中間年代有些工具可以直接插圖的就不管了，真正有革命性的改變，是 WIN3.1 時代的 OLE (Object Linkage and Embedded) ，其實這也不是 Microsoft 先發展出來的，較早是 APPLE 的 OpenDoc ... 這些物件的技術開始可以讓兩種獨立的 AP，在同一份文件或是畫面上共同處理一樣的資料...。</p> <p>幹嘛扯這些? 因為我碩士論文就是弄這些五四三的物件導向技術，哈哈...。沒什麼，只是看到 BlogEngine Widget 這麼好寫，沒幾行 CODE 就搞定，那當年我的研究論文跟本是寫好玩的.. @_@</p> <p>&nbsp;</p> <p><a title="http://rtur.net/blog/post/2008/03/24/BlogEngine-Widgets-Tutorial.aspx" href="http://rtur.net/blog/post/2008/03/24/BlogEngine-Widgets-Tutorial.aspx">http://rtur.net/blog/post/2008/03/24/BlogEngine-Widgets-Tutorial.aspx</a></p> <p>原本要找 Extension, 後來逛到這位強者的網站，它擺了一段很簡單的 CODE，就是之前研究過一陣子的 FlickrNet。它寫了一個簡單的 USER CONTROL，透過 FlickrNet 抓幾張圖回來，顯示在 User Control 的範圍內。</p> <p>另外他寫了另一個 User Control，用來編輯第一個 User Control 可能會用到的設定值，畫面上幾個 Text Box 也搞定了。</p> <p>然後，放到 BlogEngine.NET 的 ~/Widgets/ 目錄下就好了? 簡單到想打人...</p> <p>&nbsp;</p> <p>現在回頭來看看，這樣做出來的 widget 能幹嘛? 我現在用的版面，右側有一堆 "BOX"，有 Google 的廣告，有 "安德魯是誰?"，有最新回應...，沒錯，在 BlogEngine 1.4 之後，這些就變成真正的元件了。大概就像 Microsoft 的 Web Parts 一樣。網頁的主人可以很簡單的在畫面上拉一塊新的 "widget" 出來，直接用拖拉的方式放到喜歡的位子，按下 [EDIT]，畫面就會切到編輯用的 User Control，OK就存檔...</p> <p>要做到這堆事，你只要會寫 USER CONTROL，照 BE 的規舉，繼承指定的 CLASS，把檔案放到指定的目錄就好了... Orz</p> <p>&nbsp;</p> <p>有時後東西弄的太簡單也很令人洩氣，尤其是 BLOG 剛搬完家，差不多要完工時 @_@，才發現 BlogEngine 在 2008/06/30 推出 1.4 版，主要就是加上 widget 的功能... 哈哈，那個<a href="http://www.michadel.net/" target="_blank">小熊子</a>應該比我更想哭吧 (H)</p> <p>&nbsp;</p> <p>不過事情倒還很順利，之前有作好準備，花了一兩個小時試一下就動工了，動啥工? 看看底下的版本... 已經搬到 1.4 版了 :D，唯一美中不足的是，過去花太多工夫在這個樣板上面，所以只好連樣板一起搬過來... 而這個樣版並不支援 Widget 的功能。看來又有得忙了... </p>]]></content:encoded>
 		<excerpt:encoded><![CDATA[]]></excerpt:encoded>
 		<wp:post_id>89</wp:post_id>
 		<wp:post_date><![CDATA[2008-07-02 03:08:02]]></wp:post_date>
@@ -30814,7 +30814,7 @@ public class SiteBlockerHttpModule : IHttpModule{    public void Init(HttpApplic
 		<guid isPermaLink="false">/columns/post/2008/06/23/e588a9e794a8-WPF-e8ae80e58f96-EXIF-e58f8ae7b8aee59c96.aspx</guid>
 		<description></description>
 		<content:encoded><![CDATA[<p>
-因為有人<a href="/post/Canon-Raw-Codec-for-Vista--XP-x64-.aspx">留話</a>在詢問怎麼利用 WPF 處理這些動作，而這些又都是 M$ 文件及範例沒有寫的很清楚的部份... 有些範例有提到，但是 M$ 內建的 CODEC 正常，3RD PARTY 的 CODEC (像我碰到的 Canon Raw Codec) 就搞半天也搞不出來...。因為之前寫 <a href="/post/Canon-Digital-Camera-e79bb8e6a99fe78da8e4baab---e8a898e686b6e58da1e6adb8e6aa94e5b7a5e585b7.aspx">MediaFiler</a> 正好都碰過這些釘子，就順手寫起來以免以後又忘掉.. :P
+因為有人<a href="/post/Canon-Raw-Codec-for-Vista--XP-x64-.aspx">留話</a>在詢問怎麼利用 WPF 處理這些動作，而這些又都是 Microsoft 文件及範例沒有寫的很清楚的部份... 有些範例有提到，但是 Microsoft 內建的 CODEC 正常，3RD PARTY 的 CODEC (像我碰到的 Canon Raw Codec) 就搞半天也搞不出來...。因為之前寫 <a href="/post/Canon-Digital-Camera-e79bb8e6a99fe78da8e4baab---e8a898e686b6e58da1e6adb8e6aa94e5b7a5e585b7.aspx">MediaFiler</a> 正好都碰過這些釘子，就順手寫起來以免以後又忘掉.. :P
 </p>
 <p>
 &nbsp;
@@ -30823,7 +30823,7 @@ public class SiteBlockerHttpModule : IHttpModule{    public void Init(HttpApplic
 <strong>1. 讀取 Metadata</strong>
 </p>
 <p>
-講 METADATA 也許會有些人一頭霧水，講 EXIF 搞不好還比較多人知道... EXIF 的規格有點混亂，就像 RSS 一樣，有好幾個派係，M$ 乾脆在 WPF 裡跳出來直接稱它做 METADATA，也搭配了 METADATA QUERY LANGUAGE 來避開像 EXIF 一堆必需事先定義好 PROPERTY NAME 的麻煩事...
+講 METADATA 也許會有些人一頭霧水，講 EXIF 搞不好還比較多人知道... EXIF 的規格有點混亂，就像 RSS 一樣，有好幾個派係，Microsoft 乾脆在 WPF 裡跳出來直接稱它做 METADATA，也搭配了 METADATA QUERY LANGUAGE 來避開像 EXIF 一堆必需事先定義好 PROPERTY NAME 的麻煩事...
 </p>
 <p>
 所以所有的動作都集中在兩件事上面，一個是怎麼操作 METADATA ? 另一個是我要的資料到底藏在那? (你得知道什麼樣的 QUERY 才抓的到你要的資料?)
@@ -31641,7 +31641,7 @@ BlogEngine.Net 匯入的方式，是用 ClickOnce，直接從它的官方網站�
 &nbsp;
 </p>
 <p>
-上面這幾點，都是搬家時或多或少會碰到的小問題，不過很想哭的是，這六個最後都是搬出 Visual Studio 2008 出來才搞定的 @_@，什麼意思? 就是自己寫 CODE 來修啦... 真不知道該誇還是該罵，也因為這樣有機會 Trace 幾次它的 Code，忍不住想再誇它一次，要建起開發環境實在太容易了 [H] 哈哈...&nbsp; 它的 CODE 很精實，CODE 不多，架構很好，規規舉舉的很容易懂，這種 CODE 改起來真舒服.. (為什麼公司的 CODE 都沒有像這種的...)，修改的難度大概只有 CommunityServer 的 1/3 .. (CommunityServer的作者很猛，把 M$ 在 2.0 才推出的那套架構在 1.1 時代就都實做了一套 [Y]) 
+上面這幾點，都是搬家時或多或少會碰到的小問題，不過很想哭的是，這六個最後都是搬出 Visual Studio 2008 出來才搞定的 @_@，什麼意思? 就是自己寫 CODE 來修啦... 真不知道該誇還是該罵，也因為這樣有機會 Trace 幾次它的 Code，忍不住想再誇它一次，要建起開發環境實在太容易了 [H] 哈哈...&nbsp; 它的 CODE 很精實，CODE 不多，架構很好，規規舉舉的很容易懂，這種 CODE 改起來真舒服.. (為什麼公司的 CODE 都沒有像這種的...)，修改的難度大概只有 CommunityServer 的 1/3 .. (CommunityServer的作者很猛，把 Microsoft 在 2.0 才推出的那套架構在 1.1 時代就都實做了一套 [Y]) 
 </p>
 <p>
 &nbsp;
@@ -32139,7 +32139,7 @@ Microsoft 這次算是有良心，沒有再寫 &quot;請聯絡您的系統管理
 &nbsp;
 </p>
 <p>
-看了這些資料，也看不出問題在那，換了 Media Player 來播放之前 MCE 錄下來的 *.dvr-ms 也是出現一樣的錯誤，連 Media Player Classic 通通都一樣，害我懷疑起是不是 M$ 的 codec 寫的不好，在四核心CPU上會有什麼怪問題發生?
+看了這些資料，也看不出問題在那，換了 Media Player 來播放之前 MCE 錄下來的 *.dvr-ms 也是出現一樣的錯誤，連 Media Player Classic 通通都一樣，害我懷疑起是不是 Microsoft 的 codec 寫的不好，在四核心CPU上會有什麼怪問題發生?
 </p>
 <p>
 &nbsp;
@@ -32148,7 +32148,7 @@ Microsoft 這次算是有良心，沒有再寫 &quot;請聯絡您的系統管理
 不過越看越不對，隨便查了一下 GOOGLE，有一堆人用 Q9300 用 MCE 用的好好的啊... 回頭再來看看詳細的資訊，看到比較特別的，錯誤模組: Indiv01.key ? 這不像是 DLL 還是啥的，怎麼會錯在這? 就順手 GOOGLE 了一下...
 </p>
 <p>
-沒啥用，只知道這是 M$ 的 DRM 用的秘鑰，再去查 M$ 的 support center，這次像樣多了，找到這篇:
+沒啥用，只知道這是 Microsoft 的 DRM 用的秘鑰，再去查 Microsoft 的 support center，這次像樣多了，找到這篇:
 </p>
 <p>
 <a href="http://support.microsoft.com/kb/891664">KB891664: 如果您的電腦硬體經過變更，Windows Media Digital Rights Management 系統可能會無法運作</a>
@@ -32157,7 +32157,7 @@ Microsoft 這次算是有良心，沒有再寫 &quot;請聯絡您的系統管理
 &nbsp;
 </p>
 <p>
-真是它ㄨㄨㄨㄨㄨ的，找到問題了... 原來各種加秘的演算法都需要一個 KEY，來識別使用者，或是某一份發佈的媒體檔案。為了讓每一台 PC 有不同的 KEY，因此 M$ 會有自己的演算法來替每台 PC 產生一組 KEY，就是 Indiv01.key 這檔案的內容。產生 KEY 的過程中，硬體組態 (包含可用的 CPU 數量) 是來源的一部份，因此換了顆 CPU (核心個數有變化)，就會被 M$ 視為是換了台電腦了...。
+真是它ㄨㄨㄨㄨㄨ的，找到問題了... 原來各種加秘的演算法都需要一個 KEY，來識別使用者，或是某一份發佈的媒體檔案。為了讓每一台 PC 有不同的 KEY，因此 Microsoft 會有自己的演算法來替每台 PC 產生一組 KEY，就是 Indiv01.key 這檔案的內容。產生 KEY 的過程中，硬體組態 (包含可用的 CPU 數量) 是來源的一部份，因此換了顆 CPU (核心個數有變化)，就會被 Microsoft 視為是換了台電腦了...。
 </p>
 <p>
 &nbsp;
@@ -33298,7 +33298,7 @@ GOOGLE 讓人變笨？網路便利後遺症<br />
 	<li>... (不外乎是對外求救之類的方法)</li>
 </ol>
 <p>
-我期望的答案一直沒有聽到，而聽到的都是透過 INTERNET + SEARCH ENGINE 這類的回答。當然這是沒錯啦，因為 GOOGLE 實在太方便了，不過我期望聽到的 &quot;再進修&quot; &quot;想辦法去瞭解問題的原因&quot; 等等答案都沒聽到。就算要找資料，連知道要去查第一手資料 (M$ 的東西，大部份 MSDN 都有提供第一手的資訊，不然就是某技術產品的官方網站) 的觀念都沒了，只因為英文看不懂? 或是鄉民寫的東西看的比較簡單? 咳咳...。 
+我期望的答案一直沒有聽到，而聽到的都是透過 INTERNET + SEARCH ENGINE 這類的回答。當然這是沒錯啦，因為 GOOGLE 實在太方便了，不過我期望聽到的 &quot;再進修&quot; &quot;想辦法去瞭解問題的原因&quot; 等等答案都沒聽到。就算要找資料，連知道要去查第一手資料 (Microsoft 的東西，大部份 MSDN 都有提供第一手的資訊，不然就是某技術產品的官方網站) 的觀念都沒了，只因為英文看不懂? 或是鄉民寫的東西看的比較簡單? 咳咳...。 
 </p>
 <p>
 而這件事的負面影響，就是人才越來越 M 型化了。INTERNET 只需要有 M 型頂端的人提供資訊，讓其它人來找資源就夠了。GOOGLE 越強，落在 M 型左邊人才的需求就越少。越來越多人依賴 GOOGLE找到零碎的資訊拼湊起來，而少了獨立思考解決問題的能力。我想人類的智能，重組的部份一定會越來越多，創造的部份一定會越來越少，會不會到最後創造的部份就會消失不見了? 難怪 INTEL 會如此預言，2050年後，機器的智慧會開始超越人類了。很有道理耶，因為搜尋 &amp; 重組不就是電腦的專長嗎? 資料夠多運算速度夠快就能做的到。而電腦追不上的 &quot;創造&quot; 這種能力，人類卻漸漸的在喪失... 
@@ -34150,7 +34150,7 @@ gaexp225120(請著明ˋˋ)]]></wp:comment_content>
 &nbsp;
 </p>
 <p>
-真是它ㄨㄨㄨㄨ的，最後的 SOLUTION 細節我就不一一的貼出來了，反正只是換個方式 COPY TABLE 而以。既然我賭是 M$ 的問題，而換條路的方式 (完全沒改任何定序 OR 編碼) 也成功了，我就不跟它奮鬥下去了，客戶的 IT 既然懶的上 UPDATE / SERVICE PACK，我也只好避掉問題了事... 咳咳。特地貼出來記念一下，如果你們也碰到一樣的問題，切記切記，別跟它硬碰硬啊... :D 
+真是它ㄨㄨㄨㄨ的，最後的 SOLUTION 細節我就不一一的貼出來了，反正只是換個方式 COPY TABLE 而以。既然我賭是 Microsoft 的問題，而換條路的方式 (完全沒改任何定序 OR 編碼) 也成功了，我就不跟它奮鬥下去了，客戶的 IT 既然懶的上 UPDATE / SERVICE PACK，我也只好避掉問題了事... 咳咳。特地貼出來記念一下，如果你們也碰到一樣的問題，切記切記，別跟它硬碰硬啊... :D 
 </p>
 ]]></content:encoded>
 		<excerpt:encoded><![CDATA[]]></excerpt:encoded>
@@ -34379,7 +34379,7 @@ gaexp225120(請著明ˋˋ)]]></wp:comment_content>
 		<dc:creator><![CDATA[chicken]]></dc:creator>
 		<guid isPermaLink="false">/columns/post/2008/09/18/C-yield-return-1-How-It-Work-.aspx</guid>
 		<description></description>
-		<content:encoded><![CDATA[C# 常常拿來跟 Java 比較，在 .NET 1.1 時常常是不相上下，而 .NET 又因為較年輕 &amp; 頂著 M$ 的名號，往往被當成玩具一樣，不過 M$ 的確是在 .NET 及 C# 下了很多功夫，作了很多 Sun 不願意在 Java 身上作的事，這次要探討的 <a href="http://msdn.microsoft.com/en-us/library/9k7k7cf0(VS.80).aspx">yield return</a> 及 <a href="http://msdn.microsoft.com/en-us/library/9eekhta0.aspx">IEnumerable&lt;T&gt;</a> 這搭配的 Interface 就是一例...。
+		<content:encoded><![CDATA[C# 常常拿來跟 Java 比較，在 .NET 1.1 時常常是不相上下，而 .NET 又因為較年輕 &amp; 頂著 Microsoft 的名號，往往被當成玩具一樣，不過 Microsoft 的確是在 .NET 及 C# 下了很多功夫，作了很多 Sun 不願意在 Java 身上作的事，這次要探討的 <a href="http://msdn.microsoft.com/en-us/library/9k7k7cf0(VS.80).aspx">yield return</a> 及 <a href="http://msdn.microsoft.com/en-us/library/9eekhta0.aspx">IEnumerable&lt;T&gt;</a> 這搭配的 Interface 就是一例...。
 
 Java 在過去的版本，往往為了跨平台，把修改 VM 規格視為大忌，連帶的連語法修改都一樣，即使不影響編譯出來的 bytecode 相容性也是一樣不肯改。而 .NET 就為了語法簡潔，編譯器往往是讓步的一方，因此 C# 有相當多的 <a href="http://en.wikipedia.org/wiki/Syntax_sugar">Syntax Sugar</a>，讓你寫起 CODE 爽一點...。你只要寫簡單的 CODE，編譯器會幫你轉成較煩雜的 CODE，有點像是文言文或是成語那樣的味道。古代文人常常用簡單的四個字，就有一大票引申的意義跑出來...，寫作文時只要套上成語，就代表了成語背後的故事，寓意。
 
@@ -35776,7 +35776,7 @@ http://columns.chicken-house.net/post/Background-Thread-in-ASPNET-(II).aspx
 			<wp:comment_date_gmt><![CDATA[2008-09-01 12:29:10]]></wp:comment_date_gmt>
 			<wp:comment_content><![CDATA[讚!!
 
-雖然我也很喜歡 copy M$ 的文章…:p]]></wp:comment_content>
+雖然我也很喜歡 copy Microsoft 的文章…:p]]></wp:comment_content>
 			<wp:comment_approved><![CDATA[1]]></wp:comment_approved>
 			<wp:comment_type><![CDATA[]]></wp:comment_type>
 			<wp:comment_parent>0</wp:comment_parent>
@@ -36192,7 +36192,7 @@ http://columns.chicken-house.net/post/Background-Thread-in-ASPNET-(II).aspx
 &nbsp;
 </p>
 <p>
-另一個比較特別的也要講一下。過去曾貼過一篇 [<a href="/post/e4b880e5808be4b880e890ace5a49ae79a84e7b0a1e5a0b1e599a8-Orz.aspx">一萬多塊錢的簡報器</a>]，提到有軟體 (<a href="http://www.salling.com/Clicker/windows/">Salling Clicker for Windows 3.5</a>)可以當簡報器，搖控 PPT 播放，也能搖控 Media Player ...，現在這些東西有內建在 VISTA 的版本了，主要就是透過 SlideShow。在 Vista 推出一年多之後，M$ 總算推出 <a href="http://www.microsoft.com/downloads/details.aspx?FamilyID=79f19684-f862-4e02-a2b0-0003b4565f34&amp;displaylang=en">Preview</a> 版的軟體，可以讓你的 Windows Mobile 5 / 6 的手機及PDA，搖身一變成為 Vista SlideShow Device。再搭配上 Microsoft 才開發到 BETA 版的 SlideShow Gadget for MCE... 耶! 手機可以變成 MCE 搖控器了!
+另一個比較特別的也要講一下。過去曾貼過一篇 [<a href="/post/e4b880e5808be4b880e890ace5a49ae79a84e7b0a1e5a0b1e599a8-Orz.aspx">一萬多塊錢的簡報器</a>]，提到有軟體 (<a href="http://www.salling.com/Clicker/windows/">Salling Clicker for Windows 3.5</a>)可以當簡報器，搖控 PPT 播放，也能搖控 Media Player ...，現在這些東西有內建在 VISTA 的版本了，主要就是透過 SlideShow。在 Vista 推出一年多之後，Microsoft 總算推出 <a href="http://www.microsoft.com/downloads/details.aspx?FamilyID=79f19684-f862-4e02-a2b0-0003b4565f34&amp;displaylang=en">Preview</a> 版的軟體，可以讓你的 Windows Mobile 5 / 6 的手機及PDA，搖身一變成為 Vista SlideShow Device。再搭配上 Microsoft 才開發到 BETA 版的 SlideShow Gadget for MCE... 耶! 手機可以變成 MCE 搖控器了!
 </p>
 <p>
 <img style="border-width: 0px" src="/wp-content/be-files/WindowsLiveWriter/HTPC_1475F/image_8.png" border="0" alt="image" width="347" height="267" /> <img style="border-width: 0px" src="/wp-content/be-files/WindowsLiveWriter/HTPC_1475F/image_9.png" border="0" alt="image" width="347" height="267" /> 
@@ -37613,7 +37613,7 @@ Orz，本來想一篇打完的，不過打到快睡著，加上內容還剩不�
 程式的結構 (如同這篇講的) 跟一般的程式差異很大
 畫面用 DirectX 或是 XXX Game Engine, 一般常用的元件 (啥 GridView, Image .... ) 都用不到
 網路大都得用 TCP, 較簡單的 web service 也都派不上用場
-開發工具對 GAME 的支援很少 (M$的XNA開始照顧到這群人了)
+開發工具對 GAME 的支援很少 (Microsoft的XNA開始照顧到這群人了)
 資料儲存大都用自定格式 (開始有在用 XML 了，不過單機 GAME 應該沒用到 SQL server 之類的東西)
 
 一般程式設計的經驗比較難搬到這個領域來使用.. 
@@ -37965,7 +37965,7 @@ ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 		<dc:creator><![CDATA[chicken]]></dc:creator>
 		<guid isPermaLink="false">/columns/post/2009/01/21/EF1-e8a681e5adb8e5a5bd-Entity-Framework-e8ab8be58588e5adb8e5a5bd-OOP-e8b79f-C-.aspx</guid>
 		<description></description>
-		<content:encoded><![CDATA[<p>這次為了能順利的學好 Entity Framework，花了不少工夫在研究它的作法。不過有一大半不是在 Entity Framework 本身，而是在 C# 的一些特別的語法跟 LINQ 身上...。也因為這樣，我深切的體認到一個 ORM 技術能不能成功，其實都是在 Hosting 這個 Framework 的環境夠不夠成熟...。</p> <p>不過在摸索的過程中，找到的資訊都是片斷的，每一篇都是講實作，範例程式，操作步驟... 等等，而當時我最需要的反而是幫助我決定，Entity Framework 到底值不值得我押在上面投資五年開發計劃使用的 ORM 技術? 它跟 NHibernate (考慮中的另一項 ORM framework) 的優缺點為何? 未來發展的優缺點又是什麼? 架構上的差異在那? 另外 Linq to SQL 呢? 這些較偏架構性跟本質的討論及比較資訊，反而少之又少...。</p> <p>雖然最後還是研究了些心得出來，不過實在是不想寫那些到處都看的到的實作，就來寫點不一樣的吧。第一篇會先寫寫 ORM 的背景知識，還有 Entity Framework 跟 C# 的語法是如何魚幫水，水幫魚，如何解決了過去 ORM 用起來都不大對勁的問題...。</p> <p>&nbsp;</p> <p>繼續長篇大論前，先老王賣瓜一下。雖然我碰過的 ORM framework 不多，不過相關的理論跟技術則碰了不少。撇開大學就在研究的 OOP 不談，研究所的指導教授就從 <a href="http://en.wikipedia.org/wiki/Smalltalk">SmallTalk</a> 開使教... 兩年的專題研究都是 <a href="http://en.wikipedia.org/wiki/OODB">OODB</a> (物件導向資料庫)，相關論文也看了一堆。出來工作後又有幸用了幾年的 <a href="http://www.softwareag.com/Corporate/products/wm/tamino/default.asp">TAMINO</a> (一套 native xml database), 之後又花了很多時間，在 SQL 2000 上面建立起一套 Object &lt;-&gt; XML &lt;-&gt; Database，類似 ORM 的 Framework ...</p> <p>不過這麼一路下來，都沒有覺的簡單又可行的方案。除了上面講的是我親自參與過的之外， M$ 其實也發表過幾個類似的技術，像是 <a href="http://msdn.microsoft.com/en-us/library/esbykkzb(VS.71).aspx">Typed DataSet</a> 就是個較接近的產物。 Typed DataSet 其實有點接近現在的 Entity Framework 了。DataSet 就等同於 Entity Container / ObjectContext, DataTable 大致就等同於 EntitySet, 而 DataRow 則等同於 Entity, Relation 則大致等同於 Entity Framework 的 Navigation Property.... 不過用起來還是到處都看的到 DataSet 的影子，感覺血統還不夠純正...</p> <p>不過現在的 Entity Framework 不一樣了，感覺就已經往實用的領域邁進了一大步! 並不是說 Entity Framework 做的很好 (以成熟度來說, NHibernate 比目前的 Entity Framework 好的多), 而是跟 Entity Framework 搭配的技術都成熟了。一套 ORM 要成功，必要的條件很多啊... 實作上的角度看來，我覺的重要的有這幾項:</p> <ol> <li>要有優良的 Object / Relationship Mapping 機制、作法、工具等等  <li>Framework 本身的擴充及自訂的能力要夠  <li>要有效的解決以物件角度思考的查詢 (QUERY) 問題  <li>"物件" 要看起來像 "物件"，不是 "資料"  <li>處理資料庫典型的問題，效能跟便利性不能跟直接操作 DB 差太多  <li>你的牌子夠不夠響亮... (這是心理因素而已... 哈哈)</li></ol> <p>這些是深切的體認。不然的話 ORM 的東西跟本不難啊，以功能來說，Typed DataSet 其實就解決一大半實際的問題了。先來看看物件導向幾個關鍵的核心技術是啥?</p> <ol> <li>封裝 ( Encapsulation )，抽像化型別 (ADT, Abstract Data Type)，資料 (Data) 跟行為 (Behavior) 能夠綁在一起  <li>繼承 ( Inheritance )  <li>多型 ( Polymorphism )</li></ol> <p>以這樣 "物件" 的關點來看，M$ 在 Entity Framework 之前的資料庫技術其實都不合格。先來看看資料庫存取技術，如果能搭配這些物件技術，能有什麼樣的改進?</p> <p><strong>[封裝]</strong><br>這就沒啥好講的了。物件技術有很好的封裝機制，public / protected / private 等等 scope modifier 就能提供很棒的封裝機制。不過資料庫很難做的好，資料庫的那套頂多叫作安全機制 (security) 或是授權機制 (authorization), 不是封裝 (encapsulation) ... 真正的封裝不是看你是那個帳號決定能不能讀資料? 而是你是那個 SCOPE 的程式，能不能存取封裝起來的內部資訊。DBMS 對於資料的控制能力很有限，不外呼 Key, Constraint, Relationship / Foreign Key 等等。像加解密，正規運算式 (regular expression) 等等，對 DBMS 來說就太複雜了。更複雜的封裝機制單靠 DB 就很不實際... 無奈在沒有 ORM 的前題下，這些問題則是直接曝露在你的程式碼每個地方...。換句話說，如果 ORM 能提供良好的封裝機制，ORM 就能取代掉目前的 Data Access Layer ，成為 APP 存取 DBMS 的主要 API 。</p> <p>順便吐個苦水，也因為 DBMS 對於資料的控制能力有限，維護的 APP 總是碰到這種問題，就是錯誤的資料總是有辦法鑽進資料庫裡面。不為什麼，只因為 DBMS 本身擋不下來，而 Data Access Layer 又不夠爭氣到足以扛下這重責大任，最後只能靠 APP 自身的開發人員，靠紀律跟自律，還有良心來作好這層把關的動作... -_- 如果有套像樣的 ORM 能夠卡在這個位置，光是資料內容的把關，就是一大進步了。</p> <p><strong></strong>&nbsp;</p> <p><strong>[繼承]</strong><br>繼承跟資料庫有什麼關係? 其實 ORM 如果能有效的把繼承的功能跟資料庫整合起來，也是很嚇人的。舉例來說，部落格支援文章，相片等等不同的內容，但是它們都要有一致的抽像行為，如新的內容要能夠訂閱 (rss subscription)，要能夠有標簽 (tagging) 等等共通的功能，在物件技術我們會很直覺的用繼承來做到。定義 BlogContent 類別，把這些邏輯擺上去。之後再分別衍生出 ArticleContent / PhotoContent 等類別，把差異的實作補上去就完成了。不過同樣的概念別想直接套用在資料庫上，你的腦袋得負責這兩者之間的對應。</p> <p>懂的這麼多的工程師很難找啊... 去那裡找這種人來寫 APP ? 其實搞懂這些也不難，C++ / C# 在解決這類問題，只是很簡單的利用到 virtual table 就搞定了。換到 DBMS，就把 virtual table 的資料結構套到 database schema 就可以。不過說來簡單，能夠搞懂這些，還能精確的實作出來的人不多... 真的作出來還會被嫌:</p> <p>"它ㄨ的，誰設計的 table schema ? 亂切一通害我 T-SQL query 這麼難寫..."</p> <p>嗯，沒事，藉機吐吐苦水。主要要表達的就只有一個，繼承關係要對應到資料庫上面，也是挺麻煩的一件事。Entity Framework / NHibernate 就都提供了三種對應的方法。這三種切割對應的方式，要選那一種? 這又是門學問... Orz, 以後再說。</p> <p>&nbsp;</p> <p><strong>[多型]</strong><br>這個就更玄了。多型是建立在繼承的基礎上，不管你是什麼類別的 instance, 多型的機制可以在父類別的角度，對所有各種衍生類別的物件，一視同仁的操作。而在這統一的前題下，每種類別的物件又可以一國兩制的各自為政... (咳，這不是政治版...)。這樣的抽像程度就是資料庫遠遠所不及的。延序前面講的部落格內容的例子，你能想像這個 store procedure 該怎麼寫嗎?</p> <p><em><font color="#008000">"要寫一個 sp_update_blogcontent 的 store procedure, 如果 ID 指向的是 blog, 則要執行更新 HTML 的 code，如果是 photo, 則要更新存放圖檔的 BLOB 欄位..."</font></em></p> <p>天那，在 DB 這個層次，寫這種 CODE 只能用很醜的 IF&nbsp; ELSE 一層一層堆起來...，跟物件技術比起來，程式碼的描述及抽像化能力實在差太遠，在這層次能解決的問題複雜度很有限...。你如果是個聰明人，最好還是別在 DBMS 搞這些物件技術，會死人的...。比較好的作法是移到 APP 那層去作比較實際。</p> <p>不錯，ORM 存在的原因又多了一個...。</p> <p>&nbsp;</p> <p>所以，再回頭來看看，ORM真的要發揮它的效益的話，絕對不是只有用 "物件" 來代替 "資料" 而已 (還是老話一句，這樣的話用 Typed DataSet 就夠了)。至少對應出來的 "物件"，還能有效的應用到這些物件導向的特性，同時 ORM framework 還能替你維持這些跟資料庫的對應關係，這樣 ORM 技術才能真正發揮它的效益，那些被講到爛的三層式架構才不會在 DBMS 這層就破功了。</p> <p>來看看比較具體的部份。這些物件技術的特點，C# 早在 2000 年，JAVA 早在 199X 年就有了，沒什麼了不起。不過當年的 ORM 實在難用的很。當時的 OOPL 就是缺了些東西，ORM 的程式寫起來限制一堆... 對應到資料庫的物件，用起來就是跟一般的物件差很多，這也不能用，那也不能用。</p> <p>現在的 C# 就不一樣了，進化到足以解決這些語言的限制。來看看:</p> <ol> <li>reflection, attribute:<br>這個讓物件 (Entity) 可以寫的更簡潔，reflection + attribute 可以解決很多過去得繞一大圈才做的到的事。如 class 對應到那個 table, property 對應到那個 column 等等。</li> <li>partial class:<br>ORM 免不了有些 code generator 的搭配。有 partial class 可以讓程式搭配 code generator 更容易一點。</li> <li>extension methods:<br>現有的物件技術很難讓你在現有的 class 上去作擴充，而 extension methods 可以。</li> <li>Linq<br>這可是一大進步。過去 ORM 的目的就是想把 DB 的細節藏起來，無奈碰到 QUERY 的話什麼都藏不住，往往淪落到要嘛都直接用 SQL, 不然就是只剩幾種基本的 API 可以用，無法完全取代直接用 SQL 的查詢。不過 Linq 出現之後這情況就改觀了，雖然像報表那樣複雜大型的 QUERY 還是得直接下 SQL，不過一般 AP 內的查詢都可以直接用 Linq 搞定了</li></ol> <p>其它當然還有別的，不過我自己覺的這幾點是關鍵，至少可以讓現在的 Entity Framework 在使用 Entity 時，不會再跟一般的物件有什麼不同。大部份你可以應用在一般物件的技巧，也都能套用在 Entity 身上。第一篇碎碎唸的部份就先寫到這裡。後面會示範一下幾種打造你專屬的 Entity 用到的技巧。想看後面的讀者們請耐心等待 :D</p>]]></content:encoded>
+		<content:encoded><![CDATA[<p>這次為了能順利的學好 Entity Framework，花了不少工夫在研究它的作法。不過有一大半不是在 Entity Framework 本身，而是在 C# 的一些特別的語法跟 LINQ 身上...。也因為這樣，我深切的體認到一個 ORM 技術能不能成功，其實都是在 Hosting 這個 Framework 的環境夠不夠成熟...。</p> <p>不過在摸索的過程中，找到的資訊都是片斷的，每一篇都是講實作，範例程式，操作步驟... 等等，而當時我最需要的反而是幫助我決定，Entity Framework 到底值不值得我押在上面投資五年開發計劃使用的 ORM 技術? 它跟 NHibernate (考慮中的另一項 ORM framework) 的優缺點為何? 未來發展的優缺點又是什麼? 架構上的差異在那? 另外 Linq to SQL 呢? 這些較偏架構性跟本質的討論及比較資訊，反而少之又少...。</p> <p>雖然最後還是研究了些心得出來，不過實在是不想寫那些到處都看的到的實作，就來寫點不一樣的吧。第一篇會先寫寫 ORM 的背景知識，還有 Entity Framework 跟 C# 的語法是如何魚幫水，水幫魚，如何解決了過去 ORM 用起來都不大對勁的問題...。</p> <p>&nbsp;</p> <p>繼續長篇大論前，先老王賣瓜一下。雖然我碰過的 ORM framework 不多，不過相關的理論跟技術則碰了不少。撇開大學就在研究的 OOP 不談，研究所的指導教授就從 <a href="http://en.wikipedia.org/wiki/Smalltalk">SmallTalk</a> 開使教... 兩年的專題研究都是 <a href="http://en.wikipedia.org/wiki/OODB">OODB</a> (物件導向資料庫)，相關論文也看了一堆。出來工作後又有幸用了幾年的 <a href="http://www.softwareag.com/Corporate/products/wm/tamino/default.asp">TAMINO</a> (一套 native xml database), 之後又花了很多時間，在 SQL 2000 上面建立起一套 Object &lt;-&gt; XML &lt;-&gt; Database，類似 ORM 的 Framework ...</p> <p>不過這麼一路下來，都沒有覺的簡單又可行的方案。除了上面講的是我親自參與過的之外， Microsoft 其實也發表過幾個類似的技術，像是 <a href="http://msdn.microsoft.com/en-us/library/esbykkzb(VS.71).aspx">Typed DataSet</a> 就是個較接近的產物。 Typed DataSet 其實有點接近現在的 Entity Framework 了。DataSet 就等同於 Entity Container / ObjectContext, DataTable 大致就等同於 EntitySet, 而 DataRow 則等同於 Entity, Relation 則大致等同於 Entity Framework 的 Navigation Property.... 不過用起來還是到處都看的到 DataSet 的影子，感覺血統還不夠純正...</p> <p>不過現在的 Entity Framework 不一樣了，感覺就已經往實用的領域邁進了一大步! 並不是說 Entity Framework 做的很好 (以成熟度來說, NHibernate 比目前的 Entity Framework 好的多), 而是跟 Entity Framework 搭配的技術都成熟了。一套 ORM 要成功，必要的條件很多啊... 實作上的角度看來，我覺的重要的有這幾項:</p> <ol> <li>要有優良的 Object / Relationship Mapping 機制、作法、工具等等  <li>Framework 本身的擴充及自訂的能力要夠  <li>要有效的解決以物件角度思考的查詢 (QUERY) 問題  <li>"物件" 要看起來像 "物件"，不是 "資料"  <li>處理資料庫典型的問題，效能跟便利性不能跟直接操作 DB 差太多  <li>你的牌子夠不夠響亮... (這是心理因素而已... 哈哈)</li></ol> <p>這些是深切的體認。不然的話 ORM 的東西跟本不難啊，以功能來說，Typed DataSet 其實就解決一大半實際的問題了。先來看看物件導向幾個關鍵的核心技術是啥?</p> <ol> <li>封裝 ( Encapsulation )，抽像化型別 (ADT, Abstract Data Type)，資料 (Data) 跟行為 (Behavior) 能夠綁在一起  <li>繼承 ( Inheritance )  <li>多型 ( Polymorphism )</li></ol> <p>以這樣 "物件" 的關點來看，Microsoft 在 Entity Framework 之前的資料庫技術其實都不合格。先來看看資料庫存取技術，如果能搭配這些物件技術，能有什麼樣的改進?</p> <p><strong>[封裝]</strong><br>這就沒啥好講的了。物件技術有很好的封裝機制，public / protected / private 等等 scope modifier 就能提供很棒的封裝機制。不過資料庫很難做的好，資料庫的那套頂多叫作安全機制 (security) 或是授權機制 (authorization), 不是封裝 (encapsulation) ... 真正的封裝不是看你是那個帳號決定能不能讀資料? 而是你是那個 SCOPE 的程式，能不能存取封裝起來的內部資訊。DBMS 對於資料的控制能力很有限，不外呼 Key, Constraint, Relationship / Foreign Key 等等。像加解密，正規運算式 (regular expression) 等等，對 DBMS 來說就太複雜了。更複雜的封裝機制單靠 DB 就很不實際... 無奈在沒有 ORM 的前題下，這些問題則是直接曝露在你的程式碼每個地方...。換句話說，如果 ORM 能提供良好的封裝機制，ORM 就能取代掉目前的 Data Access Layer ，成為 APP 存取 DBMS 的主要 API 。</p> <p>順便吐個苦水，也因為 DBMS 對於資料的控制能力有限，維護的 APP 總是碰到這種問題，就是錯誤的資料總是有辦法鑽進資料庫裡面。不為什麼，只因為 DBMS 本身擋不下來，而 Data Access Layer 又不夠爭氣到足以扛下這重責大任，最後只能靠 APP 自身的開發人員，靠紀律跟自律，還有良心來作好這層把關的動作... -_- 如果有套像樣的 ORM 能夠卡在這個位置，光是資料內容的把關，就是一大進步了。</p> <p><strong></strong>&nbsp;</p> <p><strong>[繼承]</strong><br>繼承跟資料庫有什麼關係? 其實 ORM 如果能有效的把繼承的功能跟資料庫整合起來，也是很嚇人的。舉例來說，部落格支援文章，相片等等不同的內容，但是它們都要有一致的抽像行為，如新的內容要能夠訂閱 (rss subscription)，要能夠有標簽 (tagging) 等等共通的功能，在物件技術我們會很直覺的用繼承來做到。定義 BlogContent 類別，把這些邏輯擺上去。之後再分別衍生出 ArticleContent / PhotoContent 等類別，把差異的實作補上去就完成了。不過同樣的概念別想直接套用在資料庫上，你的腦袋得負責這兩者之間的對應。</p> <p>懂的這麼多的工程師很難找啊... 去那裡找這種人來寫 APP ? 其實搞懂這些也不難，C++ / C# 在解決這類問題，只是很簡單的利用到 virtual table 就搞定了。換到 DBMS，就把 virtual table 的資料結構套到 database schema 就可以。不過說來簡單，能夠搞懂這些，還能精確的實作出來的人不多... 真的作出來還會被嫌:</p> <p>"它ㄨ的，誰設計的 table schema ? 亂切一通害我 T-SQL query 這麼難寫..."</p> <p>嗯，沒事，藉機吐吐苦水。主要要表達的就只有一個，繼承關係要對應到資料庫上面，也是挺麻煩的一件事。Entity Framework / NHibernate 就都提供了三種對應的方法。這三種切割對應的方式，要選那一種? 這又是門學問... Orz, 以後再說。</p> <p>&nbsp;</p> <p><strong>[多型]</strong><br>這個就更玄了。多型是建立在繼承的基礎上，不管你是什麼類別的 instance, 多型的機制可以在父類別的角度，對所有各種衍生類別的物件，一視同仁的操作。而在這統一的前題下，每種類別的物件又可以一國兩制的各自為政... (咳，這不是政治版...)。這樣的抽像程度就是資料庫遠遠所不及的。延序前面講的部落格內容的例子，你能想像這個 store procedure 該怎麼寫嗎?</p> <p><em><font color="#008000">"要寫一個 sp_update_blogcontent 的 store procedure, 如果 ID 指向的是 blog, 則要執行更新 HTML 的 code，如果是 photo, 則要更新存放圖檔的 BLOB 欄位..."</font></em></p> <p>天那，在 DB 這個層次，寫這種 CODE 只能用很醜的 IF&nbsp; ELSE 一層一層堆起來...，跟物件技術比起來，程式碼的描述及抽像化能力實在差太遠，在這層次能解決的問題複雜度很有限...。你如果是個聰明人，最好還是別在 DBMS 搞這些物件技術，會死人的...。比較好的作法是移到 APP 那層去作比較實際。</p> <p>不錯，ORM 存在的原因又多了一個...。</p> <p>&nbsp;</p> <p>所以，再回頭來看看，ORM真的要發揮它的效益的話，絕對不是只有用 "物件" 來代替 "資料" 而已 (還是老話一句，這樣的話用 Typed DataSet 就夠了)。至少對應出來的 "物件"，還能有效的應用到這些物件導向的特性，同時 ORM framework 還能替你維持這些跟資料庫的對應關係，這樣 ORM 技術才能真正發揮它的效益，那些被講到爛的三層式架構才不會在 DBMS 這層就破功了。</p> <p>來看看比較具體的部份。這些物件技術的特點，C# 早在 2000 年，JAVA 早在 199X 年就有了，沒什麼了不起。不過當年的 ORM 實在難用的很。當時的 OOPL 就是缺了些東西，ORM 的程式寫起來限制一堆... 對應到資料庫的物件，用起來就是跟一般的物件差很多，這也不能用，那也不能用。</p> <p>現在的 C# 就不一樣了，進化到足以解決這些語言的限制。來看看:</p> <ol> <li>reflection, attribute:<br>這個讓物件 (Entity) 可以寫的更簡潔，reflection + attribute 可以解決很多過去得繞一大圈才做的到的事。如 class 對應到那個 table, property 對應到那個 column 等等。</li> <li>partial class:<br>ORM 免不了有些 code generator 的搭配。有 partial class 可以讓程式搭配 code generator 更容易一點。</li> <li>extension methods:<br>現有的物件技術很難讓你在現有的 class 上去作擴充，而 extension methods 可以。</li> <li>Linq<br>這可是一大進步。過去 ORM 的目的就是想把 DB 的細節藏起來，無奈碰到 QUERY 的話什麼都藏不住，往往淪落到要嘛都直接用 SQL, 不然就是只剩幾種基本的 API 可以用，無法完全取代直接用 SQL 的查詢。不過 Linq 出現之後這情況就改觀了，雖然像報表那樣複雜大型的 QUERY 還是得直接下 SQL，不過一般 AP 內的查詢都可以直接用 Linq 搞定了</li></ol> <p>其它當然還有別的，不過我自己覺的這幾點是關鍵，至少可以讓現在的 Entity Framework 在使用 Entity 時，不會再跟一般的物件有什麼不同。大部份你可以應用在一般物件的技巧，也都能套用在 Entity 身上。第一篇碎碎唸的部份就先寫到這裡。後面會示範一下幾種打造你專屬的 Entity 用到的技巧。想看後面的讀者們請耐心等待 :D</p>]]></content:encoded>
 		<excerpt:encoded><![CDATA[]]></excerpt:encoded>
 		<wp:post_id>44</wp:post_id>
 		<wp:post_date><![CDATA[2009-01-21 20:35:27]]></wp:post_date>
@@ -38021,7 +38021,7 @@ http://www.cnblogs.com/Barton131420/archive/2008/12/01/1345314.html]]></wp:comme
 		<dc:creator><![CDATA[chicken]]></dc:creator>
 		<guid isPermaLink="false">/columns/post/2009/01/20/e99ba3e6909ee79a84-Entity-Framework-e8b7a8e8b68a-Context-e79a84e69fa5e8a9a2.aspx</guid>
 		<description></description>
-		<content:encoded><![CDATA[<p>咳，沒錯... 兩個月都沒寫什麼東西出來，就是都在研究 Entity Framework 跟 Enterprise Library... Enterprise Library 倒還好，看看範例，看看 Key Scenario 大概就能入門了，不過 Entity Framework 就沒這麼簡單...</p> <p>M$ 對 Entity Framework 的 Roadmap 規劃的很大，不過再怎麼樣附在 .NET 3.5 SP1 的也還只是第一版而已。背負著龐大的架構，而現在卻還不一定能拼過其它成熟的 ORM solution, 這就是辛苦的地方。</p> <p>先抱怨一下它的設計工具... 好用是蠻好用的 (跟直接寫 XML 檔相比)，不過小問題還不少。像是 TABLE 拉進去，刪掉再拉進去，就有機會 build 失敗... VIEW 拉進去沒辦法明確的指定 KEY 是那個欄位，不是結果不對就是 build 失敗，最後忍不住還是得去手動改 .edmx .. 這些事件老實說這兩個月也碰了不少 @_@</p> <p>不過撇開工具的問題，Entity Framework 的設計還真是不錯。其它的心得就改天再講，先講困擾我最久的，也是大部份 ORM 的通病 - 大型 database 的問題。</p> <p>這裡指的 "大型" 不是指資料筆數很多，是指 schema 很複雜的情況。大型的 AP 用到上百個 table + view 是很常見的，尤其是隨著改版，舊 table 沒刪掉，新的 table 又一直加，那還真是恐佈。所有的 ORM 都需要某種型態的 O / R Mapping, 不是寫設定檔，就是有視覺化的設計工具。不過... 你能想像一張有 500 個 table 的 ER-MODEL 嗎?&nbsp; </p> <p>要避免過大的單一 OR Mapping 設定，就只有做適度的切割了。在 Entity Framework / Visual Studio 2008 ，這點很容易做到，分成多個 .edmx 檔就可以了。不過問題會在後面，分開多個 .edmx 有幾個缺點:</p> <ol> <li>會有多個 ObjectContext 產生，每邊都有物件要更新時，每個 ObjectContext 都得呼叫 SaveChange..</li> <li>不論是 LINQ to Entities 或是 eSQL, 想要 join 橫跨在多個 .edmx 的資料時，會得到無情的錯誤... 不支援跨 context 的操作</li> <li>AssoicationSet 無法跨越 context 的範圍，意思是跨 .edmx 的 Entity, 不能靠 Navigation Property 來處理。</li></ol> <p>解決的方式當然也有，也查了 ADO.NET Team Blog，這兩篇是所有 GOOGLE 到的相關文章裡，講這問題講的最深入的..</p> <ul> <li><a href="http://blogs.msdn.com/adonet/archive/2008/11/24/working-with-large-models-in-entity-framework-part-1.aspx">Working With Large Models In Entity Framework – Part 1</a></li> <li><a href="http://blogs.msdn.com/adonet/archive/2008/11/25/working-with-large-models-in-entity-framework-part-2.aspx">Working With Large Models In Entity Framework – Part 2</a></li></ul> <p>有碰到這問題的，這兩篇一定要看一看。其實文章內探討的問題已經超過我的需求了，我只是要解決我面臨到的問題:</p> <ol> <li>因應模組化需求，我需要把 .edmx 跟其相關的邏輯封裝在各別的 assembly </li> <li>不同的模組間定義的 EntitySet 能夠用 eSQL 做 JOIN 的查詢</li> <li>最基本的 LINQ 也不能少</li> <li>新增新的模組時，其它模組不需要重新編譯</li></ol> <p>老實說這兩篇沒解決到我的問題，只不過瞄到了 Part 2 有這麼一段話:</p> <blockquote> <p><font color="#008000">9. At runtime, you could create either one Context that works with both the schema sets or two different contexts. To create a single context with both the schema sets, you would use the ObjectContext constructor that takes in an EntityConnectionString. In the Metadata parameter of the connection string, specify the paths to both sets of files.</font></p></blockquote> <p>哈哈，運氣不錯，關鍵的一段話沒有漏掉... 就這段話解決了我一個多月以來的困擾。Entity Connection 用的連接字串又臭又長，包括了你的 .csdl, .ssdl, .msl 三份定義檔在那裡，還有底層用的 database connection string. 湊起來一大串，像這樣:</p> <blockquote> <p><font color="#ff0000">medadata=res://*/Model1.csdl|res://*/Model1.ssdl|res://*/Model1.msl;............</font></p></blockquote> <p>而從這兩篇文章，除了各種 split / reuse 這堆設定檔的方法及優缺點之外，就是學到原來 entity connect string 可以併入多組對應檔啊 :D，像這樣:</p> <blockquote> <p><font color="#ff0000">medadata=res://*/Model1.csdl|res://*/Model1.ssdl|res://*/Model1.msl|res://*/Model2.csdl|res://*/Model2.ssdl|res://*/Model2.msl;............</font></p></blockquote> <p>沒錯!! 說穿了不值錢，就是把 entity connection string 這樣改一改就好了，eSQL 就可以透過單一 object context 就能存取兩份 .edmx 內定義的內容， Linq 則要自己用 CreateQuery&lt; &gt;() 方式來產生 EntitySet.. 其它就沒有什麼太大不同了。</p> <p>總算搞定這個大問題!! 收工! 其它的應用就改天有空再慢慢貼了 :D 感謝各位在這兩個月枯水期還沒取消訂閱我的 BLOG ... :D</p>]]></content:encoded>
+		<content:encoded><![CDATA[<p>咳，沒錯... 兩個月都沒寫什麼東西出來，就是都在研究 Entity Framework 跟 Enterprise Library... Enterprise Library 倒還好，看看範例，看看 Key Scenario 大概就能入門了，不過 Entity Framework 就沒這麼簡單...</p> <p>Microsoft 對 Entity Framework 的 Roadmap 規劃的很大，不過再怎麼樣附在 .NET 3.5 SP1 的也還只是第一版而已。背負著龐大的架構，而現在卻還不一定能拼過其它成熟的 ORM solution, 這就是辛苦的地方。</p> <p>先抱怨一下它的設計工具... 好用是蠻好用的 (跟直接寫 XML 檔相比)，不過小問題還不少。像是 TABLE 拉進去，刪掉再拉進去，就有機會 build 失敗... VIEW 拉進去沒辦法明確的指定 KEY 是那個欄位，不是結果不對就是 build 失敗，最後忍不住還是得去手動改 .edmx .. 這些事件老實說這兩個月也碰了不少 @_@</p> <p>不過撇開工具的問題，Entity Framework 的設計還真是不錯。其它的心得就改天再講，先講困擾我最久的，也是大部份 ORM 的通病 - 大型 database 的問題。</p> <p>這裡指的 "大型" 不是指資料筆數很多，是指 schema 很複雜的情況。大型的 AP 用到上百個 table + view 是很常見的，尤其是隨著改版，舊 table 沒刪掉，新的 table 又一直加，那還真是恐佈。所有的 ORM 都需要某種型態的 O / R Mapping, 不是寫設定檔，就是有視覺化的設計工具。不過... 你能想像一張有 500 個 table 的 ER-MODEL 嗎?&nbsp; </p> <p>要避免過大的單一 OR Mapping 設定，就只有做適度的切割了。在 Entity Framework / Visual Studio 2008 ，這點很容易做到，分成多個 .edmx 檔就可以了。不過問題會在後面，分開多個 .edmx 有幾個缺點:</p> <ol> <li>會有多個 ObjectContext 產生，每邊都有物件要更新時，每個 ObjectContext 都得呼叫 SaveChange..</li> <li>不論是 LINQ to Entities 或是 eSQL, 想要 join 橫跨在多個 .edmx 的資料時，會得到無情的錯誤... 不支援跨 context 的操作</li> <li>AssoicationSet 無法跨越 context 的範圍，意思是跨 .edmx 的 Entity, 不能靠 Navigation Property 來處理。</li></ol> <p>解決的方式當然也有，也查了 ADO.NET Team Blog，這兩篇是所有 GOOGLE 到的相關文章裡，講這問題講的最深入的..</p> <ul> <li><a href="http://blogs.msdn.com/adonet/archive/2008/11/24/working-with-large-models-in-entity-framework-part-1.aspx">Working With Large Models In Entity Framework – Part 1</a></li> <li><a href="http://blogs.msdn.com/adonet/archive/2008/11/25/working-with-large-models-in-entity-framework-part-2.aspx">Working With Large Models In Entity Framework – Part 2</a></li></ul> <p>有碰到這問題的，這兩篇一定要看一看。其實文章內探討的問題已經超過我的需求了，我只是要解決我面臨到的問題:</p> <ol> <li>因應模組化需求，我需要把 .edmx 跟其相關的邏輯封裝在各別的 assembly </li> <li>不同的模組間定義的 EntitySet 能夠用 eSQL 做 JOIN 的查詢</li> <li>最基本的 LINQ 也不能少</li> <li>新增新的模組時，其它模組不需要重新編譯</li></ol> <p>老實說這兩篇沒解決到我的問題，只不過瞄到了 Part 2 有這麼一段話:</p> <blockquote> <p><font color="#008000">9. At runtime, you could create either one Context that works with both the schema sets or two different contexts. To create a single context with both the schema sets, you would use the ObjectContext constructor that takes in an EntityConnectionString. In the Metadata parameter of the connection string, specify the paths to both sets of files.</font></p></blockquote> <p>哈哈，運氣不錯，關鍵的一段話沒有漏掉... 就這段話解決了我一個多月以來的困擾。Entity Connection 用的連接字串又臭又長，包括了你的 .csdl, .ssdl, .msl 三份定義檔在那裡，還有底層用的 database connection string. 湊起來一大串，像這樣:</p> <blockquote> <p><font color="#ff0000">medadata=res://*/Model1.csdl|res://*/Model1.ssdl|res://*/Model1.msl;............</font></p></blockquote> <p>而從這兩篇文章，除了各種 split / reuse 這堆設定檔的方法及優缺點之外，就是學到原來 entity connect string 可以併入多組對應檔啊 :D，像這樣:</p> <blockquote> <p><font color="#ff0000">medadata=res://*/Model1.csdl|res://*/Model1.ssdl|res://*/Model1.msl|res://*/Model2.csdl|res://*/Model2.ssdl|res://*/Model2.msl;............</font></p></blockquote> <p>沒錯!! 說穿了不值錢，就是把 entity connection string 這樣改一改就好了，eSQL 就可以透過單一 object context 就能存取兩份 .edmx 內定義的內容， Linq 則要自己用 CreateQuery&lt; &gt;() 方式來產生 EntitySet.. 其它就沒有什麼太大不同了。</p> <p>總算搞定這個大問題!! 收工! 其它的應用就改天有空再慢慢貼了 :D 感謝各位在這兩個月枯水期還沒取消訂閱我的 BLOG ... :D</p>]]></content:encoded>
 		<excerpt:encoded><![CDATA[]]></excerpt:encoded>
 		<wp:post_id>45</wp:post_id>
 		<wp:post_date><![CDATA[2009-01-20 02:16:16]]></wp:post_date>
@@ -38152,7 +38152,7 @@ http://jero.myweb.hinet.net/EntityFramework(Jero).ppsx
 		<dc:creator><![CDATA[chicken]]></dc:creator>
 		<guid isPermaLink="false">/columns/post/2008/12/10/XmlWellFormedWriterWriteRaw(-)-e79a84-Bug-e5be8ce7ba8ce799bce5b195.aspx</guid>
 		<description></description>
-		<content:encoded><![CDATA[<p>一時順手，就按下 Visual Studio 2008 上面的 [Report Bug] 回報<a href="http://columns.chicken-house.net/post/e58e9fe4be86-XmlWellFormedWriter-e4b99fe69c89-Bug-.aspx">上一篇</a>發現的 Bug, 沒想到 M$ 真的有回應耶... :D</p> <p>反正 M$ 在 connect 裡的回應本來就公開的，我就順手貼一下:</p> <p>&nbsp;</p> <p><a title="https://connect.microsoft.com/VisualStudio/feedback/ViewFeedback.aspx?FeedbackID=386899&amp;wa=wsignin1.0" href="https://connect.microsoft.com/VisualStudio/feedback/ViewFeedback.aspx?FeedbackID=386899&amp;wa=wsignin1.0">https://connect.microsoft.com/VisualStudio/feedback/ViewFeedback.aspx?FeedbackID=386899&amp;wa=wsignin1.0</a></p> <p>&nbsp;</p> <p><font color="#008000">Hello,<br>Originally the WriteRaw method was designed for XmlWriters that are formatting text XML into a file. In those cases the WriteRaw method can be used to write out an XML fragment that is already formatted and checked for well-formedness. It can also be used for writing text nodes with special character that have been already escaped and no further processing of the text is needed. <br>However, when we introduced the XmlWriter over XmlDocument/XDocument (accessed via XPathNavigator editing methods), the use of the WriteRaw method on top of XmlDocument became controversial. We had two options:<br>1.&nbsp;&nbsp;&nbsp; Threat it as a text<br>2.&nbsp;&nbsp;&nbsp; Parse it into nodes</font></p><font color="#008000"> <p><br>The second option is very difficult (if not possible) to do. The XML fragment can we written out in multiple WriteRaw calls, so we could not assume that a single WriteRaw will contain a fully enclosed fragment. It can also be interleaved with other XmlWriter calls and nested many times – overall a very hard thing to implement properly. So that is why we have decided to treat the WriteRaw content as text, which is what you are seeing. <br>If you have an XML fragment in a string and you want to append it to XmlDocument, you can do it like this:</p> <p><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; XmlDocument doc = new XmlDocument();<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; XmlElement rootElement = doc.CreateElement("root");<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; rootElement.InnerXml = "&lt;a/&gt;&lt;a/&gt;&lt;a/&gt;&lt;a/&gt;&lt;a/&gt;";<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; doc.AppendChild(rootElement);</p> <p><br>Or if you really want to use the XmlWriter from XPathNavigator.AppendChild(), you can create an XmlReader over your fragment and use the WriteNode method on the XmlWriter:</p> <p><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; XmlDocument doc = new XmlDocument();<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; XmlWriter writer = doc.CreateNavigator().AppendChild();<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; writer.WriteStartElement("root");<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; using (XmlReader r = XmlReader.Create(new StringReader("&lt;a/&gt;&lt;a/&gt;&lt;a/&gt;&lt;a/&gt;&lt;a/&gt;"), new XmlReaderSettings { ConformanceLevel = ConformanceLevel.Fragment } ) ) {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; writer.WriteNode(r, false);<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; writer.WriteEndElement();<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; writer.Close();<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; doc.Save(Console.Out);</p> <p><br>I hope this helps.<br>Thank you,<br>-Helena Kotas, System.Xml Developer</font></p> <p>&nbsp;</p> <p>看來 M$ 認為這是權宜之計，不算 BUG，要 USER 就直接避掉了，只是他建議的解法剛好就是我<a href="http://columns.chicken-house.net/post/e58e9fe4be86-XmlWellFormedWriter-e4b99fe69c89-Bug-.aspx">上一篇</a>用的，用 XmlReader, 搭上 ConformanceLevel.Fragment 的設定解決掉...</p> <p>只不過，這種情況，不是應該丟出 NotSupportException 比較好嘛? 幹嘛拿個不適當的實作填進來?</p> <p>&nbsp;</p> <p>提外話，現在 WEB 2.0 的時代，M$ 工程師除了寫 CODE 之外，也要負責回客戶的問題了? 真辛苦...</p>]]></content:encoded>
+		<content:encoded><![CDATA[<p>一時順手，就按下 Visual Studio 2008 上面的 [Report Bug] 回報<a href="http://columns.chicken-house.net/post/e58e9fe4be86-XmlWellFormedWriter-e4b99fe69c89-Bug-.aspx">上一篇</a>發現的 Bug, 沒想到 Microsoft 真的有回應耶... :D</p> <p>反正 Microsoft 在 connect 裡的回應本來就公開的，我就順手貼一下:</p> <p>&nbsp;</p> <p><a title="https://connect.microsoft.com/VisualStudio/feedback/ViewFeedback.aspx?FeedbackID=386899&amp;wa=wsignin1.0" href="https://connect.microsoft.com/VisualStudio/feedback/ViewFeedback.aspx?FeedbackID=386899&amp;wa=wsignin1.0">https://connect.microsoft.com/VisualStudio/feedback/ViewFeedback.aspx?FeedbackID=386899&amp;wa=wsignin1.0</a></p> <p>&nbsp;</p> <p><font color="#008000">Hello,<br>Originally the WriteRaw method was designed for XmlWriters that are formatting text XML into a file. In those cases the WriteRaw method can be used to write out an XML fragment that is already formatted and checked for well-formedness. It can also be used for writing text nodes with special character that have been already escaped and no further processing of the text is needed. <br>However, when we introduced the XmlWriter over XmlDocument/XDocument (accessed via XPathNavigator editing methods), the use of the WriteRaw method on top of XmlDocument became controversial. We had two options:<br>1.&nbsp;&nbsp;&nbsp; Threat it as a text<br>2.&nbsp;&nbsp;&nbsp; Parse it into nodes</font></p><font color="#008000"> <p><br>The second option is very difficult (if not possible) to do. The XML fragment can we written out in multiple WriteRaw calls, so we could not assume that a single WriteRaw will contain a fully enclosed fragment. It can also be interleaved with other XmlWriter calls and nested many times – overall a very hard thing to implement properly. So that is why we have decided to treat the WriteRaw content as text, which is what you are seeing. <br>If you have an XML fragment in a string and you want to append it to XmlDocument, you can do it like this:</p> <p><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; XmlDocument doc = new XmlDocument();<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; XmlElement rootElement = doc.CreateElement("root");<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; rootElement.InnerXml = "&lt;a/&gt;&lt;a/&gt;&lt;a/&gt;&lt;a/&gt;&lt;a/&gt;";<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; doc.AppendChild(rootElement);</p> <p><br>Or if you really want to use the XmlWriter from XPathNavigator.AppendChild(), you can create an XmlReader over your fragment and use the WriteNode method on the XmlWriter:</p> <p><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; XmlDocument doc = new XmlDocument();<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; XmlWriter writer = doc.CreateNavigator().AppendChild();<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; writer.WriteStartElement("root");<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; using (XmlReader r = XmlReader.Create(new StringReader("&lt;a/&gt;&lt;a/&gt;&lt;a/&gt;&lt;a/&gt;&lt;a/&gt;"), new XmlReaderSettings { ConformanceLevel = ConformanceLevel.Fragment } ) ) {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; writer.WriteNode(r, false);<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; writer.WriteEndElement();<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; writer.Close();<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; doc.Save(Console.Out);</p> <p><br>I hope this helps.<br>Thank you,<br>-Helena Kotas, System.Xml Developer</font></p> <p>&nbsp;</p> <p>看來 Microsoft 認為這是權宜之計，不算 BUG，要 USER 就直接避掉了，只是他建議的解法剛好就是我<a href="http://columns.chicken-house.net/post/e58e9fe4be86-XmlWellFormedWriter-e4b99fe69c89-Bug-.aspx">上一篇</a>用的，用 XmlReader, 搭上 ConformanceLevel.Fragment 的設定解決掉...</p> <p>只不過，這種情況，不是應該丟出 NotSupportException 比較好嘛? 幹嘛拿個不適當的實作填進來?</p> <p>&nbsp;</p> <p>提外話，現在 WEB 2.0 的時代，Microsoft 工程師除了寫 CODE 之外，也要負責回客戶的問題了? 真辛苦...</p>]]></content:encoded>
 		<excerpt:encoded><![CDATA[]]></excerpt:encoded>
 		<wp:post_id>47</wp:post_id>
 		<wp:post_date><![CDATA[2008-12-10 23:30:18]]></wp:post_date>
@@ -38385,7 +38385,7 @@ http://jero.myweb.hinet.net/EntityFramework(Jero).ppsx
 		<dc:creator><![CDATA[chicken]]></dc:creator>
 		<guid isPermaLink="false">/columns/post/2008/12/07/e58e9fe4be86-NET-FX-e697a9e5b0b1e69c89-XmlNodeWriter-e4ba86.aspx</guid>
 		<description></description>
-		<content:encoded><![CDATA[<p>最近事情一堆，上班忙上班的事，下班還在忙著研究 Enterprise Library, Entity Framework, 還有一堆五四三的，文章寫的就少了... 先跟有訂閱我 BLOG 的朋友們說聲道歉...。 不過在寫新專案的過程中，意外的發現這東西，一定要提一下...</p> <p>&nbsp;</p> <p>不知道有多少人用過 XmlNodeWriter ? 我用這東西用很久了，當年 Microsoft 推出 .NET Framework 時，強調有很強的 XML 處理能力，其中 XmlReader / XmlWriter 就是以效能為考量，讓你避開處理大型 XML 資料效能很糟糕的 XmlDocument, 也不用去碰很難寫的 <a href="http://zh.wikipedia.org/w/index.php?title=SAX&amp;variant=zh-tw">SAX</a> 的替代方案...</p> <p>無奈 M$ 內建的 XmlWriter 少的可憐，只能寫到檔案或是 TextWriter ... 看看權威的 MSDN 告訴我們<a href="http://msdn.microsoft.com/zh-tw/library/system.xml.xmlwriter.aspx">有那些 XmlWriter 可以用</a>?</p> <p><img style="border-top-width: 0px; border-left-width: 0px; border-bottom-width: 0px; border-right-width: 0px" height="153" alt="image" src="/wp-content/be-files/WindowsLiveWriter/.NETFXXmlNodeWriter_BAFF/image_9.png" width="342" border="0"> </p> <p>老實說除了 XmlTextWriter 之外，另外兩個很少用的到。XmlWriter 在輸出 XML 時很好用 (如果你只作輸出的話)，複雜的 XML 輸出用 XmlWriter 比用 XmlDocument 簡單多了，不過最常碰到的情況是我還是想用 XmlDocument 來操作 XML，不過其中一部份的 NODE 想用 XmlWriter 來更新內容...</p> <p>古早有位好心的 MVP 寫了 XmlNodeWriter, 就可以讓我這樣用:</p> <div><b>XmlNodeWriter Sample Code:</b><span class="copycode" title="copy code into clipboard.">[copy code]</span>  <div style="display: none"><pre id="codeData" style="display: none">            XmlDocument xdoc = new XmlDocument();
+		<content:encoded><![CDATA[<p>最近事情一堆，上班忙上班的事，下班還在忙著研究 Enterprise Library, Entity Framework, 還有一堆五四三的，文章寫的就少了... 先跟有訂閱我 BLOG 的朋友們說聲道歉...。 不過在寫新專案的過程中，意外的發現這東西，一定要提一下...</p> <p>&nbsp;</p> <p>不知道有多少人用過 XmlNodeWriter ? 我用這東西用很久了，當年 Microsoft 推出 .NET Framework 時，強調有很強的 XML 處理能力，其中 XmlReader / XmlWriter 就是以效能為考量，讓你避開處理大型 XML 資料效能很糟糕的 XmlDocument, 也不用去碰很難寫的 <a href="http://zh.wikipedia.org/w/index.php?title=SAX&amp;variant=zh-tw">SAX</a> 的替代方案...</p> <p>無奈 Microsoft 內建的 XmlWriter 少的可憐，只能寫到檔案或是 TextWriter ... 看看權威的 MSDN 告訴我們<a href="http://msdn.microsoft.com/zh-tw/library/system.xml.xmlwriter.aspx">有那些 XmlWriter 可以用</a>?</p> <p><img style="border-top-width: 0px; border-left-width: 0px; border-bottom-width: 0px; border-right-width: 0px" height="153" alt="image" src="/wp-content/be-files/WindowsLiveWriter/.NETFXXmlNodeWriter_BAFF/image_9.png" width="342" border="0"> </p> <p>老實說除了 XmlTextWriter 之外，另外兩個很少用的到。XmlWriter 在輸出 XML 時很好用 (如果你只作輸出的話)，複雜的 XML 輸出用 XmlWriter 比用 XmlDocument 簡單多了，不過最常碰到的情況是我還是想用 XmlDocument 來操作 XML，不過其中一部份的 NODE 想用 XmlWriter 來更新內容...</p> <p>古早有位好心的 MVP 寫了 XmlNodeWriter, 就可以讓我這樣用:</p> <div><b>XmlNodeWriter Sample Code:</b><span class="copycode" title="copy code into clipboard.">[copy code]</span>  <div style="display: none"><pre id="codeData" style="display: none">            XmlDocument xdoc = new XmlDocument();
             xdoc.LoadXml("&lt;root&gt;&lt;node1&gt;&lt;data/&gt;&lt;data/&gt;&lt;data/&gt;&lt;/node1&gt;&lt;node2/&gt;&lt;/root&gt;");
 
             
@@ -38405,7 +38405,7 @@ http://jero.myweb.hinet.net/EntityFramework(Jero).ppsx
 <p>&nbsp;</p>
 <p>前面只是緬懷 XmlNodeWriter 到底有多好用，現在找不到有多難過而已... 接下來才是正題...</p>
 <p>&nbsp;</p>
-<p>不過現在想再去找 XmlNodeWriter 官方網站已經找不到了 @_@，原本這 lib 是 hosting 在 gotdotnet.com 這網站上，不過 M$ 已經把它關了，改成 <a href="http://www.codeplex.com/">codeplex.com</a> / <a href="http://code.msdn.microsoft.com/">MSDN Code Gallery</a> 取代，只好求助 GOOGLE 大神，無意間又發現這 M$ XmlTeam 的 <a href="http://blogs.msdn.com/xmlteam/">BLOG</a>，<a href="http://blogs.msdn.com/xmlteam/archive/2007/02/02/xml-features-in-the-february-ctp-of-visual-studio-orcas.aspx#1586207">COMMENTS</a> 有這麼一段:</p>
+<p>不過現在想再去找 XmlNodeWriter 官方網站已經找不到了 @_@，原本這 lib 是 hosting 在 gotdotnet.com 這網站上，不過 Microsoft 已經把它關了，改成 <a href="http://www.codeplex.com/">codeplex.com</a> / <a href="http://code.msdn.microsoft.com/">MSDN Code Gallery</a> 取代，只好求助 GOOGLE 大神，無意間又發現這 Microsoft XmlTeam 的 <a href="http://blogs.msdn.com/xmlteam/">BLOG</a>，<a href="http://blogs.msdn.com/xmlteam/archive/2007/02/02/xml-features-in-the-february-ctp-of-visual-studio-orcas.aspx#1586207">COMMENTS</a> 有這麼一段:</p>
 <p>&nbsp;</p>
 <blockquote>
 <p><strong># re: XML Features in the February CTP of Visual Studio “Orcas” <br></strong><font color="#c0c0c0">Friday, February 02, 2007 8:27 PM by Stuart Ballard </font></p>
@@ -42524,7 +42524,7 @@ refer to http://www.microsoft.com/ccrdss/]]></wp:comment_content>
 			<wp:comment_author_IP><![CDATA[]]></wp:comment_author_IP>
 			<wp:comment_date><![CDATA[2009-09-20 02:31:07]]></wp:comment_date>
 			<wp:comment_date_gmt><![CDATA[2009-09-20 02:31:07]]></wp:comment_date_gmt>
-			<wp:comment_content><![CDATA[還真的有人這樣用，而且M$還有搭配工具跟整套SDK... (Y)
+			<wp:comment_content><![CDATA[還真的有人這樣用，而且Microsoft還有搭配工具跟整套SDK... (Y)
 
 我還是第一次看到 CCR&amp;DSS ... 謝謝提供這資訊 :D]]></wp:comment_content>
 			<wp:comment_approved><![CDATA[1]]></wp:comment_approved>
@@ -43632,7 +43632,7 @@ SVN 用 TortoiseSVN 真是殺手級的版本控制，超級直覺。]]></wp:comm
 			<wp:comment_date_gmt><![CDATA[2009-04-23 10:30:13]]></wp:comment_date_gmt>
 			<wp:comment_content><![CDATA[哈哈... 有這麼久嘛 :$
 
-TortoiseSVN 不錯用，不過用慣 M$ 那套，一些名詞還真的要習慣一下 @_@]]></wp:comment_content>
+TortoiseSVN 不錯用，不過用慣 Microsoft 那套，一些名詞還真的要習慣一下 @_@]]></wp:comment_content>
 			<wp:comment_approved><![CDATA[1]]></wp:comment_approved>
 			<wp:comment_type><![CDATA[]]></wp:comment_type>
 			<wp:comment_parent>0</wp:comment_parent>

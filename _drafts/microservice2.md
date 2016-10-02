@@ -5,7 +5,7 @@ categories:
 - "專欄"
 - "系列文章: .NET + Windows Container, 微服務架構設計"
 tags: []
-published: true
+published: truennnnnnnnnnnnnnnnnnnnnn
 comments: true
 # redirect_from:
 logo: 
@@ -17,6 +17,8 @@ logo:
 
 其實軟體開發的觀念，說穿了都很類似。當你的程式碼架構良好的時候，不僅 code 維護容易，要切割
 出獨立的服務也會相對輕鬆。因此，不論你打算做甚麼架構調整，我通常會做的第一步就是 "程式碼重構" !!
+
+<!--more-->
 
 # 程式碼重構 - 一定要做的事
 
