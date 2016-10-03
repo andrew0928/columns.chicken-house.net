@@ -121,7 +121,8 @@ public class LoginToken
 這時重構的原則，我會把 "低耦合" 當作第一優先，同時我會採用 Factory + Proxy 設計模式，做好將來要擴展
 到 (3) 的準備。上述的 code, 經過調整後，大概會長的像這樣:
 
-系統主程式:
+系統主程式:  
+
 ```C#
 public void LoginCheck()
 {
@@ -142,7 +143,8 @@ public void LoginCheck()
 }
 ```
 
-會員機制 library:
+會員機制 Library:  
+
 ```C#
 public abstract class LoginServiceBase
 {
@@ -279,7 +281,8 @@ public class RemoteLoginService : LoginServiceBase
 }
 ```
 
-然而，這樣的改變，需要調整一下 Factory 的部分。其實只要改一行就好了:
+然而，這樣的改變，需要調整一下 Factory 的部分。其實只要改一行就好了:  
+
 ```C#
 public abstract class LoginServiceBase
 {
@@ -291,7 +294,8 @@ public abstract class LoginServiceBase
     // ...
 ```
 
-最後，真正要呼叫這些服務的 code, 完全不用改, 維持原樣，重新編譯 & 更新 SDK 後就能正常執行:
+最後，真正要呼叫這些服務的 code, 完全不用改, 維持原樣，重新編譯 & 更新 SDK 後就能正常執行:  
+
 ```C#
 public void LoginCheck()
 {
