@@ -26,6 +26,7 @@ logo: /wp-content/uploads/2016/10/microservice-refactoring.gif
 <!--more-->
 
 ![refactoring](/wp-content/uploads/2016/10/microservice-refactoring.gif)  
+圖片出處: [http://blogs.perpetuumsoft.com/dotnet/to-refactor-or-not-to-refactor-part-i/](http://blogs.perpetuumsoft.com/dotnet/to-refactor-or-not-to-refactor-part-i/)
 
 # 一定要做的事: 程式碼重構，
 
