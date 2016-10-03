@@ -244,7 +244,7 @@ namespace WebApplication1.Controllers
 
 雖然 ASP.NET MVC webapi 是跟平台無關的規格，任何平台都可以輕易的呼叫使用，不過每個平台都要自己去些一些 HTTP 
 處理相關的 code 也是挺辛苦的，通常前端我會搭配開發一組 SDK，來簡化使用 API 的門檻。其實很多例子都這樣做，例如
-Flickr 有很清楚的 HTTP API doc, 但是它也提供了 Flickr.Net, 包裝成 .net 原生的 class library 簡化你使用的步驟，
+Flickr 有很清楚的 [HTTP API doc](https://www.flickr.com/services/api/), 但是它也提供了 [Flickr.Net](http://flickrnet.codeplex.com/), 包裝成 .net 原生的 class library 簡化你使用的步驟，
 這就是 SDK 存在的目的。
 
 對應我們改善後的 SDK (其實就是從上個例子的 class library 進化而來的)，code 長的會像這樣:
