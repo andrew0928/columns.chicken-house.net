@@ -18,8 +18,56 @@ Google 了一下，還真的沒什麼人這樣用，於是一時手癢，就...
 這篇算小品文章吧，延續[上一篇的長篇大論](/2016/09/16/blog-as-code/)，闡述 Blogging as Code 的理念，這邊只是補上在 NAS 上實作的步驟。老實說比我想像的簡單啊，
 根本沒五分鐘就完成了，寫這篇只是留個紀錄...
 
+# 用 Jekyll 當作開發文件管理系統
+
 如果你還不知道這篇要幹嘛用的，可以先參考上一篇 [Blogging as code!](/2016/09/16/blog-as-code/), 上篇講到為何我想換成靜態網站的原因。這篇只是同樣的
-東西，在 NAS 上架設而已。畢竟有些人可能不想東西都擺上 GitHub 被看光光... 有這種考量的話，在 NAS 上架設不失為一個好方法..
+東西，在 NAS 上架設而已。畢竟有些人可能不想東西都擺上 GitHub 被看光光... 有這種考量的話，在 NAS 上架設不失為一個好方法。
+
+不過，反過來想，這東西拿來做專案開發的文件發布，其實蠻方便實用的，GitHub 本來就是讓你放 code 用的啊，code 跟 document 一起
+放進版本控制系統管理，這真是天衣無縫的搭配啊。對開發人員來說，文件就兩種來源:
+
+1. from code comments  
+在程式碼的註解裡面 (EX: C# 的 /// 型態註解就是一例)，事後透過工具 compile 出對應的文件。
+這種適合拿來做 API / Class library documentation
+
+2. 其他需要人工維護的文件:  
+如安裝手冊，規格說明等等，這類文件用 markdown 來寫，隨著 codes 一起放版本控制系統管理。
+
+在過去，我都是用 (1), 在 daily build 時順便重建 API documentation, 至於 (2) 當年就都用 WORD，check-in 後就自動 deploy 到
+小組用的網站，要看的人自己下載。不過用起來並不是很方便，現在把 (2) 用 markdown 一起放在 GitHub, 而 deploy 的部分則被 GitHub Pages
+取代。基本上很無腦的，Code + Docs Push 上去之後，WEB 版的文件就自動更新好了，方便的很。
+
+
+# 應用範例: MSDN - Windows Container Document
+
+原本以為這是我自己的用法，沒想到 Microsoft 也這樣用啊! 無意間看到這些文件: 
+
+[MSDN - Windows Containers Document](https://msdn.microsoft.com/en-US/virtualization/windowscontainers/deployment/deployment_nano?f=255&MSPPError=-2147217396)  
+
+![](/wp-content/uploads/2016/09/run-jekyll-on-nas-msdn.png)
+
+右上角的 "contribute" 點進去後，就會連到 GitHub.com 對應的 markdown 檔案。很有意思的是，你要投稿或是建議，直接 po issues, 或是
+直接 pull request, 把你的修正丟上去，Microsoft 負責的人自然會替你 merge 上去，Jekyll 就自動接手發布內容的動作了。
+
+為何我會這麼確定它 (MSDN) 也是用 Jekyll ? 因為每份文件前面都有一樣的 post header，太好認了，就像這樣:
+
+```markdown
+---
+title: Deploy Windows Containers on Nano Server
+description: Deploy Windows Containers on Nano Server
+keywords: docker, containers
+author: neilpeterson
+manager: timlt
+ms.date: 09/28/2016
+ms.topic: article
+ms.prod: windows-containers
+ms.service: windows-containers
+ms.assetid: b82acdf9-042d-4b5c-8b67-1a8013fa1435
+---
+```
+
+這是我覺得最棒的應用案例了，我幾乎每天看的東西，我竟然現在才發現它也是用 Jekyll ... Orz... 案例看完，接著就直接來看
+怎麼在家裡自己用 NAS 架設這樣的網站 :D
 
 
 # 環境準備
@@ -70,7 +118,7 @@ Build 的 website 我也不需要再透過 Jekyll 發佈了，直接採用 NAS �
 必要的 ruby gem 套件。不確定跑到哪裡了的話，可以開終端機確認，或是看看 docker container log 確定執行狀況。如果看到這段，那
 就代表你網站檔案更新已經完成:
 
-```log
+```text
 Configuration file: /srv/jekyll/_config.yml
             Source: /srv/jekyll
        Destination: /srv/jekyll/_site
