@@ -257,26 +257,26 @@ jekyll s --draft -w
   * link: [/columns/2008/10/10/e7b582e696bce58d87e9809fe4ba86!.aspx](/columns/2008/10/10/e7b582e696bce58d87e9809fe4ba86!.aspx)  
   * link: [/columns/e7b582e696bce58d87e9809fe4ba86!.aspx](/columns/e7b582e696bce58d87e9809fe4ba86!.aspx)  
   * link: [/?p=59](/?p=59) => 這比較特別，static web site 沒辦法處理 ? 後面的 query string, 這有搭配一點點前端 javascript 配合處理  
-> ```markdown
->  ---
->  layout: post
->  title: "終於升速了!"
->  categories:
->  - "敗家"
->  - "有的沒的"
->  tags: ["敗家","有的沒的"]
->  published: true
->  comments: true
->  permalink: "/2008/10/10/終於升速了/"
->  redirect_from:
->    - /columns/post/2008/10/10/e7b582e696bce58d87e9809fe4ba86!.aspx/
->    - /post/2008/10/10/e7b582e696bce58d87e9809fe4ba86!.aspx/
->    - /post/e7b582e696bce58d87e9809fe4ba86!.aspx/
->    - /columns/2008/10/10/e7b582e696bce58d87e9809fe4ba86!.aspx/
->    - /columns/e7b582e696bce58d87e9809fe4ba86!.aspx/
->  wordpress_postid: 59
->  ---
-> ```
+```markdown
+  ---
+  layout: post
+  title: "終於升速了!"
+  categories:
+  - "敗家"
+  - "有的沒的"
+  tags: ["敗家","有的沒的"]
+  published: true
+  comments: true
+  permalink: "/2008/10/10/終於升速了/"
+  redirect_from:
+    - /columns/post/2008/10/10/e7b582e696bce58d87e9809fe4ba86!.aspx/
+    - /post/2008/10/10/e7b582e696bce58d87e9809fe4ba86!.aspx/
+    - /post/e7b582e696bce58d87e9809fe4ba86!.aspx/
+    - /columns/2008/10/10/e7b582e696bce58d87e9809fe4ba86!.aspx/
+    - /columns/e7b582e696bce58d87e9809fe4ba86!.aspx/
+  wordpress_postid: 59
+  ---
+```
 
 * 補上 google analystics
 * 補上 google adsense
