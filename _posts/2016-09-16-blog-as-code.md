@@ -257,6 +257,7 @@ jekyll s --draft -w
   * link: [/columns/2008/10/10/e7b582e696bce58d87e9809fe4ba86!.aspx](/columns/2008/10/10/e7b582e696bce58d87e9809fe4ba86!.aspx)  
   * link: [/columns/e7b582e696bce58d87e9809fe4ba86!.aspx](/columns/e7b582e696bce58d87e9809fe4ba86!.aspx)  
   * link: [/?p=59](/?p=59) => 這比較特別，static web site 沒辦法處理 ? 後面的 query string, 這有搭配一點點前端 javascript 配合處理  
+    
 ```markdown
   ---
   layout: post
