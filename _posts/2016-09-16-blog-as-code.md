@@ -248,43 +248,43 @@ jekyll s --draft -w
 > *Hint*: 不只 wordpress, 還有更早 blogengine, community server 的連結.. 可參考我[這篇文章](/2015/12/03/casestudy-nginx-as-reverseproxy/)要解決的問題, 很多外來的連結都是這種
 > 解決方式，加裝 [jekyll-redirect-from](https://help.github.com/articles/redirects-on-github-pages/) 模組，然後在匯出的 post 內標示這篇文章可能從哪幾個 URL 轉址過來。同樣的可以參考我的 C# 匯入工具
 > 舉個例子，只要是舊文章，我都會匯出像這樣的 post header (請注意 **redirect_from** 的部分)  
->各位可以直接試試看，這些舊網址，是不是真的會動 :D  
->  * link: [/columns/post/2008/10/10/e7b582e696bce58d87e9809fe4ba86!.aspx](/columns/post/2008/10/10/e7b582e696bce58d87e9809fe4ba86!.aspx)
->  * link: [/post/2008/10/10/e7b582e696bce58d87e9809fe4ba86!.aspx](/post/2008/10/10/e7b582e696bce58d87e9809fe4ba86!.aspx)
->  * link: [/post/e7b582e696bce58d87e9809fe4ba86!.aspx](/post/e7b582e696bce58d87e9809fe4ba86!.aspx)
->  * link: [/columns/2008/10/10/e7b582e696bce58d87e9809fe4ba86!.aspx](/columns/2008/10/10/e7b582e696bce58d87e9809fe4ba86!.aspx)
->  * link: [/columns/e7b582e696bce58d87e9809fe4ba86!.aspx](/columns/e7b582e696bce58d87e9809fe4ba86!.aspx)
->  * link: [/?p=59](/?p=59) => 這比較特別，static web site 沒辦法處理 ? 後面的 query string, 這有搭配一點點前端 javascript 配合處理
->
-> ```
-> ---
-> layout: post
-> title: "終於升速了!"
-> categories:
-> - "敗家"
-> - "有的沒的"
-> tags: ["敗家","有的沒的"]
-> published: true
-> comments: true
-> permalink: "/2008/10/10/終於升速了/"
-> redirect_from:
->   - /columns/post/2008/10/10/e7b582e696bce58d87e9809fe4ba86!.aspx/
->   - /post/2008/10/10/e7b582e696bce58d87e9809fe4ba86!.aspx/
->   - /post/e7b582e696bce58d87e9809fe4ba86!.aspx/
->   - /columns/2008/10/10/e7b582e696bce58d87e9809fe4ba86!.aspx/
->   - /columns/e7b582e696bce58d87e9809fe4ba86!.aspx/
-> wordpress_postid: 59
-> ---
-> ```
 
+
+各位可以直接試試看，這些舊網址，是不是真的會動 :D  
+  * link: [/columns/post/2008/10/10/e7b582e696bce58d87e9809fe4ba86!.aspx](/columns/post/2008/10/10/e7b582e696bce58d87e9809fe4ba86!.aspx)  
+  * link: [/post/2008/10/10/e7b582e696bce58d87e9809fe4ba86!.aspx](/post/2008/10/10/e7b582e696bce58d87e9809fe4ba86!.aspx)  
+  * link: [/post/e7b582e696bce58d87e9809fe4ba86!.aspx](/post/e7b582e696bce58d87e9809fe4ba86!.aspx)  
+  * link: [/columns/2008/10/10/e7b582e696bce58d87e9809fe4ba86!.aspx](/columns/2008/10/10/e7b582e696bce58d87e9809fe4ba86!.aspx)  
+  * link: [/columns/e7b582e696bce58d87e9809fe4ba86!.aspx](/columns/e7b582e696bce58d87e9809fe4ba86!.aspx)  
+  * link: [/?p=59](/?p=59) => 這比較特別，static web site 沒辦法處理 ? 後面的 query string, 這有搭配一點點前端 javascript 配合處理  
+> ```markdown
+>  ---
+>  layout: post
+>  title: "終於升速了!"
+>  categories:
+>  - "敗家"
+>  - "有的沒的"
+>  tags: ["敗家","有的沒的"]
+>  published: true
+>  comments: true
+>  permalink: "/2008/10/10/終於升速了/"
+>  redirect_from:
+>    - /columns/post/2008/10/10/e7b582e696bce58d87e9809fe4ba86!.aspx/
+>    - /post/2008/10/10/e7b582e696bce58d87e9809fe4ba86!.aspx/
+>    - /post/e7b582e696bce58d87e9809fe4ba86!.aspx/
+>    - /columns/2008/10/10/e7b582e696bce58d87e9809fe4ba86!.aspx/
+>    - /columns/e7b582e696bce58d87e9809fe4ba86!.aspx/
+>  wordpress_postid: 59
+>  ---
+> ```
 
 * 補上 google analystics
 * 補上 google adsense
 * 補上 facebook open graph meta tags
 * 補上 facebook like / share button  
 
-> 上面這四項，通通都是把 google / facebook 提供的 HTML 貼到正確位置而已，頂多有些關鍵的地方要用 Liquid 的語法填進去。
-> Liquid 做這種事情實在太適合了，他就是個 template engine 啊，語法熟悉後真是輕而易舉.. 比用 wordpress plugins 還容易
+上面這四項，通通都是把 google / facebook 提供的 HTML 貼到正確位置而已，頂多有些關鍵的地方要用 Liquid 的語法填進去。
+Liquid 做這種事情實在太適合了，他就是個 template engine 啊，語法熟悉後真是輕而易舉.. 比用 wordpress plugins 還容易
 
 
 有些好心人，用 ruby 寫了自己的匯出工具，解決 tags / category / 中文檔名問題，不過 ruby 我不會寫啊，加上要處理的問題也不難，
