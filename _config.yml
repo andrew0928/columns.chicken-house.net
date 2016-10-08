@@ -1,7 +1,7 @@
 # Site Info
 title: 安德魯的部落格
-tagline: '安德魯的部落格'
-description: '123'
+tagline: '.NET / C# / OOP'
+description: ''
 
 # baseurl: "/lanyon"
 baseurl: ""
@@ -12,6 +12,7 @@ logo: '/public/logo.png'
 gems:
   - jekyll-paginate
   - jekyll-redirect-from
+  - jekyll-sitemap
 
 markdown: kramdown
 kramdown:
