@@ -5,7 +5,7 @@ categories:
 - "專欄"
 - "系列文章: .NET + Windows Container, 微服務架構設計"
 tags: []
-published: true
+published: false
 comments: true
 # redirect_from:
 logo: /wp-content/uploads/2016/10/microservice-webapi-design.jpg
