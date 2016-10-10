@@ -43,7 +43,7 @@ API 的生態，跟應用軟體的生態不大一樣。很多老闆都會講服�
 跳到第一版，提供其他的開發人員查詢台灣鳥類生態觀察的資料。不多說，直接看 code:
 
 > 接下來會有幾篇文章要延續這個範例，code 會不斷的修正。
-> 若要參考這篇文章提到的 sample code, 請參考 [dev-SDK](https://github.com/andrew0928/SDKDemo/tree/dev-SDK) 這個分支。
+> 若要參考這篇文章提到的 sample code, 請參考 [dev-API](https://github.com/andrew0928/SDKDemo/tree/dev-API) 這個分支。
 > 不介意的話，請給我個 star 鼓勵一下 :D
 
 
@@ -92,7 +92,7 @@ API 的生態，跟應用軟體的生態不大一樣。很多老闆都會講服�
 
 我開了一個 "Azure Web APP" 類型的 ASP.NET Web Application, 其實就是拿掉大部分用不到的 code, 只保留 webapi 
 需要的部份而已。它的好處除了輕快之外，能夠在一般的 windows server 上面執行，也可以直接當成 Azure 的 [API App](https://azure.microsoft.com/en-us/documentation/articles/app-service-api-apps-why-best-platform/) 
-丟上雲端 Hosting。實際程式碼我有丟上 [GitHub](https://github.com/andrew0928/SDKDemo/tree/dev-SDK/) , 請參考 ```Demo.ApiWeb``` 這個 project. 其中關鍵的 ApiController: ```BirdsController.cs``` 內容如下:
+丟上雲端 Hosting。實際程式碼我有丟上 [GitHub](https://github.com/andrew0928/SDKDemo/tree/dev-API/) , 請參考 ```Demo.ApiWeb``` 這個 project. 其中關鍵的 ApiController: ```BirdsController.cs``` 內容如下:
 
 ```C#
 public class BirdsController : ApiController
