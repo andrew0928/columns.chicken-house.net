@@ -324,7 +324,7 @@ static IEnumerable<Dictionary<string, string>> GetBirdsData()
 ## 結果觀察 - 觀察 API 呼叫與資料處理的交錯執行狀況
 
 上述的 code 可以看到，在 ```GetBirdsData()``` 內每呼叫一次 server API, 就會印一次 "--- loading data ...", 然而前端查到
-一筆符合的資料，就會印出一筆。我節錄這個 console app 的輸出結果給大家參考 (TL;DR)
+一筆符合的資料，就會印出一筆。我節錄這個 console app 的輸出結果給大家參考:
 
 ```TEXT
 --- loading data... (75 ~ 80) ---
@@ -411,7 +411,7 @@ static void ListAll_UseYield()
 Press any key to continue . . .
 ```
 
-看起來的確很精確的，逐頁讀取資料，逐頁過濾後，我用 Linq 要求只取前面 1 筆 ( ```.Take(10)``` )，真的後面的 API 就不會再呼叫了。
+看起來的確很精確的，逐頁讀取資料，逐頁過濾後，我用 Linq 要求只取前面 1 筆 ( ```.Take(1)``` )，真的後面的 API 就不會再呼叫了。
 這是否是因為我 Linq Query 下的好的關係? 如果我 Query 一樣是查詢所有資料，但是是用 C# code, 在適當時間 break for-each loop,
 結果是否會不同?
 
