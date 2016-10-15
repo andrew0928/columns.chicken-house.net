@@ -4,7 +4,7 @@ title: "暌違多年的獎盃 - Microsoft MVP Award Get!"
 categories:
 - "有的沒的"
 tags: ["有的沒的"]
-published: true
+published: false
 comments: true
 redirect_from:
 logo: /public/logo.png
