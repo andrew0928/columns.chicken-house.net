@@ -10,7 +10,7 @@ tags: ["API", "SDK", "系列文章", "ASP.NET", "架構師"]
 published: true
 comments: true
 redirect_from:
-logo: //wp-content/uploads/2016/10/apisdk-02-socker.jpg
+logo: //wp-content/uploads/2016/10/apisdk-02-socket.jpg
 ---
 
 [上一篇](/2016/10/10/microservice3/)出來後，才發現，原來不是每個人都清楚 API 跟 SDK 的差別... 接下去之前我就花點篇幅來說明一下。
@@ -22,9 +22,13 @@ logo: //wp-content/uploads/2016/10/apisdk-02-socker.jpg
 上的 [API App Service](https://azure.microsoft.com/zh-tw/services/app-service/api/), 
 還有 [API Management](https://azure.microsoft.com/en-us/services/api-management/)。
 
-<!--more-->
 
 # 什麼是 "API"?
+
+![](/wp-content/uploads/2016/10/apisdk-02-socket.jpg)  
+(sorry, 這圖找不到原圖出處, 知道的請通知我，我再補上~)
+
+<!--more-->
 
 **API**: Application Programming Interface 的縮寫，我把重點擺在第三個字 "I" (interface) 上面。
 真的要嚴謹的定義的話，API 只是告訴你某個服務，或是某個元件，提供甚麼樣的 "方式" 讓你去取用他的功能或服務。
@@ -34,9 +38,6 @@ logo: //wp-content/uploads/2016/10/apisdk-02-socker.jpg
 這樣聽起來有點抽象，要具體說明的話，我常愛舉一個例子，介面定義這件事，在硬體的領域用的比軟體早太多了。因為硬體比軟體
 更難更改及更新，因此事先定義嚴謹的規範及介面定義是很重要的。舉凡我們家裡到處都有的插座，到電腦的 USB，HDMI，網路用
 的 RJ45 等等都是 "Interface"。
-
-![](/wp-content/uploads/2016/10/apisdk-02-socker.jpg)  
-(sorry, 這圖找不到原圖出處, 知道的請通知我，我再補上~)
 
 這些 "Interface" 通常都會由廠商，或是有公信力的第三方組織，如 IEEE 等來制定規範。拿最簡單的電源插座來說，台灣政府
 會規範台灣地區的標準，包含插座的規格，還有輸送的電壓等等。有了這樣的規範，台電就知道要輸送什麼規格的電力到每一戶家裡。
