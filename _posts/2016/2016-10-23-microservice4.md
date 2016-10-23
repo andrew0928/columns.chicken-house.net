@@ -1,19 +1,22 @@
 ---
 layout: post
-title: "TEMPLATE POST"
+title: "API & SDK Design #2, 設計專屬的 SDK"
 categories:
-- "有的沒的"
-tags: ["有的沒的"]
-published: false
+- "專欄"
+- "系列文章: .NET + Windows Container, 微服務架構設計"
+- "系列文章: API & SDK Design"
+- "架構師觀點"
+tags: ["API", "SDK", "系列文章", "ASP.NET", "架構師"]
+published: true
 comments: true
 redirect_from:
-logo: /public/logo.png
+logo: //wp-content/uploads/2016/10/apisdk-02-socker.jpg
 ---
 
-上一篇出來後，才發現，原來不是每個人都清楚 API 跟 SDK 的差別... 接下去之前我就花點篇幅來說明一下。
+[上一篇](/2016/10/10/microservice3/)出來後，才發現，原來不是每個人都清楚 API 跟 SDK 的差別... 接下去之前我就花點篇幅來說明一下。
 這個分不清楚的話實在有點囧啊，以前在本機上，這可能幾乎是一樣的東西，但是到了分散式的環境就不是那麼一回事..。
 
-我這系列打算從 上一篇 介紹 client side 如何用 C# 呼叫 Http API 的技巧，延續到如何開發搭配的 SDK 設計，
+我這系列打算從 [上一篇](/2016/10/10/microservice3/) 介紹 client side 如何用 C# 呼叫 Http API 的技巧，延續到如何開發搭配的 SDK 設計，
 以及 web api 在正式上線時必須考量的安全、效能、確保介面的相容性，可靠性等等設計。不過當你的 API 要正式
 發布給其他人使用時，要面臨的就遠遠不止設計跟開發層面而已，還會有線上維運等問題，這邊我也會介紹一下 Azure
 上的 [API App Service](https://azure.microsoft.com/zh-tw/services/app-service/api/), 
@@ -21,18 +24,19 @@ logo: /public/logo.png
 
 <!--more-->
 
-# WHAT IS API?
+# 什麼是 "API"?
 
-![](/wp-content/uploads/2016/10/apisdk-02-socket.jpg)  
-
-API: Application Programming Interface 的縮寫，我把重點擺在第三個字 "I" (interface) 上面。
+**API**: Application Programming Interface 的縮寫，我把重點擺在第三個字 "I" (interface) 上面。
 真的要嚴謹的定義的話，API 只是告訴你某個服務，或是某個元件，提供甚麼樣的 "方式" 讓你去取用他的功能或服務。
 因此他只是個溝通方式的定義而已。跟誰溝通? 跟你的程式 (Application)。用甚麼方式溝通? 透過你的程式撰寫 (Programming)
 所使用的溝通介面 (Interface)。
 
 這樣聽起來有點抽象，要具體說明的話，我常愛舉一個例子，介面定義這件事，在硬體的領域用的比軟體早太多了。因為硬體比軟體
 更難更改及更新，因此事先定義嚴謹的規範及介面定義是很重要的。舉凡我們家裡到處都有的插座，到電腦的 USB，HDMI，網路用
-的 RJ45 等等都是。
+的 RJ45 等等都是 "Interface"。
+
+![](/wp-content/uploads/2016/10/apisdk-02-socker.jpg)  
+(sorry, 這圖找不到原圖出處, 知道的請通知我，我再補上~)
 
 這些 "Interface" 通常都會由廠商，或是有公信力的第三方組織，如 IEEE 等來制定規範。拿最簡單的電源插座來說，台灣政府
 會規範台灣地區的標準，包含插座的規格，還有輸送的電壓等等。有了這樣的規範，台電就知道要輸送什麼規格的電力到每一戶家裡。
@@ -44,9 +48,9 @@ API: Application Programming Interface 的縮寫，我把重點擺在第三個�
 
 
 
-# WHAT IS SDK?
+# 什麼是 "SDK"?
 
-SDK: Software Development Kit 的縮寫，一樣重點我擺在最後的 "K" (Kit) 上面。
+**SDK**: Software Development Kit 的縮寫，一樣重點我擺在最後的 "K" (Kit) 上面。
 SDK 的意思就是指讓你能順利開發軟體使用的套件。為何會跟 API 扯在一起? 通常 SDK 都是提供 API 的開發者，為了方便
 其他的開發者使用他的 API 所提供的對應套件 SDK。
 
@@ -80,15 +84,17 @@ Library 就能讓你簡化這些千篇一律的呼叫動作。其他有些 clien
 
 # YOUR FIRST SDK!
 
-定義搞清楚後，接下來就繼續延續上一篇文章的範例程式了。
+定義搞清楚後，接下來就繼續延續[上一篇](/2016/10/10/microservice3/)文章的範例程式了。
 
 > Source Code 一樣可以直接從 GitHub 上面拉下來看，不過這篇的進度
-> 請參考 SDK 這個 branch. 隨著文章一路寫下去，Source Code 也會隨著一直修改，如果你一直抓最新版的，應該會跟文章內容對不起來..
+> 請參考 SDK 這個 [branch](https://github.com/andrew0928/SDKDemo/tree/dev-SDK). 隨著文章一路寫下去，Source Code 也會隨著一直修改，如果你一直抓最新版的，應該會跟文章內容對不起來..
 > 請特別留意。
 
 上次的 Source Code 有兩個 projects, 分別是:
-1. Demo.ApiWeb - 提供 API service 的 Web App
-2. Demo.Client.ConsoleApp - 呼叫 API 的 console application
+1. ```Demo.ApiWeb```  
+  提供 API service 的 Web App
+2. ```Demo.Client.ConsoleApp```  
+  呼叫 API 的 console application
 
 (2) 的部分，我只列片段就好，全列實在太長了... @@
 ``` C#
@@ -271,7 +277,7 @@ BirdInfo 物件的定義, 還有 HttpClient 使用的細節都封裝了起來，
 
 
 
-# SDK / API VERSION?
+# SDK / API 的更新及維護問題?
 
 問題到這邊就結束了嗎? 如果以第一版來說，的確結束了。接下來我們來看看 API 或是 SDK 改版會面臨的問題。我先用一張圖來
 描述 APP / SDK / API 三者之間的關係:
@@ -328,7 +334,7 @@ Press any key to continue . . .
 這個問題直到 SDK 對應的 BirdInfo 定義也跟著更新後才解決:
 
 ```LOG
-[ID: B0443] -------------------------------------------------------------
+[ID: B0443] ----------------------
         流水號: 40250
       調查日期: 2013-06-21
       調查地點: 玉山西峰下
@@ -346,17 +352,159 @@ Press any key to continue . . .
 Press any key to continue . . .
 ```
 
-好，雖然晚了一點，但是至少問題解決了。回頭來檢討看看這整個過程中有那些問題要改善?
+如果這是 real case, 那麼緊急解決線上的問題，到這裡應該告一段落了。不過更新的問題一定會碰到，要徹底解決
+這問題的話，還是得從架構設計上著手。這過程我抓了兩個關鍵的原因，需要從架構設計面解決:
 
-1. SDK 跟 API WEB 之間，同樣的 BirdInfo 資料物件，兩邊都得人工維護一份。
-2. SDK 跟 API WEB 之間必須有向前相容的機制。
-3. SDK 跟 API 萬一不相容，至少要有方式偵測是否有這種狀況發生，讓 SDK 能做出正確的處理 (EX: 顯示訊息要求 USER 更新，或是回報開發者發生異常)
+1. API 的定義，必須有具體 (code 化) 的表達方式，來確保兩端的定義是一致的
+2. 向前相容的問題處理，在 API 定義異動時，sdk 要有能力偵測並且正確的回應
 
-
-
-
-# DETECT VERSION + CONTRACTS
+接下來就針對這兩點，我們來看看怎麼持續改進 SDK 的 implementation
 
 
-# SUMMARY
 
+# API: APP 與 Service 之間簽訂的合同
+
+不知各位有無留意到這細節? 前面的案例調整了 BirdInfo 這資料格式的定義，導致 service 端 (```Demo.ApiWeb```) 與 SDK 端 (```Demo.SDK```),
+都需要 **手動** 的調整 code 去配合。手動調整事小，沒有一個機制來約束，確保這件事正確無誤完成事大。這邊我很愛用的機制，就是以前
+使用 [WCF](https://msdn.microsoft.com/en-us/library/ms731082(v=vs.110).aspx) (windows communication foundation) 學來的技巧: 制定合約 (contract)
+
+對比到現實世界，接案子時都會簽合約，雙方約定的事項條列在上面，之後一切按照合約條款進行，這是現實世界的規矩。
+套用到這邊也一樣，API 的定義也是講一樣的事情。在 .NET 裡面，你可以用 interface, 或是定義 data object 之類的方法
+讓前後端共用，編譯器就能幫你做完後面的檢查及驗證等等苦工。只要編譯能通過，就代表雙方是符合合約規範的。
+
+後面的例子，我會把 API 定義的部分，再拆成獨立的 project: ```Demo.Contracts``` 。將來，除非你的 API 要正式異動，否則
+就不要去改這個 project. 在板控系統上的紀錄，這個 project 的任何異動，就視同 API 的修訂。在我們團隊實際的運作也是如此，
+因此這個 project 通常會限定異動的權限，必須是 architect, 或是 team leader, product owner 之類的角色才有權限調整。
+
+原本的架構，調整後變成這樣，前後端都必須依照 contracts 的約定，來進行溝通:
+
+![API service contract](/wp-content/uploads/2016/10/apisdk-02-contracts.png)
+
+
+首先，在整個 solution 內新增 ```Demo.Contracts``` 這個 class library project, 每個其他的 project 加入 reference. 
+接著就把需要統一規範的 interface or data contract 搬過來。
+
+第一個要搬移的，就是前面案例碰到的 ```BirdInfo.cs```，分享一下我調整的過程，可以最輕鬆的完成這件事:
+
+1. 由於改專案，我希望同時調整 namespace. 因此我先個別在兩個專案內把 BirdInfo 這 class 的 namespace 改成 Demo.Contracts, 
+透過 refactory 功能可以自動修正所有使用到他的 code
+2. 完成 (1) 之後，再把它搬到 Demo.Contracts project 內，由於 namespace 早就先改好了，所以只要單純的搬移 code
+3. 調整 projects 之間的 reference, 原本的 project 都加上 Demo.Contracts 的參考，重新編譯確認無誤後就完成了。
+
+這個過程中，能夠善用 refactory 的話，可以替你節省不少力氣，否則你就要搬完 code, 改完 reference 後，編譯看看有多少 error
+再一條一條修改。修正後的 solution 結構，長的像這樣:
+
+![](/wp-content/uploads/2016/10/apisdk-02-solution-structure.png)
+
+
+
+# SDK client interface: APP 與 SDK 之間簽訂的合同
+
+接下來，很容易被忽略掉的一點，就是 APP 與 SDK 的相容性。還記得前面的表格嗎? SDK 是原廠維護的，而 APP 是開發者維護的。
+原本 APP 應該直接按照 API 規範來使用 SERVICE 的，所以之間的合約只要處理 API 就夠了。但是 SDK 替 APP 解決了這段問題，
+因此 APP 開發者真正要面對的規範，就往前提到 APP 與 SDK 之間了。
+
+講具體一點，就是 SDK 有任何異動，是否能維持 APP 的相容性? 這邊的相容性，我分成幾個情況來說明:
+
+1. APP 只要更新 SDK DLL，APP 不需要重新編譯
+2. APP 需要更新 SDK 及重新編譯，不需要改 Code
+3. SDK 大版本更新，APP 需要配合 SDK 重新調整 Code
+
+一樣，我們用同樣的技巧，訂定 SDK contracts, 來解決 APP 跟 SDK 之間的問題。架構圖再調整一下，變成這樣:
+ 
+![sdk contract](/wp-content/uploads/2016/10/apisdk-02-sdk-contracts.png)
+
+Demo.Contracts 我也增加了 SDK Client interface:
+
+``` C#
+namespace Demo.Contracts
+{
+    public interface ISDKClient
+    {
+        IEnumerable<BirdInfo> GetBirdInfos();
+        BirdInfo GetBirdInfo(string serialNo);
+    }
+}
+```
+
+原本的 Demo.SDK.Client 配合調整，同時我也改成 Factory Pattern, 控制 SDK Client 產生的過程
+``` C#
+namespace Demo.SDK
+{
+    public class Client : ISDKClient
+    {
+        private HttpClient _http = null;
+
+        public static ISDKClient Create(Uri serviceURL)
+        {
+            return new Client(serviceURL);
+        }
+
+        private Client(Uri serviceURL)
+        {
+            // do init / check
+            this._http = new HttpClient();
+            this._http.BaseAddress = serviceURL;
+        }
+
+        public IEnumerable<BirdInfo> GetBirdInfos()
+        {
+            // 略
+        }
+
+        public BirdInfo GetBirdInfo(string serialNo)
+        {
+            // 略
+        }
+    }
+}
+```
+
+最後 APP 呼叫端的 Code, 只改了取得 client 的部分。原本是:
+
+``` C#
+Demo.SDK.Client client = new Demo.SDK.Client(new Uri("http://localhost:56648"));
+
+// Do something...
+```
+
+修改後變成:
+
+``` C#
+ISDKClient client = Demo.SDK.Client.Create(new Uri("http://localhost:56648"));
+
+// Do something...
+```
+
+一樣，這樣以後就有一樣的效果了。除非這個 interface 內容有任何異動，否則你就再也不需要擔心 interface 異動造成問題了。
+
+
+# 結論
+
+到目前為止，整個 API service 的開發及部署架構已經出來了。除了 Demo.Client.ConsoleApp 之外，其他都是原廠的
+API service 開發團隊負責的。隨著 API 的版本推進，不斷的 build solution, 不斷的 deployment, 做好 CI / CD
+就沒問題了。
+
+SDK 到這邊就結束了嗎? 還沒有... 下一篇要接著來講 API 的版本控制，及如何做好向前相容的版本管理。敬請期待 :D
+
+----
+>
+> 最後補充一下，這邊說明的作法，我都已不需要太多外加的 framework, 或是套件為主，盡可能的自己實作。原因很簡單，倒不是
+> 說要自己發明輪子，而是不經過這樣的過程，你 (尤其是有打算朝架構師發展的朋友) 很難徹底理解為什麼要這樣做的原因。理解之後
+> 你可以在適當的領域，挑選適合的 framework 來使用。  
+>
+> 比如這篇提到的 API 規範，我用 .NET 的 interface 來實作，實際上有其它的技術已經可以做好這件事了 (如 swagger 等)。
+> [上一篇](/2016/10/10/microservice3/)講的 server side paging + yield return, 你一樣也可以找到現成的 ODATA 來取代。甚至更早的一系列文章，講到 API key，
+> 我用了 AES 數位簽章的方式來實作也是。實際使用時，你可以選擇一樣觀念做出來的 JWT... 這些案例很多，我就不一一細說。
+> 如果你是實際上的專案需要，可以考慮使用這些現成的框架。成熟的框架可以解決很多實際上會碰到的問題，但是自己土炮一次則可以
+> 讓你了解框架為何耀這要做的原因跟理由。  
+>
+> 之前在 facebook 上面曾經分享過，現在的技術發展太快了，不論做什麼事都有一堆框架 (framework) 可以選擇。年輕的工程師
+> 沒有足夠的時間跟經驗，從基礎開始學起，一開始就得面對龐大的框架，往往分不出甚麼是基礎，什麼是 platform / language, 什麼
+> 是 framework (舉例來說，javascript engine / dom / jquery / react / vue ... 之間的關係你說的清楚嗎?)。當面臨
+> framework 的世代交替時，換到下一個新的 framework 能留下的經驗跟能力就很有限了，碰到 framework 不足的部分，或是根本
+> 都還沒有適合的 framework 時就會束手無策。  
+>
+> 我這種年紀的傢伙比較幸運一點，當年還沒這麼多 framework, 我還有機會把基礎學好再來研究 framework, 因此現在看到不同的
+> framework, 我還能保有選擇跟理解的能力，碰到不足的部分我也有能力找出解法。我希望把這些經驗整理下來，分享給需要的朋友們。
+>
