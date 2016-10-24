@@ -7,7 +7,7 @@ tags: ["MVP", "自HIGH"]
 published: true
 comments: true
 redirect_from:
-logo: /wp-content/uploads/2016/10/MVP_Banner_logo.png
+logo: /wp-content/uploads/2016/10/mvp-mvpkit3.jpg
 ---
 
 
@@ -15,7 +15,7 @@ logo: /wp-content/uploads/2016/10/MVP_Banner_logo.png
 
 其實拿到這獎項時，我比其他人還意外 XD, 每個人都只跟我說..  
   
-> ** *什麼!? 我以為你早就是 MVP 了...* **
+> *什麼!? 我以為你早就是 MVP 了...*
   
 哈哈，不論如何，直到 2016/10，我總算拿到這頭銜了 :D
 
