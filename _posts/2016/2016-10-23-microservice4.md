@@ -12,7 +12,6 @@ comments: true
 redirect_from:
 logo: //wp-content/uploads/2016/10/apisdk-02-socket.jpg
 ---
-
 [上一篇](/2016/10/10/microservice3/)出來後，才發現，原來不是每個人都清楚 API 跟 SDK 的差別... 接下去之前我就花點篇幅來說明一下。
 這個分不清楚的話實在有點囧啊，以前在本機上，這可能幾乎是一樣的東西，但是到了分散式的環境就不是那麼一回事..。
 
@@ -22,6 +21,7 @@ logo: //wp-content/uploads/2016/10/apisdk-02-socket.jpg
 上的 [API App Service](https://azure.microsoft.com/zh-tw/services/app-service/api/), 
 還有 [API Management](https://azure.microsoft.com/en-us/services/api-management/)。
 
+範例程式: 請從 GitHub 下載，本篇的內容對應到 [dev-SDK 分支](https://github.com/andrew0928/SDKDemo/tree/dev-SDK)
 
 # 什麼是 "API"?
 
@@ -88,7 +88,7 @@ Library 就能讓你簡化這些千篇一律的呼叫動作。其他有些 clien
 定義搞清楚後，接下來就繼續延續[上一篇](/2016/10/10/microservice3/)文章的範例程式了。
 
 > Source Code 一樣可以直接從 GitHub 上面拉下來看，不過這篇的進度
-> 請參考 SDK 這個 [branch](https://github.com/andrew0928/SDKDemo/tree/dev-SDK). 隨著文章一路寫下去，Source Code 也會隨著一直修改，如果你一直抓最新版的，應該會跟文章內容對不起來..
+> 請參考 [dev-SDK 分支](https://github.com/andrew0928/SDKDemo/tree/dev-SDK). 隨著文章一路寫下去，Source Code 也會隨著一直修改，如果你一直抓最新版的，應該會跟文章內容對不起來..
 > 請特別留意。
 
 上次的 Source Code 有兩個 projects, 分別是:
@@ -494,7 +494,7 @@ SDK 到這邊就結束了嗎? 還沒有... 下一篇要接著來講 API 的版�
 > 說要自己發明輪子，而是不經過這樣的過程，你 (尤其是有打算朝架構師發展的朋友) 很難徹底理解為什麼要這樣做的原因。理解之後
 > 你可以在適當的領域，挑選適合的 framework 來使用。  
 >
-> 比如這篇提到的 API 規範，我用 .NET 的 interface 來實作，實際上有其它的技術已經可以做好這件事了 (如 swagger 等)。
+> 比如這篇提到的 API 規範，我用 .NET 的 interface 來實作，實際上有其它的技術已經可以做好這件事了 (如 [swagger](http://swagger.io/) 等)。
 > [上一篇](/2016/10/10/microservice3/)講的 server side paging + yield return, 你一樣也可以找到現成的 ODATA 來取代。甚至更早的一系列文章，講到 API key，
 > 我用了 AES 數位簽章的方式來實作也是。實際使用時，你可以選擇一樣觀念做出來的 JWT... 這些案例很多，我就不一一細說。
 > 如果你是實際上的專案需要，可以考慮使用這些現成的框架。成熟的框架可以解決很多實際上會碰到的問題，但是自己土炮一次則可以
