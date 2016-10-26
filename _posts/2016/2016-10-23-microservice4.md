@@ -98,6 +98,7 @@ Library 就能讓你簡化這些千篇一律的呼叫動作。其他有些 clien
   呼叫 API 的 console application
 
 (2) 的部分，我只列片段就好，全列實在太長了... @@
+
 ```csharp
 /// <summary>
 /// 一般寫法，直接呼叫 HttpClient 分多次讀取資料分頁
@@ -304,6 +305,7 @@ APP    | 開發者      | 開發者決定
 會發生什麼事情?
 
 修改前: Demo.ApiWeb/Models/BirdInfo.cs
+
 ```csharp
 public class BirdInfo
 {
@@ -315,6 +317,7 @@ public class BirdInfo
 ```
 
 修改後: Demo.ApiWeb/Models/BirdInfo.cs
+
 ```csharp
 public class BirdInfo
 {
@@ -429,6 +432,7 @@ namespace Demo.Contracts
 ```
 
 原本的 Demo.SDK.Client 配合調整，同時我也改成 Factory Pattern, 控制 SDK Client 產生的過程
+
 ```csharp
 namespace Demo.SDK
 {
