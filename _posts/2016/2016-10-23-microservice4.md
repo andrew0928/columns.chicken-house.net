@@ -98,7 +98,7 @@ Library 就能讓你簡化這些千篇一律的呼叫動作。其他有些 clien
   呼叫 API 的 console application
 
 (2) 的部分，我只列片段就好，全列實在太長了... @@
-``` C#
+```csharp
 /// <summary>
 /// 一般寫法，直接呼叫 HttpClient 分多次讀取資料分頁
 /// </summary>
@@ -145,7 +145,7 @@ static void ListAll_DirectHttpCall()
 因此，這個 solution, 我就在切出第三個 project, 當作我們的 SDK, 也就是呼叫這個 API 共用的 library. 我做了一些調整，
 先進行重構，把我想區隔開的邏輯切開，接著把它拆成獨立的 class library project。 調整後你的 APP 主程式會長的像這個樣子:
 
-``` C#
+```csharp
 using Demo.SDK;
 using System;
 using System.Diagnostics;
