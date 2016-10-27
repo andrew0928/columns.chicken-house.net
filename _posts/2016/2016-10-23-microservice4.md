@@ -98,7 +98,8 @@ Library 就能讓你簡化這些千篇一律的呼叫動作。其他有些 clien
   呼叫 API 的 console application
 
 (2) 的部分，我只列片段就好，全列實在太長了... @@
-``` C#
+
+```csharp
 /// <summary>
 /// 一般寫法，直接呼叫 HttpClient 分多次讀取資料分頁
 /// </summary>
@@ -145,7 +146,7 @@ static void ListAll_DirectHttpCall()
 因此，這個 solution, 我就在切出第三個 project, 當作我們的 SDK, 也就是呼叫這個 API 共用的 library. 我做了一些調整，
 先進行重構，把我想區隔開的邏輯切開，接著把它拆成獨立的 class library project。 調整後你的 APP 主程式會長的像這個樣子:
 
-``` C#
+```csharp
 using Demo.SDK;
 using System;
 using System.Diagnostics;
@@ -202,13 +203,13 @@ namespace Demo.Client.ConsoleApp
 
 至於要連線 SERVER 的過程，全部被濃縮成這一行:
 
-``` C#
+```csharp
 Demo.SDK.Client client = new Demo.SDK.Client(new Uri("http://localhost:56648"));
 ```
 
 就好像我們使用 SQL server 一樣，建立好 connection 物件後就可以開始查詢了。至於 SDK project 的部分，來看看 SDK Client:
 
-``` C#
+```csharp
 using Demo.SDK;
 using Newtonsoft.Json;
 using System;
@@ -304,7 +305,8 @@ APP    | 開發者      | 開發者決定
 會發生什麼事情?
 
 修改前: Demo.ApiWeb/Models/BirdInfo.cs
-``` C#
+
+```csharp
 public class BirdInfo
 {
     public string SerialNo { get; set; }
@@ -315,7 +317,8 @@ public class BirdInfo
 ```
 
 修改後: Demo.ApiWeb/Models/BirdInfo.cs
-``` C#
+
+```csharp
 public class BirdInfo
 {
     public string BirdlNo { get; set; }
@@ -417,7 +420,7 @@ Press any key to continue . . .
 
 Demo.Contracts 我也增加了 SDK Client interface:
 
-``` C#
+```csharp
 namespace Demo.Contracts
 {
     public interface ISDKClient
@@ -429,7 +432,8 @@ namespace Demo.Contracts
 ```
 
 原本的 Demo.SDK.Client 配合調整，同時我也改成 Factory Pattern, 控制 SDK Client 產生的過程
-``` C#
+
+```csharp
 namespace Demo.SDK
 {
     public class Client : ISDKClient
@@ -463,7 +467,7 @@ namespace Demo.SDK
 
 最後 APP 呼叫端的 Code, 只改了取得 client 的部分。原本是:
 
-``` C#
+```csharp
 Demo.SDK.Client client = new Demo.SDK.Client(new Uri("http://localhost:56648"));
 
 // Do something...
@@ -471,7 +475,7 @@ Demo.SDK.Client client = new Demo.SDK.Client(new Uri("http://localhost:56648"));
 
 修改後變成:
 
-``` C#
+```csharp
 ISDKClient client = Demo.SDK.Client.Create(new Uri("http://localhost:56648"));
 
 // Do something...
