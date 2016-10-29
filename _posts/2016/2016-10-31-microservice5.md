@@ -35,15 +35,18 @@ logo: /wp-content/uploads/2016/10/apisdk-03-gandalf.jpg
 1. 微服務架構(概念說明)
   - [微服務架構 #1, WHY Microservices?](/2016/09/15/2016-09-15-microservice-case-study-01/)
   - (計畫) 如何切割微服務的邊界?
+
 2. 微服務架構(實做範例)
   - [微服務架構 #2, 按照架構，重構系統](/2016/10/03/microservice2/)
-  - (分支) 實做微服務的必要技術: API & SDK Design
+
+3. 實做微服務的必要技術: API & SDK Design
     1. [API & SDK Design #1, 資料分頁的處理方式](/2016/10/10/microservice3/)
     2. [API & SDK Design #2, 設計專屬的 SDK](/2016/10/23/microservice4/)
     3. (本篇) API & SDK Design #3, API 的向前相容機制
     4. (計畫) #4, case study, API 異動 & SDK 的最佳化
     5. (計畫) #5, case study, API hosting & API manager on Azure
-3. (計畫) 微服務架構(部署流程)
+    
+4. (計畫) 微服務架構(部署流程)
   - (計畫) 容器化的部署
   - (計畫) 部署案例 - in place upgrade, using windows container
 
