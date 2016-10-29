@@ -5,20 +5,20 @@ categories:
 - "系列文章: .NET + Windows Container, 微服務架構設計"
 - "系列文章: API & SDK Design"
 - "系列文章: 架構師觀點"
-tags: ["API", "SDK", "系列文章", "ASP.NET", "架構師"]
-published: false
+tags: ["API", "SDK", "microservice", "系列文章", "ASP.NET", "架構師"]
+published: true
 comments: true
 redirect_from:
 logo: /wp-content/uploads/2016/10/apisdk-03-gandalf.jpg
 ---
 
-上一篇意外的受歡迎，那麼續集就不富堅了，sample code 準備好就開始動工了。
+上一篇意外的受歡迎，那麼續集就不富堅了，sample code 準備好就開始動工...
 
 ![You shall not pass](/wp-content/uploads/2016/10/apisdk-03-gandalf.jpg)
 
-這篇要講向前相容，不知為何我就直覺的聯想到甘道夫對抗炎魔的場景了 XDD，如果你的 API 沒做好這件事，那麼使用你服務的 APP 結果只有一個..
+這篇要講向前相容，不知為何我就直覺的聯想到甘道夫對抗炎魔的場景了 XDD，如果你的 API 沒做好這件事，那麼使用你服務的 APP 結果就會...
 
-"You shall NOT pass!"
+## "You shall NOT pass!"
 
 講完 API / SDK 之間當下的約定，接下來來講講 API 跟 SDK 之間的承諾吧! 
 當下的約定，會保證當下的 API 跟 SDK 可以搭配運作，然而承諾，則是保證當下的 API 能夠跟過去某個時間以後的所有版本 SDK 都能夠
@@ -30,20 +30,24 @@ logo: /wp-content/uploads/2016/10/apisdk-03-gandalf.jpg
 # 導讀
 
 一個很大的主題，被我分成好幾篇，我的主軸還是以微服務架構 (microservices) 為主軸，我會分三個主題陸續寫下去..
+前面標示 (計畫) 的意思，代表這篇的內容還沒生出來... 請大家耐心等待的意思:
 
-1. 微服務架構(概念)
+1. 微服務架構(概念說明)
   - [微服務架構 #1, WHY Microservices?](/2016/09/15/2016-09-15-microservice-case-study-01/)
-2. 微服務架構(實作)
+  - (計畫) 如何切割微服務的邊界?
+2. 微服務架構(實作範例)
   - [微服務架構 #2, 按照架構，重構系統](/2016/10/03/microservice2/)
-  - 實作微服務的必要技術: API & SDK Design
-    - [API & SDK Design #1, 資料分頁的處理方式](/2016/10/10/microservice3/)
-    - [API & SDK Design #2, 設計專屬的 SDK](/2016/10/23/microservice4/)
-    - 本篇
-3. 微服務架構(部署)
-  - 容器化的部署
+  - (分支) 實作微服務的必要技術: API & SDK Design
+    1. [API & SDK Design #1, 資料分頁的處理方式](/2016/10/10/microservice3/)
+    2. [API & SDK Design #2, 設計專屬的 SDK](/2016/10/23/microservice4/)
+    3. (本篇) API & SDK Design #3, API 的向前相容機制
+    4. (計畫) #4, case study, API 異動 & SDK 的最佳化
+    5. (計畫) #5, case study, API hosting & API manager on Azure
+3. (計畫) 微服務架構(部署流程)
+  - (計畫) 容器化的部署
+  - (計畫) 部署案例 - in place upgrade, using windows container
 
-看來離全部完成還有很久，各位請耐心等待... :D
-
+看來離全部完成還有很久，各位請耐心等待... :D 先來看這篇 API 的向前相容機制!
 
 # 碎碎念: API 的版本策略
 
@@ -68,9 +72,12 @@ logo: /wp-content/uploads/2016/10/apisdk-03-gandalf.jpg
 
 為了確保這種悲劇不會發生，我把這件事拆成三個 check point，來確保這種問題不會發生 (我假設 client 都透過 SDK 呼叫 API，因此以下 client 我都用 SDK 替代):
 
-1. API contracts, 配合獨立的版本控制權限管控，API 規格的異動，要很明確的能在版控系統中追蹤，也能控制特定人員才有資格異動
-2. 要有明確的版本識別機制，確認目前的 API 版本號碼，以及 SDK 的要求最低的 API 版本號碼
-3. 版本相容性策略。API 不可能無限期的維持向前相容。所以要明確定義向前相容的範圍及承諾。
+1. **API contracts**,  
+   配合獨立的版本控制權限管控，API 規格的異動，要很明確的能在版控系統中追蹤，也能控制特定人員才有資格異動
+2. **要有明確的版本識別機制**，  
+   確認目前的 API 版本號碼，以及 SDK 的要求最低的 API 版本號碼
+3. **版本相容性策略**。  
+   API 不可能無限期的維持向前相容。所以要明確定義向前相容的範圍及承諾。
 
 這三項彼此之間是環環相扣的，(1) 確保了你的 API 只有再瘦管控的前提下才會被異動，而且有紀錄可循 (Orz, 好像在導 ISO)。(1)有異動
 就要變更(2)的版本識別碼，藉著(2)，SDK 就能夠判定他現在能否 **安全** 的呼叫這個 API? 或是在釀成大錯之前，就直接回報 client
@@ -125,12 +132,12 @@ method, SDK 一樣可以呼叫啊! 這麼一來 contract 就沒約束力了，�
 /// <summary>
 /// 識別是否為 Contract 用途的 interface
 /// </summary>
-interface IContract { }
+interface IApiContract { }
 
 /// <summary>
 /// Birds API Controller Contract
 /// </summary>
-interface IBirdsContract : IContract
+interface IBirdsApiContract : IApiContract
 {
     void Head();
 
@@ -160,7 +167,7 @@ public class ContractCheckActionFilterAttribute : ActionFilterAttribute
         System.Type contractType = null;
         foreach (var i in actionContext.ActionDescriptor.ControllerDescriptor.ControllerType.GetInterfaces())
         {
-            if (i.GetInterface(typeof(IContract).FullName) != null)
+            if (i.GetInterface(typeof(IApiContract).FullName) != null)
             {
                 contractType = i;
                 Debug.WriteLine($"- contract interface found: {contractType.FullName}.");
@@ -188,13 +195,13 @@ public class ContractCheckActionFilterAttribute : ActionFilterAttribute
 }
 
 [ContractCheckActionFilter]
-public class BirdsController : ApiController, IBirdsContract
+public class BirdsController : ApiController, IBirdsApiContract
 {
     // 全都略過，同上個 example code
 }
 ```
 
-我的想法很簡單，我為了要嚴格控制 ApiController 對外提供的 API 一定要遵循 contract 的定義，那麼既然無法在 compile time 
+我的想法很簡單，我為了要嚴格控制 ```ApiController``` 對外提供的 API 一定要遵循 contract 的定義，那麼既然無法在 compile time 
 執行這個檢查，那我就在 runtime 補上。雖然差了一個層級，並不是很完美，不過總是補上了第二道防線。若再搭配 unit test, 就更
 有機會用系統化的方式抓出漏網之魚。
 
@@ -207,10 +214,10 @@ public class BirdsController : ApiController, IBirdsContract
 contract 跟 API 的關係不會改變，很多運算其實只要做一次 cache 起來就搞定了, 效益是很大的，因為 cache 完全不需要 expire, 
 不過這邊為了清楚表達目的，我都把這些優化的動作省掉了... 
 
-程式的動作很簡單，我先定義了空白的 interface IContract, 所有用來當作 contract 標示用途的 interface 都必須實做這個 interface.
-在這個例子裡 IBirdsContract 就是個例子。
+程式的動作很簡單，我先定義了空白的 interface ```IApiContract```, 所有用來當作 contract 標示用途的 interface 都必須實做這個 interface.
+在這個例子裡 ```IBirdsApiContract``` 就是個例子。
 
-另外，我定義了 ContractCheckActionFilter, 藉這著個 action filter, 每次 webapi 被呼叫時就觸發一次 interface check 的動作。
+另外，我定義了 ```ContractCheckActionFilter```, 藉這著個 action filter, 每次 webapi 被呼叫時就觸發一次 interface check 的動作。
 我這邊只是很簡單的比對 interface name 以及 method name 是否符合而已，實際的 code 比這個複雜多了，我一樣簡化處理... 相信會看我
 部落格的讀者應該都了解這些細節，我就偷個懶吧 :D
 
@@ -277,7 +284,8 @@ API 我們也可以替他定義版本，例如這是 10.26 版的 API，上個�
 1. 如果 contract 不動，則 Major.Minor 通通維持原狀不改變  
 2. 如果因為任何需求，異動了 contract, 修改的幅度是只擴充 API，而沒有任何不相容狀況時，Major 不變，Minor 增加  
 3. 如果有必要造成不相容的異動，則 Major 必須增加。  
-4. 如果發生 (2) 及 (3) 的衝突，例如 API 有某個部分必須廢除，但是又不想大費周章造成不相容的狀況，那通常會保留要廢掉的 API，但是會標示 [Obsolete], 註記最快在下次 Major 異動時才能把他去除。  
+4. 如果發生 (2) 及 (3) 的衝突，例如 API 有某個部分必須廢除，但是又不想大費周章造成不相容的狀況，那通常會
+保留要廢掉的 API，但是會標示 ```[Obsolete]```, 註記最快在下次 Major 異動時才能把他去除。  
 
 
 ## 標示 API 版本編號的方式 
@@ -287,16 +295,16 @@ API 我們也可以替他定義版本，例如這是 10.26 版的 API，上個�
 
 我自己慣用的方式有兩個，有時必要時會兩者並用:
 
-1. 提供明確的 API，如 GetVersion, 直接明確的取得 API 版本資訊。
+1. 提供明確的 API，直接明確的取得 API 版本資訊。
 2. 在正常的 API call，將版本資訊隨著 result 一起傳回 SDK。
 
 一般情況下，其實 (2) 就足夠了，如果你只是要參考而已的話。但是如果你想要在 SDK init 階段，還沒有開始呼叫任何 API 之前
 就確認版本，那就要補上 (1) 的實作。當然 (1) 跟 (2) 是可以並行的。所以同樣的例子，來看看 sample code 該怎麼調整:
 
-首先，IBirdsContract 多加一個 Options, 用來傳回 version string:
+首先，```IBirdsApiContract``` 多加一個 ```Options```, 用來傳回 version string:
 
 ```csharp
-interface IBirdsContract : IContract
+interface IBirdsApiContract : IApiContract
 {
     string Options();
 
@@ -308,7 +316,7 @@ interface IBirdsContract : IContract
 
 ```csharp
     [ContractCheckActionFilter]
-    public class BirdsController : ApiController, IBirdsContract
+    public class BirdsController : ApiController, IBirdsApiContract
     {
         public string Options()
         {
@@ -340,12 +348,12 @@ interface IBirdsContract : IContract
         // 以下略過
 ```
 
-這邊我先不檢查 (檢查的規矩後面談)，只在 debug output 那邊印出版本號碼。查看 Visual Studio 的 debug output 可以看到:
+這邊我先不檢查 (檢查的規矩後面談)，只在 output window 那邊印出版本號碼。查看 Visual Studio 的 output window 可以看到:
 
 ![debug output](/wp-content/uploads/2016/10/apisdk-03-debug-output.png)
 
 
-# Compatible Policy
+# 版本相容性政策 (連線時檢查)
 
 到目前為止一切順利，剩下最後一部分，就是版本的檢查邏輯。
 
@@ -390,11 +398,11 @@ public class Client : ISDKClient
 
 這邊補上了 SDK 期望看到的 API 版本 _require_API_version, 若將來 SDK 改版，這邊的需求版本號碼應該也要手動調整 source code 才對。
 在 SDK client 被建立起來時，SDK 會主動查詢 server API 的目前版本，然後按照上面的版本原則，確認目前的 SDK 與 API 是否相容? 若不相容
-則會丟出 InvalidOperationException，由 Client 決定要如何處理。
+則會丟出 ```InvalidOperationException```，由 Client 決定要如何處理。
 
 實際測試看看，若我把 Server 的 API 版本，從原本的 10.26.0.0 版，改為 12.11.0.0 版，果然就掛掉了，會出現這 message: 
 
-```log
+```
 Unhandled Exception: System.InvalidOperationException: Operation is not valid due to the current state of the object.
    at Demo.SDK.Client..ctor(Uri serviceURL) in C:\Users\chicken\Source\Repos\SDKDemo\Demo.SDK\Client.cs:line 38
    at Demo.SDK.Client.Create(Uri serviceURL) in C:\Users\chicken\Source\Repos\SDKDemo\Demo.SDK\Client.cs:line 23
@@ -403,34 +411,215 @@ Unhandled Exception: System.InvalidOperationException: Operation is not valid du
 Press any key to continue . . .
 ```
 
+# 版本相容性政策 (呼叫 API 時檢查)
+
+前面示範的是 SDK init 階段就先做好版本確認的範例。不過 API server 在升級時，不見得會第一時間通知所有的 client, 即使有通知也
+沒辦法命令所有 client 在同一瞬間重新檢查版本。加上有些情況下，SDK 的 lifecycle 可能比你想像的還久 (例如: SDK Client Create 出來後
+可能就被放在 static field，直到 service restart 才銷毀，可能存活的時間長達數個月)，這時在每次呼叫 API 時一起檢查就是必要的
+動作了。
+
+在繼續下去之前，我先做一點改變。HTTP API 呼叫的時間成本其實是很高的，如果每次呼叫真正要做事情的 API 之前，都要再額外呼叫 check version
+的 API，那整個通訊的成本就變成兩倍了，一秒鐘被呼叫上萬次的 API，這種開銷是很要命的。因此這邊要想辦法的是: 如何在正常的呼叫過程中，
+附加 version check 的機制。
+
+HTTP 的傳輸過程，就是 request 送到 server, 然會回 response 回來，這樣一往一反就結束。如果有進一步的溝通，那就是要發動第二次
+HTTP request. 因此要盡可能地想辦法，在一次 Http request 解決所有問題是最理想的。如果像前一個例子一樣，等 server 傳回版本號碼
+再檢查，那可能 API 呼叫早已完成，也來不及取消了。因此，這邊要改變作法，不再被動的等 server 傳回版本號碼，而是 SDK 直接把期望的
+版本號碼傳給 API server, 由 server 來判定版本相容性，決定是否要支援目前這個版本的 SDK。
+
+這邊又再度改了幾個地方，先來看 code, SDK 的部分我們正好可以利用 ```HttpClient```, 可以設定預設的 ```Request Headers```, 來替每次的 HTTP request
+都加上固定的 header: ```X-SDK-REQUIRED-VERSION```, 告訴 server 這版的 SDK 要求的最低版本:
+
+```csharp
+public class Client : ISDKClient
+{
+    private HttpClient _http = null;
+
+    /// <summary>
+    /// 指定這個版本的 SDK，需要對應 API 的最低版本號碼
+    /// </summary>
+    private Version _require_API_version = new Version(10, 0, 0, 0);
+
+    private Client(Uri serviceURL)
+    {
+        // do init / check
+        this._http = new HttpClient();
+        this._http.BaseAddress = serviceURL;
+        this._http.DefaultRequestHeaders.Add("X-SDK-REQUIRED-VERSION", this._require_API_version.ToString());
+
+        // 以下略過
+```            
+
+這麼一來，所有 SDK 對 server 送出的 HTTP request 就都會附上版本要求的資訊了。API server side 自然也要對應的檢查。
+檢查如果要每個 method 都執行一次，未免也太 low 了，這邊我再度搬出 ```ActionFilter``` 出來用... (其實你願意的話，
+把他合併到前面的 ```ContractCheckActionFilter``` 也可以)
+所有的 request 要對應到 action 之前，都會經過這個 filter 的處理。若在這裡檢查版本就已經不符合的話，會直接丟出 
+```InvalidOperationException```:
+
+```csharp
+public class SDKVersionCheckActionFilterAttribute : ActionFilterAttribute
+{
+    public override void OnActionExecuting(HttpActionContext actionContext)
+    {
+        // step 1, get SDK required version info from HTTP request header: X-SDK-REQUIRED-VERSION
+        Version required_version = null;
+        foreach(string hvalue in actionContext.Request.Headers.GetValues("X-SDK-REQUIRED-VERSION"))
+        {
+            required_version = new Version(hvalue);
+            break;
+        }
+
+        // step 2, get current API version from Assembly metadata
+        Version current_version = this.GetType().Assembly.GetName().Version;
+
+        // step 3, check compatibility
+        Debug.WriteLine($"check SDK version:");
+        Debug.WriteLine($"- required: {required_version}");
+        Debug.WriteLine($"- current:  {current_version}");
+
+        if (current_version.Major != required_version.Major) throw new InvalidOperationException();
+        if (current_version.Minor < required_version.Minor) throw new InvalidOperationException();
+    }
+}
+```
+
+我埋了點 code, 會在 visual studio 的 output window 留下訊息，等等可以來看看結果。剩下的動作很簡單，就把這個 ```ActionFilter```,
+直接標記在 ```BirdsController``` 上面就可以啟用了。這邊補充一下，前面的例子版本號碼還是寫死在 code 上面，這邊我改掉了，直接讀取
+這個 Assembly 的版本號碼。要設定版號的話，可以改這檔案 (```~/Properties/AssemblyInfo.cs```) 的內容:
 
 
-# 不再支援的 API 處理方式
+```csharp
+using System.Reflection;
+using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 
-still support in this major version
+/*
+*   前面的 code 都略過
+*/
 
-tag server api as: obsolete, new SDK do not use obsolete api
+// Version information for an assembly consists of the following four values:
+//
+//      Major Version
+//      Minor Version 
+//      Build Number
+//      Revision
+//
+// You can specify all the values or you can default the Revision and Build Numbers 
+// by using the '*' as shown below:
+[assembly: AssemblyVersion("10.26.*")]
+[assembly: AssemblyFileVersion("1.0.0.0")]
+```
+這邊是指定 .NET assembly 的 metadata, 編譯出來的 DLL 按右鍵選內容也可以看的到這些資訊。透過這樣的方式，比自己寫死在 code
+有額外的好處。通常 build process 都會去 overwrite 這邊的數值，由 build server 統一管控編譯出來的整套系統版本號碼。以這邊為例，
+我是 dev 階段就決定好現在的版本是 10.26 版。後面弄 * 的話，msbuild 會自動替我產生 build 跟 revision number，就不用我自己傷腦筋了。
+當一次需要編譯出一整組 assembly 時，又想維持版本號碼是一致的話，從這邊會方便很多。
 
-wait until major ++
+OK，code 都交代完了，那來看看執行結果。如果我在 SDK 設定 API 最低要求是 10.0.0.0, 而 API server 我指定版本是 10.26.*, 那
+來看看執行結果:
 
-tag server api as: obsolete(true), throw Exception
+```
+[ID: B0443] -------------------------------------------------------------
+        流水號: 40250
+      調查日期: 2013-06-21
+      調查地點: 玉山西峰下
+     經度/緯度: 120.937047/23.468776
+          科名: Reguliidae
+          學名: Regulus goodfellowi
+中研院學名代碼: 380442
+        鳥中名: 火冠戴菊鳥
+          數量: 1
+      鳥名代碼: B0443
+      調查站碼: C37-02-04
 
-wait until major += Name, or watch api call log
 
-remove server api
+* Total Time: 1834 msec.
+Press any key to continue . . .
+```
 
-# 結論
+程式可以正常執行，沒有問題。來看看 visual studio 的 output window:
+
+```
+check contract for API: Birds/Get
+- contract interface found: Demo.ApiWeb.Controllers.IBirdsApiContract.
+- contract method found: Get.
+check SDK version:
+- required: 10.0.0.0
+- current:  10.26.6146.30587
+```
+
+看起來沒有問題，所以程式也通過檢查，正常執行。
+
+如果我動一點手腳，我把 SDK 那邊要求的版本，從 10.0.0.0 改成 12.11.0.0 的話，SDK 就無法正常執行了，會直接在 console 上顯示這堆訊息:
+
+```
+Unhandled Exception: Newtonsoft.Json.JsonReaderException: Unexpected character encountered while parsing value: {. Path '', line 1, position 1.
+   at Newtonsoft.Json.JsonTextReader.ReadStringValue(ReadType readType)
+   at Newtonsoft.Json.JsonTextReader.ReadAsString()
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.ReadForType(JsonReader reader, JsonContract contract, Boolean hasConverter)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.Deserialize(JsonReader reader, Type objectType, Boolean checkAdditionalContent)
+   at Newtonsoft.Json.JsonSerializer.DeserializeInternal(JsonReader reader, Type objectType)
+   at Newtonsoft.Json.JsonConvert.DeserializeObject(String value, Type type, JsonSerializerSettings settings)
+   at Newtonsoft.Json.JsonConvert.DeserializeObject[T](String value, JsonSerializerSettings settings)
+   at Newtonsoft.Json.JsonConvert.DeserializeObject[T](String value)
+   at Demo.SDK.Client..ctor(Uri serviceURL) in C:\Users\chicken\Source\Repos\SDKDemo\Demo.SDK\Client.cs:line 39
+   at Demo.SDK.Client.Create(Uri serviceURL) in C:\Users\chicken\Source\Repos\SDKDemo\Demo.SDK\Client.cs:line 26
+   at Demo.Client.ConsoleApp.Program.ListAll_UseSDK() in C:\Users\chicken\Source\Repos\SDKDemo\Demo.Client.ConsoleApp\Program.cs:line 25
+   at Demo.Client.ConsoleApp.Program.Main(String[] args) in C:\Users\chicken\Source\Repos\SDKDemo\Demo.Client.ConsoleApp\Program.cs:line 17
+Press any key to continue . . .
+```
+
+打開 debug mode 開始 trace, 在 API server 端的 action filter 就已經觸發 exception 了:
+
+[![server exception](/wp-content/uploads/2016/10/apisdk-03-exception-server.png)](/wp-content/uploads/2016/10/apisdk-03-exception-server.png)
+
+這問題不理他，則 Exception 會繼續傳遞到前端 SDK，SDK 透過 ```HttpClient``` 一樣會觸發 exception:
+
+[![client exception](/wp-content/uploads/2016/10/apisdk-03-exception-client.png)](/wp-content/uploads/2016/10/apisdk-03-exception-client.png)
+
+
+(原諒我偷懶，寫太多 error handling 的 code, 看起來就會變很阿雜，不適合當 sample code XD)
+
+直接進到 visual studio debug mode 看看 SDK 接到 server 傳回什麼資訊:
+
+```javascript
+{
+  "Message": "An error has occurred.",
+  "ExceptionMessage": "Operation is not valid due to the current state of the object.",
+  "ExceptionType": "System.InvalidOperationException",
+  "StackTrace": "
+     at Demo.ApiWeb.Controllers.SDKVersionCheckActionFilterAttribute.OnActionExecuting(HttpActionContext actionContext) in C:\\Users\\chicken\\Source\\Repos\\SDKDemo\\Demo.ApiWeb\\Controllers\\BirdsController.cs:line 59\r\n
+     at System.Web.Http.Filters.ActionFilterAttribute.OnActionExecutingAsync(HttpActionContext actionContext, CancellationToken cancellationToken)\r\n
+     --- End of stack trace from previous location where exception was thrown ---\r\n
+     at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)\r\n
+     at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)\r\n
+     at System.Web.Http.Filters.ActionFilterAttribute.<ExecuteActionFilterAsyncCore>d__0.MoveNext()\r\n
+     --- End of stack trace from previous location where exception was thrown ---\r\n
+     at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)\r\n
+     at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)\r\n
+     at System.Web.Http.Controllers.ActionFilterResult.<ExecuteAsync>d__2.MoveNext()\r\n
+    --- End of stack trace from previous location where exception was thrown ---\r\n
+    at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)\r\n
+    at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)\r\n
+    at System.Web.Http.Dispatcher.HttpControllerDispatcher.<SendAsync>d__1.MoveNext()"
+}
+```
+
+ASP.NET MVC WebAPI 直接把 ```Exception```, 轉成 JSON 格是傳回 SDK 了，所以如果你想在 SDK 內更精確的處理這些 Error 的話，知道該怎麼做了吧?
+這些 code 我就省下來了。
 
 
 
-Next: SDK optimization
+# 結語
 
+SDK 跟 API 的相容性問題，到這裡告一段落。這些細節都有處理好之後，其實你的 API / SDK 就有一定的成熟度，可以正式開放給其他
+開發者使用了。有了版本管控的機制，你的 API 也開始具備能長期營運及升級的挑戰了 :D
 
+下一篇不知何時才生的出來，不過一樣先預告一下主題。下次來探討一下 SDK 要如何做好最佳化? 同時最佳化的過程中可能會有 API 變更
+的需求，就直接來演練一下，看看這篇講的版本控制機制是不是真的能發揮作用吧!
 
-# References
+下回預告: API upgrade & SDK optimization
 
-[Web API 版本控制的几种方式](http://blog.csdn.net/hengyunabc/article/details/20506345)  
-[RESTful API版本控制策略](http://ningandjiao.iteye.com/blog/1990004)
-[An API Definition As The Truth In The API Contract](https://apievangelist.com/2014/07/15/an-api-definition-as-the-truth-in-the-api-contract/)
-[swagger](http://swagger.io/)
-[ASP.NET Web API Help Pages using Swagger](https://docs.asp.net/en/latest/tutorials/web-api-help-pages-using-swagger.html)
+這篇文章提到的所有 source code, 一樣都放在 GitHub, 這篇的進度請參考 dev-VER 這個分支，別跑去看 master 喔，下一篇文章
+出來的時候 master 的內容就會跑掉了。我會確保 dev-VER 分支的內容跟這篇文章是同步的。
+
+GitHub: [https://github.com/andrew0928/SDKDemo/tree/dev-VER](https://github.com/andrew0928/SDKDemo/tree/dev-VER)
