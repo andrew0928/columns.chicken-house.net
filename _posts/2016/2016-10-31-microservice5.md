@@ -6,7 +6,7 @@ categories:
 - "系列文章: API & SDK Design"
 - "系列文章: 架構師觀點"
 tags: ["API", "SDK", "系列文章", "ASP.NET", "架構師"]
-published: true
+published: false
 comments: true
 redirect_from:
 logo: /wp-content/uploads/2016/10/apisdk-03-gandalf.jpg
@@ -405,11 +405,25 @@ Press any key to continue . . .
 
 
 
+# 不再支援的 API 處理方式
+
+still support in this major version
+
+tag server api as: obsolete, new SDK do not use obsolete api
+
+wait until major ++
+
+tag server api as: obsolete(true), throw Exception
+
+wait until major += Name, or watch api call log
+
+remove server api
+
+# 結論
 
 
 
-(版本 policy)
-
+Next: SDK optimization
 
 
 
