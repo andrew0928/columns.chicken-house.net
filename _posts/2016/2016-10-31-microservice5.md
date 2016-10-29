@@ -233,14 +233,14 @@ contract 跟 API 的關係不會改變，很多運算其實只要做第一次，
 前面我就說過，我試過不下十種方式了 XD，不過都沒有我覺得較完美的做法，我甚至連 build 後的 check tools 都寫過了 XDDD。這些方法
 再聊下去也沒甚麼意義，因此這段就先到此為止。各位可已挑選合適的做法，或是回到傳統的做法，靠文件及 code review 來要求這件事。
 
-至於為何我要花那麼大的功夫去控制 API contract ? 因為接下來的要求 "向前相容" 的原則很簡單，就是你的 API 只能多不能少。
-你透過 HTTP 傳遞的參數也是只能多不能少。原本就有的東西你通通都不能改，不能拿掉也不能改變型別。唯有這樣才能確保，舊的 SDK 都能
+至於為何我要花那麼大的功夫去控制 API contract ? 因為接下來的要求 "向前相容" 的原則很簡單，就是你的 API 定義的介面只能多不能少。
+你透過 HTTP 傳遞的參數也是只能多不能少。原本就有的東西你通通都不能改，不能拿掉也不能改變定義。唯有這樣才能確保舊的 SDK 都能
 有正確規格的 API 可以呼叫，不會出現不相容的問題 (這邊只討論 API 的 "interface"，若新版的 API 行為不符，或是執行有 bug 則不在這邊
 的討論範圍)。
 
 這些限制如果放大到整套系統，那一定會有人疏忽掉，加上沒有式當的 review 機制或是檢查工具，靠人腦來做一定會出問題。因此我前面才會花那麼
-大的功夫先把 contract 這件事情做好。當這些問題簡化成一個 interface, 那後面就很簡單了。你只要把握一個原則，改變這個 interface 就是
-只增不減。
+大的功夫先把 contract 這件事情做好。當這些問題簡化成一個 interface, 那後面就很簡單了。你只要把握一個原則，改變這個 interface，method 跟
+arguments 就是只增不減。
 
 
 # API / SDK Versioning
@@ -250,6 +250,8 @@ contract 跟 API 的關係不會改變，很多運算其實只要做第一次，
 API 我們也可以替他定義版本，例如這是 10.26 版的 API，上個月的是 9.16 版等等。
 
 這邊會討論兩部分，一個是版本編碼的意義，另一個是如何在 API 實際的傳輸過程中告知 SDK 目前被呼叫的 API 版本為何。
+
+
 
 ## 版本編號的意義
 
@@ -271,10 +273,10 @@ API 我們也可以替他定義版本，例如這是 10.26 版的 API，上個�
 > **Revision**: Assemblies with the same name, major, and minor version numbers but different revisions are intended to be fully interchangeable. A higher revision number might be used in a build that fixes a security hole in a previously released assembly.  
 >
 
-其實裡面就把版本號碼的定義講得很清楚了。主版本號碼 (major) 不同的話，就代表這是不相容的版本，不須顧慮到向前相容。而如果只有次版本號碼
-(Minor) 不同，則代表兩者是相容的，較高(新)的版本會保證相容於較低(舊)的版本。
+其實裡面就把版本號碼的定義講得很清楚了。主版本號碼 (major) 不同的話，就代表這是不相容的版本，不用向前相容不同 Major 版號的版本。
+而如果只有次版本號碼 (Minor) 不同，則代表兩者是相容的，較高(新)的版本會保證相容於較低(舊)的版本。
 
-至於 Build 跟 Revision, 在這邊其實可以暫時忽略了 XDD，Build 不同，代表是同一份 source code, 在不同的環境、參數、設定等等情況下，編譯出來的不同版本。
+至於 Build 跟 Revision, 在這邊其實可以暫時忽略了，Build 不同，代表是同一份 source code, 在不同的環境、參數、設定等等情況下，編譯出來的不同版本。
 而 Revision 的不同，則代表是規格上完全相容的兩個版本，差異只在修正內部的 bug, security hole 等等問題而已。這邊其實各位可以是自己的團隊
 運作方式決定要不要使用這兩個號碼，不然保留 undefined 就可以了。
 
@@ -295,7 +297,7 @@ API 我們也可以替他定義版本，例如這是 10.26 版的 API，上個�
 我自己慣用的方式有兩個，有時必要時會兩者並用:
 
 1. 提供明確的 API，直接明確的取得 API 版本資訊。
-2. 在正常的 API call，將版本資訊隨著 result 一起傳回 SDK。
+2. 在正常的 API call，將版本資訊隨著 return value 一起傳回 SDK。
 
 一般情況下，其實 (2) 就足夠了，如果你只是要參考而已的話。但是如果你想要在 SDK init 階段，還沒有開始呼叫任何 API 之前
 就確認版本，那就要補上 (1) 的實做。當然 (1) 跟 (2) 是可以並行的。所以同樣的例子，來看看 sample code 該怎麼調整:
@@ -352,11 +354,11 @@ interface IBirdsApiContract : IApiContract
 ![debug output](/wp-content/uploads/2016/10/apisdk-03-debug-output.png)
 
 
-# 版本相容性政策 (連線時檢查)
+# 版本相容性政策 (SDK init 時檢查)
 
 到目前為止一切順利，剩下最後一部分，就是版本的檢查邏輯。
 
-既然要 "檢查" 版本是否相容，那就跟測是一樣，要有期望的結果，跟實際的結果。兩者比對就知道是否合乎期待。前面的實做，我們已經可以
+既然要 "檢查" 版本是否相容，那就跟單元測試一樣，要有期望的結果，跟實際的結果。兩者比對就知道是否合乎期待。前面的實做，我們已經可以
 取得 API service 實際的版本號碼了，那麼期待的版本號碼應該是什麼?
 
 ![Compatible Versioning](/wp-content/uploads/2016/10/apisdk-03-compatible-versioning.png)
@@ -364,11 +366,11 @@ interface IBirdsApiContract : IApiContract
 最前面提到的 API 版本策略，這張圖要拿出來重新檢視一次。
 
 我們開發的過程中，一定是 API 跟 SDK 同時進行的。由左到右是演進的順序。所以當我們 API 發展到 SV1 時，就會有對應的 SDK C1。
-API 擴充新功能，來到 SV2, 對應的 SDK 就會更新到 C2，讓 Client 可以用的到新功能。
+API 擴充新功能，來到 SV2, 對應的 SDK 就會更新到 C2，讓使用 SDK 的 client 可以用的到新功能。
 
-OK, 所以這樣就清楚了，當 API 發展到 SVn 版本時，對應的 SDK Cn 版本也會同時 release。SDK Cn 版本，會呼叫到 API SVn 才
-補上的新功能，因此 SDK Cn 至少要呼叫到 SVn 版本的 API 才能正常運作。這時 Cn 就是這版 SDK 期望的版本。當然可能有更早期發布出去的
-就版 SDK C1 也還在運作中，他期待的 API 版本是 SV1, 而現在是 SVn, 我們就可以按照前面講的，Microsoft 對於版本號碼的定義來檢查。
+OK, 所以這樣就清楚了，當 API 發展到 SVn 版本時，對應的 SDK Cn 版本也會同時 release。SDK Cn 版本要求的 API 最低版本就是 SVn。
+當然可能有更早期發布出去的舊版 SDK C1 也還在運作中，而現在 API 已經升級到 SVn, 必須向前相容於 SV1。我們就可以按照前面講的，
+Microsoft 對於版本號碼的定義來檢查。
 
 因此，SDK 的 constructor 我又做了點調整:
 
@@ -395,11 +397,12 @@ public class Client : ISDKClient
     }
 ```        
 
-這邊補上了 SDK 期望看到的 API 版本 _require_API_version, 若將來 SDK 改版，這邊的需求版本號碼應該也要手動調整 source code 才對。
+這邊補上了 SDK 期望看到的 API 版本 _require_API_version, 期望的版本號碼直接在 source code 裡面維護。
 在 SDK client 被建立起來時，SDK 會主動查詢 server API 的目前版本，然後按照上面的版本原則，確認目前的 SDK 與 API 是否相容? 若不相容
 則會丟出 ```InvalidOperationException```，由 Client 決定要如何處理。
 
-實際測試看看，若我把 Server 的 API 版本，從原本的 10.26.0.0 版，改為 12.11.0.0 版，果然就掛掉了，會出現這 message: 
+實際測試看看，若我把 Server 的 API 版本，從原本的 10.26.0.0 版，改為 12.11.0.0 版，無法跟 SDK 要求的 10.0.0.0 相容，
+果然就掛掉了，會出現這 message: 
 
 ```
 Unhandled Exception: System.InvalidOperationException: Operation is not valid due to the current state of the object.
@@ -412,22 +415,17 @@ Press any key to continue . . .
 
 # 版本相容性政策 (呼叫 API 時檢查)
 
-前面示範的是 SDK init 階段就先做好版本確認的範例。不過 API server 在升級時，不見得會第一時間通知所有的 client, 即使有通知也
-沒辦法命令所有 client 在同一瞬間重新檢查版本。加上有些情況下，SDK 的 lifecycle 可能比你想像的還久 (例如: SDK Client Create 出來後
+前面示範的是 SDK init 階段就先做好版本確認的範例。有些情況下，SDK 的 lifecycle 可能比你想像的還久 (例如: SDK Client Create 出來後
 可能就被放在 static field，直到 service restart 才銷毀，可能存活的時間長達數個月)，這時在每次呼叫 API 時一起檢查就是必要的
 動作了。
 
-在繼續下去之前，我先做一點改變。HTTP API 呼叫的時間成本其實是很高的，如果每次呼叫真正要做事情的 API 之前，都要再額外呼叫 check version
-的 API，那整個通訊的成本就變成兩倍了，一秒鐘被呼叫上萬次的 API，這種開銷是很要命的。因此這邊要想辦法的是: 如何在正常的呼叫過程中，
-附加 version check 的機制。
+在繼續下去之前，我先做一點改變。HTTP 的傳輸過程，就是一次 request 與 response 往返的動作。如果有進一步的溝通，那就是要發動第二次
+HTTP request. 如果像前一個例子一樣，等 server 傳回版本號碼回 SDK 後再檢查相容性，那不管結果如何，被呼叫的 API 早已執行過了，檢查
+的結果其實已經沒有什麼意義。因此，這邊要改變作法，改為 SDK 直接把期望的版本號碼傳給 API server, 檢查的任務改交由 server 端執行。
+甚至將來有可能的情況是，server 可根據 SDK 傳來的要求，做更進一步的相容性調整，決定是否要支援目前這個版本的 SDK。
 
-HTTP 的傳輸過程，就是 request 送到 server, 然會回 response 回來，這樣一往一反就結束。如果有進一步的溝通，那就是要發動第二次
-HTTP request. 因此要盡可能地想辦法，在一次 Http request 解決所有問題是最理想的。如果像前一個例子一樣，等 server 傳回版本號碼
-再檢查，那可能 API 呼叫早已完成，也來不及取消了。因此，這邊要改變作法，不再被動的等 server 傳回版本號碼，而是 SDK 直接把期望的
-版本號碼傳給 API server, 由 server 來判定版本相容性，決定是否要支援目前這個版本的 SDK。
-
-這邊又再度改了幾個地方，先來看 code, SDK 的部分我們正好可以利用 ```HttpClient```, 可以設定預設的 ```Request Headers```, 來替每次的 HTTP request
-都加上固定的 header: ```X-SDK-REQUIRED-VERSION```, 告訴 server 這版的 SDK 要求的最低版本:
+這邊又再度改了幾個地方，先來看 code。SDK 的部分我們正好可以利用 ```HttpClient``` 設定預設的 ```Request Headers``` 來替每次
+的 HTTP request 都加上固定的 header: ```X-SDK-REQUIRED-VERSION```, 告訴 server 這版的 SDK 要求的最低版本:
 
 ```csharp
 public class Client : ISDKClient
@@ -450,9 +448,9 @@ public class Client : ISDKClient
 ```            
 
 這麼一來，所有 SDK 對 server 送出的 HTTP request 就都會附上版本要求的資訊了。API server side 自然也要對應的檢查。
-檢查如果要每個 method 都執行一次，未免也太 low 了，這邊我再度搬出 ```ActionFilter``` 出來用... (其實你願意的話，
+檢查如果要每個 method 都寫一段 check code 那未免也太 low 了，這邊我再度搬出 ```ActionFilter``` 出來用... (其實你願意的話，
 把他合併到前面的 ```ContractCheckActionFilter``` 也可以)
-所有的 request 要對應到 action 之前，都會經過這個 filter 的處理。若在這裡檢查版本就已經不符合的話，會直接丟出 
+所有的 request 對應到的 action 執行之前，都會經過這個 filter 的處理。若在這裡檢查版本就已經不符合的話，會直接丟出 
 ```InvalidOperationException```:
 
 ```csharp
@@ -509,12 +507,12 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyFileVersion("1.0.0.0")]
 ```
 這邊是指定 .NET assembly 的 metadata, 編譯出來的 DLL 按右鍵選內容也可以看的到這些資訊。透過這樣的方式，比自己寫死在 code
-有額外的好處。通常 build process 都會去 overwrite 這邊的數值，由 build server 統一管控編譯出來的整套系統版本號碼。以這邊為例，
-我是 dev 階段就決定好現在的版本是 10.26 版。後面弄 * 的話，msbuild 會自動替我產生 build 跟 revision number，就不用我自己傷腦筋了。
-當一次需要編譯出一整組 assembly 時，又想維持版本號碼是一致的話，從這邊會方便很多。
+有額外的好處。通常 build process 都會去 overwrite 這邊的數值，由 build server 統一管控編譯出來的版本號碼。以這邊為例，
+我是 development 階段就決定好現在的版本是 10.26 版。後面弄 * 的話，msbuild 會自動替我產生 build 跟 revision number，
+就不用我自己傷腦筋了。當一次需要編譯出一整組 assembly 時，又想維持版本號碼是一致的話，從這邊會方便很多。
 
-OK，code 都交代完了，那來看看執行結果。如果我在 SDK 設定 API 最低要求是 10.0.0.0, 而 API server 我指定版本是 10.26.*, 那
-來看看執行結果:
+OK，code 都交代完了，那來看看執行結果。如果我在 SDK 設定 API 最低要求是 10.0.0.0, 而 API server 我指定版本是 10.26.*, 
+版本判定是相容的，應該要順利執行才對。來看看執行結果:
 
 ```
 [ID: B0443] -------------------------------------------------------------
@@ -535,7 +533,7 @@ OK，code 都交代完了，那來看看執行結果。如果我在 SDK 設定 A
 Press any key to continue . . .
 ```
 
-程式可以正常執行，沒有問題。來看看 visual studio 的 output window:
+程式可以正常執行沒有問題。看看 visual studio 的 output window:
 
 ```
 check contract for API: Birds/Get
@@ -546,9 +544,9 @@ check SDK version:
 - current:  10.26.6146.30587
 ```
 
-看起來沒有問題，所以程式也通過檢查，正常執行。
+看起來沒有問題，程式也通過檢查，正常執行。
 
-如果我動一點手腳，我把 SDK 那邊要求的版本，從 10.0.0.0 改成 12.11.0.0 的話，SDK 就無法正常執行了，會直接在 console 上顯示這堆訊息:
+如果我動一點手腳，我把 SDK 那邊要求的版本，從 10.0.0.0 改為 12.11.0.0 的話，SDK 就無法正常執行了，會直接在 console 上顯示這堆訊息:
 
 ```
 Unhandled Exception: Newtonsoft.Json.JsonReaderException: Unexpected character encountered while parsing value: {. Path '', line 1, position 1.
@@ -571,13 +569,12 @@ Press any key to continue . . .
 
 [![server exception](/wp-content/uploads/2016/10/apisdk-03-exception-server.png)](/wp-content/uploads/2016/10/apisdk-03-exception-server.png)
 
-這問題不理他，則 Exception 會繼續傳遞到前端 SDK，SDK 透過 ```HttpClient``` 一樣會觸發 exception:
+這 Exception 會繼續傳遞到前端 SDK，SDK 會接收到 ```HttpClient``` 觸發的 exception:
 
 [![client exception](/wp-content/uploads/2016/10/apisdk-03-exception-client.png)](/wp-content/uploads/2016/10/apisdk-03-exception-client.png)
 
 
 (原諒我偷懶，寫太多 error handling 的 code, 看起來就會變很阿雜，不適合當 sample code XD)
-
 直接進到 visual studio debug mode 看看 SDK 接到 server 傳回什麼資訊:
 
 ```javascript
@@ -603,18 +600,18 @@ Press any key to continue . . .
 }
 ```
 
-ASP.NET MVC WebAPI 直接把 ```Exception```, 轉成 JSON 格是傳回 SDK 了，所以如果你想在 SDK 內更精確的處理這些 Error 的話，知道該怎麼做了吧?
-這些 code 我就省下來了。
+ASP.NET MVC WebAPI 直接把 ```Exception```, 轉成 JSON 格式傳回 SDK 了，所以如果你想在 SDK 內更精確的處理這些 Error 的話，
+知道該怎麼做了吧? 這些 code 我就省下來了 XD。
 
 
 
 # 結語
 
-SDK 跟 API 的相容性問題，到這裡告一段落。這些細節都有處理好之後，其實你的 API / SDK 就有一定的成熟度，可以正式開放給其他
-開發者使用了。有了版本管控的機制，你的 API 也開始具備能長期營運及升級的挑戰了 :D
+SDK 跟 API 的相容性問題，寫到這裡告一段落。這些細節都處理好之後，其實你的 API / SDK 就有一定的成熟度，可以正式開放給其他
+開發者使用了。有了版本相容性的管控機制之後，你的 API 也開始具備能長期營運及升級的挑戰了 :D
 
-下一篇不知何時才生的出來，不過一樣先預告一下主題。下次來探討一下 SDK 要如何做好最佳化? 同時最佳化的過程中可能會有 API 變更
-的需求，就直接來演練一下，看看這篇講的版本控制機制是不是真的能發揮作用吧!
+下一篇就來探討一下 SDK 要如何最佳化吧。最佳化的過程中可能會有 API 變更的需求，正好直接來演練一下過程中怎麼搭配相容性的機制
+怎麼確保舊版 SDK 能順利度過升級的過渡期，看看這篇講的版本控制機制是不是真的能發揮作用吧!
 
 下回預告: API upgrade & SDK optimization
 
