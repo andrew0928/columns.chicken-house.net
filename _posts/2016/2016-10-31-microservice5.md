@@ -35,9 +35,9 @@ logo: /wp-content/uploads/2016/10/apisdk-03-gandalf.jpg
 1. 微服務架構(概念說明)
   - [微服務架構 #1, WHY Microservices?](/2016/09/15/2016-09-15-microservice-case-study-01/)
   - (計畫) 如何切割微服務的邊界?
-2. 微服務架構(實作範例)
+2. 微服務架構(實做範例)
   - [微服務架構 #2, 按照架構，重構系統](/2016/10/03/microservice2/)
-  - (分支) 實作微服務的必要技術: API & SDK Design
+  - (分支) 實做微服務的必要技術: API & SDK Design
     1. [API & SDK Design #1, 資料分頁的處理方式](/2016/10/10/microservice3/)
     2. [API & SDK Design #2, 設計專屬的 SDK](/2016/10/23/microservice4/)
     3. (本篇) API & SDK Design #3, API 的向前相容機制
@@ -62,24 +62,26 @@ logo: /wp-content/uploads/2016/10/apisdk-03-gandalf.jpg
 2. Point-To-Point 點對點的策略，每個版本都同時存在，用戶端自行選擇適當版本
 3. Compatible Versioning 相容性版本策略，同 (1), 但是他會保證新版會向前相容。
 
-這邊我就不比較了，我採取的是 (3) 的策略，如這張圖所示，SERVER 隨著時間推進，不斷衍生新版本出來，每個新版本你都要保證能
-跟就版本 Client 相容，這麼一來大家都用同一個版本就能相安無事:
+這邊我就不比較了，我採取的是 (3) 的策略，如這張圖所示，SERVER 隨著時間推進，不斷衍生新版本出來，每次都只保留新版本，同時要保證能
+跟舊版本的 Client 相容，這麼一來大家都用同一個版本就能相安無事:
 ![Compatible Versioning](/wp-content/uploads/2016/10/apisdk-03-compatible-versioning.png)
 
-看起來不難嘛，只要相容就好了。說的簡單，實作起來挑戰可不小。想像一下你一但宣告了一個 class, 你寫過的 method 以後遠永不能
-把它拿掉，也不能修改 signature, 那是很折磨人的一件事。有時一時手癢，想說先改一下測試看看，等等再改回來，結果就這麼忘掉，
-接著就一連串的 commit 跟 push ... 然後這版就出去了! Oh my god..
+看起來不難嘛，只要相容就好了。說的簡單，實做起來挑戰可不小。想像一下你一旦宣告了一個 class, 你寫過的 method 以後遠永不能
+把它拿掉，也不能修改 signature, 那是很折磨人的一件事。有時一時手癢，想說先改一下測試看看，結果就這麼忘掉就 commit 跟 push 出去...
 
-為了確保這種悲劇不會發生，我把這件事拆成三個 check point，來確保這種問題不會發生 (我假設 client 都透過 SDK 呼叫 API，因此以下 client 我都用 SDK 替代):
+為了確保這種悲劇不會發生，我把這件事拆成三個 check point，來確保這種問題不會發生 (我假設 client 都透過 SDK 呼叫 API，
+因此以下 client 我都用 SDK 替代):
 
 1. **API contracts**,  
-   配合獨立的版本控制權限管控，API 規格的異動，要很明確的能在版控系統中追蹤，也能控制特定人員才有資格異動
+   配合版本控制權限，API 所有規格的異動，要很明確的能在版控系統中追蹤，也能控制特定人員才有資格異動規格
+
 2. **要有明確的版本識別機制**，  
-   確認目前的 API 版本號碼，以及 SDK 的要求最低的 API 版本號碼
+   偵測及確認目前的 API 版本號碼，以及 SDK 的最低要求 API 版本號碼
+
 3. **版本相容性策略**。  
    API 不可能無限期的維持向前相容。所以要明確定義向前相容的範圍及承諾。
 
-這三項彼此之間是環環相扣的，(1) 確保了你的 API 只有再瘦管控的前提下才會被異動，而且有紀錄可循 (Orz, 好像在導 ISO)。(1)有異動
+這三項彼此之間是環環相扣的，(1) 確保了你的 API 只有在受管控的前題下才會被異動，而且有紀錄可循 (Orz, 好像在導 ISO)。(1)有異動
 就要變更(2)的版本識別碼，藉著(2)，SDK 就能夠判定他現在能否 **安全** 的呼叫這個 API? 或是在釀成大錯之前，就直接回報 client
 正確的訊息。(3)則是長久營運更重要的一環，你很難保證所有的 API 你都不會廢掉，但是要作廢 API 也要有作廢的程序，最重要的就是先宣告
 報廢的年限或是規則，讓 client / SDK 有足夠的時間做準備...
@@ -93,8 +95,8 @@ logo: /wp-content/uploads/2016/10/apisdk-03-gandalf.jpg
 C# 的特性，你只要把定義 WCF service 的 contracts interface, 獨立成一個 DLL project 就結束了，只要這個 interface 沒有被修改，
 你的 API 規格就絕對不會變動。
 
-轉換到 ASP.NET MVC WebAPI 後，雖然程式架構漂亮很多，但是相對的 RESTful 就對 contracts 不是那麼的強調，反而在這邊要實作就有
-點頭痛。先來看看延續上一篇的範例程式 (我只列出 signature, 略過實作, 略過非 public method):
+轉換到 ASP.NET MVC WebAPI 後，雖然程式架構漂亮很多，但是相對的 RESTful 就對 contracts 不是那麼的強調，反而在這邊要實做就有
+點頭痛。先來看看延續上一篇的範例程式 (我只列出 signature, 略過實做, 略過非 public method):
 
 ```csharp
 public class BirdsController : ApiController
@@ -116,17 +118,15 @@ public class BirdsController : ApiController
 }
 ```
 
-當然，我可以把這三個會被公開呼叫的 method, 依樣畫葫蘆，定義一個 interface, 然後要求 controller 實作他就可以了。
+當然，我可以把這三個會被公開呼叫的 method, 依樣畫葫蘆，定義一個 interface, 然後要求 controller 實做他就可以了。
 但是這樣只做了一半，這個 interface 沒有辦法達到 contract 約束甲方乙方的功用。怎麼說? 我沒定義在 interface 上的
-method, SDK 一樣可以呼叫啊! 這麼一來 contract 就沒約束力了，有誰會那麼無聊訂規矩限制自己? 這招在多人的團隊上就難以
-實現了。
+method, SDK 一樣可以呼叫啊! 這麼一來 contract 就沒約束力了。這招在多人的團隊上就難以落實，這約束力少了一大半，只約束
+乙方的合約應該沒人會去簽名吧? XDD
 
-這約束力少了一大半，只約束乙方的合約應該沒人會去簽名吧? XDD
-
-我試過不下十種方法，但是都不夠漂亮，沒辦法像 WCF contract 一樣，同一個 contract interface 能同時約束 API & SDK 兩端的實作。
-所以這一段我一度想說跳過去別寫好了 XDD，這段主要的重點在於，尋找適合當作合約 (contract) 的標的物，找的到的話，
-後面的管控都會容易許多。Data 的部分很好處理，按照上一篇的做法就夠了這邊我特別針對 API call 來說明。最終被我
-留下來，當作 API contract 使用的是這個做法，不過這做法其實還不夠無腦，各位參考就好。先看看 code:
+我試過不下十種方法，但覺得都不夠漂亮，沒辦法像 WCF contract 一樣，同一個 contract interface 能同時約束 API & SDK 
+兩端的實做。所以這一段我一度想說跳過去別寫好了 XDD，這段主要的重點在於，尋找適合當作合約 (contract) 的標的物，找的到的話，
+後面的管控都會容易許多。Data 的部分很好處理，按照上一篇的做法就夠了。這邊我特別針對 API call 來說明。最終被我
+留下來，當作 API contract 使用的是這個做法，不過這做法其實還不夠無腦，有點複雜，各位參考就好。先看看 code:
 
 ```csharp
 /// <summary>
@@ -160,9 +160,8 @@ public class ContractCheckActionFilterAttribute : ActionFilterAttribute
             actionContext.ActionDescriptor.ControllerDescriptor.ControllerName,
             actionContext.ActionDescriptor.ActionName);
 
-
         //
-        // 搜尋 controller 實作的 contract interface
+        // 搜尋 controller 實做的 contract interface
         //
         System.Type contractType = null;
         foreach (var i in actionContext.ActionDescriptor.ControllerDescriptor.ControllerType.GetInterfaces())
@@ -208,27 +207,27 @@ public class BirdsController : ApiController, IBirdsApiContract
 當然，把這種應該在 compile time 做的事情，搬來放在 runtime 才做，實在是有點 low... 不過接下來後面還會有些價值，有些
 檢查的確是在 runtime 才有辦法進行的，這時這套機制就派上用場了。
 
-不過老實說，就我實際的經驗來看，除非有很充足的理由，嚴格管控這件事非做不可，我才會把這套機制搬出來用。不然的話，我只會
-針對 Data 設計 contract，如同上一篇文章提到的 BirdInfo 一樣。畢竟在 runtime 做這件事的成本高很多，尤其是你的 API 如果
-一秒鐘會被呼叫上萬次的話... 所以實際上戰場時，這部分的最佳化就很重要。加上 cache 是必要的，因為除非改 code, 否則 
-contract 跟 API 的關係不會改變，很多運算其實只要做一次 cache 起來就搞定了, 效益是很大的，因為 cache 完全不需要 expire, 
-不過這邊為了清楚表達目的，我都把這些優化的動作省掉了... 
+就我實際的經驗來看，除非有很充足的理由，嚴格管控這件事非做不可，我才會把這套機制搬出來用。不然的話，我只會
+針對 Data 設計 contract，如同上一篇文章提到的 ```BirdInfo``` 一樣。畢竟在 runtime 做這件事的成本高很多，尤其是你的 API 如果
+一秒鐘會被呼叫上萬次的話... 所以實際上戰場時，這部分的最佳化就很重要。加上 cache 是必要的，因為除非 code 有異動, 否則 
+contract 跟 API 的關係不會改變，很多運算其實只要做第一次，結果放到 cache 就搞定了, 增加 cache 效益是很大的，因為 cache 完全
+不需要 expire, 這邊為了清楚表達目的，我就把這些優化的動作省掉了... 
 
-程式的動作很簡單，我先定義了空白的 interface ```IApiContract```, 所有用來當作 contract 標示用途的 interface 都必須實做這個 interface.
-在這個例子裡 ```IBirdsApiContract``` 就是個例子。
+程式的動作很簡單，我先定義了空白的 interface ```IApiContract```, 所有用來當作 contract 標示用途的 interface 
+(如 ```IBirdsApiContract```) 都必須實做這個 interface (```IApiContract```)。
 
-另外，我定義了 ```ContractCheckActionFilter```, 藉這著個 action filter, 每次 webapi 被呼叫時就觸發一次 interface check 的動作。
-我這邊只是很簡單的比對 interface name 以及 method name 是否符合而已，實際的 code 比這個複雜多了，我一樣簡化處理... 相信會看我
+另外，我定義了 ```ContractCheckActionFilter``` 來負責每次 API 被呼叫前的檢查，每被呼叫一次就會觸發一次檢查的動作。
+我這邊只是很簡單的比對 interface name 以及 method name 是否符合而已，實際的 code 比這個複雜多了... 相信會看我
 部落格的讀者應該都了解這些細節，我就偷個懶吧 :D
 
 要確保 API 的相容性，另一個做法是單元測試。TDD 的精神，其中一條就是告訴你:  
 
 > 用 test code 來表達你對於規格的認知。先寫出你認為
-> 應該要能執行的 test code, 再來寫程式。等程式寫好後就看看測試會不會過，不論是 test 寫錯，或是程式本體有 bug, 總之修正到能通過
+> 應該要能執行的 test code, 再來寫程式。等程式寫好後就看看測試會不會過，不論是 test code 寫錯，或是程式本體有 bug, 總之修正到能通過
 > 測試為準。
 
-這時，如果你把所有需要被呼叫的 API 都寫成 unit test, 那麼 test suite 也可被當成 "contract" 的一種。不過這邊干擾就比較多。
-unit test 修正時 (可能是 test code 寫錯，不一定每次都是 API 異動造成的) 版本異動紀錄不一定每一筆都是反映到 API 的規格異動紀錄。
+這時，如果你把所有需要被呼叫的 API 都寫了對應的 unit test, 那麼 test suite 也可被當成 "contract" 的一種。不過這要追蹤的干擾就比較多。
+每當 unit test 修正時 (可能是 test code 寫錯) 版本異動紀錄不一定每一筆都是反映到 API 的規格異動紀錄。
 因此在控制 API 是否有未授權的異動這件事，效果就差很多了。
 
 前面我就說過，我試過不下十種方式了 XD，不過都沒有我覺得較完美的做法，我甚至連 build 後的 check tools 都寫過了 XDDD。這些方法
@@ -299,7 +298,7 @@ API 我們也可以替他定義版本，例如這是 10.26 版的 API，上個�
 2. 在正常的 API call，將版本資訊隨著 result 一起傳回 SDK。
 
 一般情況下，其實 (2) 就足夠了，如果你只是要參考而已的話。但是如果你想要在 SDK init 階段，還沒有開始呼叫任何 API 之前
-就確認版本，那就要補上 (1) 的實作。當然 (1) 跟 (2) 是可以並行的。所以同樣的例子，來看看 sample code 該怎麼調整:
+就確認版本，那就要補上 (1) 的實做。當然 (1) 跟 (2) 是可以並行的。所以同樣的例子，來看看 sample code 該怎麼調整:
 
 首先，```IBirdsApiContract``` 多加一個 ```Options```, 用來傳回 version string:
 
@@ -312,7 +311,7 @@ interface IBirdsApiContract : IApiContract
 }
 ```
 
-接著，API control 補上實作:
+接著，API control 補上實做:
 
 ```csharp
     [ContractCheckActionFilter]
@@ -357,7 +356,7 @@ interface IBirdsApiContract : IApiContract
 
 到目前為止一切順利，剩下最後一部分，就是版本的檢查邏輯。
 
-既然要 "檢查" 版本是否相容，那就跟測是一樣，要有期望的結果，跟實際的結果。兩者比對就知道是否合乎期待。前面的實作，我們已經可以
+既然要 "檢查" 版本是否相容，那就跟測是一樣，要有期望的結果，跟實際的結果。兩者比對就知道是否合乎期待。前面的實做，我們已經可以
 取得 API service 實際的版本號碼了，那麼期待的版本號碼應該是什麼?
 
 ![Compatible Versioning](/wp-content/uploads/2016/10/apisdk-03-compatible-versioning.png)
