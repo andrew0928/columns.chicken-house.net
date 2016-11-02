@@ -33,7 +33,7 @@ logo: /wp-content/uploads/2016/10/apisdk-03-gandalf.jpg
 前面標示 (計畫) 的意思，代表這篇的內容還沒生出來... 請大家耐心等待的意思:
 
 1. 微服務架構(概念說明)
-  - [微服務架構 #1, WHY Microservices?](/2016/09/15/2016-09-15-microservice-case-study-01/)
+  - [微服務架構 #1, WHY Microservices?](/2016/09/15/microservice-case-study-01/)
   - (計畫) 如何切割微服務的邊界?
 
 2. 微服務架構(實做範例)
