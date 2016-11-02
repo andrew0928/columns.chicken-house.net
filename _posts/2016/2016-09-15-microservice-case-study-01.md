@@ -59,7 +59,7 @@ library / component 的方式，把 code / binary 組裝成一個大型的 appli
 > ![也是 Microservices vs Monolithic](/wp-content/uploads/2016/09/stateless-authentication-for-microservices-12-6381.jpg)
 
 
-這兩種架構，應該從巨觀來看。說穿了很簡單，就是由最基礎的 code 堆疊到最終的 application，採用了不同 reues 的做法而已。單體式架構
+這兩種架構，應該從巨觀來看。說穿了很簡單，就是由最基礎的 code 堆疊到最終的 application，採用了不同 reuse 的做法而已。單體式架構
 採用相同的 code / language / framework / platform 為基礎，借助開發工具或編譯器，在 develop time 就將這些元件，用函式庫或是元件
 的方式組合起來。最終透過作業系統執行時，他就是個 process, 只是規模可能會很大。
 
