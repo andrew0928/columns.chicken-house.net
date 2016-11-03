@@ -23,12 +23,15 @@ logo: //wp-content/uploads/2016/10/apisdk-02-socket.jpg
 
 範例程式: 請從 GitHub 下載，本篇的內容對應到 [dev-SDK 分支](https://github.com/andrew0928/SDKDemo/tree/dev-SDK)
 
-# 什麼是 "API"?
-
 ![](/wp-content/uploads/2016/10/apisdk-02-socket.jpg)  
 (sorry, 這圖找不到原圖出處, 知道的請通知我，我再補上~)
 
 <!--more-->
+
+{% include series-2016-microservice.md %}
+
+
+# 什麼是 "API"?
 
 **API**: Application Programming Interface 的縮寫，我把重點擺在第三個字 "I" (interface) 上面。
 真的要嚴謹的定義的話，API 只是告訴你某個服務，或是某個元件，提供甚麼樣的 "方式" 讓你去取用他的功能或服務。

@@ -29,6 +29,9 @@ logo: /wp-content/uploads/2016/10/microservice-webapi-design.jpg
 
 <!--more-->
 
+{% include series-2016-microservice.md %}
+
+
 # 範例 Data API Service: Server Side Data Paging
 
 這篇的應用範例，我從內政部的 [政府資料開放平台](http://data.gov.tw/) 找了一個 [範例](http://data.gov.tw/node/8340) 來當資料庫，

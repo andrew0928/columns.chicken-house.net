@@ -46,6 +46,8 @@ session 只有 40 min, 我必須雇到前後資訊的串接，也要顧到在場
 3. [source code, files, demo scripts](https://github.com/andrew0928/CommunityOpenCampDemo)
 
 
+{% include series-2016-microservice.md %}
+
 
 ## 微服務架構(Microservices) v.s. 單體式架構(Monolithic)
 
