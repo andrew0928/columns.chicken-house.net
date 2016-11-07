@@ -11,26 +11,25 @@ logo: /public/logo.png
 ---
 
 寫到這邊，寫了那麼多 code, 你的 API 總該要上線了吧! 這篇就來探討一下，除了寫好 Code 之外，API 上線還要注意什麼? 
-雲端時代當然就別再自己養機器了，這次的範例我就直接用 Azure 來示範。Microsoft 在 [Azure App Services](https://azure.microsoft.com/zh-tw/documentation/articles/app-service-value-prop-what-is/)
-中，包含了四大類的服務類型，其中之一就是 [API Apps](https://azure.microsoft.com/zh-tw/documentation/articles/app-service-api-apps-why-best-platform/)
-就是專門用來裝載 API 類型的服務。
+API 這種東西不比一般的系統，API 的開發者是 developer, 使用者也是 developer，溝通可以用更有效率 (更宅? XD) 的方法，
+而不是只能靠傳統的文件~
+
+這篇主題就擺在 API 開發完成後，要上線的考量。包括如何顧好 DX? 如何讓使用你 API 的 developer 有最好的 usability?
+另外一個議題，就是如何挑選適合 hosting API service 的服務? 雲端時代就別再自己架設 server 了，挑選個好的環境可以事倍功半，
+輕鬆容易就顧好 reliability.
+
+這篇我分三個部分，第一部分仍然是講大道理為主，把我考量的思考過程花點篇幅寫出來。第二部分介紹 [swagger](http://swagger.io) 
+這套 API Framework 以及 tool chain, 靠他來跟其他 developer 聰明的溝通。第三則是 hosting 環境的選擇，我會介紹 Azure 上的
+[API Apps](https://azure.microsoft.com/zh-tw/documentation/articles/app-service-api-apps-why-best-platform/), 以及
+點到為止的介紹 API manager (後面的文章再深入介紹)。
 
 <!--more-->
-
-用 API Apps, 而不是自己從 VM 開始架設，當然可以替開發人員省掉不少維護上的困擾。當規模擴大，使用情境更複雜時，Azure 還更
-進一步提供 API manager, 來替你轉送及管理後端多個及各種類型的 API。不過這篇我會把重點擺在單一一套 API service 的 hosting,
-API manager 會等到後面 Microservice 的部署議題再來討論。
-
-其實，就算你不打算用 Azure 來 hosting 你的服務，這個架構依然是很適合大型服務的部署的。上面提到 API Apps 的說明網頁，有張
-圖很清楚的說明 API manager 跟 API Apps 之間的關係:
-
-![API Apps v.s. API Manager](/wp-content/uploads/2016/11/apisdk04-apia-apim.png)
 
 
 {% include series-2016-microservice.md %}
 
 
-# 除了 API 之外，你還需要些什麼?
+# 除了寫好 API service 之外，你還需要些什麼?
 
 Developer 當久了，往往除了寫 code 之外其他都會忘掉... 這就是 developer 跟 stakeholder 的差別。
 切記，永遠別忘了你寫的code 是要解決什麼問題，適時地跳出框框思考，你會有不一樣的答案。前面提過了，API 的使用者
@@ -170,19 +169,26 @@ API 把複雜的機制隱藏在後端服務內，同時也把錯誤的細節隱�
 2. API system service: 處理 Logs, Error Handling 等任務
 3. API Operation: 處理監控，擴充與高可用性支援
 
+評估的過程我直接略過了，從結果開始說明。(1) 我選擇 swagger。swagger 他類似當年的 WSDL 一樣，定義了一套 JSON 的
+結構來描述 HTTP API。透過這個規格，往上 & 往下建構起一整套的工具鏈。包含各種語言的 client / sdk generator，也
+包含了動態的文件產生器，還有動態的 API 呼叫介面。甚至往後端的開發工具，還有 swaggerhub 讓你儲存及發布 API def 
+的 registry 都有... 充分運用 swagger, 其實就能解決 (1) 大部分的問題了。
+
+(2) 比較單純的是挑選 Logging 與 Error handling 的套件而已，這邊我就選擇我慣用的 NLog + ELMAH .. 其實熟悉 .net
+開發的讀者們，應該都比我還熟這些，我就不再這裡獻醜了。
+
+(3) 我選擇是 Azure 提供的 APP Services, 其中支援的 API Apps 這種類型的應用。他解決了各種監控、設定等等的問題，
+也解決了部署，擴充 (scale out / scale up)，同時也支援多個 slot, 你可以放置不同版本或用途的 Apps 供正式上線，或是
+測試用途的 Apps。部分 (3) 提到的進階功能，我會再另外的文章內提到進一步的選擇: Azure API Manager.
+
+後面的部分，我就直接針對 Swagger 與 API Apps 的使用作個介紹，用實際案例來說明我如何運用這些技術來解決我的問題:
 
 
 
-## 需要搭配的 Hosting: Microsoft Azure - API Apps
 
+# Swagger, Best API Framework & Tool chain
 
-
-
-
-
-# Swagger
-
-# 挑選合適的 API hosting 環境
+# Microsoft Azure - API Apps
 
 前面講了那些需求跟建議，評估過程我就省下來了，最終我挑選的方案就是使用 Swagger 這套件 + Microsoft Azure 的 API Apps. 
 部分進階的服務則會在後面的文章再介紹 Azure 的另一個服務: API Manager.
