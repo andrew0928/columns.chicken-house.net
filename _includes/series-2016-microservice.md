@@ -14,7 +14,7 @@
 >     - [API & SDK Design #1, 資料分頁的處理方式 ](/2016/10/10/microservice3/), 2016/10/10
 >     - [API & SDK Design #2, 設計專屬的 SDK ](/2016/10/23/microservice4/), 2016/10/23
 >     - [API & SDK Design #3, API 的向前相容機制 ](/2016/10/31/microservice5/), 2016/10/31
->     - [API & SDK Design #4, API 上線前的準備 - Swagger + Azure API Apps](/2016/10/31/microservice6/), 2016/11/30
+>     - [API & SDK Design #4, API 上線前的準備 - Swagger + Azure API Apps](/2016/11/27/microservice6/), 2016/11/27
 >     - (計畫) API & SDK Design #5, case study, API 異動 & SDK 的最佳化
 >     
 > 4. (計畫) 微服務架構(部署流程)
