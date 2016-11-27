@@ -7,7 +7,7 @@ tags: ["有的沒的"]
 published: false
 comments: true
 redirect_from:
-logo: /public/logo.png
+logo: /public/full-logo.jpg
 ---
 
 <!--more-->
