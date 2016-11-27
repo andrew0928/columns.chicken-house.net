@@ -6,7 +6,7 @@ categories:
 - "系列文章: API & SDK Design"
 - "系列文章: 架構師觀點"
 tags: ["API", "SDK", "microservice", "系列文章", "ASP.NET", "架構師", "Azure", "API Apps", "Swagger", "DX"]
-published: false
+published: true
 comments: true
 redirect_from:
 logo: /wp-content/uploads/2016/11/apisdk04-logo.jpg
