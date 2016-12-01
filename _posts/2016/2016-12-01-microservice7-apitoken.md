@@ -33,10 +33,10 @@ service 之間不需要直接溝通，就能完成驗證的過程。
 每個 framework 都是累積多少經驗跟智慧才堆積起來的結晶，能夠充分掌握怎麼 "使用" 就很了不起了，哪有時間等你
 慢慢鑽研背後的原理?
 
-所以我覺得我這年代是很幸運的，我經歷過軟體還不是這麼複雜難搞的年代，也經歷過 Java, C#, JavaScript 這些可以
-讓我專心思考架構之美的程式語言。我碰過很多問題，當年都還沒有妥善的 framework 可以直接套用，因此或多或少
-我都自己土炮過一些 framework, 包含 ORM (在 SQL2000 年代，實作 object > xml > database，外加 xml index), 
-Content Server (自己處理 URL, 用自己的機制去 mapping file system), MVC 架構 (對，用 asp.net webform + 
+所以很幸運的，我經歷過軟體還不是這麼複雜難搞的年代，也經歷過 Java, C#, JavaScript 這些可以
+讓我專心思考架構之美的程式語言。我碰過很多問題，當年都還沒有妥善的 framework 可以直接套用，因此多了自己
+土炮過一些基礎架構的 framework, 包含 ORM (在 SQL2000 年代，實作 object > xml > database，外加 xml index), 
+Content Server (自己處理 URL, mapping URL to file system), MVC 架構 (對，用 asp.net webform + 
 url rewrite, 實作 MVC 架構) 等等，當然也包括這次的主題: API Token。
 
 <!--more-->
