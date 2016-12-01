@@ -387,7 +387,8 @@ Tags 註記的不同，你能夠享用的設施層級也不同。被標記為 VI
 則是修改後的 Hash, 演算法告訴我們這樣的情況下 Hash 會不同，造假的 SESSION TOKEN 就被揪出來了。
 
 整個 Demo 的過程很多細節，文章不大容易表達，有興趣的可以直接看影片的 Demo, 那邊解說得比較詳細。同時還有
-示範如何用 Swagger 測試 API 的方式。有興趣的朋友可以參考這段 [影片](https://www.facebook.com/andrew.blog.0928/videos/345280552513896/):  11:50 ~ 43:00  
+示範如何用 Swagger 測試 API 的方式。正好 DEMO 的東西也都放在 Azure 上面，用的跟[上一篇文章](/2016/11/27/microservice6/) 講的是同一個服務: Azure API Apps。
+有興趣的朋友可以參考這段 [影片](https://www.facebook.com/andrew.blog.0928/videos/345280552513896/):  11:50 ~ 43:00  
 
 
 
