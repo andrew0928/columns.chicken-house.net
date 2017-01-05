@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "網路搶票的好用小工具 - WebServerClock v1.0"
+title: "網路搶票小幫手 - 遠端網站時鐘, WebServerClock v1.0"
 categories:
 - "作品集"
 tags: ["有的沒的", ".NET", "C#", "Tips"]
