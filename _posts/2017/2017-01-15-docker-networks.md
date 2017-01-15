@@ -15,23 +15,24 @@ logo: /wp-content/uploads/2017/01/docker-networks-scary-scenes-lotr.jpg
 windows container network 奮鬥的紀錄吧，踩過的地雷跟掃雷的經驗，就分享給有同樣困擾的朋友們...
 
 ![network trouble](/wp-content/uploads/2017/01/docker-networks-scary-scenes-lotr.jpg)
-> 對，我的感受就像 Frodo 在山洞碰到蜘蛛一樣...... 
+
+> 對，我的感受就像 Frodo 在山洞碰到蜘蛛一樣... 被 network 困住了...  T_T
 
 <!--more-->
 
 Windows Server 2016 在去年 2016/10 上市以來，windows container 跟 windows nano server 就一直
 是新版本最大的亮點，不過 windows container 的完成度跟即將要滿四歲的 docker 比起來，仍然稍嫌不足。
-單機版本的 windows container 其實已經堪用了，不過規模再擴大一點，需要動用到 docker swarm 的叢集，
+單機版本的 windows container 其實已經夠用了，不過規模再擴大一點，需要動用到 docker swarm 的叢集，
 就因為 container network 尚未支援 overlay network, 到現在還無法成功建立。不過我相信這功能應該快要
-落地了，因為雲端版本的 Azure Container Services (preview) 已經支援同時管理 windows / linux nodes
+落地了，因為雲端版本的 [Azure Container Services](https://azure.microsoft.com/zh-tw/services/container-service/) ([private preview](https://azure.microsoft.com/en-us/blog/windows-server-containers-using-docker-swarm-on-azure-container-service-private-preview/)) 已經支援同時管理 windows / linux nodes
 的 docker swarm, 已經有申請到 preview 資格的朋友們可以先嘗鮮看看 (Orz, 我的申請一直沒有通過 T_T)..
 
 連帶的，windows container 的 container networking, 還有些地方實作沒那麼完整，我在實作 docker-compose
-的過程中也碰到不少困難，這篇就記錄一下跟他奮鬥的過程吧!
+的過程中也碰到不少障礙，這篇就記錄一下跟他奮鬥的過程吧!
 
 # Overview: Windows Container networking
 
-首先，貼一下官方的說明: [Container Networking](https://docs.microsoft.com/en-us/virtualization/windowscontainers/manage-containers/container-networking)
+首先，貼一下官方的說明，這篇必看: [Container Networking](https://docs.microsoft.com/en-us/virtualization/windowscontainers/manage-containers/container-networking)
 
 這篇有寫的東西就不用再跟他奮鬥了，官方說法一定是第一優先參考的來源...
 建議大家開始之前可以先花點時間看看這篇，能省掉不少冤枉路。我把幾個容易掉進去的點補充一下。
@@ -83,11 +84,12 @@ C:\containers>
 
 上述的動作就是 NAT loopback 的能力。你只能在本機以外的電腦，才能用 ```http://[本機對外IP]:8000``` 這網址存取到
 container 的服務。如果你真的要在本機測試，那就有點麻煩了。你必須先用 ```docker inspect``` 查出這個 container 拿到的
-IP address, 然後才能用 ```http://{container ip address}:80/``` 存取該服務。
+IP address, 然後才能用 ```http://{container ip address}:80/``` 存取該服務。記得 IP 要換成 container internal IP, 同時
+port 也要是 container 原始定義的 port (此例是 tcp:80), 不是被 mapping 過的 port (此例 tcp:8000)。
 
 我實際舉個例子:
 
-STEP 1. 建立 IIS container
+### STEP 1. 建立 IIS container
 
 輸入指令 & 結果
 ``` 
@@ -101,12 +103,12 @@ CONTAINER ID        IMAGE               COMMAND                   CREATED       
 C:\containers>
 ```
 
-STEP 2. 本機測試 ```http://localhost:8000```
+### STEP 2. 本機測試 ```http://localhost:8000```
 
 ![test](/wp-content/uploads/2017/01/docker-networks-localhost-web.png)
 結果果然是連不上..
 
-STEP 3. 遠端測試 ```http://{container host ip}:8000```
+### STEP 3. 遠端測試 ```http://{container host ip}:8000```
 
 ![test](/wp-content/uploads/2017/01/docker-networks-remote-web.png)
 換到我的工作機，用 server ip + port 來測試就可以了!
@@ -117,7 +119,7 @@ STEP 3. 遠端測試 ```http://{container host ip}:8000```
 如果你用的是 build 14300 以後的版本，透過 port mapping 對應的 container ports, 不用額外的去 firewall 建立新的 rule 來開放對外存取了。
 這件事 windows container 會替你代勞...
 
-STEP 4. 本基測試 ```http://{container ip}:80```
+### STEP 4. 本機測試 ```http://{container ip}:80```
 
 要查詢 container 的 ip address, 可以用這指令:
 
@@ -154,7 +156,7 @@ container linking (e.g. --link)
 這又是一個坑啊，又是一個不乖乖看文件的教訓... 不支援也沒有訊息就算了，更 X 的是還支援一半... 哈哈，真是整個
 栽進去了。以下是我的踩雷過程:
 
-STEP 1. 跟剛才一樣，我先按照正常程序啟動一個跑 IIS 服務的 container, 只是這次不指定 port mapping 了:
+### STEP 1. 跟剛才一樣，我先按照正常程序啟動一個跑 IIS 服務的 container, 只是這次不指定 port mapping 了:
 
 ``` 
 C:\containers>docker run -d --name demo-iis microsoft/iis
@@ -165,7 +167,7 @@ C:\containers>
 
 如果前面的例子你有照做，記得先刪掉之前的 container 啊...
 
-STEP 2. 接著我再啟動第二個 container, 用 --link 連結到 STEP 1 建立的 container, 執行 cmd.exe 進入終端機模式:
+### STEP 2. 接著我再啟動第二個 container, 用 --link 連結到 STEP 1 建立的 container, 執行 cmd.exe 進入終端機模式:
 
 ```
 C:\containers>docker run -t -i --rm --link demo-iis microsoft/windowsservercore cmd.exe
@@ -208,7 +210,7 @@ C:\containers>
 那我說支援一半是指什麼? 請看下一步...
 
 
-STEP 3. 先前我漏掉 --link, 結果變成這樣:
+### STEP 3. 先前我漏掉 --link, 結果變成這樣:
 
 ```
 C:\containers>docker run -t -i --rm microsoft/windowsservercore cmd.exe
@@ -245,11 +247,16 @@ windows container engine 幫我們處理好 DNS (用 container name 當作 host 
 
 # 3. docker-compose 的 service discovery 無效問題
 
-這是另一個地雷，我先把我卡住的步驟列給大家看一下。docker-compose 很好用，尤其是他的 scale 設定更是一絕。
-所以我就弄了 nginx (win32 版), asp.net webapp (scale x 2), 外加一個 console. 花了點心思設定好 nginx
+這是另一個地雷，我先把我卡住的步驟列給大家看一下。[docker-compose](https://docs.docker.com/compose/overview/) 很好用，尤其是他的 scale 設定更是一絕。
+所以我就弄了 nginx ([win32 版](http://nginx.org/en/docs/windows.html)), asp.net webapp (scale x 2), 外加一個 console. 花了點心思設定好 nginx
 當作前端，替後端兩個 asp.net webapp 做 load balance.
 
-於是，我就準備了個 nginx.config, 把 80 port 的流量，引導到後端的 webapp 這個 container, 設定內容如下:
+我把我的操作步驟列一下:
+
+
+### STEP 1, 準備 nginx.config
+
+我就準備了個 nginx.config, 把 80 port 的流量，引導到後端的 webapp 這個 container, 設定內容如下:
 
 ```shell
 events {
@@ -271,6 +278,8 @@ http {
 }
 ```
 
+### STEP 2, 準備 dockerfile, build proxy container
+
 同時我準備了個簡單的 dockerfile (為了某些問題，我把 CMD 寫在外面):
 
 ```dockerfile
@@ -278,6 +287,9 @@ FROM microsoft/windowsservercore
 COPY nginx           /nginx
 COPY start-nginx.cmd /
 ```
+
+
+### STEP 3, 準備 docker-compose.yml 定義整組 application
 
 整個 application 的 docker-compose.yml 長這樣:
 
@@ -312,6 +324,9 @@ networks:
       name: nat
 ```
 
+
+### STEP 4, 透過 docker-compose CLI 啟動 application
+
 大功告成 (我以為)，然後當然就啟動這個 application 了:
 
 ```
@@ -335,6 +350,8 @@ containers_console_1 is up-to-date
 
 C:\containers>
 ```
+
+### STEP 5, Trouble shooting: container networking 狀況時好時壞
 
 結果，NGINX 就是時好時壞的，有時一切正常，有時就跟我回報查不到 webapp, 無法啟動... 如果我把啟動
 NGINX 的指令寫在 CMD ，那就更難追了，因為啟動失敗 container 就自動停掉了... 這也是後來我把 CMD 拿掉，
@@ -452,6 +469,9 @@ C:\>
 不過，往好處想，至少抓到原因了，第一筆沒紀錄的 cache 應該是 container 啟動時 DNS 還沒完全
 更新好，這筆紀錄就寫進 cache 了... 不過後來 refreshdns 好幾次都沒用，我就不解了。只能把他理解為
 container 外面可能還有一層更頑強的 cache 在作怪吧...
+
+
+### STEP 6, 啟動 scripts, 等待 DNS 
 
 於是 NGINX 的啟動階段，我就不寫在 CMD 內了，我另外寫了個 script，來負責啟動 NGINX:
 
@@ -604,6 +624,9 @@ NGINX: [resolver](http://nginx.org/en/docs/http/ngx_http_core_module.html#resolv
 不過很可惜的是，這指令我一直視不出來 @@，找到的範例大多是 Linux 的，這年頭誰會開個 windows server 跑 NGINX 啊..
 我決定不在跟他奮鬥了，將來真的要正式佈署的話，交給熟悉 NGINX 的人來搞定他會實際得多.. 我先想辦法繞過去。
 
+
+### STEP 7, 網路組態改變時的更新 scripts
+
 於是我補了第二個批次檔，用來更新 NGINX:
 
 reload.cmd
@@ -675,9 +698,9 @@ XXX !!! 又是這種鳥問題... 一次跑不成功，那你有試過跑兩次�
 當然有，我跑了十次才成功...
 
 最後我決定到這邊先告一段落了。因為看起來問題的源頭都在 DNS cache 問題，同樣的組態在 linux 的 docker
-就跑得很順利... 看來這也是 Microsoft 至今還未 release 進階功能的原因之一吧 (例如 docker swarm 支援)。失敗的話就
+就跑得很順利... 看來這也是 Microsoft 至今還未 release 進階功能的原因之一吧 (例如 docker swarm 支援)。
 
-加上官網那篇文章，也還列了一些尚未完成的網路功能:
+官網那篇文章，也還列了一些尚未完成的網路功能:
 
 ```
  The following network options are not supported on Windows Docker at this time:+
