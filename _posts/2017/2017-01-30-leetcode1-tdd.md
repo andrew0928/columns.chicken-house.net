@@ -1,10 +1,12 @@
 ---
 layout: post
-title: "從 LeetCode 探討: 如何精進 coding 的基本功?"
+title: "不只是 TDD - 如何寫出高品質的 code 的基本功 (應用案例: LeetCode 解題)"
 categories:
-- "有的沒的"
-tags: ["有的沒的"]
-published: false
+- "系列文章: 如何學好寫程式"
+- "系列文章: .NET + Windows Container, 微服務架構設計"
+- "系列文章: 架構師觀點"
+tags: ["專欄","技術隨筆","系列文章: 如何學好寫程式", "TDD", "Microservices", "架構師"]
+published: true
 comments: true
 redirect_from:
 logo: /wp-content/uploads/2017/01/leetcode-logo.png
@@ -16,8 +18,9 @@ logo: /wp-content/uploads/2017/01/leetcode-logo.png
 不過這實在很抽象啊! 最近有空就會上 [LeetCode.com](https://leetcode.com/) 來練習一下 coding 技巧，這其實是個練功的好方法，
 你可以把 LeetCode 當成訓練 coding 能力的健身房。
 
-我就拿這當作主題，分享一下我的作法，還有為什麼這樣做的道理吧! 其實用到的技巧都不是很新穎，但是卻很實用。幾個能提升 code 品質的
-基本技巧 (尤其是 [TDD](https://zh.wikipedia.org/wiki/%E6%B5%8B%E8%AF%95%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91)，以及測試相關的環節) 若能徹底落實，你寫出來的 code 品質就會大幅提升。有心鑽研 coding 技巧的朋友們可以參考看看!
+我就拿這當作主題，分享一下我的作法，還有為什麼這樣做的道理吧! 其實用到的技巧都不算很新穎，但是卻很實用。幾個能提升 code 品質的
+基本技巧 (尤其是 [TDD](https://zh.wikipedia.org/wiki/%E6%B5%8B%E8%AF%95%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91)，以及測試相關的環節) 
+若能徹底落實，你寫出來的 code 品質就會大幅提升。有心鑽研 coding 技巧的朋友們可以參考看看!
 
 
 <!--more-->
@@ -72,8 +75,11 @@ LeetCode.com 其實只是眾多 Online Judge Service 之一，這類網站目標
 # 核心問題: 我為何想要寫這篇?
 
 
-其實我沒有收 LeetCode 的廣告費，用不著替它介紹這服務啊 XD，不過這不介紹後面就寫不下去了 XD。本站的老讀者，大概都記得
-當年 (Orz, 九年前了...) 我寫過五篇文章 ["如何學好寫程式"](http://columns.chicken-house.net/tags/#系列文章-如何學好寫程式)，
+其實我沒有收 LeetCode 的廣告費，用不著替它介紹這服務啊 XD，不過這不介紹後面就寫不下去了 XD。解 LeetCode 的題目，主要是鍛鍊資料結構
+跟演算法的運用能力。不過這麼棒的題庫跟測試案例，其實可以做更好的利用啊! 我的想法是在解題的過程，是否也能思考如何練習寫程式的基本功?
+而不是只專注在 "我解了幾題"，或是 "我的排名" 這些指標身上。
+
+本站的老讀者，大概都記得當年 (Orz, 九年前了...) 我寫過五篇文章 ["如何學好寫程式"](http://columns.chicken-house.net/tags/#系列文章-如何學好寫程式)，
 就是在探討這些主題:
 
 * [該如何學好 "寫程式" #5. 善用 TRACE / ASSERT](/?p=53) 03 Nov 2008
@@ -103,6 +109,8 @@ Ruddy Lee 老師講的一句話 (特地跟 [Ruddy Lee](https://www.facebook.com/
 
 不過很多人其實都還不曉得自己要什麼。我想了很久，與其直接來介紹 TDD 的各種好處，不如替各位找個合適的切入點，讓讀者自己去體驗這樣
 做的好處。有了動機，之後的學習就不再是個問題了。到 LeetCode 這類網站練習，其實就是 TDD 的最佳訓練場。我就分享一下我自己的進行方式。
+
+
 
 
 
