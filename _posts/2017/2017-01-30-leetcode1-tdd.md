@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "不只是 TDD - 如何寫出高品質的 code 的基本功 (應用案例: LeetCode 解題)"
+title: "不只是 TDD - 寫出高品質 code 的基本功夫 (案例: LeetCode 解題)"
 categories:
 - "系列文章: 如何學好寫程式"
 - "系列文章: .NET + Windows Container, 微服務架構設計"
