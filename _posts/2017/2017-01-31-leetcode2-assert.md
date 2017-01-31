@@ -36,6 +36,9 @@ logo: /wp-content/uploads/2017/01/leetcode2-logo.jpg
 
 
 
+{% include series-2017-tdd.md %}
+
+
 # 第二步: 雖然可恥確有用! 先寫出保守的版本!
 
 LeetCode 上面的題庫，大都是以演算法為主。一個問題可能存在多種解法，每種解法都有它的時間複雜度。一般來說每種問題

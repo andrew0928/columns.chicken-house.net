@@ -25,6 +25,8 @@ logo: /wp-content/uploads/2017/01/leetcode-logo.png
 
 <!--more-->
 
+{% include series-2017-tdd.md %}
+
 
 # 核心問題: 我為何想要寫這篇?
 
