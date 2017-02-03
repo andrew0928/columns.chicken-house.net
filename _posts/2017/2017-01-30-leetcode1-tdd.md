@@ -131,7 +131,7 @@ LeetCode.com 其實只是眾多 Online Judge Service 之一，這類網站目標
 我換個複雜一點的題目 (難度: Hard) 來當範例，比較看得出效果。我挑的是這題: [#214, Shortest Palindrome](https://leetcode.com/problems/shortest-palindrome/)
 
 > Palindrome 這個字是 "迴文" 的意思，也就是一個字串從左到右念，跟從右到左念都是一樣的。
-> 題目簡單的說就是給你一個字串，你要找出字串長度最短的迴文。
+> 題目簡單的說就是給你一個原始字串，要你找出最短要在左邊補上甚麼字串，才能讓原始字串變成蛔文。
 
 首先，我開了 class library 的 project: **_214_ShortestPalindrome**, 把題目給我的 ```class Solution {...}``` 搬進來:
 
