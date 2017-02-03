@@ -72,7 +72,7 @@ Ruddy Lee 老師講的一句話 (特地跟 [Ruddy Lee](https://www.facebook.com/
 
 
 
-# 番外篇: Online Judge Service 是啥?
+# 番外篇: LeetCode (Online Judge Service) 是啥?
 
 LeetCode.com 其實只是眾多 Online Judge Service 之一，這類網站目標用戶就是 software engineer，收集了各類練習題的題庫，也收集了各大軟體公司
  (Google, Microsoft, Facebook 等等) 的面試上機考題 (不過這部分要付費)。題庫，大致分為演算法 (algorithm), 資料庫 (database), 
