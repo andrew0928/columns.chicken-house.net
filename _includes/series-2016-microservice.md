@@ -15,12 +15,11 @@
 >     - [API & SDK Design #2, 設計專屬的 SDK ](/2016/10/23/microservice4/), 2016/10/23
 >     - [API & SDK Design #3, API 的向前相容機制 ](/2016/10/31/microservice5/), 2016/10/31
 >     - [API & SDK Design #4, API 上線前的準備 - Swagger + Azure API Apps](/2016/11/27/microservice6/), 2016/11/27
->     - (計畫) API & SDK Design #5, case study, API 異動 & SDK 的最佳化
+>     - [API & SDK Design #5, 如何強化微服務的安全性? API Token / JWT 的應用](/2016/12/01/microservice7-apitoken/), 2016/12/01
+>     - (計畫) API & SDK Design #6, case study, API 異動 & SDK 的最佳化
 > 
-> 1. 微服務架構(安全性)
->     - [微服務架構 #4, 如何強化微服務的安全性? API Token / JWT 的應用](/2016/12/01/microservice7-apitoken/), 2016/12/01
->     
-> 1. (計畫) 微服務架構(部署流程)
->   - (計畫) 容器化的部署
->   - (計畫) 部署案例 - in place upgrade, using windows container
->   - (計畫) 微服務的通訊架構與管理
+> 1. [架構師觀點: Case Study](/2016/04/15/microservice8-case-study/), 2017/04/15
+> 1. 微服務架構(基礎建設)
+>     - [Infra #1, 微服務的基礎建設 - 容器化的部署]
+>     - [Infra #2, 微服務的通訊架構與管理]
+>     - [Infra #3, API Gateway and Reverse Proxy]
