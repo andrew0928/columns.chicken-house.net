@@ -18,7 +18,8 @@
 >     - [API & SDK Design #5, 如何強化微服務的安全性? API Token / JWT 的應用](/2016/12/01/microservice7-apitoken/), 2016/12/01
 >     - (計畫) API & SDK Design #6, case study, API 異動 & SDK 的最佳化
 > 
-> 1. 架構師觀點: Case Study, 2017/04/15
+> 1. [架構師觀點 - 轉移到微服務架構的經驗分享 (Part 1)](/2017/04/15/microservice8-case-study/), 2017/05/09
+
 > 1. 微服務架構(基礎建設)
 >     - [Infra #1, 微服務的基礎建設 - 容器化的部署]
 >     - [Infra #2, 微服務的通訊架構與管理]
