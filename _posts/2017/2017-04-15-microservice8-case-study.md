@@ -86,7 +86,11 @@ logo: /wp-content/uploads/2017/05/2017-05-09-00-45-20.png
 ![](/wp-content/uploads/2017/05/2017-05-02-01-10-05.png)
 圖2: 小巧、專注、自主性
 
-<video src="/wp-content/uploads/2017/05/2017-05-02-01-11-51.mp4" width="640" height="480" controls></video>
+<video 
+    src="/wp-content/uploads/2017/05/2017-05-02-01-11-51.mp4"
+    style="max-width:100%;width:640;height:480;"
+    controls>
+</video>
 圖3: 模組的相依性
 
 這兩張投影片，我想表達的是同一件事，就是你的商業邏輯，到底要按照什麼樣的法則來切割才洽當? 整個微服務架構導入的過程中，我認為
