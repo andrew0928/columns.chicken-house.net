@@ -14,5 +14,5 @@ Branch **master**:  
 Branch **develop**:  
 開發，修改版面用的 branch, 調整完成後 merge to master 就能發布版面
 
-Branch **draft**:
+Branch **draft**:  
 撰寫文章用的 branch, 文章撰寫完成後 merge to master 就能發布文章
