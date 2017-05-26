@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "容器化的服務開發 #1, 架構與開發範例"
+title: "容器化的微服務開發 #1, IP查詢架構與開發範例"
 categories:
 - "系列文章: .NET + Windows Container, 微服務架構設計"
 - "系列文章: 架構師觀點"
@@ -15,30 +15,31 @@ logo: /wp-content/uploads/2017/05/containerize-all-your-apps-meme.jpg
 進入有趣一點的部分了。微服務架構是由很多獨立的小型服務組合而成的，這次我們直接來看看每一個服務本身應該怎麼開發。
 
 ![](/wp-content/uploads/2017/05/containerize-all-your-apps-meme.jpg)
-> 這張圖真是百搭啊...
+* 這張圖真是百搭啊...
 
-既然要講到實作，那就不能不提讓微服務可以實現的容器技術。我一直覺得很可惜的是，不管國內或國外的文章，以開發者的
-角度來介紹容器技術的案例實在不多啊 (還是我關鍵字下的不對? @@) 過去的觀念裡面，都是強調 container 多好用多好用，但是
+這篇既然要講到實作，那就不能不提讓微服務可以實現的容器技術。我一直覺得很可惜的是，不管國內或國外的文章，以開發者的
+角度來介紹容器技術的案例實在不多啊 (還是我關鍵字下的不對? @@) 過去的觀念裡面，都是強調 container 有多好用，但是
 看來看去都是把現有的 apps 重新用 container 打包及部署。DockerCon 2017 正式介紹了 LinuxKit, Microsoft 也宣布了
 Windows Container 要開始支援 Linux container 等等...，我想不用多久就是 container 滿天飛了。到時你還 **只是** 在考慮 
-containerize (容器化) 而已嗎? 如果你的服務注定要在 container 環境下執行，在開發的當下，你會如何設計你的軟體架構?
+containerize (容器化) 而已嗎? 如果你的服務將來註定要在 container 環境下執行，在開發的當下，你會如何設計你的軟體架構?
 
 介紹 docker 的文章，很少是以 pure developer 角度在寫得，如果領域換到 windows container + .net developer
 就更少了。我從小就是靠 Microsoft Solution 吃飯長大的，C# 我也從當年還是 Visual J# 的年代，一路到 .NET framework 1.0 就
 開始用到現在，既然 Windows Container 也都問世了，那這篇文章的示範內容，我就用 Windows Container + .NET Framework + Azure
 來做吧! 
 
-Container Driven Development (我自己掰的名詞，不過竟然還 google 的到東西 @@) 就是我這篇想寫的概念，從 container 的
-角度來思考你的 application 該怎麼設計。其實方針前面這幾篇微服務的文章都講過了。這篇就直接看範例程式吧。我這次挑選的主題，
-是前陣子我實際上碰到的 case: 用 IP 查詢來源國家的服務。這功能很符合微服務的定義: 
-"小巧，專心做好某一件事"，剛好前陣子 Darkthread 也寫了一篇 "[用 100 行 C# 打造 IP 所屬國家快速查詢功能](http://blog.darkthread.net/post-2017-02-13-in-memory-ip-to-country-mapping.aspx)"，我就沿用 Darkthread
-貢獻的 Source Code, 把它包裝成微服務，用容器化的方式部署到 Azure ! 
+Container Driven Development (我自己亂掰的名詞，不過竟然還 google 的到東西 @@) 就是我這篇想寫的概念，從 container 的
+角度來思考你的 application 該怎麼設計。其實方針前面這幾篇微服務的文章都講過了。這篇就直接看我如何用這樣的思維來規劃
+開發架構吧。我這次挑選的主題，是前陣子我實際上碰到的 case: 用 IP 查詢來源國家的服務。
+
+這功能很符合微服務的定義: "小巧，專心做好某一件事"，剛好前陣子 Darkthread 也寫了一篇 "[用 100 行 C# 打造 IP 所屬國家快速查詢功能](http://blog.darkthread.net/post-2017-02-13-in-memory-ip-to-country-mapping.aspx)"，我就沿用 Darkthread
+貢獻的 [Source Code](https://github.com/darkthread/IP2C.NET), 把它包裝成微服務，用容器化的方式部署到 Azure ! 
 
 
 <!--more-->
 
 
-## Container Driven Development
+# 容器驅動開發 (Container Driven Development)
 
 別以為一個 "IP 查詢服務"，就真的只是一個服務而已。既然微服務的設計準則包含這條: "能獨立自主運作的服務"，那麼你要開發
 的就不只 webapi 這麼一個而已。我先把需求列一下:
@@ -52,7 +53,7 @@ Container Driven Development (我自己掰的名詞，不過竟然還 google 的
 容器化解決的事情我就不用自己做了。在能夠極度利用容器化的優點為前提，來看看這份設計圖:
 
 ![](/wp-content/uploads/2017/05/2017-05-23-23-25-51.png)
-> Deployment diagram of IP2C service
+* Deployment diagram of IP2C service
 
 很典型的架構，前端用一組 reverse proxy, 來把流量平均分配到後端的多組 IP2C.WebAPI, 來達到 HA + Scale out 的要求。
 然而 IP query 最重要的就是資料庫的更新，因此另外安排了一個 IP2C.Worker, 定期到官網的下載頁面定期更新資料檔。下載後會自動
@@ -60,7 +61,8 @@ Container Driven Development (我自己掰的名詞，不過竟然還 google 的
 方便其他的 developer 充分使用我的 IP2C service, 我也打算提供一組 SDK, 方便他們直接呼叫我的服務。這 IP2C.SDK 除了方便呼叫
 IP2C.WebAPI 之外，我也在 SDK 內部實作上加了 client side cache, 同一個 IP 在時間內查詢多次, 則會直接透過 cache 傳回。
 
-除了營運環境的部分之外，對於我自己的 DevOps 流程我也做了簡單的 CI / CD 需求規劃:
+微服務化的應用程式開發，總是會有很多獨立的 projects, 開發測試的過程中會不斷面臨部署，測試，修改，部署... 的循環。過程中
+若沒有做好 DevOps 的搭配，生產力會大幅地降低。因此我自己對於 DevOps 的流程我也做了簡單的 CI / CD 需求規劃:
 
 1. Code 修改完成 Push 到 Git Repository 之後，觸發 CI 進行編譯、單元測試
 1. 通過測試與編譯的 code, 則將 IP2C.WebAPI 與 IP2C.Worker 先建置成 docker image, 放到 docker registry
@@ -68,19 +70,24 @@ IP2C.WebAPI 之外，我也在 SDK 內部實作上加了 client side cache, 同�
 1. 決定要上版的時候，就透過預先編好的 docker compose 定義檔，從 docker registry 更新部署的版本
 
 這兩部分都完成後，各位可以盤點一下，是否原先的需求都已經達成了? 整個藍圖設計好之後，接下來就是一步一步完成他了。
+DevOps 的部分，我實際是使用 GitLab 的 CI-Runner, 簡單好用, 複雜度跟功能的平衡做得還不錯。不過這部分我會略過，
+先用一個簡單的 build script 替代。以後有機會的話再來介紹這段。這次就跳過 DevOps, 後面的示範會直接半自動的部署到
+Azure 上面現成的環境，篇幅有限，請見諒 :D
 
-> 這次主要重點在開發，因此 DevOps 環境的建置過程我會略過，直接用 Azure 上面現成的環境，篇幅有限，請見諒 :D
+
+# 建立微服務 Solution: IP2C
 
 
-## 建立微服務 Solution: IP2C
+這篇既然是 Hands-On Labs, 就直接來寫 code 吧! 這次的 solution 裡面有這些東西，先說明一下:
 
 ![](/wp-content/uploads/2017/05/2017-05-23-23-37-16.png)
 
-這篇既然是 Hands-On Labs, 就直接來寫 code 吧! 這次的 solution 裡面有這些東西，先說明一下:
+
 
 **/build.cmd**  
 build script, 用來完成整個 solution 的編譯與發行 (to docker registry & nuget server)。
 若你有採用任何 CI 的系統，可以將 script 的內容搬過去。我自己是用 GitLab, 可以在 CI runner 內沿用這個 build script。
+這次範例我把重點擺在 code 上面，CI/CD 就用 build script + 手動部署容器來替代。
 
 **/docker-compose.yml**  
 要部署到執行環境使用的 docker-compose 設定檔。
@@ -89,7 +96,7 @@ build script, 用來完成整個 solution 的編譯與發行 (to docker registry
 從 Darkthread GitHub 直接 fork 過來的 project, 搜尋 ip-database csv 用的高效率 C# library
 
 **/IP2CTest**  
-從 Darkthread GitHub 直接 fork 過來的 project, IP2C.NET 的單元測試
+從 Darkthread GitHub 上提供的 [Source Code](https://github.com/darkthread/IP2C.NET) 直接 fork 過來的 project, IP2C.NET 的單元測試
 
 **/IP2C.WebAPI**  
 使用 IP2C.NET 開發的 WebAPI, 提供 REST API，可以使用 ~/api/ip2c/{ip value} 的格式來查詢 ip address 所屬的國家。
@@ -101,14 +108,18 @@ build script, 用來完成整個 solution 的編譯與發行 (to docker registry
 **/IP2C.SDK**  
 透過 REST API 呼叫 IP2C.WebAPI 的 .NET class library, 除了簡化呼叫的程序之外，也加上了 cache (client side)。
 
-這整個 solution 大致上就包含這些內容。接下來逐一看看每個 project 做了什麼特別的動作...
+
+
+這整個 solution 大致上就包含這些內容。對我寫的 Demo Code 有興趣的可以直接到 GitHub 參考我的 [Source Code](https://github.com/andrew0928/IP2C.NET.Service)。覺得不錯的就給個星星吧 :D
+
+接下來逐一看看每個 project 做了什麼特別的動作...
 
 
 
 ## Project: IP2C.WebAPI
 
-這是主要的服務，用 ASP.NET WebAPI2 開發。這個專案專注的部分很單純，就是提供查詢 IP 所屬國家的 REST API。
-查詢格式是: ```/api/ip2c/134744072``` (數字部分是 IPV4 的 4bytes 數值轉成 int, 範例是 8.8.8.8, 換成 int 是
+這是服務的主體，對外提供查詢 IP 的 REST API。用 ASP.NET WebAPI2 開發。這個專案專注的部分很單純，就是提供查詢 IP 所屬
+國家的 REST API。查詢格式是: ```/api/ip2c/134744072``` (數字部分是 IPV4 的 4bytes 數值轉成 int, 範例是 8.8.8.8, 換成 int 是
 0x08080808, 也就是十進位的 134744072)。
 
 查詢的結果用 Json 傳回，格式如下:
@@ -190,9 +201,9 @@ COPY . .
 EXPOSE 80
 VOLUME ["c:/inetpub/wwwroot/App_Data"]
 ```
-
-這個 dockerfile 的目的是告訴 docker engine，該如何把這個 web app 建置成 container image。
-這裡面定義了幾件事:
+Dockerfile 是 Docker Engine 替你建置專屬的 container image 參考的藍圖。只要你的程式內容有修正，透過這個 dockerfile
+就能在短短幾秒內替你重新建立一份新的 container image。這流暢的建置過程，搭配公用的 registry (hub.docker.com) 服務，
+是 docker 能夠成功推廣 immutable server 概念的主要原因。這 dockerfile 裡面定義了幾件事:
 
 1. 建置 container image 時，用 microsoft/aspnet 這個 image 為基礎。  
 這是 microsoft 預先準備好，包含 IIS + ASP.NET runtime 的 image。
@@ -203,8 +214,8 @@ VOLUME ["c:/inetpub/wwwroot/App_Data"]
 將來在部署時，IT人員可以選擇將這個目錄對應到其他 storage 上
 
 
-在這個專案內，我已經預先放了一份格式正確的 ipdb.csv 檔案了。如果你不介意這是不是最新的，其實你已經可以自己試看看了。
-我直接附上 build 的指令 (DOS Prompt 命令提示字元，非 powershell):
+在這個專案內，我已經預先放了一份格式正確的 ipdb.csv 檔案了。如果你不介意這是不是最新的話，其實你只要這個 project 就可
+已執行 IP 查詢服務的 WebAPI 了。我直接附上 build 的指令 (DOS Prompt 命令提示字元，非 powershell):
 
 ```dos
 : build solutions in release mode
@@ -242,9 +253,8 @@ docker run -d -p 8000:80 ip2c/webapi
 
 1. 排程啟動後能進入監控模式，在指定的時間到達時自動進行檔案更新  
 (實際上是每天執行，這邊我為了方便測試是每三分鐘執行一次)
-1. 更新的程序要確保不會讓服務失效；
-下載後需要解壓縮 (官方提供 .gz 下載)，同時用 IP2C.NET 嘗試查詢幾筆 IP address 當作單元測試，
-通過之後備份原本的檔案，再替換上新的檔案。
+1. 更新的程序要確保檔案的正確性，別讓服務掛掉；
+下載後需要解壓縮 ([官方](http://software77.net/faq.html#automated)提供 .gz 下載)，同時用 IP2C.NET 嘗試查詢幾筆 IP address 當作單元測試，通過之後備份原本的檔案，再替換上新的檔案。
 1. 第一次執行，若找不到舊版的檔案，則立刻先用預先下載的檔案替代更新。
 (隨 code 附上的 ipdb.csv, 非最新的檔案)
 1. 能夠透過 logs 查詢執行的成果
@@ -257,12 +267,12 @@ docker run -d -p 8000:80 ip2c/webapi
 windows 工作排程器，時間到了啟動它。
 
 不過不管用哪個方法，其實都有點麻煩... 這邊我要介紹的是，如果你要在 container 內做這件事，遠比你想像的簡單! 
-container 本身就已經可以被當成一個服務了 (daemon), 因此你唯一要做的就是，寫個 console app, 啟動後就坐上面的需求。把他
-安排到 dockerfile 內的 entrypoint, 讓 container 一啟動就執行它就可以了。實際部署之後，IT人員只要控制這個 container 是否
+container 本身就已經可以被當成一個服務了 (daemon), 因此你唯一要做的就是，寫個 console app, 啟動後就按照上述的需求。把他
+安排到 dockerfile 內的 entrypoint, 讓 container 一啟動就執行它就可以了。實際部署之後，IT 人員只要控制這個 container 是否
 啟動或是停止就好，完全不需要 developer 開發時花心思處理這些細節。
 
-至於 logs ? 這就更容易了。過去我們都會用 NLog 或是 Log4Net 這類 logging framework, 來簡化你的 log 程序。現在更無腦了，
-你甚麼都不用管，只要用最古早的 printf ... 啊，不對，Console.WriteLine(...) 的方式輸出訊息到 stdout 就可以了。一樣，以後
+至於 logs ? 這就更容易了。過去我們都會用 [NLog](http://nlog-project.org/) 或是 Apache [Log4Net](https://logging.apache.org/log4net/) 這類 logging framework, 來簡化你的 log 程序。現在更無腦了，
+你甚麼都不用管，只要用最古早的 printf 大法... 啊，不對，Console.WriteLine(...) 的方式輸出訊息到 stdout 就可以了。一樣，以後
 IT人員想要調閱這些 logs 怎麼辦? 用 docker logs 這指令就可以了。
 
 說到這裡，我想本部落格的讀者應該都知道怎麼寫吧? 一樣沒幾行的 code, 直接來看看:
@@ -377,6 +387,8 @@ class Program
     }
 }
 ```
+
+
 程式碼稍長了一點，不過都很簡單。接著來看看對應的 dockerfile:
 
 ```dockerfile
@@ -386,12 +398,12 @@ WORKDIR   c:/IP2C.Worker
 COPY . .
 
 VOLUME ["c:/IP2C.Worker/data"]
-ENTRYPOINT IP2C.Worker.exe --watch c:\IP2C.Worker\data\ipdb.csv
+ENTRYPOINT IP2C.Worker.exe
 ```
 
 dockerfile 也是簡單到爆，選定 base image, 複製檔案, 啟動檔案 (加上正確參數) 就結束了。
 
-想要測試看看這個 container 是否能正常啟動? build 成功之後用這段指令啟動它 (線上互動模式):
+想要測試看看這個 container 是否能正常啟動? build 成功之後用這段指令啟動它 (互動模式):
 
 ```dos
 docker run ip2c/worker
@@ -406,12 +418,12 @@ wait: 00:02:24.7680000 (until: 5/24/2017 1:01:00 AM)
 wait: 00:02:52.6580000 (until: 5/24/2017 1:04:00 AM)
 -update file: 5/24/2017 1:04:00 AM
 wait: 00:02:55.3320000 (until: 5/24/2017 1:06:59 AM)
-
 ```
 
-進去 container 的目錄，你可以看到檔案真的有下載成功:
+在同個 container 用 ```docker exec ...``` 多開一個 shell (cmd.exe), 進去 container 的目錄，你可以看到檔案真的有下載成功:
 
 ```console
+
 C:\IP2C.Worker>dir data
  Volume in drive C has no label.
  Volume Serial Number is AC75-48E4
@@ -428,13 +440,13 @@ C:\IP2C.Worker>dir data
 C:\IP2C.Worker>
 ```
 
-不過實際執行，不能用互動模式啊! 只要啟動指令調整一下，就可以變成背景服務:
+不過實際執行，不能用互動模式啊! 只要啟動指令調整一下，加個 ```-d``` (--daemon) 就可以變成背景服務:
 
 ```dos
 docker run -d ip2c/worker
 ```
 
-背景模式就看不到輸出的訊息了... 這也很簡單，用 docker logs 指令就可以 (其中 5edf24fae8cf 是 container 的 ID):
+背景模式就看不到輸出的訊息了... 這也很簡單，用 ```docker logs``` 指令就可以 (其中 5edf24fae8cf 是 container 的 ID):
 
 ```dos
 D:\>docker ps -a
@@ -458,13 +470,26 @@ wait: 00:02:54.4140000 (until: 5/24/2017 1:33:59 AM)
 ```
 
 
-體會到了嗎? 容器的機制其實替你解決了不少麻煩事，從服務的開發，到 LOG 的收集處理，甚至到所有不同應用程式的 image 建置
-與部署通通解決了，這些才是 developer 最討厭的部分啊! docker 能漂亮的搞定這些問題，又把工具鏈跟生態圈弄得很好，才會在
-短短的四年就爆紅..
+體會到了嗎? 容器的機制其實替你解決了不少麻煩事，從服務的開發，執行環境的控制，服務啟動及停止等等的控制，到 LOG 的收集
+處理，甚至到所有不同應用程式的 image 建置與部署通通解決了，這些才是 developer 最討厭的部分啊! docker 能漂亮的搞定
+這些問題，又把工具鏈跟生態圈弄得很好，才會在短短的四年就爆紅..
 
-除此之外，容器技術還能把你的 application 包裝成固定的 image 格式，方便部署與執行。同時定義你的容器需要對外溝通的幾個
-地方，包含 network (ipaddress, ports), volume, entrypoint, environment variable 等等。所有部署需要定義的細節，
-通通不用勞煩 developer, 只要交給熟悉 docker 的 IT 人員就可以了。
+容器技術優異的地方在於，用通用一致的 image 格式，把你的程式與執行環境都放到裡面，精準地控制了執行環境，解決執行時
+對環境的要求，工程師們以後不用再把 "在我電腦上是**好**的啊.." 這句話掛在嘴邊了 XD
+
+封裝成 image 後，要執行時只要透過 ```docker run``` 就能啟動了。啟動時 docker 允許你調整 container 對外溝通的幾個
+管道，這部分就是部署人員要接手的部分了。Docker 統一管控 container 的對外溝通管道有:
+
+* network (ipaddress, ports)
+* volume (folder, file)
+* environment variable
+
+舉例來說，HTTP REST 都會需要 TCP 80 port, 你在打包 container image 時不用擔心這個，實際部署時，```docker run``` 指令
+允許你把實際的 port (ex: 8080) 轉接給 container 內的 port 80。
+
+同樣的道理也可應用在 volume 的對應上。你可以把實際 host server 上的磁碟目錄 (ex: d:\data) 掛到 container 內 (ex: c:\inetpub\wwwroot\app_data)。對 container 內來說，他就只是個單純的 symbol link 而已。如果你把實體的目錄同時掛載
+到多個 container 內的話，那這效用就相當於你開了共享目錄，同時給多個 container 使用。這遠比開網路芳鄰簡單太多了。這些
+環境的控制，都只要交給部署的 IT 人員決定就夠了，完全不用勞煩 developer 。
 
 這邊最巧妙的地方，就是容器本身就已經有 start / stop 等等狀態了，容器本身可以用 daemon (-d) 模式啟動，這時整個容器
 就相當於標準的 windows service 了。你完全不需要替背景服務這件事寫任何額外的 code, 你只需要像這個例子一樣，單純寫個
@@ -475,8 +500,6 @@ console app 就夠了。這簡單的程度跟我們當年在學 hello world 差�
 
 
 ## Test Run: IP2C Services (WebAPI + Worker) on Local PC
-
-// dev-env, no scale out, no HA, use docker only, not docker-compose
 
 現在，我們要把兩個 container 一起啟動了。這邊啟動的方式有點不同，兩個 container 能共同合作的前提，是要有共享的目錄。
 我的作法是兩個 container 都先定義了一個 volume 的掛載點，啟動的時候我在 docker engine host 上建立一個 folder, 把這個
@@ -595,12 +618,14 @@ C:\inetpub\wwwroot>
 被帳號問題跟 ACL 搞得很毛... 現在這些問題都被容器技術解決了。
 
 Container Driven Development 對開發人員最大的效益 (我自己觀點)，就是: 你會發現你幾乎不需要浪費力氣，寫不需要的 code, 因為
-容器化的技術都極大化的替你解決這些瑣事了。在過去這些 code 大概只能算是 POC 或是 prototype, 正式上線的系統遠遠不能這樣搞，有一堆
-其他的東西要寫，如 log, 或是設定排程等等，現在通通不用了。
+容器化的技術都極大化的替你解決這些瑣事了。在過去正式上線的系統遠遠不能這樣搞，有一堆其他的東西要寫，例如要寫成 windows service
+就有上百行的 code 要先填好, 其他如安裝程式，或是要在 server 上設定排程等等，現在通通不用了。
 
 容器化的部署，現在看到效益了嗎? 這還只是在開發機器上面自己測試而已。你會發現容器技術的精神在於，把所有的 application 都包成一樣的
-格式，用一樣的方式啟動執行。因此開發人員只要想辦法把 image 準備好，剩下的部署任務通通都不用擔心了。部署人員只要按照架構圖，把容器
-按照規劃的方式啟動 (掛上 network port, 掛上 volume, 指定 environment variables) 就可以了。
+格式，用一樣的方式啟動執行。因此開發人員只要想辦法把 image 準備好，剩下的部署任務就交給 IT 人員。部署人員只要按照架構圖，把容器
+按照規劃的方式啟動 (掛上 network port, 掛上 volume, 指定 environment variables) 就可以了，可大可小。最小如現在在開發 PC
+上面測試功能，最大可以用同樣方法部署到 docker swarm cluster 上，將 WebAPI 多開幾個 instance 做效能擴充 (scale out), 應付
+大量的使用者。這些極端的使用狀況，使用的通通都是一樣的 code, 一樣的 image !
 
 
 ## 小結
