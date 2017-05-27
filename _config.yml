@@ -1,69 +1,99 @@
-# Site Info
+# ---------------- #
+#   Main Configs   #
+# ---------------- #
+baseurl:
+url:  http://columns.chicken-house.net
+date_format: "ordinal"
 title: 安德魯的部落格
-tagline: '.NET / C# / OOP'
-description: ''
+subtitle: ".NET / C# / OOP"
+description: "--"
+keywords: .NET,C#,OOP,Azure,Docker
+favicon: /favicon.ico
+timezone: Asia/Taipei
+encoding: "utf-8"
+side_bar_repo_limit: 5
 
-# baseurl: "/lanyon"
-baseurl: ""
-url: http://columns.chicken-house.net
-logo: '/public/logo.png'
+# ---------------- #
+#      Author      #
+# ---------------- #
+author: Andrew Wu
+organization: 
+organization_url: 
+github_username: andrew0928
+location: Taipei, Taiwan
+email: chicken@chicken-house.net
 
-# Site configurations
-gems:
-  - jekyll-paginate
-  - jekyll-redirect-from
-  - jekyll-sitemap
+# ---------------- #
+#    Navigation    #
+# ---------------- #
+navs:
+  -
+    href: /
+    label: Home
 
+  -
+    href: /categories/
+    label: Categories
+
+  -
+    href: /wiki/
+    label: 维基
+
+  -
+    href: /links/
+    label: 链接
+
+  -
+    href: /about/
+    label: 关于
+
+# ---------------- #
+#       RSS        #
+# ---------------- #
+subscribe_rss: /feed.xml
+
+# ---------------- #
+#      Jekyll      #
+# ---------------- #
 markdown: kramdown
 kramdown:
-  input: GFM
-#excerpt_separator: "<!-- more -->"
-sass:
-  style: compressed
-  sass_dir: _scss    
-paginate: 10
-paginate_path: '/page:num'
-# permalink: pretty
-permalink: /:year/:month/:day/:slug/
+    input: GFM
+highlighter: rouge
+paginate: 8
+lsi: false
+quiet: false
 excerpt_separator: <!--more-->
+permalink: /:year/:month/:day/:slug/
+gems:
+    - jekyll-github-metadata
+    - rouge
+#     - jekyll-html-pipeline
+    - jekyll-paginate
+    - jekyll-sitemap
+    - jekyll-feed
+    - jemoji
+#     - jekyll-mentions
+collections:
+    wiki:
+        output: true
+        permalink: /wiki/:path/
 
-version: 1.0.0
+# repository: mzlogin/mzlogin.github.io
 
-author:
-  name: Andrew Wu
-  description: 
-#  gravatar: 3c2986ad7ac1f2230ea3596f44563328 # md5 hash of your email address
-  contact:
-    linkedin:  https://www.linkedin.com/in/andrew0928
-    github:    https://github.com/andrew0928
-    facebook:  https://www.facebook.com/andrew.blog.0928
-    #twitter:   https://twitter.com/Li_Zhihao
-    #weibo:     http://weibo.com/41173780
-    #email:     http://www.google.com/recaptcha/mailhide/d?k=01I3lZFiZYng9N3QxYEtsDaQ==&c=31wAnZkuKqcG0ATAqJN8Z3ln5kkYLA9TwkGc-IbygpM=
-logo: /public/logo.png
+# ---------------- #
+#      Comments    #
+# ---------------- #
+# support provider: disqus, netease_gentie
+comments_provider: disqus
 
-# Navigation (2nd level links supported)
-nav:
-  Blog:           
-    - '/'
-    - { Categories: '/categories/' }
-    - { Tags: '/tags/' }
-  My Codes @ GitHub.com:
-    - 'https://github.com/andrew0928'
-  About:          
-    - '/about/'
-  Facebook Pages: 
-    - 'https://www.facebook.com/andrew.blog.0928'
+# !!!重要!!! 请修改下面这些信息为你自己申请的
+# !!!Important!!! Please modify infos below to yours
+disqus_username: andrew0928
+# 在使用网易云跟帖时可点击显示 Disqus
+lazy_load_disqus : false
 
-# Where are tags and categories displayed
-tag_page: '/tags/'
-category_page: '/categories/'
-
-hero:
-  image: /public/img/we_will_be_giants_by_yalestewart.jpg
-  caption: Original Artwork &copy; <a href="http://yalestewart.deviantart.com/art/We-Will-Be-Giants-370176475">Yale Stewart</a>
-
-# Puglins
-mathjax: true # whether support mathjax
-google_analytics_token: 'UA-68797023-1' # leave blank if you don't want google analytics
-disqus_short_name: 'andrew0928' # leave blank if you don't want disqus
+# ---------------- #
+#    Analytics     #
+# ---------------- #
+google:
+    analytics_id: UA-68797023-1
