@@ -58,7 +58,7 @@ navs:
 # ---------------- #
 #       RSS        #
 # ---------------- #
-subscribe_rss: /syndicate.xml
+subscribe_rss: /feed.xml
 
 # ---------------- #
 #      Jekyll      #
