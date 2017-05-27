@@ -8,7 +8,7 @@ title: 安德魯的部落格
 subtitle: ".NET / C# / OOP"
 description: "--"
 keywords: .NET,C#,OOP,Azure,Docker
-favicon: /favicon.ico
+favicon: 
 timezone: Asia/Taipei
 encoding: "utf-8"
 side_bar_repo_limit: 5
@@ -73,6 +73,7 @@ gems:
     - rouge
 #     - jekyll-html-pipeline
     - jekyll-paginate
+    - jekyll-redirect-from
     - jekyll-sitemap
     - jekyll-feed
     - jemoji
@@ -90,7 +91,6 @@ collections:
 # support provider: disqus, netease_gentie
 comments_provider: disqus
 
-# !!!重要!!! 请修改下面这些信息为你自己申请的
 # !!!Important!!! Please modify infos below to yours
 disqus_username: andrew0928
 # 在使用网易云跟帖时可点击显示 Disqus
