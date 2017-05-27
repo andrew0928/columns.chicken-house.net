@@ -35,10 +35,10 @@ comments: false
             <ol class="repo-list">
                 {% for post in paginator.posts %}
                 <li class="repo-list-item">
-                    <h3 class="repo-list-name">
+                    <h1 class="repo-list-name">
                       <a href="{{ post.url }}">{{ post.title }}</a>
-                    </h3>
-                    <p class="repo-list-description markdown-body">
+                    </h1>
+                    <p class="repo-list-description">
                         {{ post.excerpt }}
                     </p>
                     <p class="repo-list-meta">
