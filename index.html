@@ -62,7 +62,7 @@ if (url) {
                       <a href="{{ post.url }}">{{ post.title }}</a>
                     </h1>
                     <div class="share">
-                        {% include sns-share.html %}
+                        {% include sns-share.html url=post.url %}
                     </div>
                     <p class="repo-list-description">
                         {{ post.excerpt }}

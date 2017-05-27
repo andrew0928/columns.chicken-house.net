@@ -1,0 +1,14 @@
+{% if site.comments_provider == 'disqus' and site.disqus_username.blank? %}
+<i class="fa fa-comments" aria-hidden="true"></i>
+<span class="disqus-comment-count" data-disqus-url="{{ site.url }}{{ include.url }}">0 Comments</span>
+{% endif %}
+{% if site.debug %}
+<pre>
+    include.url: {{ include.url }}
+    site.comments_provider: {{ site.comments_provider }}
+    site.disqus_username: {{ site.disqus_username }}
+    site.disqus_username.blank? {{ site.disqus_username.blank? }}
+</pre>
+{% else %}
+debug off
+{% endif %}

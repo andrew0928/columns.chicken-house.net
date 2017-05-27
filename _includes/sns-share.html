@@ -1,1 +1,10 @@
-<div class="fb-like" data-href="{{ site.url }}{{ page.url }}" data-layout="standard" data-action="like" data-size="small" data-show-faces="false" data-share="true"></div>
+<div class="fb-like" data-href="{{ site.url }}{{ include.url }}" data-layout="standard" data-action="like" data-size="small" data-show-faces="true" data-share="true"></div>
+{% if site.debug %}
+<pre>site.url: {{ site.url }}</pre>
+<pre>post.url: {{ post.url }}</pre>
+<pre>page.url: {{ page.url }}</pre>
+<pre>include.url: {{ include.url }}</pre>
+
+<pre>post.url.blank?    {% if post.url.blank? %}true{% else %}false{% endif %} </pre>
+<pre>include.url.blank? {% if include.url.blank? %}{{ page.url }}{% else %}{{ include.url }}{% endif %} </pre>
+{% endif %}

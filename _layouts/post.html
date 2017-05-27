@@ -30,14 +30,14 @@ layout: default
 <div class="columns">
   <div class="column three-fourths" >
     <div class="share">
-      {% include sns-share.html %}
+      {% include sns-share.html url=page.url %}
     </div>
     <article class="article-content markdown-body">
     {{ content }}
     {% include article-footer.html %}
     </article>
     <div class="share">
-      {% include sns-share.html %}
+      {% include sns-share.html url=page.url %}
     </div>
     <div class="comment">
       {% include comments.html %}
