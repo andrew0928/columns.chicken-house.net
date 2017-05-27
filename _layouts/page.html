@@ -19,6 +19,9 @@ layout: default
  <section class="container content">
         <div class="columns">
             <div class="column two-thirds" >
+    <div class="share">
+      {% include sns-share.html %}
+    </div>
                 <article class="article-content markdown-body">
                     {{ content }}
                     {% include article-footer.html %}

@@ -78,8 +78,19 @@
         }
     }
     </script>
+
+    <!-- facebook share -->
+    <script>(function(d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) return;
+    js = d.createElement(s); js.id = id;
+    js.src = "//connect.facebook.net/zh_TW/sdk.js#xfbml=1&version=v2.7&appId=500757300092333";
+    fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));</script>
+
 </head>
 <body class="{{ page.class }}" data-mz="{{ page.class }}">
+    <div id="fb-root"></div>
     <header class="site-header">
         <div class="container">
             <h1><a href="/" title="{{ site.title }}"><span class="octicon octicon-mark-github"></span> {{ site.title }}</a></h1>

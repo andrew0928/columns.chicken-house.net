@@ -36,16 +36,20 @@ navs:
     label: Categories
 
   -
-    href: /wiki/
-    label: 维基
+    href: /tags/
+    label: Tags
 
-  -
-    href: /links/
-    label: 链接
+#  -
+#    href: /wiki/
+#    label: Wiki
+
+#  -
+#    href: /links/
+#    label: Links
 
   -
     href: /about/
-    label: 关于
+    label: About Me
 
 # ---------------- #
 #       RSS        #
