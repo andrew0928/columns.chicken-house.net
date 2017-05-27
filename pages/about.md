@@ -1,20 +1,16 @@
 ---
 layout: page
-title: About
-description: 打码改变世界
-keywords: Zhuang Ma, 马壮
+title: 安德魯是誰?
+description: About Me
+keywords: Me
 comments: true
-menu: 关于
+menu: Me
 permalink: /about/
 ---
 
-我是马壮，码而生，码而立。
+安德魯
 
-仰慕「优雅编码的艺术」。
-
-坚信熟能生巧，努力改变人生。
-
-## 联系
+## Contact Me
 
 {% for website in site.data.social %}
 * {{ website.sitename }}：[@{{ website.name }}]({{ website.url }})

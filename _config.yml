@@ -35,9 +35,9 @@ navs:
     href: /categories/
     label: Categories
 
-  -
-    href: /tags/
-    label: Tags
+#  -
+#    href: /tags/
+#    label: Tags
 
 #  -
 #    href: /wiki/
@@ -48,13 +48,17 @@ navs:
 #    label: Links
 
   -
+    href: /codes/
+    label: Codes
+
+  -
     href: /about/
     label: About Me
 
 # ---------------- #
 #       RSS        #
 # ---------------- #
-subscribe_rss: /feed.xml
+subscribe_rss: /syndicate.xml
 
 # ---------------- #
 #      Jekyll      #

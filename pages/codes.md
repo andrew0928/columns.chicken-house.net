@@ -1,9 +1,9 @@
 ---
 layout: default
-title: Open Source Projects
-keywords: 开源,open-source,GitHub,开源项目
-description: 开源改变世界。
-permalink: /open-source/
+title: /* Code is poetry */
+keywords: open-source,GitHub
+description: /* Code is poetry */
+permalink: /codes/
 ---
 
 {% if site.github.public_repositories != null %}
