@@ -2,7 +2,7 @@
 layout: post
 title: "暌違多年的獎盃 - Microsoft MVP Award Get!"
 categories:
-- "有的沒的"
+
 tags: ["MVP", "自HIGH"]
 published: true
 comments: true

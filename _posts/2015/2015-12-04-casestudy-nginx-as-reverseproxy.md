@@ -2,7 +2,7 @@
 layout: post
 title: "CaseStudy: 網站重構, NGINX (REVERSE PROXY) + 文章連結轉址 (Map)"
 categories:
-- "技術隨筆"
+
 tags: ["BlogEngine.NET","Docker","Tips"]
 published: true
 comments: true

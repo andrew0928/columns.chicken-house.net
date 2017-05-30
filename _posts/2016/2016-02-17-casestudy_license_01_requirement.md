@@ -2,8 +2,8 @@
 layout: post
 title: "[設計案例] \"授權碼\" 如何實作? #1, 需求與問題"
 categories:
-- "系列文章: 授權碼的設計"
-tags: ["專欄","技術隨筆","物件導向", "系列文章 - 授權碼設計與實作"]
+- "設計案例: “授權碼” 如何實作?"
+tags: ["專欄","技術隨筆","物件導向"]
 published: true
 comments: true
 permalink: "/2016/02/17/casestudy_license_01_requirement/"

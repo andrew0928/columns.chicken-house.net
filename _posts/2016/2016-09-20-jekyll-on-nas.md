@@ -2,7 +2,7 @@
 layout: post
 title: "Running Jekyll on NAS - 高效率的新選擇"
 categories:
-- "Tips"
+
 tags: ["Jekyll", "NAS", "Docker", "Tips"]
 published: true
 comments: true

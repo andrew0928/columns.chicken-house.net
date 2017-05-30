@@ -2,10 +2,8 @@
 layout: post
 title: "Windows Container FAQ - 官網沒有說的事"
 categories:
-- "Docker"
-- "Windows Container"
-- "作業系統"
-- "技術隨筆"
+
+tags: ["Docker", "Windows Container", "作業系統", "技術隨筆"]
 published: true
 comments: true
 ---

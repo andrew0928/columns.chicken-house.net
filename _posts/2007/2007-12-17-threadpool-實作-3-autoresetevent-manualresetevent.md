@@ -2,10 +2,7 @@
 layout: post
 title: "ThreadPool 實作 #3. AutoResetEvent / ManualResetEvent"
 categories:
-- ".NET"
-- "作業系統"
-- "多執行緒"
-- "技術隨筆"
+- "系列文章: Thread Pool 實作"
 tags: [".NET","作業系統","多執行緒","技術隨筆"]
 published: true
 comments: true

@@ -2,7 +2,7 @@
 layout: post
 title: "Blogging as code !!"
 categories:
-- "有的沒的"
+
 tags: ["Jekyll", "Liquid", "Wordpress", "Blogging", "GitHub", "VSCode"]
 published: true
 comments: true
@@ -264,7 +264,7 @@ jekyll s --draft -w
   title: "終於升速了!"
   categories:
   - "敗家"
-  - "有的沒的"
+  
   tags: ["敗家","有的沒的"]
   published: true
   comments: true
