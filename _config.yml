@@ -5,9 +5,12 @@ baseurl:
 url:  http://columns.chicken-house.net
 date_format: "ordinal"
 title: 安德魯的部落格
-subtitle: ".NET / C# / OOP"
-description: "--"
-keywords: .NET,C#,OOP,Azure,Docker
+subtitle: "架構師的修練"
+
+# for SEO, 會標記在首頁的 meta tags 內
+description: "安德魯的部落格"
+keywords: .NET,C#,OOP,Azure,Docker,Windows Container,Container,Microservices
+
 favicon: 
 timezone: Asia/Taipei
 encoding: "utf-8"
@@ -29,15 +32,15 @@ email: chicken@chicken-house.net
 navs:
   -
     href: /
-    label: Home
+    label: 首頁
 
   -
     href: /tags/
-    label: Tags
+    label: 標籤
 
   -
     href: /categories/
-    label: Categories
+    label: 主題分類
 
 #  -
 #    href: /wiki/
@@ -53,7 +56,7 @@ navs:
 
   -
     href: /about/
-    label: About Me
+    label: 跟我聯絡
 
 # ---------------- #
 #       RSS        #
