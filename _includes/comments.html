@@ -4,12 +4,6 @@
       {% if site.disqus_username %}
         {% assign load_disqus = true %}
         <!-- Disqus Protection, see https://github.com/mzlogin/mzlogin.github.io/issues/2 -->
-        {% if site.disqus_username == 'mzlogin' %}
-          {% assign load_disqus = false %}
-          {% if site.url contains 'mazhuang.org' %}
-            {% assign load_disqus = true %}
-          {% endif %}
-        {% endif %}
         {% if load_disqus %}
           <div id="disqus_thread"></div>
           <script>
@@ -70,18 +64,18 @@
         <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>		
       {% endif %}
       {% if site.netease_gentie_key %}
-      <div id="cloud-tie-wrapper" class="cloud-tie-wrapper"></div>
-      <script src="https://img1.cache.netease.com/f2e/tie/yun/sdk/loader.js"></script>
-      <script>
-      var cloudTieConfig = {
-          url: "", 
-          sourceId: "{{ page.url }}",
-          productKey: "{{ site.netease_gentie_key }}",
-          target: "cloud-tie-wrapper"
-      };
-      var yunManualLoad = true;
-      Tie.loader("aHR0cHM6Ly9hcGkuZ2VudGllLjE2My5jb20vcGMvbGl2ZXNjcmlwdC5odG1s", true);
-      </script>
-    {% endif %}
+        <div id="cloud-tie-wrapper" class="cloud-tie-wrapper"></div>
+        <script src="https://img1.cache.netease.com/f2e/tie/yun/sdk/loader.js"></script>
+        <script>
+        var cloudTieConfig = {
+            url: "", 
+            sourceId: "{{ page.url }}",
+            productKey: "{{ site.netease_gentie_key }}",
+            target: "cloud-tie-wrapper"
+        };
+        var yunManualLoad = true;
+        Tie.loader("aHR0cHM6Ly9hcGkuZ2VudGllLjE2My5jb20vcGMvbGl2ZXNjcmlwdC5odG1s", true);
+        </script>
+      {% endif %}
   {% endcase %}
 {% endif %}

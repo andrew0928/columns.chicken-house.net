@@ -71,6 +71,10 @@ if (url) {
                         <span class="meta-info">
                           <span class="octicon octicon-calendar"></span> {{ post.date | date: "%Y/%m/%d" }}
                         </span>
+                        <span class="meta-info">
+                          <span class="octicon octicon-comment"></span>
+                          {% include disqus-count.html url=post.url %}
+                        </span>
                         {% for cat in post.categories %}
                         <span class="meta-info">
                           <span class="octicon octicon-file-directory"></span>
@@ -89,8 +93,8 @@ if (url) {
             </ol>
         </div>
         <div class="column one-third">
-            {% include sidebar-mvp.html %}
             {% include sidebar-search.html %}
+            {% include sidebar-mvp.html %}
             {% include sidebar-facebook.html %}
             {% include sidebar-ads.html %}
             {% include sidebar-popular-repo.html %}
