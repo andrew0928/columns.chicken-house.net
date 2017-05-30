@@ -2,9 +2,7 @@
 layout: post
 title: "ThreadPool 實作 #1. 基本概念"
 categories:
-- ".NET"
-- "多執行緒"
-- "技術隨筆"
+- "系列文章: Thread Pool 實作"
 tags: [".NET","多執行緒","技術隨筆"]
 published: true
 comments: true

@@ -5,7 +5,7 @@ categories:
 - "系列文章: 如何學好寫程式"
 - "系列文章: .NET + Windows Container, 微服務架構設計"
 - "系列文章: 架構師觀點"
-tags: ["專欄","技術隨筆","系列文章: 如何學好寫程式", "TDD", "Microservices", "架構師"]
+tags: ["專欄","技術隨筆","TDD","Microservices","架構師"]
 published: true
 comments: true
 redirect_from:

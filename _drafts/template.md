@@ -2,8 +2,7 @@
 layout: post
 title: "TEMPLATE POST"
 categories:
-- "有的沒的"
-tags: ["有的沒的"]
+tags: []
 published: false
 comments: true
 redirect_from:

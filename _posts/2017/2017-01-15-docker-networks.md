@@ -2,7 +2,7 @@
 layout: post
 title: "掃雷回憶錄 - Windows Container Network & Docker Compose"
 categories:
-- "Windows Container"
+
 tags: ["microservice", "container", "windows container", "docker"]
 published: true
 comments: true

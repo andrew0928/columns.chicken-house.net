@@ -32,12 +32,12 @@ navs:
     label: Home
 
   -
+    href: /tags/
+    label: Tags
+
+  -
     href: /categories/
     label: Categories
-
-#  -
-#    href: /tags/
-#    label: Tags
 
 #  -
 #    href: /wiki/

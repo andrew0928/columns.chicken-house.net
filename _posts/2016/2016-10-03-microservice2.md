@@ -2,10 +2,9 @@
 layout: post
 title: "微服務架構 #2, 按照架構，重構系統"
 categories:
-- "專欄"
 - "系列文章: .NET + Windows Container, 微服務架構設計"
 - "系列文章: 架構師觀點"
-tags: ["重構", "微服務"]
+tags: ["Microservice"]
 published: true
 comments: true
 # redirect_from:

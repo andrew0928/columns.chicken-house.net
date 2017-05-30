@@ -2,7 +2,6 @@
 layout: post
 title: "API & SDK Design #2, 設計專屬的 SDK"
 categories:
-- "專欄"
 - "系列文章: .NET + Windows Container, 微服務架構設計"
 - "系列文章: API & SDK Design"
 - "系列文章: 架構師觀點"

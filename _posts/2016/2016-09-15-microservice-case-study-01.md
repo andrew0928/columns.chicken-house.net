@@ -2,7 +2,6 @@
 layout: post
 title: "微服務架構 #1, WHY Microservices?"
 categories:
-- "專欄"
 - "系列文章: .NET + Windows Container, 微服務架構設計"
 - "系列文章: 架構師觀點"
 tags: ["Microservices", "Monolithic", "Windows Container", "Container"]
