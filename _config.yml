@@ -52,11 +52,11 @@ navs:
 
   -
     href: /codes/
-    label: Codes
+    label: 我的程式碼
 
   -
     href: /about/
-    label: 跟我聯絡
+    label: 關於我
 
 # ---------------- #
 #       RSS        #

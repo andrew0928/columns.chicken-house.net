@@ -71,10 +71,6 @@ if (url) {
                         <span class="meta-info">
                           <span class="octicon octicon-calendar"></span> {{ post.date | date: "%Y/%m/%d" }}
                         </span>
-                        <span class="meta-info">
-                          <span class="octicon octicon-comment"></span>
-                          {% include disqus-count.html url=post.url %}
-                        </span>
                         {% for cat in post.categories %}
                         <span class="meta-info">
                           <span class="octicon octicon-file-directory"></span>
