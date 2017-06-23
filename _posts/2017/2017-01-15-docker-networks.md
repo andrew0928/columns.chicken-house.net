@@ -793,6 +793,9 @@ Ethernet adapter Ethernet 2:
 C:\>
 ```
 
+
+### STEP 2, check docker host network
+
 看起來沒啥問題啊，只好退出 container 的 cmd.exe, 回到 host 查看預設的 docker network: nat
 
 ```shell
@@ -829,6 +832,9 @@ C:\CodeWork\github.com\columns.chicken-house.net>docker network inspect nat
 
 C:\CodeWork\github.com\columns.chicken-house.net>
 ```
+
+
+### STEP 3, create new docker network
 
 依舊看不出甚麼問題，明明就一切正常啊... 後來決定繞過預設的 nat (我一直以為是我前面的步驟，自己把網路搞掛了。反正也無從證明了...), 另外建立新的 docker network 測試看看...
 
@@ -905,6 +911,10 @@ C:\CodeWork\github.com\columns.chicken-house.net>docker run --rm -t -i --network
 1. 全部用預設參數，建立一個名為 "andrew-nat" 的 docker networ (```docker network create -d nat andrew-nat```)
 1. 用 docker network inspect 指令查詢 andrew-nat 的詳細設定
 1. 用同樣的方式，啟動一個新的 windows server core container, 掛上新的 andrew-nat network, 用互動模式執行 cmd.exe...
+
+
+
+### STEP 4, run container with specified docker network
 
 結果實在是太過份了，這樣就一切正常... 害我浪費了半天的時間... T_T
 貼一下測試的結果:
