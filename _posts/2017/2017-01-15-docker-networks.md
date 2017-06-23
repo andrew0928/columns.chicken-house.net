@@ -843,6 +843,8 @@ C:\CodeWork\github.com\columns.chicken-house.net>
 1. support multiple nat network
 1. support overlay network (swarm mode)
 
+Reference: [Windows Container Network](https://docs.microsoft.com/en-us/virtualization/windowscontainers/manage-containers/container-networking#windows-container-network-drivers)
+
 這個版本由於正是支援 overlay network, 也因此這版的 windows container 也開始能支援 docker swarm 叢集的模式了。你可以用多台 docker host 建立 swarm mode, 串在一起使用。docker swarm 會在這些 hosts 之間建立一個 overlay network, 在這上面執行的 containers 就能透過網路互相看到其他的 containers.
 
 另外，在過去的版本，NAT 只能有一個，現在這限制解除了。還好解除限制，因為這次我的解決方式就是建立另一個新的 nat network ...
