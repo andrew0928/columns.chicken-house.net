@@ -59,10 +59,14 @@
     <meta property="og:image" content="{{ page.photo_url }}">
         {% endif %}
     {% endif %}
+
+
+    <!-- facebook open graph object settings -->
+    <meta property="fb:app_id"          content="{{ site.fb_appid }}" /> 
     <meta property="og:url" content="{{ site.url }}{{ page.url | remove_first:'index.html' }}">
     <meta property="og:site_name" content="{{ site.title }}">
     <meta property="og:type" content="article">
-    <meta property="og:locale" content="zh_CN" />
+    <meta property="og:locale" content="zh-TW" />
     {% if page.date %}
     <meta property="article:published_time" content="{{ page.date | date: '%Y-%m-%d' }}">
     {% endif %}
