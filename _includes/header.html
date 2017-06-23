@@ -53,11 +53,7 @@
     <meta name="description" content="{{ site.description }}">
     {% endif %}
     {% if page.og_image_url %}
-    <meta property="og:image" content="{{ page.og_image_url }}">
-    {% else %}
-        {% if page.photo_url %}
-    <meta property="og:image" content="{{ page.photo_url }}">
-        {% endif %}
+    <meta property="og:image" content="{{ page.logo }}">
     {% endif %}
 
 
@@ -66,7 +62,7 @@
     <meta property="og:url" content="{{ site.url }}{{ page.url | remove_first:'index.html' }}">
     <meta property="og:site_name" content="{{ site.title }}">
     <meta property="og:type" content="article">
-    <meta property="og:locale" content="zh-TW" />
+    <meta property="og:locale" content="zh_TW" />
     {% if page.date %}
     <meta property="article:published_time" content="{{ page.date | date: '%Y-%m-%d' }}">
     {% endif %}
