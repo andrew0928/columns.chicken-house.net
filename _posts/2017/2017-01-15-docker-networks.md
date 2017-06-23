@@ -716,6 +716,253 @@ XXX !!! 又是這種鳥問題... 一次跑不成功，那你有試過跑兩次�
 再加上我自己踩到的雷... 除非現在我有非用不可的理由，不然先了解狀況，記下 & 回報這些 issues，暫時先避開，
 等 Microsoft 解決後再來使用是比較理智的做法 XD
 
+
+# 4. Windows 10 升級 Creator Update (1704) 後, container network 就無法連線了
+
+> 2017/06/23 補
+
+其實這個問題已經發生一個月了，只是之前我一直以為是我手殘，愛自己亂搞設定才會這樣，直到有網友也問了我同樣問題.. XD
+
+症狀是這樣，首先，原本的 container 啟動時，用預設的 docker network: nat 都是一切正常的，container 本身可以上網，透過 port mapping 也可以正常地被外界存取。真正搞掛它的原因其實我也不大確定 (發現時已經掛了)。我印象中，中間按照順序，曾做了這幾件可能搞掛它的事情:
+
+1. 手動刪除並重建 docker network: nat (不過我已經找不到當初怎麼重建了 T_T)
+1. 升級 windows 10 creator update (1704) 更新 (重點提示: 這版開始支援 multiple nat network, overlay network)
+1. 安裝 docker for windows (原本是按照 microsoft 官方文件手動安裝的), 同時加進 windows / linux container, 支援切換
+1. 手動調整 hyper-v virtual network switch
+
+總之問題就這麼發生了，等到某天我心血來潮想要 build 我自己的 container 時，發現怎樣都不 work (就是那篇 IP2C 自動下載 database 的那個)，才發現原來我的 container network 是壞的 ...
+
+附上我檢測的程序:
+
+### STEP 1. 測試 container 對外的連線
+
+首先，直接開啟一個新的 windows server core container, 用互動模式，在裡面 run cmd.exe :
+
+```shell
+docker run --rm -t -i microsoft/windowsservercore cmd.exe
+```
+
+啟動之後, 就進行網路的基本偵錯: ping google dns server (8.8.8.8) 看看:
+```shell
+Microsoft Windows [Version 10.0.14393]
+(c) 2016 Microsoft Corporation. All rights reserved.
+
+C:\>ping 8.8.8.8
+
+Pinging 8.8.8.8 with 32 bytes of data:
+Reply from 172.17.30.45: Destination host unreachable.
+Request timed out.
+Request timed out.
+Reply from 172.17.30.45: Destination host unreachable.
+
+Ping statistics for 8.8.8.8:
+    Packets: Sent = 4, Received = 2, Lost = 2 (50% loss),
+
+C:\>
+```
+
+果然真的掛了... 印一下 ipconfig /all 看看 TCP/IP 設定:
+
+```shell
+C:\>ipconfig /all
+
+Windows IP Configuration
+
+   Host Name . . . . . . . . . . . . : 4e6517d77b80
+   Primary Dns Suffix  . . . . . . . :
+   Node Type . . . . . . . . . . . . : Hybrid
+   IP Routing Enabled. . . . . . . . : No
+   WINS Proxy Enabled. . . . . . . . : No
+
+Ethernet adapter Ethernet 2:
+
+   Connection-specific DNS Suffix  . :
+   Description . . . . . . . . . . . : Microsoft Hyper-V Network Adapter #2
+   Physical Address. . . . . . . . . : 00-15-5D-A3-13-69
+   DHCP Enabled. . . . . . . . . . . : Yes
+   Autoconfiguration Enabled . . . . : Yes
+   Link-local IPv6 Address . . . . . : fe80::cca8:635:b608:54c7%5(Preferred)
+   IPv4 Address. . . . . . . . . . . : 172.17.30.45(Preferred)
+   Subnet Mask . . . . . . . . . . . : 255.255.240.0
+   Default Gateway . . . . . . . . . : 172.17.16.1
+   DHCPv6 IAID . . . . . . . . . . . : 83891549
+   DHCPv6 Client DUID. . . . . . . . : 00-01-00-01-20-DE-F2-BA-00-15-5D-A3-13-69
+   DNS Servers . . . . . . . . . . . : 172.17.16.1
+   NetBIOS over Tcpip. . . . . . . . : Disabled
+
+C:\>
+```
+
+看起來沒啥問題啊，只好退出 container 的 cmd.exe, 回到 host 查看預設的 docker network: nat
+
+```shell
+
+C:\CodeWork\github.com\columns.chicken-house.net>docker network inspect nat
+[
+    {
+        "Name": "nat",
+        "Id": "539c4ea3ba2c1e7a7ed5b9946299f26606c37b3b845da5e4e200e04d873a8ff2",
+        "Created": "2017-06-23T23:27:40.9278477+08:00",
+        "Scope": "local",
+        "Driver": "nat",
+        "EnableIPv6": false,
+        "IPAM": {
+            "Driver": "windows",
+            "Options": null,
+            "Config": [
+                {
+                    "Subnet": "172.17.16.0/20",
+                    "Gateway": "172.17.16.1"
+                }
+            ]
+        },
+        "Internal": false,
+        "Attachable": false,
+        "Containers": {},
+        "Options": {
+            "com.docker.network.windowsshim.hnsid": "7d334959-f003-4f36-95be-002fbe4174c2",
+            "com.docker.network.windowsshim.networkname": "nat"
+        },
+        "Labels": {}
+    }
+]
+
+C:\CodeWork\github.com\columns.chicken-house.net>
+```
+
+依舊看不出甚麼問題，明明就一切正常啊... 後來決定繞過預設的 nat (我一直以為是我前面的步驟，自己把網路搞掛了。反正也無從證明了...), 另外建立新的 docker network 測試看看...
+
+順便補充一下，creator update 這版更新，windows container network 有兩個比較大的更新:
+
+1. support multiple nat network
+1. support overlay network (swarm mode)
+
+這個版本由於正是支援 overlay network, 也因此這版的 windows container 也開始能支援 docker swarm 叢集的模式了。你可以用多台 docker host 建立 swarm mode, 串在一起使用。docker swarm 會在這些 hosts 之間建立一個 overlay network, 在這上面執行的 containers 就能透過網路互相看到其他的 containers.
+
+另外，在過去的版本，NAT 只能有一個，現在這限制解除了。還好解除限制，因為這次我的解決方式就是建立另一個新的 nat network ...
+幾個指令我就一次貼完:
+
+```shell
+C:\CodeWork\github.com\columns.chicken-house.net>docker network create --help
+
+Usage:  docker network create [OPTIONS] NETWORK
+
+Create a network
+
+Options:
+      --attachable             Enable manual container attachment
+      --aux-address map        Auxiliary IPv4 or IPv6 addresses used by Network driver (default map[])
+  -d, --driver string          Driver to manage the Network (default "bridge")
+      --gateway stringSlice    IPv4 or IPv6 Gateway for the master subnet
+      --help                   Print usage
+      --internal               Restrict external access to the network
+      --ip-range stringSlice   Allocate container ip from a sub-range
+      --ipam-driver string     IP Address Management Driver (default "default")
+      --ipam-opt map           Set IPAM driver specific options (default map[])
+      --ipv6                   Enable IPv6 networking
+      --label list             Set metadata on a network (default [])
+  -o, --opt map                Set driver specific options (default map[])
+      --subnet stringSlice     Subnet in CIDR format that represents a network segment
+
+C:\CodeWork\github.com\columns.chicken-house.net>docker network create -d nat andrew-nat
+a0d391dc2a954d7e75c1a637367f45d02620dd7a676889e067f5e1684601a1fe
+
+C:\CodeWork\github.com\columns.chicken-house.net>docker network inspect andrew-nat
+[
+    {
+        "Name": "andrew-nat",
+        "Id": "a0d391dc2a954d7e75c1a637367f45d02620dd7a676889e067f5e1684601a1fe",
+        "Created": "2017-06-24T00:15:03.0927055+08:00",
+        "Scope": "local",
+        "Driver": "nat",
+        "EnableIPv6": false,
+        "IPAM": {
+            "Driver": "windows",
+            "Options": {},
+            "Config": [
+                {
+                    "Subnet": "0.0.0.0/0",
+                    "Gateway": "0.0.0.0"
+                }
+            ]
+        },
+        "Internal": false,
+        "Attachable": false,
+        "Containers": {},
+        "Options": {
+            "com.docker.network.windowsshim.hnsid": "e16beffe-a9be-44f6-aa61-668388db0c90"
+        },
+        "Labels": {}
+    }
+]
+
+C:\CodeWork\github.com\columns.chicken-house.net>docker run --rm -t -i --network andrew-nat microsoft/windowsservercore cmd.exe
+```
+
+上面的動作做了幾件事:
+
+1. 查閱建立 network 的參數說明 (```docker network create --help```)
+1. 全部用預設參數，建立一個名為 "andrew-nat" 的 docker networ (```docker network create -d nat andrew-nat```)
+1. 用 docker network inspect 指令查詢 andrew-nat 的詳細設定
+1. 用同樣的方式，啟動一個新的 windows server core container, 掛上新的 andrew-nat network, 用互動模式執行 cmd.exe...
+
+結果實在是太過份了，這樣就一切正常... 害我浪費了半天的時間... T_T
+貼一下測試的結果:
+
+```shell
+Microsoft Windows [Version 10.0.14393]
+(c) 2016 Microsoft Corporation. All rights reserved.
+
+C:\>ipconfig /all
+
+Windows IP Configuration
+
+   Host Name . . . . . . . . . . . . : 70aa2f664a0a
+   Primary Dns Suffix  . . . . . . . :
+   Node Type . . . . . . . . . . . . : Hybrid
+   IP Routing Enabled. . . . . . . . : No
+   WINS Proxy Enabled. . . . . . . . : No
+   DNS Suffix Search List. . . . . . : chicken-house.net
+
+Ethernet adapter Ethernet 2:
+
+   Connection-specific DNS Suffix  . : chicken-house.net
+   Description . . . . . . . . . . . : Microsoft Hyper-V Network Adapter #2
+   Physical Address. . . . . . . . . : 00-15-5D-7B-82-58
+   DHCP Enabled. . . . . . . . . . . : Yes
+   Autoconfiguration Enabled . . . . : Yes
+   Link-local IPv6 Address . . . . . : fe80::2404:56ca:bde:f4aa%5(Preferred)
+   IPv4 Address. . . . . . . . . . . : 172.17.159.47(Preferred)
+   Subnet Mask . . . . . . . . . . . : 255.255.240.0
+   Default Gateway . . . . . . . . . : 172.17.144.1
+   DHCPv6 IAID . . . . . . . . . . . : 83891549
+   DHCPv6 Client DUID. . . . . . . . : 00-01-00-01-20-DE-F9-5E-00-15-5D-7B-82-58
+   DNS Servers . . . . . . . . . . . : 172.17.144.1
+                                       192.168.100.1
+   NetBIOS over Tcpip. . . . . . . . : Disabled
+
+C:\>ping 8.8.8.8
+
+Pinging 8.8.8.8 with 32 bytes of data:
+Reply from 8.8.8.8: bytes=32 time=9ms TTL=45
+Reply from 8.8.8.8: bytes=32 time=8ms TTL=45
+Reply from 8.8.8.8: bytes=32 time=8ms TTL=45
+Reply from 8.8.8.8: bytes=32 time=8ms TTL=45
+
+Ping statistics for 8.8.8.8:
+    Packets: Sent = 4, Received = 4, Lost = 0 (0% loss),
+Approximate round trip times in milli-seconds:
+    Minimum = 8ms, Maximum = 9ms, Average = 8ms
+
+C:\>
+```
+
+老實說網路設定也看不出來有哪裡不一樣啊，但是就是很神奇，新的會跑舊的不會跑... 我只好暫時把它當作懸案處理, 除了每次 docker run 都要
+多打一段 --network andrew-nat 參數之外，其他沒啥不一樣! 就先這樣, case closed.
+
+
+
+
 # 後記
 
 這些我相信有深入一點使用 windows container 的人，應該多少都有碰到吧! 這麼重要的功能，我其實不大擔心，
