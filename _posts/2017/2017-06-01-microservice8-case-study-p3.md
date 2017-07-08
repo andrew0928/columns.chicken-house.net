@@ -144,8 +144,6 @@ API 呼叫。APP 只要對 API Gateway 做一次 API call, 由 API Gateway 代�
 
 API Gateway 除了單純的替 APP 呼叫後端 API 時做好 reverse proxy 以及 API call aggration 之外，有些架構師甚至這樣應用 API Gateway, 這是我覺得 API Gateway 在架構上最關鍵的一項應用，就是認證。
 
-
-
 跨越服務的認證，一直都是件麻煩的事情。在沒有有經驗的架構師的情況下，團隊往往會做出很糟糕的設計: 每個服務都有自己的認證跟授權機制，
 A -> B 有一套轉移認證資訊的作法，B -> C 又一套... 有 N 套服務在運作時，就有 N x (N-1) 種組合要處理... 這時 API Gateway 可以額外
 跟負責任證的服務整合，所有 request 統一先取得認證資訊之後，再交由 API Gateway 轉發給內部各個服務。由 API Gateway 統一處理認證
@@ -154,6 +152,8 @@ A -> B 有一套轉移認證資訊的作法，B -> C 又一套... 有 N 套服�
 其實這部分實作的原理，在這系列的這篇 [API Token](/2016/12/01/microservice7-apitoken/) 就已經說明過實作細節了。這個機制可以
 實現跨服務的認證，需要作法說明的可以參考。
 
+如果想要參考相關的 API Gateway Solutions, 可以找找 open source projects (例如: [Kong](https://getkong.org/about/)), 或是找找雲端的 PaaS 服務。用的進階
+一點，甚至 API Management 類型的服務也可以先評估看看 (例如: [Azure API Management](https://azure.microsoft.com/zh-tw/services/api-management/))，最後才是考量自己開發。
 
 
 
@@ -167,12 +167,12 @@ A -> B 有一套轉移認證資訊的作法，B -> C 又一套... 有 N 套服�
 API Gateway 也是。
 
 Service Discovery 的目的很明確，就是處理好整套微服務架構內，每個各別的服務的管理，讓其他服務或是外界的服務，能夠很明確的 "找到"
-他需要的服務在哪裡 (IP，PORT 等等資訊)。為了讓這個機制能順利運作，服務發現的機制通常也包含了可用服務的清單維護。維護的方式不外呼
-是啟動時註冊，關閉時移除註冊資訊，嚴謹一點的會再加上定期的心跳偵測。
+他需要的服務在哪裡 (IP，PORT 等等資訊)。為了讓這個機制能順利運作，服務發現的機制通常也包含了可用服務的清單維護，同時也涵蓋了讓其他
+服務順利找到正確服務端點的 config management 機制。
 
-同時，因為這是每個服務啟動時的必經過程，有些架構的設計上也會在註冊的時間點，把相關的組態及設定同時下載回去使用 (這些組態通常
-也是別的服務註冊的資訊)。因此整個 application 的設定資訊大都也都集中在 Service Discovery 身上，每個服務大概只要準備最基本的
-憑證資訊，還有如何註冊的資訊就夠了。剩下的組態都等到註冊完畢之後再說..
+因為建置 Service Discovery 是每個微服務系統的必經過程，因此整個 application 的共用組態資訊大都也都集中在 Service Discovery
+身上，每個服務大概只要準備最基本的憑證資訊，還有如何找到 Service Discovery 的最基本設定註冊資訊就夠了。剩下的組態都等到註冊
+完畢之後再說..
 
 ![](/wp-content/uploads/2017/06/2017-06-07-00-28-22.png)
 
@@ -181,9 +181,7 @@ Service Discovery 的目的很明確，就是處理好整套微服務架構內�
 Service Registry 就能夠隨時掌握到現在有多少服務執行中了。當其他服務需要呼叫 API 時，只要到
 Service Registry 去查詢，就可以知道該服務的 IP 跟 PORT 了。
 
-這流程幾乎跟 DNS 是一模一樣的，所以我才會說有些狀況下，直接採用 DNS 就足以應付 Service Discovery 
-的需求了。
-
+這流程幾乎跟 DNS 是一模一樣的，所以我才會說有些狀況下，直接採用 DNS 就足以應付 Service Discovery 的需求。
 
 ![](/wp-content/uploads/2017/06/2017-06-07-00-28-31.png)
 
@@ -216,6 +214,19 @@ Service Registry 去查詢，就可以知道該服務的 IP 跟 PORT 了。
 能理解，有時 IIS 的 App Pool 掛掉的狀況下，每個 API 都無法運作 (直接傳回 500), 但是該 Server 排的
 定期 10 sec 發送 heartbeat 卻一直正常執行中。這時 API 提供 Echo() 就能更精確地偵測這種狀況，因為
 Echo() 也是 API 的一部分，若他能正常地回應，那代表至少該 App Pool 是正常運作的...
+
+
+## Async & Sync Communication / Event System
+
+這邊講到服務與服務之間的通訊方式，就複雜得多。一般來說，通訊方式好幾種，有同步 (Sync) 與非同步 (Async) 的區別，
+有主動呼叫與被動回呼 (Callback) 的差別，也有根據主題 (Topic) 進行發布 (Publish) 與訂閱 (Subscription) 的模式等等
+都有。但是我們講到服務提供的 API，印象中大概只會浮現 HTTP / RESTFul 這類的實作技術... 明顯的中間還有好大一段落差..。
+
+
+
+
+
+
 
 
 
