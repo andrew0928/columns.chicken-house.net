@@ -4,12 +4,15 @@ title: "架構師觀點 - 轉移到微服務架構的經驗分享 (Part 3)"
 categories:
 - "系列文章: .NET + Windows Container, 微服務架構設計"
 - "系列文章: 架構師觀點"
-tags: ["microservice", "系列文章", "ASP.NET", "架構師", "Docker", "Windows Container", "DevOps"]
+tags: ["microservice", "系列文章", "ASP.NET", "架構師", "infra", "message queue", "api gateway", "service discovery"]
 published: true
 comments: true
 redirect_from:
-logo: /wp-content/uploads/2017/05/
+logo: /wp-content/uploads/2017/07/bridge.jpg
 ---
+
+
+![](/wp-content/uploads/2017/07/bridge.jpg)
 
 前面兩篇，分別介紹了微服務架構的規劃方向，還有實際切割的案例探討。這篇 (Part 3) 的重點就要擺在微服務到底該在甚麼樣的基礎建設上面
 運行? 維運過去單體式架構的 application, 所需要的基礎建設，會跟微服務架構下可能會有數十個 service instances 同時執行，甚至上百個
@@ -52,10 +55,9 @@ service instances 一樣嗎?
 * API Gateway
 * Service Discovery
 * Communication & Event-Driven System
-> orchestration vs choreography, sync vs async, event-driven
 * Log
 
-![](/wp-content/uploads/2017/06/2017-06-18-01-41-32.png)
+![](/wp-content/uploads/2017/07/2017-06-18-01-41-32.png)
 
 簡單的話張圖，順序我就由外到內來談吧。這幾個部分，可以說是微服務架構必備的基礎了，就像人體的重要器官一樣，各有各的功能，只要
 其中一個環節運作不正常，就會受到影響。
@@ -89,7 +91,7 @@ log 的目的不只是記下來而已，更重要的是在問題發生的當下�
 以上這些就是導入微服務架構前，我認為應該要先評估好的基礎環境建設必要的幾個項目。
 在逐一深入介紹之前，我先大力推薦這本 Nginx 的電子書給大家看:
 
-![](/wp-content/uploads/2017/06/2017-06-06-02-07-00.png)
+![](/wp-content/uploads/2017/07/2017-06-06-02-07-00.png)
 [Microservices: From Design to Deployment, a Free Ebook from NGINX](https://www.nginx.com/blog/microservices-from-design-to-deployment-ebook-nginx/)
 
 會推薦這本電子書的的原因，主要是它的內容長度，內容深度跟講解的複雜度，都拿捏得剛剛好。沒有深入到太多實作細節，也沒有
@@ -110,7 +112,7 @@ log 的目的不只是記下來而已，更重要的是在問題發生的當下�
 這時最基本的防火牆 (Firewall), 反向代理 (Reverse Proxy), 以及負載平衡 (Load Balancer) 等等我就略過不談了。我們先來談談
 API 特有的對外關卡: API Gateway
 
-![](/wp-content/uploads/2017/06/2017-06-07-00-50-18.png)
+![](/wp-content/uploads/2017/07/2017-06-07-00-50-18.png)
 
 先來看看實際的使用情境: 假設 Amazon 網站已經微服務化了 (實際上也真的是沒錯)，來想像一下這個 APP 為了實現畫面上的所有功能，
 進入這個購物 APP 首頁時，究竟要從後端呼叫多少微服務的 API 才能湊齊這個畫面所需的所有資訊?
@@ -127,7 +129,7 @@ API 特有的對外關卡: API Gateway
 如果這個 APP 真的這樣寫，我看打開 APP 時，轉圈圈至少會轉個半分鐘以上吧。用 fiddler 錄製中間的 http traffic, 會看到好幾條。
 微服務要解決的是內部軟體開發架構的維護，擴展等等架構問題，這些對外面的客戶及系統是非必要的。對外界來說，只要把整套系統當成單一應用程式就好了。這時要知道這麼多服務的 API 在哪裡，還要呼叫這麼多次 API 才能湊齊足夠的資訊，這做法還蠻蠢的...
 
-![](/wp-content/uploads/2017/06/2017-06-07-01-00-44.png)
+![](/wp-content/uploads/2017/07/2017-06-07-01-00-44.png)
 
 於是... 開始出現了 API Gateway 這樣的處理模式，額外建立一個 API Gateway, 放在 APP 與 Microservices 之間，用來轉發及合併多次
 API 呼叫。APP 只要對 API Gateway 做一次 API call, 由 API Gateway 代勞，到後端各個服務個別取得所需資訊之後，統一匯集起來傳回前端 APP。這麼一來，對於 APP 來說，他只要一次的呼叫就能取得所有的資訊。
@@ -160,7 +162,7 @@ A -> B 有一套轉移認證資訊的作法，B -> C 又一套... 有 N 套服�
 
 ## Service Discovery
 
-![](/wp-content/uploads/2017/06/2017-06-07-00-28-21.png)
+![](/wp-content/uploads/2017/07/2017-06-07-00-28-21.png)
 
 再來是服務發現的機制。這張圖就說明了 Service Discovery 想要解決的問題。服務那麼多，你如何知道你要的服務在哪裡? 替每個服務解決
 這個問題，就是 Service Discovery 主要的目的了。服務發現的機制是微服務架構的核心，基礎建設裡的其他服務也離不開它，包括前面提到的
@@ -174,7 +176,7 @@ Service Discovery 的目的很明確，就是處理好整套微服務架構內�
 身上，每個服務大概只要準備最基本的憑證資訊，還有如何找到 Service Discovery 的最基本設定註冊資訊就夠了。剩下的組態都等到註冊
 完畢之後再說..
 
-![](/wp-content/uploads/2017/06/2017-06-07-00-28-22.png)
+![](/wp-content/uploads/2017/07/2017-06-07-00-28-22.png)
 
 這張圖，就是最典型的 Service Discovery 的運作機制了。如果搭配的服務註冊 (Service Registry) 有搭配
 的用戶端 (Registry Client) 的話，每個服務在啟動時，執行一次 Registry Client, 這時 
@@ -183,7 +185,7 @@ Service Registry 去查詢，就可以知道該服務的 IP 跟 PORT 了。
 
 這流程幾乎跟 DNS 是一模一樣的，所以我才會說有些狀況下，直接採用 DNS 就足以應付 Service Discovery 的需求。
 
-![](/wp-content/uploads/2017/06/2017-06-07-00-28-31.png)
+![](/wp-content/uploads/2017/07/2017-06-07-00-28-31.png)
 
 再來看個進階一點的架構。前面講的做法，負載平衡或是高可用性的機制，是由呼叫端決定的 (左側的 service instance a) 但是大部分情況下，由後端來決定是比較好的選擇。因此有了這個改善過的架構圖。
 
@@ -191,8 +193,7 @@ Service Registry 去查詢，就可以知道該服務的 IP 跟 PORT 了。
 要求服務就好了。Load Balancer 再執行前面說明的動作: 查詢 Service Registry 後挑出一台把 request
 轉給他。由於這些都是服務端管控決定的，萬一出了甚麼意外，維運人員能夠很妥善的處理，不會影響到前端的運作。
 
-![](/wp-content/uploads/2017/06/2017-06-07-00-28-41.png)
-![](/wp-content/uploads/2017/06/2017-06-07-00-28-42.png)
+![](/wp-content/uploads/2017/07/2017-06-07-00-28-41.png)
 
 接著再來看服務健康狀態的監控吧! 這兩張圖就一起看了。
 上圖是基本的架構，每個服務啟動時會跟 Service Registry 回報服務已啟動，除此之外啟動過程中也會定期
@@ -206,6 +207,8 @@ Service Registry 去查詢，就可以知道該服務的 IP 跟 PORT 了。
 其實這些點歸納起來，關鍵應該在 Service Registry 最好也能夠有 "主動" 偵測該服務是否正常運作的機制，
 而不是只能被動地等服務自己回報。這時調整過的架構 (下圖) 就派上用場了。
 
+![](/wp-content/uploads/2017/07/2017-06-07-00-28-42.png)
+
 除了服務 10.4.3.1:8756 主動跟 Service Registry 回報之外，多了 Registrar, 會代表偵測服務本身
 是否正常運作? 通常這樣的偵測會比較精確，因為它會真的呼叫 API 來驗證，比如 PingAPI(), 或是服務會專門
 提供 Echo(), 或是 Diagnoistic() 之類的 API，專門拿來偵測健康狀態用。
@@ -214,6 +217,14 @@ Service Registry 去查詢，就可以知道該服務的 IP 跟 PORT 了。
 能理解，有時 IIS 的 App Pool 掛掉的狀況下，每個 API 都無法運作 (直接傳回 500), 但是該 Server 排的
 定期 10 sec 發送 heartbeat 卻一直正常執行中。這時 API 提供 Echo() 就能更精確地偵測這種狀況，因為
 Echo() 也是 API 的一部分，若他能正常地回應，那代表至少該 App Pool 是正常運作的...
+
+
+業界常用的 Service Discovery 服務，有興趣的可以參考看看 CentOS 的 etcd, ZooKeeper, Consul, 或是 .NET 也有人提供
+一整套的服務，方便你自己建置你專屬的 Service Discovery 機制。
+
+* [Service Discovery: Zookeeper vs etcd vs Consul](https://technologyconversations.com/2015/09/08/service-discovery-zookeeper-vs-etcd-vs-consul/)
+* [Introducing Microphone - Microservices with Service Discovery for .NET](http://blog.nethouse.se/2015/10/19/introducing-microphone-microservices-with-service-discovery-for-net/)
+* [Service Discovery for .NET developers - Ian Cooper](https://vimeo.com/155652026)
 
 
 ## Async & Sync Communication / Event System
@@ -254,135 +265,87 @@ Message Bus 這樣的服務來處理。
 連帶的也被拆解，因此這類交易的問題就落到系統開發者與架構師的身上了。
 
 這邊就用個簡單的 Story 當作案例來說明這狀況: 系統的用戶 USER1, 透過網站 WEB 操作下達了指令，要拿它儲值在網站 (BANK1) 上的
-金額扣掉 $100 元，購買遊戲點數 (POINT1) 100P；交易成功後 BANK1 要扣掉 $100，而 POINT1 則要加上 100P，否則則要恢復原狀，不能有
-其他的結果。
+金額扣掉 $100 元，購買遊戲點數 (GAME1) 100P；交易成功後 BANK1 要扣掉 $100，而 GAME1 的戶頭則要加上 100P，否則則要恢復原狀，
+不能有其他的結果。
 
-在這案例內 BANK1 跟 POINT1 則是個別獨立的微服務。
+在這案例內 BANK1 跟 POINT1 則是個別獨立的微服務，彼此的資料可能是存在 NOSQL Database, 或是分別處於獨立的 SQL database, 無法
+使用 RDBMS 內建的 transaction control.
 
+這邊就考驗你的基礎知識夠不夠札實了。在這邊你大概得了解兩件事，一個就是可靠的通訊如何實作 (例如 Message Queue), 另一個是理論基礎，
+如何做好分散式的交易控制 (例如 2PC, 2 phase commit)。
 
+正好前面介紹的 Nginx 那系列 Microservice 文章, 就有提到 IPC (Inter Process Communication) 跟 Event Driven Systems, 正好有
+類似的案例可以參考，我就借來說明一下:
 
+* [IPC](https://www.nginx.com/blog/building-microservices-inter-process-communication/)
+* [Event-Driven Data Management for Microservices](https://www.nginx.com/blog/event-driven-data-management-microservices/)
 
+在 Event-Driven 那篇文章裡，講到這個例子:
 
-# Docker, 最佳的微服務部署方式
+![](/wp-content/uploads/2017/07/2017-07-11-23-29-15.png)
 
-# Immutable Services
+交易剛被受理時，訂購服務 (Order Services, 也就是我們案例提到的 BANK1) 先在自己的 storage 內新增一筆交易紀錄，但是交易尚未完成，
+因此將狀態標記為 "NEW"，同時在 Message Broker (或是 Message Queue, Message Bus 等名詞都是指類似功能的服務) 送出這筆訊息 (Message, or Event)。
 
 
+![](/wp-content/uploads/2017/07/2017-07-11-23-34-46.png)
 
+另一個服務 (Custom Services, 也就是我們案例提到的 GAME1) 對這個訊息有興趣，系統啟動之初早已先行註冊，訂閱這些交易相關的訊息。
+因此當訂購事件被送出時，他會收到由訂購服務傳來的訊息。這時 Custom Services 就在自己的 storage 內也新增一筆交易紀錄，確認收到
+費用，同時也記錄 Order Services 那邊傳過來的單號 (OrderId) 以利將來的查帳。完成之後也透過 Message Broker 再送出收到款項
+的訊息。
 
----------------
 
+![](/wp-content/uploads/2017/07/2017-07-11-23-37-21.png)
 
+最後，原本的 Order Services 也訂閱了這訊息，會收到來自 Custom Services 送出來的交易確認訊息，確認這筆交易成功執行，因此更新
+自己的 storage, 將該筆交易的狀態從 "NEW" 改為 "OPEN"，確認交易成功執行完畢。
 
-微服務對外提供的主要都是各種服務的 API，因此對外的第一個關卡就是 API Gateway. 
-想像一下，這些 API 的背後若都是由幾百個微服務所組合而成的，你如何叫外面的系統各自呼叫到正確的微服務? 因此需要有個
-良好的 API 代理機制來負責。
 
-細節後面再談，API Gateway 大致上可以解決這幾件事:
+在這裡講的都是很順利的狀況，如果過程不是那麼順利，例如 Custom Services 當掉了，遲遲沒有回覆，或是 Custom Services 碰到問題，
+無法提供服務時 (例如遊戲已經下架，不再提供儲值)，該如何取消交易?
 
-1. 身分認證
-1. API 路由 (routing)
-1. API 聚合 (aggration)
-1. API 流量管控 (throttle)
+這邊我就簡單說明一下 2PC 好了，不再逐步說明。2PC 簡單的說就是把整個交易拆成兩個階段 (2 phase), 第一個階段由交易控制端 (Order Services) 先詢問所有跟這交易相關的對象，是否能夠成功執行該筆交易? (此例就是 Custom Services) 如果每個對象都能在指定的 Time out
+時間內回覆確認訊息，則該筆交易就會照常執行。只要有任何一項條件不滿足 (例如沒有全部對象都回覆確認，或是超出時間還未收到所有回覆)，
+則該筆交易會取消。
 
-接著是 Service Discovery。既然我們都把整套系統切割成眾多微小的個別服務了。這時可能會很頻繁的增加或減少服務的 instance 。
-那麼這麼多 service instance 的動態資訊該如何維護與管理? 這就是 service discovery 要扮演的
-角色了。基本的模式就是有個 service registry 的機制，只要每個服務啟動了，第一件事就是跟他報告，其他人就能找的到正確的定位
-服務。為了維護這清單的正確性，自然也有一些 healthy check 的機制。
+回到這個例子，Order Service 收到 Custom Services 的確認訊息，就算完成 1st phase 了，於是就把自己的交易紀錄狀態改為 "OPEN"。
+如果失敗的話，Order Service 應該將自己的交易紀錄標記為 "CANCEL"，同時再送出交易取消的訊息。這時該筆交易已經不可能再執行了，只有
+取消一途，因此若無法確認 Custom Services 是否收到取消交易的訊息，則可以在未確認前不斷重送取消的訊息，直到確認為止。
 
-實際上的狀況，DNS + instance 啟動時自動註冊已經可以負責處理大部分的 service discovery 需求。不過當然也有更進階更精準的
-解決方案可以選擇。
+其實分散式交易要確認執行，還有很多種變通的作法，這只是最典型的案例。在這邊 Message Broker 是主要的關鍵，他同時負責了一對多的
+通訊，也同時負責了可靠的通訊。當然這邊把 Message Broker 拿掉，改成 HTTP + REST 也行，不過你這樣就得花費更多心思去處理通訊
+失敗的狀況。
 
-再來就是微服務最關鍵的通訊機制了。這可以說是微服務的核心了。服務跟服務之間，就是各種的 API 呼叫了。隨著用途的不同，會有
-同步(sync), 非同步(async), 回呼(callback), 事件觸發(event-driven), 訂閱(pub/sub) 等等不同的模式，單靠一種 HTTP 難以
-涵蓋各種需求；這類問題自己處理通常也會有可靠度與效能不佳的問題。當你需要可靠的通訊時，Message Queue 變成不可或缺的一環。
+其他微服務之間通訊相關的問題 (IPC)，以及事件處理 (Event-Driven) 相關的機制，可以參考這兩篇文章其他的內容，我就不再多做介紹。
 
-最後的 Log, 也是必須考量的一個基礎建設。除了典型的 Log 之外，我另外提一點: 跨越服務的紀錄追蹤。我舉個很常見的例子，快遞往往
-有很多收發站，你送件之後就可以拿到 tracking number, 之後你就可以靠這個 tracking number 追查你的貨物到底送到哪裡了? 系統的
-處理也是一樣，當一件事情拆成好幾個服務分別解決時 (別忘了，每個服務可能都還有上百個 instance ...), 出問題時你如何能從 Log
-追查出這些問題所在? 如果你還是把 Log 當成每個 service 自己的日誌流水帳看待的話，碰到這種問題應該會一個頭兩個大。
 
-看完有沒有覺得，微服務真是個坑啊，沒有準備好就跨進來的話真的是找死... 其實很多有經驗的架構施，分享微服務的經驗的看法都差不多，
-他有很多好處，但是不代表每個團隊都需要用。我舉幾篇給大家參考，跟之前一窩蜂的那篇有異曲同工之妙:
+同樣的，這類通訊相關的基礎建設，自己做太不靠譜了。可靠度這種東西，沒有足夠的社群用戶支持，是很難支撐起來的。我推薦這部分盡可能
+的找經過多人驗證過可靠的系統來使用。這幾套都是不錯的選擇:
 
+* [RabbitMQ is the most widely deployed open source message broker](http://www.rabbitmq.com/)
+* [Kafka](https://kafka.apache.org/)
 
+另外如果你對架構的要求並不高，而且這些也正好已經在你的 service stack 內的話，也可以考慮拿來擔任通訊的服務:
 
+* [Queuing tasks with Redis](https://blog.logentries.com/2016/05/queuing-tasks-with-redis/)
 
+別訝異，這邊 MSMQ 也在清單內。其實 MSMQ 算蠻可靠的，他連 client side 都是 store and forward, 就可靠度而言甚至還贏過其他的
+message queue. 如果你要雙向的通訊，MSMQ 也支援 Response Queue 及 CorrelationId 的設計。只是他的年紀也大了，要實作
+pub / sub 略嫌麻煩了點，也不夠靈活。同時部署還要依賴 AD ... 如果這些限制不是你在意的點，同時你對於 "使命必達" 這件事要求
+特別高，又剛剛好是用 windows, 是可以考慮看看:
 
+* [MSMQ](https://msdn.microsoft.com/en-us/library/ms711472(v=vs.85).aspx)
+* [Response Queues](https://msdn.microsoft.com/en-us/library/ms705701(v=vs.85).aspx)
 
 
 
+# 後記
 
+特地把微服務架構必備的基礎建設獨立成一篇來介紹，其實主要的目的是想藉這篇告訴大家，微服務的基礎建設是否可靠與完善，大概就已經
+決定了你的微服務架構能否成功了。要在不穩固的基礎上搭建微服務架構，幾乎是不可能的事，這也是微服務架構的進入門檻。這些基礎建設，大都
+已經有成熟可靠的選擇了。在你能力範圍以內 (有能力是指: 買得起，跑的動，夠了解，有能力維護)，盡可能挑選一套最好的。當然整體搭配
+的好不好也是個關鍵，這邊如何拿捏就看你的經驗與判斷了!
 
+原本想在這篇一起講的微服務部署，看來得等下一篇了 @@, 敬請期待...
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-在這份電子書裡面，提到跟 microservices infrastructure 有關的有這幾個部分:
-
-* API Gateway
-* IPC (Inter-Process Communication)
-* Service Discovery
-* Event-Driven
-
-除此之外，我另外追加一個我認為很重要的部分:
-
-* Logs & Tracking
-
-這幾個關鍵元件服務，被歸類在微服務架構的基礎建設之中。原因無他，因為只要你使用了微服務架構的概念來設計整套系統架構的話，
-有些問題你是一定會碰到的。而這些基礎建設就是解決這些問題的最佳 solution. 
-
-整體來看，API Gateway 扮演的就是 API 對外的關卡，你可以把他跟反向代理 (Reverse Proxy) 做個對比。反向代理主要用途，是
-用來發行內部的 "網站"，在這過程中反向代理有時也會身兼 load balancer, waf (web application firewall) 等等角色來兼顧
-安全，效能，擴充性與架構調整的彈性等等；而 API Gateway 則是用來發行內部的 "API"，也有一樣的目的與功能。
-
-跨服務的通訊，也是個大問題。雖然微服務的特色之一是允許技術的異質性 - 每個服務互相獨立，可以個別採用最適合的技術，不需要
-彼此限制。但是互相通訊的時候就需要統一了。這部分就牽涉到通訊的機制了。一般最常見的就是 HTTP + REST + JSON，可以提供同步 (SYNC)
-的 API 呼叫。但是若你需要更複雜且可靠度更高的通訊機制，則需要採用 Message Queue 或是 Message Bus 這類的基礎建設了。
-一個良好的 Message Bus 可以解決你很多可靠的通訊問題，包含提供非同步 (ASYNC) 的通訊模式，這點我們後面再探討。
-
-通訊及提供服務的模式，除了同步 (SYNC) 與非同步 (ASYNC) 之外，從另一個角度來分類，則是被動呼叫與主動執行兩種。WEB 就是
-典型的被動呼叫模式，你的 API 放在那邊等著人家來呼叫就是一例。但是有些時候，你的服務必須在沒有外面的系統呼叫 API 時執行。
-最常見的就是定期執行的任務，或是某些重複執行，長時間執行等等任務都屬這種。
-
-因此，進入實作微服務架構的第一件事，不是捲起袖子開始寫 code, 而是先把你需要的基礎建設與開發環境搭建起來。即使是基礎建設，
-它們也維持跟微服務一樣的準則，簡單，只負責一件事，自主運作。不過，除非你很清楚知道你自己要做什麼，否則我強烈建議不要自己
-動手開發基礎建設的服務，盡可能地採用成熟穩定可靠的 solution 才是上策。因此這段我主要的目的，是介紹每類基礎建設的服務是要
-解決那些問題，而非你怎麼操作或是安裝他們。只有知道這些東西存在的目的，你才能做出最正確的判斷與選擇 (該挑選哪一套?
-還是要自己開發? 該如何評估?)。
-
-其他講微服務架構與觀念的，還有如何重構既有的 application, 我們在前面兩篇其實都帶到了，這裡就針對基礎建設來探討。
-基礎建設通常也是某個(微)服務，用來解決多個微服務互相協同合作必要的基礎。例如通訊、代理、服務註冊語組態管理等等。
-
-
-
-API Gateway 可以替整套系統統一解決掉認證問題，後面的每個服務就不再需要逐一確認呼叫者的身分，可以直接針對身分做授權的管控
-即可。其他如API 呼叫次數的管控，API 呼叫的日誌等等都可以由 API Gateway 統一處理。但是最重要的，我認為是這兩項: aggration & routing。
-
-Routing 是第一件最關鍵的任務，他可以把外面的 API 呼叫，引導到內部適合的服務接手處理。這個 routing 的機制能解決很多衍生的問題，
-包括版本 (例如: 新舊版本的 client 呼叫同一組 API 需要提供不同的服務)，負載平衡與服務註冊 (例如: 需要將 API call 引導到 loading
-較低的服務端點，或是引導到狀態良好沒有當掉或停機維護的端點)。這部份很多現成的服務可以選擇，可以找 API Gateway, 或是 API Management
-這些關鍵字，可以找到不少資訊。
-
-另一個關鍵的功能就是 Call Aggration。
