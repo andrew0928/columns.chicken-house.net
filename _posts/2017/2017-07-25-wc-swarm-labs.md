@@ -6,8 +6,10 @@ tags: ["Docker", "Windows Container", "Swarm"]
 published: true
 comments: true
 redirect_from:
-logo: 
+logo: /wp-content/uploads/2017/07/Docker-Swarm-Orchestration-1024x265.png
 ---
+
+![](/wp-content/uploads/2017/07/Docker-Swarm-Orchestration-1024x265.png)
 
 為了使用 Docker Swarm 來部署 Windows Container, 卻遲遲等不到 Microsoft 官方的 Azure Container Services 的 Windows Container 支援 (windows container support 到現在還在 private beta), 我只好自己來土炮了。不過得力於 Azure 實在太方便，其實自己土炮一個
 Windows Container Swarm Mode 的 Cluster 也只是五分鐘的事情啊! 要等下一篇文章出來再寫，大概又是一個月過去了，於是我就順手先把這篇
