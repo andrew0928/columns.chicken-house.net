@@ -204,12 +204,57 @@ https://docs.microsoft.com/en-us/virtualization/windowscontainers/manage-contain
 
 
 
+# DNSRR (Docker Native DNS Round Robin)
+
 好，既然這樣只能退而求其次。Microsoft 看來還是給了另一條出路啊，透過 Docker 內建的 DNS，可以用 DNSRR (DNS Round Robin) 搭配
-你自己建立的 load balancer (例如我之前用的 NGINX for windows) 一樣可以做到類似的效果，我們就來試試看...
+你自己建立的 load balancer (例如我之前用的 NGINX for windows) 一樣可以做到類似的效果。不過按照文件，我應該可以用 Docker 內建的
+Native DNS Server 取得其他 container instances 的相關資訊才對，不過這邊我卻怎麼試也試不出來 @@
+
+這邊就分享一下我的研究過程吧，有專家的話，幫忙看看我是漏了哪個環節...
 
 
+先把前面所有的 service 清掉，重新建立 docker swarm services, 指定 dnsrr, 在這 3 個 nodes 中啟動 5 個 instance:
+
+```shell
+docker service create --name mvcdemo --network ingress --endpoint-mode dnsrr --replicas 5 andrew0928/vs20
+```
+
+啟動完成後，看看執行狀況:
+
+```shell
+docker service ps mvcdemo
+```
+
+![](2017-07-28-00-59-28.png)
+
+這些 instance 被分配到 wcs1 ~ wcs3 個別執行中。另外再開個 console service:
+
+```shell
+docker service create --name console --network ingress --endpoint-mode dnsrr --replicas 3 microsoft/windowsservercore ping -t localhost
+```
+
+挑一台 console 的 instance, 開個 cmd 連進去 (xxxxxx 是 container id, 每次都不一樣，我就不列了):
+
+```shell
+docker exec -t -i xxxxxx cmd.exe
+```
+
+結果進去 query dns, 找不到所有的 mvcdemo instances 的 ip address 啊 @@
+
+![](2017-07-28-01-16-29.png)
 
 
-(改回 --mode replica, scale to 10 instances)
+不過，如果先查好其他 container 的 ip address, 連進 console 用 ping 的就可以 ping 的到啊...
 
-(can not find DNS)
+![](2017-07-28-01-18-16.png)
+
+看來除了 DNS 不會動之外，其他一切正常.... 可是少了 DNS, 最關鍵的 service discovery 就沒辦法用了啊，如果我要用 nginx 當作
+reverse proxy + load balancer, 我總不能每次 containers 啟動後都要手動去更新 upstream ip address 吧 @@
+
+好吧，按照規格跟文件的話，上述的測試，應該可以在其他同個 docker network 內, 可以透過 dns (round robin) 的方式, 用 service name
+找到其他 container instances 才對。這時其他服務就能正確地找的到對方。你也可以視需要，直接動態調整每個 service instances 數量，
+對於大型服務的部署來說是非常方便的。
+
+可惜這功能目前僅存在於文件及規格中，我還試不出來 T_T，我看我還是等等那個 "coming soon" 的 routing mesh 吧...
+
+
