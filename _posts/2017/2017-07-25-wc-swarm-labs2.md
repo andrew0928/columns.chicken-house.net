@@ -6,7 +6,7 @@ tags: ["Docker", "Windows Container", "Swarm"]
 published: true
 comments: true
 redirect_from:
-logo: /wp-content/uploads/2017/07/maxresdefault.jpg
+logo: /wp-content/uploads/2017/07/RE13uSf.png
 ---
 
 ![](/wp-content/uploads/2017/07/maxresdefault.jpg)
