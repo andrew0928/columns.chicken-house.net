@@ -6,10 +6,10 @@ tags: ["Docker", "Windows Container", "Swarm"]
 published: true
 comments: true
 redirect_from:
-logo: /wp-content/uploads/2017/07/linuxandwindows.png
+logo: /wp-content/uploads/2017/07/maxresdefault.jpg
 ---
 
-
+![](/wp-content/uploads/2017/07/maxresdefault.jpg)
 
 接下來就玩大一點，前一篇都講到，既然將來 container 會是 software 統一的發行途徑了, 那麼只有 windows 怎麼夠用?
 延續前面的 labs environment, 我們就接著把 linux 加進來吧~
