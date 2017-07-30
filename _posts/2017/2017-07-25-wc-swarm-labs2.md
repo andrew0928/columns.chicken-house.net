@@ -261,6 +261,29 @@ Orz, 看來情況也沒比較好啊 @@
 這個問題到目前為止，看來還是沒有頭緒。我是相信我自己應該漏掉了部分細節了才對。若有朋友們知道正確的方式，歡迎跟我聯絡~
 不論是在[Facebook粉絲團](https://www.facebook.com/andrew.blog.0928/)留話給我，或是在這篇底下回覆，甚至是你願意的話可以直接提 Pull Request 給我 (我的部落格是直接放在 [GitHub](https://github.com/andrew0928/columns.chicken-house.net) 上的，修改 MD 檔案就可以立即更新文章內容)~
 
+
+
+# MS 官方的 DEMO 怎麼做? (2017/07/31 補充)
+
+上面提到的 [官方文件: Getting Started with Swarm Mode](https://docs.microsoft.com/en-us/virtualization/windowscontainers/manage-containers/swarm-mode#linuxwindows-mixed-os-clusters) 裡面，有擺了 Microsoft Container Network Team 的 Program Manager 作的三段 Demo Videos, 主題就剛好是我這兩篇探討的內容。
+
+![](/wp-content/uploads/2017/07/2017-07-31-00-28-43.png)
+
+第三段就是講透過 nginx 來做 web load balance, 枉我很認真地看完這三段在幹嘛... 結果當我看到這畫面時，我就... 就...
+就崩潰了 XDD, 看看這段 nginx conf 的內容:
+
+![](/wp-content/uploads/2017/07/2017-07-31-00-30-53.png)
+
+影片 [位置](https://youtu.be/I9oDD78E_1E?t=430): 07:20 處
+
+哪有人這樣弄得啦... 原來這 PM 是另外弄第四個 windows server (不再 docker swarm cluster 內), 單純只跑 nginx, 編輯 nginx.conf, 設定上面三個 web app instance 的動態 ports 去做 load balance, 這樣是會動沒錯拉，要是上線要這樣叫我搞，我應該會被砍吧! 只要增加一個 node, config 就要改一次... server 重開機, container restart 的話, ports 有變
+nginx 也要重新 config 一次...
+
+如果連 Microsoft 在做 windows container network 的 PM 都這樣 DEMO, 那我更相信這問題暫時是無解了 XDDD
+
+看來我可以放心地等那個 "coming sooooon" 的 routing mesh... XD
+
+
 # 總結
 
 這兩篇 Labs 就先告一段落，有興趣嘗試看看地都可以直接在 Azure 上面體驗看看 :) 免費的 6300 元額度很夠用的，我這兩天包含測試跟寫文章
