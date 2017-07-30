@@ -224,7 +224,7 @@ unable to pin image wcshub.azurecr.io/vs20:latest to digest: Head https://wcshub
 
 最後找出來的解決方式是: 每一個 node (此例包含 wcs1, wcs2, wcs3) 都先執行過前面提到的 docker login 指令，除此之外讓 docker swarm
 在 create service 時，送出 auth/z header..
-修正後的指令，要加上這段: **--with-registry-auth**
+修正後的指令，要加上這段: ```--with-registry-auth```
 
 ```
 C:\>docker service create --name mvcdemo --with-registry-auth --mode global -p 80:80 wcshub.azurecr.io/vs20:latest
@@ -360,7 +360,7 @@ docker service ps mvcdemo
 這些 instance 被分配到 wcs1 ~ wcs3 個別執行中。另外再開個 console service:
 
 ```shell
-docker service create --name console --network ingress --endpoint-mode dnsrr --replicas 3 microsoft/windowsservercore ping -t localhost
+docker service create --name console --with-registry-auth --network ingress --endpoint-mode dnsrr --replicas 3 microsoft/windowsservercore ping -t localhost
 ```
 
 挑一台 console 的 instance, 開個 cmd 連進去 (xxxxxx 是 container id, 每次都不一樣，我就不列了):
