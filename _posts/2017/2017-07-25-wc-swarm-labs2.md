@@ -187,7 +187,7 @@ sezkbujza758        web.2               nginx:latest        lcs4                
 sudo docker service create --name ssh --endpoint-mode dnsrr --network ingress --constraint 'node.labels.os==linux' busybox sleep 86400000
 ```
 
-我選了 busybox 這個 container, 讓他睡個 86400 sec, 好讓我有時間 exec 進去測試..
+我選了 busybox 這個 image, 讓他睡個 86400 sec, 好讓我有時間 exec 進去測試..
 
 
 先查詢 container id (要找 busybox 那個, id 是 c9b79f59fe):
