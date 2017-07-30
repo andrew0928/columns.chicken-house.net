@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Azure Labs: Windows Container Swarm Mode"
+title: "Azure Labs: Windows Container Swarm"
 categories:
 tags: ["Docker", "Windows Container", "Swarm"]
 published: true
@@ -11,9 +11,7 @@ logo: /wp-content/uploads/2017/07/Docker-Swarm-Orchestration-1024x265.png
 
 
 
-------
 ![](/wp-content/uploads/2017/07/Docker-Swarm-Orchestration-1024x265.png)
-------
 
 Azure 上面的 container 相關服務越來越完整了, 完整到我都快找不到理由自己架設了 @@, 從 registry 有 Azure Container Registry 可以，Orchestration 有 Azure Container Service 可用之外 (支援 swarm, dc/os, kubernetes), WebAPP 也開始支援直接部署 container,加上前兩天 preview 的 [Azure Container Instance](https://azure.microsoft.com/en-us/blog/announcing-azure-container-instances/) (把 container 當作超高效率的 vm 看待會比較好懂, 你自己準備 image 就可以丟上去跑)... 
 
