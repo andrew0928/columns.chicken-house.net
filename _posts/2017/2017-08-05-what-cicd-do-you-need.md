@@ -60,7 +60,7 @@ CI/CD, DevOps, SCRUM, Microservices, Containers 等等也是現在熱門的關�
 
 最重要的也許不是怎麼做，或是該選用什麼系統及工具...。這些都是你有明確想解決的問題之後再做的選擇而已。我先回顧一下當年我做類似事情的經過..
 
-# 多年前 (2003) 土炮 Daily Build 流程的經驗
+# 2. 多年前 (2003) 土炮 Daily Build 流程的經驗
 
 好，前面牢騷發完，其實我這篇主要要寫的在這邊啊，你 (or 你的團隊) 需要什麼樣的 CI / CD 流程? 我相信 google 可以找的到的文章 (尤其是中文的)，一大部分都是著重在教你怎麼安裝，或是設定 XXX server 幫你把 CI build script 弄起來之類的文章。
 
@@ -72,7 +72,7 @@ CI/CD, DevOps, SCRUM, Microservices, Containers 等等也是現在熱門的關�
 
 
 
-# 最精簡的 CI / CD 流程
+# 3. 最精簡的 CI / CD 流程
 
 時間跳回 2017, 到了現代, 你期望什麼樣的 CI / CD ? 整套完整的 CI / CD 建置起來很花時間，在一開始你最該注意的是哪個部分? 那些可以一步一步慢慢追加?
 
@@ -83,21 +83,21 @@ CI/CD, DevOps, SCRUM, Microservices, Containers 等等也是現在熱門的關�
 
 以我的角度來看，開發團隊 **一定** 要顧好的流程，有這幾個部分:
 
-1. 版本控制:  
+1. **版本控制**:  
 Source code 是開發團隊最重要的資產, 好好的管理它是必要的。所謂的 "管理" 不只是記錄誰改了哪一行 code 而已，他橫跨了整個開發流程，包含開發中的版本，已發行或是以上線的版本，延伸到將來的 hotfix, 或是回報舊版本問題時，是否都能在版控系統內 **精確** 的定位到當時那份 code... 都在考量的範圍內。  
 其實這有點像在製造業的物料管理一樣，序號或是條碼掃描一下，就能知道所有這產品的來歷。在軟體來看，看到版號或是 commit sha, 就要能讓開發團隊追蹤到所有跟 source code 相關的細節。
 
-1. 自動建置與整合測試:  
+1. **自動建置與整合測試**:  
 大致上就是現在 CI 在講的事情。包含建置 (build, compilation), 測試 (unit test, 其他 auto testing), 其他語法檢查, 源碼掃描等等對程式碼的品質管控機制都包括在內。目的在程式碼有異動時，能第一時間透過自動化的 process 讓 team member 第一時間能掌握這次異動後的系統品質是否仍然可靠?
 
-1. 發行管理 (Release management):  
+1. **發行管理 (Release management)**:  
 包含將 CI 的成品 (artifacts) 經過一連串自動化的程序，部署到執行環境 (dev, qa, production 都算) 上的動作。簡單的說就是把 CI 的東西弄到可以上線測試或是使用的過程。  
 版控機制若有不同的分支 (branch), 則不同分支應該有不同的發行方式與規則，如 develop 發行的是 BETA 版，而 master 發行的是 RTM / RC 版本等等。
 
 因此，如果你要改善的是個完全沒有流程制度的團隊，或是要創建一個新的開發團隊，我建議這三個部分都要挑選合適的系統或工具，把最基本最關鍵的環節弄出來。這時最重要的不是你用哪一套系統，最重要的是在 team member 能接受及掌握的情況下，讓這三大流程都能發揮實際的效益。
 
 
-# 精簡既有的系統與工具組
+# 4. 精簡既有的系統與工具組
 
 舉例來說，我碰過團隊本身已經有用各種系統了，但是用的方式很不到位 (ex: gitlab + tfs + redmine + jenkins + ....), 這時我會把重點擺在如何善用既有的工具上，而不是很武斷的再導入另一個新系統... (除非原本的工具完全不適合)。因為在導入的過程中，團隊成員會面臨學習新工具的門檻，也會面臨學習新流程的門檻。沿用既有的系統，可以大幅降低學習新工具的門檻，也省去升級或是替換的成本，成員們的反對力道也會降低很多。
 
@@ -109,10 +109,12 @@ Source code 是開發團隊最重要的資產, 好好的管理它是必要的。
 版控的部分，重點在於 release management, 如何反推到你的團隊怎麼進行分支的管理。我這邊是參考 [git flow](http://nvie.com/posts/a-successful-git-branching-model/) 的規範。過去我花很多時間在研究這些，包含以前用 TFS 時，TFS 每改版一次，Microsoft 就會發行一份 branch & merge guidelines, 我從 VSS 年代一直看到 TFS 2013 ... XD
 
 隨便舉幾篇我看過的老文章:
-* [Team Development with Visual Studio .NET and Visual SourceSafe](https://msdn.microsoft.com/en-us/library/ee817672.aspx), 光看架構圖就知道他的年紀了...  
+* [Team Development with Visual Studio .NET and Visual SourceSafe](https://msdn.microsoft.com/en-us/library/ee817672.aspx)  
 ![](/wp-content/uploads/2017/08/IC54105.gif)
-* [Team Development with Visual Studio Team Foundation Server - CH1](https://msdn.microsoft.com/en-us/library/bb668951.aspx), Team Foundation Server Logical Workflow  
+> 光看架構圖就知道他的年紀了...
+* [Team Development with Visual Studio Team Foundation Server - CH1](https://msdn.microsoft.com/en-us/library/bb668951.aspx)  
 ![](/wp-content/uploads/2017/08/IC57670.jpg)
+> Team Foundation Server Logical Workflow
 * [Guidelines: Source Control](https://msdn.microsoft.com/en-us/library/bb668944.aspx)
 * [Branch strategically](https://www.visualstudio.com/en-us/docs/tfvc/branch-strategically)
 
@@ -121,7 +123,7 @@ Source code 是開發團隊最重要的資產, 好好的管理它是必要的。
 後來看到 git flow, 的確 open source 的這套哲學就是比較精簡收斂, 沒有太多多餘的流程。git flow 很有系統的用 branch 來解決各種開發團隊會碰到的問題，例如新功能 (features) 的開發該如何隔離? 或是 develop -> release, 甚至是已經 release 後的 hotfix 該如何處理等等都包含在內。
 
 ![git flow](/wp-content/uploads/2017/08/git-model@2x.png)
-> git flow
+> git flow 分支管理的流程說明
 
 不過，沒經驗的人看到這張圖大概就暈了，其實你的應用情境若沒那麼複雜，其實也不需要完全照做，多維護一個 branch 都是成本啊。這邊就要留意了，我強烈建議每個團隊的 team leader, 或是架構師等等這類的角色，務必先花一些時間研究搞清楚整套 git flow 的做法後 (即使你們自己不實際導入)，再來決定哪些是要砍掉的。這件事情若是給沒經驗的人來決定，那後果大概就是把複雜的地方 (或是他搞不懂得地方) 都砍掉了，整個流程被改的四不像，那對團隊會是個災難...
 
@@ -150,7 +152,7 @@ Source code 是開發團隊最重要的資產, 好好的管理它是必要的。
 如果這是你關注的 project, 每次 CI 的結果也會 email 通知你, 你有裝官方的 APP 也會收到通知，最後你要是有多個 projects 同時進行中，也有貼紙可以讓你把燈號都擺在同一個網頁內..
 
 ![gitlab pipeline](/wp-content/uploads/2017/08/pipelines.png)
-> gitlab pipeline
+> gitlab pipeline 畫面
 
 
 
@@ -172,7 +174,7 @@ CD 其實是我認為最傷神的地方。它的複雜度最高，跟你的執�
 
 
 
-# 結論: 執行架構與方向
+# 5. 結論: 執行架構與方向
 
 講了一大堆，其實我的目的是希望替有心導正流程的團隊，指引一條門檻低，成功率高，能夠循序漸進的方式，逐步導入 CI/CD 的方式。所有 google 能找到的參考資料，大都告訴你 CI / CD 應該要這樣做才對:
 
@@ -184,7 +186,7 @@ CD 其實是我認為最傷神的地方。它的複雜度最高，跟你的執�
 
 架構決定後，再來才是把你中意的系統或是工具填上去。以我自己碰到的案例為例:
 
-![](/wp-content/uploads/2017/2017-08-06-22-27-58.png)
+![](/wp-content/uploads/2017/08/2017-08-06-22-27-58.png)
 
 
 需要人工介入的部分，主要就是 develop push code 到 source control, 剩下的就是等 CI / CD 完成，團隊可以直接透過 package manager 取得 build 後的成果。不論是開發團隊要拉 BETA 版回來測試，或是 OP 人員要拉正式版本到 production 部署，通通都是透過 package manager。
@@ -193,139 +195,9 @@ CD 其實是我認為最傷神的地方。它的複雜度最高，跟你的執�
 
 其實除了容易出錯等等問題之外，更重要的是這樣很不安全啊! 我舉個情境:
 
-> 如果有個心懷不軌的 developer, 自己改了某幾段 code, 只要 login id == "andrew" 就給最大的權限... 然後把這樣的 code 編譯成 DLL 丟上 production server 了。
+> 如果有個心懷不軌的 developer, 自己改了某幾段 code, 只要 login id == "andrew" 就給最大的權限... 然後把這樣的 code 編譯成 DLL 丟上 production server 了。由於這些 code 不需要 push to git, 所以事後也完全無法從版控追查問題。公司可能蒙受損失，而且還沒辦法知道是誰幹的!
 
 這樣的行為，若沒有 CI / CD 及配套的管制的話，不但檔不住，而且連事後追查都有困難 (這有問題的 source code 沒有進版控)。試想，你的團隊能承受得起這樣的風險嗎? CI / CD 若有執行，那這問題就不存在了。因為最終部署上線的人，已經不是 developer 了，而且也只接受從 package manager 取得 binary code。然而能把 binary code 丟進 package manager 的唯一管道，就是 CI server .. CI server 只接受來自版控系統的 source code, 因此任何 binary code 都是可以追溯的到 source code 來源的。IT 人員只要把這管道之外的通路都阻擋起來就可以了，一方面鼓勵大家透過 CI / CD 的機制，可以降低人為疏失與提高效率，同時也更為安全，一舉數得。
 
-如果你還沒搭配 CI/CD 就一昧的做各種阻擋，那反而是勞民傷財，造成 developer 的不便而已。有心想好好導入 CI / CD 的 team 可以仔細想想這個問題，通常大老闆 (尤其是不懂技術的那個層級) 可能搞不懂軟體工程這個領域，但是你要是跟她講資安領域他就知道了。如果你能進一步跟他講上面的案例，那我想你推廣 CI/CD 的政策應該會獲得更多支持!
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-CD 最討厭的就是部署時，執行環境會有一堆設定要改；要嘛你得搭配一些 CM (configuration management) 工具，不然就是要手動人工處理，不然就是要寫一堆很煩人的 scripts... 善用套件管理，你可以把這些部署的動作降到最低... 包括:
-
-1. 套件更新: 下個 update 指令就夠了, 會自動從 package repository 檢查與更新最新版本
-1. 套件安裝: 下個 install 指令, 就會自動安裝相依版本
-1. 可由維運人員處理: 由於更新動作都簡化了，這指令可以由非開發人員來處理 (這是跨入 DevOps 的第一步啊)
-
-如果你的服務都已經容器化，那就更容易了! 看過我前面那堆微服務跟 windows container 的文章就知道, docker-compose up -force-recreate 指令就全部搞定了。
-
-CD 的主要目的，除了自動化部署之外，如果你採納我的建議變成 "半自動"，那一定要記得，這 "半自動" 的人工部分，一定要讓他能跟 develop team 脫鉤。如前面所說，這是繼續邁向下一步 DevOps 的重要關鍵。無法完全由非 develop team 執行的 deployment 是不及格的。
-
-
-如果你能接受 CD 這個階段的流程，能夠適度化簡為 "半自動 + 套件管理" 的模式的話，那 CD 的程序就很簡單了，只要接著 CI 之後多一個 package + push 的動作就結束了。
-
-以 NuGet 為例: nuget.exe pack xxxxxxx ..., 接著 nuget.exe push -apikey xxxxxxx ... 就完成了
-
-以 Docker 為例: docker build -t xxxxx:1.0.0-beta ., 接著 docker push xxxxx:1.0.0-beta 就完成了
-
-當這整套流程，從 source control, 到 CI 再到 CD, 都能發揮最關鍵的效益時, 接下來再逐步優化, 從半自動到全自動, 或是把每個系統替換成更適合的系統不遲。
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-1. Build, 確保 source code 都有基本的水準 (能成功編譯)
-1. Test, 確保 source code 能通過自動化測試
-1. Artifacts, 能自動生成安裝檔案 (例如可以直接拿去部署的 web site, 或是 .msi 安裝檔, .apk, 或是 .nuget 等等)
-
-最終的產出是 artifacts, 不同的專案有不同的形式。當一切都自動化時, 很自然地你就會有一大堆 artifacts 需要被管理與組織，免得將來找不到你要的是哪一份... 一開始我拿捏不準管理的方向，但是當我跳出來看看其他 open source project 都怎麼做的時候，我開始抓到精神了，就是 package management。
-
-我舉最單純的 class library project 為例, 我都怎麼 "取用" 別人提供給我的 dll ? 答案是 nuget. 其實大部分的 package management 都有一樣的運作模式，就是我透過 package server, 取得指定套件, package manager 會替我找到相容範圍內 (platform, x86/x64, beta or release..) 最新的版本，也會幫我把相依的套件一起搞定。nuget 就是其中一個例子。
-
-我開始思考我該如何把 CI build 出來的結果跟 package manager 串聯的方式，主要的關鍵就是 version number. 找個方式標上版本號碼，在套件管理這邊就直接用版本號碼來識別，在版本控制這端就用 tags / label 等這類功能來對應版本號碼。使用我的套件的人，抓她想要的版本回去用，若有回報問題我只要從版控的 tags 就能快速且精確的追蹤到該版本在哪裡。
-
-這機制運作得很好，各大 package manager 通通都是這樣用，除了前面提到的 nuget, 其他像是 npm, apt-get, ... 等等都一樣。最後，我開始思考，那我的 web application, 還有 console application 該怎麼辦? 
-
-這段我其實沒找到順手的工具可以用，但是適時出現的 docker 卻意外地幫了我一個大忙。有在看我部落格的大概都知道，我最近兩年都把精力花在 container 跟 microservices 上面。其中又是以 windows container 為主軸... 
-
-當我在傷腦筋 build 好的 web / console app 該怎麼管理時, container 給了我很完美的答案:
-
-1. 把所有的 application 都 containerize, 直接把 executable code 跟 environment 一次準備好 (container image)
-1. container image, 就直接交付給 docker registry 管理就可以了, tags 管理, 跟 dependency 管理都包含在內了。
-
-看起來很棒，我可以把我的開發流程，簡化成這樣的架構:
-
-(code push) => (version control) => ci build => artifacts package manager => cd deploy (pull & run)
-
-不同型態的 projects, 就分別用適合型態的 package manager 就可以了:
-
-1. C# library: NuGet server
-1. C# application: Windows Container + Docker Registry
-1. Documents & Misc files: file server, folder name contains version number & tags
-
-
-# 版本控制呢? 最精簡的版控管理流程
-
-
-
-
-
-
-
-
-這些其實就是自動化 script 而已, 在適當時間觸發執行就沒問題了。古早年代, 我是把 build artifacts 壓成 .zip, 按照日期擺在共用目錄上。後來發現這樣時間久了我也很難找到某個我要的版本 (因為我根本記不得線上的版本是哪天 build 的啊)...
-
-因此，後來我開始採用套件管理的機制來處理我的 build artifact 了。舉例來說，如果是 DLL 的 projects, 我就不會直接輸出 DLL，我會在版控上面先標記版本號碼, 然後包裝成 nuget package, 按照版號資訊 push 到 nuget server..
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-CI / CD 是開發流程中，Coding 循環中很重要的一環，Code 寫到一個段落，就會透過 CI 做各種驗證，通過就會透過 CD 做各種部署，讓你能用最快的方式提供服務給使用者使用。整體來看，從 CI / CD, 到 DevOps, 甚至是 SCRUM 的 Sprint 等等，核心的機制都圍繞在版本控制啊。
-
-為何版控是核心? 我的看法是這樣:
-
-Code -> branches -> CI -> CD -> Services -> Feedback
-             -> sprint -> demo -> qa -> merge
-             -> ...
-
-Source Code 是驅動這一切流程的源頭，而 Source Control 則是管理 Source Code 最好的方式。Branches 正好對應到 Source Code 的各種階段 (如 DEV, QA, Production ... etc), 
-
-
-
-
-
+如果你還沒搭配 CI/CD 就一昧的做各種阻擋，那反而是勞民傷財，造成 developer 的不便而已。有心想好好導入 CI / CD 的 team 可以仔細想想這個問題，通常大老闆 (尤其是不懂技術的那個層級) 可能搞不懂軟體工程這個領域，但是你要是跟他講資安領域他就知道了。如果你能進一步跟他講上面的案例，那我想你推廣 CI/CD 的政策應該會獲得更多支持!
 
