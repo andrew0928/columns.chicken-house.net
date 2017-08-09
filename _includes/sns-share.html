@@ -1,7 +1,7 @@
 <div class="fb-like" data-href="{{ site.url }}{{ include.url }}" data-layout="standard" data-action="like" data-size="small" data-show-faces="false" data-share="true"></div>
 <div class="meta-info">
     <span class="octicon octicon-comment"></span>
-    {% include disqus-count.html url=include.url %}
+    <span class="disqus-comment-count" data-disqus-identifier="{{ include.url }}"></span>
 </div>
 {% if site.debug %}
 <pre>site.url: {{ site.url }}</pre>
