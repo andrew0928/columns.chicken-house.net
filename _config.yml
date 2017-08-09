@@ -95,14 +95,9 @@ collections:
 # ---------------- #
 #      Comments    #
 # ---------------- #
-# support provider: disqus, netease_gentie
-comments_provider: disqus
 
-# !!!Important!!! Please modify infos below to yours
+
 disqus_username: andrew0928
-# 在使用网易云跟帖时可点击显示 Disqus
-lazy_load_disqus : false
-
 fb_appid: 500757300092333
 
 
