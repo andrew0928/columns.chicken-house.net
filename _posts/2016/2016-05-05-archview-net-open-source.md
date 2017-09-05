@@ -16,15 +16,15 @@ wordpress_postid: 1218
 
 ![](http://columns.chicken-house.net/wp-content/uploads/2016/05/img_572b734171d80.png)
 
-為何我特地拿 stackoverflow 網站的架構當作例子? 其實這個例子蠻特別的，導致我幾年前第一次看到就留下深刻的印象。這網站核心的部分，其實都是用 .NET 開發的，包含 Web Tier 跟 Service Tier 都是。理所當然的，資料庫也用 Microsoft SQL Server。但是這麼大規模的網站，也混搭了不少的 Linux Server, 負責 Search (Elastic) 跟 Cache (Redis), 前端的 Load Balancers 也沒有用 Microsoft ARR, 而是採用了 Linux + HAProxy..
+為何我特地拿 stackoverflow 網站的架構當作例子? 其實這個例子蠻特別的，導致我幾年前第一次看到就留下深刻的印象。這網站核心的部分，其實都是用 .NET 開發的，包含 Web Tier 跟 Service Tier 都是。理所當然的，資料庫也用 Microsoft SQL Server。但是這麼大規模的網站，也混搭了不少的 Linux Server, 負責 Search Server (Elastic Search) 跟 Cache Server (Redis), 前端的 Load Balancers 也沒有用 Microsoft IIS ARR (IIS Application Request Routing), 而是採用了 Linux + HAProxy..
 
 令我好奇的是，這種混搭的架構，一定會讓它的複雜度提高。我相信他考量的絕對不是 Windows Server 比較貴這種層次的理由 (畢竟他為了這架構，連管理用的 AD 都包進去了，還會搭配 Linux 一起使用一定有更強烈的動機)。複雜度的問題，包含系統架構層面，開發人員的能力經驗層面，網站維運層面都是如此。那麼，這樣真的是個好的設計嗎? 什麼情況下我們需要這樣的設計? 這樣的設計會有甚麼困難跟挑戰?
 
 <!--more-->
 
-過去講到 .NET v.s. Java, 或是 Windows v.s. Linux, 總是會變成像藍綠對決一樣... 所以我總是避免談論這類話題，免得被捲入意識形態之爭，尤其是在 Microsoft 是 [Steve Ballmer(https://en.wikipedia.org/wiki/Steve_Ballmer)] 當家的那個年代。換上 [Staya Nadella](https://en.wikipedia.org/wiki/Satya_Nadella) 上任之後，果然能精準地抓住開發人員在想什麼，一瞬間 Microsoft 什麼東西都跟 Open Source / Linux 這兩個領域靠了...。
+過去講到 .NET v.s. Java, 或是 Windows v.s. Linux, 總是會變成像藍綠對決一樣... 所以我總是避免談論這類話題，免得被捲入意識形態之爭，尤其是在 Microsoft 是由 [Steve Ballmer](https://en.wikipedia.org/wiki/Steve_Ballmer) 當家的那個年代。換上 [Staya Nadella](https://en.wikipedia.org/wiki/Satya_Nadella) 上任之後，果然能精準地抓住開發人員在想什麼，一瞬間 Microsoft 什麼東西都跟 Open Source / Linux 這兩個領域靠了...。
 
-從 .NET Open Source, .NET Core 開始可以在 Linux / MacOS 執行；VS 可以開發各種平台的應用程式；VSCode 可以跨平台；到現在連 SQL Server 都要推出 Linux 版本了..
+從 .NET Open Source, .NET Core 開始可以在 Linux / MacOS 執行；Visual Studio 可以開發各種平台的應用程式；Visual Studio Code 可以跨平台；到現在連 SQL Server 都要推出 Linux 版本了..
 
 這時我常被問到的問題就是，過去都抱著 .NET + Windows 的這些族群，要如何才能跟上 Microsoft 規劃的 Roadmap ? 以下就是我自己個人對這個問題的看法，純個人觀點...
 
@@ -62,6 +62,11 @@ Container, Windows 2016 開始支援 Windows Container, 以後 Windows Applicati
 
 另外一個值得注意的趨勢是: Windows 10 將會內建 Linux Shell, 可以原生的執行 Linux ELF 格式的執行檔 ( under user mode only) 而不需要重新編譯。這部分我腦補一下，如果再發展下去，也許以後 Windows Container 也能執行 Linux 版本的 Container Image 也說不定...
 
+> 2017/09 更新: 事實證明，我猜測的方向對了，只是最終 Microsoft 端出來的 Solution 猜錯了。Windows Server 2016 將來
+> 的確可以直接執行 Linux Container 沒錯，只是他靠的不是 WSL (Windows Linux Subsystem), 而是靠 Hyper-V Container,
+> 搭配 Linux Kit 直接在 Windows 上面執行 Linux Container。
+>
+> 參考今年四月份的消息: [DockerCon 2017: Powering new Linux innovations with Hyper-V isolation and Windows Server](https://blogs.technet.microsoft.com/hybridcloud/2017/04/18/dockercon-2017-powering-new-linux-innovations-with-hyper-v-isolation-and-windows-server/)
 
 
 ## 5. 用 Microsoft Azure 當作所有服務執行的平台
