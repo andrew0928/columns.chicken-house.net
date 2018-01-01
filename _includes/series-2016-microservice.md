@@ -19,14 +19,14 @@ Microservices, 一個很龐大的主題，我分成四大部分陸續寫下去..
 1. **架構師觀點 - 轉移到微服務架構的經驗分享**
   - [Part #1](/2017/04/15/microservice8-case-study/) 改變架構的動機; 2017/05/09
   - [Part #2](/2017/05/20/microservice8-case-study-p2/) 實際改變的架構案例; 2017/05/20
-  - [Part #3]() 轉移到微服務的必經之路 - 資料庫的設計與規劃; TBD
-  - [Part #4](/2017/07/11/microservice8-case-study-p3/) 實際部署的考量: 微服務基礎建設; 2017/07/11
-  - [Part #5]() 微服務基礎建設 - Service Discovery; TBD
-  - [Part #6]() 微服務基礎建設 - Log Tracking & Auth;
-  - [Part #7]() 微服務基礎建設 - 版控, CI/CD, 容器化部署;
+  - (計畫) [Part #3] 轉移到微服務的必經之路 - 資料庫的設計與規劃;
+  - [Part #3](/2017/07/11/microservice8-case-study-p3/) 實際部署的考量: 微服務基礎建設; 2017/07/11
+  - (撰寫中) 微服務基礎建設 - Service Discovery;
+  - (計畫) 微服務基礎建設 - Log Tracking & Auth;
+  - (計畫) 微服務基礎建設 - 版控, CI/CD, 容器化部署;
 1. **案例實作 - IP 查詢服務的開發與設計**
   - [容器化的微服務開發 #1](/2017/05/28/aspnet-msa-labs1/) 架構與開發範例; 2017/05/28
-  - [容器化的微服務開發 #2] 實際部署案例 - Docker Swarm + Mixed OS; 2017/??/??
+  - (計畫) [容器化的微服務開發 #2] 實際部署案例 - Docker Swarm + Mixed OS; 2017/??/??
 
 
 -----
