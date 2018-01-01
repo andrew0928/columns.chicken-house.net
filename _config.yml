@@ -75,6 +75,7 @@ lsi: false
 quiet: false
 excerpt_separator: <!--more-->
 permalink: /:year/:month/:day/:slug/
+
 gems:
     - jekyll-github-metadata
     - rouge
@@ -85,6 +86,7 @@ gems:
     - jekyll-feed
     - jemoji
 #     - jekyll-mentions
+
 collections:
     wiki:
         output: true

@@ -1,3 +1,6 @@
 source 'https://rubygems.org'
 # gem 'github-pages', group: :jekyll_plugins
-gem 'github-pages', '>= 104'
+#gem 'github-pages', '>= 104'
+gem 'github-pages'
+gem 'tzinfo-data'
+gem 'wdm', '>= 0.1.0'
