@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "微服務基礎建設 - Service Discovery"
+title: "微服務基礎建設 - Service Discovery & Service Mesh"
 categories:
 - "系列文章: .NET + Windows Container, 微服務架構設計"
 - "系列文章: 架構師觀點"
@@ -11,15 +11,22 @@ redirect_from:
 logo: /wp-content/uploads/2017/12/service-discovery.jpg
 ---
 
-微服務系列文章停了幾個月，因為這系列的文章不好寫啊，很多內容有想法，但是沒有實做過一遍的話，寫出來的東西就只是整理網路上其他文章的觀點而以，那不是我想
-做的 (這種事 google 做的都比我好)。經過這幾個月，自己私下 & 工作上又都累積了一些經驗，就又有素材繼續動筆了! 這次要補的是微服務必備的基礎建設之一: 服務註冊與發現機制 (Service Discovery)。
+微服務系列文章停了幾個月，因為這系列的文章不好寫啊，很多內容有想法，但是沒有實做過一遍的話，寫出來的東西就只是整理網路上
+其他文章的觀點而以，那不是我想做的 (這種事 google 做的都比我好)。經過這幾個月，自己私下 & 工作上又都累積了一些經驗，就又有
+素材繼續動筆了! 這次要補的是微服務必備的基礎建設之一: 服務註冊與發現機制 (Service Discovery)，以及這一年衍生出來的
+熱門技術: 服務網格 (Service Mesh)。
 
 ![](/wp-content/uploads/2017/12/service-discovery.jpg)
 
-前面我一直在強調, 微服務並不是新技術，而是個架構設計的方針而已。實作上要用到的技術還是那些。然而要把一個服務拆分成數個獨立的服務，考驗的不是開發技巧，而是考驗
-開發流程，以及你有沒有管理大量服務的能力。微服務化最明顯的衝擊，就是服務的數量變多了，同時服務的組態 (例如最基本的, 要從哪個 IP 跟 PORT 存取服務) 也從靜態變成動態的了。
-這篇要探討的就是這些問題，當你的服務數量變多且會隨時動態調整時，你該如何 "管理" 它? 如何很快地找到提供服務的 End Point? 如何掌握每個服務 instance 的清單? 
-如何掌握每個服務的健康狀態? 這麼多服務，組態的管理該如何進行? Service Discovery 服務發現的機制就是解決方案。
+前面我一直在強調, 微服務並不是新技術，而是個架構設計的方針而已。實作上要用到的技術還是那些。然而要把一個服務拆分成數個獨立的服務，
+考驗的不是開發技巧，而是考驗開發流程，以及你有沒有管理大量服務的能力。微服務化最明顯的衝擊，就是服務的數量變多了，同時服務的組態 
+也從靜態變成動態的了。最基本要解決的問題, 就是如何找到你要存取的那個服務的 IP 及 PORT ? 這篇要探討的就是這些問題，當你的服務數量
+變多且會隨時動態調整時，你該如何 "管理" 它? 如何很快地找到提供服務的 End Point? 如何掌握每個服務 instance 的清單? 如何掌握每個
+服務的健康狀態? 這麼多服務，組態的管理該如何進行? Service Discovery 服務發現的機制就是解決方案。
+
+然而 Service Mesh 又是什麼? Service Discovery 提供一系列註冊，健康偵測及查詢的機制，讓每個服務之間能找到彼此；而 Service Mesh
+則是更進一步，用去中心化的機制，讓眾多服務能更快更有效率的找到最佳化的存取路徑，甚至可以進一步的中央控管與監控服務之間的通訊狀況。
+這篇我就先不講太多實作，也不會太深入挖掘技術細節，我就只針對架構面來探討一下這兩個技術: Service Discovery / Service Mesh。
 
 
 <!--more-->
@@ -28,13 +35,15 @@ logo: /wp-content/uploads/2017/12/service-discovery.jpg
 
 --
 
-# Service Discovery 的服務模式
+# Service Discovery Patterns
 
-架構類型的問題，最好都是先拋開實作的細節，先從問題處理的模式來思考，之後再來找合適的 solution 才不會走偏，否則很容易被特定的技術或是框架牽著鼻子跑。Service Discovery 這領域
-的問題有幾種常見的解決方式，我分幾個段落先歸納整理一下，讓各位先搞清楚 Service Discovery 到底在做什麼。這個領域的服務很多，每個的用法又都不一樣，光是選擇 solution 這件事
-就讓我吃盡苦頭。因此誠心建議各位，與其一開始就躁進要馬上裝一套來玩玩看的作法，在這邊是會踢到鐵板的，還是按部就班先了解一下 Service Discovery 葫蘆裡到底在賣什麼藥吧。
+架構類型的問題，最好都是先拋開實作的細節，先從問題處理的模式來思考，之後再來找合適的 solution 才不會走偏，否則很容易被特定的技術
+或是框架牽著鼻子跑。Service Discovery 這領域的問題有幾種常見的解決方式，我分幾個段落先歸納整理一下，讓各位先搞清楚 Service Discovery 
+到底在做什麼。這個領域的服務很多，每個的用法又都不一樣，光是選擇 solution 這件事就讓我吃盡苦頭。因此誠心建議各位，與其一開始就躁進
+要馬上裝一套來玩玩看的作法，在這邊是會踢到鐵板的，還是按部就班先了解一下 Service Discovery 葫蘆裡到底在賣什麼藥吧。
 
-首先，我大推 NGINX 微服務系列的文章 (也有排版精美的電子書版本)。其中一個章節就把 Service Discovery 的概念講的很到位。我節錄裡面提到的幾種 Service Discovery 常見的服務模式:
+首先，我大推 NGINX 微服務系列的文章 (也有排版精美的電子書版本)。其中一個章節就把 Service Discovery 的概念講的很到位。我節錄
+裡面提到的幾種 Service Discovery 常見的服務模式:
 
 文章連結: [Service Discovery in a Microservices Architecture](https://www.nginx.com/blog/service-discovery-in-a-microservices-architecture/)
 
@@ -88,6 +97,10 @@ Registry-aware HTTP Client, 多半是以 runtime library 的形態存在，是�
 屬侵入式的解決方案，你也要確保你的專案開發的技術或框架，有原生的 SDK or library 可以使用 (當然也得顧及到社群的生態，更新是否快速等等)。只是，對於服務調度邏輯這方面的
 隔離層級還不夠，解耦也做的不夠，當你很在意這個部分時就得多加考慮。
 
+> 侵入式: 代表這部分的邏輯，會以 source code, library 或是 component 等等的形式，"侵入" 到你的服務程式碼內。這種型態的置入，通常能提供最佳的效能及功能性，也能提供最大的自訂化彈性。
+> 不過這也是缺點；意思是這置入的部分一但有任何修正，你的服務是必須經過 更新 > 重新編譯 > 重新部署 這幾個步驟的，往往越通用的套件，要更新都是件麻煩事。採用侵入式的解決方案時，
+> 請務必考量到更新與重新部署時的挑戰。
+
 
 案例:
 
@@ -140,17 +153,33 @@ Service Mesh, 其實在 NGINX 這系列文章內沒有提到，但是我自己�
 
 ![service mesh](/wp-content/uploads/2017/12/mesh3.png)
 
-先排除要對外的 public API, 先只考慮內部眾多 (micro)services 之間相互的 API 調用，client-side discovery pattern 其實做的比較好；它能真正做到如這張圖所示的點對點架構，
-每個呼叫都是直連，沒有任何一絲浪費；然而它的缺點是侵入式的 service discovery。
-
-我們試著想一想: 如果結合 server-side 跟 client-side 的做法會如何? 我們把每個 service 都跟一個 load balancer 一對一的搭配 (就是所謂的 side car 模式) 接著來看看這張圖:
-
 ![side car](/wp-content/uploads/2017/12/service_mesh.png)
+
+
+搞不清楚這張圖要表達的意義的話，搭配這段說明一起看:
+出處: https://jimmysong.io/posts/what-is-a-service-mesh/
+
+> A service mesh is a dedicated infrastructure layer for handling service-to-service communication. It’s responsible for the reliable 
+> delivery of requests through the complex topology of services that comprise a modern, cloud native application. In practice, the service mesh is typically 
+> implemented as an array of lightweight network proxies that are deployed alongside application code, without the application needing to be aware.
+
+明白的講，service mesh 其實就是微服務負責處理 service to service 之間通訊的基礎建設。它可以用複雜先進的拓樸結構，可靠的把 request 傳遞給目的服務。
+實務上，service mesh 通常會時做成輕量化的 network proxy, 跟每個服務一起部署。服務本身只要透過 proxy 就能聯繫到目的的服務，而不用理會通訊過程的細節。
+
+補: 藉由這種架構，也容易對整個微服務的系統架構作監控，紀錄與管控等等任務。因為整個通訊的機制其實都由 service mesh 管控, 實作跟管理都相對容易的多；一對一的部署方式，也避開了
+client-side discovery pattern 侵入式的部署方式，維運起來有更大的彈性與方便性。
+
+
 
 優點:
 
 優點是很顯而易見的；如果我們把每個 service node, 都擺一個該 instance 專屬的 load balancer, 呼叫端只要很無腦的把它要
-呼叫其他 service 的 request, 轉交給專屬的 load balancer, 其他都不用煩惱了。由於這是 process 層級的隔離，中間的通訊只是 local network 或是 IPC (inter procedure call)，跟你用的是什麼開發技術也沒有太大關連了。也因為如此，如果哪天 load balancer 的部分需要異動，也很簡單，這部分重新部署就好了，原本的服務完全不受影響。
+呼叫其他 service 的 request, 轉交給專屬的 load balancer, 其他都不用煩惱了。服務之間的通訊細節與過程，對於服務的開發人員來說都是透明的，部署也非常容易，只需要在每個服務
+所屬的 container or virtual machine, 同時搭配一個 service mesh node 即可。由於服務與 proxy 中間的通訊只是 local network 或是 IPC (inter procedure call)，跟你用的
+是什麼開發技術並沒有太大關連。也因為如此，如果哪天 load balancer 的部分需要異動，也很簡單，這部分重新部署就好了，原本的服務完全不受影響。
+
+服務之間的通訊該如何管理? service mesh 有足夠的資訊，做的比單純的 client side / server side discovery pattern 還更好；service mesh control panel 可以密切的監控與管理
+整個 service mesh network 的運作狀況，聰明的調配服務間的溝通方式，達到整體效率的最佳化。這種層級的監控與管理，是前面介紹兩種模式遠遠不可及的。
 
 
 缺點:
@@ -159,15 +188,37 @@ service mesh 的概念, 透過 side car 的方式, 把侵入式的運作邏輯�
 會造成依定程度的延遲，在效能及使用的資源上仍有些許程度的影響。
 
 
+service mesh 是個很新穎與有深度的技術，算是新一代微服務架構的核心，以我的程度實在難以在短短的幾句話內就交代清楚，我在底下放幾個參考資訊連結，有興趣的朋友可以花點時間研究看看，
+非常值得!
+
 案例:
 
 lyft: envoy
 
 
 
+
+
+
+
+# Service Registration Patterns
+
+看完服務怎麼 "找到" 另一個服務的幾種模式，我們在回過頭來看看，服務本身要如何 "告知" 自身的存在呢?
+主要分兩大類，分別說明如下:
+
 ## The Self‑Registration Pattern
 
+自我註冊，顧名思義，每個服務本身啟動之後，只要到統一的服務註冊中心 (service register) 去登記即可。服務正常終止後也可以到 service register 去移除自身的註冊紀錄。
+服務執行過程中，可以不斷的傳送 heartbeats 訊息，告知 service register 這個服務一直都在正常的運作中。
+
+
 ## The Third‑Party Registration Pattern
+
+不過，有時服務本身自己傳送的 heartbeat 並不夠精確，例如服務本身已經故障，卻還不斷的送出 heartbeats 訊息，或是內部網路正常，但是對外網路已經故障，而 service register 卻
+還能不斷的收到 heartbeats 訊息，導致控制中心都一直沒察覺到某些服務已經離線的窘境。
+
+這時要確認服務是否正常運作的 health check 機制，就不能只依靠 heartbeats, 你必須依賴其他第三方的驗證 (ping) 不斷的來確認服務的健康狀態。
+
 
 
 # 其他的模式
