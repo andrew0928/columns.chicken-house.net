@@ -8,7 +8,7 @@ tags: ["microservice", "系列文章", "架構師", "service discovery", "servic
 published: true
 comments: true
 redirect_from:
-logo: /wp-content/uploads/2017/12/Modern-Apps-1024x564.png
+logo: /wp-content/uploads/2017/12/discovery.jpg
 ---
 
 
