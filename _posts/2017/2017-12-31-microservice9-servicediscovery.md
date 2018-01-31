@@ -116,11 +116,11 @@ registry, 以及負責確認這些服務健康狀態的 healthy check 機制。�
 > 侵入式: 代表這部分的邏輯，會以 source code, library 或是 component 等等的形式，"侵入" 到你的服務程式碼內。這種型態的置入，通常能提供最佳的效能及功能性，也能提供最大的自訂化彈性。不過這也是缺點；意思是這置入的部分一但有任何修正，你的服務是必須經過 更新 > 重新編譯 > 重新部署 這幾個步驟的，往往越通用的套件，要更新都是件麻煩事。採用侵入式的解決方案時，請務必考量到更新與重新部署時的挑戰。
 
 
-## 案例: Netflix Eurica  
+## 案例: Netflix Eureka   
 
 Netflix 將自己的微服務基礎建設跟框架都開源了，就是 [Netflix OSS](https://netflix.github.io/) (Netflix Open Source Software center), Netflix 很佛心的把他們微服務化的經驗跟 source code 都開放出來。其實這是個很高明的策略，只要他們有實力，開源反而是讓競爭對手更難追上。之前看過一篇文章: [技术顶牛的公司为啥没有CTO？](https://mp.weixin.qq.com/s?__biz=MjM5MDE0Mjc4MA==&mid=2650998035&idx=1&sn=ac50f73704adf585367ff8c05b55dbd2&chksm=bdbefd408ac974566be90e51ee17c2f98ab02af02db12b5ca3416141e4d49cabde0b32f8ad5d&mpshare=1&scene=1&srcid=092742Rq50p2hTImyf4lShkn#rd)，說的是網路公司的經營策略，Netflix 這樣做可以建立大眾對他的技術能力是最佳的印象，也因此才能吸引到最好的人才... 這篇值得經營者看一看，作者楊波也是位高手，上個月去北京參加架構師峰會也有幸聽他的課程，值回票價。
 
-在 Netflix OSS 的框架底下，負責 service discovery 的部分，就是 [Netflix Eurica](https://github.com/Netflix/eureka), 而對應到這模式的 client, 則是 [Netflix Ribbon](https://github.com/Netflix/ribbon), 專門設計跟 Eurica 搭配的 IPC client, 允許你直接在 application 裡面自訂專屬的 load balance logic.
+在 Netflix OSS 的框架底下，負責 service discovery 的部分，就是 [Netflix Eureka ](https://github.com/Netflix/eureka), 而對應到這模式的 client, 則是 [Netflix Ribbon](https://github.com/Netflix/ribbon), 專門設計跟 Eureka  搭配的 IPC client, 允許你直接在 application 裡面自訂專屬的 load balance logic.
 
 截錄這幾個 software 的介紹，有興趣的朋友們可以自行研究:
 
@@ -273,6 +273,6 @@ Nginx 原文提到的案例是 [AWS Elastic Load Balancer](https://docs.microsof
 |單體式APP|9.562%|1E-20|
 |微服務APP|63.397%|1E-200|
 
-當然這個計算方式有點誇大，跟過度簡化，但是他能表達出為什麼你需要注意 service discovery 這件事。我一直在提醒自己，微服務背後是需要高度累積各種架構與經驗的策略，典型的表面看起來很棒的技術，但是實際做起來到處都是地雷會炸斷你的手腳的...，初次導入這項技術的朋友們，千萬不要過度輕敵啊.. 跨入微服務，等於是對你的團隊做一次軟體工程的健康檢查，從 DevOps 到 CI / CD, 從 source code control, 到 release management, 到 TDD / unit testing 到各種開發的規範，到各種日誌、例外與錯誤的管理等等，都是個考驗。因此我都用這種態度來面對微服務的挑戰，每個基礎建設都有它存在的目的，你要嘛老老實實地照著實作，若想省掉他就一定要花經歷徹底了解為何要這樣做之後，在經過你的經驗判斷確實可以省掉後才省掉。否則這些欠下的技術債總有一天會回來的。
+當然這個計算方式有點誇大，跟過度簡化，但是他能表達出為什麼你需要注意 service discovery 這件事。我一直在提醒自己，微服務背後是需要高度累積各種架構與經驗的策略，典型的表面看起來很棒的技術，但是實際做起來到處都是地雷會炸斷你的手腳的...，初次導入這項技術的朋友們，千萬不要過度輕敵啊.. 跨入微服務，等於是對你的團隊做一次軟體工程的健康檢查，從 DevOps 到 CI / CD, 從 source code control, 到 release management, 到 TDD / unit testing 到各種開發的規範，到各種日誌、例外與錯誤的管理等等，都是個考驗。因此我都用這種態度來面對微服務的挑戰，每個基礎建設都有它存在的目的，你要嘛老老實實地照著實作，若想省掉他就一定要花精力徹底了解為何要這樣做之後，在經過你的經驗判斷確實可以省掉後才省掉。否則這些欠下的技術債總有一天會回來的。
 
 寫到這邊，總算把 service discovery 的目的與用途交代清楚了。後面計畫還有兩篇相關的文章，一篇是 Consul + .NET 的開發範例說明，另一篇則是進階的變種: service mesh。敬請期待續集 :D
