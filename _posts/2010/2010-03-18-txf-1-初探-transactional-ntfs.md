@@ -32,55 +32,53 @@ Transactional NTFS, 中文是 "交易式NTFS"，或是常見到的縮寫 "TxF"�
 
 
 ```csharp 
-            // 建立 KTM transaction object
-            IntPtr transaction = CreateTransaction(
-                IntPtr.Zero,
-                IntPtr.Zero,
-                0, 0, 0, 0,
-                null);
+// 建立 KTM transaction object
+IntPtr transaction = CreateTransaction(
+    IntPtr.Zero,
+    IntPtr.Zero,
+    0, 0, 0, 0,
+    null);
 
-            string[] files = new string[] {
-                @"c:\file1.txt",
-                @"c:\file2.txt",
-                @"c:\file3.txt"};
+string[] files = new string[] {
+    @"c:\file1.txt",
+    @"c:\file2.txt",
+    @"c:\file3.txt"};
 
+try
+{
+    foreach (string file in files)
+    {
+        // 使用支援交易的 delete file API
+        if (DeleteFileTransactedW(file, transaction) == false)
+        {
+            // 刪除失敗
+            throw new InvalidOperationException();
+        }
+    }
 
-
-            try
-            {
-                foreach (string file in files)
-                {
-                    // 使用支援交易的 delete file API
-                    if (DeleteFileTransactedW(file, transaction) == false)
-                    {
-                        // 刪除失敗
-                        throw new InvalidOperationException();
-                    }
-                }
-
-                // 認可交易
-                CommitTransaction(transaction);
-            }
-            catch (Exception ex)
-            {
-                // 還原交易
-                RollbackTransaction(transaction);
-            }
-            CloseHandle(transaction);
+    // 認可交易
+    CommitTransaction(transaction);
+}
+catch (Exception ex)
+{
+    // 還原交易
+    RollbackTransaction(transaction);
+}
+CloseHandle(transaction);
 ```            
 
 
  
 
-範例裡用到的幾個 method, 像是 CreateTransaction( ), DeleteFileTransactedW( ), CommitTransaction( ), RollbackTransaction( ) ... 等等，都是透過 P/Invoke 的方式呼叫的 win32 api... 除了用的型別不如 pure .net class library 般直覺之外，這樣的 code 也已經很簡單了，短短卅行就可以搞定...
+範例裡用到的幾個 method, 像是 ```CreateTransaction()```, ```DeleteFileTransactedW()```, ```CommitTransaction()```, ```RollbackTransaction()``` ... 等等，都是透過 P/Invoke 的方式呼叫的 win32 api... 除了用的型別不如 pure .net class library 般直覺之外，這樣的 code 也已經很簡單了，短短卅行就可以搞定...
 
 雖然這樣的 code 實在不大合我胃口，但是它畢竟是個堪用的方案... 對於 code 有潔癖的，可以考慮其它的用法。前面是最基本的 API call，如果你不滿意，MS自家的技術 [DTC](http://en.wikipedia.org/wiki/Distributed_Transaction_Coordinator) (Distributed Transaction Coordinator) 當然也支援 TxF。DTC 可以提供額外的好處，就是允許你做分散式的交易管理。意思是你配合 DTC，就可以把 Local File I/O 跟 database access 整合在同一個交易範圍內。
 
-這邊的 sample code 我就不貼了，在 managed code 裡去呼叫到 COM 的那堆介面 (啥 QueryInterface 的) 實在跟 .NET programming 的 style 有點格格不入... 在 C# 的世界裡，應該用 TransactionScope 才對。在 MS 的世界裡，TxF + TxR + DB 都可以是 TransactionScope 內的一部份。這部份的 Sample Code 我一樣先不貼了，不然貼一堆 code 又沒篇幅說明，感覺很混...
+這邊的 sample code 我就不貼了，在 managed code 裡去呼叫到 COM 的那堆介面 (啥 ```QueryInterface``` 的) 實在跟 .NET programming 的 style 有點格格不入... 在 C# 的世界裡，應該用 ```TransactionScope``` 才對。在 MS 的世界裡，TxF + TxR + DB 都可以是 ```TransactionScope``` 內的一部份。這部份的 Sample Code 我一樣先不貼了，不然貼一堆 code 又沒篇幅說明，感覺很混...
 
 其實，MS 該做的都做了，唯一缺的就是它竟然沒正式的併入 .NET Framework 內的一員... 如果 TxF 真的是你想用的東西，倒是有個 OpenSource Project 可以考慮一下: AlphaFS, 它的目標是能替換掉 namespace System.IO.*, 所以很多你常用的 class library, 它都有對等一樣用法的版本，當然它提供了更多的功能及改善... 其中 TxF 的支援就在內，你想用 TxF 來開發軟體的話，這是個不錯的選擇...
 
-總之，這篇只是個開始，目的是想先 "預覽" 一下 TxF 的能耐，及未來它配 DTC / TransactionScope 後，能怎麼應用它的方式，還有其它可用的相關資源。接下來我會陸續整理一些相關的研究心得.. (別太期待，大概一兩週生一篇就很偷笑了 XD)，下回見 !
+總之，這篇只是個開始，目的是想先 "預覽" 一下 TxF 的能耐，及未來它配 DTC / ```TransactionScope``` 後，能怎麼應用它的方式，還有其它可用的相關資源。接下來我會陸續整理一些相關的研究心得.. (別太期待，大概一兩週生一篇就很偷笑了 XD)，下回見 !
 
  
 
