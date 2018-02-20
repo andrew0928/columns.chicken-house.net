@@ -23,7 +23,7 @@ wordpress_postid: 11
 
 **Embedded SQL sample code**:
 
-```c++
+```c
 /* code to find student name given id */
 /* ... */
 for (;;) {
