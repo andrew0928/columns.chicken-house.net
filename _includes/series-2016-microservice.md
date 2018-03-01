@@ -20,8 +20,8 @@ Microservices, 一個很龐大的主題，我分成四大部分陸續寫下去..
   - [Part #1](/2017/04/15/microservice8-case-study/) 改變架構的動機; 2017/05/09
   - [Part #2](/2017/05/20/microservice8-case-study-p2/) 實際改變的架構案例; 2017/05/20
   - (計畫) [Part #3] 轉移到微服務的必經之路 - 資料庫的設計與規劃;
-  - [Part #3](/2017/07/11/microservice8-case-study-p3/) 實際部署的考量: 微服務基礎建設; 2017/07/11
-  - (撰寫中) 微服務基礎建設 - Service Discovery;
+  - [Part #4](/2017/07/11/microservice8-case-study-p3/) 實際部署的考量: 微服務基礎建設; 2017/07/11
+  - [Part #5](/2017/12/31/microservice9-servicediscovery/) 微服務基礎建設 - Service Discovery;
   - (撰寫中) 微服務基礎建設 - Service Mesh;
   - (計畫) 微服務基礎建設 - Log Tracking & Auth;
   - (計畫) 微服務基礎建設 - 版控, CI/CD, 容器化部署;
