@@ -22,12 +22,15 @@ logo:
 這些問題其實也都是過去我自己空閒時拿來練習的題材，因此這些問題我自己也都實作過，底下我就順帶 PO 出我自己的版本供參考。第一篇先來試試
 水溫，就先練習一下跟線上交易有關的問題吧! 
 
-
 <!--more-->
 
-# 線上交易的正確性
+> 我知道我的 code 寫的不夠好，請別鞭我 XD, 這些 sample code 只是為了解釋觀念而已, 我刻意省略很多細節, 也省略很多必要的檢查。純粹為了表達觀念而已，也別因為我的 code 就嫌棄 windows 跟 .net 都是爛東西... 我應該還沒有這種影響力 XDD
 
-這題可以算是送分題了，如果答不出來，我又需要你處理跟錢 (代幣 / 遊戲幣我也算在內) 有關的問題時，我實在是不敢把這任務交給你啊!
+
+
+# QUIZ: 線上交易的正確性
+
+這題可以算是送分題了，如果連最基本的答案都答不出來，我又需要你處理跟錢 (代幣 / 遊戲幣我也算在內) 有關的問題時，我實在是不敢把這任務交給你啊!
 題目很簡單，我先定義一個 C# 的 abstract class, 假設有個處理銀行帳戶的 engine 長的像這樣:
 
 ```csharp
@@ -104,15 +107,19 @@ static void Main(string[] args)
 }
 ```
 
-接下來，實作方式就有差別了，這系統可大可小，按照規模順序來看:
+接下來，實作方式就有差別了，這系統可大可小，按照規模順序來看 (由小到大):
 
-## 1. (只考基本觀念) 單機運作模式
 
-不需考慮 load balance, 也不需要考慮底層的 data storage, 直接用 ```List<T>``` 之類的 collection 即可。
+
+## 解法1. 單機運作 (只考基本觀念: Lock)
+
+* 關鍵字: lock
+* 對應層級: junior engineer
+
+不需考慮 load balance, 也不需要考慮底層的 data storage, 資料的儲存直接用變數或是物件，例如 ```List<T>``` 之類的 collection 即可。
 有點概念的話，這程度真的是放水了 XD，其實只要考驗你懂不懂 "lock" 的重要性而已...
 
-
-參考版本的答案，只要知道要 "lock" 就輕鬆過關。可以自己用 C# 的 ```lock``` 指令，或是更精簡的用 ```Interlocked``` 替代都可以:
+參考版本的答案，只要知道要 "lock" 就輕鬆過關。可以自己用 C# 的 ```lock``` 指令，或是用 ```Interlocked``` 替代都可以:
 
 ```csharp
 public class SingleHostAccount : AccountBase
@@ -176,17 +183,41 @@ Test FAIL! Total Time: 2470 msec. Expected Balance: 100000000, Actual Balance: 5
 
 
 
+## 解法2. 搭配 SQL Transaction (資料庫交易的應用)
 
-## 2. (考 SQL 交易的應用) 搭配 SQL DB 的做法
+* 關鍵字: transaction
+* 對應層級: junior engineer
+
+其實這個 "對應層級" 我想了很久，照規模來看，透過 DB 應該是比較適用中型的規模，不過就難度而言，這個好像還比上一個用 ```lock``` 的直覺，想到最後
+我決定把這兩個都歸在 junior engineer 的層級...
+
+實際上的應用，跟錢有關的大概都會找個資料庫存起來。因為跟錢有關，大部分的人都會選擇支援交易的 RDBMS，這邊我就直接拿 SQL server 當作範例。
+
+其實觀念很簡單，只要你知道要透過 SQL server 的 transaction 來處理，這樣就夠了。來看看這段 code:
 
 
-## 3. (考分散式鎖定的應用) 搭配 NOSQL, 或是其他不支援 ACID 的儲存體
+```csharp
+
+```
 
 
 
 
+## 解法3. 搭配 NOSQL, 或是其他不支援交易的儲存體 (考分散式鎖定的應用)
+
+* 關鍵字: distribution lock
+* 對應層級: architect
 
 
+
+# 評分標準
+
+[ ] Junior Engineer
+基本上能答出關鍵字 ```lock``` 就算過關了，任何型態的 lock 都可以。
+能講出 lock 我就認為是孺子可教，有機會晉級繼續深入的問下去...
+
+[ ] Senior Engineer
+能夠精準的把交易封裝在 SQL script 內，或是講出關鍵字 ```transaction``` 就算過這關了。
 
 
 
