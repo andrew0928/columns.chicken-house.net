@@ -478,3 +478,7 @@ docker run --rm -d --name mongo -p 27017:27017 mongo:3.4-windowsservercore
 
 如果你是面試主管的話，也請斟酌使用，問的太深入，面試者答得出來你卻接不下去，那也是很尷尬的 XDD。平日多訓練自己思考這些問題，我想除了應用在找人，在平日系統的設計或是架構的規劃上一定也有幫助的。
 
+對這篇文章提到的範例程式，可以到這邊下載:
+
+https://github.com/andrew0928/InterviewQuiz/releases/tag/publish-2018-0325
+
