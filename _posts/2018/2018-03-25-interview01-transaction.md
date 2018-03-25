@@ -1,19 +1,19 @@
 ---
 layout: post
-title: "架構師觀點 - 面試題分享 #1, 線上交易的正確性"
+title: "架構面試題 #1, 線上交易的正確性"
 categories:
 - "系列文章: 架構師觀點"
-tags: ["架構師", "面試經驗"]
+tags: ["架構師", "面試經驗", "microservices"]
 published: true
 comments: true
 redirect_from:
 logo: /wp-content/uploads/2018/03/whiteboard-interviews.png
 ---
 
+最近一直在思考，團隊裡的後端工程師能力是否到位，是微服務架構能否成功的關鍵之一。我該怎麼鑑別出面試者有沒有這樣的能力? 最有用的就是出幾個實際的應用題，讓面試者在白板上面說明。最近這一輪面試，談了不下幾十位吧，索性就把我幾個常問的白板考題整理起來寫成這系列的文章，改善團隊成員的問題，也算是朝向微服務化的目標跨出一大步。
+
 ![](/wp-content/uploads/2018/03/whiteboard-interviews.png)
 > 這書應該是惡搞的吧? 竟然還有恰恰 XD
-
-最近一直在思考，團隊裡的後端工程師能力是否到位，是微服務架構能否成功的關鍵之一。我該怎麼鑑別出面試者有沒有這樣的能力? 最有用的就是出幾個實際的應用題，讓面試者在白板上面說明。最近這一輪面試，談了不下幾十位吧，索性就把我幾個常問的白板考題整理起來寫成這系列的文章，改善團隊成員的問題，也算是朝向微服務化的目標跨出一大步。
 
 <!--more-->
 
@@ -118,10 +118,7 @@ static void Main(string[] args)
 |Architect|100+ hosts|Distributed Lock|
 
 
-## 解法1. 單機運作 (只考基本觀念: Lock)
-
-* 關鍵字: lock
-* 對應層級: junior engineer
+## 解法1. 單機運作 (考基本觀念: LOCK)
 
 不需考慮 load balance, 也不需要考慮底層的 data storage, 資料的儲存直接用變數或是物件，例如 ```List<T>``` 之類的 collection 即可。有點概念的話，這程度真的是放水了 XD，其實只要考驗你懂不懂 "lock" 的重要性而已...
 
@@ -171,14 +168,14 @@ Test Result for LockAccount: PASS!
 ```
 
 
-這邊的關鍵，在於執行交易時 (```ExecTransaction()```) 的過程中，系統必須做兩件事:
+這邊的關鍵，在於執行交易 ```ExecTransaction()``` 的過程中，系統必須做兩件事:
 
 1. 在交易紀錄 ```this._history``` 這個 ```TransactionItem``` 的集合裡面，加上一筆這次交易的資訊
 1. 在帳戶資訊紀錄目前餘額 ```this._balance``` 的變數中，需要將這次的轉帳金額累加上去。
 
 這組動作，必須符合 [ACID](https://zh.wikipedia.org/wiki/ACID) 的要求。最簡單的做法就是把它包裝成 [Critical Section; 臨界區](https://zh.wikipedia.org/wiki/%E8%87%A8%E7%95%8C%E5%8D%80%E6%AE%B5)。在 Critical Section 的範圍內，是不允許有並行的狀態的。單機的情況下，直接使用 C# language 或是 OS 本身的 Lock 機制就足夠了。上面的 sample code 就只有這樣而已。
 
-我這邊另外準備個對照組，只拿掉 lock 那行而已，其他通通都不變。如果故意略過 lock 機制，隨便一跑就會發現有一堆錢在系統內憑空消失了 XD。這差距還不小，足足少了一半的錢... 雖然效能提升了一些，但是這樣的 code 你敢用嗎??
+我這邊另外準備個對照組，只拿掉 lock 那行而已，其他通通都不變。如果故意略過 lock 機制，隨便一跑就會發現有一堆錢在系統內憑空消失了 XD。這差距還不小，大約少了 20% 的錢... 雖然效能提升了一些，但是這樣的 code 你敢用嗎??
 
 ```csharp
 
@@ -210,8 +207,6 @@ public class LockAccount : AccountBase
 }
 
 ```
-
-
 
 執行結果:
 
@@ -248,11 +243,11 @@ Wiki 有篇文章: [Racing Condition](https://en.wikipedia.org/wiki/Race_conditi
 
 ## 解法2. 搭配 SQL Transaction (資料庫交易的應用)
 
-這個解法，因為實作容易，而且應用的情況比較普遍，雖然它適用於較大規模的情境 (跟上面的方法相比)，因此可能會有不少的應試者，答不出上一個解法 #1，反而答得出這個解法... 我還是按照我的排列順序，按照實際應用的規模上限來排序。
+這個解法，因為實作容易，而且應用的情況比較普遍，雖然它適用於較大規模的情境 (跟上面的方法相比)，因此可能會有不少的應試者，答不出上一個解法 #1，反而答得出這個解法... 不過我還是按照我的排列順序，按照實際應用的規模上限來排序。
 
 在實際上的應用，跟錢有關的大概都會找個資料庫存起來。因為跟錢有關，大部分的人都會選擇直接就支援交易的關聯式資料庫，這邊我就直接拿 SQL server 當作範例。其實觀念很簡單，只要你知道要透過 SQL server 的 transaction 來處理，這樣就夠了。來看看這段 code:
 
-範例程式我挑選比較簡單明瞭的 Dapper, 沒有採用 Entity Framework。為了求簡潔，我也把 configuration 省掉了, 改成直接寫在code 裡面。阿北有練過，小朋友不要學...
+範例程式我挑選比較簡單明瞭的 [Dapper](https://github.com/StackExchange/Dapper), 沒有採用 Entity Framework。為了求簡潔，我也把 configuration 省掉了, 改成直接寫在code 裡面。阿北有練過，小朋友不要學...
 
 ```csharp
 
