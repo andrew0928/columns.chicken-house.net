@@ -454,7 +454,7 @@ docker run --rm -d --name mongo -p 27017:27017 mongo:3.4-windowsservercore
 雖然前後大約執行了 7 分鐘，總共平行的處理掉 200000 筆交易，分成 10 process x 20 concurrent threads 平行處理，在
 不支援交易的 MongoDB 仍然可以很精準的執行交易控制，連一塊錢都沒有算錯!
 
-不過，在這邊的實作，地雷還是很多。這類鎖定或是平行處理的問題，其實都在資工的 "作業系統" 這門課裡面有交代... 很多細節我沒講到，建議有興趣的朋友們好好去翻一下課本...。我隨便舉個例子就好，你知道如何實作 "分散式鎖定" 的機制嗎? 你如何確保你用的 LOCK 機制是可靠的? OS 課本就會教到，要自己實做 critical section 一定要有個不可分割的 ["compare and swap / exchange"](https://en.wikipedia.org/wiki/Compare-and-swap) 指令才行。現金的 CPU 甚至內建這樣的指令，讓 OS 能拿來應用到多工的處理。如果你懂這些原理，你可以在你手邊尋找各種符合這要求的機制來實作。有這樣能力的人，隨手都能取得適當的資源來解決問題，從 storage server, share file system, database ... 等等大概都難不倒它。
+不過，在這邊的實作，地雷還是很多。這類鎖定或是平行處理的問題，其實都在資工的 "作業系統" 這門課裡面有交代... 很多細節我沒講到，建議有興趣的朋友們好好去翻一下課本...。我隨便舉個例子就好，你知道如何實作 "分散式鎖定" 的機制嗎? 你如何確保你用的 LOCK 機制是可靠的? OS 課本就會教到，要自己實做 critical section 一定要有個不可分割的 ["compare and swap / exchange"](https://en.wikipedia.org/wiki/Compare-and-swap) 指令才行。現今的 CPU 甚至內建這樣的指令，讓 OS 能拿來應用到多工的處理。如果你懂這些原理，你可以在你手邊尋找各種符合這要求的機制來實作。有這樣能力的人，隨手都能取得適當的資源來解決問題，從 storage server, share file system, database ... 等等大概都難不倒它。
 
 相對的，你基礎不夠扎實的話，請盡量避開親自去實作這些很底層的機制，盡可能的挑選可靠的套件來使用。上面的例子我就是參考了這篇文章 [Distributed Lock for Redis](https://redis.io/topics/distlock)，從裡面挑選了 RedLock 這個基於 Redis 的 Distributed Lock 套件來使用。我使用的是這套: [RedLock.net](https://github.com/samcook/RedLock.net), 有興趣的朋友可以花點時間研究一下。
 
@@ -480,5 +480,5 @@ docker run --rm -d --name mongo -p 27017:27017 mongo:3.4-windowsservercore
 
 對這篇文章提到的範例程式，可以到這邊下載:
 
-https://github.com/andrew0928/InterviewQuiz/releases/tag/publish-2018-0325
+[InterviewQuiz, tag:publish-2018-0325](https://github.com/andrew0928/InterviewQuiz/releases/tag/publish-2018-0325)
 
