@@ -375,6 +375,21 @@ Press any key to continue . . .
 
 處理這類問題，最討厭的就是 thread safe. 你必須培養那種多執行緒問題的敏銳度，適當的用正確方式處理，否則你的程式量一大就有可能出問題。
 
+
+//
+//
+// 附上錯誤的範例及執行結果
+//
+//
+
+
+
+
+
+
+
+
+
 接著，來看看這段程式會花掉的運算資源吧! 先用演算法的角度來評估一下時間跟空間的複雜度。精準一點的講這整個過程，假設每秒系統都會產生 N 筆訂單，你會發現:
 
 1. 增加訂單的動作: ```CreateOrders()``` 的時間複雜度是 O(1)
@@ -406,6 +421,55 @@ Press any key to continue . . .
 * 系統規模: 10 ~ 100 hosts
 * 是否有效降低運重複的算量: 是 (只有簡單的累計計算)
 * 是否適合長時間運行: 是 (過程中都只占用極低的系統資源)
+
+其實分散式的版本也沒啥不同，不過就是把上面 [解法2] 的 Queue 以及兩個暫存的變數 (buffer, statistic_result) 都搬到快速的 storage 放置而已。這邊想都不用想，繼續用上一篇題到的 Redis 來用。還記得上一篇講的 distributed lock 嗎? 你沒有搞好這些基礎就亂用的話，流量一大資料一定亂七八糟。
+
+這種處理最忌諱碰到 racing condition 把數值都搞亂。最佳的解法，一定是優先看看 storage (redis) 本身是否提供這些 atom operation ? 真的沒有，下下策才是自己搞定 distributed transaction, 或是 distributed lock 等等機制。但是相信我，這種東西你一定要懂，但是不一定要自己實作啊...
+
+回過頭來看看 [解法2] 吧。撇除一般的 code 以及計算，裡面比較值得注意的地方有:
+
+1. 需要使用 Queue 的資料結構
+1. buffer 變數需要 increment 及 exchange 兩種 atom operation
+1. statistic_result 變數需要 increment 及 decrement 兩種 atom operation
+
+還是同一句話，別自己搞這些東西啊，你搞清楚啥時該用這些機制就夠了。你在外面用 library 的型態，怎麼做都做不過內建的。先來看看 redis command list 是否支援這些資料型別，以及這些操作指令? 這時沒有好方法了，直接翻出 redis 的文件，找看看有沒有合適的吧。
+
+首先，在 Redis 支援的 Data Type 內找到 Lists.. (還好總共只有六種)
+
+* Redis Data Type: [Lists](https://redis.io/topics/data-types#lists)
+
+> Redis Lists are simply lists of strings, sorted by insertion order. It is possible to add elements to a Redis List pushing new elements on the head (on the left) or on the tail (on the right) of the list.
+>
+> The LPUSH command inserts a new element on the head, while RPUSH inserts a new element on the tail. A new list is created when one of this operations is performed against an empty key. Similarly the key is removed from the key space if a list operation will empty the list. These are very handy semantics since all the list commands will behave exactly like they were called with an empty list if called with a non-existing key as argument.
+
+雖然名字不叫 Queue, 但是就像 javascript 的 array 搭配 push pop 就可以當 stack 使用一樣，Redis 的 Lists 搭配 LPUSH / RPUSH / LPOP / RPOP 這四個指令，一樣可以當作 Queue / Stack 來用啊! 找到這個，算是解決上述 (1) 的問題了。
+
+接下來繼續找找，有無針對特定 key / value 進行 increment / decrement / exchange 這三種 atom operation... Orz, 要從 206 個指令逐一找出我需要的... 好的開始是成功的一半，至少先找到 redis 所有的 [指令列表](https://redis.io/commands)...
+
+運氣還不錯，找到這三個:
+
+* [INCRBY key increment](https://redis.io/commands/incrby)
+> Increments the number stored at key by increment. If the key does not exist, it is set to 0 before performing the operation. An error is returned if the key contains a value of the wrong type or contains a string that can not be represented as integer. This operation is limited to 64 bit signed integers.
+
+* [DECRBY key decrement](https://redis.io/commands/decrby)
+> Decrements the number stored at key by decrement. If the key does not exist, it is set to 0 before performing the operation. An error is returned if the key contains a value of the wrong type or contains a string that can not be represented as integer. This operation is limited to 64 bit signed integers.
+
+* [GETSET key value](https://redis.io/commands/getset)
+> Atomically sets key to value and returns the old value stored at key. Returns an error when key exists but does not hold a string value.
+
+看來實在太讚了，完全吻合我的需求啊! 別以為我的運氣真的那麼好，我想要的東西 Redis 都那麼 "剛好" 就幫我準備好。這只是再次驗證基礎知識的重要性而已。這些其實都是資料結構跟作業系統裡面的內容啊，如果我是 Redis 的作者，我也唸過這些課本的話，我自然也會把這些基礎功能放進指令集裡面。學會這些基礎知識，等於跟這些大師級的人物，以及這些系統都有一定程度的默契了，你想的大概都會有現成的支援 (除非你想的都是些旁門左道)。
+
+所以，如果我說我在寫這個飯粒程式之前，對 Redis 是個門外漢，你會相信嗎? 事實上我還真是第一次認真研究 redis command list / data type, 還有第一次認真用 StackExchange.Redis 這個套件... 其實我的重點不是要炫耀什麼，而是再次強調這些基礎知識的重要性。你如果真的有打好這些基礎，自然會相信這些基礎建設 (redis) 一定會支援這些關鍵的 operation，剩下找文件的工作，只要花時間就能得到結果。相對於基礎知識不足的人，搞不好他要下關鍵字還不知道該怎麼 google ..
+
+
+廢話不多說，既然確認了 Redis 完全支援我想要的功能了，那剩下的就是看看我用的 StackExchange.Redis 這個 .NET 套件，是否有封裝這些功能?
+
+
+
+
+
+
+
 
 
 ## 解法4, 使用串流分析，或是適當的服務
