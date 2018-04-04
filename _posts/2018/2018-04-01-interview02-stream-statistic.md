@@ -23,6 +23,13 @@ logo: /wp-content/uploads/2018/03/whiteboard-interviews.png
 
 # 前言 & 導讀
 
+我先定義一下題目的系統架構。假設既有的系統架構如下:
+
+![](/wp-content/uploads/2018/04/architecture.png)
+
+其中虛線框的部分都是現有的處理流程，從 [WebAPI] 接收到訂單之後，有既有的 [Processing] 程序，也有既有的資料庫去儲存交易結果。這些都不用在這次測驗中額外處理。這次的重點在於，如果收到訂單建立的通知時，會即時的把這些資訊轉發到 [Statistic] 統計的模組時，統計模組該怎麼做到上述的要求?? 設計出這個統計模組內部的做法，就是這個題目要考的範圍。
+
+
 在說明怎麼解這問題之前，我先講講我為何想挑選這個題目的原因吧! 這是個典型的考驗你應用演算法或資料結構的問題。我實際在面試上問過這個問題，大約有 85% 的人都告訴我，只要從資料庫執行這道 SQL:
 
 ```sql
@@ -34,11 +41,11 @@ where transaction_time between getdate()
 
 ```
 
-不過，如果我的統計資料想要每秒更新，每小時的訂單量又有上百萬筆，累積在資料庫尚未封存的訂單還有上億筆時....
+不過，如果我的統計資料想要每秒更新，這個案例每秒有 10000 筆訂單，相當於每小時的訂單量有 3600 萬筆，累積在資料庫尚未封存的訂單可能高達上億筆時....
 
-我只能說，這是個結果正確的方法，也是大部分工程師不加思索就可以回答出來的答案，但是有他的侷限，不是個能大規模運用的方案。不同的規模下，需要不同的解決方案，這時你可能越需要自己造輪子，因為你可能找不到現成的 solution (如上例，仰賴的是 SQL server 的運算能力)。這時如何運用你的基礎知識、資料結構、演算法等等，反而是解決這類問題的關鍵。高手跟普通人的能力差距，在這類問題就可以很明顯的區分出來。
+我只能說，這是個結果正確的方法，也是大部分工程師不加思索就可以回答出來的答案，但是他的運算能力很有限，不是個能大規模運用的方案。不同的規模下，需要不同的解決方案，這時你可能需要自己打造輪子，因為你可能找不到現成的 solution (如上例，仰賴的是 SQL server 的運算能力)。這時如何運用你的基礎知識、資料結構、演算法等等，反而是解決這類問題的關鍵。高手跟普通人的能力差距，在這類問題就可以很明顯的區分出來。
 
-如果你嘗試發展的領域越獨特，你越需要這樣特質的人。如果你的問題已經有很多成熟的解決方案 (典型的案例: 台灣一堆系統整合廠商)，你需要的應該是熟悉特定 framework / system 的人。如果你碰到的問題都還不普及，需要自己打造自己的 framework 時, 這種人選就是關鍵了。這類的人才才能幫你解決問題，這類問題同時就會是競爭對手難以追上的門檻。
+如果你嘗試發展的領域越獨特，你越需要這樣特質的人。如果你的問題已經有很多成熟的解決方案 (典型的案例: 台灣一堆接案做系統整合的廠商)，你需要的應該是熟悉特定 framework / system 的人。如果你碰到的問題屬於獨特的 business model, 需要自己打造自己的 solution 時, 能否找到這種人選就是關鍵了。這類的人才才能幫你解決問題，這類問題同時就會是競爭對手難以追上的門檻。
 
 
 
@@ -59,7 +66,7 @@ public abstract class EngineBase
 
 ```
 
-其中 ```int CreateOrders(int amount)``` 是新增訂單資訊的 method, ```int StatisticResult {get;}``` 則是取得統計結果的 property, 就這樣而已，其他沒有了。為了讓測試程式容易一點開發，我直接在題目內提供了一個空白的 ```DummyEngine```, 目的只是讓你的測試程式可以通過編譯及執行而已:
+其中 ```int CreateOrders(int amount)``` 是新增訂單資訊的 method, ```int StatisticResult { get; }``` 則是取得統計結果的 property, 就這樣而已，其他沒有了。為了讓測試程式容易一點開發，我直接在題目內提供了一個空白的 ```DummyEngine```, 目的只是讓你的測試程式可以通過編譯及執行而已:
 
 ```csharp
 
@@ -127,8 +134,8 @@ static void FuncTest()
 
 | |0|1|2|3|4|5|6|7|8|9|10|...|51|52|53|54|55|56|57|58|59|0|1|2|3|4|5|
 |-|-|-|-|-|-|-|-|-|-|-|--|---|--|--|--|--|--|--|--|--|--|-|-|-|-|-|-|
-|A| | |#|#|#|#|#|#|#|#|# |...|# |# |# |# |# |# |# |# |# |#|#| | | | |
-|B| | | | |#|#|#|#|#|#|# |...|# |# |# |# |# |# |# |# |# |#|#|#|#| | |
+|A| | |#|#|#|#|#|#|#|#|# |###|# |# |# |# |# |# |# |# |# |#|#| | | | |
+|B| | | | |#|#|#|#|#|#|# |###|# |# |# |# |# |# |# |# |# |#|#|#|#| | |
 
 在 A 時間點，需要納入統計的部分都被我標上 # 了。A 需要統計: 2, 3, 4, 5 ... 59, 0, 1 
 在 B 時間點，需要納入統計的部分都被我標上 # 了。B 需要統計: 4, 5 ... 59, 0, 1, 2, 3
@@ -141,24 +148,22 @@ static void FuncTest()
 
 
 
-## 解法1, 直接使用資料庫原始資料來計算
+## 解法1, 直接使用資料庫的原始資料來計算
 
-這個方案有很多種變形，我就一次說明了。基本上回答這種解法的，我會認定這解法能解決的層級在:
+這個方案有很多種變形，基本上只要是從各種型態的 storage (不論是 SQL 或是 MongoDB 等等)，不斷的撈出原始資料一筆一筆加起來統計的解法我都歸在這個層級。我會認定這層級的定位是:
 
 * 對應職級: junior engineer
 * 系統規模: 1 ~ 10 hosts
 * 是否有效降低運重複的算量: 否 (不斷的重複加總區間內的資料)
-* 是否適合長時間運行: 否 (orders table 資料筆數會不斷累積)
+* 是否適合長時間運行: 否 (orders table 資料筆數會不斷累積, 統計的區間長短會影響系統負載)
 
-
-解法很簡單，就是不斷地按照條件，下 SQL 指令查詢統計結果而已。不過這方法有兩個致命的缺點:
+這解法很簡單，就是不斷地按照條件，下 SQL 指令查詢統計結果而已。不過這方法有三個致命的缺點:
 
 1. 你無法預期這 60 sec 之內有多少筆訂單? 這直接影響到 sum() 動作的效能
-1. 你無法預期這個 table 累積了多少筆資料? 這直接影響到 where 挑出符合時間範圍資料的效能
+1. 如果時間擴大到 3600 sec, 運算量馬上擴大到 60 倍。這直接影響到這做法能處理的時間區間大小
+1. 你無法預期這個 table 累積了多少筆歷史資料? 這直接影響到 where 挑出符合時間範圍資料的效能
 
-當然有些工程師會想出變形的做法，比如替 (1) 加上 cache, 一秒內不用重新計算，或是 (2) 加上 archive 機制，定期搬走過期的資料，將資料筆數控制在一定時間範圍內，降低 (2) 的影響...
-
-不過，即使如此，我都認定這做法有他的規模限制... 如果我的訂單量大到沒有辦法一秒內完成至少一次統計，那這個方法就不成立了。曾經不只一個面試者還告訴過我改善的方式，把資料倒到另一個 database，做讀寫分離，讓這台資料庫專心計算...。我聽了心裡三條線... 一樣，這是個技術上正確的解法，但是... 我要為了一個統計多去養一台 DB 嗎? 
+當然有些工程師會想出變形的做法，比如替 (1) 加上 cache, 一秒內不用重新計算，或是 (2) 加上 archive 機制，定期搬走過期的資料，將資料筆數控制在一定時間範圍內，降低 (3) 的影響... 不過，即使如此，都沒有根本解決問題。我都認定這做法有他的規模限制... 如果我的訂單量大到沒有辦法一秒內完成至少一次統計，那這個方法就不成立了。曾經不只一個面試者還告訴過我改善的方式，把資料倒到另一個 database，做讀寫分離，讓這台資料庫專心計算...。我聽了心裡三條線... 一樣，這是個技術上正確的解法，但是... 我要為了一個統計多去養一台 DB 嗎? 
 
 總之，只要面試者的回答有下列這幾個特徵，不管是不是用 SQL，我都認定是這個層次的解決方案:
 
@@ -169,8 +174,6 @@ static void FuncTest()
 看到這邊，各位讀者們，你有想出更好的方法了嗎?
 
 程式碼我就不做太多說明了，我直接把 Engine code (C#), SQL schema (T-SQL), 還有測試程式執行的 logs 貼在下方:
-
-
 
 ```sql
 
@@ -250,22 +253,22 @@ Press any key to continue . . .
 
 
 
-## 解法2, 在程式內統計
+## 解法2, 在程式內直接統計
 
 這個方案仰賴的不是背後的服務 (如上例，仰賴 SQL Server)，著重在基礎的資料結構應用。基本上回答這種解法的，我會認定這解法能解決的層級在:
 
 * 對應職級: senior engineer / architect
 * 系統規模: 1 ~ 10 hosts
-* 是否有效降低運重複的算量: 是 (只有簡單的累計計算)
+* 是否有效降低運重複的算量: 是 (只有非常簡單的累計計算)
 * 是否適合長時間運行: 是 (過程中都只占用極低的系統資源)
 
 資料結構，其實就是那幾種而已。我先從問題本身來看看該如何解決，然後再挑選對應的資料結構來處理。其實這類問題，只要一開始就把數字加總起來，放在 cache 等著讀取就可以了。這邊比較討厭的是超過時間的數據必須扣掉。
 
-因此，我的想法是，如果這統計需要的精確度只到秒的話 (意思是: 現在如果是 ```22:26:08.670```, 則我只要統計到 ```21:26:08.000``` 即可, 不到一秒的落差可以略過，算到下一秒去)，那我只要分段統計，一次用 3600 個 counter 就好了啊! 先把每秒的訂單數值都放在對應的那個 counter 內，每秒切換到下一個。切換的過程中，要把下一個 counter 的數值歸零重頭開始。有新的訂單進來，就累加到新的 counter 就好，直到再下一秒，再重複這個動作... 我需要的統計，只需要把這 3600 個 counter 加起來就好了，或是我再額外準備一個 buffer, 在做上述的動作時，同步更新這個 buffer 的數值即可。任何查詢統計資料的動作，就只是 read buffer 就完成了。若跟上述的 [解法1] 相比，我可以把每秒要執行數萬筆資料加總的任務，降低為固定每秒維護一次總合數值即可。
+因此，我的想法是，如果這統計需要的精確度只到秒的話，我可以先做點前置處理，把一小時 3600 萬筆資料，先做局部統計化簡為 3600 筆統計資料 (每秒一筆)。往後的計算，不論是加總，或是剔除過時資料，都只需要針對這 3600 筆，而非 3600 萬筆資料。計算的過程中，我甚至可以另外準備個 sum 的變數。只要有新的一秒統計資料計算完成，sum 就直接累加上去。若有一秒的統計資料過時，我就把它從 sum 扣除。這時 sum 的變數就隨時能反映當下的統計數值 (會有一秒以內的誤差)。
 
 如此一來，不論我要面對的訂單量是每秒 10000 orders/sec, 還是 100000 orders/sec, 或是更多, 其實除了累加 counter 的部分忙碌了點之外，其他的動作都一樣啊，簡單又快速。說明到這邊，你開始體會到用對資料結構，對於系統的影響有多大了嗎? 我想這個運算量，跟 [解法1] 的效率應該差到上萬倍以上了吧! 你還覺得學資料結構沒有用嗎? 你還覺得學這個只是應付考試而已嗎? XD
 
-基本的 concept 有了，接下來就是實作了。再進一步，上面那 3600 counters, 每隔一秒都要把最舊的那筆拿出來處理後踢掉，RESET 後放新資料... 這種 FIFO (**F**irst **I**n, **F**irst **O**ut), 不就是 Queue 的結構嗎?
+基本的 concept 有了，接下來就是實作了。再進一步，上面那 3600 筆統計資料, 每隔一秒都要把最舊的那筆拿出來處理後踢掉，RESET 後放新資料... 這種 FIFO (**F**irst **I**n, **F**irst **O**ut), 不就是 ```Queue``` 的結構嗎?
 
 越想越容易了，這些問題其實最花時間的都是思考而已，想通了之後寫出來其實都不值錢... 大概資工系剛畢業就能寫得出來了... 來看看我的版本:
 
@@ -406,15 +409,15 @@ Press any key to continue . . .
 * 是否有效降低運重複的算量: 是 (只有簡單的累計計算)
 * 是否適合長時間運行: 是 (過程中都只占用極低的系統資源)
 
-其實分散式的版本也沒啥不同，不過就是把上面 [解法2] 的 Queue 以及兩個暫存的變數 (buffer, statistic_result) 都搬到快速的 storage 放置而已。這邊想都不用想，繼續用上一篇題到的 Redis 來用。還記得上一篇講的 distributed lock 嗎? 你沒有搞好這些基礎就亂用的話，流量一大資料一定亂七八糟。
+其實分散式的版本也沒啥不同，不過就是把上面 [解法2] 的 ```Queue``` 以及兩個暫存的變數 (```buffer```, ```statistic_result```) 都搬到快速的 storage 放置而已。這邊想都不用想，繼續用上一篇題到的 Redis 來用。還記得上一篇講的 distributed lock 嗎? 你沒有搞好這些基礎就亂用的話，流量一大資料一定亂七八糟。
 
 這種處理最忌諱碰到 racing condition 把數值都搞亂。最佳的解法，一定是優先看看 storage (redis) 本身是否提供這些 atom operation ? 真的沒有，下下策才是自己搞定 distributed transaction, 或是 distributed lock 等等機制。但是相信我，這種東西你一定要懂，但是不一定要自己實作啊...
 
 回過頭來看看 [解法2] 吧。撇除一般的 code 以及計算，裡面比較值得注意的地方有:
 
-1. 需要使用 Queue 的資料結構
-1. buffer 變數需要 increment 及 exchange 兩種 atom operation
-1. statistic_result 變數需要 increment 及 decrement 兩種 atom operation
+1. 需要使用 ```Queue``` 的資料結構
+1. ```buffer``` 變數需要 ```increment``` 及 ```exchange``` 兩種 atom operation
+1. ```statistic_result``` 變數需要 ```increment``` 及 ```decrement``` 兩種 atom operation
 
 還是同一句話，別自己搞這些東西啊，你搞清楚啥時該用這些機制就夠了。你在外面用 library 的型態，怎麼做都做不過內建的。先來看看 redis command list 是否支援這些資料型別，以及這些操作指令? 這時沒有好方法了，直接翻出 redis 的文件，找看看有沒有合適的吧。
 
@@ -445,19 +448,119 @@ Press any key to continue . . .
 
 看來實在太讚了，完全吻合我的需求啊! 別以為我的運氣真的那麼好，我想要的東西 Redis 都那麼 "剛好" 就幫我準備好。這只是再次驗證基礎知識的重要性而已。這些其實都是資料結構跟作業系統裡面的內容啊，如果我是 Redis 的作者，我也唸過這些課本的話，我自然也會把這些基礎功能放進指令集裡面。學會這些基礎知識，等於跟這些大師級的人物，以及這些系統都有一定程度的默契了，你想的大概都會有現成的支援 (除非你想的都是些旁門左道)。
 
-所以，如果我說我在寫這個飯粒程式之前，對 Redis 是個門外漢，你會相信嗎? 事實上我還真是第一次認真研究 redis command list / data type, 還有第一次認真用 StackExchange.Redis 這個套件... 其實我的重點不是要炫耀什麼，而是再次強調這些基礎知識的重要性。你如果真的有打好這些基礎，自然會相信這些基礎建設 (redis) 一定會支援這些關鍵的 operation，剩下找文件的工作，只要花時間就能得到結果。相對於基礎知識不足的人，搞不好他要下關鍵字還不知道該怎麼 google ..
+所以，如果我說我在寫這個飯粒程式之前，對 Redis 是個門外漢，你會相信嗎? 事實上我還真是第一次認真研究 redis command list / data type, 還有第一次認真用 ```StackExchange.Redis``` 這個套件... 其實我的重點不是要炫耀什麼，而是再次強調這些基礎知識的重要性。你如果真的有打好這些基礎，自然會相信這些基礎建設 (redis) 一定會支援這些關鍵的 operation，剩下找文件的工作，只要花時間就能得到結果。相對於基礎知識不足的人，搞不好他要下關鍵字還不知道該怎麼 google ..
 
 
-廢話不多說，既然確認了 Redis 完全支援我想要的功能了，那剩下的就是看看我用的 StackExchange.Redis 這個 .NET 套件，是否有封裝這些功能? 這邊我就不再囉嗦了，直接寫成 code:
+廢話不多說，既然確認了 Redis 完全支援我想要的功能了，那剩下的就是看看我用的 ```StackExchange.Redis``` 這個 .NET 套件，是否有封裝這些功能? 這邊我就不再囉嗦了，直接寫成 code:
 
 ```csharp
 
+public class InRedisEngine : EngineBase
+{
+    private IDatabase redis = ConnectionMultiplexer.Connect("172.18.253.232:6379").GetDatabase();
+
+    public InRedisEngine(bool start_worker = true)
+    {
+        if (start_worker)
+        {
+            Task.Run(() =>
+            {
+                while (true)
+                {
+                    Task.Delay(this._interval).Wait();
+                    this._statistic_timer_worker();
+                }
+            });
+        }
+    }
+
+    public override int StatisticResult //=> this._statistic_result + this._buffer;
+    {
+        get
+        {
+            return (int)this.redis.StringGet("statistic") + (int)this.redis.StringGet("buffer");
+        }
+    }
+
+    public override int CreateOrders(int amount) //=> Interlocked.Add(ref this._buffer, amount);
+    {
+        return (int)this.redis.StringIncrement("buffer", amount);
+    }
+
+    // 控制統計區間長度
+    private readonly TimeSpan _period = TimeSpan.FromMinutes(1);
+
+    // 控制統計的精確度
+    private readonly TimeSpan _interval = TimeSpan.FromSeconds(0.1);
+
+    private void _statistic_timer_worker()
+    {
+        int buffer_value = (int)this.redis.StringGetSet("buffer", 0);
+        this.redis.ListRightPush("queue", QueueItem.Encode(new QueueItem()
+        {
+            _count = buffer_value,
+            _time = DateTime.Now
+        }));
+        this.redis.StringIncrement("statistic", buffer_value);
+
+        while (true)
+        {
+            QueueItem dqitem = QueueItem.Decode((string)this.redis.ListGetByIndex("queue", 0));
+
+            if (dqitem._time >= (DateTime.Now - this._period)) break;
+
+            dqitem = QueueItem.Decode((string)this.redis.ListLeftPop("queue"));
+            this.redis.StringDecrement("statistic", dqitem._count);
+        }
+    }
+
+    public class QueueItem
+    {
+        public int _count;
+        public DateTime _time;
+
+        public static string Encode(QueueItem value)
+        {
+            return $"{value._count},{(value._time - DateTime.MinValue).TotalMilliseconds}";
+        }
+
+        public static QueueItem Decode(string text)
+        {
+            string[] segments = text.Split(',');
+            return new QueueItem()
+            {
+                _count = int.Parse(segments[0]),
+                _time = DateTime.MinValue + TimeSpan.FromMilliseconds(double.Parse(segments[1]))
+            };
+        }
+    }
+}
 
 ```
 
 
 ```log
 
+statistic: 1770, expected: 1770, test: True
+statistic: 1767, expected: 1770, test: False
+statistic: 1770, expected: 1770, test: True
+statistic: 1770, expected: 1770, test: True
+statistic: 1766, expected: 1770, test: False
+statistic: 1770, expected: 1770, test: True
+statistic: 1770, expected: 1770, test: True
+statistic: 1765, expected: 1770, test: False
+statistic: 1770, expected: 1770, test: True
+statistic: 1770, expected: 1770, test: True
+statistic: 1770, expected: 1770, test: True
+statistic: 1770, expected: 1770, test: True
+statistic: 1770, expected: 1770, test: True
+statistic: 1770, expected: 1770, test: True
+statistic: 1763, expected: 1770, test: False
+statistic: 1770, expected: 1770, test: True
+statistic: 1770, expected: 1770, test: True
+statistic: 1762, expected: 1770, test: False
+
+Press any key to continue . . .
 
 ```
 
@@ -470,10 +573,30 @@ Press any key to continue . . .
 
 ```log
 
+statistic: 17728, expected: 1770, test: False
+statistic: 17518, expected: 1770, test: False
+statistic: 17476, expected: 1770, test: False
+statistic: 17730, expected: 1770, test: False
+statistic: 17558, expected: 1770, test: False
+statistic: 17429, expected: 1770, test: False
+statistic: 17644, expected: 1770, test: False
+statistic: 17644, expected: 1770, test: False
+statistic: 17468, expected: 1770, test: False
+statistic: 17689, expected: 1770, test: False
+statistic: 17734, expected: 1770, test: False
+statistic: 17374, expected: 1770, test: False
+statistic: 17419, expected: 1770, test: False
+statistic: 17736, expected: 1770, test: False
+statistic: 17506, expected: 1770, test: False
+statistic: 17460, expected: 1770, test: False
+statistic: 17738, expected: 1770, test: False
+statistic: 17503, expected: 1770, test: False
+statistic: 17409, expected: 1770, test: False
+statistic: 17740, expected: 1770, test: False
 
 ```
 
-平行運作的狀態下，大約就是 1770 x 10 的每分鐘交易量。跑起來的結果落差不大，符合預期。
+平行運作的狀態下，大約就是維持在 1770 x 10 = 17700 的每分鐘交易量。跑起來的結果落差不大，符合預期。
 
 
 
@@ -488,23 +611,106 @@ Press any key to continue . . .
 
 * [兩個版本自我驗證 + 執行期驗證](/2017/01/31/leetcode2-assert/)
 
-這篇文章講到 Microsoft Excel 團隊，在 25 年前開發試算表引擎就用到的技巧: 兩個版本互相驗算。在除錯模式下，針對複雜的計算，先用很慢，但是保證正確的版本計算一次答案；之後再緊接著用高度最佳化，效能很好的版本再算一次，之後自動比對兩個版本的結果是否完全一致? 若不一致就觸發 ASSERT 維護警告。這其實就是在執行期做單元測試在做的事情啊! 這邊我也用一樣的技巧，來驗證一下這些統計的引擎是否真的有做好資料的正確性?
+這篇文章講到 Microsoft Excel 團隊，在 25 年前開發試算表引擎就用到的技巧: 兩個版本互相驗算。在除錯模式下，針對複雜的計算，先用很慢，但是保證正確的版本計算一次答案；之後再緊接著用高度最佳化，效能很好的版本再算一次，之後自動比對兩個版本的結果是否完全一致? 若不一致就觸發 ```ASSERT``` 維護警告。這其實就是在執行期做單元測試在做的事情啊! 這邊我也用一樣的技巧，來驗證一下這些統計的引擎是否真的有做好資料的正確性?
 
-因此，測試程式我就稍做調整。原本是用固定的 timer + data, 看看統計出來的數據是否符合預期。現在有對照組 (我假設 InMemoryEngine 是可靠的)，我不再需要預測統計的結果是否是 1770 了，直接比對即可。這時我產生訂單的模式就可以換掉了，我改用多執行緒，同時並行的插入大量的訂單，看看 Engine 在這種情況下，是否仍然能維持正確的計算?
+因此，測試程式我就稍做調整。原本是用固定的 timer + data, 看看統計出來的數據是否符合預期。現在有對照組 (我假設 ```InMemoryEngine``` 是可靠的)，我不再需要預測統計的結果是否是 1770 了，直接比對即可。這時我產生訂單的模式就可以換掉了，我改用多執行緒，同時並行的插入大量的訂單，看看 Engine 在這種情況下，是否仍然能維持正確的計算?
 
-我稍微調整一下前面用到的 InMemoryEngine, 在 constructor 加個參數，指定是否需要使用 lock ? 其餘邏輯通通不變。我貼一下改過的 code:
+我稍微調整一下前面用到的 ```InMemoryEngine```, 在 ```constructor``` 加個參數，指定是否需要使用 lock ? 依據這個變數，我寫了兩種版本，一種是透過 Interlocked 物件，另一種就是一般不顧慮到 racing condition 的寫法。語意上完全一致，其餘邏輯通通不變。我貼一下改過的 code: (請自行留意 ```if (_use_lock) { ... }``` 的部分)
+
+```csharp
+
+public class InMemoryEngine : EngineBase
+{
+    private bool _use_lock = false;
+
+    public InMemoryEngine(bool use_lock = true)
+    {
+        this._queue = new Queue<QueueItem>();
+        this._use_lock = use_lock;
+
+        Task.Run(() =>
+        {
+            while (true)
+            {
+                Task.Delay(this._interval).Wait();
+                this._statistic_timer_worker();
+            }
+        });
+    }
+
+    public override int StatisticResult => this._statistic_result + this._buffer;
+
+    public override int CreateOrders(int amount)
+    {
+        if (this._use_lock)
+        {
+            return Interlocked.Add(ref this._buffer, amount);
+        }
+        else
+        {
+            return (this._buffer += amount);
+        }
+    }
+
+    // 控制統計區間長度
+    private readonly TimeSpan _period = TimeSpan.FromMinutes(1);
+
+    // 控制統計的精確度
+    private readonly TimeSpan _interval = TimeSpan.FromSeconds(0.1);
+
+    private Queue<QueueItem> _queue = null;
+
+    private int _statistic_result = 0;
+
+    private int _buffer = 0;
+
+    private void _statistic_timer_worker()
+    {
+        int buffer_value = 0;
+
+        if (this._use_lock)
+        {
+            buffer_value = Interlocked.Exchange(ref this._buffer, 0);
+        }
+        else
+        {
+            buffer_value = this._buffer;
+            this._buffer = 0;
+        }
+
+        this._queue.Enqueue(new QueueItem()
+        {
+            _count = buffer_value,
+            _time = DateTime.Now
+        });
+        this._statistic_result += buffer_value;
+
+        while (true)
+        {
+            if (this._queue.Peek()._time >= (DateTime.Now - this._period)) break;
+            {
+                QueueItem dqitem = this._queue.Dequeue();
+                this._statistic_result -= dqitem._count;
+            }
+        }
+    }
+
+    public class QueueItem
+    {
+        public int _count;
+        public DateTime _time;
+    }
+}
+
+```
+
+再來看看修改過的 ```TestConsole```, 可以任意指定兩種 ```Engine```, 同時開啟 20 個執行緒，用全速產生金額為 1 的訂單... 同時用兩個 ```Engine```, 同時輸入同樣的訂單資料。執行 10 秒鐘之後，比較兩個 ```Engine``` 統計的結果是否一致。若有誤差，則會印出誤差的比率(%):
 
 ```csharp
 
 ```
 
-再來看看修改過的 TestConsole, 可以任意指定兩種 Engine, 同時開啟 20 個執行緒，用全速產生金額為 1 的訂單... 同時用兩個 Engine, 同時輸入同樣的訂單資料。執行 10 秒鐘之後，比較兩個 Engine 統計的結果是否一致。若有誤差，則會印出誤差的比率(%):
-
-```csharp
-
-```
-
-先用兩個 InMemoryEngine (啟用 lock 的版本)，來看看我們的程式是否運作正常?
+先用兩個 ```InMemoryEngine``` (啟用 lock 的版本)，來看看我們的程式是否運作正常?
 
 ```log
 
@@ -519,7 +725,7 @@ Press any key to continue . . .
 每秒鐘產生接近 300 萬筆的交易，結果一致。
 
 
-接著來看看同樣的 InMemoryEngine, 啟用與停用 lock 的差別:
+接著來看看同樣的 ```InMemoryEngine```, 啟用與停用 lock 的差別:
 
 ```log
 
@@ -534,7 +740,7 @@ Press any key to continue . . .
 哈哈，看來不用追下去了，這個版本真是慘不忍睹... 沒有 lock 的版本，大約有 3.97% 的訂單資料在統計時會被吃掉...
 
 
-接下來看看 InMemoryEngine 跟 InDatabaseEngine 的比較:
+接下來看看 ```InMemoryEngine``` 跟 ```InDatabaseEngine``` 的比較:
 
 ```log
 
@@ -546,11 +752,11 @@ Press any key to continue . . .
 
 ```
 
-InDatabaseEngine 是寫入 raw data 到 SQL server, 再用 T-SQL 統計出來的，沒有所謂的 lock 與否，這就當對照組吧! 可以看到這做法只要資料都有寫入 DB ，結果是依定正確的。只是效能就大打折扣，跟 InMemoryEngine 相差約 250 倍...
+```InDatabaseEngine``` 是寫入 raw data 到 SQL server, 再用 T-SQL 統計出來的，沒有所謂的 lock 與否，這就當對照組吧! 可以看到這做法只要資料都有寫入 DB ，結果是依定正確的。只是效能就大打折扣，跟 ```InMemoryEngine``` 相差約 250 倍...
 
 
 
-接著再看看 InMemoryEngine 跟 InRedisEngine 的比較:
+接著再看看 ```InMemoryEngine``` 跟 ```InRedisEngine``` 的比較:
 
 ```log
 
@@ -562,31 +768,147 @@ Press any key to continue . . .
 
 ```
 
-果然，我們針對 atom operation 的控制發揮效用了，即使在平行處理的狀況下也能確保資料的正確性。數值跟 InMemoryTest 100% 正確，同時執行的效能也比 InDatabaseEngine 好上 6.83 倍。不過這效能還沒經過最佳化，同時跟 InMemoryEngine 的效能完全不能比 (差了 35.57 倍)。
+果然，我們針對 atom operation 的控制發揮效用了，即使在平行處理的狀況下也能確保資料的正確性。數值跟 ```InMemoryTest``` 100% 正確，同時執行的效能也比 ```InDatabaseEngine``` 好上 6.83 倍。不過這效能還沒經過最佳化，同時跟 ```InMemoryEngine``` 的效能完全不能比 (差了 35.57 倍)。
 
 本來我還想再繼續挖下去，不過再寫下去這篇就寫不完了，加分題的部分先到此告一段落....
 
 
 
-
-
-
-
-
-
-
-## 解法4, 使用串流分析，或是適當的服務
+## 加分題, 使用串流分析
 
 如果需要做類似處理的問題不少，也達一定的規模，就可針對這樣需求建置適當的後端服務來解決了。其實這類問題就是很典型的串流分析 (stream analytics) 的應用。資料就像串流 (stream) 一樣不斷的流進來，就如同影音的串流處理一樣，串流分析可以連續性，不中斷的處理這些資料。
 
 有經驗的架構師，通常技術能力都具備一定的深度與廣度，廣度足夠就能找到合適的解決方案，深度足夠就能精準的判定是否合用。
 
-這邊的時做我就不弄了，已經遠遠超出面試題與 POC 的範圍了，這個解法容我嘴砲一下，用講的就好... XD
+這邊的實作我就不弄了，已經遠遠超出面試題與 POC 的範圍了，這個解法容我嘴砲一下，用講的就好... 既然身為 [Azure MVP](https://mvp.microsoft.com/zh-tw/PublicProfile/5002155?fullName=Andrew%20%20Wu), 拿 [Azure Stream Analystic](https://docs.microsoft.com/zh-tw/azure/stream-analytics/stream-analytics-introduction) 當作例子也是很合理的... 來看看 Azure 串流分析的介紹與架構:
 
-1. Azure Stream Analystic
-2. Hadoop / SPARK 
-3. Time Series Database
+![](/wp-content/uploads/2018/04/stream_analytics_intro_pipeline.png)
+
+
+其實跟我們這篇講的模式很接近啊，只是 Azure 這邊的架構完整的多。前端都是有個 Queue 集中收集所有的資料來源，後端有個引擎在資料流入的過程中即時進行 (串流) 分析，之後把原始資料及分析資料往後端的 storage 丟，儲存起來供後續使用。
+
+來看看中間串流分析這段的官方範例: [Query examples for common Stream Analytics usage patterns](https://docs.microsoft.com/en-us/azure/stream-analytics/stream-analytics-stream-analytics-query-patterns)
+
+這段就完全是我們這個面試題的內容啊，連改都不用改，甚至原文就是 ```markdown```, 我連編輯都省了 XD:
+
+**Description**: Define the types of properties on the input stream.
+For example, the car weight is coming on the input stream as strings and needs to be converted to **INT** to perform **SUM** it up.
+
+**Input**:
+
+| Make | Time | Weight |
+| --- | --- | --- |
+| Honda |2015-01-01T00:00:01.0000000Z |"1000" |
+| Honda |2015-01-01T00:00:02.0000000Z |"2000" |
+
+**Output**:
+
+| Make | Weight |
+| --- | --- |
+| Honda |3000 |
+
+**Solution**:
+
+    SELECT
+        Make,
+        SUM(CAST(Weight AS BIGINT)) AS Weight
+    FROM
+        Input TIMESTAMP BY Time
+    GROUP BY
+        Make,
+        TumblingWindow(second, 10)
+
+Azure Stream Analystics 讓我們用 SQL 的語法，可以查詢串流的資料。其中的 ```Group By``` 子句裡面 ```ThumblingWindow(second, 10)``` 就代表抓取現在時間 10 sec 內的資料，取出 ```SUM(....)``` 加總運算的數值出來。雖然看起來像是 SQL 語法，但是背後做的完全是另一回事啊! 有興趣的朋友們可以申請試用帳號來研究看看。
+
+對我而言，我還是會以前面的基礎知識為優先。面試者至少需要了解前面幾種解法後，我認為才具備解決問題的能力。有了自己實作輪子的能力之後，採用這類的解決方案才能運用自如。面試過程中應試者若能答出這樣的 solution, 還能交代清楚這方案的優缺點跟使用時機的話，我會把它當作加分題 (而且是大加分)，因為這樣代表面試者有足夠的能力挑選與判斷採用的架構。這種技術選型的能力是大型團隊非常欠缺的人才。
 
 
 
 # 總結
+
+前面一直沒機會做效能測試，最後總結之前，來個效能大亂鬥吧! 測試程式基本上跟上面的自我驗證是一樣的，只是一次只跑一個 Engine, 也不用再驗證計算是否正確了，單純是測試效能而已。看一下 source code:
+
+
+```csharp
+
+static void LoadTest()
+{
+    EngineBase e1 =
+        //new InMemoryEngine();
+        //new InDatabaseEngine();
+        new InRedisEngine();
+
+
+    bool stop = false;
+
+    int thread_count = 20;
+
+    List<Thread> threads = new List<Thread>();
+    for (int i = 0; i < thread_count; i++)
+    {
+        Thread t = new Thread(() =>
+        {
+            while (stop == false)
+            {
+                Thread.Sleep(0);
+                e1.CreateOrders(1);
+            }
+        });
+
+        threads.Add(t);
+        t.Start();
+    }
+
+    TimeSpan duration = TimeSpan.FromSeconds(10);
+    Thread.Sleep(duration);
+    stop = true;
+    foreach (Thread t in threads) t.Join();
+
+    Console.WriteLine($"engine #1:   {e1.StatisticResult} ({e1.GetType().Name})");
+    Console.WriteLine($"performance: {e1.StatisticResult / duration.TotalMilliseconds} orders/msec");
+}
+
+```
+
+用三種 engine, 分別跑一次測試，三段結果我就貼在一起了。按照文章介紹的順序:
+
+```log
+
+engine #1:   34806296 (InMemoryEngine)
+performance: 3480.6296 orders/msec
+Press any key to continue . . .
+
+engine #1:   170458 (InDatabaseEngine)
+performance: 17.0458 orders/msec
+Press any key to continue . . .
+
+engine #1:   822800 (InRedisEngine)
+performance: 82.28 orders/msec
+Press any key to continue . . .
+
+```
+
+既然都要跑效能測試了，交代一下硬體環境也是很合理的.. 全部的服務我都裝在我的桌機裡面，沒有另外連到別的 server:
+
+
+```text
+
+OS:    Windows 10 Pro, x64, 1709
+CPU:   Intel Core i7-4785T, 2.20 GHz
+RAM:   DDR3L 16.0 GB
+HDD:   Intel SSD DC3520 480GB (MLC, SATA)
+SQL:   Microsoft SQL Server 2017 Develop Edition
+Redis: Redis for Windows 3.2 (我用 windows container, image: alexellisio/redis-windows:3.2)
+
+```
+
+其實 ```InMemoryEngine``` 的效能是最好的 ，每秒高達 340 萬筆交易的乘載量。但是受限於單機版 (所有資料都只存在 memory 裡面)，也無法做任何 scale out, 或是備援的機制。這限制了它的應用範圍 (即使它的效能最好)。如果你只是需要在 application 做簡單的統計，那這個做法很適合，大概用 library 的方式就可以發行使用了。
+
+第二是 ```InRedisEngine```, 透過 redis 當作後端的儲存，可以達到每秒 8.2 萬筆交易的乘載量。其實這個數字，透過適當的架構調整，還有 scale up 的空間。架構調整得宜的話，甚至能做到 High Availability 高可用度的要求，在架構規劃上是最理想的做法。
+
+至於 ```InDatabaseEngine```, 基本上這樣做的做法是不及格的，每秒只有 1.7 萬筆交易的乘載量，免強符合這次面試題的要求。除非既有的系統沒辦法調整，只能硬幹，或是其他不得以的原因。不然這個做法我是最不能接受的。效能不好，又把最昂貴的 SQL 運算能力及 IO 能力都賠進去了，得不嘗失。
+
+
+寫到這裡，還是回到寫這系列文章的初衷。軟體業最缺的就是人才啊，不論是 junior / senior engineer, 或是 architect 都是，挑對一個人選，可以幫你解決 10 個人都解決不了的問題。不過在抱怨千里馬難尋的同時，你自己也要做好具備伯樂的鑑別能力才行啊，否則人才就從你眼前溜走那就更令人扼腕了。我之所以會在這些特定的主題，不斷的往下挖下去，目的就是想看看面試者的能耐在哪邊。這些跟 scalability 相關的技術能力，都是帶領團隊邁向微服務架構的重要能力。
+
+第二篇寫到這邊終於寫完了 T_T，後面還有幾篇，請各位敬請期待! 如果你因為我的文章，找到合適的人選，或是找到合適的工作，也歡迎在底下分享你的經驗 :D
