@@ -1,20 +1,22 @@
 ---
 layout: post
-title: "架構面試題 #2, 持續產生的資料統計"
+title: "架構面試題 #2, 連續資料的統計方式"
 categories:
 - "系列文章: 架構師觀點"
-tags: ["架構師", "面試經驗", "microservices"]
+tags: ["架構師", "面試經驗", "microservices", "azure stream analytics"]
 published: true
 comments: true
 redirect_from:
-logo: /wp-content/uploads/2018/03/whiteboard-interviews.png
+logo: /wp-content/uploads/2018/04/datastream.png
 ---
 
-面試題這系列來到第二篇，這次來點靈活一點的應用題: 持續產生的資料統計。
+![](/wp-content/uploads/2018/04/datastream.png)
 
-這個題目很簡單，用白話來說，例如購物網站，當你的網站每秒都好幾百筆訂單，都是好幾百萬上下時，如果我想看 "過去一小時所有成交金額" 的數字是多少，同時這數字至少還要每秒更新，你會怎麼設計這功能?
+面試題這系列來到第二篇，這次來點靈活一點的應用題: 連續資料的統計方式。
 
-其實這個問題，就跟一般點擊率統計的問題差不多，只是我多埋了兩個阻礙在裡面，提高這問題的困難度。其一是只統計 time window 範圍內的數值，有訂單進來時把數值往上累加很容易，但是要 "精準" 的把一小時前的數值剃除就很頭痛，讓很多不善思考的工程師就直接改採暴力法解決 (不斷重新加總)。另一個阻礙是這些資料是源源不絕連續的灌進來的，你沒有任何空檔可以停下來整理資料，你的處理方式必須是能連續運行，也不能不斷累積垃圾資料，或是瞬間占用大量資源。否則長時間執行下來應該會垮掉。
+這個題目很簡單，例如購物網站，當你的網站每秒都好幾百筆訂單，都是好幾百萬上下時，如果我想看 "過去一小時所有成交金額" 的數字是多少，同時這數字還要每秒更新，你會怎麼設計這功能?
+
+其實這個問題，就跟一般點擊率統計的問題差不多，只是我多埋了兩個阻礙在裡面，提高這問題的困難度。其一是只統計 time window 範圍內的數值，有訂單進來時把數值往上累加很容易，但是要 "精準" 的把超過一小時的數值剔除就很頭痛，讓很多不善思考的工程師就直接改採暴力法解決 (不斷重新計算這小時的加總)。另一個阻礙是這些資料是源源不絕連續的灌進來的，你沒有任何空檔可以停下來整理資料，你的處理方式必須是能連續運行，也不能不斷累積垃圾資料，或是瞬間占用大量資源。否則長時間執行下來應該會垮掉。
 
 別小看這個問題，從最簡單的解法 (直接 SQL query) 到複雜的串流分析 (stream analytics) 都有，甚至還有需要自己土炮的做法... 過去往往很多人在爭論，演算法跟資料結構到底種不重要? 往下看下去你就會知道，當團隊碰到這種層次的問題時，你會很慶幸團隊裡有個腦袋靈活 + 懂資料結構的夥伴。如果你是面試官，花點時間看完這篇吧! 這類的問題，能讓你鑑別出優秀的軟體工程師。如果你想找的是能擔任架構師的人選，而非只是單純接需求把功能做出來的碼農，那麼一定要試試這個考題。如果真的找到有這樣能力的人，記得找來好好栽培他 :D
 
@@ -51,7 +53,7 @@ where transaction_time between getdate()
 
 # 考題 & 測試程式
 
-講了一堆，直接來看題目吧。延續上一篇的模式，考題一樣先準備好 ```Contracts``` 及 ```TestConsole```，答題的人要想辦法生出 ```Practices``` 的內容，補上你的實作，然後讓測試程式 ```TestConsole``` 通過驗證。原本題目是考 60 分鐘的統計，為了方便測試，以下的範例我都改用 60 秒當作例子。
+講了一堆，直接來看題目吧。延續 [上一篇](/2018/03/25/interview01-transaction/) 的模式，考題一樣先準備好 ```Contracts``` 及 ```TestConsole```，答題的人要想辦法生出 ```Practices``` 的內容，補上你的實作，然後讓測試程式 ```TestConsole``` 通過驗證。原本題目是考 60 分鐘的統計，為了方便測試，以下的範例我都改用 60 秒當作例子。
 
 ```Contracts``` 很簡單，一樣定義一個交易處理的引擎 ```EngineBase```, 其中只定義到了幾個 method(s):
 
@@ -264,13 +266,28 @@ Press any key to continue . . .
 
 資料結構，其實就是那幾種而已。我先從問題本身來看看該如何解決，然後再挑選對應的資料結構來處理。其實這類問題，只要一開始就把數字加總起來，放在 cache 等著讀取就可以了。這邊比較討厭的是超過時間的數據必須扣掉。
 
-因此，我的想法是，如果這統計需要的精確度只到秒的話，我可以先做點前置處理，把一小時 3600 萬筆資料，先做局部統計化簡為 3600 筆統計資料 (每秒一筆)。往後的計算，不論是加總，或是剔除過時資料，都只需要針對這 3600 筆，而非 3600 萬筆資料。計算的過程中，我甚至可以另外準備個 sum 的變數。只要有新的一秒統計資料計算完成，sum 就直接累加上去。若有一秒的統計資料過時，我就把它從 sum 扣除。這時 sum 的變數就隨時能反映當下的統計數值 (會有一秒以內的誤差)。
+因此，我的想法是，如果這統計需要的精確度只到秒的話，我可以先做點前置處理，把一小時 3600 萬筆資料，先做局部統計化簡為 3600 筆統計資料 (每秒一筆)。往後的計算，不論是加總，或是剔除過時資料，都只需要針對這 3600 筆，而非 3600 萬筆資料。
 
 如此一來，不論我要面對的訂單量是每秒 10000 orders/sec, 還是 100000 orders/sec, 或是更多, 其實除了累加 counter 的部分忙碌了點之外，其他的動作都一樣啊，簡單又快速。說明到這邊，你開始體會到用對資料結構，對於系統的影響有多大了嗎? 我想這個運算量，跟 [解法1] 的效率應該差到上萬倍以上了吧! 你還覺得學資料結構沒有用嗎? 你還覺得學這個只是應付考試而已嗎? XD
 
-基本的 concept 有了，接下來就是實作了。再進一步，上面那 3600 筆統計資料, 每隔一秒都要把最舊的那筆拿出來處理後踢掉，RESET 後放新資料... 這種 FIFO (**F**irst **I**n, **F**irst **O**ut), 不就是 ```Queue``` 的結構嗎?
+基本的 concept 有了，接下來就是實作了。再進一步，上面那 3600 筆統計資料, 每隔一秒都要把最舊的那筆拿出來處理後踢掉，reset 後放新資料... 這種 FIFO (**F**irst **I**n, **F**irst **O**ut), 不就是 ```Queue``` 的結構嗎?
 
-越想越容易了，這些問題其實最花時間的都是思考而已，想通了之後寫出來其實都不值錢... 大概資工系剛畢業就能寫得出來了... 來看看我的版本:
+
+越想越容易了，這些問題其實最花時間的都是思考而已，想通了之後寫出來其實都不值錢... 大概資工系剛畢業就能寫得出來了... 來看看我的版本，我先把這整個程序說明清楚吧! 我分成幾個步驟來完成這整個程序，可以參考下面這張圖來對照著看:
+
+![](/wp-content/uploads/2018/04/inmemory-procedure.png)
+> 綠色的數字代表下列的項目，灰色的數字則代表 3-N 子項目
+
+1. 宣告 ```buffer``` 變數，存放所有未被 worker 處理的訂單金額暫存區。任何新訂單進來，唯一的一個動作就是把訂單的金額累加到 ```buffer``` 這個變數身上。
+1. 宣告 ```statistic``` 變數，存放已被 ```worker``` 處理的訂單金額暫存區。這個數值會隨時反映 ```queue``` 裡面所有資料的總和。
+1. 當時間過了 ```_interval``` 後, 會自動觸發 ```worker``` 進行週期性的更新 (假設每 0.1 sec 處理一次):
+   1. 把 ```buffer``` 的數值 reset 成 0, 同時把 reset 之前的數值放進 ```queue```
+   1. 把放進 ```queue``` 的數值，累加到 ```statistic``` 變數身上
+   1. 檢查 ```queue``` 末端的資料，若先前放進 ```queue``` 的資料已經超過時限 ```_period``` (假設為 60 sec), 則把她從 ```queue``` 移除，並且把被移除的數值從 ```statistic``` 身上扣除
+1. 任何時刻，要得知目前時段內 (60sec) 統計的總額時，只要傳回 ```statistic + buffer``` 即可。
+
+把上面的程序，寫成 code, 大致上就長的像這樣: ```InMemoryEngine``` 被建立起來之後，就會在背景執行 ```worker```, 定期執行上述 3-1 ~ 3-3 的動作:
+
 
 ```csharp
 
@@ -365,11 +382,11 @@ Press any key to continue . . .
 ```
 
 
-真的不複雜啊，連空白行 + 註解，也不過 60 行...
+真的不複雜啊，連空白行 + 註解，也不過 60 行... 簡單解釋一下這段 code 在幹嘛:
 
 整個 Engine 關鍵的設定，就是 ```TimeSpan _period;```, 決定要統計的時間範圍 (本例: 1 分鐘), 另外一個參數 ```TimeSpan _interval;``` 決定統計的精確度。整個運作機制，背後必須有個 worker, 每隔 ```_interval``` 區間要執行一次。每次就是把上次執行到這次之間的所有訂單累計在 ```_buffer``` 內的數據放進 ```_queue```, 同時把超過統計範圍的資料從 ```_queue``` 拿出來。進出的過程中順便統計一下 ```_statistic_result``` (這數值代表目前 ```_queue``` 裡面所有數據的總和，不用每次再逐筆計算)。需要取目前的統計值的話，只要 return ```_statistic_result + _buffer;``` 就結束了。
 
-唯一要特別注意的，就是第一篇文章講到的 ```lock```... 在處理 ```_buffer``` 的過程中，要特別留意 lock 的問題。沒有處理好就會像第一篇文章提到的案例一樣，我不斷的 (平行處理) 下訂單，結果統計的機制可能因為 racing condition 導致有些數字被吃掉了。這邊有兩個地方要注意:
+唯一要特別注意的，就是 [第一篇文章](/2018/03/25/interview01-transaction/) 講到的 ```lock```... 在處理 ```_buffer``` 的過程中，要特別留意 lock 的問題。沒有處理好就會像第一篇文章提到的案例一樣，我不斷的 (平行處理) 下訂單，結果統計的機制可能因為 racing condition 導致有些數字被吃掉了。這邊有兩個地方要注意:
 
 1. 把訂單數值累加到 ```_buffer``` 的部分: ```CreateOrders()```
 1. 把 ```_buffer``` 的數值歸零，同時把歸零之前的數值放進 ```Queue```
@@ -389,7 +406,7 @@ Press any key to continue . . .
 
 看到這邊，你有想到這個層次的問題了嗎? 我面試到現在，還沒有完全精準的回答到這個層次的，不過倒是有幾位資質還不錯，方向有摸到邊了...! 如果你還沒看我文章就答的出答案，或是你有認識這種程度的朋友，記得介紹給我 :D
 
-如果想要回頭好好學資料結構，可以回頭參考一下我這系列文章 (Orz, 十年了...)
+如果想要回頭好好學資料結構，可以回頭參考一下我這系列文章 (Orz, 眼看就要十年了... 有人是看我這幾篇文章入行的嗎?)
 
 * 2008-09-27 [該如何學好 "寫程式" ??](/2008/09/27/%E8%A9%B2%E5%A6%82%E4%BD%95%E5%AD%B8%E5%A5%BD-%E5%AF%AB%E7%A8%8B%E5%BC%8F/)
 * 2008-10-01 [該如何學好 "寫程式" #2. 為什麼 programmer 該學資料結構 ??](/2008/10/01/%E8%A9%B2%E5%A6%82%E4%BD%95%E5%AD%B8%E5%A5%BD-%E5%AF%AB%E7%A8%8B%E5%BC%8F-2-%E7%82%BA%E4%BB%80%E9%BA%BC-programmer-%E8%A9%B2%E5%AD%B8%E8%B3%87%E6%96%99%E7%B5%90%E6%A7%8B/)
@@ -409,19 +426,19 @@ Press any key to continue . . .
 * 是否有效降低運重複的算量: 是 (只有簡單的累計計算)
 * 是否適合長時間運行: 是 (過程中都只占用極低的系統資源)
 
-其實分散式的版本也沒啥不同，不過就是把上面 [解法2] 的 ```Queue``` 以及兩個暫存的變數 (```buffer```, ```statistic_result```) 都搬到快速的 storage 放置而已。這邊想都不用想，繼續用上一篇題到的 Redis 來用。還記得上一篇講的 distributed lock 嗎? 你沒有搞好這些基礎就亂用的話，流量一大資料一定亂七八糟。
+其實分散式的版本也沒啥不同，不過就是把上面 [解法2] 的 ```Queue``` 以及兩個暫存的變數 (```buffer```, ```statistic_result```) 都搬到快速的 storage 放置而已。這邊想都不用想，繼續用 [上一篇](/2018/03/25/interview01-transaction/) 提到的 Redis 來用。還記得上一篇講的 distributed lock 嗎? 你沒有搞好這些基礎就亂用的話，流量一大資料一定亂七八糟。
 
-這種處理最忌諱碰到 racing condition 把數值都搞亂。最佳的解法，一定是優先看看 storage (redis) 本身是否提供這些 atom operation ? 真的沒有，下下策才是自己搞定 distributed transaction, 或是 distributed lock 等等機制。但是相信我，這種東西你一定要懂，但是不一定要自己實作啊...
+這種處理最忌諱碰到 racing condition 把數值都搞亂。最佳的解法，一定是優先看看 storage (redis) 本身是否提供這些 atomic operations ? 真的沒有，下下策才是自己搞定 distributed transaction, 或是 distributed lock 等等機制。但是相信我，這種東西你一定要懂，但是不一定要自己實作啊...
 
 回過頭來看看 [解法2] 吧。撇除一般的 code 以及計算，裡面比較值得注意的地方有:
 
 1. 需要使用 ```Queue``` 的資料結構
-1. ```buffer``` 變數需要 ```increment``` 及 ```exchange``` 兩種 atom operation
-1. ```statistic_result``` 變數需要 ```increment``` 及 ```decrement``` 兩種 atom operation
+1. ```buffer``` 變數需要 ```increment``` 及 ```exchange``` 兩種 atomic operations
+1. ```statistic_result``` 變數需要 ```increment``` 及 ```decrement``` 兩種 atomic operations
 
 還是同一句話，別自己搞這些東西啊，你搞清楚啥時該用這些機制就夠了。你在外面用 library 的型態，怎麼做都做不過內建的。先來看看 redis command list 是否支援這些資料型別，以及這些操作指令? 這時沒有好方法了，直接翻出 redis 的文件，找看看有沒有合適的吧。
 
-> Redis 雖然支援 lua script, 可以一次送一整組 script 到 redis server 上面執行，可以達到對等的效果。不過一來 script 要花掉額外的 redis server 效能，二來會把問題複雜化。這個範例主要是示範可行性，還有這是個面試題 XD，因此就從簡吧... 以下都以內建的指令為準。
+> Redis 雖然支援 lua script, 可以一次送一整組 script 到 redis server 上面執行，可以達到對等的效果。不過一來 script 要花掉額外的 redis server 效能，二來會把問題複雜化。這個範例主要是示範可行性，還有這是個面試題 XD (最重要的是我也不熟啊)，因此就從簡吧... 以下都以內建的指令為準。
 
 首先，在 Redis 支援的 Data Type 內找到 Lists.. (還好總共只有六種)
 
@@ -433,7 +450,7 @@ Press any key to continue . . .
 
 雖然名字不叫 Queue, 但是就像 javascript 的 array 搭配 push pop 就可以當 stack 使用一樣，Redis 的 Lists 搭配 LPUSH / RPUSH / LPOP / RPOP 這四個指令，一樣可以當作 Queue / Stack 來用啊! 找到這個，算是解決上述 (1) 的問題了。
 
-接下來繼續找找，有無針對特定 key / value 進行 increment / decrement / exchange 這三種 atom operation... Orz, 要從 206 個指令逐一找出我需要的... 好的開始是成功的一半，至少先找到 redis 所有的 [指令列表](https://redis.io/commands)...
+接下來繼續找找，有無針對特定 key / value 進行 increment / decrement / exchange 這三種 atomic operations... Orz, 要從 206 個指令逐一找出我需要的... 好的開始是成功的一半，至少先找到 redis 所有的 [指令列表](https://redis.io/commands)...
 
 運氣還不錯，找到這三個:
 
@@ -448,7 +465,7 @@ Press any key to continue . . .
 
 看來實在太讚了，完全吻合我的需求啊! 別以為我的運氣真的那麼好，我想要的東西 Redis 都那麼 "剛好" 就幫我準備好。這只是再次驗證基礎知識的重要性而已。這些其實都是資料結構跟作業系統裡面的內容啊，如果我是 Redis 的作者，我也唸過這些課本的話，我自然也會把這些基礎功能放進指令集裡面。學會這些基礎知識，等於跟這些大師級的人物，以及這些系統都有一定程度的默契了，你想的大概都會有現成的支援 (除非你想的都是些旁門左道)。
 
-所以，如果我說我在寫這個飯粒程式之前，對 Redis 是個門外漢，你會相信嗎? 事實上我還真是第一次認真研究 redis command list / data type, 還有第一次認真用 ```StackExchange.Redis``` 這個套件... 其實我的重點不是要炫耀什麼，而是再次強調這些基礎知識的重要性。你如果真的有打好這些基礎，自然會相信這些基礎建設 (redis) 一定會支援這些關鍵的 operation，剩下找文件的工作，只要花時間就能得到結果。相對於基礎知識不足的人，搞不好他要下關鍵字還不知道該怎麼 google ..
+所以，如果我說我在寫這個飯粒程式之前，對 Redis 是個門外漢，你會相信嗎? 事實上我還真是第一次認真研究 redis command list / data type, 還有第一次認真用 ```StackExchange.Redis``` 這個套件... 其實我的重點不是要炫耀什麼，而是再次強調這些基礎知識的重要性。你如果真的有打好這些基礎，自然會相信這些基礎建設 (redis) 一定會支援這些關鍵的操作或是對應的指令，剩下找文件的工作，只要花時間就能得到結果。相對於基礎知識不足的人，搞不好他要下關鍵字還不知道該怎麼 google ..
 
 
 廢話不多說，既然確認了 Redis 完全支援我想要的功能了，那剩下的就是看看我用的 ```StackExchange.Redis``` 這個 .NET 套件，是否有封裝這些功能? 這邊我就不再囉嗦了，直接寫成 code:
@@ -474,7 +491,7 @@ public class InRedisEngine : EngineBase
         }
     }
 
-    public override int StatisticResult //=> this._statistic_result + this._buffer;
+    public override int StatisticResult
     {
         get
         {
@@ -482,7 +499,7 @@ public class InRedisEngine : EngineBase
         }
     }
 
-    public override int CreateOrders(int amount) //=> Interlocked.Add(ref this._buffer, amount);
+    public override int CreateOrders(int amount)
     {
         return (int)this.redis.StringIncrement("buffer", amount);
     }
@@ -568,7 +585,7 @@ Press any key to continue . . .
 
 程式碼的結構完全跟 [解法2] 一樣，只是把幾個關鍵的變數搬到 Redis 上面而已。至於這樣是否真的有達到 "分散式" 的要求?
 
-其實有的，因為所有的狀態都搬到 Redis 去處理了，所有 atom operation 也都改成在分散式的狀態下，仍能維持這些操作的不可分割性。唯獨 worker 的部分 (就是每隔 _interval 時間就要處理 buffer / queue / statistic 三者之間的數據的 worker) 只需要一份就夠了，這部分不需要到多個 instance 一起執行。因此稍微改一下 code, 我啟動 10 組 TestConsole.exe, 其中 9 個不啟動 worker ... 來看看執行結果:
+其實有的，因為所有的狀態都搬到 Redis 去處理了，所有 atomic operations 也都改成在分散式的狀態下，仍能維持這些操作的[不可分割性(atomic operations)](http://preshing.com/20130618/atomic-vs-non-atomic-operations/)。唯獨 worker 的部分 (就是每隔 _interval 時間就要處理 buffer / queue / statistic 三者之間的數據的 worker) 只需要一份就夠了，這部分不需要到多個 instance 一起執行。因此稍微改一下 code, 我啟動 10 組 TestConsole.exe, 其中 9 個不啟動 worker ... 來看看執行結果:
 
 
 ```log
@@ -601,11 +618,11 @@ statistic: 17740, expected: 1770, test: False
 
 
 
-## 加分題: ATOM OPERATION
+## 加分題: atomic operations
 
-每次面試，只要問到類似的問題 (多執行緒，多工，平行處理，分散式運算... etc) ，往往面試者都會敗在這類的議題上面。不知是台灣的軟體業，大都在做系統整合? 還是都沒機會碰過大流量? 或是需要大量平行處理的情境? 碰到的人都是很會寫功能，但是往往對確保平行處理時的資料正確性該怎麼做的觀念很薄弱... 
+每次面試，只要問到類似的問題 (多執行緒，多工，平行處理，分散式運算... etc) ，往往面試者都會敗在這類的議題上面。不知是台灣的軟體業，大都在做系統整合，都注重在堆功能? 還是都沒機會碰過大流量? 或是需要大量平行處理的情境? 碰到的人都是很會寫功能，但是往往對確保平行處理時的資料正確性該怎麼做的觀念很薄弱...
 
-前面的重點，都擺在資料結構與演算法，不過實作時確保幾個關鍵的動作絕對不會因為多工情況下，做到一半被別的動作打斷導致資料錯誤的狀況發生。通常不能被切割的這些操作，統稱為 atom operation。如果面試者連這部分都能答的正確，面試官你真的不用考慮了，快點把這個人挖進來....
+前面的重點，都擺在資料結構與演算法，不過實作時確保幾個關鍵的動作絕對不會因為多工情況下，做到一半被別的動作打斷導致資料錯誤的狀況發生。通常不能被切割的這些操作，統稱為 [atomic operations](http://preshing.com/20130618/atomic-vs-non-atomic-operations/)。如果面試者連這部分都能答的正確，面試官你真的不用考慮了，快點把這個人挖進來....
 
 這邊理論沒啥好講的，實作也都講完了，我就把重點擺在怎麼驗證好了。不知讀者們還記不記得我去年寫的這篇文章?
 
@@ -768,7 +785,7 @@ Press any key to continue . . .
 
 ```
 
-果然，我們針對 atom operation 的控制發揮效用了，即使在平行處理的狀況下也能確保資料的正確性。數值跟 ```InMemoryTest``` 100% 正確，同時執行的效能也比 ```InDatabaseEngine``` 好上 6.83 倍。不過這效能還沒經過最佳化，同時跟 ```InMemoryEngine``` 的效能完全不能比 (差了 35.57 倍)。
+果然，我們針對 atomic operations 的控制發揮效用了，即使在平行處理的狀況下也能確保資料的正確性。數值跟 ```InMemoryTest``` 100% 正確，同時執行的效能也比 ```InDatabaseEngine``` 好上 6.83 倍。不過這效能還沒經過最佳化，同時跟 ```InMemoryEngine``` 的效能完全不能比 (差了 35.57 倍)。
 
 本來我還想再繼續挖下去，不過再寫下去這篇就寫不完了，加分題的部分先到此告一段落....
 
@@ -791,6 +808,8 @@ Press any key to continue . . .
 
 這段就完全是我們這個面試題的內容啊，連改都不用改，甚至原文就是 ```markdown```, 我連編輯都省了 XD:
 
+----
+
 **Description**: Define the types of properties on the input stream.
 For example, the car weight is coming on the input stream as strings and needs to be converted to **INT** to perform **SUM** it up.
 
@@ -809,14 +828,21 @@ For example, the car weight is coming on the input stream as strings and needs t
 
 **Solution**:
 
-    SELECT
-        Make,
-        SUM(CAST(Weight AS BIGINT)) AS Weight
-    FROM
-        Input TIMESTAMP BY Time
-    GROUP BY
-        Make,
-        TumblingWindow(second, 10)
+```sql
+
+SELECT
+    Make,
+    SUM(CAST(Weight AS BIGINT)) AS Weight
+FROM
+    Input TIMESTAMP BY Time
+GROUP BY
+    Make,
+    TumblingWindow(second, 10)
+
+```
+
+----
+
 
 Azure Stream Analystics 讓我們用 SQL 的語法，可以查詢串流的資料。其中的 ```Group By``` 子句裡面 ```ThumblingWindow(second, 10)``` 就代表抓取現在時間 10 sec 內的資料，取出 ```SUM(....)``` 加總運算的數值出來。雖然看起來像是 SQL 語法，但是背後做的完全是另一回事啊! 有興趣的朋友們可以申請試用帳號來研究看看。
 
@@ -908,7 +934,8 @@ Redis: Redis for Windows 3.2 (我用 windows container, image: alexellisio/redis
 
 至於 ```InDatabaseEngine```, 基本上這樣做的做法是不及格的，每秒只有 1.7 萬筆交易的乘載量，免強符合這次面試題的要求。除非既有的系統沒辦法調整，只能硬幹，或是其他不得以的原因。不然這個做法我是最不能接受的。效能不好，又把最昂貴的 SQL 運算能力及 IO 能力都賠進去了，得不嘗失。
 
+----
 
-寫到這裡，還是回到寫這系列文章的初衷。軟體業最缺的就是人才啊，不論是 junior / senior engineer, 或是 architect 都是，挑對一個人選，可以幫你解決 10 個人都解決不了的問題。不過在抱怨千里馬難尋的同時，你自己也要做好具備伯樂的鑑別能力才行啊，否則人才就從你眼前溜走那就更令人扼腕了。我之所以會在這些特定的主題，不斷的往下挖下去，目的就是想看看面試者的能耐在哪邊。這些跟 scalability 相關的技術能力，都是帶領團隊邁向微服務架構的重要能力。
+寫到這裡，還是回到寫這系列文章的初衷。軟體業最缺的就是人才啊，不論是 junior / senior engineer, 或是 architect 都是，挑對一個人選，可以幫你解決 10 個人都解決不了的問題。不過在抱怨千里馬難尋的同時，面試官本身也要做好準備，讓自己具備伯樂的鑑別能力才行啊，否則人才就從你眼前溜走那就更令人扼腕了。我之所以會在這些特定的主題，不斷的往下挖下去，目的就是想看看面試者的能耐在哪邊。這些跟 scalability 相關的技術能力，都是帶領團隊邁向微服務架構的重要能力。
 
 第二篇寫到這邊終於寫完了 T_T，後面還有幾篇，請各位敬請期待! 如果你因為我的文章，找到合適的人選，或是找到合適的工作，也歡迎在底下分享你的經驗 :D
