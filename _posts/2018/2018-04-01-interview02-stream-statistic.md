@@ -7,10 +7,10 @@ tags: ["架構師", "面試經驗", "microservices", "azure stream analytics"]
 published: true
 comments: true
 redirect_from:
-logo: /wp-content/uploads/2018/04/datastream.png
+logo: /wp-content/uploads/2018/03/whiteboard-interviews.png
 ---
 
-![](/wp-content/uploads/2018/04/datastream.png)
+![](/wp-content/uploads/2018/03/whiteboard-interviews.png)
 
 面試題這系列來到第二篇，這次來點靈活一點的應用題: 連續資料的統計方式。
 
