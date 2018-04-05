@@ -23,6 +23,8 @@ logo: /wp-content/uploads/2018/04/datastream.png
 
 <!--more-->
 
+{% include series-2016-microservice.md %}
+
 # 前言 & 導讀
 
 我先定義一下題目的系統架構。假設既有的系統架構如下:
