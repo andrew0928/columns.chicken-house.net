@@ -38,6 +38,9 @@ Container Driven Development (我自己亂掰的名詞，不過竟然還 google 
 
 <!--more-->
 
+{% include series-2016-microservice.md %}
+
+
 
 # 容器驅動開發 (Container Driven Development)
 
