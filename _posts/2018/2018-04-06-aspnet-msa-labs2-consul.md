@@ -71,7 +71,123 @@ Consul is designed to be friendly to both the DevOps community and application d
 
 # Case Study: IP 查詢服務 (進階版)
 
-先前的版本，完全沒有針對可用性做進一步的規劃。先來計畫一下這版預計要改進那些地方:
+先前的版本，完全沒有針對可用性做進一步的規劃。在主要功能維持不變的前提下，要追加下列提高可用性的架構面需求。主要目標有:
+
+1. 要能動態 (不中斷服務) 新增或是移除服務 instances  
+1. 要能應付 api service fail 的狀況，服務掛掉的 1 sec 內要能自動隔離失敗的 instance  
+1. 要能應付 configuration change (改變資料庫檔案版本)
+1. 要能確認外部服務 (例: IP資料庫下載) 是否可用
+
+在上一篇的例子裡，只用 docker-compose 內建的功能, 大概只能很勉強的做到 (1), 不需要 developer 額外的介入或規劃。(2), (3), (4) 就沒辦法了。要處理到這些環節，勢必得在架構上做額外的設計才行。這些都屬 [服務發現] 的範疇，在 service level 導入 service discovery 機制，就能有效的解決這些問題。先來看看架構上的設計改變:
+
+
+![](/wp-content/images/2018-04-06-aspnet-msa-labs2-consul/2018-04-27-22-29-53.png)
+> 原本的架構
+
+
+
+![](/wp-content/images/2018-04-06-aspnet-msa-labs2-consul/2018-04-27-22-29-24.png)
+> 調整過的架構
+
+原本的架構，是靠 docker 內建的 DNS 機制來協調 API，透過 Reverse-Proxy 提供統一對外的 endpoint。調整後的架構，改用 Service Discovery 的服務來取代內建的 DNS。因此服務啟動及終止時，都必須主動跟 Service Discovery 更新狀態；Service Discovery 也必須定期的對已註冊的服務進行可用性確認 (health check)，以隨時確保可用的服務清單是正確的。
+
+為了搭配這個機制，呼叫服務的用戶端也必須稍做調整。原本的架構直接透過 DNS 查詢可用的服務端，新架構就得改成用戶端必須事先查詢 Service Discovery 才能決定該呼叫哪個服務 instance。因為這已經超出標準 TCP/IP 規範的機制了，因此 Reverse-Proxy 的位置，我改成 Demo Client, 示範如何在 Code 內 (我寫在 SDK 內) 自行處理。
+
+如果 Service Discovery 的註冊及健康檢查的機制，能夠透過設定或是 API 的方式手動調整，那麼我們也可以替外部或是既有 (legacy system) 主動加上去，在無法改寫既有的服務的前提下，我們一樣能用同樣的機制照顧好這些舊有的服務，讓所有的 client (透過 SDK) 或是其它服務都能精準的偵測到外部服務是否正常運作。
+
+做了這些調整，基本上上述的需求，就已經能解決 (1) (2) (4) 這三項了。接下來，我們需要另一個 Configuration Management 的服務，來處理整個微服務架構內的設定管理。我們需要集中的地方來存放設定資訊，同時也需要這些設定有異動時，能主動通知所有需要被告知的服務端。作法我後面在介紹，若假設這些機制也都能成功執行的話，那麼我們就能進一步解決 (3) 的問題。
+
+
+講到這邊，Consul 提供的功能完全符合我們的需要 (service discovery, health checking, KV store)。架構圖上的兩個綠色框框 (service discovery + health check, config manage) 就可以合併簡化成單一一個 Consul 服務了。接下來就一步一步調整程式，把這個架構建立起來。
+
+
+
+
+
+
+
+# STEP 0, IIS or SelfHost?
+
+最基本的就是服務註冊機制了。為了確保服務的清單正確性 (先忽略服務不正常終止的狀況)，我們必須在服務啟動即結束時通知 Consul。尷尬的是，在 windows 的架構下，ASP.NET MVC application 預設是掛在 IIS 以下的，整個服務的過程中，ASP.NET 的生命週期是受到 IIS 的管控的。IIS 會視情況來決定該如何管理 ASP.NET app pool；例如:
+
+* 延遲啟動: 在第一個 request 進來之後才啟動 app pool
+* 回收: 經過一段時間 (預設 20 分鐘) 沒有任何 request, IIS 會選擇回收 app pool, 節省資源；直到下一個 request 進來，IIS 會啟動新的 app pool 來服務它
+* 失敗回復: 若 IIS 偵測到某個 app pool 運作出了問題，IIS 會另外啟動一個新的 app pool, 由他來受理之後收到的 request, 原本的 app pool 則會嘗試正常終止，若經過一段時間還無法終止，則會強制停掉 app pool
+* 定期回收: 透過排程，定期執行 "回收" 的動作
+
+其實這些機制，對於 IIS server 的可用性有很大的幫助，早期我們自己管理 server 的情況下，這些機制真的能很有效的運用 server 上的資源，也真的能提高服務的可靠度，讓一些設計上不是那麼嚴謹的 application, 也能有最好的可靠度。不過，在一切都容器化的環境下，這些機制反而變的很累贅，多此一舉了。我隨便舉幾個在 container 的環境下，這類 "脫褲子放屁" 的例子:
+
+IIS 是 windows service, 開機啟動，關機才停用，屬於很標準的背景服務。不過 container 的生命週期是跟著主要的 process 啊，container 啟動後，會執行 entrypoint 當作主要的 process, 當她結束就會停止整個 container。這兩個放在一起很矛盾啊，container 啟動後，到底要啟動什麼東西 (IIS 不用透過 container 就會執行了)?  另外 container 到底要等哪個 process 結束才能停止? 沒有 entrypoint, container 一啟動就會結束了... Microsoft 為了解決這個問題，只好開發了一個工具: ServiceMonitor.exe .. 它執行後就會一直掛在那邊，不斷的監控指定的服務 (IIS) 是否還在執行中? 如果服務停止了，那麼 ServiceMonitor.exe 也會停止。拿它來當作 container entrypoint 就可以解決上述問題了。
+
+不過整個過程就是一整個怪啊，多了很多多於的動作... 我接著再舉幾個 IIS 在 containerize app / microservices 下很多餘的案例:
+
+前面提到的服務註冊/移除，本來很單純的只要在這個 process 的頭尾加一段 code 通知 consul 就好了，現在變得很複雜了，因為 IIS 的關係，可能 container 已經起來了，但是我們的 app pool 根本沒有起來 (因為沒有觸發它的 request).. 當然我們可以寫個 script 做這件事，或是 IIS 自己也有設定可以做這件事，但是這麼一來 IIS 存在的理由又少了一個...
+
+如果我們在 app pool 啟動與停止 (對應到 ASP.NET Global.asax 內的 Application_Start / Application_End 的事件) 通知 consul 執行 service register / de-register 的動作的話，前面說到 IIS 的一些題高可用性的設計，就會干擾 consul 的運作了...
+
+另外，在微服務架構下，通常這些服務都不會直接對外的，要對外都會透過 API gateway, Reverse proxy 或是 Edge service, 因此 IIS 很多功能 (例如權限，整合試驗證, mime-type 控制, ... 等等功能，完全被前端的 reverse-proxy 給取代了...
+
+怎麼看都覺得 IIS 在容器化的時代是個很多餘的東西啊，就算你真的需要，只要在 Edge service 架個 IIS 或是 Nginx 當作 reverse proxy, 就一切搞定了。你依樣可以在這個位置啟用你想要的功能，而不用在背後每個 instance 都裝一套 IIS 執行一樣的功能...
+
+
+於是，在這個範例我大膽地做了點改變，我決定不用 IIS 來 hosting ASP.NET MVC WebAPI application, 改用自己開發的 Self Hosting Console App 來替代 IIS，同時由這個 Self Host App 來負責 Consul 的 Reg / DeReg 等任務，API 本身要執行的商務邏輯，維持在 ASP.NET 裡面處理舊好。
+
+
+
+# STEP 3, Health Checking
+
+
+
+
+
+
+# STEP 4, Consul Aware SDK
+
+
+
+
+
+# STEP 5, DEMO
+
+
+
+
+# STEP 6, ADD EXTERNAL SERVICE into Health Checking
+
+
+
+# STEP 7, WORKER update datafile
+
+
+
+# STEP 8, Configuration Management With Consul
+
+
+
+
+# STEP 9, DEMO
+
+
+
+
+
+
+
+
+
+
+
+
+
+// tools query SD, call IP2C
+// IP2C.API reg / dereg with SD
+// SD do health check every sec
+// IP2C.Worker update new version of data file, update config to SD
+// SD notify every IP2C.API, update
+
+
+
+
 
 1. webapi: 從 IIS hosting 改為 self hosting.
   1. 強化效能, selfhosting 效能遠高於 IIS hosting
@@ -98,6 +214,8 @@ Consul is designed to be friendly to both the DevOps community and application d
 // 事件通知: IP資料庫檔案切換通知
 // 事件通知: JOB手動啟動通知
 // LOCK
+
+// consul-template
 
 ## SDK 封裝
 
