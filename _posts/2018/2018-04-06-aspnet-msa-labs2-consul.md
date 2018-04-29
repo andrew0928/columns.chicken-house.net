@@ -13,11 +13,6 @@ logo:
 
 其實我平常不大寫特定服務的介紹文章的，總覺得那些事實作面的東西，知道目的再去查文件會比較有效率，在那之前只要搞清楚架構及目的就可以了。不過在微服務的應用上，Service Discovery + Configuration Management 實在太重要了, 許多微服務的特性及優勢，都需要靠他才能做的好。於是這次，我就花了篇文章的版面，決定好好介紹一下 Consul (源自 HashiCorp 的解決方案) 這套服務。我拿去年介紹容器驅動開發用的案例: IP2C Service, 重新搭配 Consul 來改寫，用 Consul 解決 Service Discovery, Health Checking 以及 Configuration Management 的問題。讓各位讀者清楚的了解該如何善用 Consul 提供的功能，來強化你的服務可靠度。
 
-這篇開發案例與實作，延續了前面兩篇文章的內容。如果你還沒看過這兩篇文章，建議看下去之前先看一看。這篇是實作的說明，必要的觀念與架構都在這兩篇有說明:
-
-* [微服務基礎建設 - Service Discovery](/2017/12/31/microservice9-servicediscovery/)
-* [容器化的微服務開發 #1, IP查詢架構與開發範例](/2017/05/28/aspnet-msa-labs1/)
-
 這個範例的精神在於，微服務是個很龐大的架構，往往難以入門。也因為架構龐大，很多團隊都在片面的了解下就跨進來，一開始就累積了不少技術債而不自覺。其實很多事情本來就沒辦法一次到位的，不過就如我之前在 CICD 那篇文章提到的，至少團隊要先看清楚全貌，然後在初期就只針對最關鍵的地方顧好就好。其餘只要先把架構作對，實作通通都可以先行省略 (例如先留好 interface)，這樣整體的進展就會平順的多。
 
 這次的實作案例，為了讓各位能關注核心，我把重點擺在搭配 Consul 與 Container 這兩件事情身上。若 Developer 不夠了解它，往往很多善用它就能解決的問題，developer 會選擇自己硬做...，這是很可惜的。因此我會把主軸擺在如何善用 Consul + Container 的應用方式，其它部份我會簡化 (自己用最少的 code 完成)，而不採用其它的 framework。因此在範例程式內，我刻意拿掉一些我常用的第三方套件，例如命令列的參數 Parser (一般我會用 CommandParser 這套件)、相依注入 (Dependency Injection, 一般我慣用 Unity)、Log (一般我會用 NLog + ELK) 等等，目的是讓不熟這些套件的朋友們也都能第一時間掌握重點。
@@ -33,36 +28,29 @@ logo:
 1. 每個服務該如何做好: Configuration management ?
 
 
+這篇開發案例與實作，延續了前面幾篇文章的內容。建議看下去之前先看一看底下會用到的幾個重要觀念:
 
+* [.NET Conf 2017 - Container Driven Development, 容器驅動開發](https://www.facebook.com/andrew.blog.0928/videos/509145696127380/)
+* [容器化的微服務開發 #1, IP查詢架構與開發範例](/2017/05/28/aspnet-msa-labs1/)
+* [微服務基礎建設 - Service Discovery](/2017/12/31/microservice9-servicediscovery/)
 
-
-微服務化一定會用到的 scale out 機制，我在這個範例使用 docker 內建的 DNS + 自行建置的 nginx (reverse proxy) 就處理掉了。不過當服務架構越來越複雜時，僅只靠內建的 DNS 難以負擔重責大任啊! 這篇我就把整個基礎建設，改用 Hashicorp 的開源專案: Consul 重新搭建一次這個服務吧! 這次我們來看看更精準的 Service Discovery + Healthy Check, 還有集中式的 Key-Value Configuration Management 能替我們解決多少微服務基礎建設的問題。
-
-
-開始之前，複習一下先前的內容吧~ 建議先看一下我在 .NET Conf 2017 介紹的 Container Driven Development 的觀念，還有上一篇的實作 Labs 說明。接著再看這篇如何進一步善用 Consul 的機制來簡化整個系統架構。
-
-**STEP 1**. 先看這段 .NET Conf 2017: Container Driven Develop  
-<iframe src="https://www.facebook.com/plugins/video.php?href=https%3A%2F%2Fwww.facebook.com%2Fandrew.blog.0928%2Fvideos%2F509145696127380%2F&show_text=1&width=560" width="560" height="685" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowTransparency="true" allowFullScreen="true"></iframe>  
-  
-
-**STEP 2**. 複習一下只用 container 提供的基礎建設: [容器化的微服務開發 #1, IP查詢架構與開發範例](/2017/05/28/aspnet-msa-labs1/)
-
-
-**STEP 3**. 複習一下服務發現 (Service Discovery) 在做什麼: [微服務基礎建設 - Service Discovery](/2017/12/31/microservice9-servicediscovery/)
-
+所有微服務相關的文章，可以直接參考下列的導讀。
 
 {% include series-2016-microservice.md %}
 
 
+
+
+
 # Consul 能替我們解決那些問題?
 
-先重點摘要一下，微服務架構一定會碰到的三大問題:
+可以開始進入重點了。開始寫 code 之前，先重點摘要一下，微服務架構一定會碰到的三大問題:
 
-1. 負載平衡 (load balance)
+1. 橫向擴充 (scale out)
 1. 服務可用性偵測 (health check)
 1. 組態管理 (configuration management)
 
-上一篇的例子，這些問題其實都簡化了，直接用 container 內建的機制處理掉了。每個服務都被包裝成獨立的 container, 啟動時 docker compose 就會自動指派 IP 給該 container, 同時會更新 docker network 的 DNS, 增加一筆 A record, 因此你只需要拿 service name 到 DNS 查詢，就能找到該 service 有多少 container 被啟動 (同時也可以找到對應的 IP address)。不過透過 DNS 做 load balance, 往往只能用基本的 DNS Round Robin...
+上一篇的例子，這些問題其實都被大幅簡化，直接用 container 內建的機制處理掉了。每個服務都被包裝成獨立的 container, 啟動時 docker compose 就會自動指派 IP 給該 container, 同時會更新 docker network 的 DNS, 增加一筆 A record, 因此你只需要拿 service name 到 DNS 查詢，就能找到該 service 有多少 container 被啟動 (同時也可以找到對應的 IP address)。不過透過 DNS 做 load balance, 往往只能用基本的 DNS Round Robin...
 
 至於可用性偵測，我們則暫時假設 container 活著，就代表服務可用，因此也可以從 DNS 查詢得知。若超出此範圍 (例如: 服務當掉了，但是 container 還在 running 狀態) 則無法因應。
 
@@ -93,21 +81,30 @@ Consul is designed to be friendly to both the DevOps community and application d
 我只能說，開發 Consul 的團隊，把它的關鍵功能拿捏得很好。這些功能不多不少，剛剛好都是我在建構微服務時最在意的基礎建設。微服務考驗的就是你治理大量服務的能力啊，就 "治理" 本身，需要的功能恰恰好就是上面提到的四個。搞清楚 Service Discovery / Health Checking 在做什麼，就是上一篇介紹的。至於應用與架構的規劃，我後面再說。接下來直接先看 Labs 應用案例吧。
 
 
-# Case Study: IP 查詢服務 (進階版)
+# 改版目標: 提高可用度, 快速擴充
 
-先前的版本，完全沒有針對可用性做進一步的規劃。在主要功能維持不變的前提下，要追加下列提高可用性的架構面需求。主要目標有:
+我先定義一下這次改版的目標，搞清楚後再來思考架構。切勿一開始就埋頭苦幹，這樣你可能沒把精力用在最關鍵的地方。
 
-1. 要能動態 (不中斷服務) 新增或是移除服務 instances  
-1. 要能應付 api service fail 的狀況，服務掛掉的 1 sec 內要能自動隔離失敗的 instance  
-1. 要能應付 configuration change (改變資料庫檔案版本)
-1. 要能確認外部服務 (例: IP資料庫下載) 是否可用
+所謂的 "提高可用度"，簡單的來說，就是我要盡一切可能的排除所有會讓服務中斷或是不正常的狀況。提高可用度有好幾種手段，其中之一就是多用幾個 instances 來分散風險，這個在上一版，透過 docker-compose 調整 scale 的做法就已經能達成了。剩下的問題在於，如果這些服務掛掉一半 (也就是沒有當掉，但是無法正常服務) 的話怎麼辦?
 
-在上一篇的例子裡，只用 docker-compose 內建的功能, 大概只能很勉強的做到 (1), 不需要 developer 額外的介入或規劃。(2), (3), (4) 就沒辦法了。要處理到這些環節，勢必得在架構上做額外的設計才行。這些都屬 [服務發現] 的範疇，在 service level 導入 service discovery 機制，就能有效的解決這些問題。先來看看架構上的設計改變:
+由於這些已經不是基礎建設層面，或是 operation team 的角度能解決的問題了，這必須是 develop team 才能掌握的細節，因此解決這問題之前，我們需要精準的 service discovery 來掌握所有可用的服務 instances, 同時必須搭配可靠的 health checking, 確保所有清單內的 instances 都是可用的。
+
+另一個要求 "快速擴充"，其實也是搭配的機制之一。除了效能擴充之外，若 operation 已經有能力立即排除有問題的 instances 時，那麼 infrastructure 勢必也要有能力快速的調用新的 instances 來補足效能的缺口，這時就需要快速擴充的機制了。這邊的要求是，operation team 最多只需要決定需要擴充的數量，其它若需要任何額外的設定或是組態調整都是不允許的，因此 develop team 在設計相關功能時要盡可能的自動化。
+
+所以，上面的目標，列成明確的 stories:
+
+1. 維運人員只要啟動新的 container, 待啟動完成後新的 container 就能加入服務, 過程不需要額外的設定調整。
+1. IP2C API 若無法正確回應 health checking, 則在 5 sec 內就必須自動被隔離，不再接收新的 request。若 60 sec 內都沒有恢復，則直接剔除該 instance。
+1. IP2C API 若無法自動回報 heartbeats 訊號, 則在 5 sec 內就必須自動被隔離，不再接收新的 request。若 60 sec 內都沒有恢復，則直接剔除該 instance。
+1. Configuration Change (改變資料檔案位置) 後, 所有的 IP2C API 服務須確保 5 sec 後收到的 request 都會用新的設定提供服務
+1. 若外部服務 (IP2C 資料庫更新服務) 無法使用，必須在 service discovery dashboard 上看到狀態，同時 worker 的更新動作必須暫停執行
+
+
+在上一篇的例子裡，只用 docker-compose 內建的功能, 大概只能很勉強的做到 (1), 不需要 developer 額外的介入或規劃。(2), (3), (4), (5) 就沒辦法了。要處理到這些環節，勢必得在架構上做額外的設計才行。這些都屬 [服務發現] 的範疇，在 service level 導入 service discovery 機制，就能有效的解決這些問題。先來看看架構上的設計改變:
 
 
 ![](/wp-content/images/2018-04-06-aspnet-msa-labs2-consul/2018-04-27-22-29-53.png)
 > 原本的架構
-
 
 
 ![](/wp-content/images/2018-04-06-aspnet-msa-labs2-consul/2018-04-27-22-29-24.png)
@@ -119,18 +116,50 @@ Consul is designed to be friendly to both the DevOps community and application d
 
 如果 Service Discovery 的註冊及健康檢查的機制，能夠透過設定或是 API 的方式手動調整，那麼我們也可以替外部或是既有 (legacy system) 主動加上去，在無法改寫既有的服務的前提下，我們一樣能用同樣的機制照顧好這些舊有的服務，讓所有的 client (透過 SDK) 或是其它服務都能精準的偵測到外部服務是否正常運作。
 
-做了這些調整，基本上上述的需求，就已經能解決 (1) (2) (4) 這三項了。接下來，我們需要另一個 Configuration Management 的服務，來處理整個微服務架構內的設定管理。我們需要集中的地方來存放設定資訊，同時也需要這些設定有異動時，能主動通知所有需要被告知的服務端。作法我後面在介紹，若假設這些機制也都能成功執行的話，那麼我們就能進一步解決 (3) 的問題。
-
+接下來，我們需要另一個 Configuration Management 的服務，來處理整個微服務架構內的設定管理。我們需要集中的地方來存放設定資訊，同時也需要這些設定有異動時，能主動通知所有需要被告知的服務端。
 
 講到這邊，Consul 提供的功能完全符合我們的需要 (service discovery, health checking, KV store)。架構圖上的兩個綠色框框 (service discovery + health check, config manage) 就可以合併簡化成單一一個 Consul 服務了。接下來就一步一步調整程式，把這個架構建立起來。
 
 
 
+# STEP 1, IIS Host or Self Host?
+
+其實這個問題，我在上一篇 container driven development 時我就想講了，不過這個牽涉太多實作的問題，當時就忍下來了。現在是適合的時間了，我特地拿出來探討一下這個問題。
+
+對開發人員來說，沒有太大的不同，你就是好好的開發 ASP.NET MVC WebAPI application 而已啊，只是你的 WebAPI 是掛在 IIS 下執行，還是自己開發的 Console App 下執行? 我節錄這討論串，它列出了使用 IIS 可以得到的額外好處 (相對於 SelfHost):
+
+* [Self hosting or IIS hosted?](https://forums.asp.net/t/1908235.aspx?Self+hosting+or+IIS+hosted+)
+
+What I've found (basically just pros for IIS hosted):
+1. You lose all of the features of IIS (logging, application pool scaling, throttling/config of your site, etc.)...
+1. You have to build every single feature that you want yourself HttpContext?
+1. You lose that since ASP.NET provides that for you. So, I could see that making things like authentication much harder WebDeploy?
+1. IIS has some nice specific features in 8 about handling requests and warming up the service (self-hosted does not)
+1. IIS has the ability to run multiple concurrent sites with applications and virtual directories to advanced topics like load balancing and remote deployments.
+
+其中 (2), (3) 我先略過，這個在開發階段就可以避免了，或是改用 Owin / .NET Core 就不存在的問題 (HttpContext)。其它都屬於部署管理方面的問題；如果你還在用傳統的方式部屬或是管理 web application (例如手動安裝 server, 內部系統, 沒有太多自動化, 同一套 server 可能執行多個 application 等等)，我會強烈建議你繼續使用 IIS。因為上述的功能對你都很重要。但是如果是 microservices, 以上的假設不大可能繼續成立了，你一定會被迫採用 container 這類能高度自動化的方式來進行。這時我們竹條來看看採用 IIS 的優點，是否還真的是 *必要* 的功能?
+
+
+> You lose all of the features of IIS (logging, application pool scaling, throttling/config of your site, etc.)...
+
+微服務架構下，幾乎都會搭配 container 及 orchestration 的機制一起使用。上述功能大多有替代方案，一次管理上百個 instances. 這時每個 instance 其實不再需要透過 IIS 提供這些功能了。
+
+
+> IIS has some nice specific features in 8 about handling requests and warming up the service (self-hosted does not)
+
+同樣的，application 的 life cycle 管理，也一樣可以透過 orchestration 搞定。更細緻的 health checking 等等，就是這篇會提到的。也都有對應更適合 microservices 的解決方案了。
+
+
+> IIS has the ability to run multiple concurrent sites with applications and virtual directories to advanced topics like load balancing and remote deployments.
+
+container 的精神，就是一個 process 一個 container, 在 run time 再組合成你期望的樣子。因此在一個 domain / ip address 上面放置多個 web sites 的需求，其實都會被轉移到前端的 reverse proxy, 後端每個 application 至少都有一個以上的 container 提供對應的服務。這任務都會轉由 orchestration 或是 reverse proxy 解決，對於每個 container 本身已經不是必要的功能了。
 
 
 
 
-# STEP 0, IIS or SelfHost?
+
+
+
 
 // problem in IIS with container
 
@@ -253,6 +282,9 @@ IIS 是 windows service, 開機啟動，關機才停用，屬於很標準的背�
 ## 服務查詢
 
 ## 組態管理
+
+// kv store v.s. DNS txt / srv records
+
 
 // 作用中的 IP 資料庫檔案
 
