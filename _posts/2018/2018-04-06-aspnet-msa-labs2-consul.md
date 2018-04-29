@@ -11,9 +11,33 @@ redirect_from:
 logo: 
 ---
 
-[上一篇: 容器化的微服務開發 #1, IP查詢架構與開發範例](/2017/05/28/aspnet-msa-labs1/) 我拿 IP 地區查詢服務當作範例，用我講的容器驅動開發的觀念，實作了微服務版本的 IP2C Service。微服務化一定會用到的 scale out 機制，我在這個範例使用 docker 內建的 DNS + 自行建置的 nginx (reverse proxy) 就處理掉了。不過當服務架構越來越複雜時，僅只靠內建的 DNS 難以負擔重責大任啊! 這篇我就把整個基礎建設，改用 Hashicorp 的開源專案: Consul 重新搭建一次這個服務吧! 這次我們來看看更精準的 Service Discovery + Healthy Check, 還有集中式的 Key-Value Configuration Management 能替我們解決多少微服務基礎建設的問題。
+其實我平常不大寫特定服務的介紹文章的，總覺得那些事實作面的東西，知道目的再去查文件會比較有效率，在那之前只要搞清楚架構及目的就可以了。不過在微服務的應用上，Service Discovery + Configuration Management 實在太重要了, 許多微服務的特性及優勢，都需要靠他才能做的好。於是這次，我就花了篇文章的版面，決定好好介紹一下 Consul (源自 HashiCorp 的解決方案) 這套服務。我拿去年介紹容器驅動開發用的案例: IP2C Service, 重新搭配 Consul 來改寫，用 Consul 解決 Service Discovery, Health Checking 以及 Configuration Management 的問題。讓各位讀者清楚的了解該如何善用 Consul 提供的功能，來強化你的服務可靠度。
+
+這篇開發案例與實作，延續了前面兩篇文章的內容。如果你還沒看過這兩篇文章，建議看下去之前先看一看。這篇是實作的說明，必要的觀念與架構都在這兩篇有說明:
+
+* [微服務基礎建設 - Service Discovery](/2017/12/31/microservice9-servicediscovery/)
+* [容器化的微服務開發 #1, IP查詢架構與開發範例](/2017/05/28/aspnet-msa-labs1/)
+
+這個範例的精神在於，微服務是個很龐大的架構，往往難以入門。也因為架構龐大，很多團隊都在片面的了解下就跨進來，一開始就累積了不少技術債而不自覺。其實很多事情本來就沒辦法一次到位的，不過就如我之前在 CICD 那篇文章提到的，至少團隊要先看清楚全貌，然後在初期就只針對最關鍵的地方顧好就好。其餘只要先把架構作對，實作通通都可以先行省略 (例如先留好 interface)，這樣整體的進展就會平順的多。
+
+這次的實作案例，為了讓各位能關注核心，我把重點擺在搭配 Consul 與 Container 這兩件事情身上。若 Developer 不夠了解它，往往很多善用它就能解決的問題，developer 會選擇自己硬做...，這是很可惜的。因此我會把主軸擺在如何善用 Consul + Container 的應用方式，其它部份我會簡化 (自己用最少的 code 完成)，而不採用其它的 framework。因此在範例程式內，我刻意拿掉一些我常用的第三方套件，例如命令列的參數 Parser (一般我會用 CommandParser 這套件)、相依注入 (Dependency Injection, 一般我慣用 Unity)、Log (一般我會用 NLog + ELK) 等等，目的是讓不熟這些套件的朋友們也都能第一時間掌握重點。
 
 <!--more-->
+
+在上一篇 [容器化的微服務開發 #1, IP查詢架構與開發範例](/2017/05/28/aspnet-msa-labs1/) 我拿 IP 地區查詢服務當作範例，用容器驅動開發的觀念，實作了微服務版本的 IP2C Service。我提到的 "Container Driven Development" 概念，就是假設你將來 "一定" 會用容器化的方式來部署的話，那麼在架構設計之初就能盡可能的最佳化，能透過容器解決的問題就不用自己做了。極度的簡化，可以讓 Operation 的團隊更容易接手維護你的服務，Developer 也能更專注把精力用在核心的業務上。這次我會重構先前的飯粒程式，進一步的擴大 "Container Driven Development" 的概念，假設將來 "一定" 會用 Consul + Container 的方式部署。同樣的來看看，你可以如何建構這樣的 application?
+
+我會分成下列幾個主軸來進行這次 hands-on lab:
+
+1. 該採用 IIS hosting? 還是 Self hosting?
+1. 每個服務該如何做好: Service register / de-register, health checking ?
+1. 每個服務該如何做好: Configuration management ?
+
+
+
+
+
+微服務化一定會用到的 scale out 機制，我在這個範例使用 docker 內建的 DNS + 自行建置的 nginx (reverse proxy) 就處理掉了。不過當服務架構越來越複雜時，僅只靠內建的 DNS 難以負擔重責大任啊! 這篇我就把整個基礎建設，改用 Hashicorp 的開源專案: Consul 重新搭建一次這個服務吧! 這次我們來看看更精準的 Service Discovery + Healthy Check, 還有集中式的 Key-Value Configuration Management 能替我們解決多少微服務基礎建設的問題。
+
 
 開始之前，複習一下先前的內容吧~ 建議先看一下我在 .NET Conf 2017 介紹的 Container Driven Development 的觀念，還有上一篇的實作 Labs 說明。接著再看這篇如何進一步善用 Consul 的機制來簡化整個系統架構。
 
@@ -107,6 +131,27 @@ Consul is designed to be friendly to both the DevOps community and application d
 
 
 # STEP 0, IIS or SelfHost?
+
+// problem in IIS with container
+
+- IIS / windows service not suitable for containers
+- container's life cycle (service) NOT match with application's life cycle (app pool), servicemonitor.exe
+- container : app pool NOT 1:1
+
+
+
+// IIS vs Self Hosting
+
+- app pool / worker process
+- fast fail problem (replaced by service discovery & health checking)
+- extra modules / handlers, extra unnecessary functions & restricts (containers with reverse-proxy is better?)
+- IIS logging is better (docker logging is better?)
+- IIS with web garden is better scability (multiple container with orchestration is better?)
+- selfhost performance is better (consider 1000+ containers)
+
+
+// How To: SelfHosting?
+
 
 最基本的就是服務註冊機制了。為了確保服務的清單正確性 (先忽略服務不正常終止的狀況)，我們必須在服務啟動即結束時通知 Consul。尷尬的是，在 windows 的架構下，ASP.NET MVC application 預設是掛在 IIS 以下的，整個服務的過程中，ASP.NET 的生命週期是受到 IIS 的管控的。IIS 會視情況來決定該如何管理 ASP.NET app pool；例如:
 
