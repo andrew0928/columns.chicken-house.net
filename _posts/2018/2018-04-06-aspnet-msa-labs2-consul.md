@@ -124,9 +124,76 @@ Consul is designed to be friendly to both the DevOps community and application d
 
 # STEP 1, IIS Host or Self Host?
 
-其實這個問題，我在上一篇 container driven development 時我就想講了，不過這個牽涉太多實作的問題，當時就忍下來了。現在是適合的時間了，我特地拿出來探討一下這個問題。
+其實這個問題，我在上一篇 container driven development 時我就想講了，不過這個牽涉太多實作的問題，當時就忍下來了。現在是適合的時間了，我特地拿出來探討一下這個問題，因為這個決策，會直接影響到後續如何跟 Consul 做後續的整合方式，不可不慎。因此我把他擺在第一個步驟。
 
-對開發人員來說，沒有太大的不同，你就是好好的開發 ASP.NET MVC WebAPI application 而已啊，只是你的 WebAPI 是掛在 IIS 下執行，還是自己開發的 Console App 下執行? 我節錄這討論串，它列出了使用 IIS 可以得到的額外好處 (相對於 SelfHost):
+對開發人員來說，選擇 IIS 或是 Self Host 其實沒有太大的不同，你就是好好的開發 ASP.NET MVC WebAPI application 而已啊，只是你的 WebAPI 是掛在 IIS 下執行，還是自己開發的 Console App 下執行? 在執行階段或是部署階段，考量的方向有幾個:
+
+1. 架構考量: IIS 是 windows service, 與 container 是以 process 為主的模式有出入 (後敘)
+1. 環境考量: IIS 提供完整的 web hosting 環境，可提供很多不需要自己開發就有的功能 (後敘)
+1. 效能考量: Hosting 再 IIS 下需要花費較多系統資源 (後敘)
+
+接下來我就分別就這三個方向，分享一下我自己的看法。這些只是優劣的判斷，並非絕對的選擇，各位採納前還是要評估自己的狀況再決定。
+
+> 有些解決方案，例如 asp.net core 提供的 kestrel, 或是之前 .net framework 的 cassini dev server, 都是介於 IIS 與 self-hosting 的中間解決方案。這類方案我會把他當作其它的 open source project, 把 self-hosting 的功能做好給你直接使用而已。在以下的討論內，kestrel 這種 solution 我會把他歸在 self-hosting 那一類看待。
+
+* [ASP.NET Core Web Servers: Kestrel vs IIS Feature Comparison and Why You Need Both](https://stackify.com/kestrel-web-server-asp-net-core-kestrel-vs-iis/)
+
+
+## 架構考量
+
+用過 docker 的朋友們大概都知道這個概念: container 的生命週期，就是跟隨著 entrypoint 指定的那個 process ... docker run 就會在 container 內啟動 entrypoint 指定的 process, 如果該 process 執行完畢，則該 container 會自己結束，進入 stopped 狀態。服務類型 (如 web server) 也是一樣，唯一的差別是啟動這類 container 時，我們會 docker run -d 多加一個 -d (daemon) 的參數，告訴 docker engine 不用在 console 端等待他結束而已。docker engine 會在 background 繼續讓這個 container 持續運作，直到自己結束或是被 stop 為止。
+
+然而 windows 下的 application 執行方式，硬是多了好幾種 console 以外的模式，windows service 就是其中之一。windows service 本身就有專屬的 project type, 編譯出來就是 service mode, 必須透過註冊的方式, 隨後 windows 就會在是當時機自主啟動它在背景執行。你要控制它的運作，windows 也有專屬的工具對 service 進行 start / stop / continue / pause / restart ( == stop + start ) 等等操作。
+
+在過去廿幾年來，這種模式在 windows 一直運作得很好，直到 docker 的盛行... windows service 變得有點多此一舉。其實透過 docker 的協助, console application 就能表現的跟 windows service 幾乎一模一樣的效果了。你只要用 docker run -d --restart always .... 來啟動你的 container, 它就完全是個 windows service 了 (還不需要註冊)。只要你的 console application 有好好的處理 OS shutdown event (或是 unix 系列的 signal), 你一樣能完美的透過 docker start / stop / pause / unpause 指令來操作 (對應到 windows service 的 start / stop / pause / continue)。
+
+所以，你有想過如何把 IIS 這種 windows service 打包成 container image 嗎? 這樣的 dockerfile 你該怎麼寫? 你到底要在 entrypoint 擺什麼? 執行起來的狀態才是你期待的?
+
+看一下 [IIS](https://hub.docker.com/r/microsoft/iis/) 的 [dockerfile](https://github.com/Microsoft/iis-docker/blob/master/windowsservercore-1709/Dockerfile):
+
+```dockerfile
+
+# escape=`
+FROM microsoft/windowsservercore:1709
+
+RUN powershell -Command `
+    Add-WindowsFeature Web-Server; `
+    Invoke-WebRequest -UseBasicParsing -Uri "https://dotnetbinaries.blob.core.windows.net/servicemonitor/2.0.1.3/ServiceMonitor.exe" -OutFile "C:\ServiceMonitor.exe"
+
+EXPOSE 80
+
+ENTRYPOINT ["C:\\ServiceMonitor.exe", "w3svc"]
+
+```
+
+很簡單，才幾行而已。看到 C:\ServiceMonitor.exe, 這是啥? Microsoft 剛好開源了這個工具，有興趣的可以直接 clone 下來研究:
+https://github.com/Microsoft/IIS.ServiceMonitor
+
+直接看它的說明:
+
+-----
+
+Microsoft IIS Service Monitor
+
+**ServiceMonitor** is a Windows executable designed to be used as the entrypoint
+process when running IIS inside a Windows Server container.
+
+ServiceMonitor monitors the status of the `w3svc` service and will exit when the
+service state changes from `SERVICE_RUNNING` to either one of `SERVICE_STOPPED`,
+`SERVICE_STOP_PENDING`, `SERVICE_PAUSED` or `SERVICE_PAUSE_PENDING`.
+
+-----
+
+搞半天，就是多包一層而已。Windows service 還是照原本的樣子執行，container 啟動後就像是 VM 開機一樣，啟動完成就會自己把 IIS 跑起來。不過 container 的 life cycle 怎麼管理? Microsoft 多開發一個工具，本身不做什麼事情，就是不斷監控 IIS 而已，IIS 還活著，ServiceMonitor.exe 就不會結束。這時 dockerfile 的 entrypoint 只要指向 ServiceMonitor.exe, 就能完美的把這落差補起來了。這樣是能解決舊系統容器化的障礙，不過... 有點脫褲子放屁啊! 如果我現在要開發新服務的話，還要繼續這樣兜圈子 (windows service + service monitor) 嗎? 或是我可以直接用 docker 原生的方式來開發 (console application) 就好?
+
+看到這邊，大家可以配合我去年在 .NET Conf 2017 分享的 Container Driven Develop (容器驅動開發) 那個 session 講到的做法一起看。如果你很肯定將來一定是透過 docker 來部署，我強烈建議開發人員可以盡量簡化開發方式，就直接用 console application 模式來開發就好了。其餘系統層面的事情，就交給 docker 去處理就好了。
+
+
+
+
+## 環境考量
+
+接下來，從執行環境與開發人員的配合來看這兩種方式的考量吧。開始之前，我先找了其它參考資訊，看看 IIS hosting 跟 Self hosting 的差別。我節錄這討論串，它列出了使用 IIS 可以得到的額外好處 (相對於 SelfHost):
 
 * [Self hosting or IIS hosted?](https://forums.asp.net/t/1908235.aspx?Self+hosting+or+IIS+hosted+)
 
@@ -152,7 +219,89 @@ What I've found (basically just pros for IIS hosted):
 
 > IIS has the ability to run multiple concurrent sites with applications and virtual directories to advanced topics like load balancing and remote deployments.
 
-container 的精神，就是一個 process 一個 container, 在 run time 再組合成你期望的樣子。因此在一個 domain / ip address 上面放置多個 web sites 的需求，其實都會被轉移到前端的 reverse proxy, 後端每個 application 至少都有一個以上的 container 提供對應的服務。這任務都會轉由 orchestration 或是 reverse proxy 解決，對於每個 container 本身已經不是必要的功能了。
+container 的精神，就是一個 process 一個 container, 在 run time 再組合成你期望的樣子。因此在一個 domain / ip address 上面放置多個 web sites 的需求，其實都會被轉移到前端的 reverse proxy, 後端每個 application 至少都有一個以上的 container 提供對應的服務。這任務都會轉由 orchestration 或是 reverse proxy 解決，對於每個 container 本身已經不是必要的功能了。我先下個簡單的結論: 在微服務化 + 容器化部署的前提下，IIS 都不再是絕對必要的組件了。如果其它考量有更好的選擇，就去做吧!
+
+
+
+## ASP.NET Application Life Cycle
+
+不過，在結束這個段落之前，因為這篇文章後半會用到，我再追加另一個環境控制上的考量: (app pool) life cycle
+
+這部分其實在 IIS6 就開始提供了 (windows 2003), 年代久遠, 有介紹的文章已經不多了，我找到一篇: [IISRESET vs Recycling Application Pools](https://fullsocrates.wordpress.com/2012/07/25/iisreset-vs-recycling-application-pools/), 各位可以看看他對 recycle 的部分說明，講的蠻到位的。
+
+任何 web application (包含 asp.net webform, mvc, webapi 等等都算), 在 IIS 都會被丟到 app pool 內執行。由於 web 都屬於被動觸發的模式，也就是有 request 進來，丟給 application 處理，處理完成後回應 response 即可。因此 IIS 花了不少功夫在處理 app pool 這件事，讓你的 application 長期運作下能夠耗用最少的系統資源，提供最佳的整體效能，還有最佳的可靠度。
+
+IIS 的對應做法不少，包含延遲啟動 (第一個 request 進來才啟動 app pool)，連續一段時間都沒有 request 就結束 app pool, 或是同時啟用多個 worker 擴大處理能力，或是自動重新啟用可能有問題的 app pool 等等。
+
+為何我要在這邊特別提出這點? 在單機版的情況下，有 IIS 幫我們處理這些事情是很幸福的，開發人員跟運維人員其實都不用傷腦筋；但是同樣的目的，類似的處理過程，container / microservice infra (包含這次要介紹的 Consul) 也都做了，我們又面臨同樣的狀況，是否還需要 IIS 在每個 container 內都做一次重複的事情?
+
+除了這點之外，更重要的一點是: developer 的控制範圍只在 app pool 內。舉例來說，ASP.NET 可以監聽 application event, 在 Application_Start / Application_End 等等事件去做對應的動作.. 但是各位讀者可以先看看這篇 Service Discovery 的內容，試想一下這個矛盾的情境:
+
+1. service 啟動之後，要對 service registry 註冊
+1. service 啟動並完成註冊後，會定期對 registry 發送 heartbeats, 確保 service 正常運作
+1. api gateway 接到新的 request 後，就會查詢 registry 找出合適的 instance 來服務
+
+上述這些程序，經過 IIS 的包裝之後，會變的很難處理。上述的步驟，你沒發現 (1) 跟 (3) 是衝突的嗎? 沒有 (3) 怎麼會觸發 (1) ? 可是沒有 (1) 的話 (3) 怎麼會找的到新的 instance? (1) (3) 沒搞定的話，(2) 也不用做了...
+
+
+其它更別提，container / IIS 沒有改變的情況下，app pool 可能會被摧毀及重新建立好幾次，如果照標準的寫法，這個服務就被重新註冊好幾次了，這些都是多餘的部分。當然我知道 IIS 可以關掉這些機制，或是設置成 IIS 一起動就自動 warm up 你的 application, 但是這麼一來，我們需要 IIS 存在的目的又更低了，不是嗎?
+
+這種情況，反而我們用 Self-Hosting 的方式就異常簡單了 XD, Self-Hosting 就是個標準的 console application, 有很明確的啟動 (進入 Main()) 與結束 (Main() return) 的時間點。而 console application 的啟動與結束，又直接跟 container 綁在一起。因此我們只需要在 Main() 的頭尾，去做上述的 (1) (2) (3) 就完成了。許多這類問題，都是我一直想在 CDD (Container Driven Develop) 裡面強調的，善用 container 的特性，你其實可以非常大幅的簡化你的開發方式，又不損你的功能及彈性。這是充分了解 containerize 之後帶來的好處，但是前提是團隊的架構師要清楚的瞭解這點才行。
+
+同樣的，這部分的結論也是: 沒有其它非用 IIS 不可的前提下，用 Self Hosting + Container 的作法反而能更漂亮的控制這些狀況。
+
+
+
+
+
+
+
+
+## 效能考量
+
+這邊我就不花太多篇幅說明了。簡單的說，IIS 負責了基本的 web server, 與額外提供的各種安全與管理的功能。整體來說，效能只會更差不會更好。我正好有找到一篇文章，雖然有點舊了，但是架構上就是說明 IIS vs SelfHosting 的 benchmark 差異，讓各位感受一下:
+
+* [Performance comparison: IIS 7.5 and IIS 8 vs. self-hosted mvc4 web api](http://blog.bitdiff.com/2012/06/performance-comparison-iis-75-and-iis-8.html)
+
+測試的內容我就不說了，我直接貼一下他的測試結果:
+
+|                       | Requests (#/sec)  | Time per request (ms) |
+|-----------------------|-------------------|-----------------------|
+|IIS 8 (windows 8)      |4778.23            |20.928                 |
+|Self-Host (windows 8)  |5612.23            |17.818                 |
+
+IIS 7 的數據我就不貼了，效能差異更大。在 IIS 8 的測試基準來看，用 self-host 的效能可以好上 17.5%
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
