@@ -139,7 +139,7 @@ Consul is designed to be friendly to both the DevOps community and application d
 * [ASP.NET Core Web Servers: Kestrel vs IIS Feature Comparison and Why You Need Both](https://stackify.com/kestrel-web-server-asp-net-core-kestrel-vs-iis/)
 
 
-## 架構考量
+## 1. 架構考量
 
 用過 docker 的朋友們大概都知道這個概念: container 的生命週期，就是跟隨著 entrypoint 指定的那個 process ... docker run 就會在 container 內啟動 entrypoint 指定的 process, 如果該 process 執行完畢，則該 container 會自己結束，進入 stopped 狀態。服務類型 (如 web server) 也是一樣，唯一的差別是啟動這類 container 時，我們會 docker run -d 多加一個 -d (daemon) 的參數，告訴 docker engine 不用在 console 端等待他結束而已。docker engine 會在 background 繼續讓這個 container 持續運作，直到自己結束或是被 stop 為止。
 
@@ -149,7 +149,7 @@ Consul is designed to be friendly to both the DevOps community and application d
 
 所以，你有想過如何把 IIS 這種 windows service 打包成 container image 嗎? 這樣的 dockerfile 你該怎麼寫? 你到底要在 entrypoint 擺什麼? 執行起來的狀態才是你期待的?
 
-看一下 [IIS](https://hub.docker.com/r/microsoft/iis/) 的 [dockerfile](https://github.com/Microsoft/iis-docker/blob/master/windowsservercore-1709/Dockerfile):
+看一下 Microsoft 提供的 [IIS](https://hub.docker.com/r/microsoft/iis/) container image, [dockerfile](https://github.com/Microsoft/iis-docker/blob/master/windowsservercore-1709/Dockerfile) 是怎麼寫的:
 
 ```dockerfile
 
@@ -191,7 +191,7 @@ service state changes from `SERVICE_RUNNING` to either one of `SERVICE_STOPPED`,
 
 
 
-## 環境考量
+## 2. 環境考量
 
 接下來，從執行環境與開發人員的配合來看這兩種方式的考量吧。開始之前，我先找了其它參考資訊，看看 IIS hosting 跟 Self hosting 的差別。我節錄這討論串，它列出了使用 IIS 可以得到的額外好處 (相對於 SelfHost):
 
@@ -223,7 +223,7 @@ container 的精神，就是一個 process 一個 container, 在 run time 再組
 
 
 
-## ASP.NET Application Life Cycle
+## 3. ASP.NET Application Life Cycle
 
 不過，在結束這個段落之前，因為這篇文章後半會用到，我再追加另一個環境控制上的考量: (app pool) life cycle
 
@@ -257,7 +257,7 @@ IIS 的對應做法不少，包含延遲啟動 (第一個 request 進來才啟�
 
 
 
-## 效能考量
+## 4. 效能考量
 
 這邊我就不花太多篇幅說明了。簡單的說，IIS 負責了基本的 web server, 與額外提供的各種安全與管理的功能。整體來說，效能只會更差不會更好。我正好有找到一篇文章，雖然有點舊了，但是架構上就是說明 IIS vs SelfHosting 的 benchmark 差異，讓各位感受一下:
 
@@ -274,42 +274,7 @@ IIS 7 的數據我就不貼了，效能差異更大。在 IIS 8 的測試基準�
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+<!-- 
 // problem in IIS with container
 
 - IIS / windows service not suitable for containers
@@ -328,7 +293,7 @@ IIS 7 的數據我就不貼了，效能差異更大。在 IIS 8 的測試基準�
 - selfhost performance is better (consider 1000+ containers)
 
 
-// How To: SelfHosting?
+// How To: SelfHosting? -->
 
 
 最基本的就是服務註冊機制了。為了確保服務的清單正確性 (先忽略服務不正常終止的狀況)，我們必須在服務啟動即結束時通知 Consul。尷尬的是，在 windows 的架構下，ASP.NET MVC application 預設是掛在 IIS 以下的，整個服務的過程中，ASP.NET 的生命週期是受到 IIS 的管控的。IIS 會視情況來決定該如何管理 ASP.NET app pool；例如:
@@ -373,7 +338,7 @@ IIS 是 windows service, 開機啟動，關機才停用，屬於很標準的背�
 # STEP 5, DEMO
 
 
-
+<!-- 
 
 # STEP 6, ADD EXTERNAL SERVICE into Health Checking
 
@@ -467,4 +432,4 @@ IIS 是 windows service, 開機啟動，關機才停用，屬於很標準的背�
 
 // compare to other service discovery services?
 
-
+ -->
