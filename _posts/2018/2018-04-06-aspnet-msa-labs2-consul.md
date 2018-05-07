@@ -122,7 +122,7 @@ Consul is designed to be friendly to both the DevOps community and application d
 
 
 
-# STEP 1, IIS Host or Self Host?
+# STEP 1, 環境選擇，IIS Host or Self Host?
 
 其實這個問題，我在上一篇 container driven development 時我就想講了，不過這個牽涉太多實作的問題，當時就忍下來了。現在是適合的時間了，我特地拿出來探討一下這個問題，因為這個決策，會直接影響到後續如何跟 Consul 做後續的整合方式，不可不慎。因此我把他擺在第一個步驟。
 
@@ -145,9 +145,9 @@ Consul is designed to be friendly to both the DevOps community and application d
 
 然而 windows 下的 application 執行方式，硬是多了好幾種 console 以外的模式，windows service 就是其中之一。windows service 本身就有專屬的 project type, 編譯出來就是 service mode, 必須透過註冊的方式, 隨後 windows 就會在是當時機自主啟動它在背景執行。你要控制它的運作，windows 也有專屬的工具對 service 進行 start / stop / continue / pause / restart ( == stop + start ) 等等操作。
 
-在過去廿幾年來，這種模式在 windows 一直運作得很好，直到 docker 的盛行... windows service 變得有點多此一舉。其實透過 docker 的協助, console application 就能表現的跟 windows service 幾乎一模一樣的效果了。你只要用 docker run -d --restart always .... 來啟動你的 container, 它就完全是個 windows service 了 (還不需要註冊)。只要你的 console application 有好好的處理 OS shutdown event (或是 unix 系列的 signal), 你一樣能完美的透過 docker start / stop / pause / unpause 指令來操作 (對應到 windows service 的 start / stop / pause / continue)。
+在過去廿幾年來，這種模式在 windows 一直運作得很好，直到 docker 的盛行... 如果你要封裝的主要服務，是以 windows service 的形態存在，這就變得多此一舉。其實透過 docker 的協助, console application 就能表現的跟 windows service 幾乎一模一樣的效果了。你只要用 docker run -d --restart always .... 來啟動你的 container, 它就完全是個 windows service 了 (還不需要註冊)。只要你的 console application 有好好的處理 OS shutdown event (或是 unix 系列的 signal), 你一樣能完美的透過 docker start / stop / pause / unpause 指令來操作 (對應到 windows service 的 start / stop / pause / continue)。
 
-所以，你有想過如何把 IIS 這種 windows service 打包成 container image 嗎? 這樣的 dockerfile 你該怎麼寫? 你到底要在 entrypoint 擺什麼? 執行起來的狀態才是你期待的?
+所以，你有想過 Microsoft 如何把 IIS 這種 windows service 打包成 container image 嗎? 這樣的 dockerfile 你該怎麼寫? 你到底要在 entrypoint 擺什麼? 執行起來的狀態才是你期待的?
 
 看一下 Microsoft 提供的 [IIS](https://hub.docker.com/r/microsoft/iis/) container image, [dockerfile](https://github.com/Microsoft/iis-docker/blob/master/windowsservercore-1709/Dockerfile) 是怎麼寫的:
 
@@ -272,6 +272,8 @@ IIS 的對應做法不少，包含延遲啟動 (第一個 request 進來才啟�
 
 IIS 7 的數據我就不貼了，效能差異更大。在 IIS 8 的測試基準來看，用 self-host 的效能可以好上 17.5%
 
+這部分的結論是: 微服務的架構下，是分工更細緻的規劃。如果 IIS 額外處理的部分都有更專屬的設備或是服務在負責時，拋開 IIS 這層是件好事，你可以用同樣的 source code, 同樣的設備，搾出更高的效能。
+
 
 
 <!-- 
@@ -293,40 +295,426 @@ IIS 7 的數據我就不貼了，效能差異更大。在 IIS 8 的測試基準�
 - selfhost performance is better (consider 1000+ containers)
 
 
+
+
+
+
 // How To: SelfHosting? -->
 
+# STEP 2, 服務註冊機制實作
 
-最基本的就是服務註冊機制了。為了確保服務的清單正確性 (先忽略服務不正常終止的狀況)，我們必須在服務啟動即結束時通知 Consul。尷尬的是，在 windows 的架構下，ASP.NET MVC application 預設是掛在 IIS 以下的，整個服務的過程中，ASP.NET 的生命週期是受到 IIS 的管控的。IIS 會視情況來決定該如何管理 ASP.NET app pool；例如:
+微服務架構裡最基本的基礎建設，就是服務註冊機制了。這次範例我們直接採用 Consul 來當作 Service Discovery 的服務套件。為了確保服務的清單正確性 (先忽略服務不正常終止的狀況)，我們必須在服務啟動即結束時通知 Consul。延續前面那段 "IIS Host vs Self Host" 的討論，於是，在這個範例我大膽地做了點改變，我決定不用 IIS 來 hosting ASP.NET MVC WebAPI application, 改用自己開發的 Self Hosting Console App 來替代 IIS，同時由這個 Self Host App 來負責 Consul 的 Reg / DeReg 等任務，API 本身要執行的商務邏輯，維持在 ASP.NET 裡面處理就好。
 
-* 延遲啟動: 在第一個 request 進來之後才啟動 app pool
-* 回收: 經過一段時間 (預設 20 分鐘) 沒有任何 request, IIS 會選擇回收 app pool, 節省資源；直到下一個 request 進來，IIS 會啟動新的 app pool 來服務它
-* 失敗回復: 若 IIS 偵測到某個 app pool 運作出了問題，IIS 會另外啟動一個新的 app pool, 由他來受理之後收到的 request, 原本的 app pool 則會嘗試正常終止，若經過一段時間還無法終止，則會強制停掉 app pool
-* 定期回收: 透過排程，定期執行 "回收" 的動作
-
-其實這些機制，對於 IIS server 的可用性有很大的幫助，早期我們自己管理 server 的情況下，這些機制真的能很有效的運用 server 上的資源，也真的能提高服務的可靠度，讓一些設計上不是那麼嚴謹的 application, 也能有最好的可靠度。不過，在一切都容器化的環境下，這些機制反而變的很累贅，多此一舉了。我隨便舉幾個在 container 的環境下，這類 "脫褲子放屁" 的例子:
-
-IIS 是 windows service, 開機啟動，關機才停用，屬於很標準的背景服務。不過 container 的生命週期是跟著主要的 process 啊，container 啟動後，會執行 entrypoint 當作主要的 process, 當她結束就會停止整個 container。這兩個放在一起很矛盾啊，container 啟動後，到底要啟動什麼東西 (IIS 不用透過 container 就會執行了)?  另外 container 到底要等哪個 process 結束才能停止? 沒有 entrypoint, container 一啟動就會結束了... Microsoft 為了解決這個問題，只好開發了一個工具: ServiceMonitor.exe .. 它執行後就會一直掛在那邊，不斷的監控指定的服務 (IIS) 是否還在執行中? 如果服務停止了，那麼 ServiceMonitor.exe 也會停止。拿它來當作 container entrypoint 就可以解決上述問題了。
-
-不過整個過程就是一整個怪啊，多了很多多於的動作... 我接著再舉幾個 IIS 在 containerize app / microservices 下很多餘的案例:
-
-前面提到的服務註冊/移除，本來很單純的只要在這個 process 的頭尾加一段 code 通知 consul 就好了，現在變得很複雜了，因為 IIS 的關係，可能 container 已經起來了，但是我們的 app pool 根本沒有起來 (因為沒有觸發它的 request).. 當然我們可以寫個 script 做這件事，或是 IIS 自己也有設定可以做這件事，但是這麼一來 IIS 存在的理由又少了一個...
-
-如果我們在 app pool 啟動與停止 (對應到 ASP.NET Global.asax 內的 Application_Start / Application_End 的事件) 通知 consul 執行 service register / de-register 的動作的話，前面說到 IIS 的一些題高可用性的設計，就會干擾 consul 的運作了...
-
-另外，在微服務架構下，通常這些服務都不會直接對外的，要對外都會透過 API gateway, Reverse proxy 或是 Edge service, 因此 IIS 很多功能 (例如權限，整合試驗證, mime-type 控制, ... 等等功能，完全被前端的 reverse-proxy 給取代了...
-
-怎麼看都覺得 IIS 在容器化的時代是個很多餘的東西啊，就算你真的需要，只要在 Edge service 架個 IIS 或是 Nginx 當作 reverse proxy, 就一切搞定了。你依樣可以在這個位置啟用你想要的功能，而不用在背後每個 instance 都裝一套 IIS 執行一樣的功能...
+接下來的範例我們就直接採用 Self Host 的模式來寫 code, 避開 IIS 對於 App Pool 的各種管理與優化動作，藉以更精準的執行註冊機制，以及接下來要探討的 Health Checking 的機制。
 
 
-於是，在這個範例我大膽地做了點改變，我決定不用 IIS 來 hosting ASP.NET MVC WebAPI application, 改用自己開發的 Self Hosting Console App 來替代 IIS，同時由這個 Self Host App 來負責 Consul 的 Reg / DeReg 等任務，API 本身要執行的商務邏輯，維持在 ASP.NET 裡面處理舊好。
+## 1. 改為 SelfHost 模式
 
+首先，我想在改動最小的前提下，另外一個 Self-Host 的 console application, 來啟動原本的 ASP.NET WebAPI project:
+
+```csharp
+
+class Program {
+  static void Main(string[] args) {
+    using (WebApp.Start<Startup>("http://localhost:9000/"))
+    {
+        Console.WriteLine($"WebApp Started.");
+        Console.ReadLine();
+    }
+  }
+}
+
+public class Startup
+{
+    // This code configures Web API. The Startup class is specified as a type
+    // parameter in the WebApp.Start method.
+    public void Configuration(IAppBuilder appBuilder)
+    {
+        // Configure Web API for self-host. 
+        HttpConfiguration config = new HttpConfiguration();
+
+        config.Routes.MapHttpRoute(
+            name: "QueryApi",
+            routeTemplate: "api/{controller}/{id}",
+            defaults: new { id = RouteParameter.Optional }
+        );
+
+        config.Routes.MapHttpRoute(
+            name: "DiagnoisticApi",
+            routeTemplate: "api/{controller}/{action}/{text}",
+            defaults: new { id = RouteParameter.Optional }
+        );
+
+        // do nothing, just force app domain load controller's assembly
+        Console.WriteLine($"- Force load controller: {typeof(IP2CController)}");
+        Console.WriteLine($"- Force load controller: {typeof(DiagController)}");
+
+        appBuilder.UseWebApi(config);
+    }
+}
+
+```
+
+絕大部分的 code, 你會 ASP.NET MVC 就看的懂了，不再贅述。我只挑特別修改過的地方說明。當你定義完 routing 之後，第一個碰到的，就是 ASP.NET 會找不到你的 controller 在哪裡 (如下圖)。
+
+![](wp-content/images/2018-04-06-aspnet-msa-labs2-consul/2018-05-07-21-01-35.png)
+
+> No type was found that matches the controller named 'ip2c'.
+
+主要原因就是，過去 IIS Host 會幫你 "搜尋" 可能的 controller types, 現在在 self host 就得自己來了。這個動作是透過 IAssembliesResolver 這個介面在進行的。預設值會搜尋 AppDomain 所有已經載入的 Assemblies 清單。不過我們的狀況有點尷尬，這清單是會延遲載入的，我們 Project 已經 Reference IP2C.WebAPI 這個 project, 但是啟動 SelfHost 時，如果 code 都還沒有任何地方用到這個 IP2C.WebAPI 的 class, 那麼當下的 AppDomain 是不會有我們的 controller 的...
+
+既然 .NET 大部分的 source code 都已經開源了，就挖出來求證一下:
+
+https://github.com/aspnet/AspNetWebStack/blob/master/src/System.Web.Http/Dispatcher/DefaultAssembliesResolver.cs
+
+```csharp
+
+namespace System.Web.Http.Dispatcher
+{
+    /// <summary>
+    /// Provides an implementation of <see cref="IAssembliesResolver"/> with no external dependencies.
+    /// </summary>
+    public class DefaultAssembliesResolver : IAssembliesResolver
+    {
+        /// <summary>
+        /// Returns a list of assemblies available for the application.
+        /// </summary>
+        /// <returns>A <see cref="Collection{Assembly}"/> of assemblies.</returns>
+        public virtual ICollection<Assembly> GetAssemblies()
+        {
+            return AppDomain.CurrentDomain.GetAssemblies().ToList();
+        }
+    }
+}
+
+```
+
+要解決這個狀況，最簡單的方式，就是在啟動 SelfHost 之前，隨便加幾行 code 確保會被用到就好了。所以我在 Startup 這個 class 裡面加了這兩行:
+
+```csharp
+
+            // do nothing, just force app domain load controller's assembly
+            Console.WriteLine($"- Force load controller: {typeof(IP2CController)}");
+            Console.WriteLine($"- Force load controller: {typeof(DiagController)}");
+
+```
+
+當然，你要講究一點的話，可以改寫自己專屬的 IAssembliesResolver 物件，並且在 config.Services.Replace(typeof(IAssembliesResolver), new MyAssembliesResolver()) 裡面用自己的版本替換掉。
+
+
+## 2, 註冊 / 反註冊服務資訊
+
+// IP detect
+
+接下來就單純多了。既然都 SelfHost 自己處理了，我們就可以很精準的掌握到服務啟動與結束的時機了。原本的 SelfHost 長這樣:
+
+```csharp
+
+class Program {
+  static void Main(string[] args) {
+    using (WebApp.Start<Startup>("http://localhost:9000/"))
+    {
+        Console.WriteLine($"WebApp Started.");
+        Console.ReadLine();
+    }
+  }
+}
+
+```
+
+我們只要在 Start() 之後插入 Consul 的註冊動作，ReadLine() 之後插入移除註冊的資訊即可。如下:
+
+```csharp
+
+using (WebApp.Start<Startup>(baseAddress))
+{
+    Console.WriteLine($"WebApp Started.");
+    string serviceID = $"IP2CAPI-{Guid.NewGuid():N}".ToUpper(); //Guid.NewGuid().ToString("N");
+
+    // ServiceDiscovery.Register()
+    using (ConsulClient consul = new ConsulClient(c => { if (!string.IsNullOrEmpty(consulAddress)) c.Address = new Uri(consulAddress); }))
+    {
+        #region register services
+        consul.Agent.ServiceRegister(new AgentServiceRegistration()
+        {
+            Name = "IP2CAPI",
+            ID = serviceID,
+            Address = baseAddress,
+        }).Wait();
+        #endregion
+
+        Console.ReadLine();
+
+        // ServiceDiscovery.UnRegister()
+        consul.Agent.ServiceDeregister(serviceID).Wait();
+    }
+}
+
+```
+
+這邊補充幾個 Consul 的注意事項。在 Consul 裡面，是用 Service Name 認定服務名稱的 (例如 IP2CAPI), 但是同時提供這個服務可能有很多個 Instance(s), 每個 instance 則有自己的 ID, 我這邊用 GUID 來代替。註冊時要給定 ID，移除註冊時就要根據 ID 來執行。這個 ID 請自行定義使用。
+
+為了順利執行這段 code, 我們總是要跑個 consul agent 來使用。Consul 很佛心的提供了 dev mode, 一切都使用預設值，不需要寫入與讀取任何靜態檔案。你只要從官網下載 binary, 一行指令就可以啟動完成，同時提供 web ui, 讓你開始進行開發與測試:
+
+```shell
+
+consul.exe agent --dev
+
+```
+
+你可以用瀏覽器開啟 http://localhost:8500 來查閱 consul web ui:
+
+![](wp-content/images/2018-04-06-aspnet-msa-labs2-consul/2018-05-07-21-50-45.png)
+
+可以看到 IP2CAPI 已經出現在服務清單內了，而且服務狀況正常 (綠色)。不過目前為止這個狀態還不夠精準，因為我們還沒加上 Health Checking 相關動作上去。
+
+
+## 3, 處理系統關機的事件
+
+其它環境問題還有些細節要處理，例如如何偵測目前的 IP address ? (範例程式是寫死 localhost), 這段我直接附在最終的 source code 內不多做說明。另一個比較關鍵的，是如何偵測服務要被關閉的狀態?
+
+目前服務是等 user 在 console 按下 ENTER 就結束了，實際情況不會是這樣，大都是 orchestration 或是 op team 直接把這個 container 或是 process 砍掉。所以我們要花點功夫，去攔截 OS shutdown 的動作，取代掉原本的 Console.ReadLine() 。直接看 sample code:
+
+```csharp
+
+
+        #region shutdown event handler
+        private static AutoResetEvent shutdown = new AutoResetEvent(false);
+
+        [DllImport("Kernel32")]
+        static extern bool SetConsoleCtrlHandler(EventHandler handler, bool add);
+
+        delegate bool EventHandler(CtrlType sig);
+        //static EventHandler _handler;
+        enum CtrlType
+        {
+            CTRL_C_EVENT = 0,
+            CTRL_BREAK_EVENT = 1,
+            CTRL_CLOSE_EVENT = 2,
+            CTRL_LOGOFF_EVENT = 5,
+            CTRL_SHUTDOWN_EVENT = 6
+        }
+        private static bool ShutdownHandler(CtrlType sig)
+        {
+            //Console.WriteLine("Shutdown Console Apps...");
+            //brs.StopWorkers();
+            shutdown.Set();
+            Console.WriteLine($"Shutdown WebHost...");
+            return true;
+        }
+
+        #endregion
+
+
+```
+
+用 DLLImport 的方式，呼叫 Kernel32 提供的 Win32 API: SetConsoleCtrlHandler(...), 攔截幾種終止程式執行的事件 (包括: CTRL-C, CTRL-BREAK, CLOSE WINDOW, LOGOFF, SHUTDOWN)。原本的 Console.ReadLine(), 換成 shutdown.WaitOne() 就可以了。各位可以自行測試一下這段 code 的效果，我也不再多做介紹。加上這段 code 之後，大概只剩下機器直接被拔掉電源，或是管理者用工作管理員直接 kill process 無法攔截之外，其它大概都能夠處理了。
 
 
 # STEP 3, Health Checking
 
+接下來要進入重頭戲了。除了服務啟動與結束時註冊之外，我們有無其它更精準的方式確認該服務正常運作? 有的，這就是我愛用 Consul 的重點了。他整合了很完善的 Health Checking 機制，讓你很容易的做好這件事。
+
+開始改 code 前，大家可以先看一下 Consul 的官方說明: [Checks](https://www.consul.io/docs/agent/checks.html), 裡面有說明所有支援的 health checking 的方式。我們這邊採用兩種基本的:
+
+1. 由 consul 主動對特定的 URL 做 http test, 如果一定時間內得不到正確的回應，就會判定該服務失敗
+1. 由 service 主動定時回報狀態, 如果一定時間內無法回報，consul 就會判定該服務失敗
+
+來看看怎麼在時做上處理 health checking 的問題吧! 先看註冊的部分:
+
+```csharp
+
+            // Start OWIN host 
+            Console.WriteLine($"Starting WebApp... (Bind URL: {baseAddress})");
+            using (WebApp.Start<Startup>(baseAddress))
+            {
+                Console.WriteLine($"WebApp Started.");
+                string serviceID = $"IP2CAPI-{Guid.NewGuid():N}".ToUpper(); //Guid.NewGuid().ToString("N");
+
+                // ServiceDiscovery.Register()
+                using (ConsulClient consul = new ConsulClient(c => { if (!string.IsNullOrEmpty(consulAddress)) c.Address = new Uri(consulAddress); }))
+                {
+
+                    #region register services
+                    consul.Agent.ServiceRegister(new AgentServiceRegistration()
+                    {
+                        Name = "IP2CAPI",
+                        ID = serviceID,
+                        Address = baseAddress,
+                        Checks = new AgentServiceCheck[]
+                        {
+                            new AgentServiceCheck()
+                            {
+                                DeregisterCriticalServiceAfter = TimeSpan.FromSeconds(30.0),
+                                HTTP = $"{baseAddress}api/diag/echo/00000000",
+                                Interval = TimeSpan.FromSeconds(1.0)
+                            },
+                            new AgentServiceCheck()
+                            {
+                                DeregisterCriticalServiceAfter = TimeSpan.FromSeconds(30.0),
+                                TTL = TimeSpan.FromSeconds(5.0)
+                            }
+                        }
+                    }).Wait();
+                    #endregion
 
 
+                    #region send heartbeats to consul
+                    bool stop = false;
+                    Task heartbeats = Task.Run(() =>
+                    {
+                        IP2CController ip2c = new IP2CController();
+                        while (stop == false)
+                        {
+                            Task.Delay(1000).Wait();
 
+                            try
+                            {
+                                var result = ip2c.Get(0x08080808);
+                                if (result.CountryCode == "USA")
+                                {
+                                    consul.Agent.PassTTL($"service:{serviceID}:2", $"self test pass.");
+                                }
+                                else
+                                {
+                                    consul.Agent.WarnTTL($"service:{serviceID}:2", $"self test fail. query 8.8.8.8, expected: US, actual: {result.CountryCode}({result.CountryName})");
+                                }
+                            }
+                            catch(Exception ex)
+                            {
+                                consul.Agent.FailTTL($"service:{serviceID}:2", $"self test error. exception: {ex}");
+                            }
+                        }
+                    });
+
+                    // wait until process shutdown (ctrl-c, or close window)
+                    shutdown.WaitOne();
+
+                    stop = true;
+                    #endregion
+
+                    // ServiceDiscovery.UnRegister()
+                    consul.Agent.ServiceDeregister(serviceID).Wait();
+                }
+            }
+
+
+```
+
+
+我在註冊的地方，加上了這兩筆 health check 的定義:
+
+```csharp
+                        Checks = new AgentServiceCheck[]
+                        {
+                            new AgentServiceCheck()
+                            {
+                                DeregisterCriticalServiceAfter = TimeSpan.FromSeconds(30.0),
+                                HTTP = $"{baseAddress}api/diag/echo/00000000",
+                                Interval = TimeSpan.FromSeconds(1.0)
+                            },
+                            new AgentServiceCheck()
+                            {
+                                DeregisterCriticalServiceAfter = TimeSpan.FromSeconds(30.0),
+                                TTL = TimeSpan.FromSeconds(5.0)
+                            }
+                        }
+```
+
+這裡分別定義了兩筆 health check 的資訊:
+
+第一筆是 http test, 意思是我要 consul 每 1.0 sec, 就到 /api/diag/echo/00000000 戳一下，拿到 HTTP 200 就算正常。沒有的話就把服務標記為 FAIL。如果超過 30 sec 都 FAIL，那直接移除註冊資訊。
+
+http test 端看你希望 consul 到哪個 RESTFul api 來測? 我的案例是另外寫一組 diagnoistic api controller, 專門給 consul 測試:
+
+```csharp
+    public class DiagController : ApiController
+    {
+        [HttpGet]
+        public string Echo(string text)
+        {
+            return text;
+        }
+    }
+```
+
+這邊你可以在 code 裡面填上有意義的 code, 例如以我習慣，我如果想隨時測試 SQL 連線是否正確? 我會在 code 裡面執行這類沒啥意義的 SQL 指令 (```select 9527 as TEST;```)，目的只是 ping SQL 而已，確保 SQL 能正確回應給我。這類測試其實不限定只能安排一組，你可以視你的需要安排多組沒問題。只要別寫的走火入魔，在裡面做太多事情，自己被自己的 health checking request 給搞垮就好...
+
+第二筆是 heartbeats, 用 TTL (time to live) 的方式定義, 服務本身要想辦法在 5.0 sec 內回報他自己的狀態是正確的，如果 consul 超出這時間還收不到通知，就會把服務標記為 FAIL。超過 30 sec 都還沒收到通知，則移除註冊資訊。我的做法，是在服務啟動的同時，另外跑個 thread, 平行的不斷每秒回應 consul ... 回應的動作直到服務終止之後才會停止。
+
+```csharp
+
+                    #region send heartbeats to consul
+                    bool stop = false;
+                    Task heartbeats = Task.Run(() =>
+                    {
+                        IP2CController ip2c = new IP2CController();
+                        while (stop == false)
+                        {
+                            Task.Delay(1000).Wait();
+
+                            try
+                            {
+                                var result = ip2c.Get(0x08080808);
+                                if (result.CountryCode == "US")
+                                {
+                                    consul.Agent.PassTTL($"service:{serviceID}:2", $"self test pass.");
+                                }
+                                else
+                                {
+                                    consul.Agent.WarnTTL($"service:{serviceID}:2", $"self test fail. query 8.8.8.8, expected: US, actual: {result.CountryCode}({result.CountryName})");
+                                }
+                            }
+                            catch(Exception ex)
+                            {
+                                consul.Agent.FailTTL($"service:{serviceID}:2", $"self test error. exception: {ex}");
+                            }
+                        }
+                    });
+
+                    // wait until process shutdown (ctrl-c, or close window)
+                    shutdown.WaitOne();
+
+                    stop = true;
+                    #endregion
+
+
+```
+
+當然，這邊你也可以做一些基本的自我檢測，我的例子是直接查詢 Google DNS 的 IP (8.8.8.8) 的地區是否是 ```US``` (United State) ? 如果是我才回報 OK。這邊很多單元測試的技巧也可以搬到這裡來用。也一樣，別走火入魔，這裡是 **Runtime** test, 別測過頭把系統的效能或是穩定度給搞垮了就得不嘗失。
+
+對 Consul 的回報不是只能回報 OK，你可以自己決定要回報 OK (PassTTL)，WARN (WarnTTL) 還是 FAIL (FailTTL)。回報也可以加上一些 notes, consul 可以把他回應給其它查詢的人參考... (WEB UI 也可以看的到)
+
+如果這些都做到位，執行起來後你會發現，consul 的 console 不斷的會顯示這些 logs:
+
+```logs
+    2018/05/07 22:53:18 [DEBUG] agent: Check "service:IP2CAPI-B7ED24CBDAD64D318135D83F86982780:1" is passing
+    2018/05/07 22:53:18 [DEBUG] agent: Check "service:IP2CAPI-42818506E5D24DE8861FDBE753682F19:1" is passing
+    2018/05/07 22:53:19 [DEBUG] agent: Check "service:IP2CAPI-42818506E5D24DE8861FDBE753682F19:2" status is now passing
+    2018/05/07 22:53:19 [DEBUG] agent: Service "IP2CAPI-B7ED24CBDAD64D318135D83F86982780" in sync
+    2018/05/07 22:53:19 [DEBUG] agent: Service "IP2CAPI-42818506E5D24DE8861FDBE753682F19" in sync
+    2018/05/07 22:53:19 [DEBUG] agent: Check "service:IP2CAPI-B7ED24CBDAD64D318135D83F86982780:1" in sync
+    2018/05/07 22:53:19 [DEBUG] agent: Check "service:IP2CAPI-B7ED24CBDAD64D318135D83F86982780:2" in sync
+    2018/05/07 22:53:19 [DEBUG] agent: Check "service:IP2CAPI-42818506E5D24DE8861FDBE753682F19:1" in sync
+    2018/05/07 22:53:19 [DEBUG] agent: Check "service:IP2CAPI-42818506E5D24DE8861FDBE753682F19:2" in sync
+    2018/05/07 22:53:19 [DEBUG] agent: Node info in sync
+    2018/05/07 22:53:19 [DEBUG] http: Request PUT /v1/agent/check/pass/service:IP2CAPI-42818506E5D24DE8861FDBE753682F19:2?note=self%20test%20pass. (4.9717ms) from=127.0.0.1:53991
+    2018/05/07 22:53:19 [DEBUG] agent: Check "service:IP2CAPI-B7ED24CBDAD64D318135D83F86982780:1" is passing
+    2018/05/07 22:53:19 [DEBUG] agent: Check "service:IP2CAPI-42818506E5D24DE8861FDBE753682F19:1" is passing
+    2018/05/07 22:53:20 [DEBUG] agent: Check "service:IP2CAPI-42818506E5D24DE8861FDBE753682F19:2" status is now passing
+    2018/05/07 22:53:20 [DEBUG] agent: Service "IP2CAPI-B7ED24CBDAD64D318135D83F86982780" in sync
+    2018/05/07 22:53:20 [DEBUG] agent: Service "IP2CAPI-42818506E5D24DE8861FDBE753682F19" in sync
+    2018/05/07 22:53:20 [DEBUG] agent: Check "service:IP2CAPI-B7ED24CBDAD64D318135D83F86982780:1" in sync
+    2018/05/07 22:53:20 [DEBUG] agent: Check "service:IP2CAPI-B7ED24CBDAD64D318135D83F86982780:2" in sync
+    2018/05/07 22:53:20 [DEBUG] agent: Check "service:IP2CAPI-42818506E5D24DE8861FDBE753682F19:1" in sync
+    2018/05/07 22:53:20 [DEBUG] agent: Check "service:IP2CAPI-42818506E5D24DE8861FDBE753682F19:2" in sync
+    2018/05/07 22:53:20 [DEBUG] agent: Node info in sync
+    2018/05/07 22:53:20 [DEBUG] http: Request PUT /v1/agent/check/pass/service:IP2CAPI-42818506E5D24DE8861FDBE753682F19:2?note=self%20test%20pass. (2.9934ms) from=127.0.0.1:53991
+```
+
+同樣的，即時的狀態也能在 Consul UI 上面看的到:
+
+![](wp-content/images/2018-04-06-aspnet-msa-labs2-consul/2018-05-07-22-56-29.png)
 
 
 # STEP 4, Consul Aware SDK
