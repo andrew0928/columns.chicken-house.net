@@ -621,9 +621,7 @@ consul.exe agent --dev
                         }
 ```
 
-這裡分別定義了兩筆 health check 的資訊:
-
-第一筆是 http test, 意思是我要 consul 每 1.0 sec, 就到 /api/diag/echo/00000000 戳一下，拿到 HTTP 200 就算正常。沒有的話就把服務標記為 FAIL。如果超過 30 sec 都 FAIL，那直接移除註冊資訊。
+第一筆是 http test, 意思是我要 consul 每 1.0 sec, 就到 /api/diag/echo/00000000 戳一下，拿到 HTTP 200 就算正常。沒有的話服務會被標記為 FAIL。如果超過 30 sec 都 FAIL，那直接移除註冊資訊 (DeregisterCriticalServiceAfter)。
 
 http test 端看你希望 consul 到哪個 RESTFul api 來測? 我的案例是另外寫一組 diagnoistic api controller, 專門給 consul 測試:
 
@@ -719,11 +717,189 @@ http test 端看你希望 consul 到哪個 RESTFul api 來測? 我的案例是�
 
 # STEP 4, Consul Aware SDK
 
+Server 端的準備已經萬事俱備，最後一關就是所有的 client 在使用 IP2C 服務之前，不要直接從靜態的 endpoint (也不要從 configuration 取得) 呼叫 IP2C 的服務，改成透過 Consul Client, 查詢可用的服務清單，從中取得服務的 endpoint 後再進行呼叫。
+
+不過，如果這是對外的服務，這樣的做法其實並不洽當。對外應該有其它的 Edge Service, 或是 API gateway 等等服務來處理這些問題。這些機制較適合的場景，是內部服務之間的互相調用。這時要每個呼叫你的服務的 service, 都要自己寫一套查詢的邏輯其實不大合理，由該服務的開發團隊，自行準備 SDK 是較理想的做法。當然如果整個團隊共同使用一套通用的 service client 搭配 DI (dependency injection) 也是個做法。這邊我暫時拋開各種 http client 的最佳化 (例如 cache, reuse connect 等等) 還有 DI framework，先來示範這個做法:
+
+
+
+```csharp
+
+    public class ServiceClient
+    {
+        public static string ConsulAddress
+        {
+            get;
+            private set;
+        }
+
+        public static void Init(string consulAddress)
+        {
+            ConsulAddress = consulAddress;
+
+        }
+
+        public static HttpClient GetServiceHttpClient(string serviceName)
+        {
+            // ToDo: add cache
+            // ToDo: reuse httpclient for the same service instance
+
+            using (ConsulClient consul = new ConsulClient(c => { if (!string.IsNullOrEmpty(ConsulAddress)) c.Address = new Uri(ConsulAddress); }))
+            //using (ConsulClient consul = new ConsulClient())
+            {
+                var result = consul.Health.Service(serviceName).Result.Response;
+
+                if (result.Count() == 0)
+                {
+                    throw new Exception($"找不到服務: {serviceName}.");
+                }
+
+                var list = (from x in result where x.Checks.AggregatedStatus().Status == "passing" select x).ToList();
+
+                if (list == null || list.Count == 0)
+                {
+                    throw new Exception($"Service: {serviceName} was not found.");
+                }
+
+                Random rnd = new Random();
+                int index = rnd.Next(list.Count);
+                return new HttpClient()
+                {
+                    BaseAddress = new Uri(list[index].Service.Address) //new Uri($"http://{list[index].Service.Address}:{list[index].Service.Port}")
+                };
+            }
+        }
+    }
+
+```
+
+ServiceClient 最主要要解決的問題，就是在 GetServiceHttpClient() 這個部分。你只要傳入你想要呼叫的服務 ServiceName, 就可以取得 **可用** 的 HttpClient 物件。過程中 ServiceClient 會連線到 Consul 去查詢該服務是否存在? 同時也會確認該服務的 Health Checking 確認結果為 pass 的可用清單為何。最後如果有一個以上的清單被傳回來，目前的實作，是隨機挑選一個可用的 service instance, 按照他的資訊，傳回以初始化完成的 HttpClient 物件。
+
+這邊尚未做任何最佳化處理，實際上的運用，health checking 結果的精確度應該在一秒以上，如果你有瞬間大量的查詢需求，其實可以透過 cache, 原則上一秒查詢一次就夠了，不需要每秒去 consul 查詢上千次... 但是隨機挑選的部分則最好每次都進行，這樣負載才會分配的夠平均。如果你有進一步的資訊，例如平均回應時間或是效能指標等等的統計資訊，你也可以改成更精密的挑選效能最佳的 instance, 而非單純的隨機挑選。
+
+原本的 SDK 做一點調整，配合 ServiceClient 運作就可以了。我們可以初步測試一下效果是否如預期? 測是步驟我們可以這樣進行:
+
+1. 啟動 Consul, 備妥 service discovery 與 health checking 的環境, 確認 consul webui 是否能正常連線?  
+指令: ```consul.exe agent --dev```
+1. 啟動一組 webapi, 確認 consul webui, 是否接收到 webapi #1 的註冊資訊，並且確認 health check 的結果都回報 pass ?  
+指令: ```IP2C.WebAPI.SelfHost.exe -url http://localhost:9001```
+1. 啟動一組 test-console, 確認是否都能正常呼叫 webapi 的功能?  
+指令: ```IP2CTest.Console.exe```
+1. 再啟動一組 webapi #2, 重複 (2) 的動作  
+指令: ```IP2C.WebAPI.SelfHost.exe -url http://localhost:9002```
+1. 停止 webapi #1 (按下 CTRL-C), 確認 consul webui 是否已經移除 webapi #1 的資訊? 同時觀察 test-console 的運作是否中斷?
+
+
 
 
 
 
 # STEP 5, DEMO
+
+最後，搞了這堆東西總是要上戰場的，既然一開始都講了 CDD 容器驅動開發了，總是要把最後一步走完。我補上這幾個服務的 dockerfile:
+
+
+**Consul**:
+
+```dockerfile
+FROM microsoft/windowsservercore:1709
+
+WORKDIR consul
+
+COPY . .
+
+EXPOSE 8500 8600 8600/udp
+
+ENTRYPOINT consul.exe agent -dev -client 0.0.0.0
+```
+
+基本上，就是包起來而已... 沒太多技巧在裡面。
+
+
+**TestConsole**:
+
+```dockerfile
+FROM microsoft/dotnet-framework:4.7.2-runtime-windowsservercore-1709
+
+WORKDIR   c:/IP2C.Console
+COPY . .
+
+
+ENV CONSUL_URL=http://consul:8500
+
+ENTRYPOINT IP2CTest.Console.exe -consul %CONSUL_URL%
+
+```
+
+同上，就是包起來而已... 只是把 consul 的網址拉出來當作環境變數而已。
+
+
+**WebAPI.SelfHost**:
+
+```dockerfile
+FROM microsoft/dotnet-framework:4.7.2-runtime-windowsservercore-1709
+
+WORKDIR c:/selfhost
+COPY . .
+
+ENV CONSUL_URL=http://consul:8500
+ENV NETWORK=0.0.0.0/0
+
+EXPOSE 80
+ENTRYPOINT IP2C.WebAPI.SelfHost.exe -network %NETWORK% -consul %CONSUL_URL%
+```
+
+這裡比較要留意的地方是，即使是容器化，你的 dockerfile 也不能亂包。要以這個服務能被彈性調度與重新組合為前提。其實在 SelfHost 的 code 裡面，我還加了一些 docker frinendly 的設計, 像是會自動偵測 container IP 的設計 (要註冊前總要知道自己的 IP 吧)。其實這些你要在 script 裡面處理 (powershell) 也不是不行，但是如果你有好幾個服務要容器化，會增加不少撰寫 dockerfile 的門檻。我實際上的做法是，SelfHost 會變成基礎建設的 base library 之一，所有需要使用的人只要 nuget 套件抓下來使用即可。標準化的作業，可以大幅降低容器化的過程 (撰寫 dockerfile) 碰到的困難。
+
+這邊的 dockerfile, 我把 consul 的網址，與所在的網段 (network id, 用 192.168.100.0/24 這種格式) 拉出來當作環境變數來處理。自動偵測 IP 的困難在於，很多情況下你的 host 會有多個 IP，甚至除了 IPv4 之外還有 IPv6... 設定這個參數的目的是，讓程式自動從所有綁定的 IP 裡面，挑出符合該網段的那一個。預設是 0.0.0.0/0, 意思是所有 IP 都會符合，那麼我的偵測程式會挑出第一個。如果真的沒有符合的，就會用 loopback (127.0.0.1 或是 localhost) 來代替。
+
+偵測 IP 的 code 我就不貼了 (再貼下去這篇內容就要爆了)。基本上用預設值就沒啥問題了。
+
+接下來你熟悉 docker 的話，應該很容易就可以讓他跑起來了。我這邊準備了個簡單的 docker-compose.yml, 一次整組的跑起來:
+
+```yml
+version: '2.1'
+services:
+
+  consul:
+    image: wcshub.azurecr.io/ip2c.consul:latest
+
+  webapi:
+    image: wcshub.azurecr.io/ip2c.webapi.selfhost:latest
+    environment:
+      - CONSUL_URL="http://consul:8500"
+      - NETWORK="0.0.0.0/0"
+    depends_on:
+      - consul
+
+  console:
+    image: wcshub.azurecr.io/ip2c.console:latest
+    environment:
+      - CONSUL_URL="http://consul:8500"
+    depends_on:
+      - consul
+      - webapi
+
+networks:
+  default:
+    external:
+      name: nat
+
+```
+
+細節就不多說了，實際跑整個環境起來看看 (webapi 跑 3 個 instance):
+
+```shell
+docker-compose up -d --scale webapi=3
+```
+
+這邊我沒有特別去設定 reverse-proxy, 也沒有設定 port mapping, 因此你想看 consul web ui 的話，在本機範圍內，用 docker inspect 的指令查一下跑 consul 這個 container 的 IP address 就能知道 IP 了，再開瀏覽器就能看到。
+
+執行起來的結果跟前面一模一樣啊!
+
+
+
+
 
 
 <!-- 
