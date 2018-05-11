@@ -5,13 +5,27 @@ categories:
 - "系列文章: .NET + Windows Container, 微服務架構設計"
 - "系列文章: 架構師觀點"
 tags: ["microservice", "系列文章", "ASP.NET", "架構師", "Docker", "Windows Container", "DevOps", "Service Discovery", "Consul"]
-published: true
+published: false
 comments: true
 redirect_from:
-logo: 
+logo: /wp-content/images/2018-04-06-aspnet-msa-labs2-consul/how_would_you_solve_the_icing_problem.png
 ---
 
-其實我平常不大寫特定服務的介紹文章的，總覺得那些事實作面的東西，知道目的再去查文件會比較有效率，在那之前只要搞清楚架構及目的就可以了。不過在微服務的應用上，Service Discovery + Configuration Management 實在太重要了, 許多微服務的特性及優勢，都需要靠他才能做的好。於是這次，我就花了篇文章的版面，決定好好介紹一下 Consul (源自 HashiCorp 的解決方案) 這套服務。我拿去年介紹容器驅動開發用的案例: IP2C Service, 重新搭配 Consul 來改寫，用 Consul 解決 Service Discovery, Health Checking 以及 Configuration Management 的問題。讓各位讀者清楚的了解該如何善用 Consul 提供的功能，來強化你的服務可靠度。
+
+其實我平常不大寫特定服務的介紹文章的，總覺得那些事實作面的東西，知道目的再去查文件會比較有效率，在那之前只要搞清楚架構及目的就可以了。不過在微服務的應用上，Service Discovery 實在太重要了, 許多微服務的特性及優勢，都需要靠他才能做的好。於是這次，我就花了篇文章的版面，決定好好介紹一下 Consul (源自 HashiCorp 的解決方案) 這套服務。我拿去年介紹容器驅動開發用的案例: IP2C Service, 重新搭配 Consul 來改寫，用 Consul 解決 Service Discovery, Health Checking 以及 Configuration Management 的問題。讓各位讀者清楚的了解該如何善用 Consul 提供的功能，來強化你的服務可靠度。
+
+不過在開始之前，我想了很久，決定先花點篇幅補充一下上一篇講到 CDD (Container Driven Develop) 的概念與實作。你有想過你的 API service 該怎麼封裝成容器嗎? 掛在 IIS 下，還是用 Self Host ? Docker 是從 Linux 上面發展起來的，對於上面的服務反而沒太多這類的問題；不過長年在 Windows 環境下的開發者都被 Microsoft 照顧得好好的，要妥善運用 Docker / Windows Container 就沒那麼得心應手。我強烈建議每個有心使用 windows container 的團隊能夠看一下這篇，即便很多東西往後都會有現成的解決方案，不過讓自己的團隊體驗一下重新造輪子的過程絕對有幫助的。
+
+![](/wp-content/images/2018-04-06-aspnet-msa-labs2-consul/how_would_you_solve_the_icing_problem.png)
+> Tony Stark 就是自己從無到有打造鋼鐵裝，才知道有那些坑要解決... 撿現成的技術，危急時刻就沒有應變能力...
+
+跨到微服務的世界，這類的細節其實到處都是。其實這些問題都不難，難的地方在於過去都是 operation team 解決掉了，不需要 development team 傷腦筋。現在微服務需要更密切的整合，必須要同時能掌握 development 跟 operation 的 know how, 才能正確的拿捏該捨掉那些東西。這篇就是從這角度，告訴你 IIS 與 Self Host 該如何取捨。這些問題解決完畢之後，就可以開始進入 Consul 的使用方式。
+
+
+
+
+如果要用 container 部署的話，你還應該繼續掛載在 IIS 上面嗎? 該怎麼做 (該拿掉多少東西) 才是真正適合
+
 
 這個範例的精神在於，微服務是個很龐大的架構，往往難以入門。也因為架構龐大，很多團隊都在片面的了解下就跨進來，一開始就累積了不少技術債而不自覺。其實很多事情本來就沒辦法一次到位的，不過就如我之前在 CICD 那篇文章提到的，至少團隊要先看清楚全貌，然後在初期就只針對最關鍵的地方顧好就好。其餘只要先把架構作對，實作通通都可以先行省略 (例如先留好 interface)，這樣整體的進展就會平順的多。
 
