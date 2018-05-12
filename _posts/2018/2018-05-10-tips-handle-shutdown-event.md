@@ -303,7 +303,7 @@ public partial class Form1 : Form
 
 這就是我在個人 facebook 上面發的牢騷:
 
-![](wp-content/images/2018-05-10-tips-handle-shutdown-event/2018-05-12-11-21-21.png)
+![](/wp-content/images/2018-05-10-tips-handle-shutdown-event/2018-05-12-11-21-21.png)
 > 為了搞定 .net framework + windows container 某個功能, 竟然還要動用到 windows form ....
 
 我講的就是這篇文章要搞定的問題。其實這件事困擾我很久了，幾個月前我讓同事幫忙處理這個問題 (我知道你有在看，就是你 XD)，但是當時的進度只到第一個做法就沒繼續挖下去了，直到最近我有點空檔，親自花了些時間研究，才挖出這堆東西。雖然身為資深的 Microsoft 陣營開發人員，但是還是不免抱怨幾句 XD, 我知道這些坑，都是將來要跨入 windows container 的朋友們一定會碰到的，希望我的經驗可以幫得上忙 :D
