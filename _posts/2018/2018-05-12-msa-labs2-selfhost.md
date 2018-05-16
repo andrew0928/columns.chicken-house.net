@@ -12,18 +12,25 @@ logo: /wp-content/images/2018-04-06-aspnet-msa-labs2-consul/how_would_you_solve_
 ---
 
 
-在微服務的應用上，Service Discovery 實在太重要了, 許多微服務的特性及優勢，都需要靠他才能做的好。於是這次，我就花了篇文章的版面，決定好好介紹一下 Consul (源自 HashiCorp 的解決方案) 這套服務。我拿去年介紹容器驅動開發用的案例: IP2C Service, 重新搭配 Consul 來改寫，用 Consul 解決 Service Discovery, Health Checking 以及 Configuration Management 的問題。讓各位讀者清楚的了解該如何善用 Consul 提供的功能，來強化你的服務可靠度。
-
-不過在開始之前，我想了很久，決定先追加這篇，搭配上一篇講到 CDD (Container Driven Develop) 的概念與實作。你有想過你的 API service 該怎麼封裝成容器嗎? 掛在 IIS 下執行，還是用 Self Host ? Docker 是從 Linux 上面發展起來的，對於上面的服務反而沒太多這類的問題；不過長年在 Windows 環境下的開發者都被 Microsoft 照顧得好好的，要妥善運用 Docker / Windows Container 反而就沒辦法那麼得心應手。我強烈建議每個有心使用 windows container 的團隊能夠看一下這篇，試著從無到有親手跑過一次，了解整個容器化的過程。即便往後很多東西都會有現成的解決方案，找機會讓自己的團隊體驗一下重新造輪子的過程絕對有幫助的。
+在微服務的應用上，[service discovery](/2017/12/31/microservice9-servicediscovery/) 實在太重要了, 許多微服務的特性及優勢，都需要靠他才能做的好。於是這次我就花了篇文章的版面，決定好好介紹一下 [Consul](https://www.consul.io/) (源自 [HashiCorp](https://www.hashicorp.com/) 的解決方案) 這套服務。我拿去年介紹容器驅動開發用的案例: [IP2C Service](/2017/05/28/aspnet-msa-labs1/), 重新搭配 consul 來改寫，用 consul 解決 service discovery, Health Checking 以及 Configuration Management 的問題。讓各位讀者清楚的了解該如何善用 Consul 提供的功能，來強化你的服務可靠度。
 
 ![](/wp-content/images/2018-04-06-aspnet-msa-labs2-consul/how_would_you_solve_the_icing_problem.png)
 > Tony Stark 就是自己從無到有打造鋼鐵裝，才知道有那些坑要解決... 撿現成的技術，危急時刻就沒有應變能力...
 
-跨到微服務的世界，這類的細節其實到處都是。其實這些問題都不難，難的地方在於過去都是 operation team 解決掉了，不需要 development team 傷腦筋。現在微服務需要更密切的整合，必須要同時能掌握 development 跟 operation 的 know how, 才能正確的拿捏該捨掉那些東西。這篇就是從這角度，告訴你 IIS 與 Self Host 該如何取捨。這些問題解決完畢之後，就可以開始進入 Consul 的使用方式。
+不過在開始之前，我想了很久，決定先追加這篇。在其他平台上，微服務有類似 Spring Cloud 這樣一整套的 framework / tech stack 可以參考，然而 .NET 這塊就弱了一點。仍然有很多 framework 可以選擇，不過都還在百家爭鳴的階段，同時容器化的部署相較之下也還沒那麼到位。團隊如果採用 .NET 同時又打算在這時間轉移到微服務架構，最好都要先對這些基礎建設能有較高的掌握度 (你怎知你挑選的框架會是主流? 將來要換框架你是否有能力挑選與轉移?)。因此，搭配上一篇講到 [CDD](https://www.facebook.com/andrew.blog.0928/videos/509145696127380/) (Container Driven Development) 的概念與實作，我決定在這篇文章裡示範一下怎麼自己把這些缺口補起來。這樣做的目的，不是要你拿去用在 production 環境上，而是體驗過之後你會更清楚怎麼選擇，也能在初期就做好抽象化，降低將來轉移的風險。
+
+你有想過你的 API service 該怎麼封裝成容器嗎? 掛在 IIS 下執行，還是用 Self Host ? Docker 是從 Linux 上面發展起來的，對於上面的服務反而沒太多這類的問題；不過長年在 Windows 環境下的開發者都被 Microsoft 照顧得好好的，要妥善運用 Docker / Windows Container 反而就沒辦法那麼得心應手。我強烈建議每個有心使用 windows container 的團隊能夠看一下這篇，試著從無到有親手跑過一次，了解整個容器化的過程。即便往後很多東西都會有現成的解決方案，找機會讓自己的團隊體驗一下重新造輪子的過程絕對有幫助的。
+
+
+
 
 <!--more-->
 
-在上一篇 [容器化的微服務開發 #1, IP查詢架構與開發範例](/2017/05/28/aspnet-msa-labs1/) 我拿 IP 地區查詢服務當作範例，用容器驅動開發的觀念，實作了微服務版本的 IP2C Service。我提到的 "Container Driven Development" 概念，就是假設你將來 "一定" 會用容器化的方式來部署的話，那麼在架構設計之初就能盡可能的最佳化，能透過容器解決的問題就不用自己做了。極度的簡化，可以讓 Operation 的團隊更容易接手維護你的服務，Developer 也能更專注把精力用在核心的業務上。這次我會重構先前的飯粒程式，進一步的擴大 "Container Driven Development" 的概念，假設將來 "一定" 會用 Consul + Container 的方式部署。同樣的來看看，你可以如何建構這樣的 application?
+這篇我會說明一下採用 Self-Host 的考量，同時也會示範一下如何開發一個通用的 Self-Host class library, 微服務的應用上，你勢必會有很多大量的服務需要開發，先把這個通用的 Self-Host 架構搞定，加上與 consul 的整合，可以替整個團隊省下不少功夫。這篇我先把基礎的部分交代完，跟 consul 的部分統一在下一篇說明。
+
+跨到微服務的世界，這類的細節其實到處都是。其實這些問題都不難，難的地方在於過去都是 operation team 解決掉了，不需要 development team 傷腦筋。現在微服務需要更密切的整合，必須要同時能掌握 development 跟 operation 的 know how, 才能正確的拿捏該捨掉那些東西。這篇就是從這角度，告訴你 IIS 與 Self Host 該如何取捨。這些問題解決完畢之後，就可以開始進入 consul 的使用方式。
+
+在上一篇 [容器化的微服務開發 #1, IP查詢架構與開發範例](/2017/05/28/aspnet-msa-labs1/) 我拿 IP 地區查詢服務當作範例，用容器驅動開發的觀念，實作了微服務版本的 IP2C Service。我提到的 "**C**ontainer **D**riven **D**evelopment" 概念，就是假設你將來 "一定" 會用容器化的方式來部署的話，那麼在架構設計之初就能盡可能的最佳化，能透過容器解決的問題就不用自己做了。極度的簡化，可以讓 Operation 的團隊更容易接手維護你的服務，Developer 也能更專注把精力用在核心的業務上。這次我會重構先前的範例程式，進一步的擴大 "Container Driven Development" 的概念，假設將來 "一定" 會用 consul + container 的方式部署。同樣的來看看，你可以如何建構這樣的 application?
 
 建議看下去之前先看一看底下會用到的幾個重要觀念:
 
@@ -41,13 +48,13 @@ logo: /wp-content/images/2018-04-06-aspnet-msa-labs2-consul/how_would_you_solve_
 
 對開發人員來說，選擇 IIS 或是 Self Host 其實沒有太大的不同，你就是好好的開發 ASP.NET MVC WebAPI application 而已啊，只是你的 WebAPI 是掛在 IIS 下執行，還是自己開發的 Console App 下執行? 在執行階段或是部署階段，考量的方向有幾個:
 
-1. 架構考量: IIS 是 windows service, 與 container 是以 process 為主的模式有出入 (後敘)
-1. 環境考量: IIS 提供完整的 web hosting 環境，可提供很多不需要自己開發就有的功能 (後敘)
-1. 效能考量: Hosting 再 IIS 下需要花費較多系統資源 (後敘)
+1. 架構考量: IIS 是 windows service, 與 container 是以 process 為主的模式有出入，要配合 container 的生命週期管理較困難 (後敘)
+1. 環境考量: IIS 提供完整的 web hosting 環境，可提供很多不需要自己開發就有 web site 必要功能 (後敘)
+1. 效能考量: Hosting 再 IIS 下需要花費較多系統資源，但是也可能因為較佳的資源管理而受益 (後敘)
 
 接下來我就分別就這三個方向，分享一下我自己的看法。這些只是優劣的判斷，並非絕對的選擇，各位採納前還是要評估自己的狀況再決定。
 
-> 有些解決方案，例如 asp.net core 提供的 kestrel, 或是之前 .net framework 的 cassini dev server, 都是介於 IIS 與 self-hosting 的中間解決方案。這類方案我會把他當作其它的 open source project, 把 self-hosting 的功能做好給你直接使用而已。在以下的討論內，kestrel 這種 solution 我會把他歸在 self-hosting 那一類看待。
+> 有些解決方案，例如 asp.net core 提供的 kestrel, nancy fx, 或是之前 .net framework 的 cassini dev server, 都是介於 IIS 與 self-hosting 的中間解決方案。這類方案我會把他當作其它的 open source project, 把 self-hosting 的功能做好給你直接使用而已。在以下的討論內，kestrel 這種 solution 我會把他歸在 self-hosting 那一類看待。
 
 * [ASP.NET Core Web Servers: Kestrel vs IIS Feature Comparison and Why You Need Both](https://stackify.com/kestrel-web-server-asp-net-core-kestrel-vs-iis/)
 
@@ -167,9 +174,6 @@ IIS 的對應做法不少，包含延遲啟動 (第一個 request 進來才啟�
 
 
 
-
-
-
 ## 4. 效能考量
 
 這邊我就不花太多篇幅說明了。簡單的說，IIS 負責了基本的 web server, 與額外提供的各種安全與管理的功能。整體來說，效能只會更差不會更好。我正好有找到一篇文章，雖然有點舊了，但是架構上就是說明 IIS vs SelfHosting 的 benchmark 差異，讓各位感受一下:
@@ -213,6 +217,14 @@ IIS 7 的數據我就不貼了，效能差異更大。在 IIS 8 的測試基準�
 
 
 // How To: SelfHosting? -->
+
+
+
+// TODO: sequency diagram of whole service life cycle.
+
+
+
+
 
 # STEP 2, Self-Host 實作
 
