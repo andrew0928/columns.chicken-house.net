@@ -5,7 +5,7 @@ categories:
 - "系列文章: .NET + Windows Container, 微服務架構設計"
 - "系列文章: 架構師觀點"
 tags: ["microservice", "系列文章", "ASP.NET", "架構師", "Docker", "Windows Container", "DevOps", "Service Discovery", "Consul"]
-published: false
+published: true
 comments: true
 redirect_from:
 logo: /wp-content/images/2018-04-06-aspnet-msa-labs2-consul/how_would_you_solve_the_icing_problem.png
@@ -15,9 +15,8 @@ logo: /wp-content/images/2018-04-06-aspnet-msa-labs2-consul/how_would_you_solve_
 在微服務的應用上，[service discovery](/2017/12/31/microservice9-servicediscovery/) 實在太重要了, 許多微服務的特性及優勢，都需要靠他才能做的好。於是這次我就花了篇文章的版面，決定好好介紹一下 [Consul](https://www.consul.io/) (源自 [HashiCorp](https://www.hashicorp.com/) 的解決方案) 這套服務。我拿去年介紹容器驅動開發用的案例: [IP2C Service](/2017/05/28/aspnet-msa-labs1/), 重新搭配 consul 來改寫，用 consul 解決 service discovery, Health Checking 以及 Configuration Management 的問題。讓各位讀者清楚的了解該如何善用 Consul 提供的功能，來強化你的服務可靠度。
 
 ![](/wp-content/images/2018-04-06-aspnet-msa-labs2-consul/how_would_you_solve_the_icing_problem.png)
-> Tony Stark 就是自己從無到有打造鋼鐵裝，才知道有那些坑要解決... 撿現成的技術，危急時刻就沒有應變能力...
 
-不過在開始之前，我想了很久，決定先追加這篇。在其他平台上，微服務有類似 Spring Cloud 這樣一整套的 framework / tech stack 可以參考，然而 .NET 這塊就弱了一點。仍然有很多 framework 可以選擇，不過都還在百家爭鳴的階段，同時容器化的部署相較之下也還沒那麼到位。團隊如果採用 .NET 同時又打算在這時間轉移到微服務架構，最好都要先對這些基礎建設能有較高的掌握度 (你怎知你挑選的框架會是主流? 將來要換框架你是否有能力挑選與轉移?)。因此，搭配上一篇講到 [CDD](https://www.facebook.com/andrew.blog.0928/videos/509145696127380/) (Container Driven Development) 的概念與實作，我決定在這篇文章裡示範一下怎麼自己把這些缺口補起來。這樣做的目的，不是要你拿去用在 production 環境上，而是體驗過之後你會更清楚怎麼選擇，也能在初期就做好抽象化，降低將來轉移的風險。
+不過在開始之前，我想了很久，決定先追加這篇。在其他平台上，微服務有類似 [Spring Cloud](http://projects.spring.io/spring-cloud/) 這樣一整套的 framework / toolset 可以參考，然而 .NET 這塊的選擇就少的多。雖然仍然有很多 framework 可以選擇，不過都還在百家爭鳴的階段，同時容器化的部署相較之下也還沒那麼到位 (windows container 才一歲多)。團隊如果採用 .NET 同時又打算在這時間轉移到微服務架構，最好都要先對這些基礎建設能有較高的掌握度。因此，搭配上一篇講到 [CDD](https://www.facebook.com/andrew.blog.0928/videos/509145696127380/) (Container Driven Development) 的概念與實作，我決定在這篇文章裡示範一下怎麼自己把這些缺口補起來。這樣做的目的，不是要你拿去用在 production 環境上，而是體驗過之後你會更清楚怎麼選擇，也能在初期就做好抽象化，降低將來轉移的風險。
 
 你有想過你的 API service 該怎麼封裝成容器嗎? 掛在 IIS 下執行，還是用 Self Host ? Docker 是從 Linux 上面發展起來的，對於上面的服務反而沒太多這類的問題；不過長年在 Windows 環境下的開發者都被 Microsoft 照顧得好好的，要妥善運用 Docker / Windows Container 反而就沒辦法那麼得心應手。我強烈建議每個有心使用 windows container 的團隊能夠看一下這篇，試著從無到有親手跑過一次，了解整個容器化的過程。即便往後很多東西都會有現成的解決方案，找機會讓自己的團隊體驗一下重新造輪子的過程絕對有幫助的。
 
@@ -26,9 +25,7 @@ logo: /wp-content/images/2018-04-06-aspnet-msa-labs2-consul/how_would_you_solve_
 
 <!--more-->
 
-這篇我會說明一下採用 Self-Host 的考量，同時也會示範一下如何開發一個通用的 Self-Host class library, 微服務的應用上，你勢必會有很多大量的服務需要開發，先把這個通用的 Self-Host 架構搞定，加上與 consul 的整合，可以替整個團隊省下不少功夫。這篇我先把基礎的部分交代完，跟 consul 的部分統一在下一篇說明。
-
-跨到微服務的世界，這類的細節其實到處都是。其實這些問題都不難，難的地方在於過去都是 operation team 解決掉了，不需要 development team 傷腦筋。現在微服務需要更密切的整合，必須要同時能掌握 development 跟 operation 的 know how, 才能正確的拿捏該捨掉那些東西。這篇就是從這角度，告訴你 IIS 與 Self Host 該如何取捨。這些問題解決完畢之後，就可以開始進入 consul 的使用方式。
+雖然微服務跟容器化是兩回事，不過兩者搭配起來是絕佳組合啊，所以我決定先花點篇幅，先搞定 web api 容器化的問題 (self-host or IIS host)。過去都是 operation team 解決掉了，不需要 development team 傷腦筋。現在微服務需要更密切的整合，必須要同時能掌握 development 跟 operation 的 know how, 才能正確的拿捏該捨掉那些東西。這篇就是從這角度，告訴你 IIS 與 Self Host 該如何取捨。我先說明一下採用 Self-Host 的考量，同時也會示範一下如何開發一個通用的 Self-Host class library, 微服務的應用上，你勢必會有很多大量的服務需要開發，先把這個通用的 Self-Host 架構搞定，加上與 consul 的整合，可以替整個團隊省下不少功夫。
 
 在上一篇 [容器化的微服務開發 #1, IP查詢架構與開發範例](/2017/05/28/aspnet-msa-labs1/) 我拿 IP 地區查詢服務當作範例，用容器驅動開發的觀念，實作了微服務版本的 IP2C Service。我提到的 "**C**ontainer **D**riven **D**evelopment" 概念，就是假設你將來 "一定" 會用容器化的方式來部署的話，那麼在架構設計之初就能盡可能的最佳化，能透過容器解決的問題就不用自己做了。極度的簡化，可以讓 Operation 的團隊更容易接手維護你的服務，Developer 也能更專注把精力用在核心的業務上。這次我會重構先前的範例程式，進一步的擴大 "Container Driven Development" 的概念，假設將來 "一定" 會用 consul + container 的方式部署。同樣的來看看，你可以如何建構這樣的 application?
 
@@ -42,7 +39,7 @@ logo: /wp-content/images/2018-04-06-aspnet-msa-labs2-consul/how_would_you_solve_
 {% include series-2016-microservice.md %}
 
 
-# STEP 1, 環境選擇，IIS Host or Self Host?
+# IIS Host or Self Host?
 
 其實這個問題，我在上一篇 container driven development 時我就想講了，不過一直拖到現在。我特地拿出來探討一下這個問題，因為這個決策，會直接影響到後續 (下一篇) 如何跟 Consul 做後續的整合方式，不可不慎。因此我把他擺在第一個步驟。
 
@@ -59,17 +56,57 @@ logo: /wp-content/images/2018-04-06-aspnet-msa-labs2-consul/how_would_you_solve_
 * [ASP.NET Core Web Servers: Kestrel vs IIS Feature Comparison and Why You Need Both](https://stackify.com/kestrel-web-server-asp-net-core-kestrel-vs-iis/)
 
 
-## 1. 架構考量
+## STEP 1, 架構考量
 
-用過 docker 的朋友們大概都知道這個概念: container 的生命週期，就是跟隨著 entrypoint 指定的那個 process ... docker run 就會在 container 內啟動 entrypoint 指定的 process, 如果該 process 執行完畢，則該 container 會自己結束，進入 stopped 狀態。服務類型 (如 web server) 也是一樣，唯一的差別是啟動這類 container 時，我們會 docker run -d 多加一個 -d (daemon) 的參數，告訴 docker engine 不用在 console 端等待他結束而已。docker engine 會在 background 繼續讓這個 container 持續運作，直到自己結束或是被 stop 為止。
+這裡指的 "架構考量"，其實就是指 windows service 跟 console application 運作方式的不同。因為這些差異，連帶的影響到容器化的作法。因為落差實在太大，我覺得有必要在一開始就考量清楚。
 
-然而 windows 下的 application 執行方式，硬是多了好幾種 console 以外的模式，windows service 就是其中之一。windows service 本身就有專屬的 project type, 編譯出來就是 service mode, 必須透過註冊的方式, 隨後 windows 就會在是當時機自主啟動它在背景執行。你要控制它的運作，windows 也有專屬的工具對 service 進行 start / stop / continue / pause / restart ( == stop + start ) 等等操作。
+簡單的說，container 的生命週期，是依附在 entrypoint 指定的 process .. container start, 就會啟動該 process... 直到該 process 執行結束，container 就會自動停止 (stop) 執行，結束整個 container 的生命週期。
 
-在過去廿幾年來，這種模式在 windows 一直運作得很好，直到 docker 的盛行... 如果你要封裝的主要服務，是以 windows service 的形態存在，這就變得多此一舉。其實透過 docker 的協助, console application 就能表現的跟 windows service 幾乎一模一樣的效果了。你只要用 docker run -d --restart always .... 來啟動你的 container, 它就完全是個 windows service 了 (還不需要註冊)。只要你的 console application 有好好的處理 OS shutdown event (或是 unix 系列的 signal), 你一樣能完美的透過 docker start / stop / pause / unpause 指令來操作 (對應到 windows service 的 start / stop / pause / continue)。
+這邊對於 ASP.NET 的開發者來說，有兩個很頭痛的地方:
 
-所以，你有想過 Microsoft 如何把 IIS 這種 windows service 打包成 container image 嗎? 這樣的 dockerfile 你該怎麼寫? 你到底要在 entrypoint 擺什麼? 執行起來的狀態才是你期待的?
+1. IIS 是 windows service, 無法指定為 entrypoint
+1. ASP.NET 的生命週期又跟 IIS 不同，中間還卡一層 APP POOL (受 IIS 管理調度)
 
-看一下 Microsoft 提供的 [IIS](https://hub.docker.com/r/microsoft/iis/) container image, [dockerfile](https://github.com/Microsoft/iis-docker/blob/master/windowsservercore-1709/Dockerfile) 是怎麼寫的:
+這些差異會導致 dockerfile 很難寫，除此之外，下一篇要講到的 service discovery with consul, registry & de-registry service 的時間點非常難掌握。我簡單畫兩張 time diagram 來說明比較清楚:
+
+
+**IIS host**:
+
+![](wp-content/images/2018-05-12-msa-labs2-selfhost/2018-05-17-17-42-57.png)
+
+這張是目前 Microsoft 官方提供的 ASPNET container image 為基礎，我把啟動到結束的過程畫成 time diagram 。由左到右是時間，每個藍色的 Bar 代表一個 process, 下列的敘述中的 (n) 就代表圖內的綠色數字。IIS 有良好的 app pool management 能力，每個 asp.net application 都會在 app pool 內執行。IIS 啟動之後，會等到第一個 http request (1) 進來後才會啟動該 web application (2)。這時定義在 asp.net global.asax 內的 application_start event (3) 就會被觸發。App pool 有各種情況可能會被回收或是終止(4) (如 idle 超過指定時間，使用資源如 CPU 或是 MEMORY 超過限制等等)，這時會觸發 application_end event (5), 等待下一個 http request, 或是主動啟動另一個新的 app pool 來替代。
+
+較特別的是為了配合 docker 的規定 (必須指定一個 entrypoint process), Microsoft 提供了 ServiceMonitor.exe 會監控 IIS (w3wp.exe) 執行狀況，若 IIS 停止服務，則 ServiceMonitor.exe 也會跟著終止，這時 container 就會跟著進入 stop 狀態。
+
+
+這樣的設計，對於絕大部分的 web application 都能很正確的運作，沒有什麼大問題。這也是 Microsoft 官方提供給所有 developer 的用法，你只需要把你的 asp.net application 在 build image 時，放到 c:\inetpub\wwwroot 就大功告成，直到我要拿這個方式示範 microservices 的 service discovery 機制時才碰到釘子...
+
+
+**架構上難以解決的問題**:
+
+這個架構，麻煩的地方在於，developer 對整個 service 的運作控制能力非常有限；影響最大的部分在於 developer 無法很精準的掌控 container 啟動與結束執行的時間點。要能掌握這兩個時間點，才能正卻的跟 service discovery 註冊與反註冊服務資訊啊!
+
+第一個問題，在於圖中的 application start / end events, 在同一個 container 內可能被觸發多次，甚至可能有多個 app pool 平行運行。這會影響註冊資訊的正確性。
+
+第二個問題，在於 app pool 必須等到外來的 http request 進來後才會啟動，然後才會觸發 application start event；但是實際的狀況是，我們必須先到 service discovery 機制去註冊，才有可能有 http request 進來啊，這是互相衝突的兩個期望，不可能同時滿足。(雖然這可以透過調整 IIS config 改變，不過這卻不是預設行為)
+
+
+**Self host**:
+
+如果換個角度，我們跳出 IIS 的框架，改用 self host 的角度重新思考這問題的話...
+
+![](wp-content/images/2018-05-12-msa-labs2-selfhost/2018-05-17-21-25-51.png)
+
+整個處理程序都變的超級簡單了啊，就是單一一個 process, 直接指定為 docker container 的 entrypoint, 能夠很精準的讓開發人員掌握 start / end 的時間點；同時只有一個 process, 也沒有多個 app pool 同時並行的困擾。至於原本 IIS 幫我們做的 app pool / resource management 呢? 這交給 container orchestration 統一管理就好了啊 (下一段說明)。
+
+
+**架構考量的結論**:
+
+因此，在架構上的考量，放棄 IIS host, 改用 Self host 有他的優點。
+
+這些問題的起點，都在於 container 適合封裝 process, 但是 IIS 是 windows service, 兩者先天的運作模式就有很大的差異。在過去廿幾年來，這種模式在 windows 一直運作得很好，直到 docker 的盛行... 如果你要封裝的主要服務，是以 windows service 的形態存在，這就變得多此一舉 (例如此案例的 ServiceMonitor.exe)。其實透過 docker 的協助, console application 就能表現的跟 windows service 幾乎一模一樣的效果了。你只要用 docker run -d --restart always .... 來啟動你的 container, 它就完全是個 windows service 了 (還不需要註冊)。只要你的 console application 有好好的處理 OS shutdown event (或是 unix 系列的 signal), 你一樣能完美的透過 docker start / stop / pause / unpause 指令來操作 (對應到 windows service 的 start / stop / pause / continue)。
+
+接著看一下 Microsoft 提供的 [IIS](https://hub.docker.com/r/microsoft/iis/) container image, [dockerfile](https://github.com/Microsoft/iis-docker/blob/master/windowsservercore-1709/Dockerfile) 是怎麼寫的:
 
 ```dockerfile
 
@@ -86,7 +123,8 @@ ENTRYPOINT ["C:\\ServiceMonitor.exe", "w3svc"]
 
 ```
 
-很簡單，才幾行而已。看到 C:\ServiceMonitor.exe, 這是啥? Microsoft 剛好開源了這個工具，有興趣的可以直接 clone 下來研究:
+就如同前面說明，主要就是靠 c:\ServiceMonitor.exe 來串聯 windows service 跟 container 的生命週期而已。Microsoft 前陣子也將這個公具直接 open source 了:
+
 https://github.com/Microsoft/IIS.ServiceMonitor
 
 直接看它的說明:
@@ -104,16 +142,18 @@ service state changes from `SERVICE_RUNNING` to either one of `SERVICE_STOPPED`,
 
 -----
 
-搞半天，就是多包一層而已。Windows service 還是照原本的樣子執行，container 啟動後就像是 VM 開機一樣，啟動完成就會自己把 IIS 跑起來。不過 container 的 life cycle 怎麼管理? Microsoft 多開發一個工具，本身不做什麼事情，就是不斷監控 IIS 而已，IIS 還活著，ServiceMonitor.exe 就不會結束。這時 dockerfile 的 entrypoint 只要指向 ServiceMonitor.exe, 就能完美的把這落差補起來了。這樣是能解決舊系統容器化的障礙，不過... 有點脫褲子放屁啊! 如果我現在要開發新服務的話，還要繼續這樣兜圈子 (windows service + service monitor) 嗎? 或是我可以直接用 docker 原生的方式來開發 (console application) 就好?
+其實這些多包一層的架構，都是為了相容性而已。如果我們不需要依賴 IIS，這些多餘的包裝都可以省略的... 換個角度來思考，如果我現在要開發新服務的話，還要繼續這樣兜圈子 (windows service + service monitor) 嗎? 或是我可以直接用 docker 原生的方式來開發 (console application) 就好?
 
 看到這邊，大家可以配合我去年在 .NET Conf 2017 分享的 Container Driven Develop (容器驅動開發) 那個 session 講到的做法一起看。如果你很肯定將來一定是透過 docker 來部署，我強烈建議開發人員可以盡量簡化開發方式，就直接用 console application 模式來開發就好了。其餘系統層面的事情，就交給 docker 去處理就好了。
 
 
 
 
-## 2. 環境考量
 
-接下來，從執行環境與開發人員的配合來看這兩種方式的考量吧。開始之前，我先找了其它參考資訊，看看 IIS hosting 跟 Self hosting 的差別。我節錄這討論串，它列出了使用 IIS 可以得到的額外好處 (相對於 SelfHost):
+
+## STEP 2, 環境考量
+
+接下來，從執行環境與開發人員的配合來看這兩種方式的考量吧。開始之前，我先找了其它參考資訊，看看 IIS hosting 跟 Self hosting 在功能上的差別。我節錄這討論串，它列出了使用 IIS 可以得到的額外好處 (相對於 SelfHost):
 
 * [Self hosting or IIS hosted?](https://forums.asp.net/t/1908235.aspx?Self+hosting+or+IIS+hosted+)
 
@@ -124,7 +164,7 @@ What I've found (basically just pros for IIS hosted):
 1. IIS has some nice specific features in 8 about handling requests and warming up the service (self-hosted does not)
 1. IIS has the ability to run multiple concurrent sites with applications and virtual directories to advanced topics like load balancing and remote deployments.
 
-其中 (2), (3) 我先略過，這個在開發階段就可以避免了，或是改用 Owin / .NET Core 就不存在的問題 (HttpContext)。其它都屬於部署管理方面的問題；如果你還在用傳統的方式部屬或是管理 web application (例如手動安裝 server, 內部系統, 沒有太多自動化, 同一套 server 可能執行多個 application 等等)，我會強烈建議你繼續使用 IIS。因為上述的功能對你都很重要。但是如果是 microservices, 以上的假設不大可能繼續成立了，你一定會被迫採用 container 這類能高度自動化的方式來進行。這時我們竹條來看看採用 IIS 的優點，是否還真的是 *必要* 的功能?
+其中 (2), (3) 我先略過，這個在開發階段就可以避免了，或是改用 Owin / .NET Core 就不存在的問題 (HttpContext)。其它都屬於部署管理方面的問題；如果你還在用傳統的方式部屬或是管理 web application (例如手動安裝 server, 內部系統, 沒有太多自動化, 同一套 server 可能執行多個 application 等等)，我會強烈建議你繼續使用 IIS。因為上述的功能對你都很重要。但是如果是 microservices, 以上的假設不大可能繼續成立了，你一定會被迫採用 container 這類能高度自動化的方式來進行。這時我們竹條來看看採用 IIS 的優點，是否還真的是 *必要* 的功能? 是否在你的 microservices infrastructure 底下，都有替代的功能了?
 
 
 > You lose all of the features of IIS (logging, application pool scaling, throttling/config of your site, etc.)...
@@ -139,15 +179,18 @@ What I've found (basically just pros for IIS hosted):
 
 > IIS has the ability to run multiple concurrent sites with applications and virtual directories to advanced topics like load balancing and remote deployments.
 
-container 的精神，就是一個 process 一個 container, 在 run time 再組合成你期望的樣子。因此在一個 domain / ip address 上面放置多個 web sites 的需求，其實都會被轉移到前端的 reverse proxy, 後端每個 application 至少都有一個以上的 container 提供對應的服務。這任務都會轉由 orchestration 或是 reverse proxy 解決，對於每個 container 本身已經不是必要的功能了。我先下個簡單的結論: 在微服務化 + 容器化部署的前提下，IIS 都不再是絕對必要的組件了。如果其它考量有更好的選擇，就去做吧!
+container 的精神，就是一個 process 一個 container, 在 run time 再組合成你期望的樣子。因此在一個 domain / ip address 上面放置多個 web sites 的需求，其實都會被轉移到前端的 reverse proxy, 後端每個 application 至少都有一個以上的 container 提供對應的服務。這任務都會轉由 orchestration 或是 reverse proxy 解決，對於每個 container 本身已經不是必要的功能了。
+
+
+我先下個簡單的結論: 在微服務化 + 容器化部署的前提下，IIS 都不再是絕對必要的組件了。如果其它考量有更好的選擇，就去做吧!
 
 
 
-## 3. ASP.NET Application Life Cycle
+## STEP 3, ASP.NET Application Life Cycle
 
-不過，在結束這個段落之前，因為這篇文章後半會用到，我再追加另一個環境控制上的考量: (app pool) life cycle
+前面架構面就有提到 app pool life cycle, 我這邊再追加一些前面沒談到的細節:
 
-這部分其實在 IIS6 就開始提供了 (windows 2003), 年代久遠, 有介紹的文章已經不多了，我找到一篇: [IISRESET vs Recycling Application Pools](https://fullsocrates.wordpress.com/2012/07/25/iisreset-vs-recycling-application-pools/), 各位可以看看他對 recycle 的部分說明，講的蠻到位的。
+App Pool 的管理，其實在 IIS6 就開始提供了 (windows 2003), 年代久遠, 有介紹的文章已經不多了，我找到一篇: [IISRESET vs Recycling Application Pools](https://fullsocrates.wordpress.com/2012/07/25/iisreset-vs-recycling-application-pools/), 各位可以看看他對 recycle 的部分說明，講的蠻到位的。
 
 任何 web application (包含 asp.net webform, mvc, webapi 等等都算), 在 IIS 都會被丟到 app pool 內執行。由於 web 都屬於被動觸發的模式，也就是有 request 進來，丟給 application 處理，處理完成後回應 response 即可。因此 IIS 花了不少功夫在處理 app pool 這件事，讓你的 application 長期運作下能夠耗用最少的系統資源，提供最佳的整體效能，還有最佳的可靠度。
 
@@ -163,18 +206,17 @@ IIS 的對應做法不少，包含延遲啟動 (第一個 request 進來才啟�
 
 上述這些程序，經過 IIS 的包裝之後，會變的很難處理。上述的步驟，你沒發現 (1) 跟 (3) 是衝突的嗎? 沒有 (3) 怎麼會觸發 (1) ? 可是沒有 (1) 的話 (3) 怎麼會找的到新的 instance? (1) (3) 沒搞定的話，(2) 也不用做了...
 
-
 其它更別提，container / IIS 沒有改變的情況下，app pool 可能會被摧毀及重新建立好幾次，如果照標準的寫法，這個服務就被重新註冊好幾次了，這些都是多餘的部分。當然我知道 IIS 可以關掉這些機制，或是設置成 IIS 一起動就自動 warm up 你的 application, 但是這麼一來，我們需要 IIS 存在的目的又更低了，不是嗎?
 
-這種情況，反而我們用 Self-Hosting 的方式就異常簡單了 XD, Self-Hosting 就是個標準的 console application, 有很明確的啟動 (進入 Main()) 與結束 (Main() return) 的時間點。而 console application 的啟動與結束，又直接跟 container 綁在一起。因此我們只需要在 Main() 的頭尾，去做上述的 (1) (2) (3) 就完成了。許多這類問題，都是我一直想在 CDD (Container Driven Develop) 裡面強調的，善用 container 的特性，你其實可以非常大幅的簡化你的開發方式，又不損你的功能及彈性。這是充分了解 containerize 之後帶來的好處，但是前提是團隊的架構師要清楚的瞭解這點才行。
+這種情況，反而我們用 Self-Hosting 的方式就異常簡單了 XD (如前面架構面討論的)。許多這類問題，都是我一直想在 CDD (Container Driven Develop) 裡面強調的，善用 container 的特性，你其實可以非常大幅的簡化你的開發方式，又不損你的功能及彈性。這是充分了解 containerize 之後帶來的好處，但是前提是團隊的架構師要清楚的瞭解這點才行。
 
-同樣的，這部分的結論也是: 沒有其它非用 IIS 不可的前提下，用 Self Hosting + Container 的作法反而能更漂亮的控制這些狀況。
-
-
+剩下唯一的考量，就是: 當我們拿掉 IIS 之後，連帶的 IIS 額外提供的優點也被拿掉了。我們要重新檢視的是，這些功能是否再我們 microservices infrastructure 裡都有其他替代做法了? 如果都有，就放心的拿掉他吧! 這部分的結論也是: 沒有其它非用 IIS 不可的前提下，用 Self Hosting + Container 的作法反而能更漂亮的控制這些狀況。
 
 
 
-## 4. 效能考量
+
+
+## STEP 4, 效能考量
 
 這邊我就不花太多篇幅說明了。簡單的說，IIS 負責了基本的 web server, 與額外提供的各種安全與管理的功能。整體來說，效能只會更差不會更好。我正好有找到一篇文章，雖然有點舊了，但是架構上就是說明 IIS vs SelfHosting 的 benchmark 差異，讓各位感受一下:
 
@@ -193,42 +235,10 @@ IIS 7 的數據我就不貼了，效能差異更大。在 IIS 8 的測試基準�
 
 
 
-<!-- 
-// problem in IIS with container
 
-- IIS / windows service not suitable for containers
-- container's life cycle (service) NOT match with application's life cycle (app pool), servicemonitor.exe
-- container : app pool NOT 1:1
+# 微服務架構下的 Self-Host 實作
 
-
-
-// IIS vs Self Hosting
-
-- app pool / worker process
-- fast fail problem (replaced by service discovery & health checking)
-- extra modules / handlers, extra unnecessary functions & restricts (containers with reverse-proxy is better?)
-- IIS logging is better (docker logging is better?)
-- IIS with web garden is better scability (multiple container with orchestration is better?)
-- selfhost performance is better (consider 1000+ containers)
-
-
-
-
-
-
-// How To: SelfHosting? -->
-
-
-
-// TODO: sequency diagram of whole service life cycle.
-
-
-
-
-
-# STEP 2, Self-Host 實作
-
-微服務架構裡最基本的基礎建設，就是服務註冊機制了。在你熟悉 Consul 的 API 之前，有三件事是你必須對你自己的服務能精準的掌控的:
+終於來到要寫 code 的階段了。為了這部分，我上周特地多寫了一篇 [Tips: 在 .NET Console Application 中處理 Shutdown 事件](), 就是為了這個範例。所有跟 consul 搭配的 code, 我都留到下一篇, 這篇我只先處理掉 Self-Host 的部分就好。為了搭配 service discovery 機制，有三件事是你必須對你自己的服務能精準的掌控的:
 
 1. 服務何時啟動? (需要進行註冊的動作)
 1. 服務何時終止? (需要進行註冊資訊移除的動作)
@@ -239,7 +249,7 @@ IIS 7 的數據我就不貼了，效能差異更大。在 IIS 8 的測試基準�
 接下來的範例我們就直接採用 Self Host 的模式來寫 code, 避開 IIS 對於 App Pool 的各種管理與優化動作，藉以更精準的執行註冊機制，以及接下來要探討的 Health Checking 的機制。
 
 
-## 1. 改為 SelfHost 模式
+## 1. 將 Web Project 改為 SelfHost 模式
 
 首先，我想在改動最小的前提下，另外一個 Self-Host 的 console application, 來啟動原本的 ASP.NET WebAPI project:
 
@@ -286,7 +296,7 @@ public class Startup
 
 ```
 
-絕大部分的 code, 你會 ASP.NET MVC 就看的懂了，不再贅述。我只挑特別修改過的地方說明。當你定義完 routing 之後，第一個碰到的，就是 ASP.NET 會找不到你的 controller 在哪裡 (如下圖)。
+絕大部分的 code, 你會 ASP.NET MVC 就看的懂了，不再贅述。我只挑特別修改過的地方說明。當你定義完 routing 之後，第一個碰到的，就是 ASP.NET 有可能會找不到你的 controller 在哪裡 (如下圖)。
 
 ![](wp-content/images/2018-04-06-aspnet-msa-labs2-consul/2018-05-07-21-01-35.png)
 
@@ -320,7 +330,7 @@ namespace System.Web.Http.Dispatcher
 
 ```
 
-要解決這個狀況，最簡單的方式，就是在啟動 SelfHost 之前，隨便加幾行 code 確保會被用到就好了。所以我在 Startup 這個 class 裡面加了這兩行。這兩行目的是在 Configuration 階段，就確保所有需要的 Controller 的 Assembly 都已經被載入 AppDomain。你可別看到他沒做啥事 (只是印出 message), 就把它拿掉...
+因為我是直接用 add reference 的方式，去參考原本的 web project, 你可以直接把 code 搬過來 (這樣就變成同一個 assembly 了)，如果不想改，要解決這個狀況，最簡單的方式，就是在啟動 SelfHost 之前，隨便加幾行 code 確保這 assembly 會在 resolver 之前被用到就好了。所以我在 Startup 這個 class 裡面加了這兩行。這兩行目的是在 Configuration 階段，就確保所有需要的 Controller 的 Assembly 都已經被載入 AppDomain。你可別看到他沒做啥事 (只是印出 message), 就把它拿掉...
 
 ```csharp
             // do nothing, just force app domain load controller's assembly
@@ -364,91 +374,44 @@ class Program {
 
 ## 3, 處理系統關機的事件
 
-目前服務是等 user 在 console 按下 ENTER 就結束了，實際部署的情況不會是這樣，大都是 orchestration 或是 op team 直接把這個 container 或是 process 砍掉。所以我們要花點功夫，去攔截 OS shutdown 的動作，取代掉原本的 Console.ReadLine() 。直接看 sample code:
+目前服務是等 user 在 console 按下 ENTER 就結束了，實際部署的情況不會是這樣，大都是 orchestration 或是 op team 直接把這個 container 或是 process 砍掉。所以我們要花點功夫，去攔截 OS shutdown 的動作，取代掉原本的 Console.ReadLine() 。相關作法的討論，都在 [Tips: 在 .NET Console Application 中處理 Shutdown 事件]() 這篇有詳細的說明了，這邊就直接看 sample code:
 
 ```csharp
 
 
-        #region shutdown event handler
-        private static AutoResetEvent shutdown = new AutoResetEvent(false);
 
-        [DllImport("Kernel32")]
-        static extern bool SetConsoleCtrlHandler(EventHandler handler, bool add);
-
-        delegate bool EventHandler(CtrlType sig);
-        //static EventHandler _handler;
-        enum CtrlType
-        {
-            CTRL_C_EVENT = 0,
-            CTRL_BREAK_EVENT = 1,
-            CTRL_CLOSE_EVENT = 2,
-            CTRL_LOGOFF_EVENT = 5,
-            CTRL_SHUTDOWN_EVENT = 6
-        }
-        private static bool ShutdownHandler(CtrlType sig)
-        {
-            //Console.WriteLine("Shutdown Console Apps...");
-            //brs.StopWorkers();
-            shutdown.Set();
-            Console.WriteLine($"Shutdown WebHost...");
-            return true;
-        }
-
-        #endregion
 
 
 ```
 
-用 DLLImport 的方式，呼叫 Kernel32 提供的 Win32 API: [SetConsoleCtrlHandler()](https://docs.microsoft.com/en-us/windows/console/setconsolectrlhandler), 來指定幾種終止程式執行的事件 (包括: CTRL-C, CTRL-BREAK, CLOSE WINDOW, LOGOFF, SHUTDOWN) 的處理程序 (handler routine)。MSDN 的官方文件有說明，我截錄片段:
+
+有兩種事件是我打算處理的，一個是 user interactive 的動作 (包含 CTRL-C, CTRL-BREAK, CLOSE WINDOW ...), 我用 Win32 API: [SetConsoleCtrlHandler()](https://docs.microsoft.com/en-us/windows/console/setconsolectrlhandler) 來處理。MSDN 的官方文件有說明，我截錄片段:
 
 > Each console process has its own list of application-defined HandlerRoutine functions that handle CTRL+C and CTRL+BREAK signals. The handler functions also handle signals generated by the system when the user closes the console, logs off, or shuts down the system. Initially, the handler list for each process contains only a default handler function that calls the ExitProcess function. A console process adds or removes additional handler functions by calling the SetConsoleCtrlHandler function, which does not affect the list of handler functions for other processes. When a console process receives any of the control signals, its handler functions are called on a last-registered, first-called basis until one of the handlers returns TRUE. If none of the handlers returns TRUE, the default handler is called.
 
-同一篇的另外這段也要留意:
 
-> The system generates CTRL_CLOSE_EVENT, CTRL_LOGOFF_EVENT, and CTRL_SHUTDOWN_EVENT signals when the user closes the console, logs off, or shuts down the system so that the process has an opportunity to clean up before termination. Console functions, or any C run-time functions that call console functions, may not work reliably during processing of any of the three signals mentioned previously. The reason is that some or all of the internal console cleanup routines may have been called before executing the process signal handler.
-
-我這邊的設計，是配合 AutoResetEvent shutdown, 由上面的 handler routine, 在偵測到對應事件之後，來喚醒主程序用的。因此，你只要把原本的 Console.ReadLine(), 換成 shutdown.WaitOne() 就可以了。各位可以自行測試一下這段 code 的效果，我也不再多做介紹。加上這段 code 之後，大概只剩下機器直接被拔掉電源，或是管理者用工作管理員直接 kill process 無法攔截之外，其它大概都能夠處理了。
+我這邊的設計，是配合 ManualResetEvent shutdown, 由上面的 handler routine, 在偵測到對應事件之後，來喚醒主程序用的。因此，你只要把原本的 Console.ReadLine(), 換成 shutdown.WaitOne() 就可以了。各位可以自行測試一下這段 code 的效果，我也不再多做介紹。加上這段 code 之後，大概只剩下機器直接被拔掉電源，或是管理者用工作管理員直接 kill process 無法攔截之外，其它大概都能夠處理了。
 
 
-------------------------
-https://docs.microsoft.com/en-us/windows/console/handlerroutine
-
-CTRL_LOGOFF_EVENT 5	
-A signal that the system sends to all console processes when a user is logging off. This signal does not indicate which user is logging off, so no assumptions can be made.
-
-Note that this signal is received only by services. Interactive applications are terminated at logoff, so they are not present when the system sends this signal.
-
-CTRL_SHUTDOWN_EVENT 6	
-A signal that the system sends when the system is shutting down. Interactive applications are not present by the time the system sends this signal, therefore it can be received only be services in this situation. Services also have their own notification mechanism for shutdown events. For more information, see Handler.
-
-This signal can also be generated by an application using GenerateConsoleCtrlEvent.
+另一種是 OS 層級的事件，前面的 API 在 console mode 下不支援，因此我在 [Tips: 在 .NET Console Application 中處理 Shutdown 事件] 這篇文章內用 hidden window 來接收 message, 攔截 WM_QUERYENDSESSION。這邊我也把它包裝成 form.shutdown 這個 ManualResetEvent 來處理。
 
 
-
-
-
-https://msdn.microsoft.com/en-us/library/microsoft.win32.systemevents.sessionending.aspx
-
-note:
-This event is only raised if the message pump is running. In a Windows service, unless a hidden form is used or the message pump has been started manually, this event will not be raised. For a code example that shows how to handle system events by using a hidden form in a Windows service, see the SystemEvents class.
-
-
-
-
-https://msdn.microsoft.com/en-us/library/microsoft.win32.systemevents.aspx?f=255&MSPPError=-2147217396
-
-see example 2 (using hidden form)
-
-
-
-
-
+這兩種狀況，任意發生其中一種，我就會執行終止的動作。因此我用了 WaitHandle.WaitAny(new WaitHandle[] { close, _form.shutdown }) 來等待。任一個 ManualResetEvent 被 Set 之後，這段 code 就會被喚醒，後續的 shutdown 動作就會被執行。
 
 
 
 
 
 # STEP 3, Health Checking
+
+接下來，如果我期望服務運作過程中，能持續定期發送通知 (心跳訊號 heartbeats), 告知外部系統我還健在，我們仍然可以很容易的在這架構下插入這段 code (這邊只展示該擺在哪裡，實際配合 consul 的 health checking 請等下一篇):
+
+```csharp
+
+
+```
+
+
 
 接下來要進入重頭戲了。除了服務啟動與結束時註冊之外，我們有無其它更精準的方式確認該服務正常運作? 有的，這就是我愛用 Consul 的重點了。他整合了很完善的 Health Checking 機制，讓你很容易的做好這件事。
 
