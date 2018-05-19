@@ -12,11 +12,11 @@ logo: /wp-content/images/2018-04-06-aspnet-msa-labs2-consul/how_would_you_solve_
 ---
 
 
-在微服務的應用上，[service discovery](/2017/12/31/microservice9-servicediscovery/) 實在太重要了, 許多微服務的特性及優勢，都需要靠他才能做的好。於是這次我就花了篇文章的版面，決定好好介紹一下 [Consul](https://www.consul.io/) (源自 [HashiCorp](https://www.hashicorp.com/) 的解決方案) 這套服務。我拿去年介紹容器驅動開發用的案例: [IP2C Service](/2017/05/28/aspnet-msa-labs1/), 重新搭配 consul 來改寫，用 consul 解決 service discovery, Health Checking 以及 Configuration Management 的問題。讓各位讀者清楚的了解該如何善用 Consul 提供的功能，來強化你的服務可靠度。
+在微服務的應用上，[service discovery](/2017/12/31/microservice9-servicediscovery/) 實在太重要了, 可以說是 microservices infrastructure 裡面最基礎的一個。許多微服務的特性及優勢，都需要靠他才能做的好。於是這次我決定好好介紹一下 [Consul](https://www.consul.io/) (源自 [HashiCorp](https://www.hashicorp.com/) 的解決方案) 這套服務。我拿去年介紹容器驅動開發用的案例: [IP2C Service](/2017/05/28/aspnet-msa-labs1/), 重新搭配 consul 來改寫，用 consul 解決 service discovery, Health Checking 以及 Configuration Management 的問題。讓各位讀者清楚的了解該如何善用 Consul 提供的功能，來強化你的服務可靠度。
 
 ![](/wp-content/images/2018-04-06-aspnet-msa-labs2-consul/how_would_you_solve_the_icing_problem.png)
 
-不過在開始之前，我想了很久，決定先追加這篇。在其他平台上，微服務有類似 [Spring Cloud](http://projects.spring.io/spring-cloud/) 這樣一整套的 framework / toolset 可以參考，然而 .NET 這塊的選擇就少的多。雖然仍然有很多 framework 可以選擇，不過都還在百家爭鳴的階段，同時容器化的部署相較之下也還沒那麼到位 (windows container 才一歲多)。團隊如果採用 .NET 同時又打算在這時間轉移到微服務架構，最好都要先對這些基礎建設能有較高的掌握度。因此，搭配上一篇講到 [CDD](https://www.facebook.com/andrew.blog.0928/videos/509145696127380/) (Container Driven Development) 的概念與實作，我決定在這篇文章裡示範一下怎麼自己把這些缺口補起來。這樣做的目的，不是要你拿去用在 production 環境上，而是體驗過之後你會更清楚怎麼選擇，也能在初期就做好抽象化，降低將來轉移的風險。
+不過在開始之前，我想了很久，決定先追加這篇。在其他平台上，微服務有類似 [Spring Cloud](http://projects.spring.io/spring-cloud/) 這樣一整套的 framework / toolset 可以參考，然而 .NET 這塊的選擇就少的多。雖然仍然有很多 framework 可以選擇，不過都還在百家爭鳴的階段，同時容器化的部署相較之下也還沒那麼到位 (windows container 才一歲多)。團隊如果採用 .NET 同時又打算在這時間轉移到微服務架構，最好都要先對這些基礎建設能有較高的掌握度。因此，搭配上一篇講到 [CDD](https://www.facebook.com/andrew.blog.0928/videos/509145696127380/) (Container Driven Development) 的概念與實作，我決定在這篇文章裡示範一下怎麼自己把這些缺口補起來。這樣做的目的，不是要你拿去直接用在 production 環境上，而是體驗過造輪子的過程之後你會更清楚怎麼選擇，也能在初期就做好抽象化，降低將來轉移的風險。
 
 你有想過你的 API service 該怎麼封裝成容器嗎? 掛在 IIS 下執行，還是用 Self Host ? Docker 是從 Linux 上面發展起來的，對於上面的服務反而沒太多這類的問題；不過長年在 Windows 環境下的開發者都被 Microsoft 照顧得好好的，要妥善運用 Docker / Windows Container 反而就沒辦法那麼得心應手。我強烈建議每個有心使用 windows container 的團隊能夠看一下這篇，試著從無到有親手跑過一次，了解整個容器化的過程。即便往後很多東西都會有現成的解決方案，找機會讓自己的團隊體驗一下重新造輪子的過程絕對有幫助的。
 
@@ -25,7 +25,7 @@ logo: /wp-content/images/2018-04-06-aspnet-msa-labs2-consul/how_would_you_solve_
 
 <!--more-->
 
-雖然微服務跟容器化是兩回事，不過兩者搭配起來是絕佳組合啊，所以我決定先花點篇幅，先搞定 web api 容器化的問題 (self-host or IIS host)。過去都是 operation team 解決掉了，不需要 development team 傷腦筋。現在微服務需要更密切的整合，必須要同時能掌握 development 跟 operation 的 know how, 才能正確的拿捏該捨掉那些東西。這篇就是從這角度，告訴你 IIS 與 Self Host 該如何取捨。我先說明一下採用 Self-Host 的考量，同時也會示範一下如何開發一個通用的 Self-Host class library, 微服務的應用上，你勢必會有很多大量的服務需要開發，先把這個通用的 Self-Host 架構搞定，加上與 consul 的整合，可以替整個團隊省下不少功夫。
+雖然微服務跟容器化是兩回事，不過兩者的搭配是絕佳組合啊，所以我決定先花點篇幅，先搞定 web api 容器化的問題 (self-host or IIS host)。過去都是 operation team 解決掉了，不需要 development team 傷腦筋。現在微服務需要更密切的整合，必須要同時能掌握 development 跟 operation 的 know how, 才能正確的拿捏該捨掉那些東西。這篇就是從這角度，告訴你 IIS 與 Self Host 該如何取捨。我先說明一下採用 Self-Host 的考量，同時也會示範一下如何開發一個通用的 Self-Host class library, 微服務的應用上，你勢必會有很多大量的服務需要開發，先把這個通用的 Self-Host 架構搞定，加上與 consul 的整合，可以替整個團隊省下不少功夫。
 
 在上一篇 [容器化的微服務開發 #1, IP查詢架構與開發範例](/2017/05/28/aspnet-msa-labs1/) 我拿 IP 地區查詢服務當作範例，用容器驅動開發的觀念，實作了微服務版本的 IP2C Service。我提到的 "**C**ontainer **D**riven **D**evelopment" 概念，就是假設你將來 "一定" 會用容器化的方式來部署的話，那麼在架構設計之初就能盡可能的最佳化，能透過容器解決的問題就不用自己做了。極度的簡化，可以讓 Operation 的團隊更容易接手維護你的服務，Developer 也能更專注把精力用在核心的業務上。這次我會重構先前的範例程式，進一步的擴大 "Container Driven Development" 的概念，假設將來 "一定" 會用 consul + container 的方式部署。同樣的來看看，你可以如何建構這樣的 application?
 
@@ -72,7 +72,7 @@ logo: /wp-content/images/2018-04-06-aspnet-msa-labs2-consul/how_would_you_solve_
 
 **IIS host**:
 
-![](wp-content/images/2018-05-12-msa-labs2-selfhost/2018-05-17-17-42-57.png)
+![](/wp-content/images/2018-05-12-msa-labs2-selfhost/2018-05-17-17-42-57.png)
 
 這張是目前 Microsoft 官方提供的 ASPNET container image 為基礎，我把啟動到結束的過程畫成 time diagram 。由左到右是時間，每個藍色的 Bar 代表一個 process, 下列的敘述中的 (n) 就代表圖內的綠色數字。IIS 有良好的 app pool management 能力，每個 asp.net application 都會在 app pool 內執行。IIS 啟動之後，會等到第一個 http request (1) 進來後才會啟動該 web application (2)。這時定義在 asp.net global.asax 內的 application_start event (3) 就會被觸發。App pool 有各種情況可能會被回收或是終止(4) (如 idle 超過指定時間，使用資源如 CPU 或是 MEMORY 超過限制等等)，這時會觸發 application_end event (5), 等待下一個 http request, 或是主動啟動另一個新的 app pool 來替代。
 
@@ -95,7 +95,7 @@ logo: /wp-content/images/2018-04-06-aspnet-msa-labs2-consul/how_would_you_solve_
 
 如果換個角度，我們跳出 IIS 的框架，改用 self host 的角度重新思考這問題的話...
 
-![](wp-content/images/2018-05-12-msa-labs2-selfhost/2018-05-17-21-25-51.png)
+![](/wp-content/images/2018-05-12-msa-labs2-selfhost/2018-05-17-21-25-51.png)
 
 整個處理程序都變的超級簡單了啊，就是單一一個 process, 直接指定為 docker container 的 entrypoint, 能夠很精準的讓開發人員掌握 start / end 的時間點；同時只有一個 process, 也沒有多個 app pool 同時並行的困擾。至於原本 IIS 幫我們做的 app pool / resource management 呢? 這交給 container orchestration 統一管理就好了啊 (下一段說明)。
 
@@ -249,6 +249,7 @@ IIS 7 的數據我就不貼了，效能差異更大。在 IIS 8 的測試基準�
 接下來的範例我們就直接採用 Self Host 的模式來寫 code, 避開 IIS 對於 App Pool 的各種管理與優化動作，藉以更精準的執行註冊機制，以及接下來要探討的 Health Checking 的機制。
 
 
+
 ## 1. 將 Web Project 改為 SelfHost 模式
 
 首先，我想在改動最小的前提下，另外一個 Self-Host 的 console application, 來啟動原本的 ASP.NET WebAPI project:
@@ -298,7 +299,7 @@ public class Startup
 
 絕大部分的 code, 你會 ASP.NET MVC 就看的懂了，不再贅述。我只挑特別修改過的地方說明。當你定義完 routing 之後，第一個碰到的，就是 ASP.NET 有可能會找不到你的 controller 在哪裡 (如下圖)。
 
-![](wp-content/images/2018-04-06-aspnet-msa-labs2-consul/2018-05-07-21-01-35.png)
+![](/wp-content/images/2018-04-06-aspnet-msa-labs2-consul/2018-05-07-21-01-35.png)
 
 > No type was found that matches the controller named 'ip2c'.
 
@@ -383,7 +384,8 @@ class Program {
     {
         static void Main(string[] args)
         {
-            string baseAddress = @"http://localhost:9000/";
+            string local_ip = "127.0.0.1";
+            string baseAddress = "http://localhost:9000/";
 
             #region init windows shutdown handler
             SetConsoleCtrlHandler(ShutdownHandler, true);
@@ -402,42 +404,42 @@ class Program {
                 Application.Run(_form);
             });
 
-            Console.WriteLine($"* Press [CTRL-C] to exit WebAPI-SelfHost...");
+            Console.WriteLine($"Press [CTRL-C] to exit WebAPI-SelfHost...");
             #endregion
 
-
             // Start OWIN host 
-            Console.WriteLine($"Starting WebApp... (Bind URL: {baseAddress})");
+            Console.WriteLine($"INFO:  Starting WebApp... (Bind URL: {baseAddress})");
             using (WebApp.Start<Startup>(baseAddress))
             {
                 Console.WriteLine($"WebApp Started.");
 
+                string serviceID = $"IP2CAPI-{Guid.NewGuid():N}".ToUpper(); //Guid.NewGuid().ToString("N");
+
+                using (ConsulClient consul = new ConsulClient(c => { if (!string.IsNullOrEmpty(consulAddress)) c.Address = new Uri(consulAddress); }))
                 {
 
-                    #region register services
-                    //
-                    // TODO: #1, 服務啟動完成。註冊的相關程式碼可以放在這裡。
-                    //
-                    #endregion
+#region register services
+                    // TODO: 服務啟動完成。註冊的相關程式碼可以放在這裡。
+                    Console.WriteLine($"DEMO:  Register Services Here!");
+#endregion
 
 
-                    #region send heartbeats to consul
+#region send heartbeats to consul
+                    // TODO: 服務註冊完成。定期傳送 heartbeats 的動作可以放在這裡。
                     bool stop = false;
                     Task heartbeats = Task.Run(() =>
                     {
-                        while (stop == false)
+                        Console.WriteLine($"DEMO:  Start eartbeats.");
+                        while(stop == false)
                         {
                             Task.Delay(1000).Wait();
-
-                            //
-                            // TODO: #2, Send Heartbeats to service discovery server
-                            //
+                            Console.WriteLine($"DEMO:  Send Heartbeats every 1000 ms here!!");
                         }
+                        Console.WriteLine($"DEMO:  Stop Heartbeats.");
                     });
-                    #endregion
+#endregion
 
-
-                    // wait until process shutdown (ctrl-c, or close window)
+                    // TODO: 等待服務中斷通知 (ctrl-c, ctrl-break, close window, user logoff, system shutdown)
                     int shutdown_index = WaitHandle.WaitAny(new WaitHandle[]
                     {
                         close,
@@ -445,27 +447,29 @@ class Program {
                     });
                     Console.WriteLine(new string[]
                     {
-                        "# user press CTRL-C, CTRL-BREAK or close window...",
-                        "# system shutdown or logoff..."
+                        "EVENT: User press CTRL-C, CTRL-BREAK or close window...",
+                        "EVENT: System shutdown or logoff..."
                     }[shutdown_index]);
 
-
-                    //
-                    // TODO: #3, 服務即將終止。移除註冊資訊的相關程式碼可以放在這裡。
-                    //
+                    // TODO: 服務即將終止。移除註冊資訊的相關程式碼可以放在這裡。
+                    Console.WriteLine($"DEMO:  Deregister Services Here!!");
 
                     stop = true;
                     heartbeats.Wait();
 
-                    // wait 5 sec and shutdown owin host
+
+
+                    // TODO: 服務已移除註冊。等待 5 sec 後停止 web self-host
+                    Console.WriteLine($"DEMO:  Wait 5 sec and stop web self-host.");
                     Task.Delay(5000).Wait();
+                    Console.WriteLine($"DEMO:  web self-host stopped.");
                 }
             }
 
-            #region init windows shutdown handler
+#region init windows shutdown handler
             SetConsoleCtrlHandler(ShutdownHandler, false);
             _form.Close();
-            #endregion
+#endregion
         }
 
         #region shutdown event handler
@@ -475,7 +479,6 @@ class Program {
         static extern bool SetConsoleCtrlHandler(EventHandler handler, bool add);
 
         delegate bool EventHandler(CtrlType sig);
-        //static EventHandler _handler;
         enum CtrlType
         {
             CTRL_C_EVENT = 0,
@@ -486,18 +489,14 @@ class Program {
         }
         private static bool ShutdownHandler(CtrlType sig)
         {
-            //Console.WriteLine("Shutdown Console Apps...");
-            //brs.StopWorkers();
             close.Set();
-            Console.WriteLine($"Shutdown WebHost...");
+            Console.WriteLine($"EVENT: ShutdownHandler({sig})");
             return true;
         }
 
         private static HiddenForm _form = null;
         #endregion
     }
-
-
 
 ```
 
@@ -507,10 +506,10 @@ class Program {
 > Each console process has its own list of application-defined HandlerRoutine functions that handle CTRL+C and CTRL+BREAK signals. The handler functions also handle signals generated by the system when the user closes the console, logs off, or shuts down the system. Initially, the handler list for each process contains only a default handler function that calls the ExitProcess function. A console process adds or removes additional handler functions by calling the SetConsoleCtrlHandler function, which does not affect the list of handler functions for other processes. When a console process receives any of the control signals, its handler functions are called on a last-registered, first-called basis until one of the handlers returns TRUE. If none of the handlers returns TRUE, the default handler is called.
 
 
-我這邊的設計，是配合 ManualResetEvent shutdown, 由上面的 handler routine, 在偵測到對應事件之後，來喚醒主程序用的。因此，你只要把原本的 Console.ReadLine(), 換成 shutdown.WaitOne() 就可以了。各位可以自行測試一下這段 code 的效果，我也不再多做介紹。加上這段 code 之後，大概只剩下機器直接被拔掉電源，或是管理者用工作管理員直接 kill process 無法攔截之外，其它大概都能夠處理了。這部分的 code 可以參考 Main() 的頭尾兩部分，都有一段呼叫 SetConsoleCtrlHandler() 的 code, 就是處理這段的 code。
+我這邊的設計，是配合 ```ManualResetEvent shutdown```, 由上面的 handler routine, 在偵測到對應事件之後，來喚醒主程序用的。因此，你只要把原本的 ```Console.ReadLine()```, 換成 ```shutdown.WaitOne()``` 就可以了。各位可以自行測試一下這段 code 的效果，我也不再多做介紹。加上這段 code 之後，大概只剩下機器直接被拔掉電源，或是管理者用工作管理員直接 kill process 無法攔截之外，其它大概都能夠處理了。這部分的 code 可以參考 ```Main()``` 的頭尾兩部分，都有一段呼叫 ```SetConsoleCtrlHandler()``` 的 code, 就是處理這段的 code。
 
 
-另一種是 OS 層級的事件，前面的 API 在 console mode 下不支援，因此我在 [Tips: 在 .NET Console Application 中處理 Shutdown 事件] 這篇文章內用 hidden window 來接收 message, 攔截 WM_QUERYENDSESSION。這邊我也把它包裝成 form.shutdown 這個 ManualResetEvent 來處理。在 Main() 中間有這麼段 code, 就是為了準備 hidden window, 好接收 shutdown message:
+另一種是 OS 層級的事件，前面的 API 在 console mode 下不支援，因此我在 [Tips: 在 .NET Console Application 中處理 Shutdown 事件] 這篇文章內用 hidden window 來接收 message, 攔截 ```WM_QUERYENDSESSION```。這邊我也把它包裝成 ```form.shutdown``` 這個 ```ManualResetEvent``` 來處理。在 ```Main()``` 中間有這麼段 code, 就是為了準備 hidden window, 好接收 shutdown message:
 
 ```csharp
             _form = new HiddenForm()
@@ -529,7 +528,7 @@ class Program {
 
 ```
 
-實際的 HiddenForm 則定義在這邊:
+實際的 ```HiddenForm``` 則定義在這邊:
 
 ```csharp
     public partial class HiddenForm : Form
@@ -541,6 +540,8 @@ class Program {
 
         public ManualResetEvent shutdown = new ManualResetEvent(false);
 
+        public Task ShutdownTask = null;
+
         protected override void WndProc(ref Message m)
         {
             if (m.Msg == 0x11) // WM_QUERYENDSESSION
@@ -548,64 +549,82 @@ class Program {
                 m.Result = (IntPtr)1;
                 Console.WriteLine("winmsg: WM_QUERYENDSESSION");
                 this.shutdown.Set();
+
+                // TODO: ugly code here!!!
+
+                // block shutdown process as long as possible until form is closing.
+                // max: 10 sec
+                while (this._form_closing == false) Thread.SpinWait(100);
+
+                return;
             }
 
-            //Console.Write('.');
             base.WndProc(ref m);
         }
+
+        private bool _form_closing = false;
+        protected override void OnClosing(CancelEventArgs e)
+        {
+            this._form_closing = true;
+        }
+
     }
+
 ```    
 
-這兩種狀況，任意發生其中一種，我就會執行終止的動作。因此我用了 WaitHandle.WaitAny(new WaitHandle[] { close, _form.shutdown }) 來等待。任一個 ManualResetEvent 被 Set 之後，這段 code 就會被喚醒，後續的 shutdown 動作就會被執行。
+這兩種狀況，任意發生其中一種，我就會執行終止的動作。因此我用了 ```WaitHandle.WaitAny(new WaitHandle[] { close, _form.shutdown })``` 來等待。任一個 ```ManualResetEvent``` 被 ```Set``` 之後，這段 code 就會被喚醒，後續的 shutdown 動作就會被執行。
+
+不過，要特別注意的是，OS 對於 shutdown 的事件，不能保證可以給 application 無限制的時間去處理。超過一段時間，OS 仍有可能強制中斷每一個 application, 繼續進行 shutdown 的任務。我自己實際測試，最長大約有 10 sec 左右的時間可以運用。
+
+通常服務的運作模式都是，通知 service discovery 服務要終止之後，還會保留一段 buffer 時間，一方面讓已經受理的 request 能夠處理完畢，另一方面則是讓還沒能及時更新 service discovery 服務清單的 client, 有一點緩衝的時間。如果 client 端每秒會更新一次 list, 再配合上面提到的 10 sec 極限，那麼 service 端在 deregistry 後等個 5 sec 是個還蠻合理的設定。
 
 ```csharp
-                    // wait until process shutdown (ctrl-c, or close window)
+                    // TODO: 等待服務中斷通知 (ctrl-c, ctrl-break, close window, user logoff, system shutdown)
                     int shutdown_index = WaitHandle.WaitAny(new WaitHandle[]
                     {
                         close,
                         _form.shutdown
                     });
+                    Console.WriteLine(new string[]
+                    {
+                        "EVENT: User press CTRL-C, CTRL-BREAK or close window...",
+                        "EVENT: System shutdown or logoff..."
+                    }[shutdown_index]);
+                    stop = true;
+
+                    // TODO: 服務即將終止。移除註冊資訊的相關程式碼可以放在這裡。
+                    Console.WriteLine($"DEMO:  Deregister Services Here!!");
+
+                    // TODO: 服務已移除註冊。等待 5 sec 後停止 web self-host
+                    Console.WriteLine($"DEMO:  Wait 5 sec and stop web self-host.");
+                    Task.Delay(5000).Wait();
+                    Console.WriteLine($"DEMO:  web self-host stopped.");
 ```
 
 
 
 # STEP 3, Health Checking
 
-接下來，如果我期望服務運作過程中，能持續定期發送通知 (心跳訊號 heartbeats), 告知外部系統我還健在，我們仍然可以很容易的在這架構下插入這段 code (這邊只展示該擺在哪裡，實際配合 consul 的 health checking 請等下一篇):
+接下來，如果我期望服務運作過程中，能持續定期發送通知 (心跳訊號 heartbeats), 告知外部系統我還健在，我們仍然可以很容易的在這架構下插入這段 code (這邊只展示該擺在哪裡，實際配合 consul 的 health checking 請等下一篇)。這邊我在 register service 成功之後，就啟動一個獨立的 Task, 專門負責持續發送 heartbeats 訊號的任務。他會不斷偵測 ```bool stop``` 這個 flag, 直到 host 準備要停掉為止。
 
 ```csharp
-                    #region send heartbeats to consul
+#region send heartbeats to consul
+                    // TODO: 服務註冊完成。定期傳送 heartbeats 的動作可以放在這裡。
                     bool stop = false;
                     Task heartbeats = Task.Run(() =>
                     {
-                        IP2CController ip2c = new IP2CController();
-                        while (stop == false)
+                        Console.WriteLine($"DEMO:  Start eartbeats.");
+                        while(stop == false)
                         {
                             Task.Delay(1000).Wait();
-
-                            try
-                            {
-                                var result = ip2c.Get(0x08080808);
-                                if (result.CountryCode == "US")
-                                {
-                                    consul.Agent.PassTTL($"service:{serviceID}:2", $"self test pass.");
-                                }
-                                else
-                                {
-                                    consul.Agent.WarnTTL($"service:{serviceID}:2", $"self test fail. query 8.8.8.8, expected: US, actual: {result.CountryCode}({result.CountryName})");
-                                }
-                            }
-                            catch(Exception ex)
-                            {
-                                consul.Agent.FailTTL($"service:{serviceID}:2", $"self test error. exception: {ex}");
-                            }
+                            Console.WriteLine($"DEMO:  Send Heartbeats every 1000 ms here!!");
                         }
+                        Console.WriteLine($"DEMO:  Stop Heartbeats.");
                     });
-                    #endregion
-
+#endregion
 ```
 
-若主程式已經盡到 shutdown 的部分，則這段 code 會設定 stop flag, 然後等待 heartbeats 的部分執行完畢:
+若主程式已經進到 shutdown 的部分，則這段 code 會設定 stop flag, 然後等待 heartbeats 的部分執行完畢:
 
 ```csharp
                     stop = true;
@@ -614,47 +633,16 @@ class Program {
 
 
 
-# STEP 5, DEMO
-
-最後，搞了這堆東西總是要上戰場的，既然一開始都講了 CDD 容器驅動開發了，總是要把最後一步走完。我補上這幾個服務的 dockerfile:
 
 
-**Consul**:
-
-```dockerfile
-FROM microsoft/windowsservercore:1709
-
-WORKDIR consul
-
-COPY . .
-
-EXPOSE 8500 8600 8600/udp
-
-ENTRYPOINT consul.exe agent -dev -client 0.0.0.0
-```
-
-基本上，就是包起來而已... 沒太多技巧在裡面。
+# STEP 4, DEMO
 
 
-**TestConsole**:
-
-```dockerfile
-FROM microsoft/dotnet-framework:4.7.2-runtime-windowsservercore-1709
-
-WORKDIR   c:/IP2C.Console
-COPY . .
+![](/wp-content/images/2018-05-12-msa-labs2-selfhost/2018-05-20-04-42-41.png)
 
 
-ENV CONSUL_URL=http://consul:8500
 
-ENTRYPOINT IP2CTest.Console.exe -consul %CONSUL_URL%
-
-```
-
-同上，就是包起來而已... 只是把 consul 的網址拉出來當作環境變數而已。
-
-
-**WebAPI.SelfHost**:
+最後，搞了這堆東西總是要上戰場的，既然一開始都講了 CDD 容器驅動開發了，總是要把最後一步走完。我補上這個服務的 dockerfile:
 
 ```dockerfile
 FROM microsoft/dotnet-framework:4.7.2-runtime-windowsservercore-1709
@@ -662,9 +650,185 @@ FROM microsoft/dotnet-framework:4.7.2-runtime-windowsservercore-1709
 WORKDIR c:/selfhost
 COPY . .
 
-ENV CONSUL_URL=http://consul:8500
-ENV NETWORK=0.0.0.0/0
-
 EXPOSE 80
-ENTRYPOINT IP2C.WebAPI.SelfHost.exe -network %NETWORK% -consul %CONSUL_URL%
+ENTRYPOINT IP2C.WebAPI.SelfHost.exe
 ```
+
+接著，測試一下基本功能。我安排了幾種 scenarios, 分別確認一下當初的設計是否能正常運作。
+
+## Scenario #1, 直接在 windows 下執行
+
+執行方式，最簡單的就是 visual studio 下直接按下 CTRL-F5, 不透過 debugger 直接啟動, 執行一陣子後按下 CTRL-C 離開:
+
+```log
+Press [CTRL-C] to exit WebAPI-SelfHost...
+INFO:  Starting WebApp... (Bind URL: http://localhost:9001/)
+- Force load controller: IP2C.WebAPI.Controllers.IP2CController
+- Force load controller: IP2C.WebAPI.Controllers.DiagController
+WebApp Started.
+DEMO:  Register Services Here!
+DEMO:  Start eartbeats.
+DEMO:  Send Heartbeats every 1000 ms here!!
+DEMO:  Send Heartbeats every 1000 ms here!!
+DEMO:  Send Heartbeats every 1000 ms here!!
+DEMO:  Send Heartbeats every 1000 ms here!!
+DEMO:  Send Heartbeats every 1000 ms here!!
+DEMO:  Send Heartbeats every 1000 ms here!!
+DEMO:  Send Heartbeats every 1000 ms here!!
+EVENT: User press CTRL-C, CTRL-BREAK or close window...
+DEMO:  Deregister Services Here!!
+EVENT: ShutdownHandler(CTRL_C_EVENT)
+DEMO:  Send Heartbeats every 1000 ms here!!
+DEMO:  Stop Heartbeats.
+DEMO:  Wait 5 sec and stop web self-host.
+DEMO:  web self-host stopped.
+Press any key to continue . . .
+```
+
+有興趣的朋友們，可以仔細看一下這些 message 輸出的順序，是否跟你想像的一樣? 
+
+接著，同樣的執行方式，只是離開時不按 CTRL-C，改用滑鼠按下 console 視窗右上角的 X (你眼睛得跟的上，否則就要把訊息存檔)。結果會是一樣的，除了中間有一行訊息，會從原本的 ```EVENT: ShutdownHandler(CTRL_C_EVENT)``` 變成 ```EVENT: ShutdownHandler(CTRL_CLOSE_EVENT)``` 之外，其他就沒有不同了。
+
+
+## Scenario #2, 透過 container 執行
+
+透過 container 執行，我們要測試 OS shutdown 會容易的多，這也是將來我們真正要執行的環境。開始之前，我們先 build docker image:
+
+```shell
+
+docker build -t wcshub.azurecr.io/ip2c.webapi.selfhost:demo .
+
+```
+
+如果你打算要在別的 host 上測試，可以接著把這個 image push 到 registry:
+
+```shell
+
+docker push wcshub.azurecr.io/ip2c.webapi.selfhost:demo
+
+```
+
+之後就可以用這指令啟動 docker container, 按照這順序操作 container (每個指令之間請至少間隔 10 sec 以上)
+
+1. 下載 (如果是在別的 host 執行): docker pull wcshub.azurecr.io/ip2c.webapi.selfhost:demo
+1. 啟動: docker run -d --name demo wcshub.azurecr.io/ip2c.webapi.selfhost:demo
+1. 暫停 10 sec: powershell sleep 10
+1. 觀看 logs: docker logs -t demo
+1. 停止: docker stop demo
+1. 暫停 5 sec: powershell sleep 5
+1. 觀看 logs: docker logs -t demo
+
+我在幾種環境上測試過，結果都差不多，唯一的差異就在時間而已 (windows 10 因為只支援 hyper-v container, 啟動的時間慢了一些, 大約要 30 sec, 一般只要 5 sec 左右)。
+
+On Windows 10 Pro (1803):
+
+```text
+Hardware Spec:
+CPU: Intel i7-4785T @ 2.20GHz
+RAM: 16GB (DDR4, 8GB x 2)
+HDD: Intel SSD S3520, 480GB
+```
+
+
+```shell
+
+C:\CodeWork\github.com\IP2C.NET.Service\IP2C.WebAPI.SelfHost\bin\Debug>docker logs -t demo
+2018-05-19T19:35:14.507458000Z Press [CTRL-C] to exit WebAPI-SelfHost...
+2018-05-19T19:35:14.508453400Z INFO:  Starting WebApp... (Bind URL: http://172.18.241.17:80/)
+2018-05-19T19:35:15.029272200Z - Force load controller: IP2C.WebAPI.Controllers.IP2CController
+2018-05-19T19:35:15.029272200Z - Force load controller: IP2C.WebAPI.Controllers.DiagController
+2018-05-19T19:35:15.073796500Z WebApp Started.
+2018-05-19T19:35:15.188058600Z DEMO:  Register Services Here!
+2018-05-19T19:35:15.188058600Z DEMO:  Start eartbeats.
+2018-05-19T19:35:16.201067200Z DEMO:  Send Heartbeats every 1000 ms here!!
+2018-05-19T19:35:17.212087200Z DEMO:  Send Heartbeats every 1000 ms here!!
+2018-05-19T19:35:18.213151800Z DEMO:  Send Heartbeats every 1000 ms here!!
+2018-05-19T19:35:19.215151300Z DEMO:  Send Heartbeats every 1000 ms here!!
+2018-05-19T19:35:20.227688100Z DEMO:  Send Heartbeats every 1000 ms here!!
+2018-05-19T19:35:21.233688500Z DEMO:  Send Heartbeats every 1000 ms here!!
+2018-05-19T19:35:22.235217700Z DEMO:  Send Heartbeats every 1000 ms here!!
+2018-05-19T19:35:23.242218500Z DEMO:  Send Heartbeats every 1000 ms here!!
+2018-05-19T19:35:24.253218900Z DEMO:  Send Heartbeats every 1000 ms here!!
+2018-05-19T19:35:25.197868500Z winmsg: WM_QUERYENDSESSION
+2018-05-19T19:35:25.218870300Z EVENT: System shutdown or logoff...
+2018-05-19T19:35:25.218870300Z DEMO:  Deregister Services Here!!
+2018-05-19T19:35:25.265452900Z DEMO:  Send Heartbeats every 1000 ms here!!
+2018-05-19T19:35:25.265452900Z DEMO:  Stop Heartbeats.
+2018-05-19T19:35:25.265452900Z DEMO:  Wait 5 sec and stop web self-host.
+2018-05-19T19:35:30.282137500Z DEMO:  web self-host stopped.
+
+```
+
+
+On Windows Server (1709):
+
+```text
+Hardware Spec: (Azure, B2S)
+vCPU: 2
+RAM: 4GB
+HDD: 8GB SSD (Max IOPS: 3200)
+```
+
+```shell
+C:\ip2c>docker logs -t demo
+2018-05-19T19:39:58.883210500Z Press [CTRL-C] to exit WebAPI-SelfHost...
+2018-05-19T19:39:58.883210500Z INFO:  Starting WebApp... (Bind URL: http://192.168.252.254:80/)
+2018-05-19T19:39:59.275235100Z - Force load controller: IP2C.WebAPI.Controllers.IP2CController
+2018-05-19T19:39:59.275235100Z - Force load controller: IP2C.WebAPI.Controllers.DiagController
+2018-05-19T19:39:59.295236800Z WebApp Started.
+2018-05-19T19:39:59.328237900Z DEMO:  Register Services Here!
+2018-05-19T19:39:59.328237900Z DEMO:  Start eartbeats.
+2018-05-19T19:40:00.328804100Z DEMO:  Send Heartbeats every 1000 ms here!!
+2018-05-19T19:40:01.329255300Z DEMO:  Send Heartbeats every 1000 ms here!!
+2018-05-19T19:40:02.330410400Z DEMO:  Send Heartbeats every 1000 ms here!!
+2018-05-19T19:40:03.333394900Z DEMO:  Send Heartbeats every 1000 ms here!!
+2018-05-19T19:40:03.872421700Z winmsg: WM_QUERYENDSESSION
+2018-05-19T19:40:03.872421700Z EVENT: System shutdown or logoff...
+2018-05-19T19:40:03.872421700Z DEMO:  Deregister Services Here!!
+2018-05-19T19:40:04.334447900Z DEMO:  Send Heartbeats every 1000 ms here!!
+2018-05-19T19:40:04.334447900Z DEMO:  Stop Heartbeats.
+2018-05-19T19:40:04.334447900Z DEMO:  Wait 5 sec and stop web self-host.
+2018-05-19T19:40:09.344705300Z DEMO:  web self-host stopped.
+```
+
+
+On Windows Server (1803), 要留意的是 container 是共用 OS, container 內的 OS 必須跟 host 的 OS 版本一致，不然就只能用 hyper-v container... 我改了 dockerfile, 重新 build 1803 測試:
+
+```text
+Hardware Spec: (Azure, B2S)
+vCPU: 2
+RAM: 4GB
+HDD: 8GB SSD (Max IOPS: 3200)
+```
+
+
+```shell
+C:\ip2c>docker logs -t demo
+2018-05-19T20:13:51.240487500Z Press [CTRL-C] to exit WebAPI-SelfHost...
+2018-05-19T20:13:51.240487500Z INFO:  Starting WebApp... (Bind URL: http://172.28.127.202:80/)
+2018-05-19T20:13:52.246820500Z - Force load controller: IP2C.WebAPI.Controllers.IP2CController
+2018-05-19T20:13:52.246820500Z - Force load controller: IP2C.WebAPI.Controllers.DiagController
+2018-05-19T20:13:52.378825800Z WebApp Started.
+2018-05-19T20:13:52.472826500Z DEMO:  Register Services Here!
+2018-05-19T20:13:52.472826500Z DEMO:  Start eartbeats.
+2018-05-19T20:13:53.479865700Z DEMO:  Send Heartbeats every 1000 ms here!!
+2018-05-19T20:13:54.481170400Z DEMO:  Send Heartbeats every 1000 ms here!!
+2018-05-19T20:13:55.482370600Z DEMO:  Send Heartbeats every 1000 ms here!!
+2018-05-19T20:13:56.483475600Z DEMO:  Send Heartbeats every 1000 ms here!!
+2018-05-19T20:13:57.484187100Z DEMO:  Send Heartbeats every 1000 ms here!!
+2018-05-19T20:13:58.485071000Z DEMO:  Send Heartbeats every 1000 ms here!!
+2018-05-19T20:13:59.485238000Z DEMO:  Send Heartbeats every 1000 ms here!!
+2018-05-19T20:14:00.485476900Z DEMO:  Send Heartbeats every 1000 ms here!!
+2018-05-19T20:14:01.486457700Z DEMO:  Send Heartbeats every 1000 ms here!!
+2018-05-19T20:14:02.486847700Z DEMO:  Send Heartbeats every 1000 ms here!!
+2018-05-19T20:14:03.488000100Z DEMO:  Send Heartbeats every 1000 ms here!!
+2018-05-19T20:14:04.488439100Z DEMO:  Send Heartbeats every 1000 ms here!!
+2018-05-19T20:14:05.485914700Z EVENT: User press CTRL-C, CTRL-BREAK or close window...
+2018-05-19T20:14:05.485914700Z DEMO:  Deregister Services Here!!
+2018-05-19T20:14:05.486914400Z EVENT: ShutdownHandler(CTRL_SHUTDOWN_EVENT)
+2018-05-19T20:14:05.488915200Z DEMO:  Send Heartbeats every 1000 ms here!!
+2018-05-19T20:14:05.488915200Z DEMO:  Stop Heartbeats.
+2018-05-19T20:14:05.488915200Z DEMO:  Wait 5 sec and stop web self-host.
+```
+
+# 結論
