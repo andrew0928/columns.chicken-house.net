@@ -56,7 +56,7 @@ logo: /wp-content/images/2018-04-06-aspnet-msa-labs2-consul/how_would_you_solve_
 * [ASP.NET Core Web Servers: Kestrel vs IIS Feature Comparison and Why You Need Both](https://stackify.com/kestrel-web-server-asp-net-core-kestrel-vs-iis/)
 
 
-## STEP 1, 架構考量
+## THINK #1, 架構考量
 
 這裡指的 "架構考量"，其實就是指 windows service 跟 console application 運作方式的不同。因為這些差異，連帶的影響到容器化的作法。因為落差實在太大，我覺得有必要在一開始就考量清楚。
 
@@ -151,7 +151,7 @@ service state changes from `SERVICE_RUNNING` to either one of `SERVICE_STOPPED`,
 
 
 
-## STEP 2, 環境考量
+## THINK #2, 環境考量
 
 接下來，從執行環境與開發人員的配合來看這兩種方式的考量吧。開始之前，我先找了其它參考資訊，看看 IIS hosting 跟 Self hosting 在功能上的差別。我節錄這討論串，它列出了使用 IIS 可以得到的額外好處 (相對於 SelfHost):
 
@@ -186,7 +186,7 @@ container 的精神，就是一個 process 一個 container, 在 run time 再組
 
 
 
-## STEP 3, ASP.NET Application Life Cycle
+## THINK #3, ASP.NET Application Life Cycle
 
 前面架構面就有提到 app pool life cycle, 我這邊再追加一些前面沒談到的細節:
 
@@ -216,7 +216,7 @@ IIS 的對應做法不少，包含延遲啟動 (第一個 request 進來才啟�
 
 
 
-## STEP 4, 效能考量
+## THINK #4, 效能考量
 
 這邊我就不花太多篇幅說明了。簡單的說，IIS 負責了基本的 web server, 與額外提供的各種安全與管理的功能。整體來說，效能只會更差不會更好。我正好有找到一篇文章，雖然有點舊了，但是架構上就是說明 IIS vs SelfHosting 的 benchmark 差異，讓各位感受一下:
 
@@ -250,7 +250,7 @@ IIS 7 的數據我就不貼了，效能差異更大。在 IIS 8 的測試基準�
 
 
 
-## 1. 將 Web Project 改為 SelfHost 模式
+## STEP #1, 將 Web Project 改為 SelfHost 模式
 
 首先，我想在改動最小的前提下，另外一個 Self-Host 的 console application, 來啟動原本的 ASP.NET WebAPI project:
 
@@ -344,7 +344,7 @@ namespace System.Web.Http.Dispatcher
 
 
 
-## 2, 處理 "啟動" 與 "終止" 的動作
+## STEP #2, 處理 "啟動" 與 "終止" 的動作
 
 
 接下來就單純多了。既然都 SelfHost 自己處理了，我們就可以很精準的掌握到服務啟動與結束的時機了。原本的 SelfHost 長這樣:
@@ -373,7 +373,7 @@ class Program {
 不過實際的狀況下，你不可能要求 user 要先用 terminal 連進來按 ENTER 吧，我們需要更精準的偵測服務停止的事件。
 
 
-## 3, 處理系統關機的事件
+## STEP #3, 處理系統關機的事件
 
 目前服務是等 user 在 console 按下 ENTER 就結束了，實際部署的情況不會是這樣，大都是 orchestration 或是 op team 直接把這個 container 或是 process 砍掉。所以我們要花點功夫，去攔截 OS shutdown 的動作，取代掉原本的 Console.ReadLine() 。相關作法的討論，都在 [Tips: 在 .NET Console Application 中處理 Shutdown 事件]() 這篇有詳細的說明了，這邊就直接看 sample code:
 
@@ -576,6 +576,16 @@ class Program {
 
 不過，要特別注意的是，OS 對於 shutdown 的事件，不能保證可以給 application 無限制的時間去處理。超過一段時間，OS 仍有可能強制中斷每一個 application, 繼續進行 shutdown 的任務。我自己實際測試，最長大約有 10 sec 左右的時間可以運用。
 
+**NOTE (2018/05/20)**:
+> 這部分的不確定性很多，我自己測試就有好幾種不同的狀況，我還沒完全搞清楚，先記錄一下；有結論的話我會回頭更新那篇 Tips 的文章:  
+>
+> 1. 1709, docker stop 必須靠 hidden window 才能攔截的到, 如果用惡搞的方式 (在 WinProc 就撐著不回傳, 對 OS 而言應該是 no response 狀態) 最多可以爭取到 10 sec 的時間。
+> 2. 1803, docker stop 可以透過 SetConsoleCtrlHandler 攔的到 CTRL_SHUTDOWN_EVENT, 如果用惡搞的方式 (在 ShutdownHandler 就撐著不回傳, 對 OS 而言應該是 no response 狀態) 最多可以爭取到 5 sec 的時間。
+> 3. 如果不用下下策 (no response) 的方式，正常回報收到 signal 後接著處理，你用任何會讓 thread sleep 的方式，如 thread sleep, async task.wait(), 或是 ManualResetEvent.Wait() 之類的方式，都有很大的機率直接被 OS 砍掉，就直接不會醒來了。即使時間還沒到上限 5 sec (1803) 或是 10 sec (1709)。這時允許的時間短很多，大約 1 sec 左右就被砍掉了。用 busy waiting 的方式，或是用 SpinWait() 可以避開。
+> 4. 上面的時間極限，都跟 docker stop -t {timeout} 的設定完全無關。docker 預設 timeout 是 10 sec, 我調到 30 sec 測試都一樣
+> 5. windows 10 / server 版本無關, hyperv isolation 也沒有影響
+
+
 通常服務的運作模式都是，通知 service discovery 服務要終止之後，還會保留一段 buffer 時間，一方面讓已經受理的 request 能夠處理完畢，另一方面則是讓還沒能及時更新 service discovery 服務清單的 client, 有一點緩衝的時間。如果 client 端每秒會更新一次 list, 再配合上面提到的 10 sec 極限，那麼 service 端在 deregistry 後等個 5 sec 是個還蠻合理的設定。
 
 ```csharp
@@ -603,7 +613,7 @@ class Program {
 
 
 
-# STEP 3, Health Checking
+## STEP 4, Health Checking
 
 接下來，如果我期望服務運作過程中，能持續定期發送通知 (心跳訊號 heartbeats), 告知外部系統我還健在，我們仍然可以很容易的在這架構下插入這段 code (這邊只展示該擺在哪裡，實際配合 consul 的 health checking 請等下一篇)。這邊我在 register service 成功之後，就啟動一個獨立的 Task, 專門負責持續發送 heartbeats 訊號的任務。他會不斷偵測 ```bool stop``` 這個 flag, 直到 host 準備要停掉為止。
 
@@ -633,12 +643,16 @@ class Program {
 
 
 
-
-
-# STEP 4, DEMO
+## STEP 5, 整合
 
 
 ![](/wp-content/images/2018-05-12-msa-labs2-selfhost/2018-05-20-04-42-41.png)
+
+
+
+
+
+# DEMO
 
 
 
@@ -710,13 +724,13 @@ docker push wcshub.azurecr.io/ip2c.webapi.selfhost:demo
 
 之後就可以用這指令啟動 docker container, 按照這順序操作 container (每個指令之間請至少間隔 10 sec 以上)
 
-1. 下載 (如果是在別的 host 執行): docker pull wcshub.azurecr.io/ip2c.webapi.selfhost:demo
-1. 啟動: docker run -d --name demo wcshub.azurecr.io/ip2c.webapi.selfhost:demo
-1. 暫停 10 sec: powershell sleep 10
-1. 觀看 logs: docker logs -t demo
-1. 停止: docker stop demo
-1. 暫停 5 sec: powershell sleep 5
-1. 觀看 logs: docker logs -t demo
+1. 下載 (如果是在別的 host 執行): ```docker pull wcshub.azurecr.io/ip2c.webapi.selfhost:demo```
+1. 啟動: ```docker run -d --name demo wcshub.azurecr.io/ip2c.webapi.selfhost:demo```
+1. 暫停 10 sec: ```powershell sleep 10```
+1. 觀看 logs: ```docker logs -t demo```
+1. 停止:``` docker stop demo```
+1. 暫停 5 sec: ```powershell sleep 5```
+1. 觀看 logs: ```docker logs -t demo```
 
 我在幾種環境上測試過，結果都差不多，唯一的差異就在時間而已 (windows 10 因為只支援 hyper-v container, 啟動的時間慢了一些, 大約要 30 sec, 一般只要 5 sec 左右)。
 
@@ -831,4 +845,14 @@ C:\ip2c>docker logs -t demo
 2018-05-19T20:14:05.488915200Z DEMO:  Wait 5 sec and stop web self-host.
 ```
 
+離奇的是，1709 都是得靠 HiddenForm 才能攔截的到 shutdown message, 可是到 1803 反而就能透過 SetConsoleCtrlHandler 攔到 CTRL_SHUTDOWN_EVENT ... 攔到之後容許的處理時間也不大一樣，我的例子停了 5 sec 就沒辦法正長的收尾了，上面的 message 只看到 Wait 5 sec ... 卻沒看到 5 sec 後的 stopped 訊息。Microsoft 你的文件搞得我好亂啊... 不過 1803 還太新，寫這篇文章的當下 (2018/05/20) 還查不到任何官方文件的說明，這部分有進展我再更新文章。
+
 # 結論
+
+這篇拖的有點長，切成兩篇又難以把這主題交代清楚，總算告一段落。
+
+這篇要解決的，都是為了微服務化 + 容器化作準備；這篇探討到的問題，是所有使用 windows container + .net framework (not .net core), 同時還需要 webapi 的團隊一定會碰到的問題。我花了些時間先把 POC 的部份解決掉，這篇以讓各位能了解問題核心為主要目的。
+
+下一篇總算可以開始進入主題了，我會先把這篇說明的機制都抽象化成通用的 Web Host Framework, 直接以這為基礎，加入 Consul 的支援，讓你的每個服務都具備完善的 service discovery, health checking 與 configuration management 能力。
+
+相關的範例，我都放上 GitHub 了。範例我會持續更新，這篇文章用到的進度，請參考 Tags: SelfHost
