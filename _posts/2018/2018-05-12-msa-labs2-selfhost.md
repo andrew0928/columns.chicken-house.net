@@ -867,4 +867,4 @@ C:\ip2c>docker logs -t demo
 
 下一篇總算可以開始進入主題了，我會先把這篇說明的機制都抽象化成通用的 Web Host Framework, 直接以這為基礎，加入 Consul 的支援，讓你的每個服務都具備完善的 service discovery, health checking 與 configuration management 能力。
 
-相關的範例，我都放上 GitHub 了。範例我會持續更新，這篇文章用到的進度，請參考 Tags: SelfHost
+相關的範例，我都放上 GitHub 了。範例我會持續更新，這篇文章用到的進度，請參考: [3.2.0.0](https://github.com/andrew0928/IP2C.NET.Service/tree/3.2.0.0)
