@@ -104,6 +104,8 @@ registry, 以及負責確認這些服務健康狀態的 healthy check 機制。�
 
 那麼這種模式下，Load Balancing 通常是 Http Client 查詢服務的 end points 清單後，自己用自身的演算法，來從中挑選一個。好處是呼叫端可以用最大的彈性來自訂負載平衡的機制，包含如何挑選最適當的 end point 等等。有時對服務等級要求很高的時候 (比如 VIP 要求有專屬的服務集群，或是要有更精準的查詢方式等)，這個模式會更容易實作。
 
+透過這種做法，才有機會實作點對點的網狀通訊 (例如 service mesh 那樣的機制)。去中心化的通訊，可以避開單點 (API Gateway or Load Balancer) 造成的效能瓶頸，或是單點失敗造成可靠度下降等等的問題。
+
 容易自訂化是這個方式的優點，另外 http client 通常也會做成 library 或是 SDK 的型態，直接引用到你的開發專案內，實際執行時這部分是 in-process 的方式進行，語言間的整合程度最佳，執行效能也最佳，開發集除錯也容易，初期導入 service discovery 的團隊可以認真考慮這種模式。有很多輕量化的 service discovery 也都採用這種模式。
 
 
