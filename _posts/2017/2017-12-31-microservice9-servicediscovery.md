@@ -66,10 +66,10 @@ Service discovery 之所以重要，是因為它解決了 microservices 最關�
 
 來回顧一下，已經運行數十年的 DNS 有哪些不足的地方? 在微服務架構下，我們預期內部的各個服務，都採取高度動態的前提進行部署。也許隨著流量的變化，幾秒鐘之內就會有新的 instance 被啟動或是關閉，instance 的數量也可能從數十個到數千個不等。這種狀況下，DNS 無法有效的解決這幾個問題:
 
-1. **服務清單精確度問題** (DNS TTL 通常只到 hours / minutes 的等級)
+1. **服務清單精確度問題** (DNS TTL 通常只到 hours / minutes 的等級, 也缺乏服務資訊的描述, 如 domain name, ports, service tags or metadata 等等)
 1. **無法判定服務的健康狀況** (DNS 無法自動踢除當掉的 nodes, 沒有標準化的 healthy check 機制, 例如自動 ping each nodes)
 1. **無法精準的按照 loading 來分配 request** (DNS round robin 無法偵測 server loading)
-1. **只能靠 client 端自行挑選 service node** (DNS 無法代替客戶端進行 request forwarding)
+1. **只能靠 client 端自行挑選 service node** (DNS 無法代替客戶端進行 request forwarding, 必要時須搭配 load balancer or reverse proxy)
 
 其實要做到上述的需求，只靠 DNS 也太過苛求了。搭配其它對應的服務也許也能辦的到，但是你也必須額外花時間建設，或是開發專屬的功能才能解決。Service discovery 為了解決這些問題, 發展出了幾種常見的模式，我就按照文章介紹的順序來說明這幾種 service discovery patterns:
 
