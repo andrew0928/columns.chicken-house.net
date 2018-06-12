@@ -23,6 +23,8 @@ logo: /wp-content/images/2018-04-06-aspnet-msa-labs2-consul/how_would_you_solve_
 
 knowledge: 如何發現服務發現服務? 如何偵測健康偵測服務的健康狀態?
 
+knowledge: integration with legacy system (DNS or consul-template)
+
 case 1: basic scenario, multi instance
 
 
