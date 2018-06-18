@@ -55,7 +55,7 @@ API 呼叫次數的確是有現成的 solution 可以使用 (如: [Kong - API Ga
 
 解決問題的方式就是流量的管控，並且在超出額定範圍時能控制處理速度，讓已經受理的 request 能順利完成，暫時拒絕無法處理的 request，以求整體系統的可靠。這時就是斷路器 (circuit breaker) 的設計目的。不過這機制困難點不在於你要挑選什麼 framework 或是 service 來用，而是你是否有辦法精準的掌握你系統內的服務流量數據，並且有能力做好整合，進一步做到自動化調節服務量的機制?
 
-![](/wp-content/images/2018-06-10-interview03-throttle/2018-06-17-15-05-37.png)  
+![](/wp-content/images/2018-06-10-microservice10-throttle/2018-06-17-15-05-37.png)  
 
 出處: [防雪崩利器：熔斷器 Hystrix 的原理與使用](https://com-it.tech/archives/40703)
 
@@ -171,7 +171,7 @@ public abstract class ThrottleBase
 
 正好可以對照著看一下第一部份產生甚麼樣的 request:
 
-![](/wp-content/images/2018-06-10-interview03-throttle/2018-06-18-22-28-15.png)
+![](/wp-content/images/2018-06-10-microservice10-throttle/2018-06-18-22-28-15.png)
 
 以上，各位可以驗證一下是否符合來源流量的描述。接著我們就可以看看各種方式控制流量後的成果了。我這邊分別統計每秒鐘範圍內的這些數據，都會輸出到 CSV。輸出的統計數據共有這四個欄位:
 
@@ -183,7 +183,7 @@ public abstract class ThrottleBase
 
 這些數據，在前面兩部分的 code 都會不斷的累加 counter, 在這段 code 則會每秒讀出數據之後，reset counter 歸零重新統計。為了方便後續的整理，這邊我直接輸出成 CSV 的格式，我只要從 console 複製貼上就可以看到流量統計表 (如下例):
 
-![](/wp-content/images/2018-06-10-interview03-throttle/2018-06-17-16-39-14.png)
+![](/wp-content/images/2018-06-10-microservice10-throttle/2018-06-17-16-39-14.png)
 
 
 寫到這邊，萬事俱備! 接下來就等著看面試者的發揮了。不過這題其實有點難度，除了拿來面試 senior engineer 之外，也可以拿來內部開發團隊內部練習，互相比較與討論可能的做法，也有很簡易的方式 (excel) 可以看到實際的成果，可以比較各種做法的優缺點。
@@ -231,7 +231,7 @@ TotalRequests,SuccessRequests,FailRequests,ExecutedRequests,AverageExecuteTime
 
 statistic (chart):
 
-![](/wp-content/images/2018-06-10-interview03-throttle/2018-06-18-23-19-37.png)
+![](/wp-content/images/2018-06-10-microservice10-throttle/2018-06-18-23-19-37.png)
 
 
 
@@ -241,7 +241,7 @@ CounterThrottle 額定的流量限定在 500 RPS, 不過看跑出來的結果，
 
 我把設定範圍調整一下，改為 rate: 500, time window: 1 sec, 重新看一次執行結果:
 
-![](/wp-content/images/2018-06-10-interview03-throttle/2018-06-18-23-15-58.png)
+![](/wp-content/images/2018-06-10-microservice10-throttle/2018-06-18-23-15-58.png)
 
 藉由縮小 time window, 得到的結果稍為平緩了一些。不過還是可以看到波動的幅度很大，難以預測跟控制。如果你有選購過 UPS 你就知道，這樣的凸波會害死後面的機器.. XD
 
@@ -301,11 +301,11 @@ CounterThrottle 額定的流量限定在 500 RPS, 不過看跑出來的結果，
 
 修正過的做法，我一樣採用指定速率: rate = 500, time window = 5 sec, 以下是跑出來的結果, 流量控制的波動幅度穩定一些:
 
-![](/wp-content/images/2018-06-10-interview03-throttle/2018-06-18-23-25-26.png)
+![](/wp-content/images/2018-06-10-microservice10-throttle/2018-06-18-23-25-26.png)
 
 一樣做個對照組，改用 rate = 500, time window = 1 sec:
 
-![](/wp-content/images/2018-06-10-interview03-throttle/2018-06-18-23-28-55.png)
+![](/wp-content/images/2018-06-10-microservice10-throttle/2018-06-18-23-28-55.png)
 
 
 結論: 這個做法雖然較 (1) CounterThrottle 來的好一些，但是我認為只有做到 "改良" 的程度而已。基本上只靠 counter 的限制還是存在。我單純只是延續前一篇文章的內容，順便驗證一下改善的效果。如果真正在面試的場景下，面試者提出這個 solution, 我仍然會把他歸類在 engineer 的層級。技術使用上較為精進，不過還沒有很到位的解決這個需求，仍有改進的空間。
@@ -400,12 +400,12 @@ CounterThrottle 額定的流量限定在 500 RPS, 不過看跑出來的結果，
 
 rate: 500, time window: 5 sec
 
-![](/wp-content/images/2018-06-10-interview03-throttle/2018-06-18-23-37-24.png)
+![](/wp-content/images/2018-06-10-microservice10-throttle/2018-06-18-23-37-24.png)
 
 
 rate: 500, time window: 1 sec
 
-![](/wp-content/images/2018-06-10-interview03-throttle/2018-06-18-23-40-46.png)
+![](/wp-content/images/2018-06-10-microservice10-throttle/2018-06-18-23-40-46.png)
 
 
 實際上，Leaky Bucket 的原理，就是中間設置一個 Queue 當做緩衝，只是這個 Queue 的大小是有限的 (就是桶子的大小)。能夠進的了 Queue, 你的 Request 就能保證在一定時間內能被處理 (time window)。由於處理 Request 的部分被 Queue 隔離保護得很好，因此幾乎可以用完美穩定的速率來處理 request。
@@ -518,12 +518,12 @@ rate: 500, time window: 1 sec
 
 rate: 500, time window: 5 sec
 
-![](/wp-content/images/2018-06-10-interview03-throttle/2018-06-18-23-46-56.png)
+![](/wp-content/images/2018-06-10-microservice10-throttle/2018-06-18-23-46-56.png)
 
 
 rate: 500, time window: 1 sec
 
-![](/wp-content/images/2018-06-10-interview03-throttle/2018-06-18-23-49-51.png)
+![](/wp-content/images/2018-06-10-microservice10-throttle/2018-06-18-23-49-51.png)
 
 
 
