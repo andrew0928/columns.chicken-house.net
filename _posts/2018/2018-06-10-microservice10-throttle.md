@@ -202,7 +202,7 @@ public class DummyThrottle : ThrottleBase
 
 
 
-# 解法 1, ```CounterThrottle```
+# 解法 1, CounterThrottle
 
 絕大部分的人，拿到這個題目，大概就是很直覺的分析題目的語意吧! 既然是限制單位時間內的總處理量，那我就設置一個 counter, 每隔固定時間就 reset 歸零。處理過程中只要 counter 不超過上限即可。於是就有第一版 ```CounterThrottle``` 出現了:
 
