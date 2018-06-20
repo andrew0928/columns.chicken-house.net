@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "微服務基礎建設: 服務負載的控制"
+title: "微服務基礎建設: 斷路器 #1, 服務負載的控制"
 categories:
 - "系列文章: .NET + Windows Container, 微服務架構設計"
 - "系列文章: 架構師觀點"
