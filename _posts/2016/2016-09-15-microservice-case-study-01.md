@@ -24,7 +24,7 @@ logo: /wp-content/uploads/2016/09/stateless-authentication-for-microservices-12-
 這次 session 時間只有 40 分鐘，相當有限... 最後當然是略過了很多細節，我決定把重點擺在 microservices, 而實際的案例則用 container 來展示。
 我用的是 asp.net (mvc) project, 因此也特地照顧了較少接觸 open source 資源的 windows developer 族群，demo 採用 windows container。
 
-我準被的內容，包含 demo, 若是要講個 4hr 也是夠講的... XD，裡面其實太多細節跟經驗值得分享的。既然當天的場子講不完，我就整理一下用文字的
+我準備的內容，包含 demo, 若是要講個 4hr 也是夠講的... XD，裡面其實太多細節跟經驗值得分享的。既然當天的場子講不完，我就整理一下用文字的
 方式在這邊分享吧。這 session 主要的對象，我定位在已是有經驗的 .net developer, 但是不熟悉 microservice / container 技術的人。這樣的族群
 在台灣企業其實還蠻多的... 我會分成這幾個章節，預計會分成三篇文章來說明:
 
