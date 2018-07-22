@@ -1,9 +1,9 @@
-FROM jekyll/jekyll
+FROM jekyll/jekyll:3.8.1
 
 WORKDIR /home
-RUN mkdir columns.chicken-house.net
-# RUN git clone --branch draft https://github.com/andrew0928/columns.chicken-house.net
-
+# RUN mkdir columns
+RUN git clone --branch develop https://github.com/andrew0928/columns.chicken-house.net columns
+RUN chmod 777 columns
 
 WORKDIR /srv/jekyll
 
