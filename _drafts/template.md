@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "TEMPLATE POST"
+title: "TEMPLATE POST 01"
 categories:
 tags: []
 published: false
