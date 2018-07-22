@@ -1,0 +1,13 @@
+FROM jekyll/jekyll
+
+WORKDIR /home
+RUN mkdir columns.chicken-house.net
+# RUN git clone --branch draft https://github.com/andrew0928/columns.chicken-house.net
+
+
+WORKDIR /srv/jekyll
+
+
+# ENTRYPOINT [ "jekyll", "s", "--watch", "--draft", "00incremental", "--source", "/home/columns.chicken-house.net", "--destination", "/tmp", "--unpublished" ]
+
+ENTRYPOINT [ "ping", "127.0.0.1" ]
