@@ -30,6 +30,8 @@ case 1: basic scenario, multi instance
 
 case 2: different service level (normal vs VIP)
 
+case 3: isolate failed service
+
 
 case 3: A/B test
 
