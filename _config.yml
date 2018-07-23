@@ -75,8 +75,10 @@ lsi: false
 quiet: false
 excerpt_separator: <!--more-->
 permalink: /:year/:month/:day/:slug/
-gems:
-    - jekyll-github-metadata
+
+# gems:
+plugins:
+#    - jekyll-github-metadata
     - rouge
 #     - jekyll-html-pipeline
     - jekyll-paginate
