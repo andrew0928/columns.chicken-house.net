@@ -1,17 +1,18 @@
 FROM jekyll/jekyll:3.8.1
 
 WORKDIR /home
-RUN mkdir columns
-# RUN git clone --branch develop https://github.com/andrew0928/columns.chicken-house.net columns
-RUN chmod 777 columns
+RUN mkdir source
+# RUN touch .jekyll-metadata
+# RUN git clone --branch develop https://github.com/andrew0928/columns.chicken-house.net source
+RUN chmod -R 777 source
 
-WORKDIR /home/columns
+WORKDIR /home/source
 RUN git init
 RUN git remote add origin https://github.com/andrew0928/columns.chicken-house.net
+RUN git pull origin develop
 
 WORKDIR /srv/jekyll
 
 
-# ENTRYPOINT [ "jekyll", "s", "--watch", "--draft", "--incremental", "--source", "/home/columns", "--destination", "/tmp", "--unpublished" ]
-
-ENTRYPOINT [ "ping", "127.0.0.1" ]
+ENTRYPOINT [ "jekyll", "s", "--watch", "--drafts", "--incremental", "--source", "/home/source", "--destination", "/tmp", "--unpublished" ]
+# ENTRYPOINT [ "ping", "127.0.0.1" ]
