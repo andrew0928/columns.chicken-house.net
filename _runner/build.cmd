@@ -11,7 +11,9 @@ docker build -t andrew0928/columns:%IMAGE_TAG% -t wcshub.azurecr.io/columns:%IMA
 : docker push andrew0928/columns:%IMAGE_TAG%
 docker push wcshub.azurecr.io/columns:%IMAGE_TAG%
 
-: docker run --name %CONTAINER_NAME% -d -p 4000:4000 andrew0928/columns:%IMAGE_TAG%
+: docker run --name %CONTAINER_NAME% -d -p 4000:4000 wcshub.azurecr.io/columns:%IMAGE_TAG%
+
+
 : docker run --name %CONTAINER_NAME% -d -p 4000:4000 --entrypoint jekyll andrew0928/columns:%IMAGE_TAG%  s --watch --drafts --incremental --source /home/source --destination /tmp --unpublished
 
 
