@@ -1,15 +1,19 @@
 FROM jekyll/jekyll:3.8.1
 
-WORKDIR /home
-RUN mkdir source
-# RUN touch .jekyll-metadata
-# RUN git clone --branch develop https://github.com/andrew0928/columns.chicken-house.net source
-RUN chmod -R 777 source
+ARG GIT_URL
+ARG GIT_BRANCH=master
 
-WORKDIR /home/source
-RUN git init
-RUN git remote add origin https://github.com/andrew0928/columns.chicken-house.net
-RUN git pull origin develop
+WORKDIR /home
+
+RUN git clone --branch $GIT_BRANCH $GIT_URL source; chmod -R 777 source;
+
+# RUN mkdir source; chmod -R 777 source;
+# RUN git clone --branch develop https://github.com/andrew0928/columns.chicken-house.net source
+
+# WORKDIR /home/source
+# RUN git init; git remote add origin $GIT_URL;
+# RUN git pull origin master;
+
 
 WORKDIR /srv/jekyll
 
