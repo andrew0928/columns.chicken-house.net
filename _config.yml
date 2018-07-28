@@ -76,16 +76,17 @@ quiet: false
 excerpt_separator: <!--more-->
 permalink: /:year/:month/:day/:slug/
 
-# gems:
-plugins:
-#    - jekyll-github-metadata
+gems: 
+    - jekyll-paginate
+plugins_dir:
     - rouge
-#     - jekyll-html-pipeline
     - jekyll-paginate
     - jekyll-redirect-from
     - jekyll-sitemap
     - jekyll-feed
     - jemoji
+#    - jekyll-github-metadata
+#     - jekyll-html-pipeline
 #     - jekyll-mentions
 collections:
     wiki:
