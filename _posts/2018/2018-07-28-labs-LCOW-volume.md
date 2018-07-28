@@ -26,12 +26,36 @@ logo:
 
 測試結果我列成這張表:
 
-|  |volume -> volume|volume -> container|container -> container|
+|   |volume -> volume|volume -> container|container -> container|
 |:--|----------------:|-------------------:|----------------------:|
-|Linux Container On Windows| (#1), ---- |(#2),135.493s|(#3),12.86s|
-|Docker for Windows|(#4),120.368s|(#5),35.763s|(#6),12.11s|
+|LCOW| (#1), 無法測試 |(#2),135.493s|(#3),12.86s|
+|Docker|(#4),120.368s|(#5),35.763s|(#6),12.11s|
+
 
 其中比較特別的，是測試環境 #1, LCOW (volume -> volume) 這個測試。同一個 docker image, 理論上執行環境應該都是一樣的才對，但是在 LCOW 上面卻跑到一半就有錯誤訊息，試了不下數十次，每次都停在不同的檔案無法寫入的問題上。同時 volume -> container 的這組測試，兩種 container engine 表現出來的效能差異也頗大，令我訝異。看來兩種 engine 對於跨越 windows host -> linux host 之間的 volume 處理方式差異很大，不但對效能有影響，而且看來也對大量 I/O 下的某些行為 (我猜是 file lock release 時機之類的差異?) 也有不同，導致這些落差。
+
+不過這些落差，影響我每次改完 code 要等多久才能預覽結果啊! 12sec 的落差我可以接受，135sec 這種就完全不行啊! 可是 LCOW 對我而言方便一些，因為我主要都是用 windows container 居多，能用 LCOW 的話我就不用一直切換了，我可以同時使用 windows 跟 linux 的 container。
+
+因此，我決定繼續挖下去。我大概還沒什麼本事挖出真正的原因，不過我至少可以透過實驗，更精準的掌握差異點吧? 所以我就繼續進行了 LAB2, 直接用 disk benchmark 的工具下手，試著比較一下不同的執行環境，對於 container I/O 效能的差距。
+
+
+
+# LAB2, 不同組態下 container 的 I/O 效率
+
+
+
+
+
+
+
+
+# 結論
+
+
+
+
+
+# 附錄: LAB1 實驗結果
 
 
 ## 測試網站: 安德魯的部落格
