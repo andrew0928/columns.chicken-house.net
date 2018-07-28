@@ -75,9 +75,8 @@ lsi: false
 quiet: false
 excerpt_separator: <!--more-->
 permalink: /:year/:month/:day/:slug/
-
-#gems: jekyll-paginate
-plugins:
+gems: jekyll-paginate
+plugins_dir:
     - rouge
     - jekyll-paginate
     - jekyll-redirect-from

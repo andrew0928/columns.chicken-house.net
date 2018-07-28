@@ -15,41 +15,33 @@ logo:
 
 # LAB1, 測試不同環境下 jekyll 建置時間
 
-我決定改掉過去都會講一堆故事的習慣了，這次直接從結果開始看。我測試的標的，就用我自己的部落格，用 Jekyll 官方的 [docker image](https://hub.docker.com/r/jekyll/jekyll/):2.4.0。我把簡單的測試條件先列一下:
+我決定改掉過去都會講一堆故事的習慣了，這次直接從結果開始看。我測試的標的，就用我自己的部落格，用 Jekyll 官方的 [docker image](https://hub.docker.com/r/jekyll/jekyll/):2.4.0。測試的紀錄跟數據有點囉嗦，我列在這段的最後面，有興趣的讀者們再去看就好。我直接先來解讀 LAB1 的測試結果。
 
-測試網站: 安德魯的部落格 (https://github.com/andrew0928/columns.chicken-house.net)
-----
+測試的方式很簡單，同樣的 Jekyll 官方版本 docker image, 我分別用 docker for windows 與 LCOW (linux container on windows) 兩種環境，並且把 source 與 destination 分別放在 volume 與 container 內部測試。我測試了這三種組態:
+1. source 擺在 volume, destination 擺在 volume
+1. source 擺在 volume, destination 擺在 container
+1. source 擺在 container, destination 擺在 container
+
+這樣安排的目的，就是先前踩了一堆雷之後，我想觀察不同的 container engine 對於不同的 storage 處理方式，對 Jekyll build website 的效能差異到底有多大?
+
+測試結果我列成這張表:
+
+|  |volume -> volume|volume -> container|container -> container|
+|:--|----------------:|-------------------:|----------------------:|
+|Linux Container On Windows| (#1), ---- |(#2),135.493s|(#3),12.86s|
+|Docker for Windows|(#4),120.368s|(#5),35.763s|(#6),12.11s|
+
+其中比較特別的，是測試環境 #1, LCOW (volume -> volume) 這個測試。同一個 docker image, 理論上執行環境應該都是一樣的才對，但是在 LCOW 上面卻跑到一半就有錯誤訊息，試了不下數十次，每次都停在不同的檔案無法寫入的問題上。同時 volume -> container 的這組測試，兩種 container engine 表現出來的效能差異也頗大，令我訝異。看來兩種 engine 對於跨越 windows host -> linux host 之間的 volume 處理方式差異很大，不但對效能有影響，而且看來也對大量 I/O 下的某些行為 (我猜是 file lock release 時機之類的差異?) 也有不同，導致這些落差。
+
+
+## 測試網站: 安德魯的部落格
+* repo:        https://github.com/andrew0928/columns.chicken-house.net
 * repo 大小:   549mb, 4778 files
 * source 大小: 278mb, 3604 files
 * 文章大小:    308 篇 (.md 跟 .html), 共 3.12mb
 
+## 測試環境 #1: LCOW (volume -> volume)
 
-測試環境 #1: LCOW
-----
-* Image:  Jekyll 2.4.0
-* Source: volume
-* Destnation: container
-* Build Time:  135.493 sec
-
-Logs:
-```log
-ruby 2.5.1p57 (2018-03-29 revision 63029) [x86_64-linux-musl]
-Configuration file: /srv/jekyll/_config.yml
-Configuration file: /srv/jekyll/_config.yml
-       Deprecation: You appear to have pagination turned on, but you haven't included the `jekyll-paginate` gem. Ensure you have `gems: [jekyll-paginate]` in your configuration file.
-            Source: /srv/jekyll
-       Destination: /tmp
- Incremental build: enabled
-      Generating...
-                    done in 135.493 seconds.
- Auto-regeneration: enabled for '/srv/jekyll'
-Configuration file: /srv/jekyll/_config.yml
-    Server address: http://0.0.0.0:4000/
-  Server running... press ctrl-c to stop.
-```
-
-測試環境 #2: LCOW
-----
 * Image:  Jekyll 2.4.0
 * Source: volume
 * Destnation: volume
@@ -78,8 +70,34 @@ jekyll 3.4.3 | Error:  Operation not permitted @ apply2files - /srv/jekyll/_site
 ...
 ```
 
-測試環境 #3: LCOW
-----
+
+## 測試環境 #2: LCOW (volume -> container)
+
+* Image:  Jekyll 2.4.0
+* Source: volume
+* Destnation: container
+* Build Time:  135.493 sec
+
+Logs:
+```log
+ruby 2.5.1p57 (2018-03-29 revision 63029) [x86_64-linux-musl]
+Configuration file: /srv/jekyll/_config.yml
+Configuration file: /srv/jekyll/_config.yml
+       Deprecation: You appear to have pagination turned on, but you haven't included the `jekyll-paginate` gem. Ensure you have `gems: [jekyll-paginate]` in your configuration file.
+            Source: /srv/jekyll
+       Destination: /tmp
+ Incremental build: enabled
+      Generating...
+                    done in 135.493 seconds.
+ Auto-regeneration: enabled for '/srv/jekyll'
+Configuration file: /srv/jekyll/_config.yml
+    Server address: http://0.0.0.0:4000/
+  Server running... press ctrl-c to stop.
+```
+
+
+## 測試環境 #3: LCOW (container -> container)
+
 * Image:  Jekyll 2.4.0
 * Source: container
 * Destnation: container
@@ -101,8 +119,8 @@ Configuration file: /tmp/source/_config.yml
 
 
 
-測試環境 #4: Docker for Windows
-----
+## 測試環境 #4: Docker for Windows
+
 * Image:  Jekyll 2.4.0
 * Source: volume
 * Destnation: volume
@@ -126,8 +144,8 @@ Configuration file: /srv/jekyll/_config.yml
 
 
 
-測試環境 #5: Docker for Windows
-----
+## 測試環境 #5: Docker for Windows
+
 * Image:  Jekyll 2.4.0
 * Source: volume
 * Destnation: container
@@ -152,8 +170,8 @@ Configuration file: /srv/jekyll/_config.yml
 
 
 
-測試環境 #6: Docker for Windows
-----
+## 測試環境 #6: Docker for Windows
+
 * Image:  Jekyll 2.4.0
 * Source: container
 * Destnation: container
