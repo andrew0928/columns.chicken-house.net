@@ -88,7 +88,7 @@ of=volume: 寫入由 host local disk 掛載進 container 使用的 volume
 測試結果:
 
 |platform|isolation|to container|to volume|
-
+|--------|---------|------------|---------|
 |windows|none|--|1.5673|
 |windows|process|1.5724|1.6365|
 |windows|hyperv|5.9010|2.2083|
@@ -100,12 +100,12 @@ of=volume: 寫入由 host local disk 掛載進 container 使用的 volume
 # LAB2-3, Azure D4S (Linux VM, Windows Server 1803 VM)
 
 |platform|isolation|to container|to volume|
-
+|--------|---------|------------|---------|
 |windows|none|--|2.1890|
 |windows|process|2.0567|2.1264|
 |windows|hyperv|66.8226|3.3977|
 |linux|hyperv|52.5351|59.9209|
-
+|||||
 |linux|none|--|6.3952|
 |linux|process|6.5074|6.5207|
 
