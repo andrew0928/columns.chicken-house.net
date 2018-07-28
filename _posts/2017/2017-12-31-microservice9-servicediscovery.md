@@ -66,10 +66,10 @@ Service discovery 之所以重要，是因為它解決了 microservices 最關�
 
 來回顧一下，已經運行數十年的 DNS 有哪些不足的地方? 在微服務架構下，我們預期內部的各個服務，都採取高度動態的前提進行部署。也許隨著流量的變化，幾秒鐘之內就會有新的 instance 被啟動或是關閉，instance 的數量也可能從數十個到數千個不等。這種狀況下，DNS 無法有效的解決這幾個問題:
 
-1. **服務清單精確度問題** (DNS TTL 通常只到 hours / minutes 的等級)
+1. **服務清單精確度問題** (DNS TTL 通常只到 hours / minutes 的等級, 也缺乏服務資訊的描述, 如 domain name, ports, service tags or metadata 等等)
 1. **無法判定服務的健康狀況** (DNS 無法自動踢除當掉的 nodes, 沒有標準化的 healthy check 機制, 例如自動 ping each nodes)
 1. **無法精準的按照 loading 來分配 request** (DNS round robin 無法偵測 server loading)
-1. **只能靠 client 端自行挑選 service node** (DNS 無法代替客戶端進行 request forwarding)
+1. **只能靠 client 端自行挑選 service node** (DNS 無法代替客戶端進行 request forwarding, 必要時須搭配 load balancer or reverse proxy)
 
 其實要做到上述的需求，只靠 DNS 也太過苛求了。搭配其它對應的服務也許也能辦的到，但是你也必須額外花時間建設，或是開發專屬的功能才能解決。Service discovery 為了解決這些問題, 發展出了幾種常見的模式，我就按照文章介紹的順序來說明這幾種 service discovery patterns:
 
@@ -103,6 +103,8 @@ registry, 以及負責確認這些服務健康狀態的 healthy check 機制。�
 ## 優點:
 
 那麼這種模式下，Load Balancing 通常是 Http Client 查詢服務的 end points 清單後，自己用自身的演算法，來從中挑選一個。好處是呼叫端可以用最大的彈性來自訂負載平衡的機制，包含如何挑選最適當的 end point 等等。有時對服務等級要求很高的時候 (比如 VIP 要求有專屬的服務集群，或是要有更精準的查詢方式等)，這個模式會更容易實作。
+
+透過這種做法，才有機會實作點對點的網狀通訊 (例如 service mesh 那樣的機制)。去中心化的通訊，可以避開單點 (API Gateway or Load Balancer) 造成的效能瓶頸，或是單點失敗造成可靠度下降等等的問題。
 
 容易自訂化是這個方式的優點，另外 http client 通常也會做成 library 或是 SDK 的型態，直接引用到你的開發專案內，實際執行時這部分是 in-process 的方式進行，語言間的整合程度最佳，執行效能也最佳，開發集除錯也容易，初期導入 service discovery 的團隊可以認真考慮這種模式。有很多輕量化的 service discovery 也都採用這種模式。
 

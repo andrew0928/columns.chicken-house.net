@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "微服務基礎建設: 服務負載的控制"
+title: "微服務基礎建設: 斷路器 #1, 服務負載的控制"
 categories:
 - "系列文章: .NET + Windows Container, 微服務架構設計"
 - "系列文章: 架構師觀點"
@@ -42,7 +42,7 @@ logo: /wp-content/images/2018-06-10-microservice10-throttle/2018-06-20-02-02-17.
 
 API 呼叫次數的確是有現成的 solution 可以使用 (如: [Kong - API Gateway](https://getkong.org/plugins/rate-limiting/), 或是 [NGINX Rate Limiting](https://www.nginx.com/blog/rate-limiting-nginx/))，但是如果 developer 對這類問題完全沒概念的話，業務上的需求稍微變化一下就完蛋了。舉例來說，如果客戶要求 "下單時要限制某類商品每一小時最多能出貨 1000 件，超過的話就不接單"，或是高速公路的匝道管制系統要求 "快速道路只能乘載每小時通過 5000 人次，超過的話必須在匝道限制上快速到路"，這種需求你還能靠現成的 API Gateway 幫你搞定嗎?
 
-這是個高度整合的時代，這世界什麼都在整合，developer 有這種能力的話在這個年代才會有價值。重新發明輪子也許是件蠢事，你可以不用自己發明所有的輪子。但是一旦有必要時，你一定要有能力做這件事。因此最好的方式是，碰到任何需求，即使有現成的解決方案可用，你都應該把握機會，先在腦袋裡 run 過一次。對 developer 來說，知道怎麼做是最重要的，剩下的只是時間跟資源的問題。
+這是個高度整合的時代，這世界什麼都在整合，developer 有這種能力的話在這個年代才會有價值。重新發明輪子也許是件蠢事，你可以不用自己發明所有的輪子。但是一旦有必要時，你一定要有能力做這件事。如果 Steven Jobs 當年不試著自己 "重新定義" 手機的使用方式，直接採用現成成熟的元件來組裝手機，那是不會有現在的 iPhone 問世的。Apple 逐步自己重新發明每個基礎元件 (CPU, OS, 周邊...), 為的就是更高度的整合，才能有更好的體驗。因此最好的方式是，碰到任何需求，即使有現成的解決方案可用，你都應該把握機會，先在腦袋裡 run 過一次。對 developer 來說，知道怎麼做是最重要的，剩下的只是時間跟資源的問題，即使有必要重新發明輪子你也知道該怎麼進行。
 
 另一個角度來看，所有 infra 的 solution，都是過去的經驗與需求累積起來的，所以才會是個 "成熟" 的 solution (這些 solution 的 code 其實也是某個 developer 寫出來的啊 XDDD)。整個演進過程通常是用 "年" 為單位的；碰到棘手的問題你可以 "等待" 現成的方案，但是你可能錯失先機，就算等到那個時候，可能競爭對手也搞的定了。不試著去解決還沒有現成 solution 的問題，你可能就錯失掉成長的機會了。我會希望 developer 都該要知道這類問題怎麼處理才洽當。知道之後當然可以盡可能去找現有的 solution, 但是永遠要做好最壞的打算:
 
@@ -195,14 +195,178 @@ public class DummyThrottle : ThrottleBase
 
 寫到這邊，萬事俱備! 接下來就等著看面試者的發揮了。不過這題其實有點難度，你可以拿來用在內部的教育訓練，或是內部面試篩選能處理這些問題的人員，也可以拿來面試 senior engineer。搭配 EXCEL 很容易視覺化執行的結果，因此也很適合拿來做 POC 跟討論評估各種做法的優缺點。
 
-這樣的討論方式，可以讓團隊在最短的時間內，花費最少的資源，就能評估做法是否適合。
+這樣的討論方式，可以讓團隊在最短的時間內，花費最少的資源，就能評估做法是否適合。這段落的最後，我放一下完整的 test console 程式碼，有興趣的朋友們可以仔細瞧瞧:
+
+```csharp
+
+static void Main(string[] args)
+{
+    ThrottleBase t =
+        //new DummyThrottle(500);
+        //new CounterThrottle(500, TimeSpan.FromSeconds(5));
+        //new CounterThrottle(500, TimeSpan.FromSeconds(1));
+        //new StatisticEngineThrottle(500, TimeSpan.FromSeconds(5));
+        //new StatisticEngineThrottle(500, TimeSpan.FromSeconds(1));
+        //new LeakyBucketThrottle(500, TimeSpan.FromSeconds(5));
+        //new LeakyBucketThrottle(500, TimeSpan.FromSeconds(1));
+        //new TokenBucketThrottle(500, TimeSpan.FromSeconds(5));
+        new TokenBucketThrottle(500, TimeSpan.FromSeconds(1));
+
+
+    int statistic_success = 0;
+    int statistic_fail = 0;
+
+    int statistic_execute = 0;
+    long statistic_executeTime = 0;
+
+    //
+    //  製造 (平均) 200qps 穩定的流量
+    //  產生多個 threads, 用穩定的速度 (會加上亂數打散) 產生 request(s), 交給 throttle 處理。
+    //
+    List<Thread> threads = new List<Thread>();
+    bool stop = false;
+    bool idle = false;
+    for (int i = 0; i < 30; i++)
+    {
+        Thread thread = new Thread(() =>
+        {
+            Random rnd = new Random();
+            while (stop == false)
+            {
+                Stopwatch _timer = new Stopwatch();
+                _timer.Start();
+
+                if (idle)
+                {
+
+                }
+                else if (t.ProcessRequest(1, ()=> { Interlocked.Increment(ref statistic_execute); Interlocked.Add(ref statistic_executeTime, _timer.ElapsedMilliseconds); }))
+                {
+                    Interlocked.Increment(ref statistic_success);
+                }
+                else
+                {
+                    Interlocked.Increment(ref statistic_fail);
+                }
+                Thread.Sleep(rnd.Next(100));
+            }
+        });
+        thread.Start();
+        threads.Add(thread);
+    }
+
+
+    //
+    //
+    //  製造 peek 的流量 (約 700 ~ 100 qps)
+    //  產生1個 threads, 每隔 17 sec, 就有 2 sec 會產生大量 request 交給 throttle 處理。用以測試尖峰流量的處理效果。
+    //
+    {
+        Thread thread = new Thread(() =>
+        {
+            Stopwatch timer = new Stopwatch();
+            while (stop == false)
+            {
+                timer.Restart();
+                while (timer.ElapsedMilliseconds < 2000)
+                {
+                    Stopwatch _timer = new Stopwatch();
+                    _timer.Start();
+
+                    if (idle)
+                    {
+
+                    }
+                    else if (t.ProcessRequest(1, () => { Interlocked.Increment(ref statistic_execute); Interlocked.Add(ref statistic_executeTime, _timer.ElapsedMilliseconds); }))
+                    {
+                        Interlocked.Increment(ref statistic_success);
+                    }
+                    else
+                    {
+                        Interlocked.Increment(ref statistic_fail);
+                    }
+                    Thread.Sleep(1);
+                    //SpinWait.SpinUntil(() => false, 5);
+                }
+                Task.Delay(15000).Wait();
+            }
+        });
+        thread.Start();
+        threads.Add(thread);
+    }
+
+    //
+    //  製造離峰的流量, 每 21 秒約 3 秒沒有任何流量
+    //
+    {
+        Thread thread = new Thread(() =>
+        {
+            Stopwatch timer = new Stopwatch();
+            while (stop == false)
+            {
+                idle = true;
+                timer.Restart();
+                SpinWait.SpinUntil(() => timer.ElapsedMilliseconds >= 3000);
+                idle = false;
+
+                Task.Delay(18000).Wait();
+            }
+        });
+        thread.Start();
+        threads.Add(thread);
+    }
+
+    //
+    //  產生一個 thread, 定期每秒分別統計:
+    //  0. 所有發出的 request 總數 => (1) + (2)
+    //  1. 成功受理的 request 總數
+    //  2. 拒絕受理的 request 總數
+    //  3. 已執行的 request 總數
+    //
+    {
+        Thread thread = new Thread(() =>
+        {
+            Console.WriteLine($"TotalRequests,SuccessRequests,FailRequests,ExecutedRequests,AverageExecuteTime");
+            while (stop == false)
+            {
+                //Console.WriteLine("{0} per sec", Interlocked.Exchange(ref statistic_success, 0));
+
+                int success = Interlocked.Exchange(ref statistic_success, 0);
+                int fail = Interlocked.Exchange(ref statistic_fail, 0);
+                int exec = Interlocked.Exchange(ref statistic_execute, 0);
+                long exectime = Interlocked.Exchange(ref statistic_executeTime, 0);
+
+                double avgExecTime = 0;
+                if (exec > 0) avgExecTime = 1.0D * exectime / exec;
+
+                Console.WriteLine($"{success+fail},{success},{fail},{exec},{avgExecTime}");
+                Task.Delay(1000).Wait();
+            }
+        });
+        thread.Start();
+        threads.Add(thread);
+    }
+
+
+    Thread.Sleep(1000 * 120);
+    Console.WriteLine("Shutdown...");
+
+    stop = true;
+
+    foreach(Thread thread in threads)
+    {
+        thread.Join();
+    }
+}
+
+```
 
 
 
 
 
 
-# 解法 1, ```CounterThrottle```
+# 解法 1, CounterThrottle
 
 絕大部分的人，拿到這個題目，大概就是很直覺的分析題目的語意吧! 既然是限制單位時間內的總處理量，那我就設置一個 counter, 每隔固定時間就 reset 歸零。處理過程中只要 counter 不超過上限即可。於是就有第一版 ```CounterThrottle``` 出現了:
 
@@ -300,7 +464,7 @@ statistic (chart):
 
 上個做法主要的缺點，在於每個 time window 之間有明顯的分界。例如 0 ~ 5 sec 之間是一個段落，6 ~ 10 sec 又是一個段落。每個段落是獨立統計的，因此很容易在兩個段落的交界處發生爆量的情況。很極端的狀況下，交界處可能在一瞬間 (ex: 0.1 sec) 把兩個段落的所有額度 ( 5 sec x 500 rps x 2 = 5000 requests ) 用光，造成瞬間巨量。這就違背了我們限制服務量的用意了。
 
-還記得之前那篇 []() 嗎? 這篇探討的就是如何讓這種時間區段能夠 "平滑" 的統計? 不是 0 ~ 5 sec, 6 ~ 10 sec 這樣，而是 5 sec 那瞬間可以統計 0 ~ 5 sec 之間的資料，而 5.1 sec 則可以統計 0.1 sec ~ 5.1 sec 之間的資料。這個版本就是拿那篇文章講到的 sample code (我就不再拿分散是版本了，我直接拿單機版本 ```InMemoryEngine``` 來使用)。這種方法改善了 CounterThrottle 不夠 "平滑" 的問題，我們可以更精準的統計長時間的累計資料。
+還記得之前那篇 [架構面試題 #2, 連續資料的統計方式](/2018/04/01/interview02-stream-statistic/) 嗎? 這篇探討的就是如何讓這種時間區段能夠 "平滑" 的統計? 不是 0 ~ 5 sec, 6 ~ 10 sec 這樣，而是 5 sec 那瞬間可以統計 0 ~ 5 sec 之間的資料，而 5.1 sec 則可以統計 0.1 sec ~ 5.1 sec 之間的資料。這個版本就是拿那篇文章講到的 sample code (我就不再拿分散是版本了，我直接拿單機版本 ```InMemoryEngine``` 來使用)。這種方法改善了 CounterThrottle 不夠 "平滑" 的問題，我們可以更精準的統計長時間的累計資料。
 
 直接看程式碼:
 

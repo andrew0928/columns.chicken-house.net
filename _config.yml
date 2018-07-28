@@ -14,7 +14,7 @@ keywords: .NET,C#,OOP,Azure,Docker,Windows Container,Container,Microservices
 favicon: 
 timezone: Asia/Taipei
 encoding: "utf-8"
-side_bar_repo_limit: 5
+# side_bar_repo_limit: 5
 
 # ---------------- #
 #      Author      #
@@ -50,9 +50,9 @@ navs:
 #    href: /links/
 #    label: Links
 
-  -
-    href: /codes/
-    label: 我的程式碼
+#  -
+#    href: /codes/
+#    label: 我的程式碼
 
   -
     href: /about/
@@ -76,17 +76,17 @@ quiet: false
 excerpt_separator: <!--more-->
 permalink: /:year/:month/:day/:slug/
 
-gems:
-    - jekyll-github-metadata
+#gems: jekyll-paginate
+plugins:
     - rouge
-#     - jekyll-html-pipeline
     - jekyll-paginate
     - jekyll-redirect-from
     - jekyll-sitemap
     - jekyll-feed
     - jemoji
+#    - jekyll-github-metadata
+#     - jekyll-html-pipeline
 #     - jekyll-mentions
-
 collections:
     wiki:
         output: true

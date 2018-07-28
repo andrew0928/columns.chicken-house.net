@@ -54,7 +54,8 @@ logo: /wp-content/uploads/2016/10/microservice-refactoring.gif
 有個會員管理吧? 若沒有串接其他認證機制，通常就是應用程式內部會自帶一個會員機制。於是，你的系統可能到處
 都會出現這樣的 code, 會員認證授權的功能四處散落在你的 code 內:
 
-```C#
+```csharp
+
 // your application code here...
 public void LoginCheck()
 {
@@ -90,6 +91,7 @@ public class LoginToken
 {
     // token 的類別定義
 }
+
 ```
 
 如果你的系統還處於這種狀態，那我強烈建議，先別急著把它微服務化吧! 相信我，變成微服務架構後，問題的偵錯
@@ -126,7 +128,8 @@ public class LoginToken
 
 系統主程式:  
 
-```C#
+```csharp
+
 public void LoginCheck()
 {
     LoginServiceBase lsb = LoginServiceBase.Create();
@@ -144,11 +147,13 @@ public void LoginCheck()
         // ...
     }
 }
+
 ```
 
 會員機制 Library:  
 
-```C#
+```csharp
+
 public abstract class LoginServiceBase
 {
     public static LoginServiceBase Create()
@@ -200,6 +205,7 @@ public class LoginToken
 {
     // token 的類別定義
 }
+
 ```
 
 這樣改變有幾個目的，第一就是引入 Factory 這設計模式。在可見的未來，架構師已經預期到會員資料庫總有獨立的
@@ -219,7 +225,8 @@ abstract class 實作出來的低耦合的設計。這部分在之後也會進�
 用 ASP.NET MVC 的 webapi 來當作範例。我這邊省略一切我沒有要討論的實作細節，只針對重點的部分貼出 code, 
 對應帳號密碼驗證的 api controller 應該長這樣:
 
-```C#
+```csharp
+
 using System;
 using System.Net.Http.Formatting;
 using System.Web.Http;
@@ -242,16 +249,18 @@ namespace WebApplication1.Controllers
         // todo: 其他支援的 webapi here...
     }
 }
+
 ```
 
-雖然 ASP.NET MVC webapi 是跟平台無關的規格，任何平台都可以輕易的呼叫使用，不過每個平台都要自己去些一些 HTTP 
+雖然 ASP.NET MVC webapi 是跟平台無關的規格，任何平台都可以輕易的呼叫使用，不過每個平台都要自己去寫一些 HTTP 
 處理相關的 code 也是挺辛苦的，通常前端我會搭配開發一組 SDK，來簡化使用 API 的門檻。其實很多例子都這樣做，例如
 Flickr 有很清楚的 [HTTP API doc](https://www.flickr.com/services/api/), 但是它也提供了 [Flickr.Net](https://github.com/samjudson/flickr-net), 包裝成 .net 原生的 class library 簡化你使用的步驟，
 這就是 SDK 存在的目的。
 
 對應我們改善後的 SDK (其實就是從上個例子的 class library 進化而來的)，code 長的會像這樣:
 
-```C#
+```csharp
+
 public class RemoteLoginService : LoginServiceBase
 {
     private readonly Uri serviceBaseUri = null;
@@ -282,11 +291,13 @@ public class RemoteLoginService : LoginServiceBase
         throw new NotSupportedException();
     }
 }
+
 ```
 
 然而，這樣的改變，需要調整一下 Factory 的部分。其實只要改一行就好了:  
 
-```C#
+```csharp
+
 public abstract class LoginServiceBase
 {
     public static LoginServiceBase Create()
@@ -295,11 +306,13 @@ public abstract class LoginServiceBase
         return new RemoteLoginService(new Uri("http://localhost:50000"));
     }
     // ...
+
 ```
 
 最後，真正要呼叫這些服務的 code, 完全不用改, 維持原樣，重新編譯 & 更新 SDK 後就能正常執行:  
 
-```C#
+```csharp
+
 public void LoginCheck()
 {
     LoginServiceBase lsb = LoginServiceBase.Create();
@@ -317,6 +330,7 @@ public void LoginCheck()
         // ...
     }
 }
+
 ```
 
 # STEP 4, 確保服務化過程的正確性
@@ -346,7 +360,8 @@ public void LoginCheck()
 於是，我改了第三個版本... 當我切換到 debug mode 就會自動啟動檢查機制。一樣，不相關的 code 我就刪掉了，大家看的懂
 我要表達的重點即可:
 
-```C#
+```csharp
+
 public abstract class LoginServiceBase
 {
     public static LoginServiceBase Create()
@@ -394,6 +409,7 @@ public class DebugService : LoginServiceBase
         throw new NotSupportedException();
     }
 }
+
 ```
 
 光是這套 debug 版本，就幫我抓出了改版初期不少的問題。尤其如果你改版的過程，跟我描述的一樣，是依序由
@@ -408,7 +424,7 @@ Debug.Assert 很多地方，其實跟 UnitTest 的 Assert 有很多相似的地�
 
 
 
-# 總結: 切割為為服務的實作案例
+# 總結: 切割為微服務的實作案例
 
 寫到這邊先告一段落，這篇寫的，也許跟各位看到微服務架構的做法有些出入。不用覺得奇怪，這的確是我個人採用的做法。
 我的重點擺在: 你已經先有了一個龐大的單體式架構的系統，要將它切割為服務化架構為前提，而我採取的作法是先做好重構
