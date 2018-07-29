@@ -42,7 +42,7 @@ logo:
 
 # LAB2, 不同組態下 container 的 I/O 效率
 
-這次我換了更直接的方式，我找了 linux 內建的 dd 指令，也找了對應的 windows 版本 dd.exe 來當對照組，分別用這幾種組態來測試:
+前面 LAB1 是用實際的 scenario (Jekyll Build WebSite) 來當作評估的方式，但是如果單純想了解 I/O 上面的差異，比較好的方式是直接針對 I/O 進行測試。LAB2 就是要側這個東西，我找了 linux 內建的 dd 指令，也找了對應的 windows 版本 dd.exe 來當對照組，直接測試從 /dev/urandom 讀取 1M 的資料 1024 次，並寫入 container or volume 所要花費的時間。我分別用這幾種組態來測試:
 
 1. windows container (isolation: process)
 1. windows container (isolation: hyper-v)
@@ -79,6 +79,14 @@ of=container: 寫入 container 內的空間。
 of=volume: 寫入由 host local disk 掛載進 container 使用的 volume
 
 
+## 架構差異
+
+真不知道該對 windows container 支援 hyperv isolation 同時還支援 linux (LCOW) 是褒還是貶? 雖然很方便，一台 windows server 可以通吃所有的需求；但是也讓問題變複雜了。光是這次要做這實驗，我就想了很久。技術架構上，我要面對幾種不同的組合:
+
+1. 
+
+
+
 
 # LAB2-1, Windows Server 1803 (實體PC)
 
@@ -96,8 +104,22 @@ of=volume: 寫入由 host local disk 掛載進 container 使用的 volume
 
 
 # LAB2-2, Windows 10, 1803 (實體PC)
+硬體規格:
+
+
+測試結果:
+|platform|isolation|to container|to volume|
+|--------|---------|------------|---------|
+|windows|none|--|3.11617|
+|windows|hyperv|4.5774|5.6002|
+|linux|hyperv(LCOW)|6.3755|41.1397|
+|linux|hyperv|6.2241|9.1047|
 
 # LAB2-3, Azure D4S (Linux VM, Windows Server 1803 VM)
+硬體規格:
+
+
+測試結果:
 
 |platform|isolation|to container|to volume|
 |--------|---------|------------|---------|
