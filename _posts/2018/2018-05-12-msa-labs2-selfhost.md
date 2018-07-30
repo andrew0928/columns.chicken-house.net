@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "容器化的微服務開發 #2, API Service 容器化的選擇: IIS or Self Host ?"
+title: "容器化的微服務開發 #2, IIS or Self Host ?"
 categories:
 - "系列文章: .NET + Windows Container, 微服務架構設計"
 - "系列文章: 架構師觀點"
@@ -8,11 +8,11 @@ tags: ["microservice", "系列文章", "ASP.NET", "架構師", "Docker", "Window
 published: true
 comments: true
 redirect_from:
-logo: /wp-content/images/2018-05-12-msa-labs2-selfhost/how_would_you_solve_the_icing_problem.png
+logo: /wp-content/images/2018-05-12-msa-labs2-selfhost/how_would_you_solve_the_icing_problem.jpg
 ---
 
 
-![](/wp-content/images/2018-05-12-msa-labs2-selfhost/how_would_you_solve_the_icing_problem.png)
+![](/wp-content/images/2018-05-12-msa-labs2-selfhost/how_would_you_solve_the_icing_problem.jpg)
 
 雖然微服務跟容器化是兩回事，不過兩者的搭配是絕佳組合啊，所以我決定先花點篇幅，先交代如何將 web api 容器化部署的問題 (self-host or IIS host)。部署這件事，過去都是 operation team 解決掉了，不需要 development team 傷腦筋。現在微服務需要更密切的整合，必須要同時能掌握 development 跟 operation 的 know how, 才能正確的拿捏該捨掉那些東西。這篇就是從這角度，告訴你 IIS 與 Self Host 兩種開發與部署的模式該如何取捨。我先說明一下採用 Self-Host 的考量，同時也會示範一下如何開發一個通用的 Self-Host class library, 微服務的應用上，你勢必會有很多大量的服務需要開發，先把這個通用的 Self-Host 架構搞定，接著統一處理其他微服務的各種 infrastructure (如下篇介紹的 consul) 的整合，可以替整個團隊省下不少功夫。
 
@@ -867,4 +867,4 @@ C:\ip2c>docker logs -t demo
 
 下一篇總算可以開始進入主題了，我會先把這篇說明的機制都抽象化成通用的 Web Host Framework, 直接以這為基礎，加入 Consul 的支援，讓你的每個服務都具備完善的 service discovery, health checking 與 configuration management 能力。
 
-相關的範例，我都放上 GitHub 了。範例我會持續更新，這篇文章用到的進度，請參考 Tags: SelfHost
+相關的範例，我都放上 GitHub 了。範例我會持續更新，這篇文章用到的進度，請參考: [3.2.0.0](https://github.com/andrew0928/IP2C.NET.Service/tree/3.2.0.0)

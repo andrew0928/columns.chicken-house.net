@@ -28,12 +28,13 @@ wordpress_postid: 62
 
 第一個只要你知道排序的方法，剩下的就是你有沒有本事把腦袋的想法寫成 CODE 而以。這個要求大部份的人都能過關，我就不多作解釋了。來看看第二個要求，它考驗的是你該用什麼樣的方式 "SEARCH" ?
 
-我就以 C# 為例來說明這個問題該怎樣思考。以資訊系的 "資料結構" 這門課的角度來思考，你應該要找出個適合的資料結構 (Binary Tree, Heap, Linked List ... etc) 來存放這堆資料。不過資料結構這麼多種，你都要自己做嗎? .NET framework 已經在 System.Collection.Generic 這命名空間內提供了一堆好用的 Collection 給你用了，你該怎麼挑選才好? 課堂上老師不會教你實作的東西，而公司的前輩也不會教你這種基礎的東西，那你該怎麼把這兩者應用在一起?
+我就以 C# 為例來說明這個問題該怎樣思考。以資訊系的 "資料結構" 這門課的角度來思考，你應該要找出個適合的資料結構 (Binary Tree, Heap, Linked List ... etc) 來存放這堆資料。不過資料結構這麼多種，你都要自己做嗎? .NET framework 已經在 ```System.Collection.Generic``` 這命名空間內提供了一堆好用的 ```Collection``` 給你用了，你該怎麼挑選才好? 課堂上老師不會教你實作的東西，而公司的前輩也不會教你這種基礎的東西，那你該怎麼把這兩者應用在一起?
 
-就先從 (2) 的例子開始吧! 通訊錄最基本的要求，就是儲存的資料要能按照姓名/EMAIL/電話號碼排序。輸入名字後，要能很快的找到這個人完整的通訊錄。如果能像手機一樣，邊輸入名字就邊過濾名單，直到名字打完人就找到的話更好。在宣告了 class ContactData { ... } 類別來處理一筆資料後，下一步你會怎麼做?
+就先從 (2) 的例子開始吧! 通訊錄最基本的要求，就是儲存的資料要能按照姓名/EMAIL/電話號碼排序。輸入名字後，要能很快的找到這個人完整的通訊錄。如果能像手機一樣，邊輸入名字就邊過濾名單，直到名字打完人就找到的話更好。在宣告了 ```class ContactData { ... }``` 類別來處理一筆資料後，下一步你會怎麼做?
 
 
-ContactData 類別定義:
+```ContactData``` 類別定義:
+
 ```csharp
 public class ContactData
 {
@@ -50,7 +51,7 @@ public class ContactData
 }
 ```
 
-開始來看看，有基本功夫的 programmer 跟一般 "熟 C# 熟 .NET" 的 programmer 差在那裡吧! 程式很簡單，先產生一百萬筆假資料，然後去找 A123456 這個人的資料，接著再找出手機號碼為 0928-1234 開頭的所有人資料。事後會分別計算花掉的時間跟程式佔用的記憶體大小。
+開始來看看，有基本功夫的 programmer 跟一般 "熟 C# 熟 .NET" 的 programmer 差在那裡吧! 程式很簡單，先產生一百萬筆假資料，然後去找 A123456 這個人的資料，接著再找出手機號碼為 ```0928-1234``` 開頭的所有人資料。事後會分別計算花掉的時間跟程式佔用的記憶體大小。
 
 1. 大概有 70% 的人，會選擇用 ```List<ContactData>```，不為什麼，只因為他沒想到別的方法，或是直覺就覺的要這樣寫... 來看看這樣的 code:
 
@@ -106,9 +107,9 @@ private static void Sample1()
 
 ![](/wp-content/be-files/WindowsLiveWriter/2.programmer_148DA/image_3.png)
 
-2. 更進階一點的人 (另外 25%)，也許會額外加上 Dictionary 當作索引，來改善 search A123456 這筆資料的效率:
+2. 更進階一點的人 (另外 25%)，也許會額外加上 ```Dictionary``` 當作索引，來改善 search A123456 這筆資料的效率:
 
-加上 Dictionary 當作索引的 code:
+加上 ```Dictionary``` 當作索引的 code:
 
 ```csharp
 // 略
@@ -147,7 +148,7 @@ timer.Start();
 
 
 
-但是這樣的 CODE 老實說只能算是及格而以，因為它沒有挑對 Collection 來用。怎麼說? 我的理由有這幾個:
+但是這樣的 CODE 老實說只能算是及格而以，因為它沒有挑對 ```Collection``` 來用。怎麼說? 我的理由有這幾個:
 
 1. ```List<T>``` 的搜尋效能不好
 1. 沒能滿足用多種排序方式的要求 (需要時要當場執行 ```List<T>.Sort( )```)
@@ -160,7 +161,7 @@ timer.Start();
 ["時間複雜度" (time complexity)](http://en.wikipedia.org/wiki/Time_complexity) 
 的東西，用 O(n) 表示。O(n) 代表花費的時間會跟資料比數成線性的成長。100倍的資料大概就要花上100倍的時間.. 如果是 O(n^2) 的演算法，則 100 倍的資料就會花上 10000 倍的時間。
 
-MSDN 專業的地方就在這裡。Microsoft 真的很細心的在每一個 Collection 物件的說明文件上，都會標上 time complexity。有唸書有保佑，瞄到那行字我的問題就都解決掉了。先來看看 List<T> 的行為:
+MSDN 專業的地方就在這裡。Microsoft 真的很細心的在每一個 Collection 物件的說明文件上，都會標上 time complexity。有唸書有保佑，瞄到那行字我的問題就都解決掉了。先來看看 ```List<T>``` 的行為:
 
 
 **List<T>.Add(T item):**
@@ -183,10 +184,10 @@ MSDN 專業的地方就在這裡。Microsoft 真的很細心的在每一個 Coll
 > Getting or setting the value of this property approaches an O(1) operation.
 
 
-好，答案出來了。當資料變成一百倍時，List.Add 是 O(1), 所以每加一筆資料的時間不會越來越久 (safe). 但是搜尋時間是 O(n), 意思是現在找 A123456 要花 60ms, 未來有一億筆就要花 60x100=6000ms=6sec, 找 0928-1234* 則要花 240x100=24000ms=24sec... 以這樣的成長速度，記憶體還沒用完，你的程式就會慢到受不了了。有沒有其它的解決辦法?
+好，答案出來了。當資料變成一百倍時，```List.Add``` 是 O(1), 所以每加一筆資料的時間不會越來越久 (safe). 但是搜尋時間是 O(n), 意思是現在找 A123456 要花 60ms, 未來有一億筆就要花 60x100=6000ms=6sec, 找 0928-1234* 則要花 240x100=24000ms=24sec... 以這樣的成長速度，記憶體還沒用完，你的程式就會慢到受不了了。有沒有其它的解決辦法?
 
 
-換成 Dictionary 就酷多了，搜尋時間是 O(1), 代表不管你有幾筆，搜尋的時間都差不多。為什麼? MSDN 說的很清楚...
+換成 ```Dictionary``` 就酷多了，搜尋時間是 O(1), 代表不管你有幾筆，搜尋的時間都差不多。為什麼? MSDN 說的很清楚...
 
 [http://msdn.microsoft.com/en-us/library/xfhwa508.aspx](http://msdn.microsoft.com/en-us/library/xfhwa508.aspx)
 
@@ -194,7 +195,7 @@ MSDN 專業的地方就在這裡。Microsoft 真的很細心的在每一個 Coll
 
 
 
-什麼是 HashTable? 又是一個好例子，唸過資料結構的都知道吧? 我就不多說了，請看 wiki:
+什麼是 ```HashTable```? 又是一個好例子，唸過資料結構的都知道吧? 我就不多說了，請看 wiki:
 
 [http://en.wikipedia.org/wiki/Hashtable](http://en.wikipedia.org/wiki/Hashtable)
 
@@ -226,7 +227,7 @@ MSDN 專業的地方就在這裡。Microsoft 真的很細心的在每一個 Coll
 
 不錯，又找到兩個: [SortedList](http://msdn.microsoft.com/en-us/library/ms132319.aspx)  跟 [SortedDictionary](http://msdn.microsoft.com/en-us/library/f7fta44c.aspx)，還是一樣，那一個比較合適? MSDN 都寫的很清楚，足夠你判斷了，前題是資料結構教的幾個基本觀念 (像是前面講的 Hash Table, Time Complexity 等) 人家寫出來你要看的懂，看的懂就知道該挑那一個。
 
-至於挑選的過程我就不多說了。我最後決定用 SortedList, 列一下這個 Collection 的特性:
+至於挑選的過程我就不多說了。我最後決定用 ```SortedList```, 列一下這個 ```Collection``` 的特性:
 
 **SortedList.Add( )**
 > This method is an O(n) operation for unsorted data, where n is Count. It is an O(log n) operation if the new element is added at the end of the list. If insertion causes a resize, the operation is O(n).
@@ -234,9 +235,9 @@ MSDN 專業的地方就在這裡。Microsoft 真的很細心的在每一個 Coll
 
 新增一筆需要的時間是 O(n), 唯一特例是加在最後面，而且沒引發 resize 的動作，就是 O(log n)。至於排序? 通通是 O(1)，因為在 Add() 把資料加進來時就排好序了，所以 Add() 花的 O(log n) 就是在排序。要照順序印資料或找資料，完全不費吹灰之力，拿來印就是了。不過比較可惜的是，SortedList 並沒有提供 BinarySearch，因此要找 "0928-1234*" 這樣的資料要辛苦點，自己用 BinarySearch 的邏輯，簡單寫一下吧。如果前面的關卡都過了，這應該不難吧?
 
-改用 SortedList 最大的缺點就是載入資料時會比較慢，不過其它在程式的處理上，還有效能都更貼近這個題目的需求。來看看程式碼，這次我用了兩個 SortedList，分別代表替 name 及 phone number 作排序:
+改用 ```SortedList``` 最大的缺點就是載入資料時會比較慢，不過其它在程式的處理上，還有效能都更貼近這個題目的需求。來看看程式碼，這次我用了兩個 ```SortedList```，分別代表替 name 及 phone number 作排序:
 
-改用 SortedList<> 的範例:
+改用 ```SortedList<T>``` 的範例:
 
 ```csharp
 private static void Sample3()
