@@ -42,16 +42,29 @@ logo:
 
 # LAB2, 不同組態下 container 的 I/O 效率
 
-前面 LAB1 是用實際的 scenario (Jekyll Build WebSite) 來當作評估的方式，但是如果單純想了解 I/O 上面的差異，比較好的方式是直接針對 I/O 進行測試。LAB2 就是要側這個東西，我找了 linux 內建的 dd 指令，也找了對應的 windows 版本 dd.exe 來當對照組，直接測試從 /dev/urandom 讀取 1M 的資料 1024 次，並寫入 container or volume 所要花費的時間。我分別用這幾種組態來測試:
+前面 LAB1 是用實際的 scenario (Jekyll Build WebSite) 來當作評估的方式，但是如果單純想了解 I/O 上面的差異，比較好的方式是直接針對 I/O 進行測試。LAB2 就是要側這個東西，我找了 linux 內建的 dd 指令，也找了對應的 windows 版本 dd.exe 來當對照組，直接測試從 /dev/urandom 讀取 1M 的資料 1024 次，並寫入 container or volume 所要花費的時間。Microsoft 提供了好幾種方式來運行 windows / linux container, 我總共用了這幾種組態:
 
+1. windows host (不透過 container, 直接在本機上測試, 當參考值使用)
+1. linux host (不透過 container, 直接在本機上測試, 當參考值使用)
 1. windows container (isolation: process)
 1. windows container (isolation: hyper-v)
 1. linux container (isolation: hyper-v)
 1. linux container (docker for windows, hyper-v)
 
-這邊問題複雜了點，Microsoft 在 container 的架構設計上，支援了 --isolation 的選項，你可以選擇用預設的 process 隔離層級，可以得到最棒的效能；你也可以選擇 hyperv 的隔離層級，windows 會為你的 container 啟動專屬的 VM, 跑最精簡版的 OS (應該是 nanoserver 吧)。但是 windows 10 只支援 hyper-v 隔離層級的 container, 因此這實驗一定得在支援 hyper-v 的 windows server 上面才能測試。
+*補充閱讀*
+Microsoft 在 windows container 的架構設計上，支援了 --isolation 的選項，期望提供不同層級的隔離方式, 解決 container 被詬病的安全問題。你可以選擇用預設的 process 隔離層級，可以得到最棒的效能；你也可以選擇 hyperv 的隔離層級，windows 會為你的 container 啟動專屬的 VM, 用最高的隔離層級來確保安全性。這種模式下，是在專屬 VM 跑最精簡版的 OS (nanoserver / linuxkit) 後再來啟動你指定的 container。但是在 windows 10 只支援半套，你只能用 hyper-v 隔離層級的 container, 因此這實驗一定得在支援 hyper-v 的 windows server 上面才能測試。
 
-類似的狀況也發生在 docker for windwos, docker for windows 也是靠建立一個 VM 來支援 linux container, 差別是 docker for windows 沒有整合在 OS 裡面，不是內建的而已。將來能夠繼續最佳化的空間也有限。老實說已一個 3rd party 的廠商來說，做到現在的程度已經很了不起了...。但是，依樣，拿 docker for windows 當對照組也是有點頭痛，只有 windows 10 能支援。我要在 windows server 1803 上面測 docker for windows 就很頭大了。
+不過 windows 10 又另外支援 docker 已第三方角度開發的 docker for window, 裡面真的透過 hyper-v 運行了一個 MobyLinux 的 VM, 然後把 linux container 丟進去跑。這種模式大概就是方便而已，官方沒有直接支援 windows server ... 當然你硬要跑也是可以，不過我想沒有人會在 production environment 這樣玩吧!
+
+我列了 Docker for Windows 跟 LCOW 不同的幾個地方:
+
+1. Microsoft 用的底層 OS 是 LinuxKit, Docker for Windows 用的是 MobyLinux
+1. LCOW 會替每一個 linux container 準備獨立的 VM, Docker for Windows 會為所有的 linux container 共用同一個 VM
+1. LCOW 可以跟 windows container 共存，共用同樣的 network，也可存在同一組 docker compose 內。Docker for Windows 則是單純的開了個專跑 linux container 的 VM 而已，不支援 windows container。
+
+Docker for Windows 畢竟是在 LCOW 成熟之前就有的產物，大部分的人 (包括我) 以前都需要自己在 VM 上安裝 Linux 來跑 docker, docker for windows 只是把這些動作都簡化了而已，不過本質上是同樣的東西。這畢竟不是 Microsoft 官方的產品，Microsoft 應該也不會拿掉他，但是 Microsoft 一定會持續強化自己的 LCOW ... 讓你越來越不需要再透過第三方的 Docker for Windows 就能做一樣的事情。
+
+不過因為多了 Docker for Windows 的這個變數，除了 windows server 1803 之外，我又得多測試一種環境 windows 10 1803 了...
 
 第三個則是財力問題，不是技術問題... 哈哈哈... 理論上我要是能準備多台硬體規格相同的 server, 或是我願意重灌 OS 來測試，上面的問題就不是問題了。不過我很懶啊... 於是把腦筋動到 Azure 上了。BUT !!! Azure 上面都是 VM, VM 還要再開啟 hyper-v ... 就有很多限制了，比如 VM 一定得用 D 系列，再來就是 VM 裡面在跑 hyper-v, 真的只是為了實驗或是相容性而已，實驗的結果證明這樣跑完全沒有經濟效益....
 
@@ -71,19 +84,12 @@ dd if=/dev/urandom of=./largefile bs=1M count=1024
 - bs: block size, 讀取與寫入過程中用的 block size
 - count: 重複執行次數
 
-白話的說，這段指令會從 if 讀取 bs 大小的資料，寫到 of, 重複 count 次，依據花費時間就能評估寫入速度。這些參數都固定，因此底下的測試我都只標示執行時間。接下來，就是在各種環境下，分別啟動 windows container 與 linux container，記錄下執行上述測試的時間 5 次取平均值。
+白話的說，這段指令會從 if 讀取 bs 大小的資料，寫到 of, 重複 count 次，上面的參數總共會對 of 寫入 1GB 的資料, 下列所有實驗數據都是計算執行花費的時間。接下來，就是在各種環境下，分別啟動 windows container 與 linux container，記錄下執行上述測試的時間 5 次取平均值。
 
 platform: 執行測試工具的 OS。可能的值有 windows | linux
 isolation: 執行測試工具 OS 的隔離層級 (none 代表在本機上執行)。可能的值有: none | process | hyperv
 of=container: 寫入 container 內的空間。
 of=volume: 寫入由 host local disk 掛載進 container 使用的 volume
-
-
-## 架構差異
-
-真不知道該對 windows container 支援 hyperv isolation 同時還支援 linux (LCOW) 是褒還是貶? 雖然很方便，一台 windows server 可以通吃所有的需求；但是也讓問題變複雜了。光是這次要做這實驗，我就想了很久。技術架構上，我要面對幾種不同的組合:
-
-1. 
 
 
 
