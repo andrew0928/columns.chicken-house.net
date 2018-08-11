@@ -17,6 +17,8 @@ logo: /wp-content/images/2018-07-28-labs-LCOW-volume/2018-08-12-01-42-58.png
 
 事情要回顧到兩年前，我[開始把 Blog 搬到 GitHub Pages 上面](/2016/09/16/blog-as-code/)來開始說起... 當時為了避開 Ruby for Windows 地獄，我一直用 Docker for Windows 跑 Jekyll 在我自己 PC build website 測試，直到前一陣子突然想用 LCOW 來替代，才意外發現 volume 跟 container 內部的 I/O 效能有天跟地的差別...
 
+<!--more-->
+
 # LAB1, 測試不同環境下 jekyll 建置時間
 
 我決定改掉過去都會講一堆故事的習慣了，這次直接從結果開始看。我測試的標的，就用我自己的部落格，用 Jekyll 官方的 [docker image](https://hub.docker.com/r/jekyll/jekyll/):2.4.0。測試的紀錄跟數據有點囉嗦，我列在這段的最後面，有興趣的讀者們再去看就好。我直接先來解讀 LAB1 的測試結果。
@@ -220,7 +222,7 @@ LAB2-2 改用 windows 10 pro, 除了 OS 本身限制無法執行 process 的隔�
 1. windows container 提供了 .NET (framework) developer 也能享用到 container 好處的唯一機會。
 1. windows container 提供了要混用 windows / linux 環境的開發人員，一個最佳的整合環境。
 
-其實講到這裡，不免又要自推一下我以前的文章: [](), Microsoft 自己很清楚，在 cloud / server 端的世界，windows server 是居於弱勢的平台。Microsoft 在 Azure 也不再處處以 windows / .NET 優先了。那麼 windows server 的定位會是? 很明顯的企業市場仍然是主要能發揮的地方，另一個主戰場就是牢牢地抓住 developer 了。這策略可以從這幾點得到證明:
+其實講到這裡，不免又要自推一下我以前的文章: [.NET 開發人員該如何看待 Open Source Solutions?](/2016/05/05/archview-net-open-source/), Microsoft 自己很清楚，在 cloud / server 端的世界，windows server 是居於弱勢的平台。Microsoft 在 Azure 也不再處處以 windows / .NET 優先了。那麼 windows server 的定位會是? 很明顯的企業市場仍然是主要能發揮的地方，另一個主戰場就是牢牢地抓住 developer 了。這策略可以從這幾點得到證明:
 
 1. visual studio 是世界上最好的 IDE, 沒有之一
 1. microsoft 積極地打入 developer 的社群，貢獻 open source projects (甚至還把 github 買下來 XD)
