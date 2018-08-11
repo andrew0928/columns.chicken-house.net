@@ -130,7 +130,7 @@ OS:  Microsoft Windows Server 1803
 
 
 
-## LAB2-2, Windows 10, 1803 (實體PC)
+## LAB2-2, Windows 10 1803 (實體PC)
 
 
 硬體規格 (實體 PC, 白牌自組):
@@ -149,7 +149,7 @@ OS:  Microsoft Windows 10 Pro 1803
 |linux|hyperv(LCOW)|6.3755|41.1397|
 |linux|hyperv|6.2241|9.1047|
 
-## LAB2-3, Azure D4S (Linux VM, Windows Server 1803 VM)
+## LAB2-3, Azure D4S VM
 硬體規格:
 
 Azure D4S v3 ([參考規格說明](https://azure.microsoft.com/zh-tw/pricing/details/virtual-machines/windows/)), 在 VM 內執行 ```systeminfo``` 的結果，請參考附錄。
