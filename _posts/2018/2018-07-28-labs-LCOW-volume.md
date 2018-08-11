@@ -34,7 +34,7 @@ logo:
 
 其中比較特別的，是測試環境 #1, LCOW (volume -> volume) 這個測試。同一個 docker image, 理論上執行環境應該都是一樣的才對，但是在 LCOW 上面卻跑到一半就有錯誤訊息，試了不下數十次，每次都停在不同的檔案無法寫入的問題上。同時 volume -> container 的這組測試，兩種 container engine 表現出來的效能差異也頗大，令我訝異。看來兩種 engine 對於跨越 windows host -> linux host 之間的 volume 處理方式差異很大，不但對效能有影響，而且看來也對大量 I/O 下的某些行為 (我猜是 file lock release 時機之類的差異?) 也有不同，導致這些落差。
 
-不過這些落差，影響我每次改完 code 要等多久才能預覽結果啊! 12sec 的落差我可以接受，135sec 這種就完全不行啊! 可是 LCOW 對我而言方便一些，因為我主要都是用 windows container 居多，能用 LCOW 的話我就不用一直切換了，我可以同時使用 windows 跟 linux 的 container。
+不過這些落差，影響我每次改完 code 要等多久才能預覽結果啊! 12 sec 我可以接受，135 sec 這種就完全不行啊! 可是 LCOW 對我而言方便一些，因為我主要都是用 windows container 居多，能用 LCOW 的話我就不用一直切換了，我可以同時使用 windows 跟 linux 的 container。
 
 因此，我決定繼續挖下去。我大概還沒什麼本事挖出真正的原因，不過我至少可以透過實驗，更精準的掌握差異點吧? 所以我就繼續進行了 LAB2, 直接用 disk benchmark 的工具下手，試著比較一下不同的執行環境，對於 container I/O 效能的差距。
 
@@ -76,7 +76,9 @@ Docker for Windows 畢竟是在 LCOW 成熟之前就有的產物，大部分的�
 
 測試方式很簡單，我找了 linux 內建的指令: dd, 同時也找到對應的 dd for windows 版本，拿來當跨平台評估使用。我用這樣的指令來測試:
 
+```shell
 dd if=/dev/urandom of=./largefile bs=1M count=1024
+```
 
 簡單說明一下這行指令在幹嘛:
 - if: input file, 指定 /dev/unrandom 讀取亂數的內容當作 source
@@ -92,12 +94,21 @@ of=container: 寫入 container 內的空間。
 of=volume: 寫入由 host local disk 掛載進 container 使用的 volume
 
 
+這次測試的硬體有三組，分別是:
+
+1. 我的桌機 (Lenovo ThinkCentre M93P Tiny, Intel i7-4785T, 16GB RAM, Intel s3520 480GB SSD)
+1. 我的桌機 (白牌自組, Intel i7-2600K, 24GB RAM, Intel 730 SSD, 240GB)
+1. Azure DS4 v3 VM (4 vcores, 16GB RAM, 30GB SSD)
 
 
-# LAB2-1, Windows Server 1803 (實體PC)
+## LAB2-1, Windows Server 1803 (實體PC)
 
-硬體規格:
+硬體規格 (實體 PC, Lenovo ThinkCentre M93P Tiny):
 
+CPU: Intel i7-2600K
+RAM: DDR3 24GB
+HDD: Intel 730 SSD / 240GB
+OS:  Microsoft Windows Server 1803
 
 測試結果:
 
@@ -109,8 +120,19 @@ of=volume: 寫入由 host local disk 掛載進 container 使用的 volume
 |linux|hyperv|4.8470|21.3261|
 
 
-# LAB2-2, Windows 10, 1803 (實體PC)
-硬體規格:
+
+
+
+
+## LAB2-2, Windows 10, 1803 (實體PC)
+
+
+硬體規格 (實體 PC, 白牌自組):
+
+CPU: Intel i7-4785T
+RAM: DDR3 16GB
+HDD: Intel S3520 SSD / 480GB
+OS:  Microsoft Windows 10 Pro 1803
 
 
 測試結果:
@@ -121,8 +143,15 @@ of=volume: 寫入由 host local disk 掛載進 container 使用的 volume
 |linux|hyperv(LCOW)|6.3755|41.1397|
 |linux|hyperv|6.2241|9.1047|
 
-# LAB2-3, Azure D4S (Linux VM, Windows Server 1803 VM)
+## LAB2-3, Azure D4S (Linux VM, Windows Server 1803 VM)
 硬體規格:
+
+Azure D4S v3 ([參考規格說明](https://azure.microsoft.com/zh-tw/pricing/details/virtual-machines/windows/)), 在 VM 內執行 ```systeminfo``` 的結果，請參考附錄。
+
+CPU: 4 vcore
+RAM: 16GB
+HDD: 30GB Managed Disk, Preminum SSD, ENCRYPTION not enabled
+
 
 
 測試結果:
@@ -133,21 +162,81 @@ of=volume: 寫入由 host local disk 掛載進 container 使用的 volume
 |windows|process|2.0567|2.1264|
 |windows|hyperv|66.8226|3.3977|
 |linux|hyperv|52.5351|59.9209|
-|||||
+|--|--|--|--|
 |linux|none|--|6.3952|
 |linux|process|6.5074|6.5207|
 
+## 測試結果解讀
+
+這個 LAB 2 結果還蠻有趣的，好幾個不同的解讀方向...
+
+如果是標準的 container 運作方式 (也就是只虛擬化 OS)，只有 process 的隔離層級來看，windows container 表現其實不差啊!
+
+我拿 LAB2-3 的兩個結果來看 (我暫且不拿不同的 OS 來比較，從工具 DD 跟 device: /dev/urandom 的設計都有差別):
+- windows 原生環境的測試，跑完要 2.19 sec, 容器內執行寫入 container / volume 分別要 2.06 sec / 2.13 sec, 差異不大，可視為沒有太大的影響。
+- linux 原生環境的測試，跑完要 6.40 sec, 容器內執行寫入 container / volume 分別要 6.51 sec / 6.52 sec, 差異一樣不大。
+
+不過，要是 I/O 的測試，跨越了 OS 的邊界，isolation level 從 process 提升到 hyper-v, 結果就完全不同了。我先把比較的範圍，限定在 windows container, 比較 process / hyperv / hyperv (LCOW) 三種測試方式。
+
+以 LAB2-1 最接近正常使用狀況的環境 (windows server), 得到的數據是:
+
+|platform|isolation|to container|to volume|
+|--------|---------|------------|---------|
+|windows|none|--|1.5673|
+|windows|process|1.5724|1.6365|
+|windows|hyperv|5.9010|2.2083|
+|linux|hyperv|4.8470|21.3261|
+
+看起來 hyper-v 的隔離層級，反而對於 container 本身的 I/O 有較大的影響。windows 從 1.57 sec 增加到 5.90 sec (376%)。換成 linuxkit, 效果好一點，不過也增加到 4.85 sec (309%)。不過如果是寫到掛進來的 volume, windows container 的最佳化就好的多。完成測試花費的時間只從原本的 1.64 sec 增加到 2.21 sec (135%), 但是 linuxkit 的 LCOW, 應該還沒有特別針對這部分優化，filesystem 的效能暴跌到 21.33 sec 才能完成測試 (1301%)
+
+LAB2-2 改用 windows 10 pro, 除了 OS 本身限制無法執行 process 的隔離層級測試之外，測試結果也差不多。不過 windows 10 pro 多了 docker for windows 可以用，算是第三方直接 create hyper-v VM, 來當作 remote linux docker engine 來使用。從使用 docker for windows 的 linux container 經驗，要掛上 volume 必須透過 local network 走 SMB (docker for windows 會替我建立 C: D: 的 share), 反而效能沒有掉的那麼誇張。LCOW 寫入 volume 跑出 41.14 sec 這爛成績，但是 docker for windows 的 linux container 卻 "只要" 9.10 sec ...
+
+眼見為憑，來看看 LAB2-2 的數據:
+
+|platform|isolation|to container|to volume|
+|--------|---------|------------|---------|
+|windows|none|--|3.11617|
+|windows|hyperv|4.5774|5.6002|
+|linux|hyperv(LCOW)|6.3755|41.1397|
+|linux|hyperv|6.2241|9.1047|
 
 
-
+至於 LAB2-3 測完後真的覺得是來亂的。Azure 也好，AWS 也好，大家都知道他提供的是 VM ... 本身就已經做過虛擬化，而且 DISK 通常也不是一般 server 用的 local disk, 某種程度都是 storage server ..., 加上我們的測試，需要在 VM 上面再虛擬化建立 VM ... 這些測試你還不能隨便玩，按照 Azure 的官方說明，你至少要選擇 DS4 系列以上的 VM 才支援 nested virtualization 的能力。不過那個效能已經離譜到沒有參考價值了，我想應該也沒人會在 production environment 這樣搞吧? 在 Azure 上，要混用不同 OS 的 container, 最佳做法應該是透過 orchestration (docker swarm or k8s) 把你的 container 只派到適當的 node 執行才對，讓每種 container 都能用 process 的隔離層級執行才是上策。
 
 
 
 # 結論
 
+數據上面的評論，上面都講了。這邊我就寫一下我測完之後的感想吧!
+
+容器化的技術，就是想要在接近原生的效能前提上，提供我們類似 VM 般的封裝機制，再搭配良好的建置工具與映像檔管理的機制，讓我們能更方便的使用。Linux 環境其實很單純，就那麼一種選擇而已，沒啥好談的，但是 Windows Container 的定位到是很值得聊一聊。
+
+在我看來，windows container 仍然是大有可為的。尤其是對 developer ..., 因為:
+
+1. windows container 提供了 .NET (framework) developer 也能享用到 container 好處的唯一機會。
+1. windows container 提供了要混用 windows / linux 環境的開發人員，一個最佳的整合環境。
+
+其實講到這裡，不免又要自推一下我以前的文章: [](), Microsoft 自己很清楚，在 cloud / server 端的世界，windows server 是居於弱勢的平台。Microsoft 在 Azure 也不再處處以 windows / .NET 優先了。那麼 windows server 的定位會是? 很明顯的企業市場仍然是主要能發揮的地方，另一個主戰場就是牢牢地抓住 developer 了。這策略可以從這幾點得到證明:
+
+1. visual studio 是世界上最好的 IDE, 沒有之一
+1. microsoft 積極地打入 developer 的社群，貢獻 open source projects (甚至還把 github 買下來 XD)
+1. microsoft 積極的改善跨平台的開發工具 (visual studio, xmarian, visual studio code)
+1. microsoft 積極的改善 windows 成為跨平台的開發環境 (WSL windows subsystem for linux, )
+1. microsoft 積極的向 container 靠攏 (windows container, LCOW)
+
+Microsoft 放棄了手機的 OS (windows phone), 在 Cloud 端的 OS (windows server) 也處於劣勢，Developer 這塊空間就是 Microsoft 的主戰場了。不得不說這部分做得還不錯。講了這麼多，我在這篇只有一個結論是: LCOW (Linux Container On Windows) 最適合的應用對象就是開發人員。當你需要快速搭建混合 windows / linux 的測試環境，windows server 是你的好選擇。由於 container 的架構，有絕佳的相容性，配合 docker 的 eco system, 你可以很容易的把你的 application 遷移到正規的環境上面，用最有效率的方式執行。然而開發測試，就用最方便的架構來進行。
+
+從這個角度來看，上面的測試 LCOW 的效能表現，反而不是最關鍵的考量了 (不過那個爆爛的 I/O 效能應該還是要改一改吧)! 我寫這篇的目的是希望大家都能正確的了解效能上的差異，與定位上的差異，你才能做出最適當的選擇。不然，一定會有人看到數字就開槍，然後就引發信仰大戰... 我到是很客觀看待，雖然我是 MVP，不過我也沒必要扭曲事實，認清每個產品的特性，做出最佳的選擇才是最重要的，不是嗎? :D
 
 
 
+
+
+
+
+
+
+----
 
 # 附錄: LAB1 實驗結果
 
@@ -311,4 +400,66 @@ Configuration file: /tmp/src/_config.yml
 
 
 
+
+
+# 附錄 2,  Azure DS4 V3 的 SystemInfo 結果
+
+
+```txt
+C:\Users\andrew>systeminfo
+
+Host Name:                 wcs8
+OS Name:                   Microsoft Windows Server Datacenter
+OS Version:                10.0.17134 N/A Build 17134
+OS Manufacturer:           Microsoft Corporation
+OS Configuration:          Standalone Server
+OS Build Type:             Multiprocessor Free
+Registered Owner:          N/A
+Registered Organization:   N/A
+Product ID:                00395-60000-00001-AA623
+Original Install Date:     7/25/2018, 5:02:31 PM
+System Boot Time:          8/11/2018, 1:08:34 PM
+System Manufacturer:       Microsoft Corporation
+System Model:              Virtual Machine
+System Type:               x64-based PC
+Processor(s):              1 Processor(s) Installed.
+                           [01]: Intel64 Family 6 Model 63 Stepping 2 GenuineIntel ~2394 Mhz
+BIOS Version:              American Megatrends Inc. 090007 , 6/2/2017
+Windows Directory:         C:\Windows
+System Directory:          C:\Windows\system32
+Boot Device:               \Device\HarddiskVolume1
+System Locale:             en-us;English (United States)
+Input Locale:              en-us;English (United States)
+Time Zone:                 (UTC) Coordinated Universal Time
+Total Physical Memory:     16,384 MB
+Available Physical Memory: 14,994 MB
+Virtual Memory: Max Size:  19,328 MB
+Virtual Memory: Available: 17,906 MB
+Virtual Memory: In Use:    1,422 MB
+Page File Location(s):     D:\pagefile.sys
+Domain:                    WORKGROUP
+Logon Server:              \\wcs8
+Hotfix(s):                 1 Hotfix(s) Installed.
+                           [01]: KB4284835
+Network Card(s):           3 NIC(s) Installed.
+                           [01]: Microsoft Hyper-V Network Adapter
+                                 Connection Name: Ethernet 2
+                                 DHCP Enabled:    Yes
+                                 DHCP Server:     168.63.129.16
+                                 IP address(es)
+                                 [01]: 10.0.3.5
+                                 [02]: fe80::4d6a:2bca:6875:5312
+                           [02]: Hyper-V Virtual Ethernet Adapter
+                                 Connection Name: vEthernet (nat)
+                                 DHCP Enabled:    Yes
+                                 DHCP Server:     255.255.255.255
+                                 IP address(es)
+                                 [01]: 172.27.224.1
+                                 [02]: fe80::7d6f:41d2:32a6:462a
+                           [03]: Mellanox ConnectX-3 Virtual Function Ethernet Adapter
+                                 Connection Name: Ethernet 4
+                                 DHCP Enabled:    No
+                                 IP address(es)
+Hyper-V Requirements:      A hypervisor has been detected. Features required for Hyper-V will not be displayed.
+```
 
