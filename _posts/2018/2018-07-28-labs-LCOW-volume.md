@@ -1,13 +1,16 @@
 ---
 layout: post
 title: "有雷! 使用 LCOW 掛載 Volume 的效能陷阱"
-categories:
+categories: 
 tags: []
 published: false
 comments: true
 redirect_from:
-logo: 
+logo: /wp-content/images/2018-07-28-labs-LCOW-volume/2018-08-12-01-42-58.png
 ---
+
+![](/wp-content/images/2018-07-28-labs-LCOW-volume/2018-08-12-01-42-58.png)
+
 
 有時候，無知就是福啊... 沒想到我也默默忍受了這個地雷一年多了都沒發現。Container 透過 volume 掛載儲存空間到容器內部，會有一定的效能折損是一定的。然而 container 本身透過 [AUFS](https://philipzheng.gitbooks.io/docker_practice/content/underly/ufs.html) 也有一定的效能折損啊。原本很天真的想: 我都在本機使用，想想應該不會差到哪裡去，直到膝蓋中了一箭... 
 
