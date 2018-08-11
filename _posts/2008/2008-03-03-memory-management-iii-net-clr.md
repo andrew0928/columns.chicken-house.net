@@ -21,11 +21,11 @@ redirect_from:
   - /blogs/chicken/archive/2008/03/03/3021.aspx/
 wordpress_postid: 117
 ---
-續 [<a href="/post/Memory-Management-(II)---Test-Result.aspx">上篇</a>] &amp; [<a href="/post/Memory-Management---(I)-Fragment-.aspx">上上篇</a>]，同樣的問題，我改用 .NET 開發是不是就搞定了? 其實這篇才是我要寫的重點，只不過引言寫太高興，就是兩篇文章了，咳咳... 有人在問，為什麼我老是寫些冷門的文章? 沒辦法... 大家都在寫的東西我就沒興趣寫了，文筆沒別人好，網站沒別人漂亮，連範例程式都沒別人炫，只好挑些沒人寫的內容...
+
+續 [上篇](/post/Memory-Management-(II)---Test-Result.aspx) & [上上篇](/post/Memory-Management---(I)-Fragment-.aspx) ，同樣的問題，我改用 .NET 開發是不是就搞定了? 其實這篇才是我要寫的重點，只不過引言寫太高興，就是兩篇文章了，咳咳... 有人在問，為什麼我老是寫些冷門的文章? 沒辦法... 大家都在寫的東西我就沒興趣寫了，文筆沒別人好，網站沒別人漂亮，連範例程式都沒別人炫，只好挑些沒人寫的內容...
 
 大部份討論這主題的文章，講的都是 GC, GC 的 generation，IDisposable，還有 Heap 等等，不過這些知識都無法直接回答這次問題。底下的例子你會發現，預設的 GC 也無法解決 memory fragment 的問題，不過實際上是有解的，只是還要動用到秘技...
 
-&nbsp;
 
 回題，先來看看之前的問題為什麼會是個問題? 萬惡之首都在: 指標 (POINTER)。
 
@@ -39,21 +39,19 @@ wordpress_postid: 117
 
 整段程式碼跟之前 C 版本大同小異，就是照順序配置 64mb 的 byte[]，直到丟出 OutOfMemoryException，然後跳著釋放，接著再配置 72mb 的 byte[]，看看能不能配置成功? 直到再丟出 OutOfMemoryException 為止，能配置多少記憶體? 這邊為了方便，我直接在 vista x86 系統上測試:
 
-&nbsp;
+
 
 測試的結果令我想殺人，竟然是 FAIL ? 放掉的空間拿不回來...
 
-<img style="border-width: 0px;" src="/wp-content/be-files/WindowsLiveWriter/MemoryManagementIII.NETCLR_330F/image_3.png" alt="without GC" width="604" height="394" border="0" />
+![](/wp-content/be-files/WindowsLiveWriter/MemoryManagementIII.NETCLR_330F/image_3.png)
 
-&nbsp;
 
 後來想到，程式移除 reference，不見得會立刻釋放記憶體，總得等垃圾車 (Garbage Collect) 來收拾一下... 手動呼叫了 GC，也強迫指定要回收所有的 Generation 了 (呼叫: GC.Collect(GC.MaxGeneraion) ) 再試一次:
 
-<a href="/wp-content/be-files/WindowsLiveWriter/MemoryManagementIII.NETCLR_330F/image_5.png"><img style="border-width: 0px;" src="/wp-content/be-files/WindowsLiveWriter/MemoryManagementIII.NETCLR_330F/image_thumb_1.png" alt="with GC" width="604" height="394" border="0" /></a>
+![](/wp-content/be-files/WindowsLiveWriter/MemoryManagementIII.NETCLR_330F/image_5.png)
 
-&nbsp;
 
-結果好不到那裡去，難到我沒用市政府的垃圾袋嘛? [:@] 查了一下 MSDN，常見的 generation 問題也試過，沒有用。90% 講 CLR GC 的問題都在探討 generation 的問題...  查到某 Java 名人的<a href="http://www.microsoft.com/taiwan/msdn/columns/DoNet/garbage_collection.htm">文章</a>，提到了 compact collection 比較接近，不過沒有講怎麼明確的啟動這樣的 GC 啊... 後來去翻 .NET runtime 裡關於 garbage collection 的設定，發現還有這玩意... gcConcurrent / gcServer:
+結果好不到那裡去，難到我沒用市政府的垃圾袋嘛? [:@] 查了一下 MSDN，常見的 generation 問題也試過，沒有用。90% 講 CLR GC 的問題都在探討 generation 的問題...  查到某 Java 名人的 [文章](http://www.microsoft.com/taiwan/msdn/columns/DoNet/garbage_collection.htm)，提到了 compact collection 比較接近，不過沒有講怎麼明確的啟動這樣的 GC 啊... 後來去翻 .NET runtime 裡關於 garbage collection 的設定，發現還有這玩意... gcConcurrent / gcServer:
 
 gcConcurrent: Specifies whether the common language runtime runs garbage collection on a separate thread.
 
@@ -61,15 +59,14 @@ gcServer: Specifies whether the common language runtime runs server garbage coll
 
 講的很清楚，不過對我沒啥用。gcConcurrent可能的影響是，也許呼叫後系統還在GC，我的程式就先跑下去了? 因此這東西關掉也許有幫助，再來試一次:
 
-<a href="/wp-content/be-files/WindowsLiveWriter/MemoryManagementIII.NETCLR_330F/image_7.png"><img style="border-width: 0px;" src="/wp-content/be-files/WindowsLiveWriter/MemoryManagementIII.NETCLR_330F/image_thumb_2.png" alt="gcConcurrent Disabled" width="604" height="394" border="0" /></a>
 
-&nbsp;
+![](/wp-content/be-files/WindowsLiveWriter/MemoryManagementIII.NETCLR_330F/image_7.png)
+
 
 真慘，一點幫助都沒有... 放掉的 768MB，只撈回 72MB，再來看一下最後一個 gcServer，看它的 HELP 看不大出來什麼是 "server garbage collection" ? 算了，試一下比較快:
 
-<a href="/wp-content/be-files/WindowsLiveWriter/MemoryManagementIII.NETCLR_330F/image_9.png"><img style="border-width: 0px;" src="/wp-content/be-files/WindowsLiveWriter/MemoryManagementIII.NETCLR_330F/image_thumb_3.png" alt="gcServer Enabled" width="604" height="394" border="0" /></a>
+![](/wp-content/be-files/WindowsLiveWriter/MemoryManagementIII.NETCLR_330F/image_9.png)
 
-&nbsp;
 
 Bingo，看來這個參數下下去才是我預期的結果，放掉了 576MB，後面撈了 648MB 回來。這樣的作法，已經完全不會受到 memory fragment 問題的影響，証實了 compact collection 是有發恢它的效用的，只不過這個參數實際的作用，翻遍了 Google / MSDN，得到的都是很模菱兩可的答案，不外乎是你的程式如果是 blah blah blah 的話就要用 gcServer，這樣會比較好之類的，不過實際的差別則看不大出來。沒有任何一篇文件明確提到 server gc 會做 compact collection (如果這篇不算的話，哈哈)，而 workstation gc 不會，也許前面的方式也會觸發 compact collection也說不定，只是時機不成熟...
 
@@ -77,14 +74,12 @@ Bingo，看來這個參數下下去才是我預期的結果，放掉了 576MB，
 
 寫到這裡，本系列文章結束，只是為了在新的平台驗證古早的問題而以，果然時代在進步，以前耽心的問題現在都不再是問題了。這一連串試下來，學到了一課，原來 gcServer 有這個差別，算是值回票價了。最後把我的測試程式碼貼一下，一樣，歡迎拿去各種平台試一下，有不一樣的結果也記得通知我一聲!
 
-&nbsp;
-
-&nbsp;
 
 [Program.cs]
 
-<!-- code formatted by http://manoli.net/csharpformat/ -->
-<pre class="lang:c# decode:true ">using System;
+```csharp
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -93,9 +88,9 @@ namespace ClrMemMgmt
     class Program
     {
         static void Main(string[] args) {
-            List&lt;byte[]&gt; buffer1 = new List&lt;byte[]&gt;();
-            List&lt;byte[]&gt; buffer2 = new List&lt;byte[]&gt;();
-            List&lt;byte[]&gt; buffer3 = new List&lt;byte[]&gt;();
+            List<byte[]> buffer1 = new List<byte[]>();
+            List<byte[]> buffer2 = new List<byte[]>();
+            List<byte[]> buffer3 = new List<byte[]>();
             
             //            
             //    allocate             
@@ -155,23 +150,16 @@ namespace ClrMemMgmt
             Console.ReadLine();
         }
     }
-}</pre>
-&nbsp;
-
-&nbsp;
-
-&nbsp;
-
-&nbsp;
+}
+```
 
 [configuration file]
-
-<!-- code formatted by http://manoli.net/csharpformat/ -->
-<pre class="lang:xhtml decode:true ">&lt;?xml version="1.0" encoding="utf-8" ?&gt;
-&lt;configuration&gt;  
-  &lt;runtime&gt;    
-    &lt;!--&lt;gcConcurrent enabled="false" /&gt;--&gt;    
-    &lt;!--&lt;gcServer enabled="true" /&gt;--&gt;  
-  &lt;/runtime&gt;
-&lt;/configuration&gt;</pre>
-&nbsp;
+```xml
+<?xml version="1.0" encoding="utf-8" ?>
+<configuration>  
+  <runtime>    
+    <!--<gcConcurrent enabled="false" />-->    
+    <!--<gcServer enabled="true" />-->  
+  </runtime>
+</configuration>
+```
