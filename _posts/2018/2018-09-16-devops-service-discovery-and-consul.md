@@ -13,7 +13,47 @@ logo:
 
 從微服務化開始，面臨的第一個問題就是你該如何管理你旗下的這堆內外部服務? 要有條理的管理好這堆服務，可是件苦差事 (雖然技術上不是件難事)。這是你的服務能不能維持在一定複雜度之下持續發展茁壯的重要關鍵。對於 developer, 這是個較陌生的課題，因此在今年 DevOpsDays Taipei 2018, 我準備了這個 session, 準備從 developer 的角度來看待這件事，要介紹的就是 service discovery, 微服務架構下最重要的基礎建設。
 
-這篇我不會從 service discovery 的基礎開始談起。想看基礎建紹的可以參考我去年寫的這篇: 
+這篇我不會從 service discovery 的基礎開始談起。想看基礎建紹的可以參考我去年寫的這篇: [微服務基礎建設 - Service Discovery](/2017/12/31/microservice9-servicediscovery/)。我這個 Session 會從應用面，來說明 developer 面對問題時應該如何解決? 該如何善用 service discovery 的服務 (我用 HashiCorp Consul 當作示範) ? 架構上該如何安排與規劃?
+
+我會先假設參加這個 Session 的朋友們，或是看這篇文章的讀者們，已經有基本的分散式系統開發經驗。概念與架構的部分我會參考這本書: Designing Distributed Systems, Patterns and Paradigms for Scalable, Reliable Services; 由 O'reilly 發行的書籍。Microsoft Azure 也很佛心的提供免費電子書下載 ([free ebook download](https://azure.microsoft.com/en-us/resources/designing-distributed-systems/))，裡面涵蓋了各種分散式系統的參考架構, 你可以把它當成微服務版本的 design pattern 來閱讀。
+
+<!--more-->
+
+# 導讀: 微服務的管理
+
+微服務的主要訴求，就是透過切割服務，將龐大複雜的系統，轉變為數個獨立自主的小型服務組成。切割得宜的話，每個團隊只需要負責維護各自的服務即可，降低了共同維護單一大型系統帶來的複雜度。服務的介面為各自定義的 API, 或是其它預先定義的通訊界面 (interface)。在這個 interface 維持不變的前提下，各個服務與團隊，可以自行決定內部的實作方式與採用的 tech stack, 面臨技術轉移的情況時，也能降低轉移與維護的複雜度。
+
+不過，在單體式應用 (monolitch) 轉移到微服務 (microservices) 的過程中，第一個面臨到的就是管理問題。舉例來說，你應該會碰到:
+
+1. 單一服務開始會變成多個 instance, 我該如何管理好 configuration ?
+1. 我該如何讓服務啟動後能自動的取得適當的組態?
+1. 跨越服務的呼叫越來越頻繁，我該如何精準地找到其它服務的 API endpoint (url + port)?
+1. 我該如何確保其它內外部服務的可用狀態, 以便我做出正確的應變措施?
+
+更進階一點的問題:
+
+1. 在大型的 SaaS (software as a service) 模式的應用, 我如何將單一的服務提供給多個獨立客戶 (租戶) 使用?
+1. 我如何替各別的客戶，提供不同等級的服務保證 (SLA, service level aggrement) ?
+1. 我如何能更精準的調節服務之間的通訊? 而非透過統一的 API Gateway / Load Balancer, 避免這些匝道變成單一失敗節點, 或是效能瓶頸?
+
+不夠進階嗎? 那再來幾個:
+
+1. 如何發現 "服務發現" 的服務?
+1. 我需要 Service Mesh 嗎? 該如何做?
+
+
+
+
+
+# BASIC: SERVICE DISCOVERY
+
+
+# ADV: DDS 實作, Consul 的應用案例
+
+
+# ADV: Service Mesh, Consul 的應用案例
+
+
 
 
 
