@@ -15,7 +15,9 @@ logo: /wp-content/images/2018-07-28-labs-LCOW-volume/2018-08-12-01-42-58.png
 
 有時候，無知就是福啊... 沒想到我也默默忍受了這個地雷一年多了都沒發現。Container 透過 volume 掛載儲存空間到容器內部，會有一定的效能折損是一定的。然而 container 本身透過 [AUFS](https://philipzheng.gitbooks.io/docker_practice/content/underly/ufs.html) 也有一定的效能折損啊。原本很天真的想: 我都在本機使用，想想應該不會差到哪裡去，直到膝蓋中了一箭... 
 
-事情要回顧到兩年前，我[開始把 Blog 搬到 GitHub Pages 上面](/2016/09/16/blog-as-code/)來開始說起... 當時為了避開 Ruby for Windows 地獄，我一直用 Docker for Windows 跑 Jekyll 在我自己 PC build website 測試，直到前一陣子突然想用 LCOW 來替代，才意外發現 volume 跟 container 內部的 I/O 效能有天跟地的差別...
+事情要回顧到兩年前，我[開始把 Blog 搬到 GitHub Pages 上面](/2016/09/16/blog-as-code/)來開始說起... 當時為了避開 Ruby for Windows 地獄，我一直用 Docker for Windows 跑 Jekyll 在我自己 PC build website 測試，直到前一陣子突然想用 [LCOW](/2017/10/04/lcow/) 來替代，才意外發現 volume 跟 container 內部的 I/O 效能有天跟地的差別...
+
+不過，不論你對測試的數據有沒有興趣，請務必看一下 [結論](#結論) 這個章節。雖然 (先雷一下結果好了) 透過 LCOW 掛上 volume 的 I/O 效能不好看，但是別急著否定他。搞清楚它的定位，搞清楚什麼應用場景才是適合 LCOW 發揮的領域，善用他才是正途。
 
 <!--more-->
 
@@ -23,10 +25,21 @@ logo: /wp-content/images/2018-07-28-labs-LCOW-volume/2018-08-12-01-42-58.png
 
 我決定改掉過去都會講一堆故事的習慣了，這次直接從結果開始看。我測試的標的，就用我自己的部落格，用 Jekyll 官方的 [docker image](https://hub.docker.com/r/jekyll/jekyll/):2.4.0。測試的紀錄跟數據有點囉嗦，我列在這段的最後面，有興趣的讀者們再去看就好。我直接先來解讀 LAB1 的測試結果。
 
-測試的方式很簡單，同樣的 Jekyll 官方版本 docker image, 我分別用 docker for windows 與 LCOW (linux container on windows) 兩種環境，並且把 source 與 destination 分別放在 volume 與 container 內部測試。我測試了這三種組態:
-1. source 擺在 volume, destination 擺在 volume
-1. source 擺在 volume, destination 擺在 container
-1. source 擺在 container, destination 擺在 container
+
+![](/wp-content/images/2018-07-28-labs-LCOW-volume/2018-08-12-18-07-31.png)
+
+測試的方式很簡單，用 Jekyll 官方版本 docker image, 將網站的 source code 編譯成 destination web sites, 輸出成靜態檔案 (如下圖)。執行的環境分別用 docker for windows 與 LCOW (linux container on windows) 兩種，並且把 source 與 destination 分別放在 volume 與 container 內部不同的組合來進行測試。
+
+
+我測試了這三種組態:
+1. source 擺在 volume, destination 擺在 volume (volume -> volume)
+![](/wp-content/images/2018-07-28-labs-LCOW-volume/2018-08-12-18-09-18.png)
+
+1. source 擺在 volume, destination 擺在 container (volume -> container)
+![](/wp-content/images/2018-07-28-labs-LCOW-volume/2018-08-12-18-09-47.png)
+
+1. source 擺在 container, destination 擺在 container (container -> container)
+![](/wp-content/images/2018-07-28-labs-LCOW-volume/2018-08-12-18-10-09.png)
 
 這樣安排的目的，就是先前踩了一堆雷之後，我想觀察不同的 container engine 對於不同的 storage 處理方式，對 Jekyll build website 的效能差異到底有多大?
 
@@ -37,6 +50,7 @@ logo: /wp-content/images/2018-07-28-labs-LCOW-volume/2018-08-12-01-42-58.png
 |LCOW| (#1), 無法測試 |(#2),135.493s|(#3),12.86s|
 |Docker|(#4),120.368s|(#5),35.763s|(#6),12.11s|
 
+看起來，大量檔案的處理這種 case, 是否透過 volume 進行，對於效能有極大的影響。這跟我之前認知的 mount volume 有很大的差別啊，不過不論是 LCOW 或是 Docker for Windows, 中間都是隔著一層 Hyper-V 在進行的，理論上效能本來就會有明顯的落差 (Docker for Windows 是本機開啟 SMB share, 讓 Linux VM mount 使用)。看來在跨越 Host 與 VM 之間的 volume, LCOW 跟 Docker for Windows 的處理方式存在著落差，但是在 container -> container 的測試條件下的表現，兩者是不分軒輊的，都是最佳的表現 (大約 12 sec)。
 
 其中比較特別的，是測試環境 #1, LCOW (volume -> volume) 這個測試。同一個 docker image, 理論上執行環境應該都是一樣的才對，但是在 LCOW 上面卻跑到一半就有錯誤訊息，試了不下數十次，每次都停在不同的檔案無法寫入的問題上。同時 volume -> container 的這組測試，兩種 container engine 表現出來的效能差異也頗大，令我訝異。看來兩種 engine 對於跨越 windows host -> linux host 之間的 volume 處理方式差異很大，不但對效能有影響，而且看來也對大量 I/O 下的某些行為 (我猜是 file lock release 時機之類的差異?) 也有不同，導致這些落差。
 
@@ -48,7 +62,7 @@ logo: /wp-content/images/2018-07-28-labs-LCOW-volume/2018-08-12-01-42-58.png
 
 # LAB2, 不同組態下 container 的 I/O 效率
 
-前面 LAB1 是用實際的 scenario (Jekyll Build WebSite) 來當作評估的方式，但是如果單純想了解 I/O 上面的差異，比較好的方式是直接針對 I/O 進行測試。LAB2 就是要側這個東西，我找了 linux 內建的 dd 指令，也找了對應的 windows 版本 dd.exe 來當對照組，直接測試從 /dev/urandom 讀取 1M 的資料 1024 次，並寫入 container or volume 所要花費的時間。Microsoft 提供了好幾種方式來運行 windows / linux container, 我總共用了這幾種組態:
+前面 LAB1 是用實際的 scenario (Jekyll Build WebSite) 來當作評估的方式，但是如果單純想了解 I/O 上面的差異，比較好的方式是直接針對 I/O 進行測試。LAB2 就是要側這個東西，我找了 linux 內建的 ```dd``` 指令，也找了對應的 windows 版本 ```dd.exe``` 來當對照組，直接測試從 ```/dev/urandom``` 讀取 1M 的資料 1024 次，並寫入 container or volume 所要花費的時間。Microsoft 提供了好幾種方式來運行 windows / linux container, 我總共用了這幾種組態:
 
 1. windows host (不透過 container, 直接在本機上測試, 當參考值使用)
 1. linux host (不透過 container, 直接在本機上測試, 當參考值使用)
@@ -58,13 +72,13 @@ logo: /wp-content/images/2018-07-28-labs-LCOW-volume/2018-08-12-01-42-58.png
 1. linux container (docker for windows, hyper-v)
 
 *補充閱讀*
-Microsoft 在 windows container 的架構設計上，支援了 --isolation 的選項，期望提供不同層級的隔離方式, 解決 container 被詬病的安全問題。你可以選擇用預設的 process 隔離層級，可以得到最棒的效能；你也可以選擇 hyperv 的隔離層級，windows 會為你的 container 啟動專屬的 VM, 用最高的隔離層級來確保安全性。這種模式下，是在專屬 VM 跑最精簡版的 OS (nanoserver / linuxkit) 後再來啟動你指定的 container。但是在 windows 10 只支援半套，你只能用 hyper-v 隔離層級的 container, 因此這實驗一定得在支援 hyper-v 的 windows server 上面才能測試。
+Microsoft 在 windows container 的架構設計上，支援了 ```--isolation``` 的選項，期望提供不同層級的隔離方式, 解決 container 被詬病的安全問題。你可以選擇用預設的 process 隔離層級，可以得到最棒的效能；你也可以選擇 hyperv 的隔離層級，windows 會為你的 container 啟動專屬的 VM, 用最高的隔離層級來確保安全性。這種模式下，是在專屬 VM 跑最精簡版的 OS (nanoserver / linuxkit) 後再來啟動你指定的 container。但是在 windows 10 只支援半套，你只能用 hyper-v 隔離層級的 container, 因此這實驗一定得在支援 hyper-v 的 windows server 上面才能測試。
 
-不過 windows 10 又另外支援 docker 已第三方角度開發的 docker for window, 裡面真的透過 hyper-v 運行了一個 MobyLinux 的 VM, 然後把 linux container 丟進去跑。這種模式大概就是方便而已，官方沒有直接支援 windows server ... 當然你硬要跑也是可以，不過我想沒有人會在 production environment 這樣玩吧!
+不過 windows 10 又另外支援 docker 已第三方角度開發的 docker for window, 裡面真的透過 hyper-v 運行了一個 [MobyLinux](https://github.com/moby/moby) 的 VM, 然後把 linux container 丟進去跑。這種模式大概就是方便而已，官方沒有直接支援 windows server ... 當然你硬要跑也是可以，不過我想沒有人會在 production environment 這樣玩吧!
 
 我列了 Docker for Windows 跟 LCOW 不同的幾個地方:
 
-1. Microsoft 用的底層 OS 是 LinuxKit, Docker for Windows 用的是 MobyLinux
+1. Microsoft 用的底層 OS 是 [LinuxKit](https://github.com/linuxkit/linuxkit), Docker for Windows 用的是 MobyLinux
 1. LCOW 會替每一個 linux container 準備獨立的 VM, Docker for Windows 會為所有的 linux container 共用同一個 VM
 1. LCOW 可以跟 windows container 共存，共用同樣的 network，也可存在同一組 docker compose 內。Docker for Windows 則是單純的開了個專跑 linux container 的 VM 而已，不支援 windows container。
 
@@ -80,24 +94,24 @@ Docker for Windows 畢竟是在 LCOW 成熟之前就有的產物，大部分的�
 
 由於硬體環境上的限制，沒辦法湊到所有環境都能用一樣的硬體來進行。因此我用一樣的 container, 一樣的測試工具, 一樣的參數來進行測試；測試結果我分成三組，每一組內的測試環境規格都是一模一樣的，因此同一組的數據可以讓你比較效能差異，不同組之間的比較的只能當作參考。
 
-測試方式很簡單，我找了 linux 內建的指令: dd, 同時也找到對應的 dd for windows 版本，拿來當跨平台評估使用。我用這樣的指令來測試:
+測試方式很簡單，我找了 linux 內建的指令: ```dd```, 同時也找到對應的 ```dd for windows``` 版本，拿來當跨平台評估使用。我用這樣的指令來測試:
 
 ```shell
 dd if=/dev/urandom of=./largefile bs=1M count=1024
 ```
 
 簡單說明一下這行指令在幹嘛:
-- if: input file, 指定 /dev/unrandom 讀取亂數的內容當作 source
-- of: output file, 從 if 讀出的資料，會寫到 of 指定的目的地
-- bs: block size, 讀取與寫入過程中用的 block size
-- count: 重複執行次數
+- ```if```: input file, 指定 ```/dev/unrandom``` 讀取亂數的內容當作 source
+- ```of```: output file, 從 if 讀出的資料，會寫到 of 指定的目的地
+- ```bs```: block size, 讀取與寫入過程中用的 block size
+- ```count```: 重複執行次數
 
-白話的說，這段指令會從 if 讀取 bs 大小的資料，寫到 of, 重複 count 次，上面的參數總共會對 of 寫入 1GB 的資料, 下列所有實驗數據都是計算執行花費的時間。接下來，就是在各種環境下，分別啟動 windows container 與 linux container，記錄下執行上述測試的時間 5 次取平均值。
+白話的說，這段指令會從 ``if`` 讀取 ```bs``` 大小的資料，寫到 ```of```, 重複 count 次，上面的參數總共會對 of 寫入 1GB 的資料, 下列所有實驗數據都是計算執行花費的時間。接下來，就是在各種環境下，分別啟動 windows container 與 linux container，記錄下執行上述測試的時間 5 次取平均值。
 
-platform: 執行測試工具的 OS。可能的值有 windows | linux
-isolation: 執行測試工具 OS 的隔離層級 (none 代表在本機上執行)。可能的值有: none | process | hyperv
-of=container: 寫入 container 內的空間。
-of=volume: 寫入由 host local disk 掛載進 container 使用的 volume
+```platform```: 執行測試工具的 OS。可能的值有 ```windows | linux```
+```isolation```: 執行測試工具 OS 的隔離層級 (none 代表在本機上執行)。可能的值有: ```none | process | hyperv```
+```of=container```: 寫入 container 內的空間。
+```of=volume```: 寫入由 host local disk 掛載進 container 使用的 volume
 
 
 這次測試的硬體有三組，分別是:
@@ -178,7 +192,7 @@ HDD: 30GB Managed Disk, Preminum SSD, ENCRYPTION not enabled
 
 如果是標準的 container 運作方式 (也就是只虛擬化 OS)，只有 process 的隔離層級來看，windows container 表現其實不差啊!
 
-我拿 LAB2-3 的兩個結果來看 (我暫且不拿不同的 OS 來比較，從工具 DD 跟 device: /dev/urandom 的設計都有差別):
+我拿 LAB2-3 的兩個結果來看 (我暫且不拿不同的 OS 來比較，從工具 ```DD``` 跟 ```device: /dev/urandom``` 的設計都有差別):
 - windows 原生環境的測試，跑完要 2.19 sec, 容器內執行寫入 container / volume 分別要 2.06 sec / 2.13 sec, 差異不大，可視為沒有太大的影響。
 - linux 原生環境的測試，跑完要 6.40 sec, 容器內執行寫入 container / volume 分別要 6.51 sec / 6.52 sec, 差異一樣不大。
 
@@ -232,7 +246,7 @@ LAB2-2 改用 windows 10 pro, 除了 OS 本身限制無法執行 process 的隔�
 
 Microsoft 放棄了手機的 OS (windows phone), 在 Cloud 端的 OS (windows server) 也處於劣勢，Developer 這塊空間就是 Microsoft 的主戰場了。不得不說這部分做得還不錯。講了這麼多，我在這篇只有一個結論是: LCOW (Linux Container On Windows) 最適合的應用對象就是開發人員。當你需要快速搭建混合 windows / linux 的測試環境，windows server 是你的好選擇。由於 container 的架構，有絕佳的相容性，配合 docker 的 eco system, 你可以很容易的把你的 application 遷移到正規的環境上面，用最有效率的方式執行。然而開發測試，就用最方便的架構來進行。
 
-從這個角度來看，上面的測試 LCOW 的效能表現，反而不是最關鍵的考量了 (不過那個爆爛的 I/O 效能應該還是要改一改吧)! 我寫這篇的目的是希望大家都能正確的了解效能上的差異，與定位上的差異，你才能做出最適當的選擇。不然，一定會有人看到數字就開槍，然後就引發信仰大戰... 我到是很客觀看待，雖然我是 MVP，不過我也沒必要扭曲事實，認清每個產品的特性，做出最佳的選擇才是最重要的，不是嗎? :D
+從這個角度來看，上面的測試 LCOW 的效能表現，反而不是最關鍵的考量了 (不過那個爆爛的 I/O 效能應該還是要改一改吧)! 我寫這篇的目的是希望大家都能正確的了解效能上的差異，與定位上的差異，你才能做出最適當的選擇。不然，一定會有人看到數字就開槍，然後就引發信仰大戰... 我到是很客觀看待，雖然我是 [MVP](https://mvp.microsoft.com/zh-tw/PublicProfile/5002155?fullName=Andrew%20%20Wu)，不過我也沒必要扭曲事實，認清每個產品的特性，做出最佳的選擇才是最重要的，不是嗎? :D
 
 
 
