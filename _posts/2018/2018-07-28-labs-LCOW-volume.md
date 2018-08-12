@@ -156,6 +156,7 @@ OS:  Microsoft Windows 10 Pro 1803
 
 
 測試結果:
+
 |platform|isolation|to container|to volume|
 |--------|---------|------------|---------|
 |windows|none|--|3.11617|
@@ -246,7 +247,7 @@ LAB2-2 改用 windows 10 pro, 除了 OS 本身限制無法執行 process 的隔�
 
 Microsoft 放棄了手機的 OS (windows phone), 在 Cloud 端的 OS (windows server) 也處於劣勢，Developer 這塊空間就是 Microsoft 的主戰場了。不得不說這部分做得還不錯。講了這麼多，我在這篇只有一個結論是: LCOW (Linux Container On Windows) 最適合的應用對象就是開發人員。當你需要快速搭建混合 windows / linux 的測試環境，windows server 是你的好選擇。由於 container 的架構，有絕佳的相容性，配合 docker 的 eco system, 你可以很容易的把你的 application 遷移到正規的環境上面，用最有效率的方式執行。然而開發測試，就用最方便的架構來進行。
 
-從這個角度來看，上面的測試 LCOW 的效能表現，反而不是最關鍵的考量了 (不過那個爆爛的 I/O 效能應該還是要改一改吧)! 我寫這篇的目的是希望大家都能正確的了解效能上的差異，與定位上的差異，你才能做出最適當的選擇。不然，一定會有人看到數字就開槍，然後就引發信仰大戰... 我到是很客觀看待，雖然我是 [MVP](https://mvp.microsoft.com/zh-tw/PublicProfile/5002155?fullName=Andrew%20%20Wu)，不過我也沒必要扭曲事實，認清每個產品的特性，做出最佳的選擇才是最重要的，不是嗎? :D
+從這個角度來看，上面的測試 LCOW 的效能表現，反而不是最關鍵的考量了 (不過那個爆爛的 I/O 效能應該還是要改一改吧)! 我寫這篇的目的是希望大家都能正確的了解效能上的差異，與定位上的差異，你才能做出最適當的選擇。不然，一定會有人看到數字就開槍，然後就引發信仰大戰...認清每個產品的特性，做出最佳的選擇才是最重要的，不是嗎?
 
 
 
