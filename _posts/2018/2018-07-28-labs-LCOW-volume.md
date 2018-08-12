@@ -1,8 +1,7 @@
 ---
 layout: post
-title: "有雷! 使用 LCOW 掛載 Volume 的效能陷阱"
+title: "使用 LCOW 掛載 Volume 的效能陷阱"
 categories: 
-- "系列文章: 架構師觀點"
 tags: ["Docker","LCOW","技術隨筆"]
 published: true
 comments: true
