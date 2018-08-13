@@ -2,7 +2,7 @@
 layout: post
 title: "使用 LCOW 掛載 Volume 的效能陷阱"
 categories: 
-tags: ["docker","LCOW","windows container","microservice"]
+tags: ["docker","LCOW","windows container","microservice", "azure"]
 published: true
 comments: true
 redirect_from:
