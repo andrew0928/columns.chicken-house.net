@@ -27,6 +27,9 @@ wordpress_postid: 53
 
 > 用同一套程式碼，同時維護兩個版本 (RELEASE / DEBUG)，讓錯誤自動跑出來。
 
+<!--more-->
+{% include series-2008-good-programmer.md %}
+
 
 雖然這本書提到了不少技巧，正確的應用 TRACE / ASSERT 是最基本的。但是那些細節並不是主要的重點。重點是你在寫 CODE 時有時時刻刻記得要盡量減少 BUG 嗎? 你有正確的擬出對策嗎? 來看看上回最後一段範例程式:
 
