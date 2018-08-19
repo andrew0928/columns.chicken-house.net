@@ -19,44 +19,137 @@ logo:
 
 <!--more-->
 
-# 導讀: 微服務的管理
+# 導讀: 微服務架構下，服務管理的挑戰
 
-微服務的主要訴求，就是透過切割服務，將龐大複雜的系統，轉變為數個獨立自主的小型服務組成。切割得宜的話，每個團隊只需要負責維護各自的服務即可，降低了共同維護單一大型系統帶來的複雜度。服務的介面為各自定義的 API, 或是其它預先定義的通訊界面 (interface)。在這個 interface 維持不變的前提下，各個服務與團隊，可以自行決定內部的實作方式與採用的 tech stack, 面臨技術轉移的情況時，也能降低轉移與維護的複雜度。
+微服務的主要訴求，就是透過切割服務，將龐大複雜的系統，轉變為數個獨立自主的小型服務組成。每個服務專注且單一，複雜度隨之下降。微服務架構所有的好處都源自這個改變。切割得宜的話，每個團隊只需要負責維護各自的服務即可，降低了共同維護單一大型系統帶來的複雜度。服務的介面為各自定義的溝通介面 (interface)，在這個 interface 維持不變的前提下，各個服務與團隊，可以自行決定內部的實作方式與採用的 tech stack / language / framework, 面臨技術轉移的情況時，也能降低轉移與維護的複雜度。
 
-不過，在單體式應用 (monolitch) 轉移到微服務 (microservices) 的過程中，第一個面臨到的就是管理問題。舉例來說，你應該會碰到:
+不過，在單體式應用 (monolitch) 轉移到微服務 (microservices) 的過程中，第一個面臨到的就是如何管理大量 (包含種類與個數) 問題。舉例來說，你應該會碰到:
 
-1. 單一服務開始會變成多個 instance, 我該如何管理好 configuration ?
-1. 我該如何讓服務啟動後能自動的取得適當的組態?
-1. 跨越服務的呼叫越來越頻繁，我該如何精準地找到其它服務的 API endpoint (url + port)?
-1. 我該如何確保其它內外部服務的可用狀態, 以便我做出正確的應變措施?
+1. 同時有這麼多 "種" 服務在運行，我如何隨時掌握每個服務能不能正常運作? 以便我做出正確的應變措施?
+1. 服務同時有這麼多 "個" instance 在運行，我如何隨時掌握這些 instance 能不能正常運作?
+1. 我如何快速又精準的找到我要呼叫的服務在哪裡? (endpoint, address, port, ... etc)
+1. 我如何確保這些服務的組態 (configuration) 是正確一致的? 組態改變時如何確保能立即生效?
 
 更進階一點的問題:
 
-1. 在大型的 SaaS (software as a service) 模式的應用, 我如何將單一的服務提供給多個獨立客戶 (租戶) 使用?
-1. 我如何替各別的客戶，提供不同等級的服務保證 (SLA, service level aggrement) ?
-1. 我如何能更精準的調節服務之間的通訊? 而非透過統一的 API Gateway / Load Balancer, 避免這些匝道變成單一失敗節點, 或是效能瓶頸?
+1. 多租戶架構下，我如何保留固定的運算資源 (DB, 保留的 service instances) 給特定的用戶，提供不同等級的服務保證 (SLA, service level aggrement) ?
+1. 我如何能更精準的調節服務之間的通訊? 而非透過統一的 API Gateway / Load Balancer, 避免這些匝道變成單一失敗節點, 或是效能瓶頸? (Service Mesh)
+1. 如果以上問題都能透過 Service Discovery 處理，那我的服務啟動時，該如何找到 "服務發現" 的服務? 該如何找到 "組態管理" 的服務在哪裡?
 
-不夠進階嗎? 那再來幾個:
+這些問題，如果你都不知道怎麼做，或是怎麼做才到位? 那就是這篇文章主要要說明的內容。這些內容其實並不難，但是他橫跨了 Dev(開發) 與 Ops(維運) 兩種角色，這對大部分的組織 (尤其是台灣) 來說是一大挑戰。熟悉 Dev 的團隊，往往會自行開發一整套的 solution 來解決這些問題，忽略了目前已發展成熟的各種 OSS 解決方案。熟 Ops 的團隊往往過於熱衷用最新的服務搭建各種基礎建設，但是卻忽略了自身的 application 沒有辦法很好的整合或是充分利用這些優點....。
 
-1. 如何發現 "服務發現" 的服務?
-1. 微服務完全體: Service Mesh
+因此，我這篇文章的定位，主要的目的在於打破中間的隔閡，對象我定位在開發人員，我希望能從開發人員的角度，讓開發人員了解這一整套 Service Discovery 在架構上搭配的做法，同時反思該如何應用在自己的服務開發上。只有做好整合的環節，才能順利發揮最大的效益。
 
+因此，下列的介紹我分三部分進行，分別是:
 
-
-
-
-# BASIC: SERVICE DISCOVERY
-
-
-# ADV: DDS 實作, Consul 的應用案例
-
-
-# ADV: Service Mesh, Consul 的應用案例
+1. BASIC: Service Discovery Overview, 重新複習上一篇 Service Discovery 的幾個重要觀念
+1. ADVANCED: Consul 應用案例 (參考: DDS, Designing Distributd System)
+1. Future: Consul 進階應用, Service Mesh
 
 
 
 
 
+# BASIC: Service Discovery Overview
+
+先交代一下 Service Discovery 基礎的部分。這邊會跟後面的應用有關，我把基本觀念交代一下就好。詳細的部分可以參考 [這篇] 的說明。在討論架構時，我喜歡倒回來講，先從目的來談，再來談作法。Service Discovery 的目的是替整套系統，維護並且提供一份完整的服務清單 (包含到每個 service instance)。你要呼叫任何其他服務之前，只要向它查詢後得知該服務 (精確到 instance) 的資訊，就能夠進行後續的服務調用的動作。
+
+為了達成這個目的，有幾種常見的 design patterns 可以參考。通常有三個部分需要搭配:
+
+1. 使用服務的部分 (client)
+1. 被呼叫的服務 (service), 以及提供服務的個體 (service instance)
+1. 協助雙方找到服務的基礎建設 (service discovery)
+
+服務啟動的基本的流程是:
+
+1. service instance 啟動, 向 service discovery 註冊自身的資訊 (service name, address, port)
+1. service discovery 收到註冊資訊後，加入 service list。並且按照定義的 health check 方式，定期確認該 service instance 的健康狀態。
+1. service instance 關閉或是超過約定時間都無法正常提供服務 (透過 health check 確認的資訊)，則將之從 service list 剔除。
+
+若 client 需要調用 service 提供的服務時，基本流程是:
+
+1. client 向 service discovery 查詢可用的 service list 資訊
+1. 根據條件 (剔除無法提供服務的 instances) 隨機從 service list 中挑選一個 instance
+1. 按照 service instance 登記的資訊 (如 address, port), 按照 API 的規範調用該服務
+
+基本上，只要服務的註冊跟健康偵測有做好，這樣的流程就足以解決大部分的需求了。用 UML Sequency Diagram 來表達一下這過程:
+
+// sequency diagram
+
+
+
+
+# BASIC: Config Management
+
+暫時先跳離 service discovery 這個主題，來談談微服務架構下另一個常面臨的問題: 組態管理 (configure management)。
+
+組態管理，也算是治理眾多服務能力中的一環。就拿我熟悉的 .NET 為例就好。ASP.NET 多年前就標榜可以 "xcopy deploy", 將組態管理的責任，從當年盛行的 registry (windows 本機的註冊機碼) 中解放出來，改成從 files 就能完全解決的做法，我只要靠 xcopy 的指令，把所有的 code, contents, config file 部署到目標 server, 就能完成部署。
+
+不過這樣的做法，是否依然還適用於微服務架構? 在一些更細膩的管理上，file based 的做法明顯不足。舉例來說:
+
+1. 當我的組態資料庫多達數 MB 時，我還要每個 instance 都複製一次?
+1. 當我採用 containers, 服務高達上千個 instances 時，我也需要都複製一次?
+1. configuration 能否有更細膩的管理? 例如組態的權限管控，局部設定變更的通知，組態的異動 API ，甚至幾種常見的異動過程的 (如 lock)
+
+在微服務架構下，面對數十種不同的服務，每個服務也都同時有數十個不等的 instance 在運行，這堆 instance 之間的組態管理看來也需要專屬的服務來維護了。常見的做法不外乎有某些專屬的服務來負責 config (例如 consul, etcd, zookeeper..), 同時每個服務按照這個程序:
+
+1. 系統建置之初，就將組態管理是為整個微服務架構的基礎建設來看待。預先建立與載入組態設定。
+1. 每個服務在啟動之初 (例如 container start, 或是 provision VM), 就應該向 config manager 註冊，並取得必要的組態資訊，啟動自身的服務。
+1. 服務啟動後，註冊的目的是要能監聽重要的組態設定值是否異動? 有異動的話必須主動做出反應，或是應該立即安排重新啟動以便載入正確的設定值。
+1. (3) 的情況也有可能反過來，是你的服務嘗試去修改特定的組態設定。這時應該透過 config manager 提供的 API 進行。
+
+了解了這個過程，知道為何我會把 config management 跟 service discovery 兩個主題擺在一起講了嗎? 這兩者之間有不少共通點:
+
+1. 都屬於建構微服務架構的 system 必要的基礎建設
+1. 服務啟動的過程中，都需要向這些服務註冊與取得必要的資訊，才能順利啟動完成
+1. 過去傳統應用系統的 config, 同時包含了 service definition, 跟其他的 config values (如 switch, mode selection, limit settings ... 等等)。這些內容因應維護與管理的方式不同，分別歸由 service discovery 與 config management 基礎服務分別管理。
+
+也是因為兩這之間有這些共通點，大部分的 service discovery 都同時涵蓋這兩個領域，或是底層的 storage 都會採用有對等能力的分散式儲存系統。最典型的案例就是高整合度的 consul, 官網就直接標示四大特色 (service definition, failure detection, key-value store, multiple datacenter) 就直接包括在內。另外 etcd 也是個案例，甚至是直接由 config management 發展到跨界到 service discovery 這個領域。另外 Netflix OSS 提供的 Eureak, 底層也是藉由 Cassendra 來提供對等的機制。
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--------------
+
+
+
+
+
+我時常拿現實生活的例子當比喻，來說明系統架構中如何解決各種管理問題。例如講到 Message Queue, 我就會舉銀行會用取號碼的機制，來引導顧客跟櫃台之間的流量。同樣的，如果把某個服務當作一間工廠的話，每個 service instance 就像一個員工，那麼 service discovery 就像是行政部門一樣，必須顧好每個員工的出缺勤狀況，並且及時讓工廠或是產線能隨時掌握人力的狀況並且做各種調度。
+
+廠長需要哪些資訊，才能充分掌握人力狀況? 試想最基本的部分:
+
+1. 出缺勤人數: 實到/應到
+1. 這些人目前的工作狀況: 是否輪班，或是休息，或是因為任何原因暫時無法在工作崗位上
+
+行政單位該怎麼掌握這些資訊? 其實方法也很簡單，做好下列幾件事，行政單位就能隨時有一份精確的人力清單:
+
+1. 實施打卡制，上班打卡，下班打卡，上生產線刷卡，暫離刷卡...
+1. 定期點名，巡視，抽查，定期回報...
+
+回到微服務的治理，如果搭配 cloud service 提供各種機制 (如 auto scaling), 只要你出得起錢，給你多少 instances 都沒問題，問題在於你有辦法好好的運用它們嗎? 試想你的服務基礎建設中，誰能來扮演這個 "行政單位" 的角色? 你的 application 能否及時掌握一份完整且精確的清單，有所有 service instance 的 address / port / availability 的清單嗎? 如果有，你是如何做到的?
+
+上一篇文章就簡單的介紹到 DHCP + DNS, 是大家熟知且行之有年的機制。有新的服務加入，DHCP 就能幫他分配好 IP 等等環境配置。其他人只要透過 DNS 查詢就能夠找的到他。只是 DHCP + DNS 維護的資料庫不夠精確，維護的資訊也不足以應付現今的需求。取而代之的，就是微服務架構常會聽到的 Service Discovery 機制了。
+
+雖然後面的案例我都會拿 Consul 來說明，但是大部分的 Service Discovery 運作方式都很類似。每個服務啟動時，只要把自身的資訊 (address, port ... etc) 自動向 Service Discovery 服務進行註冊 (register)，要停掉前自動移除註冊 (deregister)，外加定期的確認該服務是否還正常運作中 (health check), 基本上這份服務清單就已經能滿足基本要求了。
+
+
+
+# ADV: 分散式系統應用案例 (with HashiCorp Consul)
 
 
 
