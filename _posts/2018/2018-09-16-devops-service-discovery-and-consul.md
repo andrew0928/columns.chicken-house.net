@@ -50,7 +50,7 @@ logo:
 
 
 
-# BASIC: Service Discovery Overview
+## BASIC: Service Discovery Overview
 
 先交代一下 Service Discovery 基礎的部分。這邊會跟後面的應用有關，我把基本觀念交代一下就好。詳細的部分可以參考 [這篇] 的說明。在討論架構時，我喜歡倒回來講，先從目的來談，再來談作法。Service Discovery 的目的是替整套系統，維護並且提供一份完整的服務清單 (包含到每個 service instance)。你要呼叫任何其他服務之前，只要向它查詢後得知該服務 (精確到 instance) 的資訊，就能夠進行後續的服務調用的動作。
 
@@ -79,7 +79,7 @@ logo:
 
 
 
-# BASIC: Config Management
+## BASIC: Config Management
 
 暫時先跳離 service discovery 這個主題，來談談微服務架構下另一個常面臨的問題: 組態管理 (configure management)。
 
@@ -105,6 +105,50 @@ logo:
 1. 過去傳統應用系統的 config, 同時包含了 service definition, 跟其他的 config values (如 switch, mode selection, limit settings ... 等等)。這些內容因應維護與管理的方式不同，分別歸由 service discovery 與 config management 基礎服務分別管理。
 
 也是因為兩這之間有這些共通點，大部分的 service discovery 都同時涵蓋這兩個領域，或是底層的 storage 都會採用有對等能力的分散式儲存系統。最典型的案例就是高整合度的 consul, 官網就直接標示四大特色 (service definition, failure detection, key-value store, multiple datacenter) 就直接包括在內。另外 etcd 也是個案例，甚至是直接由 config management 發展到跨界到 service discovery 這個領域。另外 Netflix OSS 提供的 Eureak, 底層也是藉由 Cassendra 來提供對等的機制。
+
+這也是為何我會在自己的專案上選擇 Consul 的原因了。Consul 是後起之秀，憑藉的是高整合度的服務，我不需要建置一堆基礎設施，就能開始建構微服務架構的系統了。Consul 內建這幾個主要功能:
+
+1. Service Discovery
+1. Health Checking
+1. KV Store
+1. Multi Datacenter
+1. Secure Service Communication (新功能，後敘)
+
+如果你有看完我前面講的那堆處理細節，你就不難想像: 這些機制都是在服務啟動的那瞬間，以及服務要被呼叫的那瞬間會發生的事情。如果這些機制都來自不同的基礎建設，那你會花多少心思在整合這些基礎建設身上? 這些不是我主要的目的啊! 因此當我自己都扮過黑手自己搞過一輪之後，我真正要用在 production 上的 solution, 自然是挑選整合度最高的解決方案；尤其是他來自 HashiCorp 這公司，也是在雲端服務的基礎建設領域頗有名氣的公司，旗下的 Consul 自然也有一定的水準與可靠度。
+
+好，這篇其實不是葉佩雯，誇獎就到此為止。基本的概念介紹也到此為止，講這些只是為了交代我推薦他的原因而已。接下來下個段落，就來看看一些實際上的應用案例，體會一下 Service Discovery 如何解決你的問題。
+
+
+# 應用案例
+
+先從單純一點的架構開始吧。為了後面更進階的應用，我只打算把 API Gateway / Load Balancer 這類的服務用在對外的 endpoint 上。系統間服務與服務之間的呼叫會很頻繁，我就不再內部也採用這種集中管理的控制機制了。一來阻隔了內部更靈活的運用彈性，也容易造成單一節點失敗，或是造成通訊的瓶頸。
+
+## client side discovery
+
+如果不透過 load balancer, 那麼服務要如何調用其他的服務? 尤其是在被呼叫的服務同時有好幾個 instance 在運作中的狀況?
+
+// 圖:   client [sd client] ---> target service(s)
+
+// cache problem
+// consul node loading : depends on client node(s), not request count(s)...
+// health check 確保服務清單的正確性與可用性。如果 hc 的頻率是 5 sec, cache TTL 應訂在 1 sec 左右。
+
+
+## client side discovery with taggings
+
+接著來點變化題，如果我的客群就像一般的 SaaS 服務一樣，有 free / basic / premium 三種等級的用戶，我想要替這些客戶分別保留不同的運算資源 (有點類似電信公司分配流量的集縮比一樣的作法)，那該怎麼做? 如果照過去的搭配 load balancer, 那你現在只能架設三組了, 前端還必須分別打三個不同的 load balancer 的 end point... 如果更極端一點，有些客戶付了更多錢，要用專屬保留的運算資源怎麼辦? 這種狀況在 Azure 上很常見啊... 哈哈...
+
+如同我一直在不同文章都在強調的，你不需要時時刻刻都重新發明輪子，但是軟體界的變化速度很快，尤其現在的服務拚的都是整合。你的業務需求很有可能無法由單一的 solution 獲得而來，這時你有沒有自己打造輪子的經驗跟能力就變的很重要了。過去如果你過度依賴基礎建設幫你搞定這些資源管理的問題，現在就會束手無策。我們來看看這個案例應該怎麼搭配 service discovery 來設計架構:
+
+// 圖:   client [sd client + tag filtering] ----> service(s) with tag:A, tag:B, tag:C-0001, tag:C-0002...
+
+看到 developer 能自己掌控這些基礎建設該如何運用的彈性了嗎? 這個例子的架構，其實跟上一個沒有差多少，就是在 query service list 跟決定要呼叫哪個節點的邏輯有些不同而已 (完全 Random with 過濾 taggings 後 random)，但是你能應用的範圍與彈性就瞬間大了許多。這類的應用，你要單純靠標準的基礎建設也不是辦不到，但是光是 product owner 要跟 developer 溝通規則，然後 developer 要再跟 infra operator 溝通這些規則怎麼變成硬體的設定... 怎麼看都是個大工程。
+
+
+
+
+
+
 
 
 
