@@ -146,6 +146,39 @@ logo:
 
 
 
+## side car model
+
+開始來點變化題吧。藉由 service discovery 的協助，你的 application 能夠很快地掌握其他 service 的 endpoint, 以及他的健康狀態, 是否目前是否可用。那麼，你該如何找到 "服務發現" 服務在那裡? 以及他目前是否可用?
+
+這是個雞生蛋蛋生雞的問題，解決的方式各家提供的方式也都有些差異，我就針對 Consul 為例來說明吧! Consul 很巧妙的利用 "side car" 的模式來打破這個無限自體循環...
+
+首先，Consul 本身支援 client / server 兩種 mode, server 會真正保存資料，執行 health check (http or scripts), 也會回應 restapi 的各種查詢。client 就單純的多，單純只接受 restapi 的查詢，並且把 request forward 給 server 處理。
+
+要讓每個 service 在什麼資訊都不知道的情況下，要精準的定位 Consul Server 是有點困難的，但是如果這問題縮小到 Consul Client / Server 要精準的定位 Server 就簡單的多，Consul 支援 LAN Gassip Protocol (翻譯: 八卦協定 XDD), 能用 broadcast message 的方式找到 Consul Server(s)。
+
+技術細節就不管了，我們直接來看該怎麼配置與應用。如果 Consul Client 能自動找到最適合的 Consul Server 的話，那麼我只要在每台 Host (VM or Container 都可) 都部署一套 Consul Client, 那麼我的 application 只要從 http://localhost:8500 就能透過 Consul Client 聯繫到 Consul Server, 就能取得所有必要的啟動資訊 (service definition, KV store) 了啊! 這種每個 host 就搭配一個 client 的做法，就如同 side car 一般，每輛機車旁邊就掛一台小車一樣，也因此而得到 side car 這個稱呼。
+
+只要 Consul Client 本身的 memory footprint 夠小，不造成負擔，這是個很方便的做法啊! 這可不是亂搞的，連 DSS 這本書 (Designing Distributed System) 裡面都有記載:
+
+// P13, Figure 2-3. A sidecar example of managing a dynamic configuration
+
+書上的這個範例，是藉由 sidecar, 讓不支援這些新技術的 legacy application, 能順利的透過 config management 取得組態並執行的做法。這架構藉由 sidecar 取得 config, 並且轉成 legacy application 能認得的 config file (EX: ASP.NET 的 web.config 就是一例), 讓老舊的 application 也能享受到 config managment 帶來的好處，不用改一行 code 就能集中管理 config。
+
+同樣的模式，如果這個 sidecar 還能提供 service list query 的服務呢? 這就是 consul client 典型的部署方式。你的 application 連 consul server 的 IP 都不需要知道，就能搞定整個啟動程序了。這小動作有多大的效益?? 你如果經歷過要自己手動設定 IP address 才能上網的年代，你才能體會到有 DHCP 是多幸福的一件事，是同樣的道理。
+
+回過頭來，Consul 能否像 DSS 這個案例一樣，讓我連 code 都不用改也能享用到 Consul 帶來的好處 (service discovery + health check + kv store) 呢? 有的。Consul 另外提供一個好用的 tools: Consul-Template。
+
+你只需要先編好屬於你的 template, 交給 consul-template。這個工具會 watch consul server 的狀態，如果你的 template 內用到的變數有任何異動，就會觸發 consul-template 重新用新的數值，重新按照 template 更新 config file，需要的話也可以一起執行你指定的 script (例如 nginx -reload, 或是 iisreset ...)。這些機制搭配得宜，你的 legacy application 馬上就有自我組態的能力，你在進行大量部署時就會容易許多，要搭配 cloud 進行 auto scaling 就更容易了，你只需要把組態跟設定都般到 consul 就可以了...。
+
+
+
+
+## service mesh
+
+
+
+
+
 
 
 
