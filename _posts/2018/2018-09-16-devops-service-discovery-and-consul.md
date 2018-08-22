@@ -175,8 +175,63 @@ logo:
 
 ## service mesh
 
+其實這幾個架構設計案例，這樣的介紹順序是有目的的；藉由 service discovery 建構起來的基礎，一步一步的從集中式的架構 (透過 LB or APIGW), 逐步進化到 service mesh。
+
+在上個範例中，sidecar 的做法，是在每個 host 都部署一個 service discovery 的服務，來解決該如何找到 service discovery 服務的問題。找到 service discovery 服務之後，接下來的動作仍然一樣，需要查詢服務清單，並且用安排好的規則挑選一個出來，定位要呼叫的服務資訊之後，進行 API 的調用。
+
+這些過程過度依賴開發人員在 application 內撰寫相關邏輯，屬於侵入式的作法。其實在上一篇文章就有提到，侵入式的作法有幾個明顯的缺點:
+
+1. 更新困難。需要重新編議與部署相關服務
+1. 全面更新需要時間，無法一次全部到位
+1. 技術相依，若系統混用不同的開發技術或是框架，相關邏輯需要分別撰寫，難以維護維持絕對的一致性
+
+雖然採用 LB / APIGW 沒有這些缺點，但是過度集中式的管理也造成擴展的限制與瓶頸。不過如果把 APIGW 跟 sidecar 結合在一起應用呢?
+
+這就是 service mesh 的概念了。來複習一下，配合 service discovery 每個服務的生命週期都要做好這些事:
+
+1. reg
+1. dereg
+1. health check
+
+要調用其他服務，每個服務都要進行這些程序:
+
+1. query service list, get end points
+1. invoke
+
+上述這些事情，能否統一都交由 sidecar 代勞? 試想一下，如果 sidecar 本身就能代為處理 reg / dereg / hc, 同時 sidecar(s) 之間能精準的互相溝通與定位 (query service list, get end points), 若 sidecar 還能代理雙向發布搭配的服務與被呼叫的服務 (如同 APIGW / reverse proxy 一般)，那麼對 application 而言:
+
+1. service discovery 服務就在我家 (localhost), 我不需要再花費功夫處理啟動的程序，也不需要花功夫處理 config mgmt 的問題。
+1. 透過 side car 來代理我的服務，我不用再擔心別人如何找到我
+1. 若 sidecar 也能代理其他人的服務，我在 localhost 就能直接調用
+1. sidecar 之間的溝通，因為都是同一套系統，sidecar 也非侵入式的 solution, 因此也沒有跨平台或是不同開發技術的問題
+
+這麼一來，開發人員可以不需要花費太多力氣去處理這些細節，相對的開發團隊就能更輕易的掌握 service mesh 這樣複雜動態的架構了。服務之間的通訊可以完全由基礎建設來掌控，通訊自動加密，自動調度，非集中式的通訊，也避免了單一節點失敗造成系統可靠度下降，或是單一環節變成整體的瓶頸等等問題。
+
+回到實際的案例來，Consul 也提供了對應的功能，叫做 Consul Connect: 
 
 
+// references
+
+
+
+
+# 結論
+
+寫到這邊，我這篇文章其實想表達的概念，就是:
+
+身為 developer / architect, 我想讓大家了解，很基本的 service discovery, 在 architect 的手中若能妥善規劃與應用，搭配你的開發能力 (而非只是改改設定或是架設網路)，其實能夠解決非常多棘手的問題的。在這個什麼都講求整合的時代，這樣的知識與技能格外重要。我這篇文章就是想從 service discovery 的架構設計案例角度切入，帶出這些 patterns。
+
+只看 patterns 其實很虛，因此我在思考這些 design 時，我都會找一些實際的工具或是服務來驗證是否可行。Consul 就是我在研究與學習過程中挑選出來的一套。我會推崇這套 service discovery 的服務，原因有這幾個:
+
+1. 平台支援友善 (linux, mac, windows), 開發技術支援友善 (SDK include: .NET Java ...)
+1. 工具支援友善 (EMS, consul-template)
+1. Legacy Application 支援友善 (support DNS interface, support consul-template for config file based system)
+1. 服務本身整合度高 (UI, include KV-store, health check, support multi-datacenter)
+1. 架構延伸性高 (sidecar, connect), 未來性強 (service mesh)
+
+不過我還是提醒，別被工具綁住了。你一但被工具約束了，你就是工匠，而不是架構師了。務必在思考解決方案時能保持技術的中立性。這整篇文章介紹的架構，雖然我都拿 Consul 當作實際應用參考，但是不代表只有 Consul 做的到。只要你對其他 service discovery 服務的掌握度夠高，同樣的架構你搭配 Eureka, Etcd, Envoy, zookeeper..., 甚至更底層的 K8S, docker swarm, DC/OS 等等其時也都能達成同樣目的，差別只在於整合過程中你需要花費多少 effort 而已。
+
+身為架構師，最有成就感的就是，你的一念之間，你的設計與決定，可以影響到整個團隊。你決策的品質，直接影響了團隊能用多小的資源，解決多大的問題。這也是促使我持續鑽研這些 know how 的動力來源。看完這篇，你是否對 service discovery 的應用與威力有所改觀? 你的能力是否能成為扭轉局勢的那位關鍵人物? 任何想法都歡迎留言討論 :)
 
 
 
