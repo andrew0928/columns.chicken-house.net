@@ -13,6 +13,8 @@ logo:
 
 從微服務化開始，面臨的第一個問題就是你該如何管理你旗下的這堆內外部服務? 要有條理的管理好這堆服務，可是件苦差事 (雖然技術上不是件難事)。這是你的服務能不能維持在一定複雜度之下持續發展茁壯的重要關鍵。對於 developer, 這是個較陌生的課題，因此在今年 DevOpsDays Taipei 2018, 我準備了這個 session, 準備從 developer 的角度來看待這件事，要介紹的就是 service discovery, 微服務架構下最重要的基礎建設。
 
+DevOps 這議題，最難的都不在 Dev 或是 Ops, 而是在整合。微服務架構的興起，給這兩種專長的人很大的挑戰。越來越複雜與靈活的架構要求之下，只懂 Dev 或是 Ops 領域的技能很難在這個時代有所突破。因此這次我特別挑了這個主題: Service Discovery, 它是微服務架構下，必要的基礎建設。然而這些基礎建設並不是裝好拿來用就好了，開發人員必須充分的掌握它的特性，去思考如何更靈活的運用它才能更有效的解決你的問題。
+
 這篇我不會從 service discovery 的基礎開始談起。想看基礎建紹的可以參考我去年寫的這篇: [微服務基礎建設 - Service Discovery](/2017/12/31/microservice9-servicediscovery/)。我這個 Session 會從應用面，來說明 developer 面對問題時應該如何解決? 該如何善用 service discovery 的服務 (我用 HashiCorp Consul 當作示範) ? 架構上該如何安排與規劃?
 
 我會先假設參加這個 Session 的朋友們，或是看這篇文章的讀者們，已經有基本的分散式系統開發經驗。概念與架構的部分我會參考這本書: Designing Distributed Systems, Patterns and Paradigms for Scalable, Reliable Services; 由 O'reilly 發行的書籍。Microsoft Azure 也很佛心的提供免費電子書下載 ([free ebook download](https://azure.microsoft.com/en-us/resources/designing-distributed-systems/))，裡面涵蓋了各種分散式系統的參考架構, 你可以把它當成微服務版本的 design pattern 來閱讀。
@@ -26,8 +28,8 @@ logo:
 不過，在單體式應用 (monolitch) 轉移到微服務 (microservices) 的過程中，第一個面臨到的就是如何管理大量 (包含種類與個數) 問題。舉例來說，你應該會碰到:
 
 1. 同時有這麼多 "種" 服務在運行，我如何隨時掌握每個服務能不能正常運作? 以便我做出正確的應變措施?
-1. 服務同時有這麼多 "個" instance 在運行，我如何隨時掌握這些 instance 能不能正常運作?
-1. 我如何快速又精準的找到我要呼叫的服務在哪裡? (endpoint, address, port, ... etc)
+1. 每種服務同時有這麼多 "個" instance 在運行，我如何隨時掌握這些 instance 的狀態，以便決定要對哪個 instance 發出 request ?
+1. 我如何快速又精準的找到我要呼叫的服務在哪裡? (service or instance, endpoint, address, port, ... etc)
 1. 我如何確保這些服務的組態 (configuration) 是正確一致的? 組態改變時如何確保能立即生效?
 
 更進階一點的問題:
@@ -36,15 +38,15 @@ logo:
 1. 我如何能更精準的調節服務之間的通訊? 而非透過統一的 API Gateway / Load Balancer, 避免這些匝道變成單一失敗節點, 或是效能瓶頸? (Service Mesh)
 1. 如果以上問題都能透過 Service Discovery 處理，那我的服務啟動時，該如何找到 "服務發現" 的服務? 該如何找到 "組態管理" 的服務在哪裡?
 
-這些問題，如果你都不知道怎麼做，或是怎麼做才到位? 那就是這篇文章主要要說明的內容。這些內容其實並不難，但是他橫跨了 Dev(開發) 與 Ops(維運) 兩種角色，這對大部分的組織 (尤其是台灣) 來說是一大挑戰。熟悉 Dev 的團隊，往往會自行開發一整套的 solution 來解決這些問題，忽略了目前已發展成熟的各種 OSS 解決方案。熟 Ops 的團隊往往過於熱衷用最新的服務搭建各種基礎建設，但是卻忽略了自身的 application 沒有辦法很好的整合或是充分利用這些優點....。
+這些問題，如果你都不知道怎麼做，或是怎麼做才到位? 那就是這篇文章主要要說明的內容。這些內容其實並不難，但是他橫跨了 Dev(開發) 與 Ops(維運) 兩種角色，這對大部分的團隊來說是一大挑戰。熟悉 Dev 的團隊，往往會傾向自行開發一整套的 framework 來解決這些問題，而忽略了目前已發展成熟的各種 OSS 解決方案。熟 Ops 的團隊往往過於熱衷用最新的服務搭建各種基礎建設，但是卻忽略了自身的 application 沒有辦法很好的整合或是充分利用這些優點....。
 
-因此，我這篇文章的定位，主要的目的在於打破中間的隔閡，對象我定位在開發人員，我希望能從開發人員的角度，讓開發人員了解這一整套 Service Discovery 在架構上搭配的做法，同時反思該如何應用在自己的服務開發上。只有做好整合的環節，才能順利發揮最大的效益。
+因此，我這篇文章的定位，主要的目的在於打破中間的隔閡，對象我定位在 Dev (開發人員)，我希望能從開發人員的角度，讓開發人員了解這一整套 Service Discovery 在架構上搭配的做法，同時反思該如何應用在自己的服務開發上。只有做好整合的環節，才能順利發揮最大的效益。
 
 因此，下列的介紹我分三部分進行，分別是:
 
-1. BASIC: Service Discovery Overview, 重新複習上一篇 Service Discovery 的幾個重要觀念
+1. BASIC:    Service Discovery Overview, 重點複習 Service Discovery 的幾個重要觀念
 1. ADVANCED: Consul 應用案例 (參考: DDS, Designing Distributd System)
-1. Future: Consul 進階應用, Service Mesh
+1. FUTURE:   新一代的微服務架構, Service Mesh
 
 
 
@@ -52,7 +54,7 @@ logo:
 
 ## BASIC: Service Discovery Overview
 
-先交代一下 Service Discovery 基礎的部分。這邊會跟後面的應用有關，我把基本觀念交代一下就好。詳細的部分可以參考 [這篇] 的說明。在討論架構時，我喜歡倒回來講，先從目的來談，再來談作法。Service Discovery 的目的是替整套系統，維護並且提供一份完整的服務清單 (包含到每個 service instance)。你要呼叫任何其他服務之前，只要向它查詢後得知該服務 (精確到 instance) 的資訊，就能夠進行後續的服務調用的動作。
+先交代一下 Service Discovery 基礎的部分。這邊會跟後面的應用有關，我交代一下基本觀念。詳細的部分可以參考 [這篇] 的說明。在討論架構時，我喜歡倒回來講，先從目的來談，再來談作法。Service Discovery 的目的是替整套系統，維護並且提供一份完整的服務清單 (包含到每個 service instance)。你要呼叫任何其他服務之前，只要向它查詢後得知該服務 (精確到 instance) 的資訊，就能夠進行後續的服務調用的動作。
 
 為了達成這個目的，有幾種常見的 design patterns 可以參考。通常有三個部分需要搭配:
 
