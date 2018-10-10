@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "DevOpsDays 專刊: 從 Developer 的角度看 Service Discovery"
+title: "DevOpsDays 專刊: Service Discovery, 微服務架構的基礎建設"
 categories:
 - "系列文章: 架構師觀點"
 tags: []
@@ -9,6 +9,55 @@ comments: true
 redirect_from:
 logo: 
 ---
+
+其實，類似的主題 ([微服務基礎建設 - Service Discovery](/2017/12/31/microservice9-servicediscovery/)) 去年底就已經寫過一篇了。不過這次有幸投稿 DevOpsDays Taipei 2018 有幸榮獲大會青睞，能上台講這個主題，加上工作上開始使用 Consul 也有一陣子了，對於 Service Discovery 的看法又有些進化了。於是決定趁著準備這次演講，除了 Slides 之外，也來個文字版的文章吧! 比起演講，我還是用寫文章的形式比較好發揮。
+
+這次我換個角度，介紹 Service Discovery 的基本觀念，以及應用的方式。我分三個部分進行:
+
+1. Basic: Service Discovery for Developers
+1. Advanced: Case Study
+1. Next: Service Mesh
+
+<!--more-->
+
+
+所有微服務相關的文章，可以直接參考下列的導讀。
+
+{% include series-2016-microservice.md %}
+
+
+
+
+
+
+# BASIC: Service Discovery for Developers
+
+
+# ADVANCED: Case Study
+
+
+# Next: Service Mesh
+
+
+
+
+
+
+
+
+
+--------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
 
 
 從微服務化開始，面臨的第一個問題就是你該如何管理你旗下的這堆內外部服務? 要有條理的管理好這堆服務，可是件苦差事 (雖然技術上不是件難事)。這是你的服務能不能維持在一定複雜度之下持續發展茁壯的重要關鍵。對於 developer, 這是個較陌生的課題，因此在今年 DevOpsDays Taipei 2018, 我準備了這個 session, 準備從 developer 的角度來看待這件事，要介紹的就是 service discovery, 微服務架構下最重要的基礎建設。
