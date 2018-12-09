@@ -7,14 +7,17 @@ tags: []
 published: false
 comments: true
 redirect_from:
-logo: 
+logo: /wp-content/images/2018-12-12-interview03-checkout-line/logo.jpg
 ---
+
+![](/wp-content/images/2018-12-12-interview03-checkout-line/logo.jpg)
+> 圖片出處: https://tw.appledaily.com/new/realtime/20181124/1472338/
 
 轉到電商後，經歷過第一次雙十一的洗禮，總算是親身體驗大流量的刺激與震撼了 :D，其中的辛苦我就不多說了，這次都還是仰賴經驗老到的同事們渡過難關的。不過這次我們能安然渡過，先前開發的排隊機制功不可沒。但是這次我們也發現到排隊機制其實還有些優化改善的空間，可以讓排隊中的消費者有更好的體驗。
 
 雙十一過後，我試著在思考如何改善排隊的做法... 不過很少看到有文章在探討這類機制該如何開發? 於是我試著研究這個議題，也簡單的寫了 POC 來驗證想法，就順手寫了這篇...。
 
-這篇跟前一篇 [微服務基礎建設: 斷路器 #1, 服務負載的控制]() 的出發點是一樣的，都是要透過某些程序，限制同時取用服務的請求，確保服務端有足夠的資源來完成任務。只是上一篇控制的是 server 能 "同時" 受理多少 request 的管控機制，控制的是 "速度"。而這篇我要探討的是這些 request 應該要用什麼樣的規則與順序，決定那些 request 可以被服務? 換個角度說，上一篇講的 Rate Limit, 是針對上游服務做管控，而這一篇要講的排隊機制，則是針對直接連線的使用者做管控。
+這篇跟前一篇 [微服務基礎建設: 斷路器 #1, 服務負載的控制](/2018/06/10/microservice10-throttle/) 的出發點是一樣的，都是要透過某些程序，限制同時取用服務的請求，確保服務端有足夠的資源來完成任務。只是上一篇控制的是 server 能 "同時" 受理多少 request 的管控機制，控制的是 "速度"。而這篇我要探討的是這些 request 應該要用什麼樣的規則與順序，決定那些 request 可以被服務? 換個角度說，上一篇講的 Rate Limit, 是針對上游服務做管控，而這一篇要講的排隊機制，則是針對直接連線的使用者做管控。
 
 這兩件事情都做到位，你就能掌握好服務對使用者的 QoS (Quality Of Service) 了，這是使用者體驗很關鍵的一環，不過往往 developer 都不會把它擺在第一順位 (一般情況是: 規格就沒這項啊，通常都是上線了有人來抱怨再說...)
 
@@ -90,7 +93,7 @@ logo:
 
 ## 開店 (初始狀態)
 
-![](/wp-content/images/2018-12-12-interview03-checkout-line/SOLID-03.png)
+![](/wp-content/images/2018-12-12-interview03-checkout-line/SLIDE-03.png)
 
 對應到前面餐廳的例子，如果店內只有 7 個座位，隊伍長度最多只設定為 15，超過就直接請他不用排隊了的話，那麼初始直應該如圖所示:
 
@@ -101,7 +104,7 @@ logo:
 
 ## 開始營業 (使用者湧入)
 
-![](/wp-content/images/2018-12-12-interview03-checkout-line/SOLID-04.png)
+![](/wp-content/images/2018-12-12-interview03-checkout-line/SLIDE-04.png)
 
 如果開張之後，有第一位使用者進來了，那麼...
 
@@ -110,13 +113,13 @@ logo:
 
 
 
-![](/wp-content/images/2018-12-12-interview03-checkout-line/SOLID-05.png)
+![](/wp-content/images/2018-12-12-interview03-checkout-line/SLIDE-05.png)
 
 接著，又一位使用者來排隊，重複上述動作，結果如圖所示
 
 
 
-![](/wp-content/images/2018-12-12-interview03-checkout-line/SOLID-06.png)
+![](/wp-content/images/2018-12-12-interview03-checkout-line/SLIDE-06.png)
 
 再來，陸陸續續又來了 7 位，重複上述動作，結果應該如上圖所示。
 
@@ -127,37 +130,37 @@ logo:
 
 ## 營業中 (使用者結帳)
 
-![](/wp-content/images/2018-12-12-interview03-checkout-line/SOLID-07.png)
+![](/wp-content/images/2018-12-12-interview03-checkout-line/SLIDE-07.png)
 
 使用者進去店內用餐後，token(3) 使用者吃得比較快，決定先結帳離開，於是就起身到櫃檯去結帳了 (粉紅色)。
 
 
 
-![](/wp-content/images/2018-12-12-interview03-checkout-line/SOLID-08.png)
+![](/wp-content/images/2018-12-12-interview03-checkout-line/SLIDE-08.png)
 
 結帳過程需要一些時間，從使用者起身去櫃檯付款，直到處理完畢後這個位子才能空出來繼續服務為止。這過程結束後，還在排隊的使用者就可以進來店內用餐了。因此座位清理好這瞬間，整個隊伍的狀態應該變成上圖所示。紅色空心的數字代表這位使用者已經離開，但是系統的排隊資訊理還認得這個 token (因為 token 還在隊伍範圍內)，因此圖案用紅色空心，但是邊框是實線的方式表達。
 
 這瞬間，因為空出 (3) 的原因，[排隊起點] 與 [排隊終點] 都往後移了一位。這時 token(8) 使用者正好是第一順位，他的狀態自然也從排隊中(藍色)，改為可進入用餐(紅色)。這時 token(9) 還沒辦法進入用餐，必須繼續排隊 (因為 9 > 8)。這時 token(9) 的順位是 1 ( 9 - 8 = 1 )。
 
 
-![](/wp-content/images/2018-12-12-interview03-checkout-line/SOLID-09.png)
+![](/wp-content/images/2018-12-12-interview03-checkout-line/SLIDE-09.png)
 
 此時，如果又有一位使用者 token(2) 用餐完畢，重複上述的步驟，結果如上圖所示。這時 token(9) 也可以進入用餐了。[排隊起點] 及 [排隊終點] 的指標再次右移一位。
 
 ## 營業中 (清除隊伍不必要的資訊)
 
-![](/wp-content/images/2018-12-12-interview03-checkout-line/SOLID-10.png)
+![](/wp-content/images/2018-12-12-interview03-checkout-line/SLIDE-10.png)
 
 不知各位有無留意到，即使陸續有人排隊，也有人結帳離開，但是隊伍資訊的 [結帳起點] 卻一直沒有變化，因為開店後第一位進入用餐的 token(1) 其實都還沒離開，因此 [結帳起點] 都還維持為 0。簡單的紀錄，方便店家知道，如果他要查閱目前所有隊伍的資訊，只要從 [結帳起點]: 0 開始往後找就好。
 
 如果這時， token(1) 也要結帳離開了的話... 結果會變成下圖:
 
-![](/wp-content/images/2018-12-12-interview03-checkout-line/SOLID-11.png)
+![](/wp-content/images/2018-12-12-interview03-checkout-line/SLIDE-11.png)
 
 整個的結帳處理程序，都跟前面一樣。唯獨不同的是，隊伍最前面 1, 2, 3 都已經結完帳走人了，有連續的一塊區塊都已完成結帳，這時 [結帳起點] 還從 0 開始紀錄已經沒有意義了，下次要維護隊伍資料，或有任何目的要掃描一次所有隊伍資訊時，不再需要從 0 開始，下次直接從 3 開始即可，因此若偵測到原本的 [結帳起點] 後的使用者已經離開，這個指標就能夠往右移動，直到一到下一個還沒離開隊伍的使用者為止。以這個情境為例，新的 [結帳起點] 應該是 3 才對，請參考上圖所示。
 
 
-## 營業中 (使用者體驗，預測等待時間)
+## 營業中 (預測等待時間)
 
 排隊使用者的心理就是一直在想:
 
@@ -165,7 +168,7 @@ logo:
 
 隨著排隊隊伍越來越長，這類資訊的需求及更新頻率會越來越高，因此排隊機制最好在設計之初就考慮好這個問題。處理得當可以避免很多後端不必要的運算。延續這個案例，繼續看一下，如果排隊隊伍越來越長，[號碼牌] 領到 18 的狀況:
 
-![](/wp-content/images/2018-12-12-interview03-checkout-line/SOLID-12.png)
+![](/wp-content/images/2018-12-12-interview03-checkout-line/SLIDE-12.png)
 
 如同前面說過，如果最後一位排隊的使用者 token(18) 想知道他的順位，馬上就可以得知 18 - 10 = 8。這個數字完全不需要做任何的搜尋就可以得知，時間複雜度只有 O(1)。
 
@@ -179,13 +182,34 @@ RPS = 8 / 1 sec;
 
 回到主題，如果能用很低的運算成本跟運算資源，就能讓使用者取得排隊順位的資訊，那麼即使是用 pooling 的做法，我也能適當的提高 pooling 的頻率，讓使用者得到更精準的 feedback。如果你的服務做得更到位一點，額外多花了點精神去統計過去一段時間的消費速度，那就可以更貼心地替使用者預估他還要等待的時間。排除額外統計花費的時間 (那個 server 統一做一次就夠了)，對於每個使用者來說，只是排隊順位 x 平均時間而已，複雜度仍然是 O(1)。
 
-## 存貨不足 (使用者體驗，提早告知使用者不用排隊了)
+## 存貨不足處理 (避免不必要的排隊)
 
-![](/wp-content/images/2018-12-12-interview03-checkout-line/SOLID-13.png)
+![](/wp-content/images/2018-12-12-interview03-checkout-line/SLIDE-13.png)
 
 接下來看個極端的狀況，你的店生意實在太好，排隊排到下條街去了。排隊人數遠遠超過你能服務的數量。雖然有些人可能會中途放棄排隊會空出一些位置出來；不過按照經驗，總是可以抓個候補的範圍出來，超過這個範圍，不用等到賣光，就可以直接告訴使用者這個結果了。節省使用者端的時間與資源，你自己 server 的附載也可以降低。
 
 面對這個狀況，同樣的拿 [號碼牌] 跟 [排隊終點] 來比較就可以了，只要你手上的號碼牌在排隊終點之前，就有排隊的機會。不過這個判定，不需要先給你拿號碼牌後再判定，[號碼機] 聰明一點的話，這種情況根本就不要吐新的號碼牌給你了。因此發號碼牌的機制，可以先判定 [號碼機] > [排隊終點] 的狀況下，就拒絕使用者領票排隊。
+
+
+
+## 放棄排隊/結帳
+
+整個演算法說明的過程中，我沒有特別提到這些例外的處理。排隊過程中最常見的就是: 排到一半不想排了，就直接走掉了。如何確保這個位子不會一直被佔住?
+
+其實這個問題很簡單，我分成兩部份考慮:
+
+1. 我如何找出那些放棄排隊卻沒正確通知 server 的使用者?
+1. 找到之後，如何正確地將他從隊伍內移除?
+
+其實 (2) 的問題反而很簡單。仔細想一下，我們從開始到現在，討論的問題其實不是結帳，而是加入/離開隊伍而已。因此不管你有沒有結帳，對於隊伍而言就是離開而已。所有動作，包含四個指標的處理方式通通一模一樣，我這邊就省略不談。
+
+剩下的問題只有: 如何偵測已離開的使用者? 
+
+要談偵測，那就要先定義。前面的過程中，排隊中的人都會不斷的詢問 server 他現在的順位，以及是否能進入用餐。server 可以趁詢問/回覆的同時，記錄這個使用者最後詢問的時間。假設我們預期每個使用者會每分鐘都來詢問一次他的狀態，每個使用者最後一次詢問的時間都會被記錄下來，那麼我們就可以定義，超過 5 分鐘以上都沒有回來詢問的使用者，就把它當作斷線了，可以從隊伍內剔除。如果他六分鐘過後真的又回覆了，那很抱歉，只能引導他重排一次。
+
+這時要定義一個 recycle worker, 指定的時間內從頭到尾 (從 [結帳開始] 到 [號碼機] 的範圍) 把最後確認時間早於五分鐘前的 token 通通找出來。每個都按照上述的程序，把它從隊伍內正確的剔掉就可以了。踢掉這些沒回應的使用者，自然會釋放出一些空位，給後面順位的使用者來填補。
+
+
 
 ## 小結
 
@@ -197,4 +221,545 @@ RPS = 8 / 1 sec;
 
 這段如果都想通了，就繼續看下去吧!
 
+
+
+
+# 用 CODE 驗證演算法
+
+這些問題處理的方法，是人的腦袋在想的，但是最後執行卻是要丟給電腦去跑的。排除一堆很工程化的步驟 (如格式轉換, 資料處理, 或是其他防呆或協定等等)，每種應用應該都有核心的一部分，是要把你的想法寫成 code 的。在驗證階段的 POC 最重要的就是這部份而已，其他通通都可以以後再做 (或是以後交給專業的來)。我在團隊內的角色是架構師，我的職責並不是寫所有的 code, 或是要學會所有的工具跟框架... 我最重要的任務是告訴團隊該如何去解決問題，因此寫 POC code 就是我認為最有效的方式。
+
+以這個例子來說，我替團隊構想了問題的解法，不過與其寫一堆文件，最終都不如一段不會太長 (200 行以內最適合) 的 sample code 的效果。接下來就試試看把上面的想法變成 POC 吧。
+
+首先，先不管背後怎麼解決問題的，我先思考這個問題的 "邊界" (boundary) 是什麼? OOP 很講求封裝，不過你總要知道哪些要被封裝起來吧? 不然你會寫出一堆語法及執行結果正確，但是結構卻一團亂的 code。所謂的 "邊界"，就是定義你的核心問題，包含在內的就應該被封裝起來，其他的部分就只能透過你定義的介面來跟解決核心問題的元件溝通。
+
+
+
+## 核心元件介面設計
+
+這裡的核心問題，就是排隊。我就拿結帳的排隊行為來命名吧! 不論之後是實做成 library / component / services, 是單機版，還是分散式的微服務版本，API 不外乎都要提供這幾個操作，我就直接用 C# 的 (abstract) class 來表達比較直接:
+
+```csharp
+
+public class CheckoutLine
+{
+    // 指標: 號碼機
+    public long CurrentSeed { get; }
+
+    // 指標: 結帳起點
+    public long FirstCheckOutPosition { get; }
+
+    // 指標: 排隊起點
+    public long LastCheckOutPosition { get; }
+
+    // 指標: 排隊終點
+    public long LastQueuePosition { get; }
+
+
+    public CheckoutLine(int checkoutWindowSize, int queueWindowSize, int timeout = 5)
+    {
+        // code 略
+        // 建構式, 一個 CheckoutLine 物件，可以代表一家店的排隊管理服務。
+    }
+
+    public bool TryGetToken(ref long token)
+    {
+        // code 略
+        // 取號的號碼機介面。成功的話 (return bool) 可以取得號碼 (token)
+    }
+
+    public CheckoutStateEnum TokenState(long token, bool refresh = true)
+    {
+        // code 略
+        // 查詢某個 token 狀態, 預設這個動作會更新該 token 最後存取時間
+    }
+
+    public bool CanCheckout(long token, bool refresh = true)
+    {
+        // code 略
+        // 查詢某個 token 是否已經可以進入店內用餐, 預設這個動作會更新該 token 最後存取時間
+    }
+
+    
+    public void Remove(long token)
+    {
+        // code 略
+        // 不論因為任何原因, 這個 token 決定離開整個排隊的機制。
+    }
+
+
+    public void Recycle()
+    {
+        // code 略
+        // 巡查整個隊伍，是否有已經超過回報時間的 token, 若有就將之移除，將位置讓給其他還在排隊中的 token。
+    }
+
+
+
+
+    // 每發出一張號碼牌(token), 排隊機制背後會建立對應的維護資訊 token info
+    // 目前的實作，只須要維護最後查詢時間，作為 timeout 的判定
+    public class TokenInfo
+    {
+        public DateTime LastCheckTime = DateTime.MinValue;
+    }
+
+    public enum CheckoutStateEnum
+    {
+        // 判定為正常排隊的使用者狀態
+        NORMAL,
+
+        // 判定為已離開的使用者 (已被呼叫 .Remove() )
+        LEAVE,
+
+        // 判定為未離開，但是已經失聯的使用者
+        TIMEOUT,
+
+        // 指定的 token 不存在。
+        NOTEXIST,
+    }
+
+}
+
+
+```
+
+
+
+
+詳細的實作程式碼，我就不在文章內做過多說明了，大致上就是用這個 class 定義的介面，把前面說明的整個作法封裝起來而已。反而比較重要的是，我另外寫一段 code, 說明這個元件 ```class CheckoutLine``` 被開發出來之後，會怎麼被使用?
+
+以下這幾個片段的 sample code, 是從後面的模擬程式節錄出來的, 我在這邊當作示範說明使用。
+
+使用這個排隊機制的 application, 必須是先建立好排隊管理的物件 CheckoutLine, 你應當替你的服務對象 (如店面) 建立對應的 CheckoutLine 物件。如果你的系統維護五家分店，每家店的排隊機制是互相獨立的，那你就應該建立五個物件。
+
+在這個 POC 的案例，你應該要重複使用這個物件才對。重新建立 (new) 的物件，都會被當成另外排一個新的隊伍。適合的作法是把它擺在 static variable, 或是透過 DI 注入。
+
+```csharp
+
+CheckoutLine engine = new CheckoutLine(
+    10,     // 可進行結帳程序的人數
+    100,    // 可排隊等待的人數
+    5);     // 容許失聯的最長時間 (單位: sec)
+
+```
+
+接著就是以下各種應用方式了，請依序參考
+
+
+## 使用範例: 開始排隊(取號碼牌)
+
+```csharp
+
+//
+//  code 略
+//
+
+if (engine.TryGetToken(ref item) == false)
+{
+    // 沒擠進去, 連排隊機會都沒有。直接踢掉
+    if (display) Console.WriteLine($"#取號失敗");
+
+    //
+    // code 略, 做後續處理, 顯示無法排隊的訊息
+    //
+    return;
+}
+
+if (display) Console.WriteLine($"#取號成功 (號碼牌:{item})");
+//
+// code 略, 取號成功的後續處理
+//
+
+```
+
+我比照 .NET Framework 常用的 Try... 這個設計慣例，例如 Int32.TryParse(), return value 這管道我用來傳回是否取號成功? 而 ref 參數則用來傳回取號成功的號碼牌數值。
+
+
+
+## 使用範例: 判斷目前排隊的進度
+
+```csharp
+
+try {
+    Random rnd = new Random();
+    while(engine.CanCheckout(item) == false)
+    {
+        Thread.Sleep(rnd.Next(100) + 400);    // 隨機等待 400 ~ 500 msec
+        //
+        // code 略, 顯示排隊等待中的訊息, 並且定期 refresh
+        //
+        if (display) Console.WriteLine($"#目前順位: {item - engine.LastCheckOutPosition}");
+    }
+}
+catch {
+    //
+    // code 略,無法繼續排隊 (可能情況: timeout, leave, notexist ...)
+    //
+    throw;
+}
+
+//
+// code 略, 已可進入結帳流程 (進入餐廳用餐)
+//
+
+
+
+
+```
+
+因為我用的 POC 是 console application, 不是 web application, 因此等待的部分也在流程內。我用 Thread.Sleep() 來做等待的動作，如果是 web 應該要被拆開，單純 response 等待的畫面，待 browser 下次 refresh 後再重新檢查一次。
+
+這邊提到的，為了改善排隊的體驗，即使需要等待，我也期望能讓使用者知道他現在排隊的進度。這邊我沒做太多例外處理，請自行留意。要跳出 POC 這實驗室的應用前，例外處理是很重要的。CanCheckout() 的傳回直定義是:
+
+1. return true, 代表現在已經輪到你進入結帳流程了
+1. return false, 正常排隊中，不過還沒輪到你
+1. throw exception, 因為各種原因，你已經沒辦法繼續排隊了
+
+
+實際上可能會碰到 throw Exception 有幾種狀況, 你會永久被剔除排隊隊伍，等不到你進入結帳流程:
+
+1. 程式執行環境有問題, 等太久了, 超過 timeout ..
+1. 程式流程有問題, 這個 token 早已完成結帳...
+1. 程式有問題, 拿到錯誤的 token...
+
+
+
+## 使用範例: 結帳
+
+```csharp
+
+if (display) Console.WriteLine($"#開始結帳: {item}");
+
+Thread.Sleep(rnd.Next(1000) + 4000); // 模擬用餐時間
+rate.AcquireRequestAsync().Wait();   // 流量管控，模擬餐廳人手不足，出菜速度受限
+//
+// code 略, 執行結帳動作
+//
+engine.Remove(item);  // 結帳完成，離開隊伍
+
+if (display) Console.WriteLine($"#結帳完畢: {item}");
+
+
+```
+
+這部分就較單純了，沒什麼好判斷的，按照程序進行而已。
+
+不過，這段才會是真正進行交易處理的地方 (前面都只限於排隊等待的管理而已)。因此，在這部分可能會涉及到較多的交易處理，開始會碰到各種資源與效能的瓶頸。例如資料庫過於繁忙等等；在 [上一篇] 提到的流量管控機制，就很適合應用在這個地方。不過在這篇我不打算花篇幅說明這部分，就用一行 code 帶過:
+
+```csharp
+rate.AcquireRequestAsync().Wait();   // 流量管控，模擬餐廳人手不足，出菜速度受限
+```
+
+如果你的後端資料庫對效能很敏感，必須在前端就嚴格限制真正進入 DB 執行交易的處理的話... 就可以在這邊控制執行速度，避免瞬間過多單子衝垮資料庫。
+
+
+## 使用範例: 剔除發呆使用者
+
+```csharp
+
+Thread r = new Thread(() => {
+    do
+    {
+        Thread.Sleep(1000);
+        engine.Recycle();
+    } while (_worker_stop_flag == false);
+});
+r.Start();
+
+```
+
+這段其實也不難，只不過是定期從排隊隊伍中，找出發呆超過時間的人，逐一呼叫 Remove() 把他從隊伍踢掉而已。不過要多加思考的是，負責這件事情的 "糾察隊"，到底算是元件的責任範圍，還是使用元件的店家要負責?
+
+如果我把排隊機制當成 "服務" 來看待，我會把這件事當成排隊服務內部要處理掉的問題。使用這幅務的人只要被通知到有哪些人被踢掉就好了。不過我這 POC 的實作比較偏向 "元件"，提供現成元件給別的開發團隊使用，因此我這邊的安排是把 "巡邏" 的任務都先寫好，讓使用元件的團隊自行決定何時要啟用。
+
+我的作法是，在 POC 程式開始運行之初，就額外建立一個專屬的 thread, 每隔 1 sec 就執行一次 engine.Recycle() 任務。
+
+
+## POC CODE 小結
+
+這段的 POC, 算是能把想法換成 code 的過程。就如同開始講的，我略過了很多工程問題。例如，Token 就是個 long 長整數而已，完全沒有處理防偽造的機制；隊伍的狀態只放在記憶體而已，完全沒有擺在可靠的儲存體內；程式只是單機版而已，完全沒有考慮跨行程的問題。這些不是不重要，而是我相信開發團隊有能力處理後續問題，我只要在這個階段，盡快地確認這樣的演算法能有效率的解決問題即可。
+
+不過，別因為 POC 就馬虎了。POC 有 POC 要驗證的重點，非核心的部分我都可以省略，但是核心的部分還是要照規矩來。單元測試就省不德，壓力測試或是模擬測試更重要。
+
+單元測試我簡單貼一段隊伍 initialize 狀態的測試，讓大家體會一下就好了。要看完整的測試，可以直接 git clone 整包回來看:
+
+```csharp
+
+[TestMethod]
+public void InitStateTest()
+{
+    var c = new CheckoutLine(5, 10);
+
+    Assert.AreEqual(0, c.FirstCheckOutPosition);
+    Assert.AreEqual(5, c.LastCheckOutPosition);
+    Assert.AreEqual(10, c.LastQueuePosition);
+    Assert.AreEqual(1, c.CurrentSeed);
+}
+
+```
+
+這邊看起來 code 都不難寫，sample code 也都會動了，那麼我如何驗證實際大量使用者湧進來的排隊成效? 請繼續看下去~
+
+
+
+
+# 模擬與監控
+
+其實，整個 POC 做下來，最難搞的是這一段... 中間大概整組砍掉重來三次以上了，現在的作法才比較滿意一點，感覺有真的模擬出我要的情境...。
+這類服務或元件，不大好開發主要原因就是，正確性其實很好驗證 (單元測試有好好寫就八成穩了)，但是實際執行的表現很難掌握啊!
+
+
+
+## 模擬: 使用者行為
+
+先來看第一段 code:
+
+
+```csharp
+
+static void LoadTestWorker(CheckoutLine engine, RateLimiter rate, bool display = false)
+{
+    Interlocked.Increment(ref _concurrent_thread);
+    Interlocked.Increment(ref _started_thread);
+
+    do {
+
+        // 暖身
+        Thread.Sleep(rnd.Next(10000));
+        long item = 0;
+
+#region 取號
+        if (engine.TryGetToken(ref item) == false)
+        {
+            // 沒搶到號碼, 連排隊機會都沒有。直接踢掉
+            if (display) Console.WriteLine($"#取號失敗");
+            Interlocked.Increment(ref _no_entry_count);
+            Thread.Sleep(rnd.Next(1000));
+            continue;
+        }
+        if (display) Console.WriteLine($"#取號: {item}");
+#endregion
+
+#region 開始排隊
+        try
+        {
+            Interlocked.Increment(ref _queuing_count);
+            while (engine.CanCheckout(item) == false)
+            {
+                // 排隊中
+                if (rnd.Next(1000) < _config_queue_fail_probility)
+                {
+                    if (display) Console.WriteLine($"#放棄排隊: {item}");
+                    Interlocked.Increment(ref _abort_queue_count);
+                    throw new Exception("giveup");
+                }
+
+                if (display) Console.WriteLine($"#蘿蔔蹲: {item} (等候順位: {item - engine.LastCheckOutPosition})");
+                Thread.Sleep(rnd.Next(_config_queue_retry_period_ms)); // wait 30 sec and retry
+            }
+        }
+        catch (Exception ex)
+        {
+            // skip
+            if (display) Console.WriteLine($"#放棄排隊: {item} - exception {ex}");
+            continue;
+        }
+        finally
+        {
+            Interlocked.Decrement(ref _queuing_count);
+        }
+#endregion            
+
+
+
+#region 開始結帳
+        if (rnd.Next(1000) < _config_checkout_fail_probility)
+        {
+            if (display) Console.WriteLine($"#放棄結帳: {item}");
+            Interlocked.Increment(ref _abort_checkin_count);
+            continue; // 每次確認時都有 10% 機率放棄結帳
+        }
+
+
+        if (display) Console.WriteLine($"#開始結帳: {item}");
+
+
+        Interlocked.Increment(ref _checking_count);
+        Thread.Sleep(rnd.Next(_config_check_process_period_ms)); // 結帳
+
+        // 開始結帳那瞬間，就應該離開排隊隊伍了。接下來的管控交給 ratelimit
+        engine.Remove(item);
+        rate.AcquireRequestAsync().Wait();
+
+        Interlocked.Decrement(ref _checking_count);
+        Interlocked.Increment(ref _success_count);
+        if (display) Console.WriteLine($"#結帳完畢: {item}");
+#endregion
+
+    } while(false);
+
+    Interlocked.Decrement(ref _concurrent_thread);
+}
+
+```
+
+老實說，寫模擬的 code 還蠻煩的... 哈哈，感覺就像看小學生用流水帳寫日記一樣。不過模擬本來就是流水帳... 只好盡量的表達出我要模擬的使用者行為了。這個 method 我想代表單獨一個使用者，開始取號排隊，到完成整個結帳流程為止。其中你看到一堆這種 code, 只是我在更新統計資訊而已:
+
+```csharp
+
+    Interlocked.Decrement(ref _concurrent_thread);
+
+```
+
+整段 code 分三大部分，分別是 [取號]、[排隊等待]、[結帳] 三部分，我都用 region 來切段了。任何一段失敗 (例如沒取到號碼牌，不能排隊) 就直接離開了，整個 method 就執行結束，象徵流失的客戶就再也不回來了..
+
+為了更貼近實際的狀況，每個段落我都用 Thread.Sleep( ) 插入了不等(隨機)的延遲時間，模擬每個人的動作有快有慢的差距。同時，我也加入了固定機率，會有人不耐煩就不等了，直接離開隊伍的 code ... 
+
+例如這段排隊中的 code:
+
+```csharp
+
+// 排隊中
+if (rnd.Next(1000) < _config_queue_fail_probility)
+{
+    if (display) Console.WriteLine($"#放棄排隊: {item}");
+    Interlocked.Increment(ref _abort_queue_count);
+    throw new Exception("giveup");
+}
+
+```
+
+這段模擬的是，進入排隊狀態的使用者，會每隔一段時間重新呼叫 CanCheckout( ) 確定是否能進入店內用餐。不過每次詢問可能都會不耐煩，讓他興起放棄排隊的念頭。我模擬的是每次都有固定 1/1000 的機率會離開...
+
+
+
+## 模擬: 發動人潮開始排隊
+
+
+這段開始有點有趣了... 既然我都用 LoadTestWorker() 這個 method 封裝每個獨立的使用者完整的行為了，接下來我只要啟動一堆執行緒，就能模擬一堆使用者擠進店裡搶購的情境了! 看過我以前一堆文章的朋友應該不陌生，我研究過一堆掌控執行緒執行的技巧...
+
+```csharp
+
+List<Thread> workers = new List<Thread>();
+for(int i = 0; i < _config_total_workers; i++)
+{
+    Thread t = new Thread(() => {
+        LoadTestWorker(engine, rate, false);
+    });
+
+    workers.Add(t);
+    t.Priority = ThreadPriority.Lowest;
+
+    // reverse proxy hardware rate limit
+    SpinWait.SpinUntil(() => { return _concurrent_thread < _max_concurrent_thread; });
+    t.Start();
+}
+
+foreach (var w in workers)
+{
+    w.Join();
+}
+
+
+```
+
+這邊有段小插曲，其實這段 code 也很普通 (如果你熟悉 Thread 物件的操作的話)。唯獨一段 SpinWait 的部分，因為我的電腦資源有限，瞬間超過 3000 個執行緒同時執行時，這個模擬程式就會 OutOfMemoryException 了... 因此不得以設了一條限制，同時間不能超過 3000 個執行緒，否則就暫停緩一緩，先別啟動下一條執行緒。
+
+你也許會問，這為何不用 Semaphore ? 不大一樣的是，我這邊控制的點是在 Thread.Start() 之前, 因為 Start( ) 後稍有不慎就沒記憶體了.. 而 Semaphore 比較適合的場景是好幾個 thread(s) 想要搶奪某些有限的資源，而這些資源同時只限有限個數的 threads 存取。這是 Thread.Start() 之後 (在 thread 內部)。想了想，我是為了程式順利執行下去才這樣做的，加上為了統計我本來就有 count, 因此簡單設個 SpinWait 就解決他了。
+
+
+## 監控: Metrics
+
+整個 POC 終於要到最後一步了 T_T
+
+這種模擬程式，一口氣就有幾千個使用者湧進來，要輸出訊息到畫面上其實也看不到什麼有用的資訊啊... 怎麼呈現結果也是個頭痛的問題。
+我把場景拉回實際的系統，面對這麼多人在交易的系統，維運的團隊怎麼掌控狀況? 不外乎是從 dashboard, 監控各種數據的變化來得知。
+
+好，問題來了，這些指標 (metrics) 從來沒有書本教我們該如何設計啊... 要是胡亂開個規格出來，我也不知道 developer 做不做的出來，或是做出來是否能夠真的發揮作用?
+
+的確，這些問題不會有人給你答案的，尤其是你現在都還只停留在演算法驗證的階段而已。不過 code / load 都有 POC 了，metrics 這段也比照辦理吧! 就先憑你的經驗跟想像，先自己弄一版出來，用最快速最直接的方法，先產出一份結果來驗證，然後不斷修正。
+
+這邊我分享我自己過去幾年工作累積的經驗，我自認還不錯的做法，不會牽扯太多技術框架的 dependency, 也很容易實做, 很快就能得到 feedback. 先把這些問題搞定，拿最終版本的 POC 你就能開出非常明確的技術規格給要接手的 developer, 甚至你的 POC 都可以直接拿來當作 unit test ...
+
+我的作法是，我想要監控的 metrics, 我就先在模擬程式內自己計算統計，然後定期 (ex: 每 100ms) 把所有的 metrics 數值, 匯出一行 csv (文字檔)。模擬程式跑完了，這個 csv 也不用自己寫 code 處理了，貼上 EXCEL，直接想像這是 cloud watch, 自己拉幾個你想看的圖表吧! 如果拉不出你想看的圖表 (我相信這瓶頸絕對不會是 EXCEL 太弱)，就可以回過頭來想想 metrics 是不是設計的不好? 是否應該新增其他的 metrics 才能順利地顯示我要的統計資訊?
+
+我自己來回演練的過程就先省略了，我直接列幾個我想觀察的關鍵數據:
+
+|#   |name |desc   |
+|----|-----|-------|
+|    | _queuing_count|隊伍目前排隊中的人數|
+|    | _checking_count|隊伍目前結帳中的人數|
+|    | _abort_queue_count|放棄排隊累積人數|
+|    | _abort_checkin_count|放棄結帳累積人數|
+|    | _no_entry_count|無法排隊的累積人數|
+|    | _success_count|成功完成交易的人數|
+
+另外，加上隊伍的四個指標 (號碼機、結帳起點、排隊起點、排隊終點)，如果都納入這個 csv 匯出清單內，我就有個離線版本，模擬程式執行過程的所有 metrics 的資料了，EXCEL 可以讓我用最輕鬆的方式變成統計圖表。我完全可以靠一個人的人力，完成監控方式的 POC, 將來跟開發團隊溝通會容易的許多。
+
+```csharp
+
+        static void MonitorWorker(CheckoutLine engine)
+        {
+            string logfile = $"output-{DateTime.Now:yyyyMMddHHmmss}-{_config_total_workers/1000}k.csv";
+
+            File.WriteAllText(
+                logfile,
+                "SN,SEED,SINCE,UNTIL,LIMIT,ITEMS,CHECKIN,ORDER,ABORTCHECKIN,ABORTQUEUE,NOENTRY,THREAD\n");
+
+            Stopwatch timer = new Stopwatch();
+            timer.Restart();
+            do
+            {
+                Thread.Sleep(300);
+
+                Console.Clear();
+                //Console.SetCursorPosition(0, 0);
+                Console.WriteLine(engine);
+
+                Console.WriteLine($"* 排隊中:       {_queuing_count}.   ");
+                Console.WriteLine($"* 結帳中:       {_checking_count}.   ");
+                Console.WriteLine($"--");
+                Console.WriteLine($"* 成交單:       {_success_count}.   ");
+                Console.WriteLine($"* 放棄結帳:     {_abort_checkin_count}.   ");
+                Console.WriteLine($"* 放棄排隊:     {_abort_queue_count}.   ");
+                Console.WriteLine($"* 無法排隊:     {_no_entry_count}.   ");
+                Console.WriteLine($"--");
+                Console.WriteLine($"* 執行緒:       {_concurrent_thread} / {_started_thread} / {_config_total_workers}.   ");
+
+                File.AppendAllText(
+                    logfile,
+                    $"{timer.ElapsedMilliseconds},{engine.CurrentSeed},{engine.FirstCheckOutPosition},{engine.LastCheckOutPosition},{engine.LastQueuePosition},{_queuing_count},{_checking_count},{_success_count},{_abort_checkin_count},{_abort_queue_count},{_no_entry_count},{_concurrent_thread}\n");
+            } while (_worker_stop_flag == false);
+        }
+
+```        
+
+看看實際的 code 吧! 比照 recycle_worker 的做法，我也寫了 MonitorWorker(), 每隔固定時間就輸出一行 CSV 資料，按照格式把這些 metrics 資料匯出。同時為了方便執行過程觀察，我也稍做整理直接把這些資訊顯示在 console 上，讓我可以看到即時數據的變化。
+
+
+![](/wp-content/images/2018-12-12-interview03-checkout-line/console.gif)
+
+
+
+再來看看，匯出的 CSV 能給我們什麼資訊?
+
+![](/wp-content/images/2018-12-12-interview03-checkout-line/chart-01.jpg)
+
+上圖我只打開兩筆數據: 排隊中(綠) 與 結帳中(藍) 兩筆數據，橫軸是時間軸，縱軸是數值(單位: 人)。可以看到結帳中的人數都維持在 400 ~ 480 之間跳動 (我設定的上限是 500), 可見一些隨機的因素，沒有辦法隨時都 100% 維持在最佳的效率上，不過這也是個不錯的指標，也許後續演算法能持續改善優化，我就能從這樣統計圖表比較，哪種做法的結帳人數能更逼近理論值?
+
+
+
+![](/wp-content/images/2018-12-12-interview03-checkout-line/chart-02.jpg)
+
+再來看另一組數據，這次我把隊伍的四個指標都秀出來。號碼機(紅)，結帳起點(灰)，排隊起點(黃)，排隊終點(藍)...
+想像一下，這四個數值隨著時間不斷的往右移，號碼機不斷地發出新的號碼牌。中間大部分的情況，號碼牌發放的位置都超過排隊起點，代表這家店都維持再客滿的狀態。值到後段號碼牌發放變慢了，逐步被黃線超越，這就代表店面內開始有座位空出來了。值到要結束營業為止，號碼牌跟結帳起點重疊了，代表所有領了牌子的客人都已經結帳完畢了，這家店這時已經沒有半個客人了。
+
+其實這做法，對應到 DevOps 也好, Agile 也好, 甚至績效管理的理論也好, 其中都有一件事情是, 你要先能度量 (量化) 才能管理。這 POC 要產出 metric 數據就是第一步。如果我的計算方式設計上就出了問題，我可以在 POC 階段就修正它。如果 POC 夠簡單 (只有兩三百行)，又沒有涉及太多 framework / language 等等因素，其實我有完全的能力可以處理啊! 不用等到 RD 都快寫完了才在線上調整... (通常 RD 很難 100% 掌握你的想法，然而線上的系統你沒辦法自己改，又得靠 RD 找出問題)。
+
+
+# 結論
+
+
+
+# 參考資源
 
