@@ -25,6 +25,7 @@ Microservices, 一個很龐大的主題，我分成四大部分陸續寫下去..
   - [Part #2](/2017/12/31/microservice9-servicediscovery/) 微服務基礎建設 - Service Discovery; 2017/12/31
   - (計畫) 微服務基礎建設 - Service Mesh;
   - [Part #3](/2018/06/10/microservice10-throttle/) 微服務基礎建設 - 服務負載的控制; 2018/06/10
+  - [Part #4](/2018/12/12/microservice11-lineup/) 微服務基礎建設 - 排隊機制設計; 2018/12/12
   - (計畫) 微服務基礎建設 - Circuit Breaker;
   - (計畫) 微服務基礎建設 - Log Tracking & Auth;
   - (計畫) 微服務基礎建設 - 版控, CI/CD, 容器化部署;
@@ -35,6 +36,5 @@ Microservices, 一個很龐大的主題，我分成四大部分陸續寫下去..
 1. **建構微服務開發團隊**
   - [架構面試題 #1](/2018/03/25/interview01-transaction/) 線上交易的正確性; 2018/03/25
   - [架構面試題 #2](/2018/04/01/interview02-stream-statistic/) 連續資料的統計方式; 2018/04/01
-
 
 -----
