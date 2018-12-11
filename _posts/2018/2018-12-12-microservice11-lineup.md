@@ -4,7 +4,7 @@ title: "微服務基礎建設 - 線上購物排隊機制設計"
 categories:
 - "系列文章: .NET + Windows Container, 微服務架構設計"
 - "系列文章: 架構師觀點"
-tags: ["microservice", "系列文章", "架構師", "DevOps", "POC"]
+tags: ["microservice", "系列文章", "架構師"]
 published: true
 comments: true
 redirect_from:
