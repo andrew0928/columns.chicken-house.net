@@ -11,10 +11,11 @@ redirect_from:
 logo: /wp-content/images/2018-12-12-microservice11-lineup/logo.jpg
 ---
 
-![](/wp-content/images/2018-12-12-microservice11-lineup/logo.jpg)
-> 圖片出處: https://tw.appledaily.com/new/realtime/20181124/1472338/
 
 轉到電商後，經歷過第一次雙十一的洗禮，總算是親身體驗大流量的刺激與震撼了 :D，其中的辛苦我就不多說了，這次都還是仰賴經驗老到的同事們渡過難關的。不過這次我們能安然渡過，先前開發的排隊機制功不可沒。但是這次我們也發現到排隊機制其實還有些優化改善的空間，可以讓排隊中的消費者有更好的體驗。
+
+![](/wp-content/images/2018-12-12-microservice11-lineup/logo.jpg)
+> 圖片出處: https://tw.appledaily.com/new/realtime/20181124/1472338/
 
 雙十一過後，我試著在思考如何改善排隊的做法... 不過很少看到有文章在探討這類機制該如何開發的細節? (大多是高流量高併發，淘寶雙十一超大規模架構之類的) 於是我試著研究這個議題，也簡單的寫了 POC 來驗證想法，就順手寫了這篇...。
 
