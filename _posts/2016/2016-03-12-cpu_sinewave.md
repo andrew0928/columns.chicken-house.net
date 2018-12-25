@@ -24,7 +24,9 @@ logo: /wp-content/images/2016-03-12-cpu_sinewave/logo.png
 ![](/wp-content/uploads/2016/03/img_56dee24543173.png)
 
 
-> "什麼!!! Microsoft 面試考這個?"
+
+
+# 什麼!!! Microsoft 面試考這個?
 
 
 長年都抱著 Microsoft Solution 在研究的我，怎麼能錯過這個考驗? 想想這題目還蠻有趣的，於是一時手癢，就開了 Visual Studio 2015 動起手來... 中間的過程就省略了，其實程式沒幾行，控制 CPU 使用率的原理，還有三角函數搞得清楚就沒問題了。結果不到十分鐘，第一版就出來了，直接看結果:
@@ -67,7 +69,7 @@ Orz, 好久沒算數學了, 不過這種題目就是要計算啊...```sin(x)``` 
 這樣其實是沒錯啦，不過問題開始出現了:
 
 1. busy waiting 只對1 cpu core 起作用，我的 PC 有 4core / 8threads..., busy waiting 只能到達 12.5% 的負載
-1. 讓 CPU 忙碌的部份解決了，但是怎麼讓 CPU "<strong>很精確的</strong>" 空閒? 空閒的部分做任何事情，也都會影響到 CPU utilization..
+1. 讓 CPU 忙碌的部份解決了，但是怎麼讓 CPU "很精確的" 空閒? 空閒的部分做任何事情，也都會影響到 CPU utilization..
 
 
 突然發現，這些技巧其實都是過去研究 [多執行緒](/category/thread/)，還有 [作業系統](/category/os/) 碰到的問題啊，哈哈哈... 還好過去累積了不少這些知識，現在可以拿來現寶了 XD，第一個很簡單，我只要用 multi-threading 或是開個只配置 1 core 的 VM 就搞定了，跳過!
@@ -91,7 +93,7 @@ Orz, 好久沒算數學了, 不過這種題目就是要計算啊...```sin(x)``` 
 開了 10 threads 當作背景的干擾，分別用 ```Sleep()``` 及 ```SpinUntil()``` 分別 IDLE 10 ms 的結果
 
 
-**測試精確度用的程式碼**:
+# 測試精確度用的程式碼:
 
 ```csharp
 class Program
@@ -226,10 +228,10 @@ for (int i = 0; i < testrun_count; i++)
 
 這張圖的結果也類似，在我期望的範圍內，也是 Advanced SpinUntil( ) 的表現最好，依序是:
 
-1.Adv_Spin
-1.Spin
-1.Adv_Sleep
-1.Sleep
+1. Adv_Spin
+1. Spin
+1. Adv_Sleep
+1. Sleep
 
 經過綜合考慮之後，最終我還是選用 Advanced SpinUntil 的機制來控制時間。一來行為表現比較可靠可預測，飄移的狀況較低。二來就架構上他是較合適的，有理論基礎。加上看到 [Darkthread 的文章](http://blog.darkthread.net/blogs/darkthreadtw/archive/2007/03/24/657.aspx) ，Sleep( ) 的精確度會跟硬體有高度相關，很依賴硬體(主機板) 的設計，因此我還是選用架構上較可靠的方案優先，後續的程式碼都改用 Spin 的機制來設計。
 
