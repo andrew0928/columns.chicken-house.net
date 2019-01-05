@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "可靠的微服務通訊 - Message Queue"
+title: "高可靠度的微服務通訊 - Message Queue"
 categories:
 - "系列文章: .NET + Windows Container, 微服務架構設計"
 - "系列文章: 架構師觀點"
@@ -8,18 +8,20 @@ tags: ["microservice", "系列文章", "架構師", "DevOps", "POC", "MessageQue
 published: true
 comments: true
 redirect_from:
-logo: /wp-content/images/2019-01-01-microservice12-mqrpc/LOGO.png
+logo: /wp-content/images/2019-01-01-microservice12-mqrpc/banner.jpg
 ---
 
-在今年 .NET Conf 2018, 我講了一個場次: [Message Queue Based RPC](https://www.facebook.com/andrew.blog.0928/videos/478284192685645/), 內容就是這篇文章的前半段... 現場短短 50 分鐘，要交代完整個專案的來龍去脈，實在有點困難啊，因此在台上我只交代了怎麼善用 C# 的 async / await, 搭配執行緒控制的技巧，漂亮的把 Message Queue 封裝成 RPC 來使用。
+![](/wp-content/images/2019-01-01-microservice12-mqrpc/banner.jpg)
 
-不過這類主題，拉得更高一點來看，我的目的其實是整合啊! "架構師" 在這幾年變成技術職的終極目標，不過軟體業的市場還很年輕，市場上有經驗的架構師也不多啊，很多文章都在談論架構師到底該做些什麼事? 其中有一點很多文章都有提到，就是 "技術選型"。
+在今年 [.NET Conf 2018](http://study4.tw/Activity/Details/20), 我講了一個場次: [Message Queue Based RPC](https://www.facebook.com/andrew.blog.0928/videos/478284192685645/), 內容就是這篇文章的前半段... Message Queue 本身的架構就容許部分服務掛掉也還能正常運作，是高可靠度 / 非同步通訊不可或缺的一環啊! 這個場次我說明了如何用 C# 把 Message Queue 封裝成 RPC, 同時支援 C# async / await 的整個過程跟細節。不過時間只有短短的 50 分鐘，要交代完整的來龍去脈實在有點困難啊，剩下的部分我就在這篇文章補完。
 
-架構師應該用他的專業及經驗，替團隊挑選一個符合現況及將來發展的技術。這句話並沒有錯，不過我看過幾個例子，都沒有做到位；因為選完之後，下一步就是要應用啊! 成熟的服務或是框架，在現在的時空背景下其實不是個大問題，但是每個團隊面臨的商業需求，歷史包袱，團隊組成狀況等等都不同，很難有哪一套服務或是框架可以適應所有情況的。因此你做完技術選型後，下一個難題是 "整合"。
+# 前言: 以整合為目的
 
-這就是我這篇文章想要表達的；我們挑選了 RabbitMQ 當作我們服務背後的 Message Queue, Message Queue 掌控了可靠的通訊核心, 非同步的通訊，到 CQRS, 到 Event Driven 事件驅動, 訂閱 / 通知 等類型的通訊都需要靠他，我期望內部團隊能發展出一套體系，能將這些機制串在一起。這些機制整合的好，團隊的能力就能往上提升一個檔次。
+這類主題，拉得更高一點來看，目的其實是整合啊! "架構師" 在這幾年變成技術職的終極目標，不過軟體業的市場還很年輕，市場上有經驗的架構師也不多啊，很多文章都在談論架構師到底該做些什麼事? 其中有一點很多文章都有提到，就是 "技術選型"。架構師應該用他的專業及經驗，替團隊挑選一個符合現況及將來發展的技術。這句話並沒有錯，不過我看過幾個例子，都沒有做到位；因為選完之後，下一步就是要應用啊! 成熟的服務或是框架，在現在的時空背景下其實不是個大問題，但是每個團隊面臨的商業需求，歷史包袱，團隊組成狀況等等都不同，很難有哪一套服務或是框架可以適應所有情況的。因此你做完技術選型後，下一個難題是 "整合"。
 
-既然整個體系，是架構師規劃出來的，該如何 "整合"，自然是架構師最清楚其中的關鍵了。我一直期望我對團隊的貢獻不只是紙上的規劃而已，而是能真正融入開發，從 code 層面就能幫助團隊提升。因此這篇我就打算從 Message Queue 幾個應用場景切入，示範一下從架構的角度，該如何看待 Message Queue 的整合這件事?
+這就是我這篇文章想要表達的；我們挑選了 [RabbitMQ](http://www.rabbitmq.com/) 當作我們服務背後的 Message Queue, Message Queue 掌控了可靠的通訊核心, 非同步的通訊，到 CQRS, 到 Event Driven 事件驅動, 訂閱 / 通知 等類型的通訊都需要靠他，我期望內部團隊能發展出一套體系，能將這些機制串在一起。這些機制整合的好，團隊的能力就能往上提升一個檔次。既然整個體系，是架構師規劃出來的，該如何 "整合"，自然是架構師最清楚其中的關鍵了。我一直期望我對團隊的貢獻不只是紙上的規劃而已，而是能真正融入開發，從 code 層面就能幫助團隊提升。因此這篇我就打算從 Message Queue 幾個應用場景切入，示範一下從架構的角度，該如何看待 Message Queue 的整合這件事?
+
+<!--more-->
 
 這篇我會從封裝開始，只把我對於 Message Queue 想要解決的問題點出發，從這角度規畫出封裝後的介面該長什麼樣子，其餘的細節如何善用 C# / .NET 的機制藏到背後。背後需要進一步跟其他的基礎建設 (如: configuration, cloud / container infra, security, logging 等等) 整合，這整套的環境很難找到現成而且合用的，大部分團隊都需要自行建立。因此，我從 Message Queue 要解決的問題: 通訊 為出發點，整篇文章分幾個段落，先從封裝 "通訊" 這件事開始，帶到 Message Worker 這類長時間執行的背景服務開發，到非同步通訊如何跟 C# 的 async / await 整合，最後帶到如何跟 container orgistration 密切整合，不需要額外的管理工具就能做好 MessageWorker 的 scale managemnet。
 
@@ -35,18 +37,15 @@ logo: /wp-content/images/2019-01-01-microservice12-mqrpc/LOGO.png
 ![](/wp-content/images/2019-01-01-microservice12-mqrpc/LOGO.png)  
 [圖片出處](https://twitter.com/hughcards/status/423952995240648704)https://twitter.com/hughcards/status/423952995240648704
 
-就像這張圖要表達的一樣，我寫這篇就是這種感覺；如果沒有剛開始工作時無意間聽了前輩上課交我們怎麼寫 thread pool (java), 沒有十年前因為工作需要研究了一堆平行處理的技巧，也寫了好幾篇文章 (還有投稿 RUN!PC)，沒有三年前突然某根筋不對開始研究 docker 跟 linux, 現在我面對這些整合問題應該拿不出我滿意的解決方案。這內容其實是我準備要拿來內部訓練用的，只是現在回頭看，當年學了也沒機會用到的技巧 (台灣軟體業大部分都做 SI 啊，基礎科學沒有太多公司重視)，現在回頭看才發現過去的努力沒有白費。台灣的軟體業很缺這樣的經驗跟案例，所以我想把這些經驗寫下來給需要的朋友參考。
+就像這張圖要表達的一樣，我寫這篇就是這種感覺；如果沒有剛開始工作時無意間聽了前輩上課交我們怎麼寫 thread pool (java), 沒有十年前因為工作需要研究了一堆[平行處理的技巧](/categories/#%E7%B3%BB%E5%88%97%E6%96%87%E7%AB%A0:%20%E5%A4%9A%E5%9F%B7%E8%A1%8C%E7%B7%92%E7%9A%84%E8%99%95%E7%90%86%E6%8A%80%E5%B7%A7)，也寫了好幾篇文章 (還有投稿 [RUN!PC](/categories/#RUN!%20PC%20%E5%B0%88%E6%AC%84%E6%96%87%E7%AB%A0))，沒有三年前突然某根筋不對開始研究 docker 跟 linux, 現在我面對這些整合問題應該拿不出我滿意的解決方案。這內容其實是我準備要拿來內部訓練用的，只是現在回頭看，當年學了也沒機會用到的技巧 (台灣軟體業大部分都做 SI 啊，基礎科學沒有太多公司重視)，現在回頭看才發現過去的努力沒有白費。台灣的軟體業很缺這樣的經驗跟案例，所以我想把這些經驗寫下來給需要的朋友參考。
 
 回到主題吧，往下看下去，你可以學到幾件事:
 
-1. 如何善用 C# 的語法，封裝 Message Queue
-1. 掌握 async / await 的機制, 簡化跨服務的非同步通訊
+1. 如何善用 C# 的語法，將 Message Queue 封裝為 RPC
 1. 如何跟 environment 整合, 搭配 DI framework 解決環境耦合問題
 1. 想辦法讓你的 code 做到 design for operation, 達到 self management 的層次。
 
 細節就直接往下看吧! 技術領域這條路，不見得要一直追趕最新的 framework, tools, language 啊，尤其是擔任架構師的角色，比起精通你更需要的是宏觀，你才能做出正確的判斷帶領團隊前進。
-
-<!--more-->
 
 
 {% include series-2016-microservice.md %}
@@ -54,21 +53,21 @@ logo: /wp-content/images/2019-01-01-microservice12-mqrpc/LOGO.png
 
 
 
-# 通訊機制封裝 (C# SDK)
+# 團隊專屬 SDK: 通訊機制封裝
 
 
 跨服務間的通訊永遠都是分散式系統的關鍵問題。跨服務間的通訊，絕對不會只有我 call 你的 API (HTTP REST) 這麼單純而已。不同的服務之間有很多通訊方式，從最無腦的共用資料庫: share database / stroage, 到非同步通訊: event driven (publish / subscribtion), event sourcing (stream data + cqrs), 到同步通訊: HTTP RESTFul / gRPC ... 等都算。
 
-如果你需要兼顧非同步，單向或雙向，甚至更複雜的情境 (如訂閱) 的話，透過可靠的 Message Queue 已經是很基本的選項了。我們團隊挑選了 RabbitMQ + CloudAMQP 當作底層的通訊管道，而非直接選用特定 cloud provider 專屬的方案。由於有大量的商業邏輯需要仰賴 Message Queue 來簡化，因此靈活的 exchange / queue 的組合變成挑選的重點。
+如果你需要兼顧非同步，單向或雙向，甚至更複雜的情境，透過可靠的 Message Queue 已經是很基本的選項了。我們團隊挑選了 [RabbitMQ](http://www.rabbitmq.com/) + [CloudAMQP](https://www.cloudamqp.com/) 當作底層的通訊管道，而非直接選用特定 cloud provider 專屬的方案。由於有大量的商業邏輯需要仰賴 Message Queue 來簡化，因此靈活的 exchange / queue 的組合變成挑選的重點。
 
-看了 rabbit mq 的 sample code, 發現要駕馭他強大的彈性，要花上一些功夫啊，為了把訊息送出去，到另一端接收回來，就需要寫上幾十行 code。若是過程中還要經過團隊其他機制的處理 (EX: 例如透過集中的 configuration 取得連線資訊，或是訊息 header 必須傳遞認證授權機制等等)，那就更複雜了。先對內部的需求進行抽象化及封裝的處理是有必要的，這也是我一直在講的: 先針對挑選的 tech stack 進行整合、封裝、抽象化之後，再交給團隊大量使用。
+看了 RabbitMQ 的 [sample code](https://www.rabbitmq.com/getstarted.html), 發現要駕馭他強大的彈性，要花上一些功夫啊，為了把訊息送出去，到另一端接收回來，就需要寫上幾十行 code。若是過程中還要經過團隊其他機制的處理 (EX: 例如透過集中的 configuration 取得連線資訊，或是訊息 header 必須傳遞認證授權機制等等)，那就更複雜了。先對內部的需求進行抽象化及封裝的處理是有必要的，這也是我一直在講的: 先針對挑選的 tech stack 進行整合、封裝、抽象化之後，再交給團隊大量使用。
 
 
-## Abstraction - Message I/O
+## 抽象化: Message Client / Worker
 
 Message Queue 需要什麼樣的封裝? 撇開其他系統層面的需求 (例如上面提到的 configuration ...), Message Queue 真正要面對的需求就是通訊而已啊，無法先替團隊決定的是 Message 的內容與格式，但是格式確認之後的傳輸處理 (send / receive) 卻可以事先準備好，同時也包含單向與雙向通訊的處理，於是這就成為第一版的設計目標了。
 
-因此，我理想中，要交付給開發團隊的 SDK 應該長什麼樣子? 我以下用一段 psudo code 來代表:
+因此，我理想中，要交付給開發團隊的 SDK 應該長什麼樣子? 我以下用一段概念 code 代表:
 
 傳送端我想提供這樣的 SDK (單向):
 
@@ -120,7 +119,7 @@ using(var worker = new MessageWorker<MyMessage>() {
 上述的抽象定義，大概能表達出我想開放給團隊使用的介面應該長什麼樣子。其餘多餘的實作應該盡量的封裝起來才對。先從最單純的單向通訊開始，我們先來看看第一版的實作
 
 
-## One-Way Message
+## 單向訊息傳遞: MessageClient 介面定義
 
 實作的 code 包含太多細節，跟主題 (架構) 無關的細節我就略過了。有興趣的可以自行參考 source code, 也歡迎再 FB 留言討論相關細節。
 
@@ -164,7 +163,7 @@ public class MessageClient<TInputMessage> : MessageClientBase
 
 
 
-Usage Demo:
+Demo Code:
 
 ```csharp
 
@@ -202,6 +201,8 @@ null))
 
 
 
+
+## 單向訊息傳遞: MessageWorker 介面定義
 
 看完 MessageClient, 接著來看看對應的 MessageWorker 的介面設計:
 
@@ -289,17 +290,25 @@ await server.StopAsync(CancellationToken.None);
 ```
 
 
-## Shutdown MessageWorker
 
-這背後藏著不少難搞的細節，包含 Worker 背後其實準備了多個 thread(s), 以便來應付同時有多個 message 湧入的狀況 (你可以想像銀行同時有 5 個櫃台，每個瞬間最多都有五個客戶被服務)。另外，當你呼叫 Stop() 時也不是立刻就結束，就像電腦一樣需要經過正常的關閉程序。呼叫 StopAsync() 的那瞬間，MessageWorker 就不會再接收新的 message, 同時會等待所有的 worker thread(s) 把處理到一半的 message 都正常處理完畢後，回報給 MessageWorker, 全部完成之後 StopAsync() 才能取得 result (也就是 await 會 return)。
 
-可靠的通訊，除了透過 queue 可以避免 server 端短暫停機也不會有影響之外，Worker 的這種設計 (能夠正常的結束，這模式通常稱作 Graceful Shutdown, 意思是你的 worker 能夠優雅從容 / graceful 的終止手上的工作, 再進行關機 / shutdown 的意思) 也是很重要的一環。如果上面的 "按下 ENTER" 判定，換成偵測 OS 是否要關機，這個機制可以確保 MessageWorker 收到的訊息一定會使命必達，正常處理完才會結束。雖然 queue 本身也有 ack 機制可以預防 MessageWorker 不正常結束的狀況，不過那終究是最後一道防線，就像急診室一樣不要濫用醫療資源；你有能力妥善處理好 Message，才是最有效率最妥善的做法。
+## MessageWorker: 多執行緒平行處理
+
+MessageWorker 背後藏著不少難搞的細節，包含 MessageWorker 啟動之後，背後其實準備了多個 thread(s), 以便來應付同時有多個 message 湧入的狀況。也因為這樣，當你呼叫 Stop() 時，若還有 message 還在處理中，你也不能立刻就結束，需要經過正常的關閉程序 (你可以想像銀行同時有 5 個櫃台，每個瞬間最多都有五個客戶被服務，就算要關門也要等這五個櫃台都處理完畢才行)。在呼叫 StopAsync() 的那瞬間，MessageWorker 就不會再接收新的 message, 同時會等待所有的 worker thread(s) 把處理到一半的 message 都正常處理完畢後，回報給 MessageWorker, 全部完成之後 StopAsync() 才能取得 result (也就是 await 會 return)，讓主程式知到 MessageWorker 已經完全關閉，能夠正常離開。
+
+為何要做這段? 有很大的原因，是為了將來上線時的維運考量。細節我在後面的 Auto Scaling 段落再說明。這邊我先交代如何正常的結束 MessageWorker 的運作。
 
 這段的實作，算是最多技術細節的段落了，需要用到的技巧與知識不少，你會需要精確的 thread(s) control 的知識與技巧才能搞的定。我在 .NET Conf 2018 那場就足足花了 50 min 在說明這機制，有興趣的可以看當日的錄影。如果想看這些背後的運作機制，過去我寫了幾篇相關的 (Orz, 有的竟然十年了) 文章可以參考看看:
 
-1. Thread Pool 相關
-1. Thread 進階應用
-1. Windows (OS) shutdown 的處理經驗
+1. 系列文章: [Thread Pool 實作](/categories/#%E7%B3%BB%E5%88%97%E6%96%87%E7%AB%A0:%20Thread%20Pool%20%E5%AF%A6%E4%BD%9C)
+1. 系列文章: [多執行緒的處理技巧](/categories/#%E7%B3%BB%E5%88%97%E6%96%87%E7%AB%A0:%20%E5%A4%9A%E5%9F%B7%E8%A1%8C%E7%B7%92%E7%9A%84%E8%99%95%E7%90%86%E6%8A%80%E5%B7%A7)
+1. 參考文章: [在 .NET Console Application 中處理 Shutdown 事件](/2018/05/10/tips-handle-shutdown-event/)
+1. 參考文章: [容器化的微服務開發 #2, IIS or Self Host ?](/2018/05/12/msa-labs2-selfhost/)
+
+
+
+
+## 啟動 MessageWorker: 建立多組 channel (thread)
 
 由於細節都有上述資源可以深入了解了，這邊我就把架構上的幾個關鍵點交代一下，讓大家有個全貌可以知道這段在解決什麼問題。這段邏輯的核心其實只有這幾時 行 code:
 
@@ -375,7 +384,6 @@ protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     this._connection.Close();
 }
 
-
 ```
 
 這段其實就是整個 MessageWorker 完整的生命週期會做的事情了。RabbitMQ 分為 connection, channel, consumer .. 分這三層有他的用意。每一層背後都代表有對應的系統資源:
@@ -385,6 +393,11 @@ protected override async Task ExecuteAsync(CancellationToken stoppingToken)
 1. consumer: 每個 consumer 會有專屬的 event handler
 
 所以，其實你可以只用一個 channel 就產生多個 consumer 來處理 message, 但是實際執行起來，由於只有單一 thread, 你無法觀察到多個 message 被平行處理的結果。當然不見得每個情況下，你都期望會有平行處理的結果。因此你必須自己決定該怎麼做。以我的例子來說，我期望 MessageWorker 用我指定的 threads 數量來執行，因此我用了一個 for loop 來建立 {this._options.WorkerThreadsCount} 個 channel(s)
+
+
+
+## 停止 MessageWorker 的程序
+
 
 其實這段 code, 把 channel / consumer 都產生好之後就沒事了，直到 MessageWorker 必須關閉時，才會啟動後半段的 code... 中間有個關鍵的一段:
 
@@ -405,17 +418,18 @@ await Task.Run(() => { stoppingToken.WaitHandle.WaitOne(); });
 這又是另一段故事了。這是為了配合 C# async 的規格，告訴 caller (其實我去 trace .NET core source code 才搞懂這段的), async 可以 return Task 了。這可以讓外面的 code 在 init 完之後就能 async return 先去忙別的事情 (例如上例的等待 user 按下 ENTER ...)。
 
 
+
 後半段就是反過來的動作了。RabbitMQ 的文件找不到正常的終止程序該怎麼搞，這段是我自己 try & error 試出來的方案。MessageWorker 決定終止之後，我第一件事情先把 consumer 的 event handler 拔掉，這並不會阻止 consumer 接收新的 message (應該啦), 但是可以阻止接收到的 message 交給 process 去處理。不處理的話就不會 ack, 所有尚未 ack 的 message 都會在 connection close 後直接回歸回 queue 等待下個有緣的 worker ..
 
 源頭斷掉之後，剩下的就是等待每個已經交給 process 處理的 message 完成即可。我搭配一個計數器，統計目前正在處理中的 message 有多少個 (我用 Interlocked 物件確保這數字，process 進入時 +1, 離開時 -1, threadsafe)。檢查的時機我不是傻傻地用無窮迴圈 + timer 不斷的去檢查，我用 WaitHandle 的機制，任何一個 process 處理完 message 時，就會 Set WaitHandle, 這回圈就會立刻被喚醒，確認這是否是最後一個 message? 不是的話就繼續等待，直到全部都完成為止。
 
-由於這是 wait / notify 的設計，而非 pooling 的機制，因此反應時間幾乎是瞬間完成的。精確度取決於 OS 多快把 thread 喚醒。都處理完成之後才會繼續 close channel / connection。之前我踩過大地雷，太早 close connection, 導致 shutdown 之後的 message 都無法 ack ... 
+由於這是 wait / notify 的設計，而非 pooling 的機制，因此反應時間幾乎是瞬間完成的。精確度取決於 OS 多快把 thread 喚醒，而不是取決於你 retry / pooling 的時間間隔設的多短。都處理完成之後才會繼續 close channel / connection。之前我踩過大地雷，太早 close connection, 導致 shutdown 之後的 message 都無法 ack ... 
 
 這整段的程序，雖然不大好懂，但是他能讓你確保 message 都能精準地完成之後在關閉程式。除了你可以降低事情做一半要去收尾的麻煩事之外，後面可以進一步看到如何跟 container / cloud provider 的 auto scaling 機制完美搭配的用法。這是所有的 worker 類型應用程式很關鍵的一環，但是這麼複雜的事情也不是和每個團隊都要自己處理，因此抽象封裝起來讓大家大量使用才是正途。
 
 
 
-## Two Way Message: RPC
+## 雙向通訊: RPC (Remote Procedure Call)
 
 One Way Message 是 Message Queue 的強項, 訊息送出後就不用等待回應，發送端可以不用等待結果就繼續進行後續的任務，這是典型的 Async 模式。這能有效提高效率 (不用等待回應)，也能提高可靠度 (Worker 身體健康才能從 Queue 拿走訊息，能確實處理好訊息)。不過有些任務就是必須等待結果才能繼續啊! 回想一下 C# 在語法就直接支援 async / await, 當你發出訊息後可以 "非同步" 的繼續後面的任務，同時你真的需要處理結果時，你還有 await 可以用啊!
 
@@ -425,9 +439,13 @@ One Way Message 是 Message Queue 的強項, 訊息送出後就不用等待回�
 
 這張圖很直覺的表達這架構: Client 透過正常管道，從 Exchange -> Queue (rpc_queue) 傳送 Message 給 Server；為了識別，Client 會在每個 Message 上標示不重複的關聯 ID (correlation id)，同時也會預先標示好回傳結果訊息要透過哪一個 Queue (reply_to)。
 
-Server 接到訊息，處理完畢後，只要按照 Message 上的標示 (就像回郵信封，地址郵票都幫你弄好了，你只管把結果裝進信封寄回來) 回傳訊息及可。Client 端會預期在 Reply Queue 會收到處理結果，因此訊息送出之後就會開始監聽 Reply Queue 等待結果。簡單的說 Client / Server 都各自扮演了 Producer / Consumer 的角色。
+Server 接到訊息，處理完畢後，只要按照 Message 上的標示 (就像回郵信封，寄信給你的人把地址郵票都幫你弄好了，你只管把結果裝進信封寄回來) 回傳訊息即可。Client 端會預期在 Reply Queue 會收到處理結果，因此訊息送出之後就會開始監聽 Reply Queue 等待結果。簡單的說 Client / Server 都各自扮演了 Producer / Consumer 的角色。
 
-這部分開始有趣了，按照這篇文章附上的 sample code, 其實做起來也不難，各自都數十行 code 就可以搞定了。不過這真的就是 sample code 啊! 沒啥結構可言。這邊的抽象化與效能最佳化變成個挑戰了。
+這部分開始有趣了，按照這篇文章附上的 sample code, 其實做起來也不難，各自都數十行 code 就可以搞定了。不過這真的就是 sample code 啊! 沒啥結構可言，你很難直接拿這段 code 去重複運用在可能會有上百種不同的 message 上。這時這邊的抽象化與效能最佳化變成主要的挑戰了。
+
+
+
+## 有效率的 RPC 封裝: async / await
 
 先許願，我期望這樣的機制能被封裝成什麼樣子? 前面單向的例子我覺得很 OK，對訊息的傳輸處理，能否讓 Message 的泛型參數擴充為 InputMessage 跟 OutputMessage 就好? 原本 SendMessage() 只單向傳送 (底下是宣告) 的設計:
 
@@ -453,6 +471,17 @@ public TOutputMessage SendMessage(
 }
 ```
 
+為了支援雙向的訊息，因此原本 generic type 只需要一個參數的 MessageClass，現在也該擴充了:
+
+```csharp
+
+public class MessageClient<TInputMessage, TOutputMessage> : MessageClientBase
+{
+    // 略
+}
+
+```
+
 再貪心一點，C# 比 Java 最吸引人的一點，就是 Microsoft 願意在不更動 Runtime 的前提下，只異動編譯器，提供方便的語法糖 (syntexic sugar) 給開發人員使用。經典中的經典 async / await 如果能用在這裡就更棒了。如果設計能追加成這樣:
 
 ```csharp
@@ -464,6 +493,9 @@ public async Task<TOutputMessage> SendMessageAsync(
     // 略
 }
 ```
+
+
+
 
 既然 MessageClient 這端的願望都許完了，那 MessageWorker 是否也需要改變? 當然要，不過同樣的也只要改一點點就好:
 
@@ -506,9 +538,9 @@ public delegate TOutputMessage MessageWorkerProcess(
 
 如果這些都做完了，那用起來會是什麼樣的感覺? 我貼一段 "樣品屋" 給大家看看，體驗一下封裝後寫 code 的 fu ..。下面這段 sample code 是 client 的部分。我定義了 DemoInputMessage 跟 DemoOutputMessage 分別代表 RPC 的參數跟傳回值。程式中的 for loop, 我只不斷重複地做同一件事:
 
-1. 送 start 的 message, 並且等待結果
-1. 接著連續送 10 個 message, 一口氣送完 (不等結果) 後，再一次等待 10 個結果回來
-1. 接著送 end 的 message, 並且等待結果
+1. 送 "start" 的 message, 並且 **等待** 結果
+1. 接著連續送 10 個 message, 一口氣送完 (**不等**結果) 後，再一次等待 10 個結果回來
+1. 接著送 "end" 的 message, 並且 **等待** 結果
 
 這邊如果你熟悉 C# 的 async / await, 那麼這件事就相當容易了，用 await 跟 Task.WaitAll() 就可以搞定。來看 code:
 
@@ -519,12 +551,9 @@ using (var client = new MessageClient<DemoInputMessage, DemoOutputMessage>(new M
     ConnectionName = "demo-client",
     BusType = MessageClientOptions.MessageBusTypeEnum.QUEUE,
     QueueName = "demo",
-    ConnectionURL = args[0], //"amqp://guest:guest@localhost:5672/",
+    ConnectionURL = "amqp://guest:guest@localhost:5672/",
 },
-new TrackContext()
-{
-    // 略
-}, null))
+null, null))
 {
     DemoOutputMessage output = null;
     for (int index = 1; index <= 100; index++)
@@ -564,7 +593,7 @@ new TrackContext()
 
 
 
-
+## MessageClient RPC 實作
 
 
 好，許完願，算是開完需求規格了，這是否有打到 developer 的需求我就先不驗證了 (應該寫 C# 的人都會喜歡吧)，接下來是怎麼達成願望的問題。雖然前面很簡單的說，就是單向的作法，往返都做一次就好；但是實際上還是有不少差別啊! 我把雙向跟兩個單向的差別列一下:
@@ -735,7 +764,7 @@ await Task.Run(() => wait.WaitOne());
 
 
 
-# Context Transfer
+# 跨服務的 Context 轉移 (TrackContext + Dependency Injection)
 
 其實到九月底，我開發的進度就搞定這些封裝的細節了。不過我卻遲遲還沒推送給團隊使用。因為還有個大問題沒解決掉；就是跟環境整合的部分。
 
@@ -814,10 +843,11 @@ protected override void Subscriber_Received(object sender, BasicDeliverEventArgs
 
 
 
-# Auto Scaling for MessageWorker
 
-終於來到最後一關了。你 code 寫的再漂亮，總是要部署上線的吧，醜媳婦總是要見公婆的。現在很多人都在倡導 DevOps, 但是往往都擺錯重點，以為 DevOps 就是部署自動化而已。其實自動化的確是 DevOps 很重要的一環沒錯，但是別忘了他的精神啊!
 
+# OPS: 我要 Auto Scaling!! DEV: 我該怎麼辦?
+
+終於來到最後一關了。你 code 寫的再漂亮，總是要部署上線的吧，醜媳婦總是要見公婆的。現在很多人都在倡導 DevOps, 但是往往都擺錯重點，以為 DevOps 就是部署自動化而已。其實自動化的確是 DevOps 很重要的一環沒錯，但是別忘了他的精神啊! 這篇文章設計概念最後一段，就來談談 DevOps 其中一個重要觀念: Design for operation.
 
 ## DevOps Concepts
 
@@ -825,11 +855,18 @@ DevOps 強調的是 Dev / Ops 的流程是緊緊扣在一起的，DevOps 團隊�
 
 我為何要講這段? 因為我看過太多 Dev 只顧著功能需求，而忘掉 Ops 需求的開發團隊了。這樣的團隊其實還不夠格自稱 DevOps ... 理想的 DevOps 團隊，開發出來的系統不只要滿足 user 的需求，也該要滿足 Ops 的需求啊，所謂要開發出能被維運的系統，就是這個意思。另一種說法 "Design for Operaion" 講的也是同一件事，你在開發階段，設計階段就已經考慮好這系統將來該如何被維運，將來上線才有可能讓 Developer 來參與 Operation。
 
-我把這個問題範圍縮小到 MessageWorker 身上。使用 Consumer Based 的模式開發，最大的好處就是 scalability. 每個 worker 都可以用自己的步調來消化 message, 消化完畢之後, 再跟 message queue 領取下一個 message, 如此不斷重複。
+MessageWorker 必須確實做好 Graceful Shutdown, 背後最主要的原因就是要密切配合 DevOps... 從維運的觀點來看， "auto scaling" 是一個很重要的功能, 他能讓 operation 人員只要設定明確的規則，就能自動 (或是手動敲一個數字) 把服務 scaling 到理想的規模。Scaling 的過程中，可能會 "啟動" 新的 Worker, 或是 "關掉" 多餘的 Worker 來達成目的。在 Message Queue 的架構下，新增 Worker 非常容易，連線到同一個 Message Queue 就結束了，而能否自動 "關掉" 多餘的 Worker, 這時 Graceful Shutdown 就是個關鍵。
 
-當消化的速度不足時，Ops 只需要單純的追加 worker 數量即可；不需要調整 load balancer 等等複雜的組態。相反的，如果每個 worker 都有妥善處理 graceful shutdown 的環節，運算能力過剩時，只要單純的關掉幾個 worker 就可以回收資源。
+你可以用這幾個問題自我檢視你們的服務的成熟度? 如果你的團隊，或是你管理的系統，在 Scaling (調整機器數量) 時是否需要:
 
-這整段處理邏輯，Ops 都不需要了解太多 worker 背後的細節，只需要專注在 queue length 跟 worker count 兩個數字之間是否維持平衡，適時的調整 worker 數量 (不論是手動或是自動)。
+1. 必須依賴 Dev Team 來進行 (例如 VM 開起來或是準備關閉時，還得到 application 做 setting or update configuration)
+1. 調整過程中你接觸的介面，是 cloud provider (如 Azure Portal, AWS Console ... ) 提供的原生工具，還是自行開發的 management portal ? 
+1. 過程是全自動還是手動? 是否需要人力同時對 infrastructure / application 進行變更?
+1. 能否在一定的時間內完成? (例如 1 min)
+
+我常常跟 developer 講這個 scenario, 如果你的 application 能夠顧好自己啟動 (例如註冊服務, 通知 load balancer 加入服務清單等等) / 關閉 (正確的終止未完成的任務, 移除服務註冊等等) 時的行為，同時 configuration 能夠集中管理，那麼大部分 scaling 的事情就完全不用靠 developer 來處理了。當開發團隊沒看清楚這一點時，上頭壓下來說要導入 DevOps 要推行各種自動化時，這類 scaling 的自動化就會搞死一大堆開發團隊，因為你要搞定的都是 application 本身的組態問題，不是只有 infrastructure, 除了自己開發你一定找不到現成的工具, 半夜出問題了你也只能自己起床處理...。
+
+完整支援 infrastructure 對於 auto scaling 的各個環節，這是我會在設計階段就強調 graceful shutdown 的重要原因。唯有把這些環節掌握好，才能簡化維運的工作。所謂的 "design for operation", 就是要顧及這些層次的需求。
 
 
 ## Design For Operation
@@ -855,11 +892,29 @@ Windows Container 踩雷紀錄:
 1. [掃雷回憶錄 - Windows Container Network & Docker Compose](/2017/01/15/docker-networks/)
 
 
-## Azure Labs: using docker-compose
+這段最後碎碎念一下, 趁機偷渡一下我對 "Design for Operation" 的看法:
 
-回頭來看看我們的 code, 封裝後的 MessageWorker 到底算不算是 "design for operation" ? 我驗證的方式，就是真的把他丟到 VM / container, 然後看看從 infra 的角度來做 scaling, 我們的機制是否能正常運作?
+其實要做到 design for operation, developer 該做的遠遠不只 graceful shutdown 而已。這邊舉的 auto scaling 是 operation 期望的結果，要做好這件事, 就要想辦法讓 infra / developer 兩個團隊要協調好如何 增加 / 減少 service instance 的程序。前面花很多篇幅說明的 graceful shutdown, 其實只是讓 developer 想辦法配合 infrastructure 做好關閉的動作而已。那麼啟動呢?
 
-在我寫這篇文章 [Tips: 在 .NET Console Application 中處理 Shutdown 事件](/2018/05/10/tips-handle-shutdown-event/) 時，為了在 .NET Framework 的 Console Application 內偵測 windows OS shutdown 的事件，吃了不少苦頭。當時我必須搞到建立一個看不到的視窗，藉由視窗監聽 Win Message 事件，才能攔截到 OS shutdown event... WTF? 都已經快要 2020 年代了，我還得依靠 1990 年代的 API ...
+你千萬別很直覺的想: 
+
+> 那就把現在 setup 的程序寫 script 自動化就好了啊...
+
+如果你原本的 setup 程序沒有貼近 infra team 的做法 (通常 infra team 的做法比較能應付各種狀況，比較有參考價值)，那你貿然寫 script 只是把複雜的事情自動化而已。我從結果往回推，developer 可以思考這幾點:
+
+1. configuration 是否已經集中管理? config 異動是否需要重新 deploy application? (不需要是最理想的)
+1. multiple deployment 時是否需要準備多份 artifacts ? (不需要是最理想的) 能否只透過同一個 artifact repository 取得?
+1. code build process (CI/CD pipeline) 是否正確的整合到 artifacts managment?
+
+上面這些，我認為是 developer 面對自動化部署的正確觀念。developer 該做的不是自己硬幹 automation script, 而是盡可能的配合 infra team 運用成熟的管理工具才是正途。檢視自身的 application 還不夠標準化導致無法接上 infra 的流程，改善這個環節才是一勞永逸的捷徑。
+
+
+回頭來看看我們的 code, 封裝後的 MessageWorker 到底算不算是 "design for operation" ? 我驗證的方式，就是真的把他丟到 VM / container, 然後看看從 infra 的角度來做 scaling, 我們的機制是否能正常運作? 不論你用 VM 或是 container, 由於 OS 這層都已經被虛擬化了，因此 infra 跟 application 通知關閉的管道，都一律從 OS shutdown signal 來進行。你的程式只要偵測 OS 是不是要關機了? 如果是，在關機前做好事當的處理，在回報 OS 處理完畢即可。
+
+
+## Labs: Handling OS Shutdown (in windows container)
+
+不過事情沒有這麼順利啊... 尤其是我用的環境是 .NET Framework + Windows ... 在我寫這篇文章 [Tips: 在 .NET Console Application 中處理 Shutdown 事件](/2018/05/10/tips-handle-shutdown-event/) 時，為了在 .NET Framework 的 Console Application 內偵測 windows OS shutdown 的事件，吃了不少苦頭。當時我必須搞到建立一個看不到的視窗，藉由視窗監聽 Win Message 事件，才能攔截到 OS shutdown event... WTF? 都已經快要 2020 年代了，我還得依靠 1990 年代的 API ...
 
 不過，接下來的這幾個月，這件事有幾個轉機了...
 
@@ -976,6 +1031,9 @@ public static class WindowsHostExtensions
 }
 
 ```
+
+## Demo: 透過 docker-compose 進行 MessageWorker Auto Scaling
+
 
 加上這個 Extension 後，原本的程式稍微改個 method 名字就可以動了 (Start 改成 WinStart, WaitForShutdown 改成 WaitForWinShutdown)。其實原本的這兩個 method 也是 extension, 我不想搶他的 method name, 只好妥協一下了。Microsoft 也把原本的 source code 開源出來了，有興趣的可以直接到 GitHub 看: [Microsoft.Extensions.Hosting.Abstractions.HostingAbstractionsHostExtensions](https://github.com/aspnet/Hosting/blob/master/src/Microsoft.Extensions.Hosting.Abstractions/HostingAbstractionsHostExtensions.cs)
 
@@ -1099,11 +1157,43 @@ docker-compose up -d --scale consumer=2 --scale producer=5
 
 過程中可以看到，我只單純的對 docker-compose 下 --scale consumer=xxx 的指令，調整 service instance 的數量。從 console output 可以觀察到 MessageWorker 接到通知之後，不再有新的 message start, 只看到 end 的訊息；同時當處理中的訊息都完成後就跳出終止的訊息，MessageWorker 就離線了。這證明了我們可以透過 docker-compose, k8s 或是 docker swarm 這類管理工具直接來管理 MessageWorker, 而不需要再自己開發一堆 tools or script 做一樣的事情 (除非你有信心你自己開發的工具會比 K8S 好，而且你們的 operation 團隊不用學就會操作)。
 
-同樣的機制，即使是 VM 層級也一樣適用，只是 VM 實驗就更麻煩了點，我就點到為止即可。
+因為觸發 application 準備關閉的通知管道，都是 OS 的 shutdown signal, 因此這個機制的通用性很高，不論你是用下列哪種方式 hosting 你的 application 都可以支援:
+
+1. 安裝在 physical server 上
+1. 安裝在 virtual machine 上
+1. 透過 container 部署到單機 (docker, docker-compose)
+1. 透過 container 部署到 orchestration 上 (kubernetes, docker swarm, azure / aws container services... etc)
+
+我實際上也成功的在 Azure 上架設 docker swarm, 執行同樣的測試也成功了, 不過礙於篇幅我這邊就點到為止，用單機的 docker-compose 進行示範，讓大家體會一下用這種方式來配合 infrastructure 進行 automation 的威力。
 
 
 
 
-# Conclution
+# 後記
+
+(為什麼現在的題目越寫越長了啊啊啊啊... 這篇文章的長度又破記錄了... Orz)
+
+要導入微服務，對團隊而言真的是個高裝檢啊... 從流程，團隊成員的技能，規劃，架構等等，每一個環節都是要配合的。通訊的部分，是直接面對跨越多個服務的環節，會面臨最多的整合環節，也因此我在這邊花費最多的功夫。我就在總結這邊，再重複一次我這篇文章想告訴大家的觀念吧!
+
+## 為團隊整合基礎服務
+
+其實只要是分散式系統，或是 cloud native 的架構，你都會面臨大大小小的其他服務 (自建的 OSS, 或是 cloud provider 提供的 PaaS)。這些服務都會有對應的 SDK，不過要讓每個 developer 都去熟悉所有的 SDK 如何運作與搭配，這對團隊而言是個很大的負擔啊!
+
+因此我這篇交代的做法，背後的設計概念就是: 團隊應該先派出一個先遣部隊 (人不用多，一兩個就夠)，先去嘗試這些基礎服務，替團隊找出最佳的運用與組合方式，再替大家先整合封裝好，替團隊打造專屬的 SDK。
+
+也因為這個概念 (我們團隊是以 .NET / C# 為主要的 programming language), 我捨棄讓團隊直接面對 RabbitMQ SDK (實際應用還有 Consul, AWS, .... 等等 SDK)，改為由先遣部隊提供整合好的套件。抽象化必須做到恰到好處才行，太過可能會隱藏必要的細節，太少則失去了整合的目的，會讓開發出來的服務與這些基礎建設過度耦合。
+
+這概念，其實在這篇 [一窩蜂驅動開發](https://blog.chunfuchao.com/?p=656) 也有提到；面對新技術正確的作法，是找對的人，作先行的研究，快速的測試 (Spikes), 就算失敗了, 你也是很快就知道結果。
+
+好的團隊，有扎實技術背景的人，有越好的工程素養的人，越能正確的評斷技術的好壞與否，也能正確地找出團隊使用的最佳做法。這篇文章就是我對 Message Queue 做這樣的嘗試。
+
+
+## 設計出能被維運的服務
+
+延續整合 PaaS 打造團隊專屬的 SDK, 團隊自己開發也要自己維運啊! 維運是服務開發團隊的另一個痛，痛在於開發團隊通常都沒有充足的維運經驗；不懂得如何有效率大規模的維運，你就不會知道該怎麼設計出易於維運的系統。開發團隊善於創造，因此這情況下很多團隊就容易在不知情的狀況下走偏了，自行開發一堆服務來維運自己的服務... 
+
+這部分其實也一樣，延續前面的觀念，應該先派出先遣部隊，需要同時了解開發與維運的關鍵技術。這樣的人不用太多 (這種人你想多找幾個也很難吧)，關鍵在這小組要替團隊找到正確的做法，避免團隊走錯路。在這篇文章的例子裡我就說明了 auto scaling 的例子: 正確做法是盡可能的搭配 infra 的機制來進行 auto scaling, 碰到障礙的話，應該是想辦法讓你的服務能搭上正途，而不是在這前提下開發專屬自己的部署機制。這些東西是個很危險的警訊，infra 的東西都是需要經過長時間驗證的啊，很單純的功能往往也需要經過大量長時間的測試與修正才會穩定，這類機制是最不適合自行開發的，多採用成熟的機制才是上策。
+
+觀念一轉之後，你會發現要做的事情完全不同了；你也會發現你的服務也能更容易地搭上主流技術了 (如 K8S, Azure, AWS 等等 cloud paas)。走向這條路，才有機會踩在巨人的肩膀上。
 
 
