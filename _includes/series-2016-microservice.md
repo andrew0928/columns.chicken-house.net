@@ -23,9 +23,10 @@ Microservices, 一個很龐大的主題，我分成四大部分陸續寫下去..
 1. **基礎建設 - 建立微服務的執行環境**
   - [Part #1](/2017/07/11/microservice8-case-study-p3/) 實際部署的考量: 微服務基礎建設; 2017/07/11
   - [Part #2](/2017/12/31/microservice9-servicediscovery/) 微服務基礎建設 - Service Discovery; 2017/12/31
-  - (計畫) 微服務基礎建設 - Service Mesh;
   - [Part #3](/2018/06/10/microservice10-throttle/) 微服務基礎建設 - 服務負載的控制; 2018/06/10
   - [Part #4](/2018/12/12/microservice11-lineup/) 微服務基礎建設 - 排隊機制設計; 2018/12/12
+  - [Part #5](/2019/01/01/microservice12-mqrpc/) 可靠的微服務通訊 - Message Queue Based RPC; 2019/01/01
+  - (計畫) 微服務基礎建設 - Service Mesh;
   - (計畫) 微服務基礎建設 - Circuit Breaker;
   - (計畫) 微服務基礎建設 - Log Tracking & Auth;
   - (計畫) 微服務基礎建設 - 版控, CI/CD, 容器化部署;
