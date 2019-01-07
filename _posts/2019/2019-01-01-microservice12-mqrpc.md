@@ -33,7 +33,7 @@ logo: /wp-content/images/2019-01-01-microservice12-mqrpc/banner.jpg
 會想寫這篇 (包含 [.NET Conf 2018 那場演講](https://www.facebook.com/andrew.blog.0928/videos/478284192685645/))，其實背後的原因很簡單，就是工作上要用啊 XD, 這些準備動作先做好，團隊才能有效率的把舊的系統逐步搬移到微服務架構。我常常講微服務架構，其實考驗的就是你治理大量服務的能力啊! 面對的範圍越廣，你越需要廣泛的知識與經驗。賈伯斯那段演講講得很對，你無法預期你將來會需要什麼能力，你只能不斷的累積，直到哪天你會突然發現這些事情都可以連在一起。
 
 ![](/wp-content/images/2019-01-01-microservice12-mqrpc/LOGO.png)  
-[圖片出處](https://twitter.com/hughcards/status/423952995240648704)https://twitter.com/hughcards/status/423952995240648704
+圖片出處: [https://twitter.com/hughcards/status/423952995240648704](https://twitter.com/hughcards/status/423952995240648704)
 
 就像這張圖要表達的一樣，我寫這篇就是這種感覺；如果沒有剛開始工作時無意間聽了前輩上課教我們怎麼寫 thread pool (java), 沒有十年前因為工作需要研究了一堆[平行處理的技巧](/categories/#%E7%B3%BB%E5%88%97%E6%96%87%E7%AB%A0:%20%E5%A4%9A%E5%9F%B7%E8%A1%8C%E7%B7%92%E7%9A%84%E8%99%95%E7%90%86%E6%8A%80%E5%B7%A7)，也寫了好幾篇文章 (還有投稿 [RUN!PC](/categories/#RUN!%20PC%20%E5%B0%88%E6%AC%84%E6%96%87%E7%AB%A0))，沒有三年前突然某根筋不對開始研究 docker 跟 linux, 現在我面對這些整合問題應該拿不出我滿意的解決方案。這內容其實是我準備要拿來內部訓練用的，只是現在回頭看，當年學了也沒機會用到的技巧 (台灣軟體業大部分都做 SI 啊，基礎科學沒有太多公司重視)，現在回頭看才發現過去的努力沒有白費。台灣的軟體業很缺這樣的經驗跟案例，所以我想把這些經驗寫下來給需要的朋友參考。
 
