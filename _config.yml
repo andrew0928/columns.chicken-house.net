@@ -78,6 +78,7 @@ permalink: /:year/:month/:day/:slug/
 # gems: jekyll-paginate
 plugins: 
     - jekyll-paginate
+    - jekyll-redirect-from
 plugins_dir:
     - rouge
     - jekyll-paginate
