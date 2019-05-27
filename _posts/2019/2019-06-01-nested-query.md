@@ -39,22 +39,22 @@ logo: https://pixabay.com/photos/tree-landscape-field-branch-696839/
 為了準備測試資料，我特地寫了個小程式，把我目前電腦的 C:\ 下所有的目錄與檔案爬出來，存到 SQL database 內當作範例。基本上我的電腦大概就是裝好 windows 10 + visual studio 而已，沒有太多有的沒的東西 (我沒勇氣爬 D:\ 給大家看 XDD)。以我寫這篇文章當下的狀態，我的 C:\ 的狀況如下:
 
 ```text
-- Total Dir(s):  220169
-- Total File(s): 1152638
-- Total File Size: 235947 MB
+- Total Dir(s):  218817
+- Total File(s): 1143165
+- Total File Size: 231712 MB
 - Max Dir Level: 18
-- Max Files In One Dir: 83298
-- Total Scan Time: 2544.9521135 sec. (FPS: 452.911468897861 files/sec)
+- Max Files In One Dir: 83947
+- Total Scan Time: 1199.4157913 sec. (FPS: 953.101508494371 files/sec)
 ```
 
 
 接下來，後面的例子都會用同一份資料為準來進行這幾項測試，並且用 SQL 的執行計劃來評估 cost:
 
 1. 模擬 dir c:\windows 的結果，列出 c:\windows 下的目錄與檔案清單，統計檔案的大小
-1. 模擬 dir /s /b c:\windows\*.dll，找出所有位於 c:\windows 目錄下 (包含子目錄) 所有副檔名為 .dll 的檔案清單
+1. 模擬 dir /s /b c:\windows\system32\*.ini, 找出所有位於 c:\windows\system32 目錄下 (包含子目錄) 所有副檔名為 .ini 的檔案清單
+1. 模擬 mkdir c:\windows\backup
 1. 模擬 move c:\windows\system32 c:\windows\temp\system32
 1. 模擬 rm /s /q c:\windows\system32 (叔叔有練過，好孩子不要學)
-1. 模擬 mkdir c:\windows\backup
 
 
 
@@ -64,15 +64,8 @@ logo: https://pixabay.com/photos/tree-landscape-field-branch-696839/
 最直覺的方式，就是這個 self join 的做法了。基本的結構就是一個目錄一筆資料。除了相關 metadata 之外，關鍵的欄位就是自己的 ID，以及上一層 ID。舉例來說像這樣:
 
 
+![](/wp-content/images/2019-06-01-nested-query/2019-05-27-23-19-57.png)
 
-
-
-
-
-這種設計下，我把目錄跟檔案分成兩個 table 處理:
-
-- DIRINFO
-- FILEINFO
 
 很直覺的結構，設計 schema 本身是小事，直接來看看這五項需求該如何面對...
 
@@ -82,54 +75,168 @@ logo: https://pixabay.com/photos/tree-landscape-field-branch-696839/
 
 > 1. 模擬 dir c:\windows 的結果，列出 c:\windows 下的目錄與檔案清單，統計檔案的大小
 
-直接來看一下，這結構該怎麼處理這兩個查詢需求。先來看一下 c:\windows 目錄下的子目錄及檔案清單:
+直接來看一下，這結構該怎麼處理這兩個查詢需求。要列出檔案與清單，其實是小菜一碟。先找出 c:\windows 的目錄 ID:
 
 ```sql
 
 declare @root int;
-select @root = ID from DIRINFO where fullname = 'c:\windows'
+select @root = D2.ID
+from demo1.DIRINFO D1 inner join demo1.DIRINFO D2 on D1.ID = D2.PARENT_ID 
+where D1.NAME = 'c:\' and D2.NAME = 'windows'
 
-select '<DIR>' as type, name from DIRINFO where PARENT_ID = @root
-union
-select '' as type, FILE_NAME as name from FILEINFO where DIR_ID = @root
+print @root
 
 ```
 
-這查詢沒甚麼困難，第一題算是輕鬆過關。接著來看下一個...
+知道 c:\windows 的目錄 ID 之後，剩下的需求就很無腦了，不做解釋直接看結果:
+
+```sql
+
+declare @root int;
+
+select @root = D2.ID
+from demo1.DIRINFO D1 inner join demo1.DIRINFO D2 on D1.ID = D2.PARENT_ID 
+where D1.NAME = 'c:\' and D2.NAME = 'windows'
+
+-- list DIR
+select NAME from demo1.DIRINFO where PARENT_ID = @root
+
+-- list FILE
+select NAME, SIZE from demo1.FILEINFO where DIR_ID = @root
+
+
+```
+
+查詢結果:
+
+![](/wp-content/images/2019-06-01-nested-query/2019-05-27-23-43-08.png)
+
+
+
+
+
+要模擬就模擬到位一點，格式調整一下:
+
+```sql
+
+declare @root int;
+
+select @root = D2.ID
+from demo1.DIRINFO D1 inner join demo1.DIRINFO D2 on D1.ID = D2.PARENT_ID 
+where D1.NAME = 'c:\' and D2.NAME = 'windows'
+
+
+select * from
+(
+	select '<DIR>' as type, name, NULL as size from demo1.DIRINFO where PARENT_ID = @root
+	union
+	select '' as type, NAME as name, SIZE as size from demo1.FILEINFO where DIR_ID = @root
+) IX order by name asc
+
+```
+
+查詢結果:
+
+![](/wp-content/images/2019-06-01-nested-query/2019-05-27-23-28-02.png)
+
+
+跟我自己的電腦執行 ```dir c:\windows``` 的結果對照一下:
+
+```
+C:\Windows>dir /a
+ Volume in drive C is OS
+ Volume Serial Number is 1C40-8489
+
+ Directory of C:\Windows
+
+2019/05/11  上午 10:20    <DIR>          .
+2019/05/11  上午 10:20    <DIR>          ..
+2018/09/15  下午 03:33    <DIR>          addins
+2018/12/02  上午 08:42    <DIR>          appcompat
+2019/05/23  下午 10:14    <DIR>          apppatch
+2019/05/27  上午 08:03    <DIR>          AppReadiness
+2019/05/27  上午 08:08    <DIR>          assembly
+2019/05/23  下午 10:14    <DIR>          bcastdvr
+2018/09/15  下午 03:28            78,848 bfsvc.exe
+2018/09/15  下午 05:08    <DIR>          BitLockerDiscoveryVolumeContents
+2018/09/15  下午 03:33    <DIR>          Boot
+2019/05/27  下午 08:12            67,584 bootstat.dat
+2018/09/15  下午 03:33    <DIR>          Branding
+
+(中間內容省略)
+
+2018/09/15  下午 03:29            11,776 winhlp32.exe
+2019/05/25  下午 07:11    <DIR>          WinSxS
+2018/09/15  下午 05:08           316,640 WMSysPr9.prx
+2018/09/15  下午 03:29            11,264 write.exe
+2018/12/01  下午 12:12    <DIR>          zh-TW
+              35 File(s)     16,313,953 bytes
+              81 Dir(s)  233,929,641,984 bytes free
+
+C:\Windows>
+
+```
+
+這查詢沒甚麼困難，扣掉檔案系統內建的 ```.``` 跟 ```..``` 兩個目錄， SQL 查詢的總數跟 DIR 列出來的數字是一致的，第一題算是輕鬆過關。
+
+
+
 
 
 ## 需求 2, 查詢指定目錄下的內容 (遞迴)
 
-> 1. 模擬 dir /s /b c:\windows\*.dll，找出所有位於 c:\windows 目錄下 (包含子目錄) 所有副檔名為 .dll 的檔案清單
+1. 模擬 dir /s /b c:\windows\system32\*.ini, 找出所有位於 c:\windows\system32 目錄下 (包含子目錄) 所有副檔名為 .ini 的檔案清單
 
 
 這個開始棘手一點了。麻煩的部分是，每要往下找一層，就得將 DIRINFO 自己跟自己 self join 一次，就可以往下找一層。但是我不知道有幾層啊? 因此要嘛搭配 code 用遞迴 (recursive) 的方式一路查下去，或是 SQL 必須在有限的階層下通通找一次，不過這兩個方法都不大好看，重點是難以直接在 SQL 內處理完畢。
 
-Microsoft 也替這種問題，在 SQL 2005 以後就添加了 CTE 的語法，嘗試解決這問題:
+階層的問題，在這案例裡面會碰到兩次，一個是先找出 c:\windows\system32 的 ID, 這邊按照順序是 c:\ 底下的 windows 底下的 system32, 由於階層明確，我還可以笨一點，直接 self join 三層就可以找到:
 
 ```sql
 
 declare @root int;
-select @root = ID from DIRINFO where fullname = 'c:\windows'
+
+select @root = D3.ID
+from
+	demo1.DIRINFO D1 inner join 
+	demo1.DIRINFO D2 on D1.ID = D2.PARENT_ID inner join
+	demo1.DIRINFO D3 on D2.ID = D3.PARENT_ID
+
+where D1.NAME = 'c:\' and D2.NAME = 'windows' and D3.NAME = 'system32'
+
+select @root
+
+```
+
+我刻意先示範蠢一點的作法，這方法笨，可是可以找的到答案。但是我不曉得 c:\windows\system32 目錄以下到底還有幾層，總不可能這樣無腦的一直寫下去吧! Microsoft 替這種問題，在 SQL 2005 以後就添加了 CTE (Common Table Expression) 的語法，嘗試解決這問題。
+
+直接來看這個範例，我先列出 c:\windows\system32 下的所有子目錄，搜尋的過程中同時組合出正確的相對路徑:
+
+```sql
+
+-- 我直接填上上一個範例查到的 ID
+declare @root int = 189039;
+
 
 ;with DIR_CTE(ID, NAME, FULLNAME) as
 (
-	select ID, NAME, FULLNAME
-	from DIRINFO
+	select ID, NAME, cast('./' + NAME as ntext)
+	from demo1.DIRINFO
 	where PARENT_ID = @root
 
 	union all
 
-	select D1.ID, D1.NAME, D1.FULLNAME
-	from DIRINFO D1 inner join DIR_CTE D2 on D1.PARENT_ID = D2.ID
+	select D1.ID, D1.NAME, cast(concat(D2.FULLNAME, '/', D1.NAME) as ntext)
+	from demo1.DIRINFO D1 inner join DIR_CTE D2 on D1.PARENT_ID = D2.ID
 )
+
 select * from DIR_CTE 
 
 ```
 
 這段 SQL 的執行結果:
 
-
+![](/wp-content/images/2019-06-01-nested-query/2019-05-28-00-03-05.png)
 
 
 
@@ -141,29 +248,79 @@ select * from DIR_CTE
 
 不過語法好寫，不等於效能會跟語法一樣簡潔快速。CTE 寫的不好的話，是會引發災難的。寫的時候請特別留意會不會不小心就跑過頭了。你可以用 ```MAXRECURSION``` 來限制遞迴的呼叫層數，避免寫的很糟糕的 CTE 陷入無窮迴圈。
 
-回到我們要解決的問題，既然目錄結構都查出來了，要查出檔案就不是太大問題了。只需要再多 join 一次，就可以取得檔案清單:
+回到我們要解決的問題，既然目錄結構都查出來了，要查出檔案就不是太大問題了。只需要再多 join 一次 demo1.FILEINFO，就可以取得檔案清單。這次我貼上一段完整的 T-SQL:
+
 
 ```sql
 
 declare @root int;
-select @root = ID from DIRINFO where fullname = 'c:\windows'
 
+-- step 1, 找出 c:\windows\system32 的 ID
+select @root = D3.ID
+from
+	demo1.DIRINFO D1 inner join 
+	demo1.DIRINFO D2 on D1.ID = D2.PARENT_ID inner join
+	demo1.DIRINFO D3 on D2.ID = D3.PARENT_ID
+where D1.NAME = 'c:\' and D2.NAME = 'windows' and D3.NAME = 'system32'
+
+-- step 2, 建立 c:\windows\system32 下的所有 DIR LIST 清單 (CTE)
 ;with DIR_CTE(ID, NAME, FULLNAME) as
 (
-	select ID, NAME, FULLNAME
-	from DIRINFO
+	select ID, NAME, cast('./' + NAME as ntext)
+	from demo1.DIRINFO
 	where PARENT_ID = @root
 
 	union all
 
-	select D1.ID, D1.NAME, D1.FULLNAME
-	from DIRINFO D1 inner join DIR_CTE D2 on D1.PARENT_ID = D2.ID
+	select D1.ID, D1.NAME, cast(concat(D2.FULLNAME, '/', D1.NAME) as ntext)
+	from demo1.DIRINFO D1 inner join DIR_CTE D2 on D1.PARENT_ID = D2.ID
 )
-select * from DIR_CTE 
+
+-- step 3, 依據 (2), 找出所有 (2) 目錄下, 附檔名為 .ini 的檔案及大小清單
+select concat(D.FULLNAME, '/', F.NAME) as NAME, F.SIZE
+from DIR_CTE D inner join demo1.FILEINFO F on D.ID = F.DIR_ID
+where F.EXT = '.ini'
+
 
 ```
 
+查詢結果:
+
+![](/wp-content/images/2019-06-01-nested-query/2019-05-28-00-20-07.png)
+
+
+拿 DIR 指令 ( ```dir /s /b /a c:\windows\system32\*.ini``` ) 對照一下:
+
+```txt
+
+C:\Windows\System32>dir /s /b /a *.ini
+
+C:\Windows\System32\PerfStringBackup.INI
+C:\Windows\System32\tcpmon.ini
+C:\Windows\System32\WimBootCompress.ini
+C:\Windows\System32\appraiser\Appraiser_Data.ini
+C:\Windows\System32\DriverStore\FileRepository\prnge001.inf_amd64_2ce5a77183fe3339\Amd64\TTY.INI
+C:\Windows\System32\DriverStore\FileRepository\prnms001.inf_amd64_f340cb58fcd23202\MXDW-manifest.ini
+C:\Windows\System32\DriverStore\FileRepository\prnms004.inf_amd64_01e60efea4ee9a09\Amd64\unisharev4-manifest.ini
+C:\Windows\System32\DriverStore\FileRepository\prnms005.inf_amd64_6c1071b47c60ba60\Amd64\MSxpsOpenXPS-manifest.ini
+C:\Windows\System32\DriverStore\FileRepository\prnms005.inf_amd64_6c1071b47c60ba60\Amd64\MSxpsPCL6-manifest.ini
+C:\Windows\System32\DriverStore\FileRepository\prnms005.inf_amd64_6c1071b47c60ba60\Amd64\MSxpsPS-manifest.ini
+
+(以下省略)
+
+```
+
+
 跟實際在本機下指令看到的結果一致，這項測試也算過關!
+
+不過，從這裡開始，效能就出現差異了。效能問題最後再一起探討，我先記錄一下效能相關資訊:
+
+執行時間: 00:00:00.547 (sec)
+執行計畫 (Estimated Subtree Cost): 0.942181
+
+![](/wp-content/images/2019-06-01-nested-query/2019-05-28-00-19-20.png)
+
+
 
 
 MSSQL 小記:
@@ -171,13 +328,222 @@ MSSQL 小記:
 
 
 
-## 需求 3, 搬移指定目錄
+## 需求 3 ~ 5, 搬移 / 刪除 / 建立指定目錄
+
+這種結構，就是以每個目錄上下層的相對關係為主來設計的，因此對於 tree 的異動 (搬移、刪除、建立) 都很直覺。因此需求 3, 4, 5 我就合併在一起示範了。
+
+> 1. 模擬 mkdir c:\windows\backup, 在 c:\windows 下建立子目錄: backup
+
+建立目錄的需求挺容易的，三個欄位給對就結束了。直接看 T-SQL script:
+
+```sql
+
+declare @root int;
+
+-- step 1, 找出 c:\windows 的 ID
+select @root = D2.ID
+from
+	demo1.DIRINFO D1 inner join 
+	demo1.DIRINFO D2 on D1.ID = D2.PARENT_ID 
+where D1.NAME = 'c:\' and D2.NAME = 'windows' 
 
 
-## 需求 4, 刪除指定目錄
+-- step 2, 在 c:\windows 下新增子目錄 backup
+insert demo1.DIRINFO (PARENT_ID, NAME) values (@root, 'backup');
+select @@identity
+
+```
+
+這種 insert 操作，其實閃一下就過去了。執行計畫回報的 Estimated Subtree Cost 為: 0.0500064
+
+為了確認結果，我們用前面的 script, 查詢看看 c:\windows 的子目錄長啥樣。下列這段 SQL script 請依附在上面的 script 後面執行:
+
+```sql
+
+-- step 3, 查詢 c:\windows (ID: @root) 下的子目錄
+select * from demo1.DIRINFO where PARENT_ID = @root order by NAME asc
+
+```
+
+查詢結果:
+
+![](/wp-content/images/2019-06-01-nested-query/2019-05-28-00-59-41.png)
 
 
-## 需求 5, 建立目錄
+
+這題也輕鬆過關了! 接下來挑戰搬移目錄:
+
+> 1. 模擬 move c:\users c:\windows\backup\
+
+這邊我特地挑了目錄搬移前後的階層會改變的範例。後面的範例就知道難搞了。一樣，基本上把要搬移的目錄，還有搬移的目的地目錄的 ID 找出來後，一行 update 指令就大功告成:
+
+
+```sql
+
+declare @srcID int;
+declare @destID int;
+
+-- step 1, 找出 c:\windows\backup 的 ID (@destID)
+select @destID = D3.ID
+from
+	demo1.DIRINFO D1 inner join 
+	demo1.DIRINFO D2 on D1.ID = D2.PARENT_ID inner join
+	demo1.DIRINFO D3 on D2.ID = D3.PARENT_ID
+where D1.NAME = 'c:\' and D2.NAME = 'windows' and D3.NAME = 'backup'
+
+
+-- step 2, 找出 c:\users 的 ID (@srcID)
+select @srcID = D2.ID
+from
+	demo1.DIRINFO D1 inner join 
+	demo1.DIRINFO D2 on D1.ID = D2.PARENT_ID 
+where D1.NAME = 'c:\' and D2.NAME = 'users'
+
+
+-- step 3, 搬移 c:\users 目錄
+update demo1.DIRINFO set PARENT_ID = @destID where ID = @srcID
+
+
+-- step 4, 用 DIR_CTE 列出 c:\windows\backup\ 的目錄列表
+;with DIR_CTE(ID, NAME, FULLNAME) as
+(
+	select ID, NAME, cast('./' + NAME as ntext)
+	from demo1.DIRINFO
+	where PARENT_ID = @destID
+
+	union all
+
+	select D1.ID, D1.NAME, cast(concat(D2.FULLNAME, '/', D1.NAME) as ntext)
+	from demo1.DIRINFO D1 inner join DIR_CTE D2 on D1.PARENT_ID = D2.ID
+)
+
+select * from DIR_CTE
+
+```
+
+其中真正有異動資料的部分，只有 step 3 的那行 update 指令而已。 step 4 我是用前面範例介紹的 DIR_CTE，拿來當 DIR 的工具，把 c:\windows\backup 目錄下的子目錄列出來，證明搬移有成功執行而已。
+
+這段 update 的執行計畫，Estimated Subtree Cost: 0.0232853
+
+執行結果:
+
+![](/wp-content/images/2019-06-01-nested-query/2019-05-28-01-19-38.png)
+
+
+接下來最後一關，刪除剛才建立且搬移的目錄:
+
+> 1. 模擬 rm /s /q c:\windows\backup (叔叔有練過，好孩子不要學)
+
+基本上，就是綜合題而已。查出 c:\windows\backup 下的所有檔案及子目錄，逐一刪除就好了。
+我先留 c:\windows\backup 本身不刪除 (其實就多補一行 delete 就搞定了)，這樣查詢刪除前後結果會比較清楚。
+
+
+```sql
+
+declare @root int;		-- c:\windows
+declare @destID int;	-- c:\windows\backup
+
+-- step 1, 找出 c:\windows\backup 的 ID (@destID)
+select @destID = D3.ID, @root = D2.ID
+from
+	demo1.DIRINFO D1 inner join 
+	demo1.DIRINFO D2 on D1.ID = D2.PARENT_ID inner join
+	demo1.DIRINFO D3 on D2.ID = D3.PARENT_ID
+where D1.NAME = 'c:\' and D2.NAME = 'windows' and D3.NAME = 'backup'
+
+-- step 1.1, 列出 c:\windows 的所有子目錄 (刪除前)
+;with DIR_CTE(ID, NAME, FULLNAME) as
+(
+	select ID, NAME, cast('./' + NAME as ntext)
+	from demo1.DIRINFO
+	where PARENT_ID = @root
+
+	union all
+
+	select D1.ID, D1.NAME, cast(concat(D2.FULLNAME, '/', D1.NAME) as ntext)
+	from demo1.DIRINFO D1 inner join DIR_CTE D2 on D1.PARENT_ID = D2.ID
+)
+
+select * from DIR_CTE
+
+-- step 2, 刪除 c:\windows\backup (@destID) 下的所有檔案
+
+;with DIR_CTE(ID, NAME, FULLNAME) as
+(
+	select ID, NAME, cast('./' + NAME as ntext)
+	from demo1.DIRINFO
+	where PARENT_ID = @destID
+
+	union all
+
+	select D1.ID, D1.NAME, cast(concat(D2.FULLNAME, '/', D1.NAME) as ntext)
+	from demo1.DIRINFO D1 inner join DIR_CTE D2 on D1.PARENT_ID = D2.ID
+)
+
+delete demo1.FILEINFO where DIR_ID in (select ID from DIR_CTE)
+
+
+
+-- step 3, 刪除 c:\windows\backup (@destID) 下的所有目錄
+
+;with DIR_CTE(ID, NAME, FULLNAME) as
+(
+	select ID, NAME, cast('./' + NAME as ntext)
+	from demo1.DIRINFO
+	where PARENT_ID = @destID
+
+	union all
+
+	select D1.ID, D1.NAME, cast(concat(D2.FULLNAME, '/', D1.NAME) as ntext)
+	from demo1.DIRINFO D1 inner join DIR_CTE D2 on D1.PARENT_ID = D2.ID
+)
+
+delete demo1.DIRINFO where ID in (select ID from DIR_CTE)
+
+
+-- step 4, 列出 c:\windows 的所有子目錄 (刪除後)
+;with DIR_CTE(ID, NAME, FULLNAME) as
+(
+	select ID, NAME, cast('./' + NAME as ntext)
+	from demo1.DIRINFO
+	where PARENT_ID = @root
+
+	union all
+
+	select D1.ID, D1.NAME, cast(concat(D2.FULLNAME, '/', D1.NAME) as ntext)
+	from demo1.DIRINFO D1 inner join DIR_CTE D2 on D1.PARENT_ID = D2.ID
+)
+
+select * from DIR_CTE
+
+
+```
+
+刪除前 (截錄片段):
+
+![](/wp-content/images/2019-06-01-nested-query/2019-05-28-02-15-00.png)
+
+刪除後 (截錄片段):
+
+![](/wp-content/images/2019-06-01-nested-query/2019-05-28-02-15-37.png)
+
+
+執行計畫:
+- 刪除檔案 Estimated Subtree Cost: 2.57332
+- 刪除目錄 Estimated Subtree Cost: 1.90982
+
+總執行時間: 00:00:22.536 sec
+
+
+
+## 方案 1 小結
+
+寫到這邊，開始有 fu 了嗎? SQL 這種很關聯式的資料庫，要處理 tree 這種東西，先天就是不大自然。你會發現很多語法其實都有點彆扭，寫起來就沒有那種一路到底的順暢感，尤其處理到不固定階層的地方腦袋都要轉好幾個彎。
+
+因為這個方案，就是直接把寫 code 用的指標結構，原封不動的搬到 SQL schema 內來，因此原本用 programming language 的 recursive 處理方式，若 RDBMS 自身沒有支援 (例如查詢 ID 時, 幾層目錄你就要自己 self-join 幾次的作法)，你就會發現很多 SQL 語法會囉嗦到你都看不下去。雖然 Oracle (CONNECT TO) / MS-SQL (CTE) 都有階層的查詢語法支援, 但是這些終究不是標準 SQL 語法，換句話說你使用 Entity Framework 這類 ORM, 或是你的 RDBMS 需要遷移到不同的系統時 (如 MS-SQL 換到 MySQL)，這些 SQL query 就通通得重來...
+
+因此，接下來的兩個解決方案，我就會開始拋開特定 DBMS 的語法支援，回歸到最單純原生的 RDBMS 操作技巧，回歸到資料結構的設計本身來看看 developer 應該如何在 RDBMS 內設計你的 Tree 結構。
+
 
 
 
