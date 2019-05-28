@@ -5,7 +5,7 @@ SET IMAGE_TAG=20180723-jekyll-3.8.1
 docker rm -f %CONTAINER_NAME%
 
 : can build under windows container, but can not push (don't know why)
-docker build -t andrew0928/columns:%IMAGE_TAG% -t wcshub.azurecr.io/columns:%IMAGE_TAG% --build-arg GIT_URL=https://github.com/andrew0928/columns.chicken-house.net --build-arg GIT_BRANCH=develop .
+docker build -t andrew0928/columns:%IMAGE_TAG% -t wcshub.azurecr.io/columns:%IMAGE_TAG% --build-arg GIT_URL=https://github.com/andrew0928/columns.chicken-house.net --build-arg GIT_BRANCH=draft .
 
 : before push, need to switch to linux container
 
@@ -35,3 +35,13 @@ docker build -t andrew0928/columns:%IMAGE_TAG% -t wcshub.azurecr.io/columns:%IMA
 : docker exec -w /home/source %CONTAINER_NAME% git pull --all
 : docker exec -w /home/source %CONTAINER_NAME% chmod 777 .jekyll-metadata
 : docker exec -w /home/source -i -t  %CONTAINER_NAME% jekyll s --watch --drafts --incremental --source /home/source --destination /tmp --unpublished
+
+
+
+
+::
+:: local run
+::
+
+
+: docker run --name %CONTAINER_NAME% -d -p 4000:4000 ping 127.0.0.1
