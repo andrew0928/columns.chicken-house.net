@@ -61,8 +61,22 @@ logo: https://pixabay.com/photos/tree-landscape-field-branch-696839/
 
 # 方案 1, self relation / join
 
-最直覺的方式，就是這個 self join 的做法了。基本的結構就是一個目錄一筆資料。除了相關 metadata 之外，關鍵的欄位就是自己的 ID，以及上一層 ID。舉例來說像這樣:
+最直覺的方式，就是這個 self join 的做法了。基本的結構就是一個目錄一筆資料。除了相關 metadata 之外，關鍵的欄位就是自己的 ID，以及上一層 ID。舉例來說，若有這個 Tree:
 
+![](/wp-content/images/2019-06-01-nested-query/2019-05-30-23-00-38.png)
+
+那麼資料表應該長這樣:
+
+| ID | PARENT_ID |
+|----|-----------|
+|A|NULL|
+|B|A|
+|C|A|
+|D|C|
+|E|C|
+
+
+用這概念，直接拉出 SQL table schema:
 
 ![](/wp-content/images/2019-06-01-nested-query/2019-05-27-23-19-57.png)
 
@@ -599,7 +613,22 @@ select * from DIR_CTE
 
 終究 RDBMS 擅長的不是這種遞迴的查詢，執行效能會耗費在多次重覆查詢的過程中，索引帶來的改善其實很有限。因此第二種方式，我試另一種極端的作法，放棄一些嚴謹的設計跟彈性，換來較理想的效能。這次我們來試看看，每一個階層都用一個欄位來代表的作法。
 
-先看看 table schema (範例資料 c:\ 目錄最深是 18 層, 我建立了 1 ~ 20 層的 ID 欄位):
+同樣先用簡單的 tree 來說明。用前面的圖來說明:
+
+![](/wp-content/images/2019-06-01-nested-query/2019-05-30-23-00-38.png)
+
+那麼資料表應該長這樣 (我簡化成三層就好):
+
+| ID | ID1 | ID2 | ID3 |
+|----|-----|-----|-----|
+|A|NULL|NULL|NULL|
+|B|A|NULL|NULL|
+|C|A|NULL|NULL|
+|D|A|C|NULL|
+|E|A|C|NULL|
+
+
+一樣，直接來看看轉化成 SQL table schema (範例資料 c:\ 目錄最深是 18 層, 我建立了 1 ~ 20 層的 ID 欄位):
 
 ![](/wp-content/images/2019-06-01-nested-query/2019-05-28-23-51-39.png)
 
@@ -888,29 +917,203 @@ delete demo2.DIRINFO where ID03 = 218818
 
 * [Wiki: Nested set model](https://en.wikipedia.org/wiki/Nested_set_model#Example)
 
+我同樣用前面的 tree 來說明一下:
+
+![](/wp-content/images/2019-06-01-nested-query/2019-05-30-23-11-42.png)
+
+標上 left / right 的資料:
+
+|ID|LEFT|RIGHT|
+|--|----|-----|
+|A|1|10|
+|B|2|3|
+|C|4|9|
+|D|5|6|
+|E|7|8|
+
+這 left / right index 怎麼標出來的? 看看圖上標示的黃色箭頭... 基本上就是按照 depth first traversal 的方式走完每個節點。每個節點第一次被走到的時候就按順序標上 left，繞了一圈回到這個節點後再標上 right.. 按照順序標上流水號，就成為這個結果了。
+
+沒仔細想的話，看到這堆數字大概丈二金剛摸不著頭腦吧! 這是為 tree struct 精心設計的 index, wiki 上用了另一種視角來看這個結構。看一下 wiki 上的另一個例子:
+
+![](/wp-content/images/2019-06-01-nested-query/2019-05-31-00-12-10.png)
+
+把標上的 index 呈現在數線上:
+
+![](/wp-content/images/2019-06-01-nested-query/2019-05-31-00-12-59.png)
+
+看出這標號的用意了嗎? clothing 的標記是 left:1, right:22, 代表所有 left, right 被包圍在 1 ~ 22 之間的都是他的子節點 (因為這些都是在 depth first traversal 走回來之前經過的節點)。看懂這 index 的意義了嗎? 如果把 tree 想像成這張圖的 "包圍" 結構，tree 越上層代表越外圈... left / right index 代表數線上的左右邊界...
+
+搞懂規則後，只要你能在 tree 節點有異動時維護好這些 left / right index, 你會發現 tree 的各種操作會變的非常容易 (而且很容易對應到 SQL 的操作)。
+
+舉個例子來說:
+
+1. 要找出 clothing(1,22) 所有的子節點，只要查詢: ```select * from TREE where 1 < left and right < 22;```
+1. 要計算 clothing(1,22) 底下有多少節點，只要: ``` set @total_nodes = (22 - 1 - 1) / 2; ```;
+
+有沒有很神奇? 簡單先介紹到這裡，實際的範例我們還是回到我的 c:\ 清單，實際走過這五個需求，看看這樣的 nested set model 應該怎麼處理。
+
+同樣的，為了簡化後面的查詢，後面的範例就直接填入 ID 了:
+
+| ID | NAME | LEFT | RIGHT |
+|----|------|------|-------|
+|1   |c:\   |1|437634|
+|134937|c:\users|269872|302911|
+|151535|c:\windows|303068|437609|
+|189039|c:\windows\system32|378075|380740|
+
+
+
+
+## 需求 1, 查詢指定目錄下的內容
+
+> 1. 模擬 dir c:\windows 的結果，列出 c:\windows 下的目錄與檔案清單，統計檔案的大小
+
+簡單的說，這需求的查詢條件要想像成這樣: 
+
+> 找出所有位於 PARENT 底下的 CHILD, 但是中間不存在任何 MID 節點的清單...
+
+有點繞舌? 直接來看看 SQL 查詢:
+
+```sql
+
+select C.*
+from demo3.DIRINFO C inner join demo3.DIRINFO P on C.LEFT_INDEX between P.LEFT_INDEX and P.RIGHT_INDEX
+where P.ID = 151535 and not exists
+(
+  select *
+  from demo3.DIRINFO M
+  where M.LEFT_INDEX between P.LEFT_INDEX and P.RIGHT_INDEX
+    and C.LEFT_INDEX between M.LEFT_INDEX and M.RIGHT_INDEX
+	and M.ID <> P.ID and M.ID <> C.ID
+)
+
+```
+
+查詢結果:
+
+![](/wp-content/images/2019-06-01-nested-query/2019-05-31-00-51-03.png)
+
+執行時間: 00:02:33.591 (sec)
+執行計畫 (Estimated Subtree Cost): 0.941395
+
+
+這查詢看起來有點蠢，把目標節點(P)所有的子節點(C)都找出來，然後排除中間有其他節點(M)的部分...
+
+這我覺得有點矯枉過正了。WIKI 的範例是額外加上 DEPTH 這個索引 (一樣你要在 tree 異動時自己維護這欄位)。我自己是合併 [方案一] 的 PARENT_ID，作法比較直覺。如果你像我一樣額外維護 PARENT_ID，那這個查詢的效能就會跟方案一的一模一樣。
+
+至於格式化輸出的部分就省了，這邊完全跟前面的範例一樣，join FILEINFO 即可。
+
+
+
+# 需求 2, 查詢指定目錄下的內容 (遞迴)
+
+> 1. 模擬 dir /s /b c:\windows\system32\*.ini, 找出所有位於 c:\windows\system32 目錄下 (包含子目錄) 所有副檔名為 .ini 的檔案清單
+
+這結構的強項來了。如同前面介紹的一般，只要透過 LEFT / RIGHT 包圍的範圍來查詢就可以得到答案:
+
+
+```sql
+
+select F.*
+from demo3.DIRINFO C inner join demo3.FILEINFO F on C.ID = F.DIR_ID
+where F.EXT = '.ini' and C.LEFT_INDEX between 378075 and 380740
+
+```
+
+查詢結果:
+
+![](/wp-content/images/2019-06-01-nested-query/2019-05-31-01-13-38.png)
+
+執行時間: 00:00:00.173 (sec)
+執行計畫 (Estimated Subtree Cost): 0.167235
+
+
+
+
+對比 [方案一]，如果也試著查看看 c:\windows\ 下的 *.dll, 看看結果:
+
+
+```sql
+
+select F.*
+from demo3.DIRINFO C inner join demo3.FILEINFO F on C.ID = F.DIR_ID
+where F.EXT = '.dll' and C.LEFT_INDEX between 303068 and 437609
+
+```
+
+查詢結果:
+
+![](/wp-content/images/2019-06-01-nested-query/2019-05-31-01-14-07.png)
+
+執行時間: 00:00:00.836 (sec)
+執行計畫 (Estimated Subtree Cost): 10.7832
+
+
+看出 [方案三] 特別的地方了嗎? 沒有 [方案一] 糟糕的效能；幾乎跟 [方案二] 同等級秒返的效率，但是查詢的語法卻不會像 [方案二] 那樣隨著層級改變，難以寫成 store procedure, 索引固定為 LEFT_INDEX / RIGHT_INDEX 兩個欄位 (不像 [方案二] 要 20 個欄位，你還無法預期要對哪個欄位下過濾條件)。這樣的結構大幅簡化了查詢的語法，完全可以將它放到 store procedure, 搭配參數即可執行。
+
+
+當然，如果要把目錄跟檔案混在一起並且格式化輸出也不是難事:
+
+```sql
+select * from
+(
+	select '<DIR>' as type, name, NULL as size from demo3.DIRINFO where LEFT_INDEX between 303068 and 437609
+
+	union
+
+	select '' as type, F.NAME, F.SIZE
+	from demo3.DIRINFO C inner join demo3.FILEINFO F on C.ID = F.DIR_ID
+	where F.EXT = '.ini' and C.LEFT_INDEX between 303068 and 437609
+
+) IX order by name asc
+```
+
+查詢結果:
+
+![](/wp-content/images/2019-06-01-nested-query/2019-05-31-01-08-02.png)
+
+執行時間: 00:00:00.546 (sec)
+執行計畫 (Estimated Subtree Cost): 4.08984
 
 
 
 
 
+## 需求 5, 建立目錄
 
+同樣的例子，如果我們要模擬 mkdir c:\windows\backup, 這方案的 schema 設計下應該怎麼做:
 
+回到 wiki 那張用 "涵蓋範圍" 觀念想像的圖來思考，建立一個目錄，就是插入一個節點，然後插入點右邊的所有 index 都 +2 (右移兩位) 就好了.. 直接來看 SQL:
 
+```sql
 
+declare @windows_left as int = 303068;
+declare @windows_right as int = 437609;
 
+-- step 1, 在 303068 騰出兩個位子，把所有 right_index > 303068 的數值都 +2
+update demo3.DIRINFO set RIGHT_INDEX = RIGHT_INDEX + 2 where RIGHT_INDEX > @windows_left;
 
+-- step 2, 在 303068 騰出兩個位子，把所有 left_index > 303068 的數值都 +2
+update demo3.DIRINFO set LEFT_INDEX = LEFT_INDEX + 2 where LEFT_INDEX > @windows_left;
 
+-- step 3, 空出的兩個 index 就保留給插入的新目錄 c:\windows\backup
+insert demo3.DIRINFO (NAME, LEFT_INDEX, RIGHT_INDEX) values ('backup', @windows_left + 1, @windows_left + 2);
 
+```
 
+Step 1:
+執行時間: 00:00:01.343 (sec)
+執行計畫 (Estimated Subtree Cost): 7.39088
 
+Step 2:
+執行時間: 00:00:02.017 (sec)
+執行計畫 (Estimated Subtree Cost): 29.6923
 
+Step 3:
+執行時間: 00:00:00.017 (sec)
+執行計畫 (Estimated Subtree Cost): 0.0400054
 
-
-
-
-
-
-
+新增的目錄 ID: 218822
 
 
 
