@@ -14,7 +14,6 @@ logo: /wp-content/images/2019-06-01-nested-query/2019-06-01-23-22-03.png
 > 圖片來源: https://pixabay.com/photos/tree-landscape-field-branch-696839/
 
 
-
 架構面試題，這系列好久沒寫了。這次來探討一下，怎麼用 RDBMS 來處理樹狀結構的做法吧。
 
 即使 NOSQL 風行了這麼多年，現在還是有不少服務背後是用 RDBMS 在處理資料的。RDBMS + SQL 是個絕配，將資料轉成表格，加上結構化的查詢就能解決過去 80% 的問題了。不過 Tree 這種資料結構，在 RDBMS 裡面就是格格不入。幾種 Tree 的基本操作，在 RDBMS 裡面都要花些心思轉換才能夠妥善處理。例如不限定階層的儲存、查詢某個節點以下 (不限定階層) 的所有子節點，或是 Tree 的搬移、刪除等等操作都是。如果用 RDBMS 的關聯性來處理 Tree Node 跟 Node 之間的關聯，就會衍生幾個階層就需要 Join 幾次的困境 (我不可能無限制的一直 Join 下去啊)。如果搭配特殊語法 (如 T-SQL CTE), 或是用 programming language 搭配或許能夠解決, 不過你就必須在複雜度與效能間做取捨了。
