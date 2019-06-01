@@ -7,11 +7,12 @@ tags: [""]
 published: true
 comments: true
 redirect_from:
-logo: https://pixabay.com/photos/tree-landscape-field-branch-696839/
+logo: /wp-content/images/2019-06-01-nested-query/2019-06-01-23-22-03.png
 ---
 
-![樹](https://pixabay.com/photos/tree-landscape-field-branch-696839/)
+![](/wp-content/images/2019-06-01-nested-query/2019-06-01-23-22-03.png)
 > 圖片來源: https://pixabay.com/photos/tree-landscape-field-branch-696839/
+
 
 
 架構面試題，這系列好久沒寫了。這次來探討一下，怎麼用 RDBMS 來處理樹狀結構的做法吧。
