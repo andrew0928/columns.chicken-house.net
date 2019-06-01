@@ -4,7 +4,7 @@ title: "架構面試題: RDBMS 處理樹狀結構的技巧"
 categories:
 - "系列文章: 架構師觀點"
 tags: [""]
-published: false
+published: true
 comments: true
 redirect_from:
 logo: https://pixabay.com/photos/tree-landscape-field-branch-696839/
