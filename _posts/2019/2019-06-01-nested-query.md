@@ -1113,15 +1113,231 @@ Step 3:
 執行時間: 00:00:00.017 (sec)
 執行計畫 (Estimated Subtree Cost): 0.0400054
 
+
+
+
+查一下目錄是否有成功的被建立起來:
+
+```sql
+
+declare @windows_left as int = 303068;
+declare @windows_right as int = 437609;
+select * from demo3.DIRINFO where LEFT_INDEX > @windows_left;
+
+```
+
+查詢結果:
+
+![](/wp-content/images/2019-06-01-nested-query/2019-06-01-01-14-21.png)
+
 新增的目錄 ID: 218822
 
 
 
 
+## 需求 3, 搬移指定目錄
+
+同前面的方案1，接著我們來模擬 move c:\users c:\windows\backup ...
+
+動手之前，再來看一次該怎麼拆解 tree node 搬移的動作。回到前面說明用的圖:
+
+![](/wp-content/images/2019-06-01-nested-query/2019-05-30-23-11-42.png)
+
+我把它換成 wiki 的看法，在數線上面重畫一次這個 tree:
+
+![](/wp-content/images/2019-06-01-nested-query/2019-06-01-01-58-04.png)
+
+視覺化之後就很容易了解了。每個方框就是個 node, 上面的 node 寬度一定會完全涵蓋底下的 nodes, 同一層的 nodes 彼此不會重疊。接著用這種結構圖來說明一下搬移的步驟。其實步驟很簡單，就是兩個區塊之間的挪移而已。只是挪移的過程會卡來卡去的很麻煩，所以我用 0 以下的空間 (負數) 當作暫存區，先把要搬移的 nodes (C, D, E) 搬到暫存區, 然後把其他的 nodes 先調整大小，把目標 node (B)下的空間騰出來，最後再把搬到暫存區的 nodes (C, D, E) 搬回來就結束了。
+
+直接來看分解步驟:
+
+
+1. 被搬移的 nodes 搬到暫存區:
+C, D, E 都往左 shift 到全部的 index 都為負數為止。經過計算全部都 -10
+
+![](/wp-content/images/2019-06-01-nested-query/2019-06-01-02-04-25.png)
+
+
+1. 目標 node 騰出空間:
+B 原本只有 2 ~ 3 (沒有空間再放其他 nodes 了), 擴張到 B(2,9), 騰出待會可以放下三個 nodes 的空間。如果 B 還有其他兄弟 nodes, 也要一起配合挪出位子..
+
+![](/wp-content/images/2019-06-01-nested-query/2019-06-01-02-08-40.png)
+
+1. 把暫存區的 nodes 搬回來:
+B(2,9) 騰出了 3 ~ 8 的 index, 原本被搬到暫存區的 C, D, E 經過計算，全部 index +9 就可以搬回來新位置了。
+
+![](/wp-content/images/2019-06-01-nested-query/2019-06-01-02-10-23.png)
+
+經過這四個步驟大功告成。搬移結束。
+
+
+為何我會先花一些篇幅，甚至畫圖來說明，就是這些觀念不先搞懂的話，你光是看我寫出來的 SQL script, 我保證你一定看不懂我的意圖是什麼，所以我才先解釋觀念。接下來我就一次把 SQL 寫出來，執行看結果了:
+
+```sql
+
+
+declare @src_node int = 134937; -- c:\users 269872,302911
+declare @dest_node int = 218824; -- c:\windows\backup 303069 303070
+declare @offset int;
+
+-- 搬移的參數:
+-- * 被搬移的範圍: 269872 ~ 302911 (c:\users)
+-- * 搬移目的範圍: 303069 ~ 303070 (c:\windows\backup)
+
+
+-- step 1, move src to temp area
+set @offset = 0 - 302911 - 1;
+
+update demo3.DIRINFO
+set LEFT_INDEX = LEFT_INDEX + @offset,
+	RIGHT_INDEX = RIGHT_INDEX + @offset
+where LEFT_INDEX between 269871 and 302912
+
+-- step 2, allocate space
+set @offset = 302911-269872+1;
+
+update demo3.DIRINFO
+set LEFT_INDEX = LEFT_INDEX - @offset
+where LEFT_INDEX between 269872 and 303069
+
+update demo3.DIRINFO
+set RIGHT_INDEX = RIGHT_INDEX - @offset
+where RIGHT_INDEX between 269872 and 303069
+
+-- step 3, move all nodes in temp area to allocated space
+set @offset = 303070
+
+update demo3.DIRINFO
+set LEFT_INDEX = LEFT_INDEX + @offset,
+	RIGHT_INDEX = RIGHT_INDEX + @offset
+where LEFT_INDEX < 0
+
+-- check result
+select * 
+from demo3.DIRINFO P inner join demo3.DIRINFO C on C.LEFT_INDEX between P.LEFT_INDEX and P.RIGHT_INDEX
+where P.ID = @root_node
+
+```
+
+Step 1:
+執行時間: 00:00:00.527 (sec)
+執行計畫 (Estimated Subtree Cost): 2.69808
+
+Step 2:
+執行時間: 00:00:00.116 (sec)
+執行計畫 (Estimated Subtree Cost): 2.44647, 2.44594
+
+Step 3:
+執行時間: 00:00:00.023 (sec)
+執行計畫 (Estimated Subtree Cost): 0.066514
+
+
+執行時間: 00:00:00.550 (sec)
+
+
+
+想確定執行結果的話，我們可以拿 [需求1] 的查詢來驗證看看 c:\windows\backup 下的目錄是不是都搬過來了:
+
+```sql
+
+declare @root int = 218824;
+
+select C.*
+from demo3.DIRINFO C inner join demo3.DIRINFO P on C.LEFT_INDEX between P.LEFT_INDEX and P.RIGHT_INDEX
+where P.ID = @root and C.ID <> @root
+and not exists
+(
+  select *
+  from demo3.DIRINFO M
+  where M.LEFT_INDEX between P.LEFT_INDEX and P.RIGHT_INDEX
+    and C.LEFT_INDEX between M.LEFT_INDEX and M.RIGHT_INDEX
+	and M.ID <> P.ID 
+	and M.ID <> C.ID
+)
+
+```
+
+查詢結果:
+
+![](/wp-content/images/2019-06-01-nested-query/2019-06-01-13-46-20.png)
+
+果然, ID = 134937 的 Users 目錄，整包都被搬過來了，執行成功!
 
 
 
 
+
+
+## 需求 4, 刪除指定目錄
+
+最後一個需求，如果我要刪除 c:\windows\backup 下的子目錄跟檔案... 
+這點一直跟前面的方案沒什麼不同，就是先查詢所有的子目錄跟檔案，然後刪除即可。執行的效能關鍵還是一樣，都在如何找出要刪除的清單。
+
+同樣的，為了方便確認結果，我會保留 c:\windows\backup 目錄本身，刪除所有子目錄，及所有的檔案。整個刪除的程序分為三個步驟:
+
+1. 選出所有的子目錄 (包含 root), 刪除關聯的檔案
+1. 刪除所有的子目錄 (不包含 root)
+1. 回收清出來的 index 空間
+
+```sql
+
+-- step 1
+delete demo3.FILEINFO where DIR_ID in (
+	select ID from demo3.DIRINFO where LEFT_INDEX >= 270029 and LEFT_INDEX <= 303070
+)
+
+-- step 2
+delete demo3.DIRINFO where LEFT_INDEX > 270029 and LEFT_INDEX < 303070
+
+-- step 3
+update demo3.DIRINFO set RIGHT_INDEX = LEFT_INDEX + 1 where ID = 218825;
+update demo3.DIRINFO set LEFT_INDEX = LEFT_INDEX - (303070-270029-1) where LEFT_INDEX > 270030;
+update demo3.DIRINFO set RIGHT_INDEX = RIGHT_INDEX - (303070-270029-1) where RIGHT_INDEX > 270030;
+
+```
+
+
+Step 1:  刪除檔案部分
+執行時間: 00:00:05.756 (sec)
+執行計畫 (Estimated Subtree Cost): 217.166
+
+Step 2: 刪除目錄部分
+執行時間: 00:00:00.887 (sec)
+執行計畫 (Estimated Subtree Cost): 0.792744
+
+Step 3: 回收索引空間
+執行時間: 00:00:02.515 (sec)
+執行計畫 (Estimated Subtree Cost): 0.0432873, 12.0335, 11.8227
+
+
+
+刪除之後，我們在來查詢 c:\windows\backup 目錄下有多少子目錄掛著:
+
+
+```sql
+
+declare @root int = 218825; -- c:\windows\backup 270029 ~ 303070
+select C.*
+from demo3.DIRINFO C inner join demo3.DIRINFO P on C.LEFT_INDEX between P.LEFT_INDEX and P.RIGHT_INDEX
+where P.ID = @root --and C.ID <> @root
+and not exists
+(
+  select *
+  from demo3.DIRINFO M
+  where M.LEFT_INDEX between P.LEFT_INDEX and P.RIGHT_INDEX
+    and C.LEFT_INDEX between M.LEFT_INDEX and M.RIGHT_INDEX
+	and M.ID <> P.ID 
+	and M.ID <> C.ID
+)
+
+```
+
+
+![](/wp-content/images/2019-06-01-nested-query/2019-06-01-17-27-21.png)
+
+
+
+## 方案 3 小結
 
 
 
@@ -1161,466 +1377,3 @@ RDBMS 的主要應用市場，還是以企業為主。由於維護 RDBMS 需要�
 
 
 
-
-
-
-
-
-
-
-
-
-
-<!--
-
-這個產業，走向雲端化，打破了不少產業的分工；即使身在這個產業的軟體開發人員也躲不掉。隨著敏捷、DevOps、及微服務架構等等趨勢，你不難發現分工的模式跟過去越來越不同了。過去是走 "專業" 分工，例如三層式架構，前後端，DBA，都是垂直的角度來切割責任範圍的。但是敏捷、DevOps、Microservices 等發展趨勢，都從不同的角度 (流程、技術、架構) 告訴我們要靈活面對市場，分工必須由 domain 來分，每個小團隊都要能掌握垂直角度從上到下的技能，顧好自己的服務才能致勝。
-
-其實這種例子很多啊，過去的組織都是同樣專業能力的人在同一個部門，但是現在更偏向可以獨立自主交付價值的團隊，每個小團隊都有前端到後端的執行能力；DevOps 也告訴我們開發人員也要了解維運，並且自己維運從中間取得 feedback ... Microservices 也告訴我們把大型 application 切割成可以獨立自主運作的小型服務，並透過 API 連結起來；每個小型服務只要夠簡單，就能由一個團隊獨自維護與開發... 。
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-不過，教育及訓練的體系並沒有完全跟上來啊! 之前在做訓練系統時，在某年 ASTD 簡報上看過一張圖: 過去 (1986 的資料)，學校訓練出來的人，已經能滿足業界 75% 的技能需求。這個比例隨著時間快速往下掉，到了 1997 就剩下 15 ~ 20% (Orz, 正好是我出社會的那個年代)。資料統計到 2008, 則更往下掉到 8 ~ 10% ...
-
-這資料我沒有再往下追了，但是我相信只會越來越低而已。
-
-
-
-最近手上的案子變化越來越多端了，碰到的問題越來越多都不是靠單一技能能解決的了。我常常跟朋友聊這個業界的趨勢，就是大整合的時代。這個年代, developer 越來越難靠單一技能就搞定所有問題了。隨手一舉就有好幾個現成的例子: DevOps(開發運維一體化)、TDD(先寫測試再寫程式, 自己的 code 自己測)...。
-
--->
-
-
-
-# RDBMS 處理樹狀結構的難點
-
-
-
-1. 階層數量不固定
-- 策略: 攤平所有階層
-- 策略: 只處理與上層結構
-
-2. 攤平 (每個階層一個欄位)
-- 難以決定 schema (需決定最大階層)
-
-3. 相對結構 (只記錄上層)
-- 難以執行 join 查詢 (join 必須在寫 query 時就決定)
-
-4. recursive 查詢
-
-5. tree node move 資料更新問題
-
-...
-
-
-
-
-
-# 測試資料 (我的 C:\) ..
-
-
-
-
-# 方法1, 查詢效能最佳化 (攤平)
-
-# 方法2, 儲存 / 更新最佳化 (正規化)
-
-# 方法3, 兼顧 (自行維護左右邊界)
-
-# 效能驗證
-
-評比項目 (查詢):
-1. 查詢 c:\windows\system32\ 目錄下的檔案列表
-1. 查詢 c:\windows\system32\ 目錄統計 (子目錄數，檔案數，大小)
-
-評比項目 (異動):
-1. 大量匯入
-
-1. 新增目錄
-1. 刪除目錄
-1. 重新命名
-
-1. 新增檔案 (c:\windows\temp\a.txt, 100 bytes)
-1. 刪除檔案
-1. 重新命名 
-
-
-
-
-# References
-
-https://hub.docker.com/r/microsoft/mssql-server-windows-express/
-https://en.wikipedia.org/wiki/Nested_set_model#Example
-
-```sql
-
-USE [master]
-GO
-/****** Object:  Database [DIRDB]    Script Date: 2019/4/8 上午 03:49:21 ******/
-CREATE DATABASE [DIRDB]
- CONTAINMENT = NONE
- ON  PRIMARY 
-( NAME = N'DIRDB', FILENAME = N'C:\Program Files\Microsoft SQL Server\MSSQL14.SQLEXPRESS\MSSQL\DATA\DIRDB.mdf' , SIZE = 532480KB , MAXSIZE = UNLIMITED, FILEGROWTH = 65536KB )
- LOG ON 
-( NAME = N'DIRDB_log', FILENAME = N'C:\Program Files\Microsoft SQL Server\MSSQL14.SQLEXPRESS\MSSQL\DATA\DIRDB.ldf' , SIZE = 532480KB , MAXSIZE = 2048GB , FILEGROWTH = 65536KB )
-GO
-ALTER DATABASE [DIRDB] SET COMPATIBILITY_LEVEL = 140
-GO
-IF (1 = FULLTEXTSERVICEPROPERTY('IsFullTextInstalled'))
-begin
-EXEC [DIRDB].[dbo].[sp_fulltext_database] @action = 'enable'
-end
-GO
-ALTER DATABASE [DIRDB] SET ANSI_NULL_DEFAULT ON 
-GO
-ALTER DATABASE [DIRDB] SET ANSI_NULLS ON 
-GO
-ALTER DATABASE [DIRDB] SET ANSI_PADDING ON 
-GO
-ALTER DATABASE [DIRDB] SET ANSI_WARNINGS ON 
-GO
-ALTER DATABASE [DIRDB] SET ARITHABORT ON 
-GO
-ALTER DATABASE [DIRDB] SET AUTO_CLOSE OFF 
-GO
-ALTER DATABASE [DIRDB] SET AUTO_SHRINK OFF 
-GO
-ALTER DATABASE [DIRDB] SET AUTO_UPDATE_STATISTICS ON 
-GO
-ALTER DATABASE [DIRDB] SET CURSOR_CLOSE_ON_COMMIT OFF 
-GO
-ALTER DATABASE [DIRDB] SET CURSOR_DEFAULT  LOCAL 
-GO
-ALTER DATABASE [DIRDB] SET CONCAT_NULL_YIELDS_NULL ON 
-GO
-ALTER DATABASE [DIRDB] SET NUMERIC_ROUNDABORT OFF 
-GO
-ALTER DATABASE [DIRDB] SET QUOTED_IDENTIFIER ON 
-GO
-ALTER DATABASE [DIRDB] SET RECURSIVE_TRIGGERS OFF 
-GO
-ALTER DATABASE [DIRDB] SET  DISABLE_BROKER 
-GO
-ALTER DATABASE [DIRDB] SET AUTO_UPDATE_STATISTICS_ASYNC OFF 
-GO
-ALTER DATABASE [DIRDB] SET DATE_CORRELATION_OPTIMIZATION OFF 
-GO
-ALTER DATABASE [DIRDB] SET TRUSTWORTHY OFF 
-GO
-ALTER DATABASE [DIRDB] SET ALLOW_SNAPSHOT_ISOLATION OFF 
-GO
-ALTER DATABASE [DIRDB] SET PARAMETERIZATION SIMPLE 
-GO
-ALTER DATABASE [DIRDB] SET READ_COMMITTED_SNAPSHOT OFF 
-GO
-ALTER DATABASE [DIRDB] SET HONOR_BROKER_PRIORITY OFF 
-GO
-ALTER DATABASE [DIRDB] SET RECOVERY FULL 
-GO
-ALTER DATABASE [DIRDB] SET  MULTI_USER 
-GO
-ALTER DATABASE [DIRDB] SET PAGE_VERIFY CHECKSUM  
-GO
-ALTER DATABASE [DIRDB] SET DB_CHAINING OFF 
-GO
-ALTER DATABASE [DIRDB] SET FILESTREAM( NON_TRANSACTED_ACCESS = OFF ) 
-GO
-ALTER DATABASE [DIRDB] SET TARGET_RECOVERY_TIME = 60 SECONDS 
-GO
-ALTER DATABASE [DIRDB] SET DELAYED_DURABILITY = DISABLED 
-GO
-ALTER DATABASE [DIRDB] SET QUERY_STORE = OFF
-GO
-USE [DIRDB]
-GO
-/****** Object:  Table [dbo].[DIRINFO]    Script Date: 2019/4/8 上午 03:49:21 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [dbo].[DIRINFO](
-	[ID] [int] IDENTITY(1,1) NOT NULL,
-	[PARENT_ID] [int] NULL,
-	[FULLNAME] [nvarchar](255) NOT NULL,
-	[NAME] [nvarchar](255) NOT NULL,
-PRIMARY KEY CLUSTERED 
-(
-	[ID] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-) ON [PRIMARY]
-GO
-/****** Object:  Table [dbo].[FILEINFO]    Script Date: 2019/4/8 上午 03:49:22 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [dbo].[FILEINFO](
-	[ID] [int] IDENTITY(1,1) NOT NULL,
-	[DIR_ID] [int] NOT NULL,
-	[FULLNAME] [nvarchar](255) NOT NULL,
-	[FILE_NAME] [nvarchar](255) NOT NULL,
-	[FILE_EXT] [nchar](10) NOT NULL,
-	[FILE_SIZE] [int] NOT NULL,
-PRIMARY KEY CLUSTERED 
-(
-	[ID] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-) ON [PRIMARY]
-GO
-ALTER TABLE [dbo].[DIRINFO]  WITH CHECK ADD  CONSTRAINT [FK_DIRINFO_DIRINFO] FOREIGN KEY([ID])
-REFERENCES [dbo].[DIRINFO] ([ID])
-GO
-ALTER TABLE [dbo].[DIRINFO] CHECK CONSTRAINT [FK_DIRINFO_DIRINFO]
-GO
-ALTER TABLE [dbo].[FILEINFO]  WITH CHECK ADD  CONSTRAINT [FK_FILEINFO_DIRINFO] FOREIGN KEY([DIR_ID])
-REFERENCES [dbo].[DIRINFO] ([ID])
-GO
-ALTER TABLE [dbo].[FILEINFO] CHECK CONSTRAINT [FK_FILEINFO_DIRINFO]
-GO
-USE [master]
-GO
-ALTER DATABASE [DIRDB] SET  READ_WRITE 
-GO
-
-
-```
-
-
-
-
-
-
-----------------------
-
-
-
-
-
-
-
-準備好接受挑戰了嗎? 想是看看的話不要急著往下看，你可以先想想你工作上要是面臨這樣的問題，你會怎麼去設計解決方式? 這種問題很常碰到啊，隨便舉過去我處理過的案例就好幾種應用，例如:
-
-1. 文件 (分類及權限)
-1. 商品 (分類)
-1. 組織圖
-
-...
-
-
-我就直接列出需求了。這類資料的搜尋，往往都要搭配複合的條件，例如:
-
-1. 找出特定分類 (含以下子分類) 的所有商品，同時滿足其他條件 (如售價範圍等等)。
-1. 找出符合權限 (假設權限綁定在分類上面) 的所有文件，同時符合關鍵字等其他條件過濾。
-1. 找出某個部門以下所有單位，同時符合職等或是年資等過濾條件的員工。
-
-對於 SQL 稍有概念的就知道，如果你不能在 SQL 的層級，把兩大過濾條件都處理掉 (一個是分類的過濾條件，另一個是其他過濾條件)，然後 join 取得最終結果的話，兩邊分開處理後，再把資料倒到 code 端去合併，是很沒有效率的。因此後面的幾種方式探討，都有這些前提須要被滿足:
-
-1. 需要支援階層的異動
-1. 需要支援階層的查詢 (例如某分類以下的所有分類)
-1. 大量資料下，效能必須維持在合理範圍內 (不考慮把整個 tree 都載入到 memory 裡，用 code 去解決)
-
-準備好了嗎? 想挑戰的先別往下看，自己想想你會怎麼解決這需求吧! 想完之後歡迎往下看看我整理的做法。
-
-
-
-
-
-
-
-
-
-
-
-雖然這篇的內容跟微服務 (Microservices) 沒啥關聯，但是我還是拿微服務來開個頭...。我常常被問到跟維服務相關的幾個 FAQ, 最多的就是微服務架構下的資料該怎麼處理了。微服務架構，主張把大型系統切割成獨立運作的小服務，中間只靠 API 來協做；因為服務切割的夠小，因此開發團隊有能力獨自維護，同時能負擔開發與維運的任務 (對，就是 DevOps)。這架構下，過去獨立且龐大的關聯式資料庫，當然也一起被切開了 (如果不切割資料庫，改成微服務架構的目的還存在嗎?)。
-
-資料庫如果隨著服務的切割，也被隔開了的話，過去透過大量 join 操作，應該都會被一連串的 API 查詢取代。這部分有沒有效率我就暫時不討論了，不在這篇我要探討的主題。我想談的重點是，切割之後，我們面對的資料問題，就跟過去不大一樣了。我們會從整個 application 範圍的資料維護，縮減到單一功能 / domain 的資料維護。但是你要切割成微服務通常都會有服務量增加的前提，因此資料的量應該都會比過去還要大幾個量級。
-
-
-這裡就衍生出一個問題: 除了 Dev + Ops 之外，那原本 DBA 負責的資料管理任務，也一併回歸到開發團隊身上嗎?
-
-這其實是個很弔詭的問題，就跟 DevOps 一樣，背後的意義往往都被誤解了。我先從較容易理解的 DevOps 開始，DevOps 的核心觀念並不是 "單純" 的要開發團隊把維運的任務搶回來而已那麼簡單，而是要藉著開發團隊自己維運，快速取得回饋，同時思考該如何反應在流程與開發的改善。開發人員若有維運的經驗，則更能開發出善於維運的服務 (design for operation), 就能更輕鬆的讓維運自動化, 不需要人工的介入。
-
-同樣的，讓開發團隊自己規劃資料的管理也一樣，並不是要開發團隊把 DBA 的任務搶回來，而是當團隊對於服務的邊界掌握的更精準時，資料的複雜度會降低 (但是量會變大)，過去關聯式資料庫的 "關聯" 問題，會被轉移到跨服務的 "API" 身上。若單一服務內的資料庫複雜度降低了，同時又有 NOSQL 這類新興的服務盛行，過去必須依靠 DBA 才能做好的資料管理，理論上開發團隊現在就能顧好它了。
-
-
-當你的資料複雜度降低時 (單一一個服務，也許只需要 10 個資料表)，因應 SaaS 的發展，換來的是資料量會爆增 (開始會衍生多租戶架構的問題) 的問題。加上資料的進出口，都由過去的 DBMS 往外移，變成 API level 的問題了，你看出關鍵點了嗎? 處理巨量資料的各種問題，都從 DBA 轉移到 DEV 身上了。這時，吃的不是你對於工具的掌握能力，而是吃你的整合能力與資訊科學的基礎能力。
-
-因為不斷看到這種情況，也不斷的看到很多資深的工程師，碰到這類吃基本觀念的問題，就束手無策了。想想 "架構面試題" 這系列也停了好一陣子，於是就想來寫這篇了。
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
----------
-
-note1.sql
-
-```sql
--- select top 100 * from DIRINFO
--- select count(*) from DIRINFO
--- select count(*) from FILEINFO
--- truncate table [FILEINFO]
--- truncate table [DIRINFO]
--- delete [DIRINFO]
-
-declare @root int;
-select @root = ID from DIRINFO where fullname = 'c:\windows'
-print @root
---select * from DIRINFO where fullname = 'c:\windows'
-
-/*
---select * from (
-	select '<DIR>' as type, name from DIRINFO where PARENT_ID = @root
-	union
-	select '' as type, FILE_NAME as name from FILEINFO where DIR_ID = @root
---) obj order by name asc
-*/
-
-;with DIR_CTE(ID, NAME, FULLNAME, LV) as
-(
-	select ID, NAME, FULLNAME, 1 as LV
-	from DIRINFO
-	where PARENT_ID = @root
-
-	union all
-
-	select D1.ID, D1.NAME, D1.FULLNAME, D2.LV + 1
-	from DIRINFO D1 inner join DIR_CTE D2 on D1.PARENT_ID = D2.ID
-)
-
-select * from DIR_CTE
---select F.* from DIR_CTE D inner join FILEINFO F on D.ID = F.DIR_ID where F.FILE_EXT = '.dll'
-
---where ROOT_ID = 339957
-
-```
-
-
-
-note2
-```sql
---
---  RAW data to SOL2
---
-
--- truncate table SOL2_DIRINFO
-
-declare @root int;
-select @root = ID from DIRINFO where fullname = 'c:\'
-
-;with DIR_CTE(ID, NAME, FULLNAME, LV) as
-(
-	--select ID, NAME, FULLNAME, 0 as LV
-	--from DIRINFO
-	--where ID = @root
-
-	--union
-
-	select ID, NAME, FULLNAME, 1 as LV
-	from DIRINFO
-	where PARENT_ID = @root
-
-	union all
-
-	select D1.ID, D1.NAME, D1.FULLNAME, D2.LV + 1
-	from DIRINFO D1 inner join DIR_CTE D2 on D1.PARENT_ID = D2.ID
-)
-
---insert into SOL2_DIRINFO (ID, NAME, FULLNAME) select ID, NAME, FULLNAME from DIRINFO where PARENT_ID = 0;
---insert into SOL2_DIRINFO (ID, NAME, FULLNAME, LV1) select ID, NAME, FULLNAME, ID as LV1 from DIR_CTE where LV = 1;
---insert into SOL2_DIRINFO (ID, NAME, FULLNAME, LV2) select ID, NAME, FULLNAME, ID as LV2 from DIR_CTE where LV = 2;
---insert into SOL2_DIRINFO (ID, NAME, FULLNAME, LV3) select ID, NAME, FULLNAME, ID as LV3 from DIR_CTE where LV = 3;
---insert into SOL2_DIRINFO (ID, NAME, FULLNAME, LV4) select ID, NAME, FULLNAME, ID as LV4 from DIR_CTE where LV = 4;
---insert into SOL2_DIRINFO (ID, NAME, FULLNAME) select ID, NAME, FULLNAME from DIR_CTE where LV > 5;
-
-
-/*
-select * from DIRINFO
-select * from SOL2_DIRINFO
-*/
---
--- post process
---
-
-update S set LV4 = D.PARENT_ID
-from SOL2_DIRINFO S inner join DIRINFO D on S.LV5 = D.ID
-where LV5 is not null
-
-update S set LV3 = D.PARENT_ID
-from SOL2_DIRINFO S inner join DIRINFO D on S.LV4 = D.ID
-where LV4 is not null
-
-update S set LV2 = D.PARENT_ID
-from SOL2_DIRINFO S inner join DIRINFO D on S.LV3 = D.ID
-where LV3 is not null
-
-update S set LV1 = D.PARENT_ID
-from SOL2_DIRINFO S inner join DIRINFO D on S.LV2 = D.ID
-where LV2 is not null
-
-
-
-update S2 set LV1 = S1.LV1, LV2 = S1.LV2, LV3 = S1.LV3, LV4 = S1.LV4, LV5 = S1.LV5
-from SOL2_DIRINFO S1 inner join SOL2_DIRINFO S2 on CHARINDEX(S1.FULLNAME, S2.FULLNAME, 1) = 1
-where S1.LV1 is not null and S2.LV1 is null
-```
-
-
-
-
-
-
-
-
-
-```sql
-
-
-```
-
-查詢結果:
-
-執行時間: 00:00:00.407 (sec)
-執行計畫 (Estimated Subtree Cost): 0.0264708
