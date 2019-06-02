@@ -37,11 +37,20 @@ docker build -t andrew0928/columns:%IMAGE_TAG% -t wcshub.azurecr.io/columns:%IMA
 : docker exec -w /home/source -i -t  %CONTAINER_NAME% jekyll s --watch --drafts --incremental --source /home/source --destination /tmp --unpublished
 
 
+: docker run --name %CONTAINER_NAME% -d -p 4000:4000 ping 127.0.0.1
 
 
 ::
 :: local run
 ::
 
+::: launch
+: docker run --name %CONTAINER_NAME% -v %CD%:/home/columns -d -p 4000:4000 -v %CD%:/home/columns wcshub.azurecr.io/columns:%IMAGE_TAG%
+: start docker logs -t -f %CONTAINER_NAME%
 
-: docker run --name %CONTAINER_NAME% -d -p 4000:4000 ping 127.0.0.1
+::: update
+: docker exec -w /home %CONTAINER_NAME% cp -Ru columns/* source
+
+::: enter shell
+: docker exec -t -i -w /home %CONTAINER_NAME% bash
+: cp -Ru columns/* source
