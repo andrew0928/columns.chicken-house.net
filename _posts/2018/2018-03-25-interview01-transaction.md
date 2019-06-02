@@ -3,6 +3,7 @@ layout: post
 title: "架構面試題 #1, 線上交易的正確性"
 categories:
 - "系列文章: 架構師觀點"
+- "系列文章: 架構面試題"
 tags: ["架構師", "面試經驗", "microservices"]
 published: true
 comments: true

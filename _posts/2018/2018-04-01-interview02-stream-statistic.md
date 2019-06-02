@@ -3,6 +3,7 @@ layout: post
 title: "架構面試題 #2, 連續資料的統計方式"
 categories:
 - "系列文章: 架構師觀點"
+- "系列文章: 架構面試題"
 tags: ["架構師", "面試經驗", "microservices", "azure stream analytics"]
 published: true
 comments: true
