@@ -944,7 +944,7 @@ delete demo2.DIRINFO where ID03 = 218818
 <a id="sol3" />
 
 
-# 方案 3, Nested Set Model
+# 方案 3, 紀錄涵蓋範圍
 
 
 這方法我在 2003 年的時候，花了不少功夫在研究出來的 (後來才發現也有人做出類似的作法了)。主要想法是:
@@ -973,6 +973,11 @@ delete demo2.DIRINFO where ID03 = 218818
 |C|4|9|
 |D|5|6|
 |E|7|8|
+
+整個完整的 database diagram 大概長這樣:
+
+![](/wp-content/images/2019-06-01-nested-query/2019-06-02-23-16-33.png)
+
 
 這 left / right index 怎麼標出來的? 看看圖上標示的黃色箭頭... 基本上就是按照 depth first traversal 的方式走完每個節點。每個節點第一次被走到的時候就按順序標上 left，繞了一圈回到這個節點後再標上 right.. 這時 left / right 就代表這個結點在座標軸上涵蓋的範圍了。因為 depth first traversal 的規則，每個 node 底下的 nodes 都走完後一定會回來這個 node, 因此按照順序標上流水號，就成為這個結果了。這個 left / right index 可以同時代表多個意義，除了 "包含" 的關係之外，每個 node 一定都會佔掉兩個空間，因此只要 index 有維護好，都是連續整數的話，left / right 的數值差異就可以代表子節點的個數，你想計算子節點的各數時連查都不用查，直接 (right - left - 1) / 2 就可以得到答案了。
 
@@ -1048,7 +1053,7 @@ where P.ID = 151535 and not exists
 
 
 
-# 需求 2, 查詢指定目錄下的內容 (遞迴)
+## 需求 2, 查詢指定目錄下的內容 (遞迴)
 
 > 模擬 ```dir /s /b c:\windows\system32\*.ini```, 找出所有位於 ```c:\windows\system32``` 目錄下 (包含子目錄) 所有副檔名為 ```.ini``` 的檔案清單
 
