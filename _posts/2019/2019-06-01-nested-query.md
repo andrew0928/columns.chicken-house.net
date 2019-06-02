@@ -1644,4 +1644,4 @@ with-common-table-expression-transact-sql?view=sql-server-2017)
 - 黑暗執行緒: [ORACLE筆記-使用 CONNECT BY 呈現階層化資料](https://blog.darkthread.net/blog/oracle-connect-by/)
 - Rico技術農場: [SQL SERVER hirearchy method](https://dotblogs.com.tw/ricochen/2018/06/02/145338)
 * Wiki: [Nested Set Model](https://en.wikipedia.org/wiki/Nested_set_model#Example)  
-* SQL Server Common Table Expression: [CTE](https://docs.microsoft.com/zh-tw/sql/t-sql/queries/
+* SQL Server Common Table Expression: [CTE](https://docs.microsoft.com/zh-tw/sql/t-sql/queries/)
