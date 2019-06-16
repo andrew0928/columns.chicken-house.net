@@ -49,7 +49,6 @@ docker build -t andrew0928/columns:%IMAGE_TAG% -t wcshub.azurecr.io/columns:%IMA
 : start docker logs -t -f %CONTAINER_NAME%
 
 ::: update
-: docker exec -w /home %CONTAINER_NAME% cp -Ru columns/* source
 
 ::: enter shell
 : docker exec -t -i -w /home %CONTAINER_NAME% bash
