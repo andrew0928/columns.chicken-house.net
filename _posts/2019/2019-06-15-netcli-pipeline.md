@@ -2,7 +2,9 @@
 layout: post
 title: "後端工程師必備: CLI + PIPELINE 開發技巧"
 categories:
-tags: []
+- "系列文章: 架構師觀點"
+- "系列文章: 架構面試題"
+tags: ["系列文章", "架構師", "CLI", "POC", "C#", "PIPELINE", "串流處理", "thread"]
 published: true
 comments: true
 redirect_from:
@@ -21,9 +23,9 @@ logo: /wp-content/images/2019-06-15-netcli-pipeline/2019-06-17-01-35-31.png
 1. 這個操作必須被自動化或是重複執行，寫成 CLI 才方便放在 shell script 執行。
 1. 這個操作需要處理大量資料，或是需要長時間執行，必須有足夠的可靠度，及最佳的效能。
 1. 發展自己的 CLI toolset, 需要跨語言開發，讓 shell script 能夠組合使用。
-1. 能同時兼顧 "組合" 的彈性，與 "串流" 的處理方式。
+1. 透過 shell "組合" 時, 能善用 batch 及 pipeline 的組合方式。
 
-為了搞定這幾件事情，你的 CLI 可不是 "能動" 就好了。你提供的操作方式 (參數，輸入輸出的設計) 會直接影響你寫的 CLI 用起來順不順手。我這篇就特別針對 CLI 之間的資料交換，還有大量資料交換的串流處理方式介紹一下好了。我一直認為使用與開發 CLI，應該是後端工程師必備的技能，唯有熟悉這些技巧你才有能力有效率的工作。後端的任務不是只有開發 REST API 而已啊，很多背景處理的服務也是關鍵的一環，與其直接開發成 windows service，我相信開發 CLI + 排程服務會更有效率。看完這篇文章，你可以想一想，過去開發的 CLI 有沒有辦法做得更好?
+為了搞定這幾件事情，你的 CLI 可不是 "能動" 就好了。你提供的操作方式 (參數，輸入輸出的設計) 會直接影響你寫的 CLI 用起來順不順手。我這篇就特別針對 CLI 之間透過 pipeline 串接進行串流處理的方式介紹一下好了。我一直認為使用與開發 CLI，應該是後端工程師必備的技能，唯有熟悉這些技巧你才有能力有效率的工作。後端的任務不是只有開發 REST API 而已啊，很多背景處理的服務也是關鍵的一環，與其直接開發成 windows service，我相信開發 CLI + 排程服務會更有效率。看完這篇文章，你可以想一想，過去開發的 CLI 有沒有辦法做得更好?
 
 
 
@@ -39,7 +41,7 @@ logo: /wp-content/images/2019-06-15-netcli-pipeline/2019-06-17-01-35-31.png
 
 兩者的訴求不同，管線則是讓這兩個交錯的維度能完美結合的作法。最常見到管線的案例，就是工廠的生產線了。操作員按照程序來區分，而輸送帶上的半成品則按照處理的數量來安排。兩者交錯進行，就能用持續穩定的速度，不斷的產生成品，處理過程中就像自來水一樣，打開水龍頭，產品就源源不覺得從輸送帶上面運送過來。
 
-管線處理運用得當的話，能夠大幅提升生產效能，也能減化生產程序，可謂一舉多得。另一個常被運用的例子就是 CPU 的指令，一個指令的執行，切成解碼等等多道程序，每個時脈週期都處理一道程序，只要安排得當，CPU 就有能力在每個時脈都完成一個以上的指令。
+管線處理運用得當的話，能夠大幅提升生產效能，也能減化生產程序，可謂一舉多得。另一個常被運用的例子就是 CPU 的指令，一個指令的執行，切成解碼等等多道程序，沒有 pipeline 的狀況下，每個指令至少都得花 5 cycle (就是常聽到的時脈) 以上來執行。如果用上 pipeline 技巧，則可以讓 CPU 每個時脈週期都有一道指令 (甚至更多) 被執行完成。
 
 ![](/wp-content/images/2019-06-15-netcli-pipeline/2019-06-17-01-48-32.png)
 
@@ -83,13 +85,13 @@ logo: /wp-content/images/2019-06-15-netcli-pipeline/2019-06-17-01-35-31.png
 ![](/wp-content/images/2019-06-15-netcli-pipeline/2019-06-15-03-13-20.png)
 
 * 第一筆資料完成時間: M1 + M2 + M3
-* 全部(最後一筆)完成時間: N x Max(M1, M2, M3)  (如果 M1 == M2 == M3, 那麼就有三倍的效率了)
+* 全部(最後一筆)完成時間: N x Max(M1, M2, M3)  (如果 M1 = M2 = M3, 那麼就有三倍的效率了)
 * 過程中最大半成品數: 3
 
 
 看得出差異了嗎? 你如果有能力精準的用 pipeline 的方式處理資料，加上不同階段之間的資源不會互相占用 (例如 CPU, DISK ... etc) 的話，你就能得到戲劇性的效能增長。這些觀念，是我認為的後端工程師必備的技巧。後端工程師不是只會寫 WEB 跟 API 而已，有些需要非同步，或是資料轉檔匯入等等輔助工具時，這些都是很關鍵的技巧。
 
-其實這類的探討，我以前寫過很多篇了。從當年投稿 RUN!PC，寫了十來篇探討平行處理的文章，就有講到生產線的處理模式，就是在講這個。另外在探討 C# async 處理的技巧，也有談到類似的問題。這邊我就不另外再重打一次，十年前的老文章了，有興趣的朋友們可以翻回去看:
+其實這類的探討，我以前寫過很多篇了。從當年投稿 RUN!PC，寫了十來篇探討平行處理的文章，就有講到生產線的處理模式，就是在講這個。另外在探討 C# ```async``` 處理的技巧，也有談到類似的問題。這邊我就不另外再重打一次，十年前的老文章了，有興趣的朋友們可以翻回去看:
 
 
 1. [處理大型資料的技巧 – Async / Await](/2013/04/14/處理大型資料的技巧-async-await/), (2009/04/14)
@@ -100,7 +102,7 @@ logo: /wp-content/images/2019-06-15-netcli-pipeline/2019-06-17-01-35-31.png
 
 
 
-# In Code 的處理方式
+# 在單一專案內 (code) 的處理方式
 
 別急著馬上就要開始寫 CLI ... 先掌握好幾個基本技巧再說吧! 我就用上面的例子，把他變成程式碼，先來 POC 看看你有沒有能力用 C# 來達到想像中的效果。我們先在單一一個 .NET Console App 內完成這整件事，稍後再來把它換成 CLI。
 
@@ -111,11 +113,8 @@ logo: /wp-content/images/2019-06-15-netcli-pipeline/2019-06-17-01-35-31.png
 public class DataModel
 {
     public string ID { get; set; }
-
     public int SerialNO { get; set; }
-
     public DataModelStageEnum Stage { get; set; } = DataModelStageEnum.INIT;
-
     public byte[] Buffer = null;
 }
 
@@ -209,6 +208,16 @@ static IEnumerable<DataModel> GetModels()
 
 接下來就開始看各種不同的處理方式 DEMO 了。
 
+
+
+
+
+
+
+
+
+<a id="demo1" />
+
 ## DEMO 1, 批次處理
 
 不囉嗦，直接看 code, 應該不用解釋了:
@@ -285,13 +294,19 @@ Press any key to close this window . . .
 這就當作對照組吧，沒啥好解釋的 code ... XDD, 就把他當作最基本最常見的寫法。以處理程序為主的角度來撰寫，P1 都處理完之後再處理 P2, 以此類推。這個做法理論上有最好的效能，程式碼也能把每個階段區隔得很清楚，也算是最容易維護的結構 (因為簡單明瞭)。缺點是第一筆資料完成的時間會跟總比數有關 (時間複雜度 O(n))。
 
 
+
+
+
+
+<a id="demo2" />
+
 ## DEMO 2, 串流處理
 
 串流處理的版本，開始有點不一樣了。前面鋪的梗可以開始拿出來講了... 一樣先看 code 跟執行結果:
 
 ```csharp
 
-static void Demo2()
+static void [DEMO2](#demo2) ()
 {
     foreach(var model in GetModels())
     {
@@ -349,7 +364,7 @@ Press any key to close this window . . .
 
 結果如預期，相信也不需要太多解釋了。不過這邊開始回頭看一下，這兩種做法，除了時間之外，其實還有隱藏的差異...。由於串流處理一次會把一筆資料的所有步驟從頭到尾處理完畢，因此不論你總共有幾筆資料要處理，任何瞬間的半成品一定只有一個。這個案例我的資料是擺在記憶體內，因此串流處理的做法我只需要花費固定 (一筆) 的記憶體空間而已。
 
-這段 sample code 我只替每個 data 準備 1024 bytes 的 buffer 而已，如果我把它改成 2GB 會發生甚麼事?
+這段 sample code 我只替每個 data 準備 1024 bytes 的 buffer 而已，如果我把它改成 1GB 會發生甚麼事?
 
 我把產生測試資料的這段，把 allocate 的 size 從 1024 (1KB) 換成 1024 x 1024 x 1024 (1GB):
 
@@ -384,19 +399,19 @@ static IEnumerable<DataModel> GetModels()
 ![](/wp-content/images/2019-06-15-netcli-pipeline/2019-06-15-04-40-18.png)
 
 
-為了避免以前踩過的地雷 (沒有填資料進去的記憶體，OS / CLR 可能會幫我最佳化延遲 allocale, 造成這測試根本沒作用 XDD)，因此配置出來的記憶體我都填亂數進去，執行速度比較慢。先來看看 Demo1 的數據:
+為了避免[以前踩過的地雷](/2015/12/29/dnxcore50_04_linux_and_summary/) (沒有填資料進去的記憶體，OS / CLR 可能會幫我最佳化延遲 allocale, 造成這測試根本沒作用 XDD)，因此配置出來的記憶體我都填亂數進去，執行速度比較慢。先來看看 [DEMO1](#demo1) 的數據:
 
 ![](/wp-content/images/2019-06-15-netcli-pipeline/2019-06-15-04-37-55.png)
 
 
 可以看到記憶體一直飆上去，前面 45 sec 都在準備物件，配置了 5GB 記憶體，大約 45 sec 後才開始在執行程式。結束之後 5GB 記憶體都釋放出來了。過程中我就算按了 force GC 也沒有用，就是會吃這麼多記憶體。
 
-留意一下，這裡測試資料才 5 筆... 如果是 5000 筆，你的 server 有 5000GB 的 RAM 可以用嗎? 應該馬上就 OOM (OutOfMemoryException) 了吧...
+留意一下，這裡測試資料才 5 筆... 如果是 5000 筆，你的 server 有 5000GB 的 RAM 可以用嗎? 應該馬上就 OOM (```OutOfMemoryException```) 了吧...
 
 
 
 
-接著來看 Demo2:
+接著來看 [DEMO2](#demo2) :
 
 ![](/wp-content/images/2019-06-15-netcli-pipeline/2019-06-15-04-43-35.png)
 
@@ -408,22 +423,29 @@ static IEnumerable<DataModel> GetModels()
 上面有紅色的標記，就是 GC completed 的 mark, 可以看到 GC 是有效的，代表你的程式已經釋放物件了，只是 CLR 沒那麼勤勞沒有立刻回收而已。記憶體使用量大致上都維持再 1 ~ 2GB, 意思是過程中只需要處理中的物件被保留在記憶體內就好了，測試資料不論改成多少筆，測試結果都差不多。
 
 
-"處理過程中需要占用的資源是固定的" 這是另一個串流處理的特色，如果你是 backend engineer 你必須要更了解這點。留意一下 Demo2 我特地用 foreach 直接取用測試資料，而 GetModels() 我也直接用 yield return 傳回，整個從資料產生到處理完畢的過程，通通都用串流模式，就能有這樣的效果。反觀 Demo1, 我故意 GetModels().ToArray() 轉成陣列一次傳回來，就變成了批次模式。
+"處理過程中需要占用的資源是固定的" 這是另一個串流處理的特色，如果你是 backend engineer 你必須要更了解這點。留意一下 [DEMO2](#demo2)  我特地用 ```foreach``` 直接取用測試資料，而 ```GetModels()``` 我也直接用 ```yield return``` 傳回，整個從資料產生到處理完畢的過程，通通都用串流模式，就能有這樣的效果。反觀 [DEMO1](#demo1), 我故意 ```GetModels().ToArray()``` 轉成陣列一次傳回來，就變成了批次模式。
 
-C# Yield Return 的使用技巧，我當年也寫過幾篇... (怎麼每次拿出來的文章都超過十年以上了? Orz)
+C# ```yield return``` 的使用技巧，我當年也寫過幾篇... (怎麼每次拿出來的文章都超過十年以上了? Orz)
 
 * [C#: yield return, How It Work ?](/2008/09/18/c-yield-return-1-how-it-work/), (2008/09/18)
 
-串流處理的方式，是以資料為主的角度去撰寫。盡可能的把第一筆資料處理完後才處理第二筆。這種方式的優點是處理中未完成的資料是固定的 (只有一筆)，同時能在最快時間內就取得第一筆資料的處理結果。缺點是處理的程式碼會把多個階段都混再一起，不如 Demo1 來的簡潔，效能最好也只有跟 Demo1 一樣而已。
 
+串流處理的方式，是以資料為主的角度去撰寫。盡可能的把第一筆資料處理完後才處理第二筆。這種方式的優點是處理中未完成的資料是固定的 (只有一筆)，同時能在最快時間內就取得第一筆資料的處理結果。缺點是處理的程式碼會把多個階段都混再一起，不如 [DEMO1](#demo1) 來的簡潔，效能最好也只有跟 [DEMO1](#demo1) 一樣而已。
+
+
+
+
+
+
+<a id="demo3" />
 
 ## DEMO 3, 管線處理 (yield return)
 
-回頭看一下 Demo1 / Demo2 的程式碼結構... 很典型的，Demo1 以 PHASE 處理的結構為主，Demo2 則是以 DataModel 為主。兩種各有利弊，沒有好壞之分。想看看，如果 Demo1 的範例內，foreach loop 內的邏輯很複雜的話，哪一種比較好維護? Demo1 or Demo2?
+回頭看一下 [DEMO1](#demo1) / [DEMO2](#demo2) 的程式碼結構... 很典型的，[DEMO1](#demo1) 以 PHASE 處理的結構為主，[DEMO2](#demo2) 則是以 ```DataModel``` 為主。兩種各有利弊，沒有好壞之分。想看看，如果 [DEMO1](#demo1) 的範例內，```foreach``` 內的邏輯很複雜的話，哪一種比較好維護? [DEMO1](#demo1) or [DEMO2](#demo2) ?
 
-這時，以單一職責原則來看，Demo1 的方式分工比較明確 (先不管記憶體問題)，程式碼結構比較利於處理複雜的 PHASE 內邏輯，是比較好維護的。我們有辦法同時兼顧兩種做法嗎?
+這時，以單一職責原則來看，[DEMO1](#demo1) 的方式分工比較明確 (先不管記憶體問題)，程式碼結構比較利於處理複雜的 PHASE 內邏輯，是比較好維護的。我們有辦法同時兼顧兩種做法嗎?
 
-有的，這就是 PIPELINE 的雛型了。我們來看看 DEMO 3:
+有的，這就是 PIPELINE 的雛型了。我們來看看 [DEMO3](#demo3) :
 
 ```csharp
 
@@ -505,22 +527,32 @@ Press any key to close this window . . .
 * 全部的資料完成時間: 22 sec (05:31:35 ~ 05:31:57)
 
 
-我善用了 yield return 的結構，把三個 PHASE 的處理動作都隔開了，隔離在個別的 StreamProcessPhaseX(...) 內，這個 method 的 input / output 都是 IEnumerable<DataModel>, 然後就像接力賽一樣，一棒一棒交下去。串完之後，最外圍的主程式，單純用個不做事的 foreach loop 驅動整個引擎運轉，就跑出跟 Demo2 一樣的結果了 (如上)。
+我善用了 ```yield return``` 的結構，把三個 PHASE 的處理動作都隔開了，隔離在個別的 ```StreamProcessPhaseX(...)``` 內，這個 method 的 input / output 都是 ```IEnumerable<DataModel>```, 然後就像接力賽一樣，一棒一棒交下去。串完之後，最外圍的主程式，單純用個不做事的 ```foreach``` loop 驅動整個引擎運轉，就跑出跟 [DEMO2](#demo2) 一樣的結果了 (如上)。
+
+我把 log 上的資訊，用視覺化的時序圖來表達。從左到右是 P1 ~ P3 的處理過程，從上到下代表時間的進行。同樣顏色的區塊代表同一筆資料。畫成圖你比較能想像執行的順序:
+
+![](/wp-content/images/2019-06-15-netcli-pipeline/2019-06-19-01-19-05.png)
+
 
 為了公平比較效能，這段測試一樣是以 buffer size = 1024 bytes 為主下去測試的。我們一樣補一個 1GB buffer 的測試，看看 memory usage:
 
 ![](/wp-content/images/2019-06-15-netcli-pipeline/2019-06-15-05-39-56.png)
 
-有趣的來了。我一樣在測試過程中不斷的點 Force GC (可以從上面的 GC completed mark 看到我點了幾下)。這個版本跑出來的邏輯跟 Demo2 一樣，記憶體使用也維持平穩固定，但是固定的記憶體使用量卻比 demo2 多... 
+有趣的來了。我一樣在測試過程中不斷的點 Force GC (可以從上面的 GC completed mark 看到我點了幾下)。這個版本跑出來的邏輯跟 [DEMO2](#demo2) 一樣，記憶體使用也維持平穩固定，但是固定的記憶體使用量卻比 [DEMO2](#demo2) 多... 
 
-主要的差異在於，我們包了三層的 IEnumerable<DataModel> , 同一瞬間不同的 IEnumerable<DataModel> 至少會保留 2 ~ 3 個物件，因此我按 GC 的時候，有些物件會晚一點才能被放掉，但是整體長期來看，仍然會維持固定的量，不會像 Demo1 隨總資料筆數增加而增加。
+主要的差異在於，我們包了三層的 ```IEnumerable<DataModel>``` , 同一瞬間不同的 ```IEnumerable<DataModel>``` 至少會保留 2 ~ 3 個物件，因此我按 GC 的時候，有些物件會晚一點才能被放掉，但是整體長期來看，仍然會維持固定的量，不會像 [DEMO1](#demo1) 隨總資料筆數增加而增加。
 
-綜合來看，Pipeline 的做法結合了 DEMO1 DEMO2 兩種做法的優點，能同時兼顧第一筆資料的處理時間，也能兼顧處理過程花費的資源 (固定，但是可能會較 DEMO2 多)。同時程式碼的邏輯也能夠清楚的區隔。唯獨效能仍然沒有變化。
+綜合來看，Pipeline 的做法結合了 [DEMO1](#demo1) [DEMO2](#demo2) 兩種做法的優點，能同時兼顧第一筆資料的處理時間，也能兼顧處理過程花費的資源 (固定，但是可能會較 [DEMO2](#demo2) 多)。同時程式碼的邏輯也能夠清楚的區隔。唯獨效能仍然沒有變化。
 
-這版本只是程式碼結構改善了而已啊，執行的時間沒有像最前面講概念的部分一樣，看的到執行效能大幅縮短的效果。因為除了流程改變之外，我們還缺了另一個很重要的因素: 非同步 (async)。我們接著看 Demo4... 進一步的修改 PIPELINE 的運用...
+這版本只是程式碼結構改善了而已啊，執行的時間沒有像最前面講概念的部分一樣，看的到執行效能大幅縮短的效果。因為除了流程改變之外，我們還缺了另一個很重要的因素: 非同步 (async)。我們接著看 [DEMO4](#demo4)... 進一步的修改 PIPELINE 的運用...
 
 
 
+
+
+
+
+<a id="demo4" />
 
 ## DEMO 4, 管線處理 (async)
 
@@ -528,45 +560,45 @@ Press any key to close this window . . .
 
 ```csharp
 
+static void Demo4()
+{
 
-        static void Demo4()
-        {
+    foreach (var m in StreamAsyncProcessPhase3(StreamAsyncProcessPhase2(StreamAsyncProcessPhase1(GetModels())))) ;
 
-            foreach (var m in StreamAsyncProcessPhase3(StreamAsyncProcessPhase2(StreamAsyncProcessPhase1(GetModels())))) ;
+}
 
-        }
+public static IEnumerable<DataModel> StreamAsyncProcessPhase1(IEnumerable<DataModel> models)
+{
+    Task<DataModel> previous_result = null;
+    foreach (var model in models)
+    {
+        if (previous_result != null) yield return previous_result.GetAwaiter().GetResult();
+        previous_result = Task.Run<DataModel>(() => { DataModelHelper.ProcessPhase1(model); return model; });
+    }
+    if (previous_result != null) yield return previous_result.GetAwaiter().GetResult();
+}
 
-        public static IEnumerable<DataModel> StreamAsyncProcessPhase1(IEnumerable<DataModel> models)
-        {
-            Task<DataModel> previous_result = null;
-            foreach (var model in models)
-            {
-                if (previous_result != null) yield return previous_result.GetAwaiter().GetResult();
-                previous_result = Task.Run<DataModel>(() => { DataModelHelper.ProcessPhase1(model); return model; });
-            }
-            if (previous_result != null) yield return previous_result.GetAwaiter().GetResult();
-        }
+public static IEnumerable<DataModel> StreamAsyncProcessPhase2(IEnumerable<DataModel> models)
+{
+    Task<DataModel> previous_result = null;
+    foreach (var model in models)
+    {
+        if (previous_result != null) yield return previous_result.GetAwaiter().GetResult();
+        previous_result = Task.Run<DataModel>(() => { DataModelHelper.ProcessPhase2(model); return model; });
+    }
+    if (previous_result != null) yield return previous_result.GetAwaiter().GetResult();
+}
 
-        public static IEnumerable<DataModel> StreamAsyncProcessPhase2(IEnumerable<DataModel> models)
-        {
-            Task<DataModel> previous_result = null;
-            foreach (var model in models)
-            {
-                if (previous_result != null) yield return previous_result.GetAwaiter().GetResult();
-                previous_result = Task.Run<DataModel>(() => { DataModelHelper.ProcessPhase2(model); return model; });
-            }
-            if (previous_result != null) yield return previous_result.GetAwaiter().GetResult();
-        }
-        public static IEnumerable<DataModel> StreamAsyncProcessPhase3(IEnumerable<DataModel> models)
-        {
-            Task<DataModel> previous_result = null;
-            foreach (var model in models)
-            {
-                if (previous_result != null) yield return previous_result.GetAwaiter().GetResult();
-                previous_result = Task.Run<DataModel>(() => { DataModelHelper.ProcessPhase3(model); return model; });
-            }
-            if (previous_result != null) yield return previous_result.GetAwaiter().GetResult();
-        }
+public static IEnumerable<DataModel> StreamAsyncProcessPhase3(IEnumerable<DataModel> models)
+{
+    Task<DataModel> previous_result = null;
+    foreach (var model in models)
+    {
+        if (previous_result != null) yield return previous_result.GetAwaiter().GetResult();
+        previous_result = Task.Run<DataModel>(() => { DataModelHelper.ProcessPhase3(model); return model; });
+    }
+    if (previous_result != null) yield return previous_result.GetAwaiter().GetResult();
+}
 
 ```
 
@@ -622,28 +654,32 @@ Press any key to close this window . . .
 
 
 
-這版改變的地方，主要是: 前面原本的 StreamProcessPhaseX(), 我另外寫了一個版本: StreamAsyncProcessPhaseX(). 主要的差異在於改用 async 的方式，呼叫 DataModelHelper.ProcessPhaseX()... 呼叫後立即返回，繼續等待下一筆資料進來。如果下一筆資料進來，前一筆還未完成就繼續等。主要的改善點在於 "等待下一筆" 跟 "等待這筆處理完畢" 這兩件事都是要等待，為何不同時等? 
+這版改變的地方，主要是: 前面原本的 ```StreamProcessPhaseX()```, 我另外寫了一個版本: ```StreamAsyncProcessPhaseX()```. 主要的差異在於改用 ```async``` 的方式，呼叫 ```DataModelHelper.ProcessPhaseX()```... 呼叫後立即返回，繼續等待下一筆資料進來。如果下一筆資料進來，前一筆還未完成就繼續等。主要的改善點在於 "等待下一筆" 跟 "等待這筆處理完畢" 這兩件事都是要等待，為何不同時等? 
 
-人的腦袋天生不適合思考平行處理的流程... 這邊要燒點腦... 來看看我們在 StreamAsyncProcessPhaseX() 裡面做了啥:
+人的腦袋天生不適合思考平行處理的流程... 這邊要燒點腦... 來看看我們在 ```StreamAsyncProcessPhaseX()``` 裡面做了啥:
 
 ```csharp
-        public static IEnumerable<DataModel> StreamAsyncProcessPhase1(IEnumerable<DataModel> models)
-        {
-            Task<DataModel> previous_result = null;
-            foreach (var model in models)
-            {
-                if (previous_result != null) yield return previous_result.GetAwaiter().GetResult();
-                previous_result = Task.Run<DataModel>(() => { DataModelHelper.ProcessPhase1(model); return model; });
-            }
-            if (previous_result != null) yield return previous_result.GetAwaiter().GetResult();
-        }
+
+public static IEnumerable<DataModel> StreamAsyncProcessPhase1(IEnumerable<DataModel> models)
+{
+    Task<DataModel> previous_result = null;
+    foreach (var model in models)
+    {
+        if (previous_result != null) yield return previous_result.GetAwaiter().GetResult();
+        previous_result = Task.Run<DataModel>(() => { DataModelHelper.ProcessPhase1(model); return model; });
+    }
+    if (previous_result != null) yield return previous_result.GetAwaiter().GetResult();
+}
+
 ```
 
-結構跟前面的 DEMO3 一樣，但是差別在於真正呼叫 DataModelHelper.ProcessPhase1() 的時候，我改用 Task 包裝起來，用 Async 模式去執行。執行後我不管結果，把 task 放在 previous_result 等著待會 await，就先結束目前這圈 foreach loop, 讓 foreach 繼續拉下一筆資料進來。
+結構跟前面的 [DEMO3](#demo3) 一樣，但是差別在於真正呼叫 ```DataModelHelper.ProcessPhase1()``` 的時候，我改用 ```Task``` 包裝起來，用 ```Async``` 模式去執行。執行後我不管結果，把 ```task``` 放在 ```previous_result``` 等著待會 ```await```，就先結束目前這圈 foreach loop, 讓 foreach 繼續拉下一筆資料進來。
 
-但是，管線處理有個假設，就是同一個 PHASE，一次只能處理一筆啊，否則我就需要多倍的計算資源了... 因此 foreach 拉了下一筆之後，要等前一筆結束才能再交給 DataModelHelper.ProcessPhase1() 處理。因此多插了一段 previous_result.GetAwaiter().GetResult()。
+但是，管線處理有個假設，就是同一個 PHASE，一次只能處理一筆啊，否則我就需要多倍的計算資源了... 因此 foreach 拉了下一筆之後，要等前一筆結束才能再交給 ```DataModelHelper.ProcessPhase1()``` 處理。因此多插了一段 ```previous_result.GetAwaiter().GetResult()```。
 
-因為我在每個階段都動了一樣的手腳，因此整個處理的流程，就再允許的限制下，部分的被平行化處理了。我一時手癢，把上面的 log 自己換成 excel, 用視覺化的方式來呈現:
+
+
+因為我在每個階段都動了一樣的手腳，因此整個處理的流程，就再允許的限制下，部分的被平行化處理了。用視覺化的方式來呈現這過程:
 
 ![](/wp-content/images/2019-06-15-netcli-pipeline/2019-06-15-06-23-30.png)
 
@@ -665,14 +701,203 @@ Press any key to close this window . . .
 看來結果一樣維持平穩，只是平行處理的前提下，必須保留在記憶體內的資料比前面的 demo 更多而已。
 
 
-## DEMO 5, 管線處理 (BlockCollection)
 
 
 
 
-同樣做個總結，DEMO4 的作法有 DEMO3 所有的優點，包含第一筆資料能最快的傳回；中間處理過程耗費的資源維持固定 (但是會比 DEMO3 多)；程式碼的結構雖然變複雜了 (需要處理非同步的問題)，但是至少還是切割得很獨立不會互相影響；同時改善了平行處理的部分，讓 P1 ~ P3 的處理更為緊湊，因此整體處理程序花的時間也大幅縮短。
+<a id="demo5" />
 
-看來就是 DEMO4 最理想了，不過我想這樣的程式碼的門檻有點高... 加上 C# 已經是對 stream (yield return) 跟 async (async / await) 很友善的語言了，換做其他不直接支援的語言，這些問題你處理起來會更想哭... 不過別難過，伴隨 .NET Core 3.0 一起推出的 C# 8.0, 開始支援 async stream, 可以讓這件事變得更容易了。不過我還是打算講觀念，即使你沒用到 C# 最新語法也應該要能做得到。這部分我提供參考連結就好，請各位自行研究:
+## DEMO 5, 管線處理 (BlockingCollection)
+
+為了解決 [DEMO4](#demo4) 碰到 P1 因為跑太快，仍然有空檔的現象，我決定再換個做法，盡可能的加速 P1 的整體處理速度。[DEMO4](#demo4) 採用 Async 的做法，頂多讓每個階段預先多處理一筆資料而已。如果我要允許多處理幾筆呢?
+
+這次我改用以前寫過的 [BlockQueue](/2008/10/18/%E7%94%9F%E7%94%A2%E8%80%85-vs-%E6%B6%88%E8%B2%BB%E8%80%85-blockqueue-%E5%AF%A6%E4%BD%9C/) 的做法了，Queue 跟 Pipeline 的運作模式很類似，如果再加上同步的控制，兩者根本就是同樣的東西了。Queue 允許的最大長度就是 pipeline buffer 的大小。我在之前的文章花了不少力氣自己刻了一個 ```BlockQueue``` 來用，現在不用這麼辛苦了，Microsoft 直接在 .NET 內建了一組，只不過名字跟我取的不大一樣，叫做 ```BlockedCollection<T>``` !!
+
+想看 ```BlockQueue``` 運作原理的，可以直接看我 11 年前的那篇文章，想看 .NET 內建的 ```BlockedCollection<T>``` 用法，可以直接看官方文件就好。我們直接來看改用 ```BlockedCollection<T>``` 的版本及執行結果:
+
+```csharp
+
+const int BLOCKING_COLLECTION_CAPACITY = 10;
+
+static void Demo5()
+{
+
+    foreach (var m in BlockedCollectionProcessPhase3(BlockedCollectionProcessPhase2(BlockedCollectionProcessPhase1(GetModels())))) ;
+
+}
+
+public static IEnumerable<DataModel> BlockedCollectionProcessPhase1(IEnumerable<DataModel> models)
+{
+    BlockingCollection<DataModel> result = new BlockingCollection<DataModel>(BLOCKING_COLLECTION_CAPACITY);
+    Task.Run(() =>
+    {
+        foreach (var model in models)
+        {
+            DataModelHelper.ProcessPhase1(model);
+            result.Add(model);
+        }
+        result.CompleteAdding();
+    });
+    return result.GetConsumingEnumerable();
+}
+
+public static IEnumerable<DataModel> BlockedCollectionProcessPhase2(IEnumerable<DataModel> models)
+{
+    BlockingCollection<DataModel> result = new BlockingCollection<DataModel>(BLOCKING_COLLECTION_CAPACITY);
+    Task.Run(() =>
+    {
+        foreach (var model in models)
+        {
+            DataModelHelper.ProcessPhase2(model);
+            result.Add(model);
+        }
+        result.CompleteAdding();
+    });
+    return result.GetConsumingEnumerable();
+}
+
+public static IEnumerable<DataModel> BlockedCollectionProcessPhase3(IEnumerable<DataModel> models)
+{
+    BlockingCollection<DataModel> result = new BlockingCollection<DataModel>(BLOCKING_COLLECTION_CAPACITY);
+    Task.Run(() =>
+    {
+        foreach (var model in models)
+        {
+            DataModelHelper.ProcessPhase3(model);
+            result.Add(model);
+        }
+        result.CompleteAdding();
+    });
+    return result.GetConsumingEnumerable();
+}
+
+```
+
+執行結果:
+
+```text
+
+[P1][2019/6/18 下午 11:05:23] data(1) start...
+[P1][2019/6/18 下午 11:05:24] data(1) end...
+[P1][2019/6/18 下午 11:05:24] data(2) start...
+[P2][2019/6/18 下午 11:05:24] data(1) start...
+[P1][2019/6/18 下午 11:05:25] data(2) end...
+[P1][2019/6/18 下午 11:05:25] data(3) start...
+[P2][2019/6/18 下午 11:05:25] data(1) end...
+[P2][2019/6/18 下午 11:05:25] data(2) start...
+[P3][2019/6/18 下午 11:05:25] data(1) start...
+[P1][2019/6/18 下午 11:05:26] data(3) end...
+[P1][2019/6/18 下午 11:05:26] data(4) start...
+[P1][2019/6/18 下午 11:05:27] data(4) end...
+[P2][2019/6/18 下午 11:05:27] data(2) end...
+[P1][2019/6/18 下午 11:05:27] data(5) start...
+[P2][2019/6/18 下午 11:05:27] data(3) start...
+[P3][2019/6/18 下午 11:05:27] data(1) end...
+[P3][2019/6/18 下午 11:05:27] data(2) start...
+[P1][2019/6/18 下午 11:05:28] data(5) end...
+[P2][2019/6/18 下午 11:05:28] data(3) end...
+[P2][2019/6/18 下午 11:05:28] data(4) start...
+[P3][2019/6/18 下午 11:05:29] data(2) end...
+[P3][2019/6/18 下午 11:05:29] data(3) start...
+[P2][2019/6/18 下午 11:05:30] data(4) end...
+[P2][2019/6/18 下午 11:05:30] data(5) start...
+[P3][2019/6/18 下午 11:05:31] data(3) end...
+[P3][2019/6/18 下午 11:05:31] data(4) start...
+[P2][2019/6/18 下午 11:05:31] data(5) end...
+[P3][2019/6/18 下午 11:05:33] data(4) end...
+[P3][2019/6/18 下午 11:05:33] data(5) start...
+[P3][2019/6/18 下午 11:05:35] data(5) end...
+
+C:\Program Files\dotnet\dotnet.exe (process 4156) exited with code 0.
+Press any key to close this window . . .
+
+```
+
+執行的結果:
+* 第一筆資料完成時間: 4 sec (11:05:23 ~ 11:05:27)
+* 全部的資料完成時間: 12 sec (11:05:23 ~ 11:05:35)
+
+
+記憶體使用的狀況, 記憶體直升到 6GB 才掉下來:
+
+![](/wp-content/images/2019-06-15-netcli-pipeline/2019-06-19-00-01-15.png)
+
+跟 [DEMO4](#demo4) 當對照組，一樣把筆數擴大到 20 筆，看看記憶體使用量, 記憶體飆升到 14GB:
+
+![](/wp-content/images/2019-06-15-netcli-pipeline/2019-06-19-00-00-19.png)
+
+如果就這些數據來看，[DEMO4](#demo4) 跟 [DEMO5](#demo5) 其實不相上下。但是如果只看 P1 全部完成的時間:
+
+* [DEMO4](#demo4) 的 P1 全部執行完畢的時間: 8 sec
+* [DEMO5](#demo5) 的 P1 全部執行完畢的時間: 5 sec
+
+用 EXCEL 把這兩個 DEMO 畫成時序圖，視覺化更容易理解:
+
+![](/wp-content/images/2019-06-15-netcli-pipeline/2019-06-19-00-25-43.png)
+
+
+看出這種做法的特色了嗎? 強化了緩衝區的表現，每個階段都可以更緊湊的執行了。現在可以回頭來看一下 source code 了。先前 [DEMO3](#demo3) / [DEMO4](#demo4) 的基礎都是用 IEnumerable<T>, [DEMO3](#demo3) 中間沒有 buffer 的設計，因此 [DEMO3](#demo3) 的總記憶體使用量因為整個過程中半成品的數量受限，因此記憶體平穩地維持在 2GB 上下。
+
+[DEMO4](#demo4) 用了 ```async``` 的技巧，每個階段之間至多可以多一個半成品等著被下一關拿走，記憶體使用量大約是兩倍，平均 6GB 上下:
+
+```csharp
+
+const int BLOCKING_COLLECTION_CAPACITY = 10;
+
+static void Demo5()
+{
+
+    foreach (var m in BlockedCollectionProcessPhase3(BlockedCollectionProcessPhase2(BlockedCollectionProcessPhase1(GetModels())))) ;
+
+}
+
+```
+
+來看看每一關的程式碼:
+
+```csharp
+
+public static IEnumerable<DataModel> BlockedCollectionProcessPhase1(IEnumerable<DataModel> models)
+{
+    BlockingCollection<DataModel> result = new BlockingCollection<DataModel>(BLOCKING_COLLECTION_CAPACITY);
+    Task.Run(() =>
+    {
+        foreach (var model in models)
+        {
+            DataModelHelper.ProcessPhase1(model);
+            result.Add(model);
+        }
+        result.CompleteAdding();
+    });
+    return result.GetConsumingEnumerable();
+}
+
+```
+
+從介面來看，跟 [DEMO3](#demo3) 完全一樣，都用 ```IEnumerable<DataModel>``` 當作 input / output, 不同的地方在於這兩點:
+
+1. 內部用 ```BlockingCollection``` 取代直接 ```yield return``` 的操作。
+1. 為了模擬 ```yield return``` 類似的效果，立即就 ```return```, 但是留一個背景執行緒持續的處理資料。
+
+> 這段 code 我並沒有妥善處理好 thread, 這種寫法很容易造成孤兒的執行緒在背景亂竄，請勿直接拿去用在 production code ...
+
+這次 [DEMO5](#demo5) , 我直接用 ```BlockedCollection``` 來做每個階段之間的串接緩衝區，我設定最大的 Queue Size 是 10, 因此半成品數量大幅提升，跑到 14GB 之譜。不過這樣還看不大出來維持平穩的趨勢，我再把處理的筆數，從 20 筆擴大到 100 筆看看:
+
+![](/wp-content/images/2019-06-15-netcli-pipeline/2019-06-19-00-14-39.png)
+
+記憶體的增長，大概維持到 25GB 就停止了，穩定下來不會隨著資料持續處理而增加。
+
+簡單的下個結論，[DEMO5](#demo5) 善用了 ```BlockingCollection``` 當作每個階段之間的緩衝，有效的加速了每個階段的執行速度 (不會因為後面處理的慢而被卡住)。但是生產速度不協調，會造成每個關卡之間堆積過多半成品，因此這些效率是需要花費空間的，而且整體效果並沒有明顯提升。
+
+
+
+
+## DEMO 1 ~ 5 總結
+
+
+同樣做個總結， [DEMO4](#demo4) 的作法有 [DEMO3](#demo3) 所有的優點，包含第一筆資料能最快的傳回；中間處理過程耗費的資源維持固定 (但是會比 [DEMO3](#demo3) 多)；程式碼的結構雖然變複雜了 (需要處理非同步的問題)，但是至少還是切割得很獨立不會互相影響；同時改善了平行處理的部分，讓 P1 ~ P3 的處理更為緊湊，因此整體處理程序花的時間也大幅縮短。
+
+DEMO5 則保有 [DEMO4](#demo4) 的優點，寫法更簡潔易懂，我們也對中間的緩衝區有更好的控制，能讓每個階段更快的結束。不過代價是緩衝區越大，需要占用的記憶體也越大。看來 [DEMO4](#demo4) , [DEMO5](#demo5) 都很理想，不過我想這樣的程式碼的門檻有點高... 加上 C# 已經是對 stream (yield return) 跟 async (async / await) 很友善的語言了，換做其他不直接支援的語言，這些問題你處理起來會更想哭... 不過別難過，伴隨 .NET Core 3.0 一起推出的 C# 8.0, 開始支援 async stream, 可以讓這件事變得更容易了。不過我還是打算講觀念，即使你沒用到 C# 最新語法也應該要能做得到。這部分我提供參考連結就好，請各位自行研究:
 
 * [Tutorial: Generate and consume async streams using C# 8.0 and .NET Core 3.0](https://docs.microsoft.com/en-us/dotnet/csharp/tutorials/generate-consume-asynchronous-stream)
 * [Async Streams in C# 8](https://www.infoq.com/articles/Async-Streams/)
@@ -686,7 +911,21 @@ Press any key to close this window . . .
 
 # CLI 的處理方式
 
-我應該辦個投票嗎? 請告訴我你是否理解上面最後一個 DEMO4 ... (我自己都想到頭快炸了)。要寫出這樣的 code 要求有點高，我有沒有簡便一點的方式? 有的。接下來要介紹的就是用 CLI 來解。
+我應該辦個投票嗎? 請告訴我你是否理解上面最後一個 [DEMO5](#demo5) ... (我自己都想到頭快炸了)。要寫出這樣的 code 要求有點高，我有沒有簡便一點的方式? 有的。接下來要介紹的就是用 CLI 來解。
+
+我畫一張簡單的架構圖，來說明一下 [DEMO5](#demo5) 的架構:
+
+![](/wp-content/images/2019-06-15-netcli-pipeline/2019-06-19-00-31-17.png)
+
+想想看，我們花了那麼多工夫，雖然加速 P1 整體的執行，不過全部的處理都還是在同一個 Console Project 啊，對於 OS 來說還是通通包在同一個 Process 內。提早 P1 的結束，不見得能夠完全把所有的資源都放掉。
+
+如果 P1, P2, P3 都是個獨立的 CLI, 加速執行就有意義了 (OS 可以提早結束這個 Process 完全釋放資源), 中間的 buffer 自己處理也很麻煩，如果也能委託 OS 統一處理的畫就好了。那麼我就可以繼續寫跟 [DEMO3](#demo3) 一樣簡單的 code, 還能有同樣的優點....。想像一下，換成 CLI 的話架構圖應該變這樣:
+
+![](/wp-content/images/2019-06-15-netcli-pipeline/2019-06-19-00-37-26.png)
+
+完全一樣的效果，完全一樣的架構，差別在於部分機制不需要你自己寫 code, 改成直接由 OS 幫你管理。沒錯，善用 CLI + PIPELINE 就有這些優點。我們接下來換 CLI 的方式來實作這個例子 POC 看看。
+
+## CLI: 獨立的 PROCESS
 
 不同的 CLI，先天就是不同的 process, 很多時候分成 **完全** 獨立的兩個 program, 平行處理的問題就可以交給 OS 跟 shell 去傷腦筋就好，這就是我這段要講的重點。我想藉著 shell 本身提供的 STDIO 轉向 (就是 PIPELINE)，搭配簡單的處理技巧，直接把 P1 ~ P3 從三個 method 拆成三個 console app, 然後再 shell script 裡面利用 PIPELINE 把三個 CLI 串起來，達成一樣的目的...
 
@@ -698,7 +937,7 @@ c:\> tasklist.exe | find.exe "Console"
 
 ```
 
-這段指令代表 shell 啟動了兩個 process: tasklist.exe 及 find.exe, 同時替這兩個 process 配置了 stdio (input, output, error)。中間的 ```|``` 就是 pipe, shell 會在背後準備 pipe buffer, 把前面指令的 standard output 的內容，透過 buffer 的調節，導引到後面指令的 standard input。透過 pipe 轉送 stdio, 你可以把它當作幾乎是及時的, I/O buffer 目的只是提高效能而已，在我們這篇文章的應用，其實不大需要擔心他。
+這段指令代表 shell 啟動了兩個 process: ```tasklist.exe``` 及 ```find.exe```, 同時替這兩個 process 配置了 stdio (input, output, error)。中間的 ```|``` 就是 pipe, shell 會在背後準備 pipe buffer, 把前面指令的 standard output 的內容，透過 buffer 的調節，導引到後面指令的 standard input。透過 pipe 轉送 stdio, 你可以把它當作幾乎是及時的, I/O buffer 目的只是提高效能而已，在我們這篇文章的應用，其實不大需要擔心他。
 
 回頭來看這個指令: ```tasklist.exe``` 是 CLI 版本的工作管理員，他會列出目前 windows 所有執行的 process list, 並且把這些內容輸出到 standard output. 如果你沒透過 pipe 轉向，那這些內容會直接顯示在 console 上面 (我只節錄片段):
 
@@ -725,7 +964,7 @@ winlogon.exe                  1028 Console                    1      7,032 K
 
 ```
 
-下一個指令 ```find.exe "Console"``` 則是從 standard input 或是指定的檔案內容，逐行搜尋是否有 "Console" 字樣? 如果有找到，就會把這行送到 standard output。因為 pipe 的關係， tasklist.exe 的所有輸出就會被 find.exe 指令過濾，只印出包含 "Console" 的那整行內容:
+下一個指令 ```find.exe "Console"``` 則是從 standard input 或是指定的檔案內容，逐行搜尋是否有 "Console" 字樣? 如果有找到，就會把這行送到 standard output。因為 pipe 的關係， ```tasklist.exe``` 的所有輸出就會被 ```find.exe``` 指令過濾，只印出包含 "Console" 的那整行內容:
 
 
 ```
@@ -751,6 +990,9 @@ OK，基本的介紹講完，開始要動手寫 CLI 了 (終於...) !
 CLI 的版本，我們就直接從 PIPELINE 的版本開始了。
 
 
+
+
+
 ## CLI-DATA, Data Source
 
 既然都打算用 pipeline 的方式設計 CLI, 那麼我們就可以很明確地把幾個階段完全的隔開成獨立的 CLI。第一步是資料來源，如果要透過 STDIO 來溝通，那物件的序列化是必要的，我就直接選用 Json 格式了。
@@ -761,36 +1003,36 @@ CLI 的版本，我們就直接從 PIPELINE 的版本開始了。
 
 ```csharp
 
-        static void Main(string[] args)
+static void Main(string[] args)
+{
+    Random rnd = new Random();
+    byte[] allocate(int size)
+    {
+        byte[] buf = new byte[size];
+        rnd.NextBytes(buf);
+        return buf;
+    };
+
+    var json = JsonSerializer.Create();
+    for (int seed = 1; seed <= 5; seed++)
+    {
+        var model = new DataModel()
         {
-            Random rnd = new Random();
-            byte[] allocate(int size)
-            {
-                byte[] buf = new byte[size];
-                rnd.NextBytes(buf);
-                return buf;
-            };
+            ID = $"DATA-{Guid.NewGuid():N}",
+            SerialNO = seed,
+            //Buffer = allocate(1024 * 1024 * 1024)
+            Buffer = allocate(16)
+        };
 
-            var json = JsonSerializer.Create();
-            for (int seed = 1; seed <= 5; seed++)
-            {
-                var model = new DataModel()
-                {
-                    ID = $"DATA-{Guid.NewGuid():N}",
-                    SerialNO = seed,
-                    //Buffer = allocate(1024 * 1024 * 1024)
-                    Buffer = allocate(16)
-                };
-
-                json.Serialize(Console.Out, model);
-                //Console.Out.WriteLine(JsonConvert.SerializeObject(model));
-                Console.Out.WriteLine();
-            }
-        }
+        json.Serialize(Console.Out, model);
+        //Console.Out.WriteLine(JsonConvert.SerializeObject(model));
+        Console.Out.WriteLine();
+    }
+}
 
 ```
 
-再強調一次，每個環節都要顧好串流處理的要求，一個環節沒顧好整個程序就會掛掉。還記得前面 DEMO1 因為用了 .ToArray() 就讓整個記憶體往上飆的案例嗎? 這邊也有類似狀況。如果過去你為了方便，直接用 ```JsonConvert.SerializeObject()``` 的話，這邊碰到 1GB size 的物件就會爆掉了。請改成用 JsonSerializer, 讓他自己一點一點的序列化，一點一點的輸出到 STDOUT。
+再強調一次，每個環節都要顧好串流處理的要求，一個環節沒顧好整個程序就會掛掉。還記得前面 [DEMO1](#demo1) 因為用了 ```.ToArray()``` 就讓整個記憶體往上飆的案例嗎? 這邊也有類似狀況。如果過去你為了方便，直接用 ```JsonConvert.SerializeObject()``` 的話，這邊碰到 1GB size 的物件就會爆掉了。請改成用 ```JsonSerializer```, 讓他自己一點一點的序列化，一點一點的輸出到 STDOUT。
 
 為了容易說明，我把 buffer size 改成 16bytes, 待會實測會調回 1GB。這段程式執行後會輸出這樣的資料:
 
@@ -810,27 +1052,27 @@ CLI 的版本，我們就直接從 PIPELINE 的版本開始了。
 
 ## CLI-P1, Data Processing
 
-資料源準備好了之後，接下來就是要在另一個 CLI 接收資料了。我先用蠢一點的方式，直接在 Main() 裡面接收。接收過程同樣要留意，你必須用串流的原則來處理，讀取一筆後就處理，然後釋放資源，再處理下一筆。這部分 P1 ~ P3 通通都一樣，我就拿 P1 當作代表了:
+資料源準備好了之後，接下來就是要在另一個 CLI 接收資料了。我先用蠢一點的方式，直接在 ```Main()``` 裡面接收。接收過程同樣要留意，你必須用串流的原則來處理，讀取一筆後就處理，然後釋放資源，再處理下一筆。這部分 P1 ~ P3 通通都一樣，我就拿 P1 當作代表了:
 
 ```csharp
 
-        static void Main(string[] args)
-        {
-            var json = JsonSerializer.Create();
-            var jsonreader = new JsonTextReader(Console.In);
-            jsonreader.SupportMultipleContent = true;
+static void Main(string[] args)
+{
+    var json = JsonSerializer.Create();
+    var jsonreader = new JsonTextReader(Console.In);
+    jsonreader.SupportMultipleContent = true;
 
-            while (jsonreader.Read())
-            {
-                var d = json.Deserialize<DataModel>(jsonreader);
+    while (jsonreader.Read())
+    {
+        var d = json.Deserialize<DataModel>(jsonreader);
 
-                DataModelHelper.ProcessPhase1(d);
-            }
-        }
+        DataModelHelper.ProcessPhase1(d);
+    }
+}
 
 ```
 
-同樣的，為了應付未知的資料筆數，你不能直接偷懶的使用 JsonConvert.Deserialize<DataModel>() ... 這邊要自己從 Console.In 這資料源，建立 JsonTextReader, 然後逐筆 Deserialize, 直到結束為止。因為我們採用 jsonl 的結構，可能包含多筆 json 資料，因此要把 SupportMultipleContent 設為 true ..
+同樣的，為了應付未知的資料筆數，你不能直接偷懶的使用 ```JsonConvert.Deserialize<DataModel>()``` ... 這邊要自己從 ```Console.In``` 這資料源，建立 ```JsonTextReader```, 然後逐筆 ```Deserialize```, 直到結束為止。因為我們採用 jsonl 的結構，可能包含多筆 json 資料，因此要把 ```SupportMultipleContent``` 設為 ```true``` ..
 
 測試結果 (我用 buffer size: 16 bytes):
 
@@ -849,41 +1091,60 @@ CLI 的版本，我們就直接從 PIPELINE 的版本開始了。
 
 ```
 
-這邊我用的指令是: ```dotnet CLI-DATA.dll | dotnet CLI-P1.dll```, 用了 shell 的 pipe | 把兩個指令串接起來了。不過既然都切成兩個 CLI 了，理論上可以有更靈活的用法。
+這邊我用的指令是: ```dotnet CLI-DATA.dll | dotnet CLI-P1.dll```, 用了 shell 的 pipe ```|``` 把兩個指令串接起來了。不過既然都切成兩個 CLI 了，理論上可以有更靈活的用法。
 
 如果 CLI-DATA 這專案是從資料庫載入檔案，我測試過程一定要每次都讀資料庫嗎? 我把這串指令改變一下:
 
 1. 先一次性地把資料源輸出到文字檔: ```dotnet CLI-DATA.dll > data.jsonl```
 1. 接著將文字檔的內容透過 pipe 轉給 CLI-P1: ```type data.jsonl | dotnet CLI-P1.dll```
 
-我們可以得到一模一樣的結果，受惠於 IO 轉向，我們有更容易地測試方式了。
+我們可以得到一模一樣的結果，受惠於 I/O 轉向，我們有更容易地測試方式了。
 
 
 ## CLI-P1 ~ P3 整合測試
 
 接著，我們把 P2, P3 都改完，整個串起來測試一次看看。因為要串接，因此前面 P1 的程式碼，最後記得要把處理後的結果輸出到 STDOUT, 後面才串的到:
 
+
+
+
 ```csharp
-        static void Main(string[] args)
-        {
-            var json = JsonSerializer.Create();
-            var jsonreader = new JsonTextReader(Console.In);
-            jsonreader.SupportMultipleContent = true;
 
-            while (jsonreader.Read())
-            {
-                var d = json.Deserialize<DataModel>(jsonreader);
+static void Main(string[] args)
+{
+    var json = JsonSerializer.Create();
+    var jsonreader = new JsonTextReader(Console.In);
+    jsonreader.SupportMultipleContent = true;
 
-                DataModelHelper.ProcessPhase1(d);
+    while (jsonreader.Read())
+    {
+        var d = json.Deserialize<DataModel>(jsonreader);
 
-                json.Serialize(Console.Out, d);
-            }
-        }
+        DataModelHelper.ProcessPhase1(d);
+
+        json.Serialize(Console.Out, d);
+    }
+}
+
 ```
 
-至於跟 STDIN / STDOUT 無關的 LOG 訊息該怎麼輸出? 我利用了第三個不相關的管道: STDERR。這邊有興趣的可以看 ProcessPhaseN() 裡面的 code. 除了改輸出到 STDERR 之外就沒特別的了，這邊我就不花篇幅貼程式碼。
+至於跟 STDIN / STDOUT 無關的 LOG 訊息該怎麼輸出? 我利用了第三個不相關的管道: STDERR。這邊有興趣的可以看 ```ProcessPhaseN()``` 裡面的 code. 除了改輸出到 STDERR 之外就沒特別的了，這邊我就不花篇幅貼程式碼。
 
-串起來一起測試吧! 整個資料流的結構應該是這樣:  CLI-DATA > CLI-P1 > CLI-P2 > CLI-P3 > nul, 因為最後 CLI-P3 產出的結果沒人要接收了，直接印在畫面上又會影響我看 LOG，我先把最後的 STDOUT 輸出丟掉 (轉到 nul): ```dotnet CLI-DATA.dll | dotnet CLI-P1.dll | dotnet CLI-P2.dll | dotnet CLI-P3.dll > nul```
+串起來一起測試吧! 整個資料流的結構應該是這樣:  
+
+```
+
+CLI-DATA > CLI-P1 > CLI-P2 > CLI-P3 > nul
+
+```
+
+因為最後 CLI-P3 產出的結果沒人要接收了，直接印在畫面上又會影響我看 LOG，我先把最後的 STDOUT 輸出丟掉 (轉到 nul): 
+
+```
+
+dotnet CLI-DATA.dll | dotnet CLI-P1.dll | dotnet CLI-P2.dll | dotnet CLI-P3.dll > nul
+
+```
 
 
 來看看輸出的 LOG:
@@ -923,37 +1184,36 @@ CLI 的版本，我們就直接從 PIPELINE 的版本開始了。
 
 ```
 
-各位觀眾，這就是成果了。你可以看到，雖然是三個完全獨立的 CLI, 每個 CLI 的程式碼都只有 10 行左右，但是透過 pipeline 的處理技巧，也可以達到串流處理的效果。我們比照 DEMO4 的作法，我用 EXCEL 把這 LOG 改用視覺化的方式呈現。兩張圖我擺再一起比較，由左至右分別是 DEMO3, DEMO4, CLI PIPELINE:
+各位觀眾，這就是成果了。你可以看到，雖然是三個完全獨立的 CLI, 每個 CLI 的程式碼都只有 10 行左右，但是透過 pipeline 的處理技巧，也可以達到串流處理的效果。我們比照 [DEMO4](#demo4) 的作法，我用 EXCEL 把這 LOG 改用視覺化的方式呈現。兩張圖我擺再一起比較，由左至右分別是 [DEMO3](#demo3) , [DEMO4](#demo4) , [DEMO5](#demo5) , CLI PIPELINE:
 
-![](/wp-content/images/2019-06-15-netcli-pipeline/2019-06-16-15-58-18.png)
+![](/wp-content/images/2019-06-15-netcli-pipeline/2019-06-19-01-20-34.png)
 
 有看出差別嗎? 我列一下幾個我從圖裡看出來的結論:
 
 1. 都能達到 PIPELINE 分工處理的目的
 1. 運用到 PIPELINE 技巧的就能平行處理
-1. CLI 的版本，執行的順序明顯較 DEMO4 為緊湊。P1, P2 處理每一筆資料的過程中間隔較少
+1. CLI 的版本及 [DEMO5](#demo5) 表現相當，這兩者的執行順序明顯較 [DEMO3](#demo3) 及 [DEMO4](#demo4) 為緊湊，中間少了間隔等待的時間。P1, P2 處理每一筆資料的過程中間隔較少
 1. 因為 (2) 的關係，CLI 版本的 P1, P2 整體執行結束的時間明顯縮短。
 
-眼尖的讀者們，你們知道其中的差異嗎? 最主要的差異，在於 PUSH / PULL 的差別，另外就是 PIPE 中間提供了 buffer 帶來的效益。我們回頭來看 DEMO3, DEMO4 的主程式:
+眼尖的讀者們，你們知道其中的差異嗎? 最主要的差異，在於 PUSH / PULL 的差別，另外就是 PIPE 中間提供了 buffer 帶來的效益。我們回頭來看 [DEMO3](#demo3) , [DEMO4](#demo4) , [DEMO5](#demo5) 的主程式, 看起來都差不多:
 
 ```csharp
 
-        static void Demo4()
-        {
-
-            foreach (var m in StreamAsyncProcessPhase3(StreamAsyncProcessPhase2(StreamAsyncProcessPhase1(GetModels())))) ;
-
-        }
+static void Demo4()
+{
+    foreach (var m in StreamAsyncProcessPhase3(StreamAsyncProcessPhase2(StreamAsyncProcessPhase1(GetModels())))) ;
+}
 
 ```
 
-知道為何最外面需要一個啥事都不做的 foreach 嗎? IEnumerator<T> 只是個導覽物件，他可以引導你順利的取得下一筆資料，因此你看他的 interface 定義很單純，就是 T MoveNext() 而已。這裡串的每個 method, 都只是傳回各自的 IEnumerator<T> 物件而已，等到你要的時候就才會觸動 method 內的程式碼，直到碰到一筆 yield return 為止。
+知道為何最外面需要一個啥事都不做的 foreach 嗎? ```IEnumerator<T>``` 只是個導覽物件，他可以引導你順利的取得下一筆資料，因此你看他的 interface 定義很單純，就是 ```T MoveNext()``` 而已。這裡串的每個 method, 都只是傳回各自的 ```IEnumerator<T>``` 物件而已，等到你要的時候就才會觸動 method 內的程式碼，直到碰到一筆 ```yield return``` 為止。
 
-因此，如果我的主程式少了最外面那圈 foreach, 會發生啥事? 大家都只把 IEnumerator<T> 準備好傳回去而已... 但是沒有任何資料會被產生或處理。直到最外圈的 foreach 對 StreamAsyncProcessPhase3() 傳回的 IEnumerator<T> 下達 MoveNext() 要求，P3 才驅動執行，直到 P3 的 yield return 為止。過程中，P3 需要由 P2 來的資料，因此也驅動了 P2 執行到 yield return, 然後驅動 P1, 然後驅動 GetModels() ...
+因此，如果我的主程式少了最外面那圈 foreach, 會發生啥事? 大家都只把 ```IEnumerator<T>``` 準備好傳回去而已... 但是沒有任何資料會被產生或處理。直到最外圈的 foreach 對 ```StreamAsyncProcessPhase3()``` 傳回的 ```IEnumerator<T>``` 下達 ```MoveNext()``` 要求，P3 才驅動執行，直到 P3 的 ```yield return``` 為止。過程中，P3 需要由 P2 來的資料，因此也驅動了 P2 執行到 ```yield return```, 然後驅動 P1, 然後驅動 ```GetModels()``` ...
 
-這種模式，是靠程式碼，在有需要的時候才往前一階 "拉" 資料過來，進而驅動整個體系運轉。所以回到上面那張時間軸的圖，你就可以理解每一階裡的程式碼在做啥事。先看看 DEMO3 的部分:
+這種模式，是靠程式碼，在有需要的時候才往前一階 "拉" 資料過來，進而驅動整個體系運轉。所以回到上面那張時間軸的圖，你就可以理解每一階裡的程式碼在做啥事。先看看 [DEMO3](#demo3) 的部分:
 
 ```csharp
+
 public static IEnumerable<DataModel> StreamProcessPhase1(IEnumerable<DataModel> models)
 {
     foreach (var model in models)
@@ -962,6 +1222,7 @@ public static IEnumerable<DataModel> StreamProcessPhase1(IEnumerable<DataModel> 
         yield return model;
     }
 }
+
 ```
 
 看到了嗎? 這就是一層一層驅動的結構:
@@ -970,21 +1231,46 @@ public static IEnumerable<DataModel> StreamProcessPhase1(IEnumerable<DataModel> 
 
 
 
-至於 DEMO4 改用非同步，實際上只是動一點技巧，用非同步的做法，在等這一筆的同時，自己也先準備下一筆資料，實際上這還是 PULL 的模式，只是每個 Phase 都可以提前多預備一筆資料而已。換句話說，每一階之間多了一點點 buffer (都預先多做一筆放著等) 就能提高並行處理的效率:
+至於 [DEMO4](#demo4) 改用非同步，實際上只是動一點技巧，用非同步的做法，在等這一筆的同時，自己也先準備下一筆資料，實際上這還是 PULL 的模式，只是每個 Phase 都可以提前多預備一筆資料而已。換句話說，每一階之間多了一點點 buffer (都預先多做一筆放著等) 就能提高並行處理的效率:
 
 ```csharp
-        public static IEnumerable<DataModel> StreamAsyncProcessPhase1(IEnumerable<DataModel> models)
-        {
-            Task<DataModel> previous_result = null;
-            foreach (var model in models)
-            {
-                if (previous_result != null) yield return previous_result.GetAwaiter().GetResult();
-                previous_result = Task.Run<DataModel>(() => { DataModelHelper.ProcessPhase1(model); return model; });
-            }
-            if (previous_result != null) yield return previous_result.GetAwaiter().GetResult();
-        }
+
+public static IEnumerable<DataModel> StreamAsyncProcessPhase1(IEnumerable<DataModel> models)
+{
+    Task<DataModel> previous_result = null;
+    foreach (var model in models)
+    {
+        if (previous_result != null) yield return previous_result.GetAwaiter().GetResult();
+        previous_result = Task.Run<DataModel>(() => { DataModelHelper.ProcessPhase1(model); return model; });
+    }
+    if (previous_result != null) yield return previous_result.GetAwaiter().GetResult();
+}
+
 ```
 
+
+不過 [DEMO5](#demo5) 骨子裡就完全不同了。DEMO5 背後埋了背景執行緒，是不斷的產生資料餵 (PUSH) 給下一階的 buffer (```BlockingCollection```), 即使下一關仍然是用 foreach 的方式把資料拉 (PULL) 來用，中間透過了 ```BlockingCollection``` 雙向緩衝，因此能讓 ```BlockingCollection``` 滿了之前，讓兩端都用最佳效能運行。這種就要算是 PUSH 模式了。
+
+再次複習一下 [DEMO5](#demo5) 的程式碼片段:
+
+```csharp
+
+public static IEnumerable<DataModel> BlockedCollectionProcessPhase1(IEnumerable<DataModel> models)
+{
+    BlockingCollection<DataModel> result = new BlockingCollection<DataModel>(BLOCKING_COLLECTION_CAPACITY);
+    Task.Run(() =>
+    {
+        foreach (var model in models)
+        {
+            DataModelHelper.ProcessPhase1(model);
+            result.Add(model);
+        }
+        result.CompleteAdding();
+    });
+    return result.GetConsumingEnumerable();
+}
+
+```        
 
 想通了嗎? 最後來看別人對於 OS 提供的 pipeline 說明, 雖說是 Linux 的設計，不過這方面的設計方式各家 OS 都大同小異，可以參考:
 
@@ -992,18 +1278,24 @@ public static IEnumerable<DataModel> StreamProcessPhase1(IEnumerable<DataModel> 
 
 出處: [Linux IPC with Pipes](http://hzqtc.github.io/2012/07/linux-ipc-with-pipes.html)
 
+對比一下前面畫過的 [DEMO5](#demo5) 架構圖，是不是很類似?
+
+![](/wp-content/images/2019-06-15-netcli-pipeline/2019-06-19-00-37-26.png)
+
+
+
 OS 層級的 pipeline, 是直接對 STDIO 直接提供 buffer, 他不管你有幾筆資料，只要空間夠塞你就可以先跑。比起我們固定一筆資料的 buffer 來的更靈活更有彈性，泛用性也更高，因此會看到更理想的執行順序。其實這背後隱含著一個成本，你有想過嗎?
 
 > 如果 P1 跑得越快，P2 P3 追不上的話，那不就代表半成品就更多了? 半成品越多，就需要花費空間去暫存他。不論這空間是程式碼自己準備，還是 OS 的 pipeline buffer 準備...
 
 是的，做任何事都是需要成本的。只是這個機制我們可以撿現成，OS 都幫我們準備好了，不用自己寫 code, 只是占用的空間是由 OS 提供維護而已... 不代表不需要成本。另外 OS 來管理 buffer, 會遠比你自己管理來的穩定可靠。舉例來說，如果 P1 ~ P3 的處理速度差異過大，造成巨量的資料都卡在 pipe buffer 怎麼辦? 這倒是不用擔心，STDIO 是 blocked I/O, 如果你的 pipeline buffer 真的要用光了，OS 會開始 block 前一關的 STDOUT 寫入，直到後面消化掉把 buffer 清出來為止。
 
-其實這行為，就跟前面 DEMO4 的狀況類似，只是 OS 來執行這件事，精巧的程度遠高於我們用幾行 code 表達出來的 POC。我寫的 POC code, buffer size 固定是一筆資料，而 OS 有能力動態決定這空間的運用，看物件大小能塞幾個就塞幾個。
+其實這行為，就跟前面 [DEMO4](#demo4) 的狀況類似，只是 OS 來執行這件事，精巧的程度遠高於我們用幾行 code 表達出來的 POC。我寫的 POC code, buffer size 固定是一筆資料，而 OS 有能力動態決定這空間的運用，看物件大小能塞幾個就塞幾個。
 
 
-## 效能與記憶體測試
+## PIPELINE 效能與記憶體測試
 
-這邊情況有點尷尬，加上序列化的處理，一次 1GB 的物件要進行序列化與反序列化的壓力實在太大了，結果卡在 Json 無法消化就 OutOfMemoryException 了。雖然我覺得這應該還有辦法解決，不過 Json 序列化 / 反序列化單一大型物件的處理，不是我這篇的主題，我決定先跳過去了。後面的測試我最大就用到單一物件 (buffer size) 設定到 64MB 就好。
+這邊情況有點尷尬，加上序列化的處理，一次 1GB 的物件要進行序列化與反序列化的壓力實在太大了，結果卡在 Json 無法消化就 ```OutOfMemoryException``` 了。雖然我覺得這應該還有辦法解決，不過 Json 序列化 / 反序列化單一大型物件的處理，不是我這篇的主題，我決定先跳過去了。後面的測試我最大就用到單一物件 (buffer size) 設定到 64MB 就好。
 
 另一個尷尬的點，在於我前面用的 visual studio performance profiler, 只能監控 "單一" process, 像我這樣用 pipeline 一次串起四個 process 的案例就搞不定了。不過為了能衡量這數據，我決定換個方式來觀察。
 
@@ -1105,7 +1397,7 @@ type data-4M-1000.jsonl | dotnet CLI-P1.dll | dotnet CLI-P2.dll | dotnet CLI-P3.
 
 ![](/wp-content/images/2019-06-15-netcli-pipeline/2019-06-16-21-42-50.png)
 
-看的出來，在 OS 看到的是四個 process, 包含由 cmd.exe 執行的 type .... 指令，以及個別執行的 dotnet.exe 指令。我特地把工作管理員的 "command line" 欄位打開，大家可以看的到執行時的命令列參數，也看的到 Memory usage, dotnet 的三個 process 大都維持在 170mb 上下，跟前面觀察到的雷同。
+看的出來，在 OS 看到的是四個 process, 包含由 ```cmd.exe``` 執行的 type .... 指令，以及個別執行的 ```dotnet.exe``` 指令。我特地把工作管理員的 "command line" 欄位打開，大家可以看的到執行時的命令列參數，也看的到 Memory usage, dotnet 的三個 process 大都維持在 170mb 上下，跟前面觀察到的雷同。
 
 
 
@@ -1228,22 +1520,14 @@ type data-16B-1000.jsonl | dotnet CLI-P1.dll | dotnet CLI-P2.dll | dotnet CLI-P3
 
 
 
-# 其他 PIPELINE / C# 的延伸技巧
-
-其實寫這篇的同時，在準備 POC code, 有很多其他 coding 的想法離主題太遠沒辦法一起放進來, 這些主題我就一起收到這一段了。
 
 
-
-**Pass Object Between CLI**:
-
-**LINQ + STDIN**:
-
-
-
-
-# 其他應用
+# PIPELINE 其他應用
 
 其實因為這個案例，我想到不少東西可以一起談的，不過實在是寫不完，我留一些 hint 跟 reference, 有興趣的朋友可以自己參考, 或是在 FB 上找我聊聊。
+
+
+
 
 **I/O 導向分散式處理**:
 
@@ -1252,9 +1536,12 @@ type data-16B-1000.jsonl | dotnet CLI-P1.dll | dotnet CLI-P2.dll | dotnet CLI-P3
 最少，你會有能力透過輸出檔案做到一樣的事情，而這些能力都不需要你改寫任何一行 code, 只要你在設計之初就有明確遵循走 STDIO 即可。這也是為何那麼多成熟的 CLI tools 通通都走 STDIO 的原因。
 
 
+
 **能自由選擇批次或是管線處理**:
 
 不過就是檔案嘛! 這次案例的 CLI 你能自由的直接串 CLI-DATA ---- CLI-P1 ... 你也可以把 CLI-DATA 轉到檔案後，直接從檔案開始，不用重新執行一次 CLI-DATA ... 透過管線的操作，你能夠很容易的 "只" 重複其中某個階段，而不用整個重來。甚至有些指令 (例如: [tee](http://linux.vbird.org/linux_basic/0320bash.php#pipe_3)) 還可以讓你更靈活的操作 pipe, 能把資料流一分為二。這些用法就讓你自行體會了。
+
+
 
 **dotnet tool**:
 
@@ -1263,4 +1550,17 @@ type data-16B-1000.jsonl | dotnet CLI-P1.dll | dotnet CLI-P2.dll | dotnet CLI-P3
 有興趣的可以參考 Microsoft 官方文件: [使用 .NET Core CLI 建立 .NET Core 通用工具](https://docs.microsoft.com/zh-tw/dotnet/core/tools/global-tools-how-to-create)
 
 
-# 結論
+
+
+
+# 總結
+
+又是一大篇!
+
+寫到這邊總算又把一個主題完整的交代結束了。我一直認為 "後端工程師" 是很有挑戰的職位，因為你開發出來的系統可能要面對各種考驗。寫 WEB / API，可能要面對巨大流量的考驗；寫背景程式或是背景服務，也需要面對 long running 的挑戰，不允許有 memory leak, 處理大量資料又要有效率 (要顧慮時間與空間的複雜度)，同時還要面對各種平行處理的挑戰，搞定 lock, race condition 等等問題。
+
+也因此，我不斷地強調 "基礎知識" 是非常重要的。其實我寫的東西，新東西並不多，我很少寫 "框架" 類的文章。我頂多偶爾用一下 C# 新語法而已，因為 C# 是個很洗鍊的語言，往往新的語法可以更簡潔的表達出我腦袋裡想的處理流程。我文章內同樣的例子，換做其他語言來實作，應該行數都至少是兩倍以上吧! 我愛用 .NET, 主要原因就是 C# 而已。
+
+回到基礎知識，你會發現善用基礎知識，你可以不需要依靠肥大的框架，就能有效的解決各種問題。這對團隊絕對是件好事，如果你能好好利用這些技能的話。我最忌諱的場景，就是團隊碰到某個問題，就搬出框架來 (殺雞用牛刀)。框架之所以會成為框架，就是他累積了相當多的細節在背後。你當然可以用他，但是沒充分了解一個框架前就貿然採用是很危險的，因為框架的學習，除錯，替換成本都很高，你應該在使用的效益遠大於使用成本時才該使用他。多累積基礎知識，你可以降低對框架的依賴。
+
+這篇我最後沒有把他歸類在微服務架構系列的文章，也沒有把他歸類在架構面試題系列，但是你一定會在這些領域用的到這篇文章的知識。希望內容對大家有幫助，任何意見都歡迎在我的粉絲團留言給我 :)
