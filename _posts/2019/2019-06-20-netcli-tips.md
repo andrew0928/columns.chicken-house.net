@@ -3,7 +3,7 @@ layout: post
 title: "後端工程師必備: CLI 傳遞物件的處理技巧"
 categories:
 tags: ["系列文章", "架構師", "CLI", "C#", "PIPELINE", "串流處理", "TIPS"]
-published: false
+published: true
 comments: true
 redirect_from:
 logo: /wp-content/images/2019-06-20-netcli-tips/2019-06-20-23-35-14.png
