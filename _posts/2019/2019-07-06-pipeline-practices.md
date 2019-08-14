@@ -50,6 +50,149 @@ logo:
 當然我還有另一個動機: 招募。我也希望能藉這機會找到有心想磨練自己基本功的工程師，這樣的 code 交流我相信比面試聊上一個小時精準的多了。最重要的是透過這樣的方式，你會更清楚知道團隊的要求，你也可以藉這機會試試自己能力；加入團隊後會有更多這樣的挑戰與應用的機會。這不見得是件輕鬆的事情，但是如果你有興趣，這絕對是個難得的機會。
 
 
+# 題目規則說明
+
+如果你想試看看這個練習題，規則很簡單... 題目的 source code 我放在我的 GitHub Repo, 有興趣的人自己拿回去看就好。如果你願意 PR 給我你的 code, 請按照最後面的規則說明。截止期限到我下一篇文章出來之前為止都可以，預估大約一個月左右吧 ( ~ 2019/09/16 )。
+
+題目很簡單，我都封裝在一個 .NET core 的 class library project 內了。你只要 create console app, 繼承我準備的 TaskRunnerBase, 寫一個你自己版本的 TaskRunner, 然後在 Main 裡面啟動他就可以了。
+
+隨題目我附上一個很無腦的 demo, 請參考 AndrewDemo 這個 console app project, 就是用 for loop 把每個 task 的 DoTaskN() 從 1 ~ 3 分別執行一次而已，完全沒有平行處理也沒有最佳化，各位就當作押隊的吧，理論上你應該不會寫出比這個 demo 還慢的版本...
+
+規則很簡單，第一，先準備一個你的 TaskRunner:
+
+```csharp
+
+public class AndrewTaskRunner0 : TaskRunnerBase
+{
+    public override void Run(IEnumerable<MyTask> tasks)
+    {
+        foreach (var task in tasks)
+        {
+            task.DoStepN(1);
+            task.DoStepN(2);
+            task.DoStepN(3);
+        }
+    }
+}
+
+```
+
+然後，在 Main() 內這樣啟動你的 Runner 就夠了:
+
+
+```csharp
+
+class Program
+{
+    static void Main(string[] args)
+    {
+        TaskRunnerBase run = new AndrewTaskRunner0();
+        run.ExecuteTasks(100);
+    }
+
+}
+
+```    
+
+執行完畢之後，會有兩個地方可以看到執行結果。第一個是 console output:
+
+```logs
+
+Execution Summary: AndrewDemo.AndrewTaskRunner0, PASS
+
+* Max WIP:
+  - ALL:      1
+  - Step #1:  1
+  - Step #2:  1
+  - Step #3:  1
+
+* Used Resources:
+  - Memory Usage (Peak):  1536
+  - Context Switch Count: 300
+
+* Waiting (Lead) Time:
+  - Time To First Task Completed: 1443.1671 msec
+  - Time To Last Task Completed:  143032.4147 msec
+  - Total Waiting Time: 7223482.8365 / msec, Average Waiting Time: 72234.828365
+
+* Execute Count:
+  - Total:   100
+  - Success: 100
+  - Failure: 0
+  - Complete Step #1: 100
+  - Complete Step #2: 100
+  - Complete Step #3: 100
+
+C:\Program Files\dotnet\dotnet.exe (process 6368) exited with code 0.
+Press any key to close this window . . .
+
+```
+
+
+第二個，會在執行檔同樣目錄下產生一個 .csv (後面會說明), 裡面會有執行過程中不斷記錄下來的幾個關鍵指標:
+
+```csv
+
+TS,MEM,WIP_ALL,WIP1,WIP2,WIP3,THREADS_COUNT,ENTER1,ENTER2,ENTER3,EXIT1,EXIT2,EXIT3,T1,T2,T3,T4,T5,T6,T7,T8,T9,T10,T11,T12,T13,T14,T15,T16,T17,T18,T19,T20,T21,T22,T23,T24,T25,T26,T27,T28,T29,T30
+8,0,0,0,0,0,0,0,0,0,0,0,0,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+32,1536,1,1,0,0,1,1,0,0,0,0,0,1#1,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+60,1536,1,1,0,0,1,1,0,0,0,0,0,1#1,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+90,1536,1,1,0,0,1,1,0,0,0,0,0,1#1,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+120,1536,1,1,0,0,1,1,0,0,0,0,0,1#1,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+150,1536,1,1,0,0,1,1,0,0,0,0,0,1#1,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+180,1536,1,1,0,0,1,1,0,0,0,0,0,1#1,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+210,1536,1,1,0,0,1,1,0,0,0,0,0,1#1,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+240,1536,1,1,0,0,1,1,0,0,0,0,0,1#1,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+(以下略)
+
+```
+
+這個 csv 是方便你用 excel 打開，直接用圖表來將你的執行成效視覺化用的。舉例來說，前兩個欄位 TS (time stamp, msec) 跟 MEM (allocated memory, bytes) 我把它用 excel 繪製成圖表的話，可以看到這樣的 chart:
+
+![](/wp-content\images\2019-07-06-pipeline-practices/021612.png)
+
+
+
+不過，這個版本的 code 實在太單調了，完全看不出啥效果... 我換一個我自己測是 thread pool 的版本。先來看記憶體使用量:
+
+![](021935.png)
+
+
+其實 .csv 內還藏了不少數據, 另外有一組是 WIP1 ~ WIP3, WIP_ALL, 分別代表在 Step1 ~ Step3, 以及所有未完成的 task(s) 總數:
+
+![](022611.png)
+
+
+這段程式碼，我用了 thread pool 的技巧來平行處理, THREADS_COUNT 欄位可以看到過程中同時有多少個 threads 並行:
+
+![](022835.png)
+
+
+最後，來看一個特別的；這不是看圖表了，直接看表格的內容:
+
+![](023121.png)
+
+TS 代表程式開始執行的時間 (單位: msec), T1 ~ T30 則代表我最多會顯示每個時間點，每個 thread 都在做啥事，T1 代表第一個 thread, T2 代表第二個，以此類推。至於表格內的數字，如 ```14#1```, 則代表 ```第 14 個 task 的第一個步驟```，我加上了框線，讓大家看得清楚一點，從上到下，可以看到你的 task 是如何被分配到每個 threads 執行的。你會發現，因為平行運算被受到限制，並不是每個 threads 都隨時保持忙碌的，中間空白的部分代表這個 thread 正在發呆，沒有任務可以進行。
+
+到目前為止，這些資訊都是為了讓你 **精準** 的了解你的 code 到底是怎麼跑的，對於效能好壞也有個明確的指標可以評估。至於這些指標都代表什麼意義，請繼續看下面的說明。
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 # 品質指標的挑選
 
