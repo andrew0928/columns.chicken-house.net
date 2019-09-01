@@ -288,7 +288,7 @@ public static class JobSettings
 1. **鎖定**:  
 你要先鎖定這個 job, 鎖定成功後才能處理這個 job。如果有多個 worker 同時想要搶奪同一個 job 的執行權，呼叫 ```AcquireJobLock()``` 只會有一個 worker 得到 true 的傳回值 (代表鎖定成功), 其他都會是 false.
 1. **執行**:  
-當你成功鎖定 job 之後，就可以呼叫 ```ProcessLockedJob()``` 來執行他。
+當你成功鎖定 job 之後，就可以呼叫 ```ProcessLockedJob()``` 來執行他。不過，為了凸顯平行處理的必要，我仿照前個練習，加了一點限制；呼叫 ```ProcessLockedJob()``` 會延遲一小段時間 (預設 100ms), 同時單一 process 內的平行處理也會做一點限制 (並行上限: 5), 不過若你用獨立 process / host 則完全無限制。
 
 以上的動作都有做防呆，例如你沒鎖定就執行，會得到 exception. 每個動作都有做對應的 log, 最後的評分就是靠這些被後埋的 log 計算出來的。
 
