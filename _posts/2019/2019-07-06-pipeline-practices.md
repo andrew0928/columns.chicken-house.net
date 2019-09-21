@@ -271,9 +271,9 @@ TTFT, 指的是 Runner 啟動之後, 完成全部步驟的第一個 Task 要花�
 
 
 
+PART II, Solution Review (2019/09/16)
+----
 
-
-# Solution Review (敬請期待)
 
 
 # 理論極限在哪邊?
@@ -284,24 +284,167 @@ TTFT, 指的是 Runner 啟動之後, 完成全部步驟的第一個 Task 要花�
 1. 第二關處理 Step2
 1. 第三關處理 Step3
 
+再來看看每個 step 的限制:
+
+```csharp
+
+public static readonly int[] TASK_STEPS_DURATION =
+{
+    0,  // STEP 0, useless
+    867,
+    132,
+    430,
+};
+
+public static readonly int[] TASK_STEPS_CONCURRENT_LIMIT =
+{
+    0,  // STEP 0, useless
+    5,
+    3,
+    3
+};
+
+```        
+
+先用 "我有無限制的運算資源" 為前提，來想像一下每個數據的理想數值會落在哪邊吧!
+
+## TTFT / TTLT
+
+TTFT (Time To First Task) 很簡單，一切都安排妥當的話，就是 step 1 + step 2 + step 3 按順序執行就好了。
+理想的 TTLT = 867 + 132 + 430 = 1429 msec
+
+
+TTLT 就要花點腦筋了, 先概略估計一下。由於這是生產者消費者的問題，我們先來看看每個階段的處理速度:
+
+| step | task / msec |
+|------|-------------|
+| #1   | 867/5=173.4 |
+| #2   | 132/3=44    |
+| #3   | 430/3=143.3 |
+
+因此，理想狀況下，瓶頸應該會掉在最慢的 step #1, 其次是 step #3, 剛好是頭跟尾, 改善瓶頸的效能，永遠是優化產線效率的第一步。我們以最慢的 step #1 為基準, 處理完全部 1000 筆, 最快應該需要 173.4 x 1000 = 173400 msec = 173.4 sec, 大約是 3 分鐘。
+
+不過，精準一點預估的話，要讓每個階段都最佳化執行，應該是每個階段個別都有專屬的 threads, 數量剛好跟平行限制的數量一致，例如:
+
+![](/wp-content/images/2019-07-06-pipeline-practices/2019-09-21-17-15-05.png)
+
+這是理想的安排狀況，step #1 在理想狀況下會被分成 1000 / 5 = 200 組進行, 共需要花費 200 x 867 = 173400 msec 完成 (跟前面的答案一樣)。  
+
+假設最後一批 step #1 執行完畢, 那麼 step #2 的前三筆, 應該要花費 132 msec 可以交付給 step #3, 這批交付出去之後, step #2 就不再是瓶頸了。  
+
+接著看看 step #3, 接到 step #2 第一批 (3 tasks), 需要 430 msec 才能處理完畢，這時剩下的第二批 (2 tasks) 應該也準備好了, step #3 需要再一次的 430 msec 才能全部處理完畢。
+
+因此，極致的生產效率最佳化之下, TTLT 應該是: 173400 + 132 + 430 + 430 = 174392 msec
+
+
+## Total Waiting Time
+
+Total Waiting Time 跟 Average Waiting Time 是一樣的，就是差 1000 倍而已。我只探討 Total Waiting Time。
+
+按照定義，1000 tasks 送交給 runner 的那一瞬間，每個 task 的碼表就都已經按下去了, task 執行結束，自己的碼表就按停, 1000 個 task 的碼表數字加起來就是這個數值。因此按照上面那張圖來看，一樣五個五個一組:
+
+第一組的 TWT (total waiting time) 應該是: ( 867 + 132 + 430 ) x 3 + ( 867 + 132 + 430 + 430 ) x 2
+
+不過第二組以後就越來越難算了 XDD, 我決定忽略一些難以預估的部分，約略估計即可... 假設運作一段時間後，都會變成 step #1 是整體瓶頸, step #2 / #3 都會等著處理, 那麼第 N 組 (N <= 200) 的 TWT 應該是: ( 867 x N + 132 + 430 ) x 3 + ( 867 x N + 132 + 430 + 430 ) x 2 = 4335N + 3670
+
+因此 N 從 1 ~ 200 的 TWT 都加起來的話... (我懶的寫計算過程了)，結果是: 87867500 msec
+因此 AWT (Average Waiting Time) = 87867.5 msec
+
+
+## 為何要知道理論極限?
+
+原則很簡單，看到全貌你才能做出正確判斷。也就是你必須先知道你的目標在哪裡，你離目標還有多遠，你才知道你的最佳化做的夠不夠。舉例來說，你如果不之道 TTLT 的理論極限是 174.392 sec, 你的程式從 200 sec 優化到 175 sec, 你會知道你已經沒有多少優化空間了嗎? 如果你不知道，你可能會花了 5 倍額外的努力，卻只換來 0.6 sec 的成效。這時，比起投入更多努力炸出 0.6 sec, 你不如去尋求其他範圍是否有其他作法直接更根本的換成另一套做法，可能還比較有效。
+
+當你碰到的問題，是你以前沒碰過的，或是很難直接 google 的到解答的，大概都會面臨這種難題: 我連有沒有解答都不知道，我到底是要繼續努力 google, 繼續嘗試解決方案, 還是直接放棄? 如果沒有辦法站的更高，先幫助你判定還直不直得繼續挖下去的話，你很容易就會陷入兩難。也因此，我才會告訴 team member, 解決困難問題的第一步，請先盡量想辦法去弄清楚，你能做到的理論極限到底在哪裡?
 
 
 
+## Benchmark Result
+
+這次收到 13 筆 pull request, 總共 10 位網友參加挑戰。最後放進 benchmark 評比的有 10 (網友) + 3 (同事) + 5 (示範程式) = 18 組。
+直接先看結果吧! 每個人的 TaskRunner 都各丟 1000 個 task 執行的統計:
+
+![](/wp-content/images/2019-07-06-pipeline-practices/2019-09-21-23-28-21.png)
+
+雖然我列了 WIP / MEM 等等其他參考的指標，但是既然是以效能為主，我還是關注在 TTFT / TTLT / AVG_WAIT 這三個數字上吧。顏色標示的規則很簡單，
+以前面提到的 "理想值" 為目標，這三項分數如果跟理想值的差距在 1% 以內，就標上綠色。如果落在 0.5% 以內就標上較深的綠色。唯獨 AVG_WAIT 比較特別，大概是我理想值估的太保守了，竟然有幾個挑戰者跑出比我認知的 "理想值" 還要好的成績... 因此 AVG_WAIT 這欄標顏色的規則稍微調整，我用成績最好的那一筆當作理想值，其餘規則不變。
+
+因為 TTFT 太容易，大家成績都差不多，因此評比我就只看 TTLT 跟 AVG_WAIT 兩項。兩項都達到 0.5% 內的，我在 RunnerName 那欄標上深綠色；只有一項 0.5%, 或是兩項 1% 標淺綠色；只有一項 1% 則標上更淺的綠色。
 
 
+底下我就列出完整的測試數據給大家參考:
+
+| RunnerName                           | WIP_ALL | MEM_PEAK | TTFT(msec) | TTLT(msec) | AVG_WAIT(msec)| TTFT(%)   | TTLT(%) | AVG_WAIT(%) |
+|--------------------------------------|---------|----------|------------|------------|------------|-----------|---------|-------------|
+| LexDemo.LexTaskRunner                | 12      | 27904    | 1443.48    | 174479.45  | 86654.78   | 101.01%   | 100.05% | 100.93%     |
+| EPDemo.EPTaskRunner                  | 7       | 21760    | 1432.09    | 290307.54  | 144106.39  | 100.22%   | 166.47% | 167.85%     |
+| SeanDemo.SeanRunner                  | 2       | 15232    | 1433.26    | 867875.35  | 434657.76  | 100.30%   | 497.66% | 506.27%     |
+| PhoenixDemo.PhoenixTaskRunner        | 10      | 26240    | 1459.45    | 174511.24  | 86170.37   | 102.13%   | 100.07% | 100.37%     |
+| JulianDemo.TaskRunner                | 16      | 32384    | 1448.28    | 174467.72  | 87715.99   | 101.35%   | 100.04% | 102.17%     |
+| GuluDemo.GuluTaskRunner              | 3       | 16896    | 1432.03    | 477727.39  | 234824.64  | 100.21%   | 273.94% | 273.51%     |
+| JW.JWTaskRunnerV5                    | 12      | 27904    | 1436.46    | 174496.77  | 85855.17   | 100.52%   | 100.06% | 100.00%     |
+| AndyDemo.AndyTaskRunner              | 12      | 27904    | 1433.35    | 182791.88  | 87302.68   | 100.30%   | 104.82% | 101.69%     |
+| MazeDemo.MazeTaskRunner              | 11      | 26880    | 1432.57    | 174593.59  | 87746.53   | 100.25%   | 100.12% | 102.20%     |
+| NathanDemo.NathanTaskRunner          | 12      | 27904    | 1432.23    | 174471.30  | 87571.79   | 100.23%   | 100.05% | 102.00%     |
+| BorisDemo.BorisTaskRunner            | 12      | 27904    | 1435.82    | 174442.46  | 87657.74   | 100.48%   | 100.03% | 102.10%     |
+| JolinDemo.JolinTaskRunner            | 12      | 27904    | 1433.53    | 174680.88  | 87885.69   | 100.32%   | 100.17% | 102.37%     |
+| LeviDemo.LeviTaskRunner              | 9       | 25216    | 1531.44    | 174711.30  | 88077.96   | 107.17%   | 100.18% | 102.59%     |
+| AndrewDemo.AndrewBasicTaskRunner1    | 1       | 13824    | 1431.43    | 1430415.55 | 715922.35  | 100.17%   | 820.23% | 833.87%     |
+| AndrewDemo.AndrewBasicTaskRunner2    | 1000    | 1028480  | 1000370.41 | 1430364.68 | 1215376.61 | 70004.93% | 820.20% | 1415.61%    |
+| AndrewDemo.AndrewThreadTaskRunner1   | 11      | 26880    | 1438.07    | 179261.11  | 87612.93   | 100.64%   | 102.79% | 102.05%     |
+| AndrewDemo.AndrewPipelineTaskRunner1 | 12      | 27904    | 1431.96    | 174450.21  | 85880.53   | 100.21%   | 100.03% | 100.03%     |
+| AndrewDemo.AndrewPipelineTaskRunner2 | 38      | 41728    | 1431.63    | 231005.40  | 113182.32  | 100.18%   | 132.46% | 131.83%     |
 
 
+# Solution Code Review
+
+開始重頭戲了。在 merge 各位的 PR 時，我也順帶的看了一下大家都怎麼解決問題的。果然要分享才會學到技巧啊，藉由各位的 code 我也學到不少以前沒想過的技巧。回到問題，我把解決這類問題的方法分成三大類:
+
+1. 善用多工處理 (Thread / ThreadPool / Task):
+
+.NET 提供了很強悍的平行處理能力，因此熟悉 Thread / Task 運用方式的朋友們，很容易的就能把這堆 task 的每個 step 都丟給 .NET 幫你處理。
+我這邊的定義是，如果你沒有明確的控制每個 step 的處理, 也沒精準地控制下個步驟的處理時機與順序, 而是直接把下個 step 交給 .NET 決定的方式，我都歸在這類。
+這種方式的好處是簡單，複雜度也不高，通用性也高 (跟你的 task 特性, 以及每個 step 的限制沒有太大關連)。
+
+以我的角度，屬於這類的方式有這幾個 Runner:
+* LexDemo.LexTaskRunner
+* AndyDemo.AndyTaskRunner
+* MazeDemo.MazeTaskRunner
+* LeviDemo.LeviTaskRunner
+* AndrewDemo.AndrewThreadTaskRunner1
 
 
+2. Pipeline / 生產者消費者的管理:
+
+大體上跟 (1) 沒有太大差別，不過題目已經明確地分成三個 step 了，因此這問題很明顯地變成是生產者消費者典型的題目。這類問題都有同樣的特色，就是像生產線一樣，第一關處理完就要交到第二關，因此要有明確的移交到下一關的動作。每一關之間的處理速度都不一樣，因此要有明確的調節機制。中間是否有 buffer / queue 這類的緩衝區, 兩端是否有明確的 notify 機制來叫醒等待中的 worker ...
+
+這種做法的好處是 "精準"。因為精準，你才有機會逼出極限的效能；也因為精準，你才有機會使用最少的資源來處理任務，將 WIP 壓到最低，同樣能完成任務。
+
+以我的角度，屬於這類的方式有這幾個 Runner:
+* EPDemo.EPTaskRunner
+* SeanDemo.SeanRunner
+* PhoenixDemo.PhoenixTaskRunner
+* JulianDemo.TaskRunner
+* GuluDemo.GuluTaskRunner
+* JW.JWTaskRunnerV5
+* NathanDemo.NathanTaskRunner
+* BorisDemo.BorisTaskRunner
+* JolinDemo.JolinTaskRunner
+* AndrewDemo.AndrewPipelineTaskRunner1
+* AndrewDemo.AndrewPipelineTaskRunner2
+
+3. 其他
+例如我提供的那個墊底的 sample code, 無法歸類在上面兩種的做法，我都歸在這一類。看來只有我自己惡搞的兩個墊底範例屬於這類 XDD
+
+* AndrewDemo.AndrewBasicTaskRunner1
+* AndrewDemo.AndrewBasicTaskRunner2
 
 
+# 使用多工處理技巧的 code
 
 
+# 使用 pipeline 處理技巧的 code
 
 
-
-
-
-
-
+# 大亂鬥總結
 
