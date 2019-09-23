@@ -286,7 +286,7 @@ TTFT, 指的是 Runner 啟動之後, 完成全部步驟的第一個 Task 要花�
 
 
 
-# PART II, Solution Review (2019/09/16)
+# PART II, Solution & Review (2019/09/16)
 
 
 終於到揭曉的時間了，下半段文章是 9/16 後追加的。感謝各位的貢獻，我們就開始來後半段的 code review / solution review 吧!
@@ -422,7 +422,7 @@ TTLT 就要花點腦筋了, 先概略估計一下。由於這是生產者消費�
 | AndrewDemo.AndrewPipelineTaskRunner2 | 38      | 41728    | 1431.63    | 231005.40  | 113182.32  | 100.18%   | 132.46% | 131.83%     |
 
 
-# Solution Code Review
+# Solution & Code Review
 
 開始重頭戲了。在 merge 各位的 PR 時，我也順帶的看了一下大家都怎麼解決問題的。果然要分享才會學到技巧啊，藉由各位的 code 我也學到不少以前沒想過的技巧。回到問題，我把解決這類問題的方法分成三大類:
 
