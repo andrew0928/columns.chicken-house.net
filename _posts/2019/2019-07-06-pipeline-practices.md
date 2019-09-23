@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "後端工程師必備: 平行任務處理的思考練習"
+title: "後端工程師必備: 平行任務處理的思考練習 (0916補完)"
 categories:
 tags: ["系列文章", "架構師", "Practices"]
 published: true
