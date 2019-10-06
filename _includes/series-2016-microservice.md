@@ -1,6 +1,9 @@
+{% unless include.mode == "no_header" %}
 # 前言: 微服務架構 系列文章導讀
-
 -----
+{% endunless %}
+
+
 
 
 Microservices, 一個很龐大的主題，我分成四大部分陸續寫下去.. 預計至少會有10篇文章以上吧~
@@ -38,4 +41,6 @@ Microservices, 一個很龐大的主題，我分成四大部分陸續寫下去..
   - [架構面試題 #1](/2018/03/25/interview01-transaction/) 線上交易的正確性; 2018/03/25
   - [架構面試題 #2](/2018/04/01/interview02-stream-statistic/) 連續資料的統計方式; 2018/04/01
 
+{% unless include.mode == "no_header" %}
 -----
+{% endunless %}
