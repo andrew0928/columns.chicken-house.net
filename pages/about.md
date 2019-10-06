@@ -44,11 +44,11 @@ permalink: /about/
  
 ### 演講錄影:
 
-- [DevOps Taiwan](https://devopstw.club) 社群分享: [大型 Web Application 轉移到 微服務的經驗分享](https://www.slideshare.net/chickenwu/web-application-72464042), 2017/02/22 
+- [STUDY4.TW](http://study4.tw/) [.NET Conf 2018](http://study4.tw/Activity/Details/20) - [Message Queue Based RPC](https://www.facebook.com/andrew.blog.0928/videos/478284192685645/?v=478284192685645), 2018/09/29
+- [DevOpsDays Taipei 2018](https://devopsdays.tw/2018/index.html), [微服務基礎建設 - Service Discovery](https://www.facebook.com/andrew.blog.0928/videos/893802841007321/?v=893802841007321), 2018/09/11
 - [STUDY4.TW](http://study4.tw/) [與大師對談](http://study4.tw/Activity/Details/12): [轉移到微服務架構必經之路 ~ 系統與資料庫重構](https://www.facebook.com/andrew.blog.0928/videos/545139382528011/), 2018/01/06
 - [STUDY4.TW](http://study4.tw/) [.NET Conf 2017](http://study4.tw/Activity/Details/9) - [容器驅動開發](https://www.facebook.com/andrew.blog.0928/videos/509145696127380/?v=509145696127380), 2017/10/14
-- [DevOpsDays Taipei 2018](https://devopsdays.tw/2018/index.html), [微服務基礎建設 - Service Discovery](https://www.facebook.com/andrew.blog.0928/videos/893802841007321/?v=893802841007321), 2018/09/11
-- [STUDY4.TW](http://study4.tw/) [.NET Conf 2018](http://study4.tw/Activity/Details/20) - [Message Queue Based RPC](https://www.facebook.com/andrew.blog.0928/videos/478284192685645/?v=478284192685645), 2018/09/29
+- [DevOps Taiwan](https://devopstw.club) 社群分享: [大型 Web Application 轉移到 微服務的經驗分享](https://www.slideshare.net/chickenwu/web-application-72464042), 2017/02/22 
 
 
  
