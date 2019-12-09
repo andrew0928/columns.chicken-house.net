@@ -877,7 +877,7 @@ using (JobsRepo repo = new JobsRepo())
 
 ```
 
-跟 toyo0103 一樣，中規中矩的 code, 唯獨這邊留意到了 `COST_SCORE` 的問題，在真正 `AcquireJobLock()` 前先做一次 `GetJob()` 來確定是否真的需要 Lock ..
+跟 [toyo0103](https://github.com/toyo0103) 一樣，中規中矩的 code, 唯獨這邊留意到了 `COST_SCORE` 的問題，在真正 `AcquireJobLock()` 前先做一次 `GetJob()` 來確定是否真的需要 Lock ..
 
 另外, 這 solution 一樣用了 `BlockingCollection` 來做 job 的分派管理. 唯獨一個不解的是, 其中硬生生的又把 `BlockingCollection` 包了一層, 對實際結果其實沒有任何影響, 只是好奇這樣的目的... 變成 `Queue`, 看來應該是習慣 pop / push 的用語吧? (這不是 stack 的用語嗎? XDD)
 
@@ -1119,7 +1119,7 @@ foreach (var t in threads) t.Start();
 
 除了提前 `AcquireJobLock()` 之外，後面的動作其實蠻標準的 (這也可以拿來當示範教材了 XD)，很多工程及多執行緒的寫法都很標準也很到位。唯一可惜的地方，我想應該也是疏忽吧。當 `_queue` 已經空了, `TryTake()` 這 method call 應該會被 blocked. 不過這邊給了固定的 timeout 時間: 3000 msec, 而不是配合 `CancellationToken` 來中斷 blocking call, 也許就是這個地方造成 service shutdown 沒辦法正確的終止問題吧。
 
-回頭來看看，這段 code 對於 "scheduling" 這件事本身來說做得如何? 由於 instance 執行時間應該都會錯開, 相較於 job 要執行前那瞬間才 lock (大家應該都會在那瞬間一起醒來), 有很高的機率會發生大家判定狀態都還沒 lock, 然後都同時要 lock, 最後只有一個人成功, 但是會花掉好幾個 lock 的動作 (COST...), borischin 選擇在 `GetReadyJobs()` 時就先 lock, 競爭那瞬間的機率大幅降低了。換來的好處，果然反應在成果上了。這 solution 拿到了不錯的 `COST_SCORE` (排第三), 同時在 `EFFICIENT_SCORE` (排第二) 也有不錯的成績，同時能拿下這兩個分數的前段班，算是很好的拿捏到一個平衡點了。
+回頭來看看，這段 code 對於 "scheduling" 這件事本身來說做得如何? 由於 instance 執行時間應該都會錯開, 相較於 job 要執行前那瞬間才 lock (大家應該都會在那瞬間一起醒來), 有很高的機率會發生大家判定狀態都還沒 lock, 然後都同時要 lock, 最後只有一個人成功, 但是會花掉好幾個 lock 的動作 (COST...), [borischin](https://github.com/borischin) 選擇在 `GetReadyJobs()` 時就先 lock, 競爭那瞬間的機率大幅降低了。換來的好處，果然反應在成果上了。這 solution 拿到了不錯的 `COST_SCORE` (排第三), 同時在 `EFFICIENT_SCORE` (排第二) 也有不錯的成績，同時能拿下這兩個分數的前段班，算是很好的拿捏到一個平衡點了。
 
 過早提前 lock 的缺點, 真的要說就是 worker 已經拿走了卻臨時被停止, 你必須避免已經 lock 卻沒辦法 process 的狀態了。因為你一但 lock 住這個 job, 就代表其他 worker 完全沒機會再去處理他了。也因此，這份 code 在處理 shutdown 狀況時, 不是把眼前這個 job 清空就可以退出了，是必須把所有擺在 `_queue` 裡面的 job 通通清空才能退出。
 
@@ -1154,7 +1154,7 @@ System.AggregateException: One or more errors occurred. (A task was canceled.) -
 
 看起來狀況都類似, 沒有按照預期順序終止之類的問題。同樣也不影響 `HATEST` 的結果，數據也正常，我就只列出來供參考。
 
-延續上一篇的挑戰, Julian 同樣搬出了效能比 `BlockingCollection` 還要好的 `Channel` `出來應戰。BlockingCollection` 把非同步的細節封裝起來了，但是他對外的 interface 則是完全以 sync 同步的型態呈現的。換句話說你如果想要用 async 非同步的方式去處理他，你得另外再包一層 `Task`, 這樣不但囉嗦多一道手續, 你也沒辦法很精準的掌握 async return 的時間點。換句話說要使用到 async 真正的好處, 你必須在 call stack 每一層都用 async 才行... 中間若經過 sync 包裝，然後再用 `Task` 提供 async 介面, 那就失去意義了, 你只會得到表面上的 async 使用方式而已。
+延續上一篇的挑戰, [Julian-Chu](https://github.com/Julian-Chu) 同樣搬出了效能比 `BlockingCollection` 還要好的 `Channel` `出來應戰。BlockingCollection` 把非同步的細節封裝起來了，但是他對外的 interface 則是完全以 sync 同步的型態呈現的。換句話說你如果想要用 async 非同步的方式去處理他，你得另外再包一層 `Task`, 這樣不但囉嗦多一道手續, 你也沒辦法很精準的掌握 async return 的時間點。換句話說要使用到 async 真正的好處, 你必須在 call stack 每一層都用 async 才行... 中間若經過 sync 包裝，然後再用 `Task` 提供 async 介面, 那就失去意義了, 你只會得到表面上的 async 使用方式而已。
 
 撇除 `Channel` 跟 `BlockingCollection` 先天的差別, 兩者其實都是拿來處理生產者消費者問題的。我就不在這篇繼續探究了，我回到我們主要的 domain: scheduling 的處理。先來看看從 `JobsRepo` 取得 jobs 清單的 code:
 
@@ -1211,7 +1211,7 @@ using (JobsRepo repo = new JobsRepo())
 
 ```
 
-我不確定 Julian 寫這段 code 時心裡真正的意圖, 所以我試著猜看看... (歡迎留言告訴我你的想法)。主迴圈抓出 newJobs 清單後，下一步就是用各種方式分配下去執行了。這 code 開了 5 個獨立的 channel, 然後又在每個 job 試圖掃一次所有的 channel... 因為 channel 不見得隨時都能立刻寫入, 要經過 `WaitToWriteAsync()` 後才行。我猜這段的意圖，應該是要從 5 個 channel 找出最快能寫入的那個 channel, 但是按照 code 實際進行的狀況, 應該都會寫到第一個 channel, 沒什麼機會會寫到後面其他 channel ...
+我不確定 [Julian-Chu](https://github.com/Julian-Chu) 寫這段 code 時心裡真正的意圖, 所以我試著猜看看... (歡迎留言告訴我你的想法)。主迴圈抓出 newJobs 清單後，下一步就是用各種方式分配下去執行了。這 code 開了 5 個獨立的 channel, 然後又在每個 job 試圖掃一次所有的 channel... 因為 channel 不見得隨時都能立刻寫入, 要經過 `WaitToWriteAsync()` 後才行。我猜這段的意圖，應該是要從 5 個 channel 找出最快能寫入的那個 channel, 但是按照 code 實際進行的狀況, 應該都會寫到第一個 channel, 沒什麼機會會寫到後面其他 channel ...
 
 如同前面的例子，不論是 `Channel` 或是 `BlockingCollection` 都好，他們本來就是要拿來解決生產者消費者問題的，因此整個機制應該只需要一個 channel 就夠了，這邊一次開了 5 個, 我想應該是還沒調整好的關係吧。如果只用一個 channel, 那也沒有所謂的 "挑選最快可以使用的那個 channel" 這需求了, 可以直接閃過前面討論的狀況。
 
@@ -1288,7 +1288,7 @@ using (JobsRepo repo = new JobsRepo())
 
 ```
 
-這裡的做法，跟前面 borischin 的做法類似，都是在主要迴圈查詢所有待處理的 jobs 清單時就預先把該做的程序都處理掉了。包括 `AcquireJobLock()`... 不同的是, 這邊也採用了先花點成本先查詢 `GetJob()` 後再決定要不要 `AcquireJobLock()` 的做法。比 borischin 更進一步的是，連同等待到預約時間開始的這段邏輯，都搬到這裡了。等待到預約時間到了之後，才把 job 放到 queue (型別: `BlockingCollection`) 內。放到 queue 的 job 馬上就會被背後的 threads 拿走立刻處理。
+這裡的做法，跟前面 [borischin](https://github.com/borischin) 的做法類似，都是在主要迴圈查詢所有待處理的 jobs 清單時就預先把該做的程序都處理掉了。包括 `AcquireJobLock()`... 不同的是, 這邊也採用了先花點成本先查詢 `GetJob()` 後再決定要不要 `AcquireJobLock()` 的做法。比 [borischin](https://github.com/borischin) 更進一步的是，連同等待到預約時間開始的這段邏輯，都搬到這裡了。等待到預約時間到了之後，才把 job 放到 queue (型別: `BlockingCollection`) 內。放到 queue 的 job 馬上就會被背後的 threads 拿走立刻處理。
 
 確認一下背後的 worker threads 做的事情:
 
@@ -1305,14 +1305,14 @@ using (JobsRepo repo = new JobsRepo())
 
 就如前面所說，所有的準備動作都在前半段的部分處理掉了，worker threads 負責的任務很單純，拿出 job 就執行了。接著來看看這樣的做法效果如何。
 
-從總表來看，andy 的解決方式，特性跟 borischin 的很類似, 都在 `COST_SCORE` 與 `EFFICIENT_SCORE` 取得不錯的平衡點, 兩項分數都有進入排行 (綠色)。不過兩者的 `COST_SCORE` 與 `EFFICIENT_SCORE` 則互有領先，我推測原因應該是:
+從總表來看，andy 的解決方式，特性跟 [borischin](https://github.com/borischin) 的很類似, 都在 `COST_SCORE` 與 `EFFICIENT_SCORE` 取得不錯的平衡點, 兩項分數都有進入排行 (綠色)。不過兩者的 `COST_SCORE` 與 `EFFICIENT_SCORE` 則互有領先，我推測原因應該是:
 
 1. `AcquireJobLock()` 前的` GetJob()` 發揮作用, 雖然這結構在同瞬間去搶 lock 的機會比其他人低很多, 但是看來 `GetJob()` 的確可以把 `COST_SCORE` 再往下降一些。
 1. 如同前面例子提到, 適度的平行處理在這個題目是有直接幫助的。產生測試情境的 code, 我刻意加入了會瞬間有多筆 job 同時預約執行的情境。這結構把所有事情 (除了 `ProcessLockedJob()` 之外) 都處理完才丟到後端的 worker threads, 代表前面這段是沒辦法平行處理的。因此我預期再這邊若瞬間有多個 job 預約同時間執行, 這作法會在 `EFFICIENT_SCORE` 的表現略差
 
-從數據上證實了這個推測，我建議 andy 可以花點時間驗證看看真正原因是否如我猜想。事實上如果再看 andy 的 1 ~ 10 instances 測試數據可以進一步證明， `EFFICIENT_SCORE` 是有隨著 instances 數量增加而逐步改善，證明平行處理是還有改善空間的，只是 instance 內的 threads 只能幫助一部分，還是需要靠多個 instance 才能進一步分攤這些 loading ...
+從數據上證實了這個推測，我建議 [andy19900208](https://github.com/andy19900208) 可以花點時間驗證看看真正原因是否如我猜想。事實上如果再看 [andy19900208](https://github.com/andy19900208) 的 1 ~ 10 instances 測試數據可以進一步證明， `EFFICIENT_SCORE` 是有隨著 instances 數量增加而逐步改善，證明平行處理是還有改善空間的，只是 instance 內的 threads 只能幫助一部分，還是需要靠多個 instance 才能進一步分攤這些 loading ...
 
-連同上一篇文章的 PR 一起看, andy 的 code 表現一樣精簡 & 洗鍊, 可以在 100 行以內搞定這題目, 而且程式碼看起來一樣很舒服, 不像是那種硬要縮減行數的寫法... 這只有本身思路就已經把邏輯想的很收斂才辦的到。 雖然沒有多提, 但是在多執行緒的處理、非同步的處理、還有程式碼本身都寫得很洗鍊，一樣是可以拿來當作教材的好範本。
+連同上一篇文章的 PR 一起看, [andy19900208](https://github.com/andy19900208) 的 code 表現一樣精簡 & 洗鍊, 可以在 100 行以內搞定這題目, 而且程式碼看起來一樣很舒服, 不像是那種硬要縮減行數的寫法... 這只有本身思路就已經把邏輯想的很收斂才辦的到。 雖然沒有多提, 但是在多執行緒的處理、非同步的處理、還有程式碼本身都寫得很洗鍊，一樣是可以拿來當作教材的好範本。
 
 
 
@@ -1412,13 +1412,13 @@ public class AndrewSubWorkerBackgroundService2 : BackgroundService
 
 其實我的結構跟大家大同小異，主結構負責 fetch jobs, 另外養了多個 threads 去等待 & 消化這些 jobs, 中間就靠 `BlockingCollection` 來協調兩端的進度。不同的是，我在參數與處理的細節，特地多花了一點心機來調教...。我比各位的做法多花了這些功夫:
 
-1. 透過測試找出最佳的 worker threads count:
+1. **透過測試找出最佳的 worker threads count**:  
 大家其實都被我題目的假設誤導了。雖然我很明確的說 process 裡面有動手腳, `Semaphore` 限定最高上限 5 threads... 但是不代表 worker thread 只做 process job 這件事啊! 他只是大部分，或是比重最高的一個部份而已。我花了點時間去測試 threads 開多少才最適合, 最後 10 threads 是我測試的結果。
 
-1. 提早 lock 爭取時效, 同時又要盡可能避免過早 lock 造成 shutdown 時的風險:
-這點跟幾位的做法類似，例如 borischin / andy 就選擇了 fetch 時 "順手" 一起 `AcquireJobLock()` 一樣。只是我顧及 shutdown 時也希望能在一定時間內就完成關機，因此我控制在 1 sec 前才 lock, 限定提前 lock 的時間別偷跑太多... 這樣就能兼顧效能與關機需要的處理時間。經過這樣處理，我可以控制在隨時都能在 1 sec 內完成 shutdown 的動作。
+1. **提早 lock 爭取時效, 同時又要盡可能避免過早 lock 造成 shutdown 時的風險**:  
+這點跟幾位的做法類似，例如 [borischin](https://github.com/borischin) / [andy19900208](https://github.com/andy19900208) 就選擇了 fetch 時 "順手" 一起 `AcquireJobLock()` 一樣。只是我顧及 shutdown 時也希望能在一定時間內就完成關機，因此我控制在 1 sec 前才 lock, 限定提前 lock 的時間別偷跑太多... 這樣就能兼顧效能與關機需要的處理時間。經過這樣處理，我可以控制在隨時都能在 1 sec 內完成 shutdown 的動作。
 
-1. 避免碰撞，提前 lock 的時間加入隨機的漂移, 盡可能讓 `GetJob()` 能準確判斷狀態
+1. **避免碰撞，提前 lock 的時間加入隨機的漂移, 盡可能讓 `GetJob()` 能準確判斷狀態**:  
 因為有多個 instance 彼此競爭，很有可能每個 instance 同一瞬間都去 `GetJob()` 拿到狀態是未 lock, 就同時都去執行 `AcquireJobLock()`, 太過精準就導致這個方法失效了。我的做法就是把提前 1 sec 執行 Lock 這件事，加上一點亂數讓他前後有點誤差，飄移一點，時間錯開的話碰撞的機率就會降低了。因此提前 1 sec 我改成 1 sec +- 700 msec (也就是從 300 msec ~ 1700 msec 隨機決定), 讓主要結構不改變的前提下，進一步降低 `COST_SCORE`，同時也可以在 1700 msec 內完成 shutdown 的動作。
 
 
