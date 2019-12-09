@@ -6,12 +6,12 @@ tags: ["系列文章", "架構師", "Practices"]
 published: true
 comments: true
 redirect_from:
-logo: /wp-content/images/2019-08-30-scheduling-practices/2019-08-31-14-19-43.png
+logo: /wp-content/images/2019-08-30-scheduling-practices/2019-08-31-14-19-43.jpg
 ---
 
 這篇也是個練習題，這次換個實際一點的主題，"排程任務" 的處理機制。
 
-![](/wp-content/images/2019-08-30-scheduling-practices/2019-08-31-14-19-43.png)
+![](/wp-content/images/2019-08-30-scheduling-practices/2019-08-31-14-19-43.jpg)
 
 
 後端服務做久了，一定有碰過這類需求: 使用者想要預約網站在某個指定的時間點執行預先排定的工作。不過，Web Application 先天的框架，就都是 Request / Response 的被動處理模式，有 Request, 才有 Response... 這模式先天就不擅長處理預先排定時間執行的任務。因此這類需求，通常都必須另外處理。雖然有不少現成的套件或是服務可以解決，不過我還蠻期待工程師都能思考看看，如果我找不到合適的套件，必須自己處理時，我知道該怎麼做嗎?
