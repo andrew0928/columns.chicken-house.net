@@ -461,95 +461,104 @@ Jobs 全部都成功執行完畢，但是有 46 筆沒辦法在指定時間內�
 
 
 
-# Solution & Review (2019/12/01)
+# Solution & Review (2019/12/01 補完)
 
-這次的挑戰，在 10/18 截止之後，一直忙到現在才有空, 先是 DevOpsDays 2019, 接著是 .NET Conf 2019, 然後再接著雙十一... 不知不覺就 12 月了, Orz... 接著就來看看大家貢獻的 PR 執行結果吧! 這次一樣先感謝願意貢獻 code 給我的朋友們 (按照發 PR 的順序排列):
+這次的挑戰，在 10/18 截止之後，一直忙到現在才有空, 先是準備 DevOpsDays 2019 的[演講](https://www.facebook.com/andrew.blog.0928/posts/951059661935979), 接著是 .NET Conf 2019 [連續兩個 session 的演講](https://www.facebook.com/andrew.blog.0928/posts/968019290240016), 然後再接著公司的雙十一... 不知不覺就 12 月了, Orz... 想到有這麼多朋友發 PR 來支持我發起的活動，想想還是擠出時間把後半段補完了。接著就來看看大家貢獻的 PR 執行結果吧! 這次一樣先感謝願意貢獻 code 給我的朋友們 (按照發 PR 的順序排列):
 
-* [acetaxxxx](https://github.com/acetaxxxx)
-* [toyo0103](https://github.com/toyo0103)
-* [Jyun-Wei Chen](https://github.com/jwchen-dev)
-* [levichen](https://github.com/levichen)
-* [borischin](https://github.com/borischin)
-* [Julian-Chu](https://github.com/Julian-Chu)
-* [andy19900208](https://github.com/andy19900208)
+* PR#1, [acetaxxxx](https://github.com/acetaxxxx)
+* PR#2, [toyo0103](https://github.com/toyo0103)
+* PR#3, [Jyun-Wei Chen](https://github.com/jwchen-dev)
+* PR#4, [levichen](https://github.com/levichen)
+* PR#5, [borischin](https://github.com/borischin)
+* PR#6, [Julian-Chu](https://github.com/Julian-Chu)
+* PR#7, [andy19900208](https://github.com/andy19900208)
 
 這次的題目，不像上次可以簡單幾行 code 寫完就交差了，這次扯到比較多實作，開發起來比較花時間，參加人數明顯少了很多... 再次感謝願意參加的朋友們。一開始，我先公布這次跑完的成績，然後再來一個一個進行 code review。前面的需求，是要求跑 10 min, 最多 5 instances, 在可靠度達標的前提下，時間及成本分數越低越好。
 
-老實說這測試還真花時間，連我自己的範例，總共有八組測試要跑，每一組除了可靠度要各跑 10 min 之外，還要從 1 ~ 5 instances 再各跑 10 min ... 跑完一次就足足花掉 10 小時以上，還不包括測試 script 沒寫好重跑的時間... (還好參加的人沒有很多!?)
+老實說這測試還真花時間，連我自己的範例，總共有八組測試要跑，每一組除要跑 10 次測量統計數據，外加 1 次 HATEST 做可靠度測試，全部跑完一次就足足花掉 10 小時以上，還不包括測試 script 沒寫好重跑的時間... (我該慶幸還好參加的人沒有很多嗎?? T_T )
 
-不過為了徹底了解大家寫的 code 表現如何，我還是硬著頭皮把他跑完了 XD，除了原本需求提到要跑 1 ~ 5 instances 的結果之外，我也加碼多跑了一次 1 ~ 10 instances 的數據，還有追加 HATEST 可靠度測試，確認你的程式不斷的啟動跟終止，你的數據會不會有不正常的地方。我們先從需求規定的 5 instance 來看看結果 ([點我](/wp-content/images/2019-08-30-scheduling-practices/2019-12-06-23-13-52.png)看大圖):
+不過為了徹底了解大家寫的 code 表現如何，我還是硬著頭皮把他跑完了 XD，我也加碼直接跑了 1 ~ 10 instances 的數據。我們先從需求規定的 5 instance 來看看結果 ([點我](/wp-content/images/2019-08-30-scheduling-practices/2019-12-09-23-25-45.png)看大圖):
 
-![](/wp-content/images/2019-08-30-scheduling-practices/2019-12-06-23-13-52.png)
+![](/wp-content/images/2019-08-30-scheduling-practices/2019-12-09-23-25-45.png)
 
-說明一下這表格怎麼看。每個人提交的 code, 我都分別用 1 ~ 5 instances 的組態各跑一次，只列出效率分數最好的那一組。測試方式我稍後說明，我先交代一下幾個關鍵的欄位意義:
+說明一下這表格怎麼看。我按照原始的規定，從每個人的統計分數中，挑出 5 instances 內 EFFICIENT_SCORE 最佳的那筆紀錄當作代表做成這張表格。若有需要完整的 EXCEL 可以點[這裡](/wp-content/images/2019-08-30-scheduling-practices/statistics-fixed.xlsx)下載。我先交代一下幾個關鍵的欄位意義:
 
-* [A] RUNNER:  
+* ```RUNNER```:  
 代表參賽者，我用各位的 github id 當作代號。最後一位 "demo" 則是我隨附墊底用的範例。
-* [B] MODE:  
-代表該筆成績的測試模式，有 WORKERS{N} 與 HATEST 兩類。第一類 WORKERS{N} 代表這是同時跑幾個 instances 的組態，例如 WORKERS03 代表同時間並行三個 instances 組態跑出來的結果。而 HATEST 則是用我預先寫好的 scripts, 不斷的模擬每個 instance 啟動與結束的狀態。這模式的分數不列入排名計算，但是會參考這模式下是否每個 job 都能被成功的執行。
-* [G] ~ [O]:  
+
+* ```MODE```:  
+代表該筆成績的測試模式，有 `WORKERS{N}` 與 `HATEST` 兩類。第一類 `WORKERS{N}` 代表這是同時跑幾個 instances 的組態，例如 `WORKERS03` 代表同時間並行三個 instances 組態跑出來的結果。而 `HATEST` 則是用我預先寫好的 scripts, 不斷的模擬每個 instance 啟動與結束的狀態。這模式的分數不列入排名計算，但是會參考這模式下是否每個 job 都能被成功的執行。
+
+* ```ACQUIRE_FAILURE``` ~ ```DELAY_STDEV```:  
 代表這次評分用的幾個指標，意義如同上面文章說明。
-* [P] DELAY_EXCEED:  
-代表整個測試跑下來，是否有超出額定時間才被執行的 JOB ? 這欄位數值若超過 0 則不合格
-* [Q] EARLY_LOCK:  
-這欄位代表 JOB 在預計執行的時間點之前就被 LOCK 的總數。雖然說這樣有點偷吃步，但是就結果來說這樣不算違規。大家很聰明的都有在這地方動一點手腳 XDDD，我就把這個數值列出來統計給各位參考參考。
-* [R] EARLY_EXEC:  
-如果你的 JOB 在預定時間到達前就開始執行，則會被列入這欄位統計。這情況發生時，就已經不符合需求規格了。 levichen 選手應該是有 bug 沒有抓乾淨就發 PR 了，這欄數字過高，因此不列入排名 (我整排標為灰色)。
-* [S] COST:  
-就是需求說明裡定義的 COST_SCORE，代表 DB 的負載分數，越低越好。我把最低分的數值當作 100%, 分為三個區間: 100%, 101 ~ 150%, 151% ~ 300%, 由深至淺標上綠色。
-* [T] EFFICIENT:  
-同需求說明裡定義的 EFFICIENT_SCORE，代表執行時間的效率分數。這分數要漂亮，平均值要低，標準差也要低。我同樣用最好的那一筆當基準，標三個顏色。
 
-我把所有人提交的 PR 都擺在一起跑測試了，這份 EXCEL 有 9 組程式，各 11 筆測試資料 ( 1 ~ 10 instances + 1 HATEST ) 的結果統計。原始檔大家可以直接下載下來看，我過濾出每組 PR 最好的那筆資料 (EFFICIENT_SCORE 最低的那筆)，給大家參考 ([點我](/wp-content/images/2019-08-30-scheduling-practices/2019-12-06-23-34-27.png)看大圖):
+* ```DELAY_EXCEED```:  
+代表整個測試跑下來，是否有超出額定時間才被執行的 job ? 這欄位數值若超過 0 則不合格
 
-![](/wp-content/images/2019-08-30-scheduling-practices/2019-12-06-23-34-27.png)
+* ```EARLY_LOCK```:  
+這欄位代表 job 在預計執行的時間點之前就被 lock 的總數。雖然說這樣有點偷吃步，但是就結果來說這樣不算違規。大家很聰明的都有在這地方動一點手腳 XDDD，我就把這個數值列出來統計給各位參考參考。
 
-分數各有千秋，但是兩組測試結果都類似。EFFICIENT 最佳的那一組都是 andrew0928, COST 最佳的那一組都是 jwchen-dev ..., levichen 都因為出現 "偷跑" 的狀況而被排除最為可惜... 我的 source code 都有公布，包含測試程式，歡迎各位自行下載回去玩看看。
+* ```EARLY_EXEC```:  
+如果你的 job 在預定時間到達前就開始執行，則會被列入這欄位統計。這情況發生時，就已經不符合需求規格了。 [levichen](https://github.com/levichen) 選手應該是有 bug 沒有抓乾淨就發 PR 了，這欄數字過高，因此不列入排名 (我整排標為灰色)。
 
-特別題一下 HATEST 的做法。Windows 不如 Linux, Windows 打從娘胎開始就有 GUI, 很多設計都跟 GUI 密不可分。在 Windows 下，只有 Windows Application, 或是 Windows Service 這兩種類型的執行檔，你才有方法用程式化的方式傳遞關閉的訊號給他，同時讓程式有機會做好收尾的準備。
+* ```COST_SCORE```:  
+就是需求說明裡定義的 `COST_SCORE`，代表 database 的負載分數，越低越好。我把最低分的數值當作 100%, 分為三個區間: 100%, 101 ~ 150%, 151% ~ 300%, 由深至淺標上綠色。
 
-但是在 Console Application 模式下就沒有這種機會了，OS 並沒有像 Linux 這樣，可以 send signal 模擬關機的狀態，也沒辦法模擬 CTRL-C... 如果你從 kill process 下手，那就會變成強制終止程序, 你根本也沒機會做 graceful shutdown 在收到訊號後還有機會收拾一下殘局。
+* ```EFFICIENT_SCORE```:  
+同需求說明裡定義的 `EFFICIENT_SCORE`，代表執行時間的效率分數。這分數要漂亮，平均值要低，標準差也要低。我同樣用最好的那一筆當基準，標三個顏色。
 
-因此，最終我選擇了一個折衷的方式: 我從 GenericHost 下手。題目要求每個人都是準備自己的 BackgroundService, 因此我自己寫了一個 ConsoleApp, 加入每個人的 project 參考, 我自己控制 Host 的 Start / Stop, 來模擬每個人的 BackgroundService 怎麼面對 OS shutdown ...
+前面放了所有人在 5 instances 條件內最好的一筆紀錄做成總表，這份則是 10 instances 內的最佳紀錄表。僅供各位參考用。做 1 ~ 10 的目的是我想在後面的評論，拿來驗證 solution 在不同狀況下的表現用的, 超出 5 instances 的數據我就不列入排名了，以示公平。以下是整理好的表格，給大家參考 ([點我](/wp-content/images/2019-08-30-scheduling-practices/2019-12-09-23-38-15.png)看大圖):
 
-我 HATEST 測試的腳本是:
+![](/wp-content/images/2019-08-30-scheduling-practices/2019-12-09-23-38-15.png)
+
+
+
+分數各有千秋，但是兩組測試結果都類似。`EFFICIENT_SCORE` 最佳的那一組都是 [andrew0928](https://github.com/andrew0928/) (是我自己, 不好意思 XD), `COST_SCORE` 最佳的那一組都是 [jwchen-dev](https://github.com/jwchen-dev) ..., [levichen](https://github.com/levichen) 都因為出現 "偷跑" 的狀況而被排除最為可惜... 我的 [source code](https://github.com/andrew0928/SchedulingPractice) 都有公布，包含測試程式，歡迎各位自行下載回去玩看看。
+
+特別題一下 `HATEST` 的做法。Windows 不如 Linux, Windows 打從娘胎開始就有 GUI, 很多設計都跟 GUI 密不可分。在 Windows 下，只有 Windows Application, 或是 Windows Service 這兩種類型的執行檔，你才有方法用程式化的方式傳遞關閉的訊號給他，同時讓程式有機會做好收尾的準備。
+
+但是在 ConsoleApps 模式下就沒有這種機會了，OS 並沒有像 Linux 這樣，可以 send signal: `SIGTERM` 模擬關機的狀態，也沒辦法模擬 `CTRL-C`... 如果你從 kill process 下手，那就會變成強制終止程序, 你根本也沒機會做 graceful shutdown 在收到訊號後還有機會收拾一下殘局。
+
+因此，最終我選擇了一個折衷的方式: 我從 `GenericHost` 下手。題目要求每個人都是準備自己的 `BackgroundService`, 因此我自己寫了一個 `ConsoleApp`, 加入每個人的 project 參考, 我自己控制 `Host` 的 `Start` / `Stop`, 來模擬每個人的 `BackgroundService` 怎麼面對 OS shutdown ...
+
+我 `HATEST` 測試的腳本是:
 1. 一次啟動五個 instance, 執行 10 minutes
 1. 每個 instance 啟動後, Host 會啟動 10 ~ 30 sec (隨機) 後自動 shutdown, 然後再自動重新啟動一次。不斷重複直到超過 10 min 後為止
 1. 所有 instance 都執行完畢後, 看統計資訊，確認沒有異常狀況則算通過。
 
 我這邊定義的異常，包含這幾種:
-1. CREATE 的個數與 SUCCESS 的個數不相等
-1. EARLY_EXEC, DELAY_EXCEED 的個數 > 0
-1. 測試過程中出現 EXCEPTION (註: 只會列為參考，主要還是看 1, 2 兩項數據)
+1. `CREATE` 的個數與 `SUCCESS` 的個數不相等
+1. `EARLY_EXEC`, `DELAY_EXCEED` 的個數 > 0
+1. 測試過程中出現 `Exception` (註: 只會列為參考，主要還是看 1, 2 兩項數據)
 
 
 最後交代一下執行的環境。這次執行環境包含 database, 因此也跟你機器效能有些微的關係。為了客觀起見，我一起把我的執行環境列一下:
 
-OS:     Windows 10 Pro for Workstations (1903)
-SQL:    Microsoft SQL Server 2017 Develop Edition
+|-----|------|
+|OS:|Windows 10 Pro for Workstations (1903)|
+|SQL:|Microsoft SQL Server 2017 Develop Edition|
+|CPU:|AMD Ryzen 9 3900X (12C/24T, 3.80Ghz)|
+|RAM:|64GB DDR4 (Kingston 16GB 3200 x 4)|
+|DISK:|512GB Samsung 970Pro SSD (NVMe M.2 2280 PCIe)|
 
-CPU:    AMD Ryzen 9 3900X (12C/24T, 3.80Ghz)
-RAM:    64GB DDR4 (Kingston 16GB 3200 x 4)
-DISK:   512GB Samsung 970Pro SSD (NVMe M.2 2280 PCIe)
-
-OK，接下來要開始進入 code review 的階段了，我們就按照發 PR 的順序一個一個來看吧~ 以下每個 PR，我都會個別列出 10 筆測試結果，同時也會標記 HATEST 是否通過。我也會依據測試結果與 source code 來提供我 review 的結果。
+OK，接下來要開始進入 code review 的階段了，我們就按照發 PR 的順序一個一個來看吧~ 以下每個 PR，我都會個別列出 11 筆測試結果，同時也會標記 `HATEST` 是否通過。我也會依據測試結果與 source code 來提供我 review 的結果。
 
 
 
 ## PR1, HankDemo
 
-感謝第一個捧場的 acetaxxx, 開始前先看一下 HankDemo 的測試結果, 再來看 code review...
+感謝第一個捧場的 [acetaxxxx](https://github.com/acetaxxxx), 開始前先看一下 `HankDemo` 的測試結果:
 
 
-**Benchmark** (1 ~ 10 instances):
+**Benchmark**:
 
-![](/wp-content/images/2019-08-30-scheduling-practices/2019-12-07-00-13-48.png)
-
+![](/wp-content/images/2019-08-30-scheduling-practices/2019-12-09-23-51-19.png)
 
 **HA test**: PASS
 
 
-至於 source code, 其實不長, 我就全貼了:
+至於 [source code](https://github.com/andrew0928/SchedulingPractice/blob/master/HankDemo.HankTaskRunner/Program.cs), 其實不長, 我就全貼了:
+
 
 ```csharp
 
@@ -648,27 +657,27 @@ public class HankTestProgram : BackgroundService
 
 ```
 
-acetaxxx 的做法有點可惜，方向都很合理，但是細節卻沒有搭配得很好，導致排程服務最關鍵的時間精確度 (EFFICIENT_SCORE) 沒有被最佳化。從幾個地方都可以看到這樣的現象:
+這 code 做法有點可惜，方向都很合理，但是細節卻沒有搭配得很好，導致排程服務最關鍵的時間精確度 (`EFFICIENT_SCORE`) 沒有被最佳化。從幾個地方都可以看到這樣的現象:
 
 **主結構**:
 
-先從這 solution 怎麼將 database 裡面的 job 拿出來分配吧。主結構是個 while loop, 每隔 5 sec, 查詢 15 sec 後必須被執行的 job list. 不過其實題目給的前提, prepare time 有 10 sec 啊! 用了 1/2 的時間 (5 sec) 來查詢，等於多了一倍的 QueryList 執行成本, 預先查詢 15 sec 的範圍雖然不會有甚麼問題，但是 10 ~ 15 sec 區間還有可能在查完之後插入新的 job... 會增加後面 worker 處理時的困擾。
+先從這 solution 怎麼將 database 裡面的 job 拿出來分配吧。主結構是個 while loop, 每隔 5 sec, 查詢 15 sec 後必須被執行的 job list. 不過其實題目給的前提, prepare time 有 10 sec 啊! 用了 1/2 的時間 (5 sec) 來查詢，等於多了一倍的 `QueryList` 執行成本, 預先查詢 15 sec 的範圍雖然不會有甚麼問題，但是 10 ~ 15 sec 區間還有可能在查完之後插入新的 job... 會增加後面 worker 處理時的困擾。
 
-這樣的設計，除了浪費一點 COST 之外，對於 EFFICIENT 倒是沒有很明顯的影響。我們接下來繼續看 worker 的設計:
+這樣的設計，除了浪費一點 `COST_SCORE` 之外，對於 `EFFICIENT_SCORE` 倒是沒有很明顯的影響。我們接下來繼續看 worker 的設計:
 
 
 **Worker 設計**:
 
-查出來的 job, 會被分配到 5 個平行進行的 worker 處理。每個 worker 都有專屬的 Queue 來存放即將被處理的 job. 由於 job 的分配時間點，是在主迴圈拿到 job list 那一瞬間就決定了，因此之後每個 worker 的執行速度若有快慢, 或是特定的 worker 當掉了之類狀況, 其他 worker 不會有替補或是備援的機制。
+查出來的 job, 會被分配到 5 個平行進行的 worker 處理。每個 worker 都有專屬的 queue 來存放即將被處理的 job. 由於 job 的分配時間點，是在主迴圈拿到 job list 那一瞬間就決定了，因此之後每個 worker 的執行速度若有快慢, 或是特定的 worker 當掉了之類狀況, 其他 worker 不會有替補或是備援的機制。
 
-同時，前面提到額定的規範是 10 sec prepare time, 但是預查 job list 查到 15 sec, 若查完 query list 後還有新的 job 被插入在 10 ~ 15 sec 內，現有的 source code 沒看到可以重新排序的機制，也因此這些 job 可能會發生明明是 10 sec 後就預約要執行的，卻因為這設計被擋在 15 sec 後才執行。平白就多浪費了 5 sec 的 delay time...
+同時，前面提到額定的規範是 10 sec 準備時間, 但是預查 job list 查到 15 sec, 若查完 query list 後還有新的 job 被插入在 10 ~ 15 sec 內，現有的 source code 沒看到可以重新排序的機制，也因此這些 job 可能會發生明明是 10 sec 後就預約要執行的，卻因為這設計被擋在 15 sec 後才執行。平白就多浪費了 5 sec 的 delay time...
 
 
 **平行處理的技巧**:
 
-除了結構上的改善空間之外，實際 coding 平行處理機制的技巧也可以優化。Worker 從專屬的 Queue 取出 Job 後, 應該要 "等待" 預定時間到了之後才執行。這段 code 很可惜的沒有直接用 Sleep 之類的機制來等，而是在中不斷的判斷時間到了沒，這是典型的 "busy waiting" 的作法。精確度沒有甚麼問題，問題在這段過程中 CPU 會不斷的空轉，造成 CPU 使用率降不下來，若再負擔較重的 server 上面可能就會影響其他服務的運作。
+除了結構上的改善空間之外，實際 coding 平行處理機制的技巧也可以優化。Worker 從專屬的 queue 取出 job 後, 應該要 "等待" 預定時間到了之後才執行。這段 code 很可惜的沒有直接用 `Sleep` 之類的機制來等，而是在中不斷的判斷時間到了沒，這是典型的 "busy waiting" 的作法。精確度沒有甚麼問題，問題在這段過程中 CPU 會不斷的空轉，造成 CPU 使用率降不下來，若再負擔較重的 server 上面可能就會影響其他服務的運作。
 
-另外在其他幾個地方的細節，也可以再善用各種同步機制 (如 Auto / Manual Reset Event) 來做更精準地控制，對於 Shutdown 這件事的處理也是。主迴圈等待 5 sec 的地方有考慮到了 cancellation token, 可以精準的偵測是否該停機了, 而不會傻傻地繼續等下去。但是在 worker 內的 sleep 等了 20 sec, 就完全沒有正常的退出機制, 有點可惜。
+另外在其他幾個地方的細節，也可以再善用各種同步機制 (如 `AutoResetEvent`) 來做更精準地控制，對於 shutdown 這件事的處理也是。主迴圈等待 5 sec 的地方有考慮到了 `CancellationToken`, 可以精準的偵測是否該停機了, 而不會傻傻地繼續等下去。但是在 worker 內的 sleep 等了 20 sec, 就完全沒有正常的退出機制, 有點可惜。
 
 最後一個是平行處理的方式。這邊並沒有用常見的 Task 或是 Thread 方式來實作平行處理，而是把每個 worker 當作一個 thread pool 的 job 來處理。thread pool 擅長的是處理大量的小任務啊! 因為任務又多又小又快，過度頻繁建立及刪除 threads 的開銷很大，因此才用 thread pool 來改善。
 
@@ -682,7 +691,7 @@ acetaxxx 的做法有點可惜，方向都很合理，但是細節卻沒有搭�
 
 
 
-整體來看, 由於在時間的控制不夠精準，導致處理過程中的空隙太多, 所以 EFFICIENT_SCORE 並沒有佔到任何優勢, 落在 300% 的範圍之外，有點可惜。不過在 process job 時有動了一點腦筋, 由於 acquire_lock 的成本是 query_job 的 10 倍, 因此在嘗試 lock 前先 query, 花費 1 的 cost 去確認該不該花 10 的 cost 去 lock, 其實是划算的。反倒是在 repo 的使用上很謹慎, 因此在 COST_SCORE 的分數上還有擠進 300% 內。
+整體來看, 由於在時間的控制不夠精準，導致處理過程中的空隙太多, 所以 `EFFICIENT_SCORE` 並沒有佔到任何優勢, 落在 300% 的範圍之外，有點可惜。不過在 process job 時有動了一點腦筋, 由於 `AcquireJobLock()` 的成本是 `GetJob()` 的 10 倍, 因此在嘗試 lock 前先 query, 花費 1 的 cost 去確認該不該花 10 的 cost 去 lock, 其實是划算的。反倒是在 repo 的使用上很謹慎, 因此在 `COST_SCORE` 的分數上還有擠進 300% 內。
 
 即使如此, 表現的成果仍然可以精確到 1 ~ 2 sec 左右的誤差。在實際的狀況下，只要解決 busy waiting 的問題，其實也很夠用了。畢竟大部分 OS 提供的排程服務都只精準到 minute 而已啊! 但是既然都有明確的指標了，可以嘗試看看把自己的 code 改到極致的狀態吧!
 
@@ -690,16 +699,17 @@ acetaxxx 的做法有點可惜，方向都很合理，但是細節卻沒有搭�
 
 ## PR2, JolinDemo
 
-照例先看結果..., 以下是 toyo0103 提交的 PR 跑出來的成績:
+照例先看結果..., 以下是 [toyo0103](https://github.com/toyo0103) 提交的 PR 跑出來的成績:
 
 
-**Benchmark** (1 ~ 10 instances):
+**Benchmark**:
 
-![](/wp-content/images/2019-08-30-scheduling-practices/2019-12-07-03-17-02.png)
+![](/wp-content/images/2019-08-30-scheduling-practices/2019-12-09-23-57-27.png)
+
 
 **HA test**: PASS
 
-我貼了主要的 source code, 其餘無關的我直接省略, 有興趣看完整 code 的可以直接看 github.
+我貼了主要的 [source code](https://github.com/andrew0928/SchedulingPractice/blob/master/SubWorker.JolinDemo/Scheduler.cs), 其餘無關的我直接省略:
 
 ```csharp
 
@@ -770,13 +780,14 @@ private void FetchJob()
 
 ```
 
-toyo0103 的做法也類似，由一個主程序 FetchJob 負責跟 JobsRepo 不斷的取得再 10 sec 內應該要執行的 jobs 清單, 透過過去前幾篇不斷提到的 BlockingCollection 往後送。而 ExuteBody 則負責從 BlockingCollection 取得 jobs, 到排定的時間後就執行。
+[toyo0103](https://github.com/toyo0103) 的做法也類似，由一個主程序 `FetchJob` 負責跟 `JobsRepo` 不斷的取得再 10 sec 內應該要執行的 jobs 清單, 透過過去前幾篇不斷提到的 `BlockingCollection` 往後送。而 `ExuteBody()` 則負責從 `BlockingCollection` 取得 jobs, 到排定的時間後就執行。
 
-值得一提的是，這個 solution 對於平行處理的技巧純熟的多，很多多執行緒情境下的問題都處理的很到位。例如典型的生產者消費者問題，巧妙的用 BlockingCollection 就隔離開來了，再兩端的控制都是透過背後的同步機制進行，少了 timer 等候輪巡，反應的時間完全取決於 CPU 的速度，通常都會在 msec 以下。
+值得一提的是，這個 solution 對於平行處理的技巧純熟的多，很多多執行緒情境下的問題都處理的很到位。例如典型的生產者消費者問題，巧妙的用 `BlockingCollection` 就隔離開來了，再兩端的控制都是透過背後的同步機制進行，少了 timer 等候輪巡，反應的時間完全取決於 CPU 的速度，通常都會在 msec 以下。
 
-至於 shutdown 的處理，也做的到位，直接用 WaitHandle 來協調, 讓 FetchJob 能精確掌握 ExuteBody 是否全部結束, 然後正常的退出。雖然中間經過兩種不同的 wait 機制轉換 (從 WaitHandle 再多一層包裝成 C# async / await), 不過瑕不掩瑜, 終究這段 code 能精準地完成 shutdown 的過程。
+至於 shutdown 的處理，也做的到位，直接用 `WaitHandle` 來協調, 讓 `FetchJob` 能精確掌握 `ExuteBody` 是否全部結束, 然後正常的退出。雖然中間經過兩種不同的 wait 機制轉換 (從 `WaitHandle` 再多一層包裝成 C# `async` / `await`), 不過瑕不掩瑜, 終究這段 code 能精準地完成 shutdown 的過程。
 
-回到主要處理排程任務的部分 (ExuteBody), 來看真正這部分的核心邏輯:
+回到主要處理排程任務的部分 `ExuteBody()`, 來看真正這部分的核心邏輯:
+
 
 ```csharp
 
@@ -795,24 +806,24 @@ using (JobsRepo repo = new JobsRepo(this._connectString))
 
 ```
 
-很標準的作法，等待到預定時間後，Lock job, Process job... 真的要挑缺點, 大概就是 JobsRepo 其實可以適度的 reuse 這類工程問題而已。但是看看跑出來的結果，很可惜在 COST 或是 EFFICIENT 上都沒有擠進 300% 的範圍內 (請看總表)。由於這部份原因我沒有實際用工具去看執行過程，因此純粹就經驗來推斷，如果有朋友實際實驗結果有落差請記得跟我說 :D
+很標準的作法，等待到預定時間後，`AcquireJobLock()`, `ProcessLockedJob()`... 真的要挑缺點, 大概就是 `JobsRepo` 其實可以適度的 reuse 這類工程問題而已。但是看看跑出來的結果，很可惜在 `COST_SCORE` 或是 `EFFICIENT_SCORE` 上都沒有擠進 300% 的範圍內 (請看總表)。由於這部份原因我沒有實際用工具去看執行過程，因此純粹就經驗來推斷，如果有朋友實際實驗結果有落差請記得跟我說 :D
 
-先談談 COST, 這作法其實是很標準的作法，沒有啥好挑剔的，但是相較於其他競爭者都花了不少心思優化，標準做法反而變成 "公版" 一樣，在效能表現上就居劣勢了。我舉幾個在排程部分，有機會進一步優化的地方:
+先談談 `COST_SCORE`, 這作法其實是很標準的作法，沒有啥好挑剔的，但是相較於其他競爭者都花了不少心思優化，標準做法反而變成 "公版" 一樣，在效能表現上就居劣勢了。我舉幾個在排程部分，有機會進一步優化的地方:
 
 
 
 **降低鎖定次數**:
 
-由於 AcquireJobLock 這動作的 COST 定義上是 QueryJob 的 10 倍, 加上這又是平行處理的架構 (5 thread x 10 process = 50 concurrency), 很多參加的選手都有用這招, 先 QueryJob 後再決定要不要 AcquireLock, 猜錯了 COST 就是 10 + 1, 猜對了就是 1 ... 如果乘上 50 個併行處理的總數, 真正會執行 AcquireLock 的個數應該很有限才對, 因此這部分 COST 可能就會從 50 x 10 降到 50 x 1 + N x 10, 其中 N 應該只會是個位數...
+由於 `AcquireJobLock()` 這動作的 `COST_SCORE` 定義上是 `GetJob()` 的 10 倍, 加上這又是平行處理的架構 (5 thread x 10 process = 50 concurrency), 很多參加的選手都有用這招, 先 `GetJob()` 後再決定要不要 `AcquireJobLock()`, 猜錯了 `COST_SCORE` 就是 10 + 1, 猜對了就是 1 ... 如果乘上 50 個併行處理的總數, 真正會執行 `AcquireJobLock()` 的個數應該很有限才對, 因此這部分 `COST_SCORE` 可能就會從 50 x 10 降到 50 x 1 + N x 10, 其中 N 應該只會是個位數...
 
 
 **降低延遲**:
 
-接下來又是個暗黑技巧，toyo0103 很老實的在時間到了之後才執行這一連串的動作 (還包括 new JobsRepo() ...), 最後計算的時間點則在 ProcessLock, 這中間的時間就都被算到 DELAY 了。因此另一招是 "偷跑"。
+接下來又是個暗黑技巧，toyo0103 很老實的在時間到了之後才執行這一連串的動作 (還包括 `new JobsRepo()` ...), 最後計算的時間點則在 `ProcessLockedJob()`, 這中間的時間就都被算到 `DELAY` 了。因此另一招是 "偷跑"。
 
-再次看一下總表，有一欄 [Q] 是 EARLY_LOCK，代表的就是你 AcquireLock 的時間點是不是在預約時間點之前? 你會發現排名高的這項統計都不低 (代表大家都有偷吃步)。先撇開正確性不說，光是提前 100ms AcquireLock, 你就能在整個延遲的計算裡面省掉這段開銷。這段 code 能省掉的有 new JobsRepo(), 跟 AcquireJobLock() 兩段。
+再次看一下總表，`EARLY_LOCK` 欄位代表的就是你 `AcquireJobLock()` 的時間點是不是在預約時間點之前? 你會發現排名高的這項統計都不低 (代表大家都有偷吃步)。先撇開正確性不說，光是提前 100ms `AcquireJobLock()`, 你就能在整個延遲的計算裡面省掉這段開銷。這段 code 能省掉的有 `new JobsRepo()`, 跟 `AcquireJobLock()` 兩段。
 
-最後，只能說很可惜的，這份 code 其實很標準，可以拿來做講解的範例，可惜 COST 跟 EFFICIENT 都沒有顧好最佳化，兩邊都沒佔到便宜就被超車了 XDD
+最後，只能說很可惜的，這份 code 其實很標準，可以拿來做講解的範例，可惜 `COST_SCORE` 跟 `EFFICIENT_SCORE` 都沒有顧好最佳化，兩邊都沒佔到便宜就被超車了 XDD
 
 
 
@@ -823,12 +834,12 @@ using (JobsRepo repo = new JobsRepo(this._connectString))
 
 ## PR3, JWDemo
 
-以下是 jwchen-dev 提交的 PR 跑出來的成績:
+以下是 [Jyun-Wei Chen](https://github.com/jwchen-dev) 提交的 PR 跑出來的成績:
 
 
-**Benchmark** (1 ~ 10 instances):
+**Benchmark**:
 
-![](/wp-content/images/2019-08-30-scheduling-practices/2019-12-07-03-17-27.png)
+![](/wp-content/images/2019-08-30-scheduling-practices/2019-12-10-00-03-31.png)
 
 **HA test**: PASS
 
@@ -866,9 +877,9 @@ using (JobsRepo repo = new JobsRepo())
 
 ```
 
-跟 toyo0103 一樣，中規中矩的 code, 唯獨這邊留意到了 COST 的問題，在真正 AcquireJobLock() 前先做一次 GetJob() 來確定是否真的需要 Lock ..
+跟 toyo0103 一樣，中規中矩的 code, 唯獨這邊留意到了 `COST_SCORE` 的問題，在真正 `AcquireJobLock()` 前先做一次 `GetJob()` 來確定是否真的需要 Lock ..
 
-另外, 這 solution 一樣用了 BlockingCollection 來做 job 的分派管理. 唯獨一個不解的是, 其中硬生生的又把 BlockingCollection 包了一層, 對實際結果其實沒有任何影響, 只是好奇這樣的目的... 變成 Queue, 看來應該是習慣 pop / push 的用語吧? (這不是 stack 的用語嗎? XDD)
+另外, 這 solution 一樣用了 `BlockingCollection` 來做 job 的分派管理. 唯獨一個不解的是, 其中硬生生的又把 `BlockingCollection` 包了一層, 對實際結果其實沒有任何影響, 只是好奇這樣的目的... 變成 `Queue`, 看來應該是習慣 pop / push 的用語吧? (這不是 stack 的用語嗎? XDD)
 
 
 
@@ -922,22 +933,22 @@ protected async override Task ExecuteAsync(CancellationToken stoppingToken)
 
 ```
 
-主結構用了 Task 來啟動指定個數的 worker, 不過啟動之後卻沒有確定他跑完了才結束主程序... 這是需要加強的地方, 程序沒有明確的正常終止的過程。雖然如此, 這樣的 code 卻也沒有在 HATEST 裡碰到任何意外...
+主結構用了 `Task` 來啟動指定個數的 worker, 不過啟動之後卻沒有確定他跑完了才結束主程序... 這是需要加強的地方, 程序沒有明確的正常終止的過程。雖然如此, 這樣的 code 卻也沒有在 `HATEST` 裡碰到任何意外...
 
-不過我看到一段比較詭異的 code, 摸不大清楚這段 code 背後真正的目的。抓完 job list 後, 照道理應該等 10 sec 結束後繼續抓下一周期的 job 清單出來... 這邊看到了一段刻意插入的隨機動作:
+不過我看到一段比較詭異的 code, 摸不大清楚這段 code 背後真正的目的。抓完 `GetReadyJobs()` 後, 照道理應該等 10 sec 結束後繼續抓下一周期的 job 清單出來... 這邊看到了一段刻意插入的隨機動作:
 
 > 如果這輪沒有抓到任何 job, 下一輪就等 10 +- 5 sec 才開始抓...
 > 如果有, 就等到從上次最後一筆 job 預約時間再往後 15 sec 以後在開始抓下一輪...
 
 其實在可以很精準控制的環境下，刻意加入這種隨機的因子，是有點冒險的。因為最長可能拖過 15 sec, 而題目規定的 prepare time 只有 10 sec 啊! 你可能會因此錯過了 10 ~ 15 sec 區間的 job.., 雖然最後一樣會被執行, 但是你可能趕不上而平白多增加了 0 ~ 5 sec 的延遲..
 
-但是，把他錯開其實有其他好處的。我的測試都是同時啟動每個 instance, 很有可能每個 instance 的每個 thread 在執行 QueryJobList 的時間點都一樣，加上 Random 有助於錯開這些時機。後來看測試結果才發現，原來這樣做也是有目的的。如果有多個 instance 同時在進行，也許漏掉 10 ~ 15 sec 的 job 並不是那麼嚴重，因為我漏掉了會有別人來補啊! 但是這樣一來，整體的 COST 就會下降很多, 而 EFFICIENT 還能維持在一定範圍內。
+但是，把他錯開其實有其他好處的。我的測試都是同時啟動每個 instance, 很有可能每個 instance 的每個 thread 在執行 `GetReadyJobs()` 的時間點都一樣，加上 Random 有助於錯開這些時機。後來看測試結果才發現，原來這樣做也是有目的的。如果有多個 instance 同時在進行，也許漏掉 10 ~ 15 sec 的 job 並不是那麼嚴重，因為我漏掉了會有別人來補啊! 但是這樣一來，整體的 `COST_SCORE` 就會下降很多, 而 `EFFICIENT_SCORE` 還能維持在一定範圍內。
 
-進一步觀察測試結果，更可以證實我的推論。看一下 1 instance 時, EFFICIENT 的分數高達 5924.54 ... 但是隨著 instance 數量拉高, 這分數快速的下降, 5924 是所有人 1 instance 時是後段班的成績, 但是拉到 3 instance 就擠進 1000 分以內了, 跑到最後竟然可以爬到 300% 以內的族群..
+進一步觀察測試結果，更可以證實我的推論。看一下 1 instance 時, `EFFICIENT_SCORE` 的分數高達 5924.54 ... 但是隨著 instance 數量拉高, 這分數快速的下降, 5924 是所有人 1 instance 時是後段班的成績, 但是拉到 3 instance 就擠進 1000 分以內了, 跑到最後竟然可以爬到 300% 以內的族群..
 
 這些細節我會特別重視，反而我刻意忽略了部分工程上的細節，因為我覺得這問題本身的 domain 才是最需要深入探討的啊，其他工程上的問題只要方法到位了，實作的細節影響應該有限 (重點是比我厲害的人應該很多 XDD)。這些處理 domain 本身的做法，才是真正影響分數的主因。
 
-不過，很多狀況都是我多慮了 XDDD, 即使 code 看起來有些潛在的隱憂，實際跑起來是運作的不錯的。首先，這 solution 成功的通過了 HATEST, 再來這樣的設計也創造了最低的 COST 分數 (恭喜!!!)。至於 EFFICIENT 分數，雖然有我擔心的那些問題，但是也跑出了 256.60 分的成績，擠進了 300% 的前段班。
+不過，很多狀況都是我多慮了 XDDD, 即使 code 看起來有些潛在的隱憂，實際跑起來是運作的不錯的。首先，這 solution 成功的通過了 `HATEST`, 再來這樣的設計也創造了最低的 `COST_SCORE` 分數 (恭喜!!!)。至於 `EFFICIENT_SCORE` 分數，雖然有我擔心的那些問題，但是也跑出了 256.60 分的成績，擠進了 300% 的前段班。
 
 
 
@@ -945,18 +956,17 @@ protected async override Task ExecuteAsync(CancellationToken stoppingToken)
 
 ## PR4, LeviDemo
 
-以下是 levichen 提交的 PR 跑出來的成績:
+以下是 [levichen](https://github.com/levichen) 提交的 PR 跑出來的成績:
 
-**Benchmark** (1 ~ 10 instances):
+**Benchmark**:
 
-![](/wp-content/images/2019-08-30-scheduling-practices/2019-12-07-03-17-51.png)
-
+![](/wp-content/images/2019-08-30-scheduling-practices/2019-12-10-00-19-32.png)
 
 **HA test**: FAIL
 
-這 PR 有點可惜, 看來是疏忽沒有改好就發 PR 上來了，沒有通過 HATEST 的測試。每一筆 job 通通都還沒到預定時間就執行了。所以 EFFICIENT_SCORE 的分數都是負的，被排除在排行清單之外了。
+這 PR 有點可惜, 看來是疏忽沒有改好就發 PR 上來了，沒有通過 `HATEST` 的測試。每一筆 job 通通都還沒到預定時間就執行了。所以 `EFFICIENT_SCORE` 的分數都是負的，被排除在排行清單之外了。
 
-不過，雖然沒有通過基本的測試，但是不代表程式碼沒有值得探討的地方。levichen 選手自己刻了個 thread pool: SimpleThreadPool, 不論做的好壞, 能自己成功刻出來就已經代表觀念跟實作能力有一定的水準了。不過這不是我這篇的重點，哈哈...
+不過，雖然沒有通過基本的測試，但是不代表程式碼沒有值得探討的地方。levichen 選手自己刻了個 thread pool: `SimpleThreadPool`, 不論做的好壞, 能自己成功刻出來就已經代表觀念跟實作能力有一定的水準了。不過這不是我這篇的重點，哈哈...
 
 主程式都以這個 thread pool 為主要核心去發展出來的, thread pool 的模式，背後其實就隱含了 queue 及 dispatch 到個別的 thread(s) 的機制了。所以剩下的環節，就是來看看主程式如何處理 jobs, 以及每個 jobs 如何被執行。
 
@@ -994,31 +1004,26 @@ while (_workItems.Count > 0)
 
 ```
 
-果然，一眼就看到 bug 在哪裡了 XDD, 這段 code 用了前面提到的技巧, Lock 前先查詢看看, 降低 COST 較高的 Lock 執行次數，畢竟 Lock 失敗也算一次啊，盡可能確保真的能成功 Lock 再去呼叫就好。不過這段 code 有個很嚴重的缺失, 就是完全沒有判定 RunAt 的時間到了沒這件事。按照 code 來看，就是拿到 job 就不管三七廿一就直接執行了, 每 10 sec 抓一次 job list, 所以平均會 delay 5000+ msec 看起來就很合理了。
-
-<!-- 
-我沒有花時間修正這問題再重跑一次，這任務就交給作者本人了。前面提到，自己刻 thread pool 自己用, 是很值得鼓勵的行為，不過僅只在 "練習" 或是 POC 階段。要在正式場合使用，需要考慮的因素就比較多了。撇除 thread pool 內部運作機制的設計，我額外給一個建議: SimpleThreadPool 的 "使用" 方式不夠泛用。
-
-這類別命名為 SimpleThreadPool, 但是內部的實作卻除了 thread 的處理之外，也把這次排程任務的 job 實作包含在內了, 單一類別同時負責了兩個主要的 domain 任務 (thread pool, schedule job process), 這會讓日後難以維護, SimpleThreadPool 也難以搬到其他地方重複使用。 -->
+果然，一眼就看到 bug 在哪裡了 XDD, 這段 code 用了前面提到的技巧, `AcquireJobLock()` 前先查詢看看, 降低 `COST_SCORE` 較高的 lock 執行次數，畢竟 lock 失敗也算一次啊，盡可能確保真的能成功 lock 再去呼叫就好。不過這段 code 有個很嚴重的缺失, 就是完全沒有判定 `RunAt` 的時間到了沒這件事。按照 code 來看，就是拿到 job 就不管三七廿一就直接執行了, 每 10 sec 呼叫一次 `GetReadyJobs()`, 所以平均會 delay 5000+ msec 看起來就很合理了。
 
 
 
 
 ## PR5, BorisDemo
 
-以下是  提交的 PR 跑出來的成績:
+以下是 [borischin](https://github.com/borischin) 提交的 PR 跑出來的成績:
 
 
-**Benchmark** (1 ~ 10 instances):
+**Benchmark**:
 
-![](/wp-content/images/2019-08-30-scheduling-practices/2019-12-07-03-18-12.png)
+![](/wp-content/images/2019-08-30-scheduling-practices/2019-12-10-00-20-08.png)
 
 
 **HA test**: PASS(註)
 
-開始評論 code 前先說明一下，這 code 在進行 HATEST 的過程中，碰到一些零星的 exception... 這些 exception 不影響測試的數據, 但是看到這些 exception message 噴出來時在有點惱人, 這類問題通常都是多執行緒的機制, 在 shutdown 時沒有好好地按照順序正常終止造成的。
+開始評論 code 前先說明一下，這 code 在進行 `HATEST` 的過程中，碰到一些零星的 `Exception`... 這些 `Exception` 不影響測試的數據, 但是看到這些 exception message 噴出來時在有點惱人, 這類問題通常都是多執行緒的機制, 在 shutdown 時沒有好好地按照順序正常終止造成的。
 
-我把攔截到的 exception message 貼一段上來參考, 實際狀況可以下載 log file 來看:
+我把攔截到的 exception message 貼一段上來參考:
 
 ```logs
 
@@ -1031,7 +1036,7 @@ System.AggregateException: One or more errors occurred. (A task was canceled.) -
 
 ```
 
-接著來看看 code, 這 code 的結構很單純, 沒有包裝太多的 class 或是 interface, 所有邏輯都包在單一 method 內。不過除了風格不大一樣之外，大家的 code 處理模式都類似，都有一個 thread (或是 task) 負責從 JobsRepo 不斷的抓取 job 清單, 分配給其他 threads 等待啟動時間，及負責執行他。
+接著來看看 code, 這 code 的結構很單純, 沒有包裝太多的 class 或是 interface, 所有邏輯都包在單一 method 內。不過除了風格不大一樣之外，大家的 code 處理模式都類似，都有一個 thread (或是 task) 負責從 `JobsRepo` 不斷的抓取 job 清單, 分配給其他 threads 等待啟動時間，及負責執行他。
 
 code 我就不整段貼了。先來看 fetch (抓取清單) 的部分:
 
@@ -1067,7 +1072,7 @@ _queue.CompleteAdding();
 
 ```
 
-這邊比較特別的是, 抓出 job 時不等到預定時間到達，就直接先 AcquireJobLock() 了, 然後再丟到 _queue (型別: BlockingCollection) 等待其他 threads 把他拿走去處理。
+這邊比較特別的是, 抓出 job 時不等到預定時間到達，就直接先 `AcquireJobLock()` 了, 然後再丟到 `_queue` (型別: `BlockingCollection`) 等待其他 threads 把他拿走去處理。
 
 接著來看看處理的部分 code:
 
@@ -1112,29 +1117,29 @@ foreach (var t in threads) t.Start();
 
 ```
 
-除了提前 Lock 之外，後面的動作其實蠻標準的 (這也可以拿來當示範教材了 XD)，很多工程及多執行緒的寫法都很標準也很到位。唯一可惜的地方，我想應該也是疏忽吧。當 _queue 已經空了, TryTake () 這 method call 應該會被 blocked. 不過這邊給了固定的 timeout 時間: 3000 msec, 而不是配合 cancellationToken 來中斷 blocking call, 也許就是這個地方造成 service shutdown 沒辦法正確的終止問題吧。
+除了提前 `AcquireJobLock()` 之外，後面的動作其實蠻標準的 (這也可以拿來當示範教材了 XD)，很多工程及多執行緒的寫法都很標準也很到位。唯一可惜的地方，我想應該也是疏忽吧。當 `_queue` 已經空了, `TryTake()` 這 method call 應該會被 blocked. 不過這邊給了固定的 timeout 時間: 3000 msec, 而不是配合 `CancellationToken` 來中斷 blocking call, 也許就是這個地方造成 service shutdown 沒辦法正確的終止問題吧。
 
-回頭來看看，這段 code 對於 "scheduling" 這件事本身來說做得如何? 由於 instance 執行時間應該都會錯開, 相較於 job 要執行前那瞬間才 lock (大家應該都會在那瞬間一起醒來), 有很高的機率會發生大家判定狀態都還沒 lock, 然後都同時要 lock, 最後只有一個人成功, 但是會花掉好幾個 lock 的動作 (COST...), borischin 選擇在 QueryList 時就先 lock, 競爭那瞬間的機率大幅降低了。換來的好處，果然反應在成果上了。這 solution 拿到了不錯的 COST_SCORE (排第三), 同時在 EFFICIENT_SCORE (排第二) 也有不錯的成績，同時能拿下這兩個分數的前段班，算是很好的拿捏到一個平衡點了。
+回頭來看看，這段 code 對於 "scheduling" 這件事本身來說做得如何? 由於 instance 執行時間應該都會錯開, 相較於 job 要執行前那瞬間才 lock (大家應該都會在那瞬間一起醒來), 有很高的機率會發生大家判定狀態都還沒 lock, 然後都同時要 lock, 最後只有一個人成功, 但是會花掉好幾個 lock 的動作 (COST...), borischin 選擇在 `GetReadyJobs()` 時就先 lock, 競爭那瞬間的機率大幅降低了。換來的好處，果然反應在成果上了。這 solution 拿到了不錯的 `COST_SCORE` (排第三), 同時在 `EFFICIENT_SCORE` (排第二) 也有不錯的成績，同時能拿下這兩個分數的前段班，算是很好的拿捏到一個平衡點了。
 
-過早提前 lock 的缺點, 真的要說就是 worker 已經拿走了卻臨時被停止, 你必須避免已經 lock 卻沒辦法 process 的狀態了。因為你一但 lock 住這個 job, 就代表其他 worker 完全沒機會再去處理他了。也因此，這份 code 在處理 shutdown 狀況時, 不是把眼前這個 job 清空就可以退出了，是必須把所有擺在 _queue 裡面的 job 通通清空才能退出。
+過早提前 lock 的缺點, 真的要說就是 worker 已經拿走了卻臨時被停止, 你必須避免已經 lock 卻沒辦法 process 的狀態了。因為你一但 lock 住這個 job, 就代表其他 worker 完全沒機會再去處理他了。也因此，這份 code 在處理 shutdown 狀況時, 不是把眼前這個 job 清空就可以退出了，是必須把所有擺在 `_queue` 裡面的 job 通通清空才能退出。
 
 以這個 case 的設定, 最極端的狀況下, 一個 job 可能會提前 10 sec 就被 lock... 代表這個 worker 若這瞬間就收到 shutdown event, 他必須 "撐住" 10 sec 才能正常離開, 否則資料就會損毀了。然而 OS 不見得能保證能讓你跑完這 10 sec, 更何況 10 sec 這數值不是寫 code 的人決定的, 可能是依據商業邏輯來決定的...，以我們實際的 case, 可能有些狀況 prepare time 會拉長到 60 分鐘這樣的數字, 那就更不可能這樣設計了...。
 
-不過，即使如此，這些是 production 上的考量, 畢竟題目的需求一開始就明定 10 sec, 我的結論還是一樣, 這 solution 算是取得很好的平衡點，同時兼顧 COST_SCORE 跟 EFFICIENT_SCORE 都有不錯的成績..
+不過，即使如此，這些是 production 上的考量, 畢竟題目的需求一開始就明定 10 sec, 我的結論還是一樣, 這 solution 算是取得很好的平衡點，同時兼顧 `COST_SCORE` 跟 `EFFICIENT_SCORE` 都有不錯的成績..
 
 
 ## PR6, JulianDemo
 
-以下是  提交的 PR 跑出來的成績:
+以下是 [Julian-Chu](https://github.com/Julian-Chu) 提交的 PR 跑出來的成績:
 
 
-**Benchmark** (1 ~ 10 instances):
+**Benchmark**:
 
-![](/wp-content/images/2019-08-30-scheduling-practices/2019-12-07-03-18-37.png)
+![](/wp-content/images/2019-08-30-scheduling-practices/2019-12-10-00-21-00.png)
 
 **HA test**: PASS(註)
 
-Julian 的 PR, 在進行 HATEST 時也碰到零星的 exception:
+Julian 的 PR, 在進行 `HATEST` 時也碰到零星的 exception:
 
 ```
 
@@ -1147,11 +1152,11 @@ System.AggregateException: One or more errors occurred. (A task was canceled.) -
 
 ```
 
-看起來狀況都類似, 沒有按照預期順序終止之類的問題。同樣也不影響 HATEST 的結果，數據也正常，我就只列出來供參考。
+看起來狀況都類似, 沒有按照預期順序終止之類的問題。同樣也不影響 `HATEST` 的結果，數據也正常，我就只列出來供參考。
 
-延續上一篇的挑戰, Julian 同樣搬出了效能比 BlockingCollection 還要好的 Channel 出來應戰。BlockingCollection 把非同步的細節封裝起來了，但是他對外的 interface 則是完全以 sync 同步的型態呈現的。換句話說你如果想要用 async 非同步的方式去處理他，你得另外再包一層 Task, 這樣不但囉嗦多一道手續, 你也沒辦法很精準的掌握 async return 的時間點。換句話說要使用到 async 真正的好處, 你必須在 call stack 每一層都用 async 才行... 中間若經過 sync 包裝，然後再用 Task 提供 async 介面, 那就失去意義了, 你只會得到表面上的 async 使用方式而已。
+延續上一篇的挑戰, Julian 同樣搬出了效能比 `BlockingCollection` 還要好的 `Channel` `出來應戰。BlockingCollection` 把非同步的細節封裝起來了，但是他對外的 interface 則是完全以 sync 同步的型態呈現的。換句話說你如果想要用 async 非同步的方式去處理他，你得另外再包一層 `Task`, 這樣不但囉嗦多一道手續, 你也沒辦法很精準的掌握 async return 的時間點。換句話說要使用到 async 真正的好處, 你必須在 call stack 每一層都用 async 才行... 中間若經過 sync 包裝，然後再用 `Task` 提供 async 介面, 那就失去意義了, 你只會得到表面上的 async 使用方式而已。
 
-撇除 Channel 跟 BlockingCollection 先天的差別, 兩者其實都是拿來處理生產者消費者問題的。我就不在這篇繼續探究了，我回到我們主要的 domain: scheduling 的處理。先來看看從 JobsRepo 取得 jobs 清單的 code:
+撇除 `Channel` 跟 `BlockingCollection` 先天的差別, 兩者其實都是拿來處理生產者消費者問題的。我就不在這篇繼續探究了，我回到我們主要的 domain: scheduling 的處理。先來看看從 `JobsRepo` 取得 jobs 清單的 code:
 
 ```csharp
 
@@ -1206,29 +1211,28 @@ using (JobsRepo repo = new JobsRepo())
 
 ```
 
-我不確定 Julian 寫這段 code 時心裡真正的意圖, 所以我試著猜看看... (歡迎留言告訴我你的想法)。主迴圈抓出 newJobs 清單後，下一步就是用各種方式分配下去執行了。這 code 開了 5 個獨立的 channel, 然後又在每個 job 試圖掃一次所有的 channel... 因為 channel 不見得隨時都能立刻寫入, 要經過 WaitToWriteAsync() 後才行。我猜這段的意圖，應該是要從 5 個 channel 找出最快能寫入的那個 channel, 但是按照 code 實際進行的狀況, 應該都會寫到第一個 channel, 沒什麼機會會寫到後面其他 channel ...
+我不確定 Julian 寫這段 code 時心裡真正的意圖, 所以我試著猜看看... (歡迎留言告訴我你的想法)。主迴圈抓出 newJobs 清單後，下一步就是用各種方式分配下去執行了。這 code 開了 5 個獨立的 channel, 然後又在每個 job 試圖掃一次所有的 channel... 因為 channel 不見得隨時都能立刻寫入, 要經過 `WaitToWriteAsync()` 後才行。我猜這段的意圖，應該是要從 5 個 channel 找出最快能寫入的那個 channel, 但是按照 code 實際進行的狀況, 應該都會寫到第一個 channel, 沒什麼機會會寫到後面其他 channel ...
 
-如同前面的例子，不論是 Channel 或是 BlockingCollection 都好，他們本來就是要拿來解決生產者消費者問題的，因此整個機制應該只需要一個 channel 就夠了，這邊一次開了 5 個, 我想應該是還沒調整好的關係吧。如果只用一個 channel, 那也沒有所謂的 "挑選最快可以使用的那個 channel" 這需求了, 可以直接閃過前面討論的狀況。
+如同前面的例子，不論是 `Channel` 或是 `BlockingCollection` 都好，他們本來就是要拿來解決生產者消費者問題的，因此整個機制應該只需要一個 channel 就夠了，這邊一次開了 5 個, 我想應該是還沒調整好的關係吧。如果只用一個 channel, 那也沒有所謂的 "挑選最快可以使用的那個 channel" 這需求了, 可以直接閃過前面討論的狀況。
 
-當然這樣的作法結果還是對的，只是效益就沒有出來了。如果所有 job 都擠在同一個 channel, 而這個 channel 背後又只有一個 thread 在處理的話, 換個角度來說就沒有平行處理了。我刻意在 Job.Process() 裡面動了一點手腳，你要適度的平行處理才能拉高效能，我也在產生測試 job 的地方製造了這樣的 pattern: 會隨機在某些瞬間一口氣預約好幾筆 job 在同樣時間預約執行，目的就是要觀察大家的 code 是否能有效的紓解這樣的瓶頸。
+當然這樣的作法結果還是對的，只是效益就沒有出來了。如果所有 job 都擠在同一個 channel, 而這個 channel 背後又只有一個 thread 在處理的話, 換個角度來說就沒有平行處理了。我刻意在 `ProcessLockedJob()` 裡面動了一點手腳，你要適度的平行處理才能拉高效能，我也在產生測試 job 的地方製造了這樣的 pattern: 會隨機在某些瞬間一口氣預約好幾筆 job 在同樣時間預約執行，目的就是要觀察大家的 code 是否能有效的紓解這樣的瓶頸。
 
-比對一下結果: 由於大家的做法都雷同，整體的表現其實沒有太大的差距。COST_SCORE 有在 300% 範圍內，只是 EFFICIENT_SCORE 就沒那麼幸運了，沒有擠進 300% 的範圍內。觀察 1 ~ 10 instance 的數據，可以看到 EFFICIENT_SCORE 仍有隨著 instance 數量提高而改善 (降低)，代表還有優化的空間，只是進步的速度不如期他在單一 instance 內 (靠 thread) 就做好更完善優化的對手了。同樣的我沒有親自去驗證, 只是推測而已, 很有可能就是 channel 的機制沒有處理好, 在我故意製造的尖峰流量下就沒辦法顧好 EFFICIENT_SCORE 了，所以在這部分沒拿到應有的成績，實在可惜。
+比對一下結果: 由於大家的做法都雷同，整體的表現其實沒有太大的差距。 `COST_SCORE` 有在 300% 範圍內，只是 `EFFICIENT_SCORE` 就沒那麼幸運了，沒有擠進 300% 的範圍內。觀察 1 ~ 10 instance 的數據，可以看到 `EFFICIENT_SCORE` 仍有隨著 instance 數量提高而改善 (降低)，代表還有優化的空間，只是進步的速度不如期他在單一 instance 內 (靠 thread) 就做好更完善優化的對手了。同樣的我沒有親自去驗證, 只是推測而已, 很有可能就是 channel 的機制沒有處理好, 在我故意製造的尖峰流量下就沒辦法顧好 `EFFICIENT_SCORE` 了，所以在這部分沒拿到應有的成績，實在可惜。
 
 
 
 ## PR7, AndyDemo
 
-以下是  提交的 PR 跑出來的成績:
+以下是 [andy19900208](https://github.com/andy19900208) 提交的 PR 跑出來的成績:
 
 
-**Benchmark** (1 ~ 10 instances):
+**Benchmark**:
 
-![](/wp-content/images/2019-08-30-scheduling-practices/2019-12-07-03-18-58.png)
-
+![](/wp-content/images/2019-08-30-scheduling-practices/2019-12-10-00-21-49.png)
 
 **HA test**: PASS(註)
 
-Andy 的 PR, 在進行 HATEST 時也碰到零星的 exception:
+andy19900208 的 PR, 在進行 `HATEST` 時也碰到零星的 exception:
 
 ```
 
@@ -1246,43 +1250,45 @@ System.AggregateException: One or more errors occurred. (A task was canceled.) -
 回到解決問題的主軸，來看看解法。先看看 fetch 的部分:
 
 ```csharp
-            using (JobsRepo repo = new JobsRepo())
+
+using (JobsRepo repo = new JobsRepo())
+{
+    while (stoppingToken.IsCancellationRequested == false)
+    {
+        DateTime LastQueryTime = DateTime.Now;
+
+        foreach (JobInfo job in repo.GetReadyJobs(JobSettings.MinPrepareTime))
+        {
+            if (stoppingToken.IsCancellationRequested == true)
             {
-                while (stoppingToken.IsCancellationRequested == false)
-                {
-                    DateTime LastQueryTime = DateTime.Now;
-
-                    foreach (JobInfo job in repo.GetReadyJobs(JobSettings.MinPrepareTime))
-                    {
-                        if (stoppingToken.IsCancellationRequested == true)
-                        {
-                            break;
-                        }
-
-                        if (repo.GetJob(job.Id).State == 0 && repo.AcquireJobLock(job.Id))
-                        {
-                            if (job.RunAt > DateTime.Now)
-                            {
-                                await Task.Delay(job.RunAt - DateTime.Now);
-                            }
-                            queue.Add(job);
-                        }
-
-                    }
-
-                    if (stoppingToken.IsCancellationRequested == false
-                        && LastQueryTime.Add(JobSettings.MinPrepareTime) > DateTime.Now
-                    )
-                    {
-                        await Task.Delay(LastQueryTime.Add(JobSettings.MinPrepareTime) - DateTime.Now);
-                    }
-
-                }
-
+                break;
             }
+
+            if (repo.GetJob(job.Id).State == 0 && repo.AcquireJobLock(job.Id))
+            {
+                if (job.RunAt > DateTime.Now)
+                {
+                    await Task.Delay(job.RunAt - DateTime.Now);
+                }
+                queue.Add(job);
+            }
+
+        }
+
+        if (stoppingToken.IsCancellationRequested == false
+            && LastQueryTime.Add(JobSettings.MinPrepareTime) > DateTime.Now
+        )
+        {
+            await Task.Delay(LastQueryTime.Add(JobSettings.MinPrepareTime) - DateTime.Now);
+        }
+
+    }
+
+}
+
 ```
 
-這裡的做法，跟前面 borischin 的做法類似，都是在主要迴圈查詢所有待處理的 jobs 清單時就預先把該做的程序都處理掉了。包括 AcquireJobLock... 不同的是, 這邊也採用了先花點成本先查詢 GetJob() 後再決定要不要 AcquireJobLock() 的做法。比 borischin 更進一步的是，連同等待到預約時間開始的這段邏輯，都搬到這裡了。等待到預約時間到了之後，才把 job 放到 queue (型別: BlockingCollection) 內。放到 queue 的 job 馬上就會被背後的 threads 拿走立刻處理。
+這裡的做法，跟前面 borischin 的做法類似，都是在主要迴圈查詢所有待處理的 jobs 清單時就預先把該做的程序都處理掉了。包括 `AcquireJobLock()`... 不同的是, 這邊也採用了先花點成本先查詢 `GetJob()` 後再決定要不要 `AcquireJobLock()` 的做法。比 borischin 更進一步的是，連同等待到預約時間開始的這段邏輯，都搬到這裡了。等待到預約時間到了之後，才把 job 放到 queue (型別: `BlockingCollection`) 內。放到 queue 的 job 馬上就會被背後的 threads 拿走立刻處理。
 
 確認一下背後的 worker threads 做的事情:
 
@@ -1299,127 +1305,142 @@ System.AggregateException: One or more errors occurred. (A task was canceled.) -
 
 就如前面所說，所有的準備動作都在前半段的部分處理掉了，worker threads 負責的任務很單純，拿出 job 就執行了。接著來看看這樣的做法效果如何。
 
-從總表來看，andy 的解決方式，特性跟 borischin 的很類似, 都在 COST_SCORE 與 EFFICIENT_SCORE 取得不錯的平衡點, 兩項分數都有進入排行 (綠色)。不過兩者的 COST 與 EFFICIENT 則互有領先，我推測原因應該是:
+從總表來看，andy 的解決方式，特性跟 borischin 的很類似, 都在 `COST_SCORE` 與 `EFFICIENT_SCORE` 取得不錯的平衡點, 兩項分數都有進入排行 (綠色)。不過兩者的 `COST_SCORE` 與 `EFFICIENT_SCORE` 則互有領先，我推測原因應該是:
 
-1. AcquireJobLock() 前的 GetJob() 發揮作用, 雖然這結構在同瞬間去搶 Lock 的機會比其他人低很多, 但是看來 GetJob() 的確可以把 COST 再往下降一些。
-1. 如同前面例子提到, 適度的平行處理在這個題目是有直接幫助的。產生測試情境的 code, 我刻意加入了會瞬間有多筆 job 同時預約執行的情境。這結構把所有事情 (除了 process 之外) 都處理完才丟到後端的 worker threads, 代表前面這段是沒辦法平行處理的。因此我預期再這邊若瞬間有多個 job 預約同時間執行, 這作法會在 EFFICIENT_SCORE 的表現略差
+1. `AcquireJobLock()` 前的` GetJob()` 發揮作用, 雖然這結構在同瞬間去搶 lock 的機會比其他人低很多, 但是看來 `GetJob()` 的確可以把 `COST_SCORE` 再往下降一些。
+1. 如同前面例子提到, 適度的平行處理在這個題目是有直接幫助的。產生測試情境的 code, 我刻意加入了會瞬間有多筆 job 同時預約執行的情境。這結構把所有事情 (除了 `ProcessLockedJob()` 之外) 都處理完才丟到後端的 worker threads, 代表前面這段是沒辦法平行處理的。因此我預期再這邊若瞬間有多個 job 預約同時間執行, 這作法會在 `EFFICIENT_SCORE` 的表現略差
 
-從數據上證實了這個推測，我建議 andy 可以花點時間驗證看看真正原因是否如我猜想。事實上如果再看 andy 的 1 ~ 10 instances 測試數據可以進一步證明，EFFICIENT_SCORE 是有隨著 instances 數量增加而逐步改善，證明平行處理是還有改善空間的，只是 instance 內的 threads 只能幫助一部分，還是需要靠多個 instance 才能進一步分攤這些 loading ...
+從數據上證實了這個推測，我建議 andy 可以花點時間驗證看看真正原因是否如我猜想。事實上如果再看 andy 的 1 ~ 10 instances 測試數據可以進一步證明， `EFFICIENT_SCORE` 是有隨著 instances 數量增加而逐步改善，證明平行處理是還有改善空間的，只是 instance 內的 threads 只能幫助一部分，還是需要靠多個 instance 才能進一步分攤這些 loading ...
 
 連同上一篇文章的 PR 一起看, andy 的 code 表現一樣精簡 & 洗鍊, 可以在 100 行以內搞定這題目, 而且程式碼看起來一樣很舒服, 不像是那種硬要縮減行數的寫法... 這只有本身思路就已經把邏輯想的很收斂才辦的到。 雖然沒有多提, 但是在多執行緒的處理、非同步的處理、還有程式碼本身都寫得很洗鍊，一樣是可以拿來當作教材的好範本。
 
 
 
 
-## Me, AndrewDemo
+# 範例與總結
 
-以下是  提交的 PR 跑出來的成績:
-
-
-**Benchmark** (1 ~ 10 instances):
-
-![](/wp-content/images/2019-08-30-scheduling-practices/2019-12-07-03-19-26.png)
-
-**HA test**: PASS
 
 最後終於輪到我自己了。我在出題的當下就準備好一份 code 了，因為這同時也是公司某專案需要解決的問題啊 XDDD, 所以當時就先寫了一份，只是事後一樣有為了這篇文章的練習做一些簡化與調整。我就把他也貼上來附在最後面了。評論就不用了 (我自己的 code 有啥好 review 的?)，我說明一下我寫這段 code 背後的想法:
 
+
+**Benchmark**:
+
+![](/wp-content/images/2019-08-30-scheduling-practices/2019-12-10-00-22-27.png)
+
+**HA test**: PASS
+
 ```csharp
-    public class AndrewSubWorkerBackgroundService2 : BackgroundService
+
+public class AndrewSubWorkerBackgroundService2 : BackgroundService
+{
+    private int _process_threads_count = 10;
+    private BlockingCollection<JobInfo> _queue = new BlockingCollection<JobInfo>();
+
+    private CancellationToken _stop;
+
+
+    protected async override Task ExecuteAsync(CancellationToken stoppingToken)
     {
-        private int _process_threads_count = 10;
-        private BlockingCollection<JobInfo> _queue = new BlockingCollection<JobInfo>();
+        await Task.Delay(1);
+        this._stop = stoppingToken;
 
-        private CancellationToken _stop;
+        // init worker threads, 1 fetch, 5 process
+        Thread[] threads = new Thread[_process_threads_count];
+        for (int i = 0; i < _process_threads_count; i++) threads[i] = new Thread(this.ProcessThread);
+        foreach (var t in threads) t.Start();
 
-
-        protected async override Task ExecuteAsync(CancellationToken stoppingToken)
+        // fetch
+        Stopwatch timer = new Stopwatch();
+        Random rnd = new Random();
+        using (JobsRepo repo = new JobsRepo())
         {
-            await Task.Delay(1);
-            this._stop = stoppingToken;
-
-            // init worker threads, 1 fetch, 5 process
-            Thread[] threads = new Thread[_process_threads_count];
-            for (int i = 0; i < _process_threads_count; i++) threads[i] = new Thread(this.ProcessThread);
-            foreach (var t in threads) t.Start();
-
-            // fetch
-            Stopwatch timer = new Stopwatch();
-            Random rnd = new Random();
-            using (JobsRepo repo = new JobsRepo())
+            while(true)
             {
-                while(true)
+                if (stoppingToken.IsCancellationRequested) goto shutdown;
+
+                timer.Restart();
+                Console.WriteLine($"[T: {Thread.CurrentThread.ManagedThreadId}] fetch available jobs from repository...");
+                foreach (var job in repo.GetReadyJobs(JobSettings.MinPrepareTime))
                 {
                     if (stoppingToken.IsCancellationRequested) goto shutdown;
 
-                    timer.Restart();
-                    Console.WriteLine($"[T: {Thread.CurrentThread.ManagedThreadId}] fetch available jobs from repository...");
-                    foreach (var job in repo.GetReadyJobs(JobSettings.MinPrepareTime))
+                    int predict_time = rnd.Next(300, 1700);
+                    if (job.RunAt - DateTime.Now > TimeSpan.FromMilliseconds(predict_time)) // 等到約一秒前，可以被取消。一秒內就先 LOCK
                     {
-                        if (stoppingToken.IsCancellationRequested) goto shutdown;
+                        try { await Task.Delay(job.RunAt - DateTime.Now - TimeSpan.FromMilliseconds(predict_time), stoppingToken); } catch { goto shutdown; }
+                    }
 
-                        int predict_time = rnd.Next(300, 1700);
-                        if (job.RunAt - DateTime.Now > TimeSpan.FromMilliseconds(predict_time)) // 等到約一秒前，可以被取消。一秒內就先 LOCK
-                        {
-                            try { await Task.Delay(job.RunAt - DateTime.Now - TimeSpan.FromMilliseconds(predict_time), stoppingToken); } catch { goto shutdown; }
-                        }
-
-                        if (repo.GetJob(job.Id).State != 0) continue;
-                        if (repo.AcquireJobLock(job.Id) == false) continue;
-                        if (DateTime.Now < job.RunAt) await Task.Delay(job.RunAt - DateTime.Now);
-                        this._queue.Add(job);
-                    }
-                    try { 
-                        await Task.Delay(
-                            (int)Math.Max((JobSettings.MinPrepareTime - timer.Elapsed).TotalMilliseconds, 0), 
-                            stoppingToken); 
-                    }
-                    catch
-                    { 
-                        goto shutdown;
-                    }
+                    if (repo.GetJob(job.Id).State != 0) continue;
+                    if (repo.AcquireJobLock(job.Id) == false) continue;
+                    if (DateTime.Now < job.RunAt) await Task.Delay(job.RunAt - DateTime.Now);
+                    this._queue.Add(job);
                 }
-
-                shutdown:
-                this._queue.CompleteAdding();
+                try { 
+                    await Task.Delay(
+                        (int)Math.Max((JobSettings.MinPrepareTime - timer.Elapsed).TotalMilliseconds, 0), 
+                        stoppingToken); 
+                }
+                catch
+                { 
+                    goto shutdown;
+                }
             }
 
-            foreach (var t in threads) t.Join();
-            Console.WriteLine($"[T: {Thread.CurrentThread.ManagedThreadId}] shutdown background services...");
+            shutdown:
+            this._queue.CompleteAdding();
         }
 
-        private void ProcessThread()
+        foreach (var t in threads) t.Join();
+        Console.WriteLine($"[T: {Thread.CurrentThread.ManagedThreadId}] shutdown background services...");
+    }
+
+    private void ProcessThread()
+    {
+        using (JobsRepo repo = new JobsRepo())
         {
-            using (JobsRepo repo = new JobsRepo())
+            foreach(var job in this._queue.GetConsumingEnumerable())
             {
-                foreach(var job in this._queue.GetConsumingEnumerable())
-                {
-                    repo.ProcessLockedJob(job.Id);
-                    Console.WriteLine($"[T: {Thread.CurrentThread.ManagedThreadId}] process job({job.Id}) with delay {(DateTime.Now - job.RunAt).TotalMilliseconds} msec...");
-                }
-                Console.WriteLine($"[T: {Thread.CurrentThread.ManagedThreadId}] process worker thread was terminated...");
+                repo.ProcessLockedJob(job.Id);
+                Console.WriteLine($"[T: {Thread.CurrentThread.ManagedThreadId}] process job({job.Id}) with delay {(DateTime.Now - job.RunAt).TotalMilliseconds} msec...");
             }
+            Console.WriteLine($"[T: {Thread.CurrentThread.ManagedThreadId}] process worker thread was terminated...");
         }
     }
+}
 
 ```
 
-其實我的結構跟大家大同小異，主結構負責 fetch jobs, 另外養了多個 threads 去等待 & 消化這些 jobs, 中間就靠 BlockingCollection 來協調兩端的進度。不同的是，我在參數與處理的細節，特地多花了一點心機來調教...。我比各位的做法多花了這些功夫:
+其實我的結構跟大家大同小異，主結構負責 fetch jobs, 另外養了多個 threads 去等待 & 消化這些 jobs, 中間就靠 `BlockingCollection` 來協調兩端的進度。不同的是，我在參數與處理的細節，特地多花了一點心機來調教...。我比各位的做法多花了這些功夫:
 
 1. 透過測試找出最佳的 worker threads count:
-大家其實都被我題目的假設誤導了。雖然我很明確的說 process 裡面有動手腳, Semaphore 限定最高上限 5 threads... 但是不代表 worker thread 只做 process job 這件事啊! 他只是大部分，或是比重最高的一個部份而已。我花了點時間去測試 threads 開多少才最適合, 最後 10 threads 是我測試的結果。
+大家其實都被我題目的假設誤導了。雖然我很明確的說 process 裡面有動手腳, `Semaphore` 限定最高上限 5 threads... 但是不代表 worker thread 只做 process job 這件事啊! 他只是大部分，或是比重最高的一個部份而已。我花了點時間去測試 threads 開多少才最適合, 最後 10 threads 是我測試的結果。
 
-1. 提早 lock 爭取時效, 同時又要盡可能避免過早 lock:
-這點跟幾位的做法類似，例如 borischin / andy 就選擇了 fetch 時 "順手" 一起 AcquireJobLock() 一樣。只是我顧及 shutdown 時也希望能在一定時間內就完成關機，因此我控制在 1 sec 前才 lock, 限定提前 lock 的時間別偷跑太多... 這樣就能兼顧效能與關機需要的處理時間。經過這樣處理，我可以控制在隨時都能在 1 sec 內完成 shutdown 的動作。
+1. 提早 lock 爭取時效, 同時又要盡可能避免過早 lock 造成 shutdown 時的風險:
+這點跟幾位的做法類似，例如 borischin / andy 就選擇了 fetch 時 "順手" 一起 `AcquireJobLock()` 一樣。只是我顧及 shutdown 時也希望能在一定時間內就完成關機，因此我控制在 1 sec 前才 lock, 限定提前 lock 的時間別偷跑太多... 這樣就能兼顧效能與關機需要的處理時間。經過這樣處理，我可以控制在隨時都能在 1 sec 內完成 shutdown 的動作。
 
-1. 避免碰撞，提前 lock 的時間加入隨機的漂移, 盡可能讓 GetJob() 能準確判斷狀態
-因為有多個 instance 彼此競爭，很有可能每個 instance 同一瞬間都去 GetJob() 拿到狀態是未 lock, 就同時都去執行 AcquireJobLock(), 太過精準就導致這個方法失效了。我的做法就是把提前 1 sec 執行 Lock 這件事，加上一點亂數讓他前後有點誤差，飄移一點，時間錯開的話碰撞的機率就會降低了。因此提前 1 sec 我改成 1 sec +- 700 msec (也就是從 300 msec ~ 1700 msec 隨機決定), 讓主要結構不改變的前提下，進一步降低 COST，同時也可以在 1700 msec 內完成 shutdown 的動作。
+1. 避免碰撞，提前 lock 的時間加入隨機的漂移, 盡可能讓 `GetJob()` 能準確判斷狀態
+因為有多個 instance 彼此競爭，很有可能每個 instance 同一瞬間都去 `GetJob()` 拿到狀態是未 lock, 就同時都去執行 `AcquireJobLock()`, 太過精準就導致這個方法失效了。我的做法就是把提前 1 sec 執行 Lock 這件事，加上一點亂數讓他前後有點誤差，飄移一點，時間錯開的話碰撞的機率就會降低了。因此提前 1 sec 我改成 1 sec +- 700 msec (也就是從 300 msec ~ 1700 msec 隨機決定), 讓主要結構不改變的前提下，進一步降低 `COST_SCORE`，同時也可以在 1700 msec 內完成 shutdown 的動作。
 
 
-我心裡在寫這些 code 的時候, 我其實是把 EFFICIENT_SCORE 擺在第一位的，我的目標是要盡一切可能壓低 EFFICIENT_SCORE, 至於 COST_SCORE, 我只要壓低到我覺得合理的程度就夠了。也因為這樣的策略，我拿下最低的 EFFICIENT_SCORE, 而 COST_SCORE 也佔到前段班的成績。
+我心裡在寫這些 code 的時候, 我其實是把 `EFFICIENT_SCORE` 擺在第一位的，我的目標是要盡一切可能壓低 `EFFICIENT_SCORE`, 至於 `COST_SCORE`, 我只要壓低到我覺得合理的程度就夠了。也因為這樣的策略，我拿下最低的 `EFFICIENT_SCORE`, 而 `COST_SCORE` 也佔到前段班的成績。
 
-不過容我自豪一下，總表的分數，是取每個人所有表現裡面 EFFICIENT_SCORE 最好的那筆出來當代表... 我看了一下我自己的 1 ~ 10 instance 成績, 發現...
+不過容我自豪一下，總表的分數，是取每個人所有表現裡面 `EFFICIENT_SCORE` 最好的那筆出來當代表... 我看了一下我自己的 1 ~ 10 instance 成績, 發現...
 
-其實總成績裡面, EFFICIENT_SCORE 第二好的是 borischin 159.67 啊... 我最好的那筆是 126.50 ... 如果單純要拚排名, 其實我的 2 instance 那筆紀錄, EFFICIENT_SCORE 就已經是 145.40 足以拿到第一名了，同時由於 instances 數量沒有拉高, 這時的 COST_SCORE 也才 20337, 也足以拿到 COST 的第一名...
+其實我不用挑最好的那筆，`EFFICIENT_SCORE` 也可以拿到第一名啊 XDDD, 何況 instances 降低了，`COST_SCORE` 也會跟著降低，如果單純要拚排名, 其實我拿 `WORKERS02` 那筆紀錄, `EFFICIENT_SCORE` 就已經是 145.40，`COST_SCORE` 是 20337, 足以拿到兩個分數都是第一名...
 
-不過這比較其實沒那麼重要, 因為業界大部分的排程服務都是精確到 "分", 這次貢獻 PR 的人每個人都有做到 "秒" 的能力了，追究這些差異其實根本感覺不出來，純粹研究探討切磋切磋用途而以 XD, 我就維持原本的表格不改了。
+不過，比起名次，能把效能推到極致對我來說更重要一點 (尤其這是個練習不是嗎?)。撇開平衡的選擇，我更在意若需要極致的效能時，我能做到的極限在哪裡? 這樣真正在 production 環境下，我才有更寬廣的空間可以選擇。這次練習我就選擇 `EFFICIENT_SCORE` 最好的這組來應戰了。
+
+
+## 結論
+
+最後，經歷三個月，總算把這篇文章的後半段補完了。雖然現今的軟體開發，絕大多數的應用都已經有現成的套件了，連服務都有雲端廠商幫你把 IaaS / PaaS / SaaS 都架好了，只等你開起來用。不過即使如此，你仍然有很多機會需要自己打造自己的基礎服務。通常，若你需要高度整合的解決方案，你就得認真評估到底是整合現成的 solution, 或是自己打造來的好了。整合現有方案，你沒有主控權；整合的成本也要看目標服務跟你期望的落差有多大? 落差越大整合的成本越高。
+
+另一個考量 (特別是 SaaS 的開發團隊)，則是你要評估好 application 跟 infrastructure 的分界。我常跟同事聊這件事, 如果來自 application level 的行為, 要觸發 infrastructure level 的動作，那麼你要小心了 (例如 user 只是填填資料按下滑鼠你就要自動開一台 VM)，這是不對等的動作，你的 application 可能需要很大的權限，才能觸動 infrastructure 的動作。這時就系統的角度，或是經營的角度，或是成本的考量，甚至是資訊安全的角度來說，都不是個適合的方案。
+
+這時，對應的動作也由 application level 來服務，可能是個較合適的解決方案。因此開發 SaaS 服務時，有些你習以為常的服務你就得認真評估是否該自己打造? 排程服務就是一例，你如果不評估如何自己有效的處理他，而是一股腦地把資料庫裡的排程資訊倒到 crontab 的話，未來的管理跟維護都會是個災難。
+
+因此，我常常會在腦袋裡練習，思考很多習以為常的服務 "如果" 我必須自己打造的話該怎麼做? 這個練習就是這樣發想出來的。你當然不需要任何事情都自己打造，但是還是那句話，如果你有能力重新發明輪子，你在各種極端的狀況下會有更強的適應能力。這些能力備而不用，而不是看到任何東西都像釘子，都想要拿起槌子敲下去。
+
+為了不走火入魔，所以這次練習我其實刪減了很多實作的細節，盡量做到讓大家能好好思考背後的作法，同時又不會掉到自己重新發明輪子那冗長無效率的過程。希望這次大家都能從中學到一些經驗。
+
+再次感謝這次發 PR 給我的朋友們，有你們的貢獻我才有題材可以寫這篇文章，希望下次有新的主題各位還可以繼續捧場 :)
