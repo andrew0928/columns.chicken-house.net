@@ -426,7 +426,7 @@ TTLT 就要花點腦筋了, 先概略估計一下。由於這是生產者消費�
 
 開始重頭戲了。在 merge 各位的 PR 時，我也順帶的看了一下大家都怎麼解決問題的。果然要分享才會學到技巧啊，藉由各位的 code 我也學到不少以前沒想過的技巧。回到問題，我把解決這類問題的方法分成三大類:
 
-1. 善用多工處理 (Thread / ThreadPool / Task):
+1. **善用多工處理 (Thread / ThreadPool / Task)**:
 
 .NET 提供了很強悍的平行處理能力，因此熟悉 Thread / Task 運用方式的朋友們，很容易的就能把這堆 task 的每個 step 都丟給 .NET 幫你處理。
 我這邊的定義是，如果你沒有明確的控制每個 step 的處理, 也沒精準地控制下個步驟的處理時機與順序, 而是直接把下個 step 交給 .NET 決定的方式，我都歸在這類。
@@ -440,7 +440,7 @@ TTLT 就要花點腦筋了, 先概略估計一下。由於這是生產者消費�
 * AndrewDemo.AndrewThreadTaskRunner1
 
 
-2. 生產者消費者的管理 (Pipeline / BlockingCollection / Channel / Queue ... etc):
+2. **生產者消費者的管理 (Pipeline / BlockingCollection / Channel / Queue ... etc)**:
 
 大體上跟 (1) 沒有太大差別，不過題目已經明確地分成三個 step 了，因此這問題很明顯地變成是生產者消費者典型的題目。這類問題都有同樣的特色，就是像生產線一樣，第一關處理完就要交到第二關，因此要有明確的移交到下一關的動作。每一關之間的處理速度都不一樣，因此要有明確的調節機制。中間是否有 buffer / queue 這類的緩衝區, 兩端是否有明確的 notify 機制來叫醒等待中的 worker ...
 
@@ -459,7 +459,7 @@ TTLT 就要花點腦筋了, 先概略估計一下。由於這是生產者消費�
 * AndrewDemo.AndrewPipelineTaskRunner1
 * AndrewDemo.AndrewPipelineTaskRunner2
 
-3. 其他
+3. **其他**
 例如我提供的那個墊底的 sample code, 無法歸類在上面兩種的做法，我都歸在這一類。看來只有我自己惡搞的兩個墊底範例屬於這類 XDD
 
 * AndrewDemo.AndrewBasicTaskRunner1
