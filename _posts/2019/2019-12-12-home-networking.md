@@ -90,7 +90,7 @@ logo: /wp-content/images/2019-12-12-home-networking/network.jpg
 
 其實要是設備沒燒掉的話，我應該會再多撐兩年再更換的，到時再直接升級到 10GBE 網路... 不過我對頻寬需求沒那麼高，現在對外網路也只停留在光世代 100M/40M 沒再升級上去了。網路穩定可靠架構單純 對我來說還更重要一點。上面幾點需求，有幾點彼此是有點難搞，我對網路其實沒那麼熟，很多東西其實也是這個月自己摸索出來的...
 
-上面的需求 (1), (2), (3) 其實不難, 挑一台合適的 router 就可以搞定 (我就是這樣才挑 EdgeRouter-X SFP), 既然是 router, 切個網段不會是個問題, 這台雖然是低階機種, 但是仗著 SoC 支援多種 hardware offloading, 效能也還不錯，對我來說綽綽有餘。(4), (5) 則是找台支援 VLAN 的 switch 應該也可以搞定。不過, WiFi 要接在 router 上啊, 對網管不熟的我, 就是這次才真的搞懂 VLAN 怎麼弄, 花了些時間研究, 才把 router 上的 AP 跟 switch 上的 7 ~ 16 ports 設定在同一個區往 (VLAN) 內。
+上面的需求 (1), (2), (3) 其實不難, 挑一台合適的 router 就可以搞定 (我就是這樣才挑 EdgeRouter-X SFP), 既然是 router, 切個網段不會是個問題, 這台雖然是低階機種, 但是仗著 SoC 支援多種 hardware offloading, 效能也還不錯，對我來說綽綽有餘。(4), (5) 則是找台支援 VLAN 的 switch 應該也可以搞定。不過, WiFi 要接在 router 上啊, 因此 VLAN 的範圍就得橫跨到 router 與 switch 了, 我期望建立的 VLAN 至少要有三組，而且都必須橫跨到不同設備的 ports... 對網管不熟的我, 就是這次才真的搞懂 VLAN 怎麼弄, 花了些時間研究, 才把 router 上的 AP (port 4) 啟用 PoE, 同時要跟 switch 上的 7 ~ 16 ports 設定在同一個區往 (VLAN) 內。
 
 
 我期望的網路架構 (邏輯) 應該長這樣:
@@ -103,16 +103,22 @@ logo: /wp-content/images/2019-12-12-home-networking/network.jpg
 
 ![](/wp-content/images/2019-12-12-home-networking/2019-12-13-02-06-43.png)
 
-VLAN 我用顏色區分，我希望 switch 上面的 16 個 ports, 以及 router 上面的 5 個 ports, 我都能靈活分配。Router 至少一定要一條線接到 VDSL Modem, 也至少要一條線接到 switch, 除此之外，我希望剩下的 ports 都能夠有效利用。UniFi AP 因為需要 PoE 的關係, 也要直連到 router 的 port, 其他設備都按照架構圖, 直接連到 switch 上。
+若實際列出 ports 的用途, 應該要像這樣:
+
+|顏色|用途|EdgeRouter-X SFP|NETGEAR GS116E|
+|----|----|----------------|--------------|
+|紅|VDSL|port #2|port #16|
+|綠|Server LAN|--|port #2 ~ #6|
+|藍|Home LAN|port #3 ~ #5|port #7 ~ #15|
+|紅綠藍|*Link|port #1|port #1|
+
+如果沒有 VLAN，而是用一堆傳統非網管的 switch 組合起來的話，我至少需要三台 switch, 同時我得浪費三條線，共六個 ports 來處理這些設備之間的連線。換成 VLAN 我就有機會精簡成一條線，占用兩端的兩個 ports 就能搞定，這就是我這次重新規劃我的網路設備考量的重點。VLAN 我用顏色區分，我希望 switch 上面的 16 個 ports, 以及 router 上面的 5 個 ports, 我都能靈活分配。我希望 ports 都能夠有效利用。UniFi AP 因為需要 PoE 的關係, 也要直連到 router 的 port, 其他設備都按照架構圖, 直接連到 switch 上。
 
 原本我只知道 VLAN 是幹嘛用的，但是完全搞不懂怎麼設定，我還以為圖中 router 接到 switch 那條三色線, 是真的要用掉 router / switch 各三個 ports 才辦的到 (果然是門外漢)，後來花了些時間研究 VLAN 怎麼設定，才發現原來可以讓三條線併成一條啊!
 
-還好我買對機器，EdgeRouter-X SFP 屬於較低階的機種，但是反而 ports 給比較多，因為他用的是 MediaTek 的 SoC, 本身就整合了 switch 的功能在裡面，所以這台 router 可以視為內建 switch 的機種，切割 VLAN 不需要靠 bridge 來設定, 用 switch 的硬體處理起來會更快速。本來我在這邊卡了很久，想不通 bridge, routing table, 還有 vlan ID 到底怎麼指派才對，後來我把 EdgeRouter 想像成 router + switch 來設定就成功了。
+還好我買對機器，EdgeRouter-X SFP 屬於較低階的機種，但是反而 ports 給比較多，因為他用的是 MediaTek 的 SoC, 本身就整合了 switch 的功能在裡面，所以這台 router 可以視為內建 switch 的機種，切割 VLAN 不需要靠 bridge 來設定, 用 switch 的硬體處理起來會更快速。本來我在這邊卡了很久，想不通 bridge, routing table, 還有 vlan ID 到底怎麼指派才對，後來我把 EdgeRouter 想像成 router + 網管型 switch 的綜合體來設定就成功了。我可以按照上面表格的需求，橫跨 router 與 switch 建立 VLAN。
 
-細節我就不多說，總之是把 router 的 5 ports 都先當成 switch, 然後切割出三個 VLAN 的 interface, 然後再分別設定 PPPoE, Server LAN, Home LAN 該有的 dial up, static routing, DHCP server, DNS forward, firewall rules 等等。同時另外一台 switch 的部分也按照 VLAN 正確設定每個 ports 的 tag / untag 的 VLAN ID, 最後就是這張圖呈現的樣子了。
-
-這不是程式碼，而且我也不夠熟練，我就不獻醜貼我自己的設定了，有興趣的朋友可以直接透過 facebook 跟我討論 XDD，最後補張最後完工的上機櫃照片
-
+細節我就不多說，總之最後是成功的達成目的了 :D。這不是程式碼，而且我也不夠熟練，我就不獻醜貼我自己的設定了，有興趣的朋友可以直接透過 facebook 跟我討論 XDD，最後補張最後完工的上機櫃照片
 
 ![](/wp-content/images/2019-12-12-home-networking/2019-12-12-23-23-47.jpg)
 
