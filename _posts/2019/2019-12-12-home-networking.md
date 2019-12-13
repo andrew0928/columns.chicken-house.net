@@ -3,7 +3,7 @@ layout: post
 title: "水電工日誌 7. 事隔 12 年的家用網路架構大翻新"
 categories:
 - "系列文章: 水電工日誌"
-tags: ["水電工", "有的沒有的", "敗家"]
+tags: ["水電工", "敗家"]
 published: true
 comments: true
 redirect_from:
