@@ -122,7 +122,7 @@ logo: /wp-content/images/2019-12-12-home-networking/network.jpg
 |紅|VDSL|port #2|port #16|
 |綠|Server LAN|--|port #2 ~ #6|
 |藍|Home LAN|port #3 ~ #5|port #7 ~ #15|
-|紅綠藍|*Link|port #1|port #1|
+|紅綠藍|Inter Link|port #1|port #1|
 
 得力於 router 上的 hardware switch 支援, 我終於可以靈活的調度所有可用的 ports 了。同樣的需求，如果沒有 VLAN，而是用一堆傳統非網管的 switch 組合起來的話，我至少需要三台 switch, 同時我得浪費三條線，共六個 ports 來處理這些設備之間的連線。換成 VLAN 我就有機會精簡成一條線，占用兩端的兩個 ports 就能搞定，這就是我這次重新規劃我的網路設備考量的重點。VLAN 我用顏色區分，我希望 switch 上面的 16 個 ports, 以及 router 上面的 5 個 ports, 我都能靈活分配。我希望 ports 都能夠有效利用。UniFi AP 因為需要 PoE 的關係, 也要直連到 router 的 port, 其他設備都按照架構圖, 直接連到 switch 上。
 
@@ -144,7 +144,7 @@ logo: /wp-content/images/2019-12-12-home-networking/network.jpg
 
 # 實測效能
 
-我這邊就不花功夫去測試頻寬了，直接單純的從 NAS 拉大檔案來測看看就好。測試的大檔 (別想歪，不是迷片) 就拿我 .NET Conf 2019 兩場演講的錄影檔來測試，攝影機加上電腦螢幕錄製，前後總共 2hr 的影片總共 XX GB, 中間經過 router 轉發 (沒有經過 NAT)，可以跑出接近極限的 986 Mbps...
+我這邊就不花功夫去測試頻寬了，直接單純的從 NAS 拉大檔案來測看看就好。測試的大檔 (別想歪，不是迷片) 就拿我 [.NET Conf 2019](https://www.facebook.com/andrew.blog.0928/posts/979377222437556) 兩場演講的錄影檔來測試，攝影機加上電腦螢幕錄製，前後總共 2hr 的影片總共 6.8 GB, 中間經過 router 轉發 (沒有經過 NAT)，可以跑出接近極限的 986 Mbps...
 
 ![](/wp-content/images/2019-12-12-home-networking/2019-12-13-22-21-31.png)
 
