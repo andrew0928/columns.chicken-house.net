@@ -7,11 +7,8 @@ comments: false
 <!-- redir /?p=123 url -->
 <script language='javascript'>
 var posts_map = {};
-{% for page in site.posts %}
-  {% if page.wordpress_postid %}
-    posts_map[{{ page.wordpress_postid }}] = '{{ page.url }}'
-  {% endif %}
-{% endfor %}
+{% for page in site.posts %}{% if page.wordpress_postid %}posts_map[{{ page.wordpress_postid }}] = '{{ page.url }}';
+{% endif %}{% endfor %}
 
 function getParameterByName(name) {
     name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
