@@ -97,7 +97,7 @@ logo: /wp-content/images/2019-12-12-home-networking/network.jpg
 1. 我希望: WiFi AP 能直接用網路線供電 (PoE)
 1. 我希望: 關鍵的線路能直接接在 router 上
 1. 我希望: 我的工作用 PC 能接到 switch 就能直接 PPPoE 撥接上網測試 (不用另外跳接到 VDSL Modem)
-1. 我希望: 我的 NAS 可以 LAGP 合併兩個 ports 來增加頻寬
+1. 我希望: 我的 NAS 可以 [LACP](https://zh.wikipedia.org/wiki/%E9%93%BE%E8%B7%AF%E8%81%9A%E5%90%88) 合併兩個 ports 來增加頻寬
 
 上面的需求 (1), (2), (3) 其實不難, 挑一台合適規格的 router 就可以直接搞定 (我就是這樣才挑 EdgeRouter-X SFP)。切網段跟防火牆，只要是 router 就能搞定了。但是 PoE 在 router 上而不是在 switch 上，代表我需要讓橫跨兩台不同設備的 ports 能組成同一個 VLAN ... 這對我這種外行人來說是個挑戰啊...，這要搞定才能解決 (3), (4), (5) 的需求...
 
