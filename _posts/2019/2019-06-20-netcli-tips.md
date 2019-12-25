@@ -292,7 +292,7 @@ dotnet.exe                   21200 Console                    1     15,888 K
 
 我按的速度不夠快，看來 CLI-DATA 那個 process 一瞬間就結束了，其他資料都卡在 pipeline buffer 等著後面慢慢消化中...
 
-既然都要聊 CLI Tips, 我就附帶一個小技巧吧! 你知道 windows 內建 ```clip.exe``` 這個 CLI 小工具嗎? 他是個可以把 STDIN 丟到剪貼簿的小工具。這可以怎麼用? 像上面的例子，我是下指令 ```tasklist.exe``` 得到的，我很懶得滑鼠整個選取再複製，這時我只要:
+既然都要聊 CLI Tips, 我就附帶一個小技巧吧! 你知道 windows 內建 ```clip.exe``` 這個 CLI 小工具嗎? 他是個可以把 STDOUT 丟到剪貼簿的小工具。這可以怎麼用? 像上面的例子，我是下指令 ```tasklist.exe``` 得到的，我很懶得滑鼠整個選取再複製，這時我只要:
 
 ```shell
 
