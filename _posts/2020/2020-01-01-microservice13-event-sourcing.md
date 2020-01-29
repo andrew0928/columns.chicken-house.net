@@ -5,7 +5,7 @@ categories:
 - "系列文章: .NET + Windows Container, 微服務架構設計"
 - "系列文章: 架構師觀點"
 tags: ["microservice", "系列文章", "架構師", ]
-published: true
+published: false
 comments: true
 redirect_from:
 logo: 
@@ -22,6 +22,17 @@ logo:
 其實 Event Sourcing 不算是新架構或是新觀念，早在 2000+ 的時候就很多人在討論了；我找了篇大神寫的文章: Martin Fowler - pEvent Sourcing](https://martinfowler.com/eaaDev/EventSourcing.html) 來當作代表就好了。所謂的 Event Sourcing, 其實背後的理念就是:
 
 > 要儲存的，不是最後的資料，而是記錄讓資料改變的資訊歷程；如果你能完整記錄這些歷程，你就有能力還原任何時間點的資料狀態。
+
+從定義上來說，如果你的 input 是以 "異動" 的過程為主，那麼你的紀錄就變成 log 型態的流水帳了。先不講優缺點，這樣做有幾個系統層面的特性:
+
+1. 紀錄只會增加，你不能也不應該異動這些歷史資料。因此資料處理的模式從一般的 CRUD，簡化為 CR 而已。D 變成有限度的操作 (例如 archive) 而已。
+1. 配合記錄流水帳的需要，前端處理通常會搭配 CQRS，強迫資料的異動進入資料庫前就被序列化
+1. Event Sourcing 會帶來一些好處，但是不利於頻繁的計算最終結果的操作。通常架構上需要搭配 CQRS 同步更新 aggration view
+
+
+
+
+
 
 講的白話一點，你拿出你的存摺出來看看就知道了。存摺清楚的按照時間序，把你每一筆款項的進出都記錄下來，何時存款，何時提款等等；每一筆異動紀錄，最後面才會附上當下結算的帳戶餘額。
 
