@@ -285,13 +285,28 @@ public static int Main(string[] args)
     {
         new HelloWorld().DoTask();
     }
-    System.Threading.Thread.Sleep(10 * 1000);
     return 0;
 }
 
 ```        
 
 然後，測試的主程式就不再跑 100 次重新建立環境的 code 了，這次我只執行一次。我的目的是想觀察，這 HelloWorld 在不同環境下的執行速率有沒有影響。其他 code 都完全一樣，我就不逐一說明跟測試了，直接看測試結果:
+
+
+無負載:
+
+```
+InProcessWorker: ∞ tasks/sec
+SingleAppDomainWorker: 23809.5238095238 tasks/sec
+SingleProcessWorker: 40000 tasks/sec
+SingleProcessWorker: 41666.6666666667 tasks/sec
+
+InProcessWorker: ∞ tasks/sec
+SingleProcessWorker: 27777.777777777777 tasks/sec
+SingleProcessWorker: 37037.03703703704 tasks/sec
+```
+
+
 
 .NET Fx 測試結果:
 
@@ -568,6 +583,9 @@ public class HelloTask : MarshalByRefObject
 
 同樣的先讓他空轉，但是我把原本 DoTask 的參數改成 byte[] 了。我統一用傳入 1MB 資料，傳回 512Byte 資料為範本來測試。稍微改了一下測試程式 (這我就不列了)，值接看看測試結果:
 
+
+無負載空轉:
+
 ```
 FX Worker:
 InProcessWorker: 40000 tasks/sec
@@ -581,9 +599,22 @@ SingleProcessWorker(FX): 38.74767513949163 tasks/sec
 SingleProcessWorker(CORE): 118.73664212776063 tasks/sec
 ```
 
+有負載(1mb buffer):
+
+```
+InProcessWorker: 20.9095661265029 tasks/sec
+SingleAppDomainWorker: 20.7473184090956 tasks/sec
+SingleProcessWorker: 13.3427622186345 tasks/sec
+SingleProcessWorker: 41.1234938520377 tasks/sec
+
+InProcessWorker: 99.97000899730081 tasks/sec
+SingleProcessWorker: 13.599336352386004 tasks/sec
+SingleProcessWorker: 55.76622797233995 tasks/sec
+```
+
 Process 透過 STDIO 傳輸，我刻意沒有直接用最有效率的 binary 格式，而是改用 base64, 因為實際狀況下我一定會碰到序列化的需求, 甚至是有需要透過 json 等等標準格式。我不想要在 POC 過度美化效能，要看出實際的差異才是我的目的啊，因此我選擇了這樣的實作方式。
 
-傳輸資料的 size 被放大後，不同隔離層級造成的效能差距開始看的出來了。本來效能無敵到算不出來的 InProcess, 現在也掉到 51813 t/s, 這是對照組, 你可以把他想成執行測試基本的開銷。即使是同個 memory space 下的 AppDomain, 光是 Marshal 也讓效能從 51813 掉到 1512, 透過 Process 不斷的做 Base64 轉換, 效能更是掉到 37 ...
+傳輸資料的 size 被放大後，不同隔離層級造成的效能差距開始看的出來了。本來效能無敵到算不出來的 InProcess, 現在也掉到 55555 t/s, 這是對照組, 你可以把他想成執行測試基本的開銷。即使是同個 memory space 下的 AppDomain, 光是 Marshal 也讓效能從 51813 掉到 1512, 透過 Process 不斷的做 Base64 轉換, 效能更是掉到 37 ...
 
 不過, 請先記下這個結果就好, 別急著下決定，因為這些方法其實各有優缺點。後面這段我要來談一下我為何要做這些 POC 背後的原因。
 
