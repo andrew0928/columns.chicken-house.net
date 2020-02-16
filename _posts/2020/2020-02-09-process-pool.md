@@ -812,6 +812,12 @@ Process 跟 Thread 一樣，建立都是有很高昂的成本的，維護一個 
 (未完成，敬請期待)
 
 
+* [Porting to .NET Core](https://devblogs.microsoft.com/dotnet/porting-to-net-core/)
+
+> App Domains
+> Why was it discontinued? AppDomains require runtime support and are generally quite expensive. While still implemented by CoreCLR, it’s not available in .NET Native and we don’t plan on adding this capability there.
+> 
+> What should I use instead? AppDomains were used for different purposes. For code isolation, we recommend processes and/or containers. For dynamic loading of assemblies, we recommend the new AssemblyLoadContext class.
 
 
 # 挑戰: Orchestration
