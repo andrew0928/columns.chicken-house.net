@@ -53,3 +53,21 @@ docker build -t andrew0928/columns:%IMAGE_TAG% -t wcshub.azurecr.io/columns:%IMA
 ::: enter shell
 : docker exec -t -i -w /home %CONTAINER_NAME% bash
 : cp -Ru columns/* source
+
+
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+:: run under repo root ::
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
+::: launch daemon
+docker run --name columns -v %CD%:/home/columns -d -p 4000:4000 -v %CD%:/home/columns wcshub.azurecr.io/columns:20180723-jekyll-3.8.1
+start docker logs -t -f columns
+
+::: enter shell, update file(s)
+docker exec -t -i -w /home columns bash
+cp -Ru columns/* source
+
+::: remove dead containers, use "run as administrator" mode
+net stop docker
+rd /s /q c:\ProgramData\Docker\containers
+net start docker
