@@ -257,12 +257,12 @@ Benchmark (.NET Fx Process Mode):     31.25 run / sec
 Benchmark (.NET Core Process Mode):   23.25581395348837 run / sec
 ```
 
-|Freq\Mode        |InProcess|Thread|AppDomain|Process (.NET Fx)|Process (.NET Core)|
-|-----------------|---------|------|---------|----------------|------------------|
-|主程式: .NET Fx  |∞        |∞      |333.3333 |11.7647         |12.6582|
-|主程式: .NET Core|∞        |∞      |無法測試  |31.2500         |23.2558|
 
 
+|主程式 \ 隔離方式 |InProcess|Thread|AppDomain|Process (.NET Fx)|Process (.NET Core)|
+|-----------------|---------|------|---------|----------------|--------------------|
+|.NET Fx          |∞        |∞     |333.3333 |11.7647         |12.6582             |
+|.NET Core        |∞        |∞     |無法測試  |31.2500         |23.2558             |
 
 
 
@@ -809,26 +809,287 @@ Process 跟 Thread 一樣，建立都是有很高昂的成本的，維護一個 
 
 # 回到主題: 為何你需要隔離環境?
 
-(未完成，敬請期待)
+前面把幾種我想的到的 .NET 隔離技術都試過一次，測試了環境的啟動速度，也測試了每個隔離環境內的 Task 執行速度 (包含跨越隔離環境傳遞參數)。其實，做這些測試，就是為了下一段做準備啊! 我趁這機會再重新說明一下我要解決的問題:
+
+> 整套系統有很多環節，都需要非同步的任務處理。由於規模大到須要有獨立機器來負責，因此必須透過 Message Queue 把任務往後端送。不過這些非同步任務的 "種類" 也很多啊，為了確保多種任務的 code 不會彼此打架互相影響, 因此需要彼此隔離的環境來分別執行這些任務。不過隔離是需要代價的，包含隔離環境的啟動需要時間，跨越隔離環境通訊也是額外的成本。因此做好這些隔離環境的管理，取得可靠度、效能與成本的平衡便是這次要解決的問題了。
+
+回過頭來，其實我在寫這篇文章時，就已經嘗試過其他方案了，不過由於應用的環節太廣泛，每種方案都有些不大適用的地方:
+
+1. **Serverless** (例如 AWS Lambda):  
+門檻在於冷啟動，直接存取 DB 的效能不佳 (database connection pool 的機制在 serverless 無法有效發揮), 缺乏 windows 平台或是 .net framework 的支援性, 在無法大規模改寫 legacy code 的情況下無法採用這解決方案。  
+  
+1. **Container + Orchestration**:  
+同樣的面臨到 windows 平台的支援度就是落後 linux 一截, 能靠 kubernetes 調度的彈性有限; 由於有很多非同步任務的執行頻率很低，即使最少開啟一個 Pod 也是有很大量的閒置資源的浪費。
+
+於是，最後只好走回老路了，這些難搞的部分拉回來自己解決，問題簡化後剩餘的部分 (單純的 scale out) 再交給成熟的 infrastructure 處理。我負責管控好單一 node 內，一個 controller + 多個 worker 的協調；而整組 (controller + multiple workers) 的 scale out 則可以交給 k8s 或是 cloud service 的 auto scaling 機制來解決。
+
+因此我再度把腦筋動到以前寫的 Thread Pool 身上了。Thread Pool 最能發揮效益的場合，是有很多規模很小的 task, 但是數量很多, 需要平行處理。這些 task 小到為他啟動專屬的 thread 都嫌浪費的程度，因此需要適度的重複使用 threads 才符合經濟效益，因此 thread pool 的機制就這樣普及了起來。為了降低 thread 啟動跟維護的成本, 系統會先啟動幾個 threads 待命；如果 task 變多來不及處理, thread pool 會適度地多建立一些 threads 來支援, 直到達到 threads 數量上限，或是資源耗盡為止。相反的，若是 task 已經消化完畢，超過指定的閒置時間，thread pool 就會回收部分的 worker threads, 只保留最低限度的 worker threads 待命, 等待接下來的 tasks...
+
+這不就是我需要的處理機制嗎? 只不過 thread pool 的 "thread", 我必須按照我需要, 替換成前面一直討論的 "隔離環境" 而已，不論是 AppDomain Pool, 或是 Process Pool 都一樣。我可以用同樣的機制，盡我最大可能的削弱啟動慢的缺點；最大化批次執行的效率；同時還能保有良好的隔離性，別讓寫的不好的 code 影響到其他任務的進行。
 
 
-* [Porting to .NET Core](https://devblogs.microsoft.com/dotnet/porting-to-net-core/)
+看完這一大串說明，各為還記得前面做的各種評估跟效能測是嗎? 我把結果再貼一次，看看綜合比較 (我只取無負載，傳輸 BLOB 的部分):
+
+**各種隔離環境的啟動速度**:
+
+|主程式 \ 隔離方式 |InProcess|Thread|AppDomain|Process (.NET Fx)|Process (.NET Core)|
+|-----------------|---------|------|---------|----------------|--------------------|
+|.NET Fx          |∞        |∞     |333.3333 |11.7647         |12.6582             |
+|.NET Core        |∞        |∞     |無法測試  |31.2500         |23.2558             |
+
+
+**各種隔離環境的任務執行速度 (無負載)**:
+
+|主程式 + 參數模式 \ 隔離方式        |InProcess |AppDomain  |Process (.NET Fx)   |Process .NET Core) |
+|----------------------------------|----------|-----------|-------------------|-------------------|
+|.NET Fx   + BLOB                  |5000000   |23419.2037 |19193.8580         |32051.2821         |
+|.NET Core + BLOB                  |2500000   |無法測試    |21739.1304         |37037.0370         |
+
+
+
+我就不再逐一比較了，我直接取最理想的組合: 主程式用 .NET Core, 採用 Process 隔離模式來執行 .NET Core 版本的 HelloTask 當做最後的技術選擇。在這情況下，每秒鐘可以啟動 23.2558 次 process, 而 process 每秒可以執行 37037 次 task, 兩者的速度相差近 1600 倍, 如果你沒好好利用這個 process 就回收掉他，那就太浪費了。
+
+為了確認，在 .NET Core 的世界裡, 用 process 是不是最理想的做法，我特地花了時間 google 了各種可能的解決方案，直到找到這篇:
+
+
+
+[Porting to .NET Core](https://devblogs.microsoft.com/dotnet/porting-to-net-core/), 我截錄其中一段:
 
 > App Domains
 > Why was it discontinued? AppDomains require runtime support and are generally quite expensive. While still implemented by CoreCLR, it’s not available in .NET Native and we don’t plan on adding this capability there.
 > 
 > What should I use instead? AppDomains were used for different purposes. For code isolation, we recommend processes and/or containers. For dynamic loading of assemblies, we recommend the new AssemblyLoadContext class.
 
-
-# 挑戰: Orchestration
-
-(未完成，敬請期待)
+看到 Microsoft 官方的 devblogs 都這樣講了，我還有啥好擔心的? 接下來，下一段我就開始動手，把原本的 SingleProcessWorker, 改造成 ProcessPoolWorker 吧! 改造之後也來看看執行的效果。
 
 
 
+# 挑戰自行建置 Process Pool 的編排 (orchestration) 機制
+
+既然都要自己挑戰 orchestration 的機制，那就做好心理準備，要對一些基本的 orchestration 做些了解吧。對 Thread Pool 的實作有興趣的朋友，可以先去看看我過去的文章；其中最關鍵的同步機制，其實透過 ```BlockingCollection<T>``` 已經可以大幅簡化很多了，我就從這邊開始版吧。先來看主結構的定義:
+
+```csharp
+
+public class ProcessPoolWorker : HelloWorkerBase
+{
+    // pool settings
+    private readonly int _buffer_size = 30;
+    private readonly int _min_pool_size = 1;
+    private readonly int _max_pool_size = 24;
+    private readonly TimeSpan _process_idle_timeout = TimeSpan.FromSeconds(5);
+
+    private readonly string _filename = null;
+    private BlockingCollection<(byte[] buffer, HelloTaskResult result)> _queue = null;
+    private List<Thread> _threads = null;
+    private object _syncroot = new object();
+    private int _total_working_process_count = 0;
+    private AutoResetEvent _wait = new AutoResetEvent(false);
+
+    public ProcessPoolWorker(string filename)
+    {
+        this._filename = filename;
+        this._queue = new BlockingCollection<(byte[] buffer, HelloTaskResult result)>(this._buffer_size);
+        this._threads = new List<Thread>();
+    }
+
+    // 以下略
+}
+
+```
+
+我這邊先定義好，管理 process pool 的幾個必要參數:
+
+1. ```int _buffer_size```:  
+代表 task 交給 process 處理前的 buffer size, 若是 buffer 滿了, 則最前端把 task 塞給 Worker 的動作就會被 blocked.  
+  
+1. ```int _min_pool_size```:  
+代表 process pool 必須維持的 process 最低數量。低於這數量, 即使 idle timeout 也不會終止這個 process ..  
+  
+1. ```int _max_pool_size```:  
+代表 process pool 必須維持的 process 最大數量。高於這數量, 即使還有 task 未處理完, 也不會在增加新的 process ..  
+  
+1. ```TimeSpan _process_idle_timeout```:  
+代表 process 等待 task 的最大時間。等待超過這時間還沒有 task 可以處理時，process 會自行終止。
 
 
 
+這些定義，大概就足以描述我期望的 process pool 運作所有的必要設定了。接下來我們先看看怎麼 "**管理**" 好單獨的一個 process:
+
+```csharp
+
+private void ProcessHandler()
+{
+    var _process = Process.Start(new ProcessStartInfo()
+    {
+        FileName = this._filename, 
+        Arguments = "BASE64",
+        RedirectStandardInput = true,
+        RedirectStandardOutput = true,
+        UseShellExecute = false,
+    });
+
+
+    var _reader = _process.StandardOutput;
+    var _writer = _process.StandardInput;
+
+    Console.WriteLine($"* Process [PID: {_process.Id}] Started.");
+    do
+    {
+        if (this._queue.TryTake(out var item, this._process_idle_timeout) == true)
+        {
+            this.AdjustPools();
+            lock (this._syncroot) this._total_working_process_count++;
+            _writer.WriteLine(Convert.ToBase64String(item.buffer));
+            item.result.ReturnValue = _reader.ReadLine();
+            item.result.Wait.Set();
+            lock (this._syncroot) this._total_working_process_count--;
+        }
+    } while (this._queue.IsCompleted == false || this._threads.Count <= this._min_pool_size);
+
+    _writer.Close();
+    _process.WaitForExit();
+    this._wait.Set();
+    Console.WriteLine($"* Process [PID: {_process.Id}] Stopped.");
+}
+
+```
+
+
+我用 ```ProcessHandler()``` 來代表一個 Process 的完整生命週期。其中的關鍵就在中間的 do - while loop 而已，前面只是建立 Process, 後面則是關閉 Process 的程序。我用了個 ```BlockingCollection``` 來接收前端 ```QueueTask()``` 收到的 task, 每個 ```ProcessHandler``` 就不斷地從 ```_queue``` 接收 task 來處理。```TryTake()``` 如果已經沒有 task, 或是等待超過 timeout 時間的話，就會 ```return false```, 這時外面 while() 就會判斷要不要再等下一輪? 如果 ```_queue``` 還沒結束，或是 process 總數已經小於等於 ```_min_pool_size``` 最小數量的話，那這個 process 就不會結束，繼續等下一輪。
+
+這時，只要每個 process 都按照這個規則，剩下的就簡單了。我在兩個地方埋下 ```AdjustPool()```, 這時間點會判斷目前 process pool 的狀況，決定要不要建立新的 process 來擴大處理能量。檢查的時間點分別是: 有 task 被加到 ```_queue``` 的時候，或是有 task 從 ```_queue``` 被取出的時候。
+
+
+接下來，看看 task 被加進去 worker 的部分:
+
+```csharp
+
+public override HelloTaskResult QueueTask(byte[] buffer)
+{
+    HelloTaskResult result = new HelloTaskResult();
+    this._queue.Add((buffer, result));
+    this.AdjustPools();
+    return result;
+}
+
+```        
+
+我放棄另一個傳遞 value 的實作，只做 BLOB 這份。準備好 ```buffer``` 跟 ```result```, 就用 ```Tuple``` 打包丟到 ```_queue``` 裡面了。加入時順便做 ```AdjustPools()``` 的判斷，然後就把 result 傳回去。這 result 就是前面介紹過的 ```HelloTaskResult```, 裡面包含 ```WaitHandle``` 的設計，等背景任務完成後, 可以透過 ```WaitHandle``` 通知能夠讀取 ```ResultValue``` 的內容了。這算是個陽春的 Async Task 做法，實際開發時，你可以考慮把它改成 .NET 的 Task, 就能更充分的應用 async / await 機制了。
+
+最後是 Worker 的 Stop() 程序:
+
+```csharp
+
+public override void Stop()
+{
+    this._queue.CompleteAdding();
+    while(this._queue.IsCompleted == false)
+    {
+        this._wait.WaitOne();
+    }
+}
+
+```
+
+當你通知 Worker 該結束時，第一件事是通知 ```_queue``` 不會再有 task 被加進去了，呼叫 ```BlockingCollection.CompleteAdding()``` 可以完成這個動作。
+
+接著，我埋了一個 ```AutoResetEvent _wait```, 這物件就像閘門一樣，另一端 ```Set()```, 這邊的 ```WaitOne()``` 就可以通過一次。我讓每個 ```ProcessHandler``` 結束前都呼叫一次 ```this._wait.Set()```, 這邊的 ```this._wait.WaitOne()``` 就會醒來一次。醒來後判斷是否 ```_queue``` 已經空了? 若還沒代表還有 ```ProcessHandler``` 沒結束。直到最後一個 ```ProcessHandler``` 離開，這邊就會跟著離開了。
+
+這樣的設計，可以讓外面使用 Worker 的程式，能夠精準的等待，到所有任務都成功處理完畢為止。
+
+寫到這邊，剛剛好 100 行 XDD (我真的很計較行數)。你也許會懷疑只有 100 行真的能做完整個類似 kubernetes 對於 pod 進行的 orchestration 機制嗎? 別懷疑，來試看看就知道。接下來，我們寫一段 code 來測試看看 ```ProcessPoolWorker``` 的表現是不是如我們預期...
+
+
+
+
+
+
+我把前面的 benchmark 重新拿出來用吧! 我只測式 有負載, BASE64 模式的那組, 版面關係我就跳過 .NET Fx 的測試了，加上 ```ProcessPoolWorker``` 一起測試:
+
+有負載 (buffer: 1KB):
+
+```text
+
+Worker: NetFxWorker, Mode: BASE64
+InProcessWorker               : 19120.4588910134 tasks/sec
+SingleAppDomainWorker         : 10845.9869848156 tasks/sec
+SingleProcessWorker           : 9596.92898272553 tasks/sec
+SingleProcessWorker           : 21598.2721382289 tasks/sec
+ProcessPoolWorker             : 51282.0512820513 tasks/sec
+
+Worker: NetCoreWorker, Mode: BASE64
+InProcessWorker               : 84745.7627118644 tasks/sec
+SingleProcessWorker           : 10183.299389002037 tasks/sec
+SingleProcessWorker           : 26385.224274406333 tasks/sec
+ProcessPoolWorker             : 58823.529411764706 tasks/sec
+
+```
+
+
+有負載 (buffer: 1KB):
+
+|主程式 + 參數模式 \ 隔離方式        |InProcess     |AppDomain  |Process (.NET Core) |Process Pool (.NET Core)|
+|----------------------------------|--------------|-----------|-------------------|--------------------------|
+|.NET Fx   + BLOB                  |19120.4589    |10845.9870 |21598.2721          |51282.0513         |
+|.NET Core + BLOB                  |84745.7627    |無法測試    |26385.2243          |58823.5294         |
+
+
+
+效能只多了兩倍，其實還沒完全榨出潛力。我加大運算負載，把計算 hash 的 buffer 從 1KB 加大到 1MB, 一次丟 10000 筆進去計算:
+
+```text
+
+Worker: NetFxWorker, Mode: BASE64
+InProcessWorker               : 20.9336403600586 tasks/sec
+SingleAppDomainWorker         : 20.7092504079722 tasks/sec
+SingleProcessWorker           : 40.9785682088268 tasks/sec
+ProcessPoolWorker             : 168.878981321985 tasks/sec
+
+Worker: NetCoreWorker, Mode: BASE64
+InProcessWorker               : 102.3059767151597 tasks/sec
+SingleProcessWorker           : 55.12983075141959 tasks/sec
+ProcessPoolWorker             : 183.8978998859833 tasks/sec
+
+```
+
+有負載 (buffer: 50KB):
+
+|主程式 + 參數模式 \ 隔離方式        |InProcess     |AppDomain  |Process (.NET Core) |Process Pool (.NET Core)|
+|----------------------------------|--------------|-----------|-------------------|--------------------------|
+|.NET Fx   + BLOB                  |20.9336       |20.7093    |40.9786            |168.8790                |
+|.NET Core + BLOB                  |102.3060      |無法測試    |55.1298            |183.8979                |
+
+測試到這邊，已經看到 Process Pool 帶來的效益了。只要你的 VM 運算資源還足夠，多開啟幾個 process 是有助於提升整體運算力的。同樣是 .NET Core 的 Process, 啟用 Pool 機制就可以提升 333.57% 的效率, 對比效率差距最大的兩筆數據: .NET Fx + AppDomain = 20.7093, 及 .NET Core + Process Pool = 183.8979 來看，效能差距拉大到 887.997%, 差了近 9 倍...
+
+
+
+既然要做 orchestration, 那就應該做到位一點。上面的例子，我 pool size 開到 24 process(es), 跑測試時, 把我 12 cores CPU 的 24 threads 都吃光了:
+
+![](/wp-content/images/2020-02-09-process-pool/2020-02-18-02-05-18.png)
+
+如果這台 server 還有其他任務要跑 (至少要讓主程式好好的執行啊)，那有些地方應該要留意一下:
+
+1. CPU Affinity: 處理器相關性, 可以指定你只要用哪幾個核心
+1. Process Priority: 處理程序的優先權
+
+第一個 CPU Affinity, 你可以指定你分配給他的 CPU, 你可以空出指定的幾個核心來負責其他任務。另一個 Priority 則是我常用的，我會把 CPU Bound 的任務優先權調的略低 (```BelowNormal```), 這樣有個好處是, 當別人要忙的時候，因為優先權較低, OS 會優先把 CPU 分配給其他 process, 但是你的 process 還是繼續執行, 他會吃光所有剩下的 CPU。這樣有個好處是: 其他任務都可以兼顧回應速度，而你也不會浪費任何一點 CPU 運算能力。
+
+要指定這些參數，一點也不複雜，加這兩行就夠了。```ProcessorAffinity``` 用的是二進位，給 1 的就是打開那顆 CPU:
+
+```csharp
+
+_process.PriorityClass = ProcessPriorityClass.BelowNormal;
+_process.ProcessorAffinity = new IntPtr(14);    // 0000 0000 0000 1110
+
+```
+
+我將 ```ProcessorAffinity``` 設定成 14 (0b 0000 1110), 代表我只用第 1, 2, 3 這三個核心, 其他 0, 4 ~ 23 通通讓給其他人使用。同樣程式跑出來就像這樣，這 24 process 都只擠在我指定的那三個核心上面執行:
+
+
+![](/wp-content/images/2020-02-09-process-pool/2020-02-18-02-14-24.png)
+
+
+進行到此，其實還有一些測試被我省略掉了，但是我在正式的專案是有進行的，就是當大量 process 同時運行時，記憶體使用量反而是個瓶頸了，這時 process pool 能夠適時的自動回收閒置的 process 發揮了很大的作用。過去沒有啟用回收機制時，我們配置 VM 時都卡在 RAM 不足，但是啟用適當的回收機制後，記憶體不再是瓶頸了，我們能夠開啟更多 "真正" 有在做事的 process, CPU 的使用率提高了。換來的好處是我們需要的 VM 更少了，這些效能調較優化的效益，直接反映在雲端的運算費用上。
 
 
 
