@@ -864,46 +864,134 @@ Process 跟 Thread 一樣，建立都是有很高昂的成本的，維護一個 
 
 
 
-# 挑戰自行建置 Process Pool 的編排 (orchestration) 機制
+# 自行建置 Process Pool 的編排機制
 
-既然都要自己挑戰 orchestration 的機制，那就做好心理準備，要對一些基本的 orchestration 做些了解吧。對 Thread Pool 的實作有興趣的朋友，可以先去看看我過去的文章；其中最關鍵的同步機制，其實透過 ```BlockingCollection<T>``` 已經可以大幅簡化很多了，我就從這邊開始版吧。先來看主結構的定義:
+Process 有很好的隔離性，但是代價就是啟動 Process 的成本很高 (上面的測試: 一秒只能建立 23 個 process, 但是一秒中卻能執行 37037 個 task, 差距 1500 倍)。因此我需要一個聰明的調節機制來協助，常見的 "pool" 做法是個好選擇。這做法很常見，例如 thread pool, connection pool, storage pool 等等都是。這些 pool 的機制都有個共通的管理模式: 
+
+> 建立新的資源如果需要大量的成本 (時間)，則最佳的管理方式是盡可能重複使用，透過 pool 來調度，使用完放回 pool, 需要就從 pool 拿走。不夠就多準備幾個放到 pool, 閒置過久就從 pool 裡回收。Pool 只要能維持資源的數量在依定範圍內 ( min ~ max ), 就能達到資源的使用效率最大化。
+
+同樣的情境，套用到 process, 就是我一直再講的 process pool 了。理想情況下，只要有 task 進來, 我就要有 process 來處理他。因為 process 建立成本很高，因此我希望 process 盡量能重複使用，如果 task 處理完畢不要馬上結束，可以等待一段時間看看還有沒有其他 task 需要處理；相對的，有 task 進來就優先交給 idle 的 process, 如果都沒有再啟動新的 process 接手，直到 process 數量達到上限為止。
+
+如果 process 超過 idle 時間還沒有 task 可以處理，為了節省資源，則這個 process 應該要自我了斷了。但是顧及 process 啟動時間可能很長，因此就算完全沒有 task 需要處理，我仍然能夠保留最少數量的 process 待命, 至少解決突然出現的 task 不至於延遲過久。
+
+這整套處理的機制，其實就是 thread pool 的精神啊，擴大到 container, 就是 kubernetes 這類 container orchestration 機制運作原理啊, 範圍再擴大到 cloud service 的 auto scaling 機制也是類似的作法。很遺憾的是我的實際狀況無法很輕易的將這類管理任務，轉移到 container + kubernetes, 我最後決定自己來處理這樣的 process 管理機制。
+
+
+
+## 實作: ProcessPoolWorker
+
+既然都要自己挑戰 orchestration 的機制，那就做好心理準備，要對一些基本的 orchestration 做些了解吧。對 Thread Pool 的實作有興趣的朋友，可以先去看看我過去的文章；其中最關鍵的同步機制，就是生產者與消費者的控制了。透過 ```BlockingCollection<T>``` 已經可以大幅簡化很多複雜的同步細節，我就從這邊開始版吧。這個 ```ProcessPoolWorker``` 我就不分段貼程式碼了，直接貼完整的實作 (剛好 100 行搞定):
 
 ```csharp
 
 public class ProcessPoolWorker : HelloWorkerBase
 {
     // pool settings
-    private readonly int _buffer_size = 30;
-    private readonly int _min_pool_size = 1;
-    private readonly int _max_pool_size = 24;
-    private readonly TimeSpan _process_idle_timeout = TimeSpan.FromSeconds(5);
+    private readonly int _min_pool_size = 0;
+    private readonly int _max_pool_size = 0;
+    private readonly TimeSpan _process_idle_timeout = TimeSpan.Zero;
 
+    // pool states
     private readonly string _filename = null;
-    private BlockingCollection<(byte[] buffer, HelloTaskResult result)> _queue = null;
-    private List<Thread> _threads = null;
+    private BlockingCollection<(byte[] buffer, HelloTaskResult result)> _queue = new BlockingCollection<(byte[] buffer, HelloTaskResult result)>(5);    // buffer size
+    private List<Thread> _threads = new List<Thread>();
     private object _syncroot = new object();
     private int _total_working_process_count = 0;
+    private int _total_created_process_count = 0;
     private AutoResetEvent _wait = new AutoResetEvent(false);
 
-    public ProcessPoolWorker(string filename)
+    public ProcessPoolWorker(string filename, int processMin = 1, int processMax = 20, int processIdleTimeoutMilliseconds = 10000)
     {
         this._filename = filename;
-        this._queue = new BlockingCollection<(byte[] buffer, HelloTaskResult result)>(this._buffer_size);
-        this._threads = new List<Thread>();
+        this._min_pool_size = processMin;
+        this._max_pool_size = processMax;
+        this._process_idle_timeout = TimeSpan.FromMilliseconds(processIdleTimeoutMilliseconds);
     }
 
-    // 以下略
+    private bool TryIncreaseProcess()
+    {
+        lock (this._syncroot)
+        {
+            if (this._total_created_process_count >= this._max_pool_size) return false;
+            if (this._total_created_process_count > this._total_working_process_count) return false;
+        }
+
+        var t = new Thread(this.ProcessHandler);
+        this._threads.Add(t);
+        t.Start();
+        return true;
+    }
+    private bool ShouldDecreaseProcess()
+    {
+        lock (this._syncroot) if (this._total_created_process_count <= this._min_pool_size) return false;
+        return true;
+    }
+
+    private void ProcessHandler()
+    {
+        lock (this._syncroot) this._total_created_process_count++;
+        var _process = Process.Start(new ProcessStartInfo(this._filename, "BASE64")
+        {
+            RedirectStandardInput = true,
+            RedirectStandardOutput = true,
+            UseShellExecute = false,
+        });
+        _process.PriorityClass = ProcessPriorityClass.BelowNormal;
+        //_process.ProcessorAffinity = new IntPtr(14);    // 0000 0000 0000 1110
+
+        var _reader = _process.StandardOutput;
+        var _writer = _process.StandardInput;
+
+        while(this._queue.IsCompleted == false)
+        {
+            if (this._queue.TryTake(out var item, this._process_idle_timeout) == false)
+            {
+                if (this.ShouldDecreaseProcess()) { break; } else { continue; }
+            }
+
+            this.TryIncreaseProcess();
+            lock (this._syncroot) this._total_working_process_count++;
+            _writer.WriteLine(Convert.ToBase64String(item.buffer));
+            item.result.ReturnValue = _reader.ReadLine();
+            item.result.Wait.Set();
+            lock (this._syncroot) this._total_working_process_count--;
+        }
+        lock (this._syncroot) this._total_created_process_count--;
+
+        _writer.Close();
+        _process.WaitForExit();
+        this._wait.Set();
+    }
+
+    public override HelloTaskResult QueueTask(int size)
+    {
+        throw new NotSupportedException();
+    }
+
+    public override HelloTaskResult QueueTask(byte[] buffer)
+    {
+        HelloTaskResult result = new HelloTaskResult();
+        this._queue.Add((buffer, result));
+        this.TryIncreaseProcess();
+        return result;
+    }
+
+    public override void Stop()
+    {
+        this._queue.CompleteAdding();
+        while(this._queue.IsCompleted == false) this._wait.WaitOne();
+    }
 }
 
 ```
 
 我這邊先定義好，管理 process pool 的幾個必要參數:
 
-1. ```int _buffer_size```:  
-代表 task 交給 process 處理前的 buffer size, 若是 buffer 滿了, 則最前端把 task 塞給 Worker 的動作就會被 blocked.  
+1. ```BlockingCollection<T> _queue``` 的 collection size:  
+代表 ProcessPool 允許預先接收的 task 數量。如果後端 process 消化的速度不夠快, _queue 裡面等待的 task 超過這數量, 則 QueueTask() 會 blocked, 前端加入 Task 會被暫停。
   
 1. ```int _min_pool_size```:  
-代表 process pool 必須維持的 process 最低數量。低於這數量, 即使 idle timeout 也不會終止這個 process ..  
+代表 process pool 必須維持的 process 最低數量。低於這數量, 即使 idle timeout 時間到了，也不會終止這個 process ..  
   
 1. ```int _max_pool_size```:  
 代表 process pool 必須維持的 process 最大數量。高於這數量, 即使還有 task 未處理完, 也不會在增加新的 process ..  
@@ -913,93 +1001,33 @@ public class ProcessPoolWorker : HelloWorkerBase
 
 
 
-這些定義，大概就足以描述我期望的 process pool 運作所有的必要設定了。接下來我們先看看怎麼 "**管理**" 好單獨的一個 process:
+這些定義，大概就足以描述我期望的 process pool 運作所有的必要設定了。接下來我們先看看怎麼 "**管理**" 好單獨的一個 process。請直接看前面完整程式碼的這個 method: ```ProcessHandler()``` ...。
 
-```csharp
-
-private void ProcessHandler()
-{
-    var _process = Process.Start(new ProcessStartInfo()
-    {
-        FileName = this._filename, 
-        Arguments = "BASE64",
-        RedirectStandardInput = true,
-        RedirectStandardOutput = true,
-        UseShellExecute = false,
-    });
-
-
-    var _reader = _process.StandardOutput;
-    var _writer = _process.StandardInput;
-
-    Console.WriteLine($"* Process [PID: {_process.Id}] Started.");
-    do
-    {
-        if (this._queue.TryTake(out var item, this._process_idle_timeout) == true)
-        {
-            this.AdjustPools();
-            lock (this._syncroot) this._total_working_process_count++;
-            _writer.WriteLine(Convert.ToBase64String(item.buffer));
-            item.result.ReturnValue = _reader.ReadLine();
-            item.result.Wait.Set();
-            lock (this._syncroot) this._total_working_process_count--;
-        }
-    } while (this._queue.IsCompleted == false || this._threads.Count <= this._min_pool_size);
-
-    _writer.Close();
-    _process.WaitForExit();
-    this._wait.Set();
-    Console.WriteLine($"* Process [PID: {_process.Id}] Stopped.");
-}
-
-```
 
 
 我用 ```ProcessHandler()``` 來代表一個 Process 的完整生命週期。其中的關鍵就在中間的 do - while loop 而已，前面只是建立 Process, 後面則是關閉 Process 的程序。我用了個 ```BlockingCollection``` 來接收前端 ```QueueTask()``` 收到的 task, 每個 ```ProcessHandler``` 就不斷地從 ```_queue``` 接收 task 來處理。```TryTake()``` 如果已經沒有 task, 或是等待超過 timeout 時間的話，就會 ```return false```, 這時外面 while() 就會判斷要不要再等下一輪? 如果 ```_queue``` 還沒結束，或是 process 總數已經小於等於 ```_min_pool_size``` 最小數量的話，那這個 process 就不會結束，繼續等下一輪。
 
-這時，只要每個 process 都按照這個規則，剩下的就簡單了。我在兩個地方埋下 ```AdjustPool()```, 這時間點會判斷目前 process pool 的狀況，決定要不要建立新的 process 來擴大處理能量。檢查的時間點分別是: 有 task 被加到 ```_queue``` 的時候，或是有 task 從 ```_queue``` 被取出的時候。
+關鍵的地方在於 Pool 的控制。如果這輪沒辦法從 ```_queue``` 收到 task, 要嘛 ```_queue``` 已經 Completed 了，或是超過 idle timeout 了。這時我會觸發 ```ShouldDecreaseProcess()``` 來判定目前的 process 是要直接終止，還是要 keep alive 繼續空等下去? 這背後判定的邏輯就是由 max / min pool size 來判定的。
+
+如果順利從 ```_queue``` 取得 task, 則會觸發另一個檢查: ```TryIncreaseProcess()```, 判定是否需要預先啟動另一個 process 起來待命。這邊一樣是由 max / min pool size 來判定，同時會檢查已經啟動的 process 是不是都在忙碌中? 若還有空閒的 process 則會略過這擴充的機制。
 
 
-接下來，看看 task 被加進去 worker 的部分:
+接下來，看看 task 被加進去 worker 的部分 ```QueueTask(byte[] buffer)```，我放棄另一個傳遞 value 的實作，只做 BLOB 這份。準備好 ```buffer``` 跟 ```result```, 就用 ```Tuple``` 打包丟到 ```_queue``` 裡面了。加入時順便做 ```TryIncreaseProcess()``` 的判斷，然後就把 result 傳回去。這 result 就是前面介紹過的 ```HelloTaskResult```, 裡面包含 ```WaitHandle``` 的設計，等背景任務完成後, 可以透過 ```WaitHandle``` 通知能夠讀取 ```ResultValue``` 的內容了。這算是個陽春的 Async Task 做法，實際開發時，你可以考慮把它改成 .NET 的 Task, 就能更充分的應用 async / await 機制了。
 
-```csharp
+這三個流程的關鍵點，是我控制 Process Pool 數量的時間點。透過這三個控制點，我就能精準的調節 process 的數量, 用最洽當的 pool size 來處理負載。
 
-public override HelloTaskResult QueueTask(byte[] buffer)
-{
-    HelloTaskResult result = new HelloTaskResult();
-    this._queue.Add((buffer, result));
-    this.AdjustPools();
-    return result;
-}
-
-```        
-
-我放棄另一個傳遞 value 的實作，只做 BLOB 這份。準備好 ```buffer``` 跟 ```result```, 就用 ```Tuple``` 打包丟到 ```_queue``` 裡面了。加入時順便做 ```AdjustPools()``` 的判斷，然後就把 result 傳回去。這 result 就是前面介紹過的 ```HelloTaskResult```, 裡面包含 ```WaitHandle``` 的設計，等背景任務完成後, 可以透過 ```WaitHandle``` 通知能夠讀取 ```ResultValue``` 的內容了。這算是個陽春的 Async Task 做法，實際開發時，你可以考慮把它改成 .NET 的 Task, 就能更充分的應用 async / await 機制了。
-
-最後是 Worker 的 Stop() 程序:
-
-```csharp
-
-public override void Stop()
-{
-    this._queue.CompleteAdding();
-    while(this._queue.IsCompleted == false)
-    {
-        this._wait.WaitOne();
-    }
-}
-
-```
-
-當你通知 Worker 該結束時，第一件事是通知 ```_queue``` 不會再有 task 被加進去了，呼叫 ```BlockingCollection.CompleteAdding()``` 可以完成這個動作。
+最後是 Worker 的 ```Stop()``` 程序，當你通知 Worker 該結束時，第一件事是通知 ```_queue``` 不會再有 task 被加進去了，呼叫 ```BlockingCollection.CompleteAdding()``` 可以完成這個動作。
 
 接著，我埋了一個 ```AutoResetEvent _wait```, 這物件就像閘門一樣，另一端 ```Set()```, 這邊的 ```WaitOne()``` 就可以通過一次。我讓每個 ```ProcessHandler``` 結束前都呼叫一次 ```this._wait.Set()```, 這邊的 ```this._wait.WaitOne()``` 就會醒來一次。醒來後判斷是否 ```_queue``` 已經空了? 若還沒代表還有 ```ProcessHandler``` 沒結束。直到最後一個 ```ProcessHandler``` 離開，這邊就會跟著離開了。
 
 這樣的設計，可以讓外面使用 Worker 的程式，能夠精準的等待，到所有任務都成功處理完畢為止。
 
+
+
+
+## 實際測試 Benchmark
+
 寫到這邊，剛剛好 100 行 XDD (我真的很計較行數)。你也許會懷疑只有 100 行真的能做完整個類似 kubernetes 對於 pod 進行的 orchestration 機制嗎? 別懷疑，來試看看就知道。接下來，我們寫一段 code 來測試看看 ```ProcessPoolWorker``` 的表現是不是如我們預期...
-
-
 
 
 
@@ -1052,7 +1080,7 @@ ProcessPoolWorker             : 183.8978998859833 tasks/sec
 
 ```
 
-有負載 (buffer: 50KB):
+有負載 (buffer: 1MB):
 
 |主程式 + 參數模式 \ 隔離方式        |InProcess     |AppDomain  |Process (.NET Core) |Process Pool (.NET Core)|
 |----------------------------------|--------------|-----------|-------------------|--------------------------|
@@ -1063,7 +1091,10 @@ ProcessPoolWorker             : 183.8978998859833 tasks/sec
 
 
 
-既然要做 orchestration, 那就應該做到位一點。上面的例子，我 pool size 開到 24 process(es), 跑測試時, 把我 12 cores CPU 的 24 threads 都吃光了:
+
+## 進階資源控制: 指派 CPU, 調整 process 優先權
+
+既然要做 orchestration, 那就應該做到位一點。上面的例子，我 pool size 開到 24 process(es), 跑測試時, 把我 12C/24T CPU 的運算能力都吃光了:
 
 ![](/wp-content/images/2020-02-09-process-pool/2020-02-18-02-05-18.png)
 
@@ -1072,7 +1103,7 @@ ProcessPoolWorker             : 183.8978998859833 tasks/sec
 1. CPU Affinity: 處理器相關性, 可以指定你只要用哪幾個核心
 1. Process Priority: 處理程序的優先權
 
-第一個 CPU Affinity, 你可以指定你分配給他的 CPU, 你可以空出指定的幾個核心來負責其他任務。另一個 Priority 則是我常用的，我會把 CPU Bound 的任務優先權調的略低 (```BelowNormal```), 這樣有個好處是, 當別人要忙的時候，因為優先權較低, OS 會優先把 CPU 分配給其他 process, 但是你的 process 還是繼續執行, 他會吃光所有剩下的 CPU。這樣有個好處是: 其他任務都可以兼顧回應速度，而你也不會浪費任何一點 CPU 運算能力。
+有唸過作業系統的話，應該對於這些排程的原則不陌生。第一個 CPU Affinity, 你可以更精準的分配 CPU 核心該怎麼使用, 你可以調配指定的幾個核心來負責其他任務。另一個 Priority 則是我常用的，我會把 CPU Bound 的任務優先權調的略低 (```BelowNormal```), 這樣有個好處是, 當別人要忙的時候，因為優先權較低, OS 會優先把 CPU 分配給其他 process, 但是你的 process 還是繼續執行, 他會吃光所有剩下的 CPU。如此一來，其他任務都可以兼顧回應速度，而你也不會浪費任何一點 CPU 運算能力。
 
 要指定這些參數，一點也不複雜，加這兩行就夠了。```ProcessorAffinity``` 用的是二進位，給 1 的就是打開那顆 CPU:
 
@@ -1089,7 +1120,83 @@ _process.ProcessorAffinity = new IntPtr(14);    // 0000 0000 0000 1110
 ![](/wp-content/images/2020-02-09-process-pool/2020-02-18-02-14-24.png)
 
 
+
+## Auto Scaling 測試
+
 進行到此，其實還有一些測試被我省略掉了，但是我在正式的專案是有進行的，就是當大量 process 同時運行時，記憶體使用量反而是個瓶頸了，這時 process pool 能夠適時的自動回收閒置的 process 發揮了很大的作用。過去沒有啟用回收機制時，我們配置 VM 時都卡在 RAM 不足，但是啟用適當的回收機制後，記憶體不再是瓶頸了，我們能夠開啟更多 "真正" 有在做事的 process, CPU 的使用率提高了。換來的好處是我們需要的 VM 更少了，這些效能調較優化的效益，直接反映在雲端的運算費用上。
+
+本來想要模擬一下 allocate 大量記憶體的，不過我試了一下，我有 64GB RAM, 要塞滿到觀察的出來很花時間啊... Orz, 我換個方式表達好了。我就不直接觀察記憶體使用量，我直接觀察 process 的生命週期是否如我預期好了。原本上面的測試，只是很無腦的把 10000 個 task 交給 Worker 處理，這次我動點手腳:
+
+```csharp
+
+var worker = new ProcessPoolWorker(
+    @"D:\CodeWork\github.com\Andrew.ProcessPoolDemo\NetFxProcess\bin\Debug\NetFxProcess.exe",
+    2, 5, 3000);
+
+for (int i = 0; i < 100; i++) worker.QueueTask(new byte[1 * 1024 * 1024]);
+
+Console.WriteLine("Take a rest (worker idle 10 sec)...");
+Task.Delay(10 * 1000).Wait();
+Console.WriteLine("Wake up, start work.");
+
+for (int i = 0; i < 100; i++) worker.QueueTask(new byte[1024 * 1024]);
+worker.Stop();
+
+```
+
+我建立一個 ```ProcessPoolWorker```, pool 參數設定 2 ~ 5 之間, idle timeout 設定 3 sec... 程式一開始直接丟 100 個 1MB buffer 的 SHA512 計算需求 task 進去, 然後等待 10 sec 後繼續丟 100 個 task 進去, 最後離開。這次我在 ProcessHandler 的啟動與終止的地方印了訊息，來觀察一下執行結果:
+
+```text
+
+* 2/19/2020 4:37:59 AM - Process [PID: 32628] Started.
+* 2/19/2020 4:37:59 AM - Process [PID: 29776] Started.
+* 2/19/2020 4:37:59 AM - Process [PID: 15200] Started.
+* 2/19/2020 4:37:59 AM - Process [PID: 19060] Started.
+* 2/19/2020 4:37:59 AM - Process [PID: 31692] Started.
+Take a rest (worker idle 10 sec)...
+* 2/19/2020 4:38:04 AM - Process [PID: 29776] Stopped.
+* 2/19/2020 4:38:04 AM - Process [PID: 32628] Stopped.
+* 2/19/2020 4:38:04 AM - Process [PID: 19060] Stopped.
+* 2/19/2020 4:38:04 AM - Process [PID: 15200] Keep alive for this process.
+* 2/19/2020 4:38:04 AM - Process [PID: 31692] Keep alive for this process.
+* 2/19/2020 4:38:07 AM - Process [PID: 15200] Keep alive for this process.
+* 2/19/2020 4:38:07 AM - Process [PID: 31692] Keep alive for this process.
+* 2/19/2020 4:38:10 AM - Process [PID: 15200] Keep alive for this process.
+* 2/19/2020 4:38:10 AM - Process [PID: 31692] Keep alive for this process.
+Wake up, start work.
+* 2/19/2020 4:38:11 AM - Process [PID: 21908] Started.
+* 2/19/2020 4:38:11 AM - Process [PID: 32396] Started.
+* 2/19/2020 4:38:11 AM - Process [PID: 27956] Started.
+* 2/19/2020 4:38:12 AM - Process [PID: 31692] Stopped.
+* 2/19/2020 4:38:12 AM - Process [PID: 15200] Stopped.
+* 2/19/2020 4:38:12 AM - Process [PID: 32396] Stopped.
+* 2/19/2020 4:38:12 AM - Process [PID: 27956] Stopped.
+* 2/19/2020 4:38:12 AM - Process [PID: 21908] Stopped.
+
+D:\CodeWork\github.com\Andrew.ProcessPoolDemo\NetCoreWorker\bin\Debug\netcoreapp3.1\NetCoreWorker.exe (process 31772) exited with code 0.
+Press any key to close this window . . .
+
+```
+
+從時間序可以看到執行的過程，4:37:59 時啟動了 5 個 process, 主控端就去休息 10 sec 了。開始休息後過了 5 sec, 每個 process 差不多都超過 idle timeout 了，可以看到 4:38:04 時有 3 個 process 就自我終止了, 由於 min pool size 的限制, 另外有 2 個 process 持續 keep alive, 選擇繼續等待後面隨時會產生的 task. 這 keep alive 的動作每隔一次 timeout 時間就會再確認一次, 直到有新的 task 為止。
+
+時間序到了 4:38:11, 主程式又有新的 100 task(s) 進來了。這瞬間保留待命的 2 process 又不夠了, 於是 Worker 繼續啟動新的 process 起來應付流量, 從訊息看到又啟動了 3 個新的 process 加入行列。留意一下 PID 跟先前的不同，代表這真的是重新建立的 process。這次不再是 idle, 而是主程式直接呼叫 ```Worker.Stop()``` 了，因此 process pool 進入 shutdown 的程序, 每個 process 結束工作後就退出，這次沒有保留任何 keep alive 的 process, 而是 5 個 process 全數終止，正常離開。
+
+從這過程，看的出來簡單的 100 行 code (寫出來很簡單，要搞懂不簡單啊啊啊啊...) 就能達到這麼精準的資源調度, 果然平行處理是個很迷人的領域啊 (咦?
+
+
+
+# 最後結論
+
+其實寫了這一大串下來，我的想法還是一樣。架構相關的技術是需要靈活運用的，當你沒把應用擺在第一位的話，你就很容易被細節牽著跑，手上拿著槌子就覺得什麼問題都像個釘子一樣了。這次我面對的問題，就是很典型是 application 本身的需求, 感覺起來好像可以靠 infrastructure 來解決, 偏偏就是有些關鍵的環節需要由 developer 來做好整合。這次的問題，各個團隊的成員都給了我很充分的技術評估，我才有足夠的資訊做出最終的架構決策。我相信經過這樣的過程，調整出來的方案才是最適合團隊需要的。
+
+舉例來說，這次的情境，function as a service 應該是最適合的情境, 無奈 .net framework + database connection 先天就不適合, 跟這些方案絕緣; 這些 process pool 的管控，將他 containerize 後交由 kubernetes / docker swarm 管理也應該是最適合的機制, 無奈 windows container 的支援度有限, 而且這些 process 的調度又高度與 application 內的訊息相關, 調度的單位必須細緻到 job, 而非 service, 我如果硬要套用 kubernetes 的話，我可能會被迫搞出有幾百個 pod 的這種怪物出來... 這樣的架構決策，其實也會造成團隊分工的矛盾與困擾。
+
+這時，身為架構師，團隊都仰賴你的規劃與技術決策時，你對基礎知識的掌握到不到位，現在就看得出差異了。這種情況才是重新打造輪子的時候啊! 每個人都說不需要重新發明輪子，不需要自己打造自己的框架 (大部分時間這樣說是沒錯)，但是為什麼世界上就是一直有新的框架冒出來? XDD  這就代表現有框架還是有改善的空間。我的想法是: 你不需要每件事情都重新打造，但是當你經過審慎的判斷後，若有需要，這時你是否有能力打造出來就是個關鍵了。就算你必須重新打造輪子，也不代表你必須從頭開始設計，你只需要掌握最關鍵的部分，其他成熟的零件你還是可以使用的。例如我只親自操刀單一 VM 內的 process pool management, 以 VM 為單位的 scale out 我還是選擇成熟的 infrastructure 來管理。
+
+我工作上若非必要，我也不會捨 .NET 內建的 thread pool 不用，用我自己打造的 (雖然我寫的出來)。但是當我需要變形的 process pool, 我平常的修行就派上用場了。這次的案例，對我來說是個很扎實的挑戰，養兵千日用在一時啊! 其實再台灣能有這樣思考跟發揮空間的團隊並不多啊，有這樣的環境我才有機會把這些想法落實，也才會有這些經驗分享的文章。
+
+
 
 
 
