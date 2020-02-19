@@ -813,10 +813,66 @@ Process 跟 Thread 一樣，建立都是有很高昂的成本的，維護一個 
 
 > 整套系統有很多環節，都需要非同步的任務處理。由於規模大到須要有獨立機器來負責，因此必須透過 Message Queue 把任務往後端送。不過這些非同步任務的 "種類" 也很多啊，為了確保多種任務的 code 不會彼此打架互相影響, 因此需要彼此隔離的環境來分別執行這些任務。不過隔離是需要代價的，包含隔離環境的啟動需要時間，跨越隔離環境通訊也是額外的成本。因此做好這些隔離環境的管理，取得可靠度、效能與成本的平衡便是這次要解決的問題了。
 
-回過頭來，其實我在寫這篇文章時，就已經嘗試過其他方案了，不過由於應用的環節太廣泛，每種方案都有些不大適用的地方:
+舉幾個現成的例子來說明一下 "隔離環境" 的重要性。如果我寫的 task 要跟其他人的 task 擺在一起執行, 試想這幾個情境對你有沒有影響? 有的話你就需要一個隔離環境了:
 
-1. **Serverless** (例如 AWS Lambda):  
-門檻在於冷啟動，直接存取 DB 的效能不佳 (database connection pool 的機制在 serverless 無法有效發揮), 缺乏 windows 平台或是 .net framework 的支援性, 在無法大規模改寫 legacy code 的情況下無法採用這解決方案。  
+1. 其他 task 把記憶體吃光了, 導致我的 code 出現 OutOfMemoryException ..
+1. 其他 task 吃太多 CPU 運算資源, 導致我的 code 無法分配足夠的 CPU time ..
+1. 其他 task 誤觸某些共用 library 的 static properties / fields 影響我的 code 執行 ..
+1. 其他 task 意外出現 Unhandled Exception, 導致整個 process 都被終止了, 影響我的 code 被中斷...
+
+其實這些都是 "惡鄰居" 可能會帶來的影響。資源的分配跟問題的隔離，自然就是要挑選合適的隔離機制才能辦的到。前面介紹的 AppDomain 跟 Process 都能提供不同層級的保護機制來避免上述問題。我拿 AppDomain 做個很簡單的實驗, 我用兩種做法呼叫 AppDomainProgram.Main(), 一個是直接呼叫 (相同 AppDomain), 另一個是透過不同的 AppDomain 呼叫。在呼叫之前我先改變了 AppDomainProgram 的 static field: InitCount 的數值, 呼叫的結果就是單純列印出這變數內容而已:
+
+Assembly: AppDomainIsolationDemo
+
+```csharp
+
+class Program
+{
+    static void Main(string[] args)
+    {
+        AppDomainProgram.InitCount = 543;   // 模擬汙染 static fields 的狀況
+        AppDomainProgram.Main(null);        // 不透過獨立的 AppDomain 執行 code
+
+        var iso = AppDomain.CreateDomain("demo");
+        iso.ExecuteAssemblyByName(typeof(AppDomainProgram).Assembly.FullName);        
+    }
+}
+
+```
+
+Assembly: AppDomainIsolationLib
+
+```csharp
+
+public class AppDomainProgram
+{
+    public static int InitCount = 0;
+
+    public static void Main(string[] args)
+    {
+        Console.WriteLine($"Init Count: {InitCount} (CurrentDomain: {AppDomain.CurrentDomain.FriendlyName})");
+    }
+}
+
+```
+
+看看執行結果:
+
+```text
+
+Init Count: 543 (CurrentDomain: AppDomainIsolationDemo.exe)
+Init Count: 0 (CurrentDomain: demo)
+Press any key to continue . . .
+
+```
+
+果然實驗證明, AppDomain 真的有達到隔離的效果。就這個例子而言，即使是 static field, 同一個 class 分隔在不同的 AppDomain 也會各自有一份 static field, 不會混在一起。因此我們能更確認不同的 AppDomain 內執行的 code 不會互相汙染各自的 code, 即使彼此都用了相同的 share library, 彼此都用了同樣的 static fields, 彼此都在同一個 process 範圍內運作。
+
+
+前面介紹的只是 AppDomain 的示範而已，回過頭來，如果我需要 Process 層級的隔離呢? 因為這是作業系統提供的機制，我不一定需要完全自己寫 code 來實現啊! 我在寫這篇文章時，就已經嘗試過其他方案，透過 infrastructure 領域的工具或服務來達到目的，讓我可以在同一台 server 或是跨越多台 server 建立隔離的 Process 。不過由於應用的環節太廣泛，每種方案都有些不大適用的地方:
+
+1. **Serverless** (例如 Azure Function, AWS Lambda, KNative 等等):  
+門檻在於冷啟動，直接存取 DB 的效能不佳 (database connection pool 的機制在 serverless 無法有效發揮), 缺乏 windows 平台或是 .net framework 的支援性, 在無法大規模改寫 legacy code 的情況下難以採用這解決方案。  
   
 1. **Container + Orchestration**:  
 同樣的面臨到 windows 平台的支援度就是落後 linux 一截, 能靠 kubernetes 調度的彈性有限; 由於有很多非同步任務的執行頻率很低，即使最少開啟一個 Pod 也是有很大量的閒置資源的浪費。
@@ -1188,18 +1244,19 @@ Press any key to close this window . . .
 
 # 最後結論
 
+終於完成這篇文章了，我也同時完成了 ProcessPool 的實作。感覺又回到十年前自己刻出 ThreadPool 的成就感。Process Pool 是很實用的技巧，不過太多框架與服務盛行，往往工程師都忽略掉這些隨手可得，只需要基礎的語言就能達成的做法。只要你願意打好基礎，好好的掌握這些基礎原理跟知識，這種問題 100 行的 code 就能搞定啊! 看過太多人迷信服務跟框架，一個小問題就相依過多外部服務，結果沒有帶來多大的效益，卻帶來了過多的相依性，造成維運的困難。
+
 其實寫了這一大串下來，我的想法還是一樣。架構相關的技術是需要靈活運用的，當你沒把應用擺在第一位的話，你就很容易被細節牽著跑，手上拿著槌子就覺得什麼問題都像個釘子一樣了。這次我面對的問題，就是很典型是 application 本身的需求, 感覺起來好像可以靠 infrastructure 來解決, 偏偏就是有些關鍵的環節需要由 developer 來做好整合。這次的問題，各個團隊的成員都給了我很充分的技術評估，我才有足夠的資訊做出最終的架構決策。我相信經過這樣的過程，調整出來的方案才是最適合團隊需要的。
 
-舉例來說，這次的情境，function as a service 應該是最適合的情境, 無奈 .net framework + database connection 先天就不適合, 跟這些方案絕緣; 這些 process pool 的管控，將他 containerize 後交由 kubernetes / docker swarm 管理也應該是最適合的機制, 無奈 windows container 的支援度有限, 而且這些 process 的調度又高度與 application 內的訊息相關, 調度的單位必須細緻到 job, 而非 service, 我如果硬要套用 kubernetes 的話，我可能會被迫搞出有幾百個 pod 的這種怪物出來... 這樣的架構決策，其實也會造成團隊分工的矛盾與困擾。
+舉例來說，這次的情境，乍看之下 function as a service 應該是最適合的情境, 無奈 .net framework + database connection 先天就不適合, 跟這些方案絕緣; 這些 process pool 的管控，將他 containerize 後交由 kubernetes / docker swarm 管理也應該是最適合的機制, 無奈 windows container 的支援度有限, 而且這些 process 的調度又高度與 application 內的訊息相關, 調度的單位必須細緻到 job, 而非 service, 我如果硬要套用 kubernetes 的話，我可能會被迫搞出有幾百個 pod 的這種怪物出來... 這樣的架構決策，其實也會造成團隊分工的矛盾與困擾。
 
-這時，身為架構師，團隊都仰賴你的規劃與技術決策時，你對基礎知識的掌握到不到位，現在就看得出差異了。這種情況才是重新打造輪子的時候啊! 每個人都說不需要重新發明輪子，不需要自己打造自己的框架 (大部分時間這樣說是沒錯)，但是為什麼世界上就是一直有新的框架冒出來? XDD  這就代表現有框架還是有改善的空間。我的想法是: 你不需要每件事情都重新打造，但是當你經過審慎的判斷後，若有需要，這時你是否有能力打造出來就是個關鍵了。就算你必須重新打造輪子，也不代表你必須從頭開始設計，你只需要掌握最關鍵的部分，其他成熟的零件你還是可以使用的。例如我只親自操刀單一 VM 內的 process pool management, 以 VM 為單位的 scale out 我還是選擇成熟的 infrastructure 來管理。
+這時，當有必要，而且你有重新打造輪子的能力時，你的價值就表現出來了。重新打造輪子，不代表你必須從頭開始設計，你只需要處理最關鍵的部分，其他成熟的零件你還是可以使用的。例如這個案例，我其實不需要處理到跨越 server 的 process pool, 我只親自操刀單一 VM 內的 process pool management, 以 VM 為單位的 scale out 我還是可以交給成熟的 infrastructure 來管理，你可以把你的精力真正用在刀口上啊!
 
-我工作上若非必要，我也不會捨 .NET 內建的 thread pool 不用，用我自己打造的 (雖然我寫的出來)。但是當我需要變形的 process pool, 我平常的修行就派上用場了。這次的案例，對我來說是個很扎實的挑戰，養兵千日用在一時啊! 其實再台灣能有這樣思考跟發揮空間的團隊並不多啊，有這樣的環境我才有機會把這些想法落實，也才會有這些經驗分享的文章。
+越往架構的角度鑽研，這樣的體認越深刻；資訊科學的基礎技能往往不大吃香 (因為平常工作老闆看不大出來這些技能的差異)，但是他往往決定了你的能力天花板在哪邊，你能用多精準的手段來解決問題。這次是個很好的案例，特地把這些研究的過程跟最後的 POC 結果整理成這篇文章，希望能幫到有需要的朋友們 :)
+
+這次的 POC / Sample Code 有點雜亂，我都整理在我的 GitHub 上了。如果你只是想了解我怎麼做的，其實 source code 我都貼在文章上了，看文章說明應該比較好懂。如果你想親自執行看看，可以直接 git clone 我的 [repo](https://github.com/andrew0928/Andrew.ProcessPoolDemo) . 任何意見都歡迎在 FB 留言給我 :)
 
 
-
-
-https://github.com/andrew0928/Andrew.ProcessPoolDemo
 
 
 
