@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "架構面試題: 非同步任務的處理機制 - Process Pool"
+title: "微服務基礎建設: Process Pool 的設計與應用"
 categories:
 - "系列文章: .NET + Windows Container, 微服務架構設計"
 - "系列文章: 架構師觀點"
