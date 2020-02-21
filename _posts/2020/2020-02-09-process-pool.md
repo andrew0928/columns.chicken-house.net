@@ -926,7 +926,7 @@ Process 有很好的隔離性，但是代價就是啟動 Process 的成本很高
 
 > 建立新的資源如果需要大量的成本 (時間)，則最佳的管理方式是盡可能重複使用，透過 pool 來調度，使用完放回 pool, 需要就從 pool 拿走。不夠就多準備幾個放到 pool, 閒置過久就從 pool 裡回收。Pool 只要能維持資源的數量在依定範圍內 ( min ~ max ), 就能達到資源的使用效率最大化。
 
-同樣的情境，套用到 process, 就是我一直再講的 process pool 了。理想情況下，只要有 task 進來, 我就要有 process 來處理他。因為 process 建立成本很高，因此我希望 process 盡量能重複使用，如果 task 處理完畢不要馬上結束，可以等待一段時間看看還有沒有其他 task 需要處理；相對的，有 task 進來就優先交給 idle 的 process, 如果都沒有再啟動新的 process 接手，直到 process 數量達到上限為止。
+同樣的情境，套用到 process, 就是我一直在講的 process pool 了。理想情況下，只要有 task 進來, 我就要有 process 來處理他。因為 process 建立成本很高，因此我希望 process 盡量能重複使用，如果 task 處理完畢不要馬上結束，可以等待一段時間看看還有沒有其他 task 需要處理；相對的，有 task 進來就優先交給 idle 的 process, 如果都沒有再啟動新的 process 接手，直到 process 數量達到上限為止。
 
 如果 process 超過 idle 時間還沒有 task 可以處理，為了節省資源，則這個 process 應該要自我了斷了。但是顧及 process 啟動時間可能很長，因此就算完全沒有 task 需要處理，我仍然能夠保留最少數量的 process 待命, 至少解決突然出現的 task 不至於延遲過久。
 
@@ -1204,39 +1204,39 @@ worker.Stop();
 
 ```text
 
-* 2/19/2020 4:37:59 AM - Process [PID: 32628] Started.
-* 2/19/2020 4:37:59 AM - Process [PID: 29776] Started.
-* 2/19/2020 4:37:59 AM - Process [PID: 15200] Started.
-* 2/19/2020 4:37:59 AM - Process [PID: 19060] Started.
-* 2/19/2020 4:37:59 AM - Process [PID: 31692] Started.
+* 2/19/2020 04:37:59 AM - Process [PID: 32628] Started.
+* 2/19/2020 04:37:59 AM - Process [PID: 29776] Started.
+* 2/19/2020 04:37:59 AM - Process [PID: 15200] Started.
+* 2/19/2020 04:37:59 AM - Process [PID: 19060] Started.
+* 2/19/2020 04:37:59 AM - Process [PID: 31692] Started.
 Take a rest (worker idle 10 sec)...
-* 2/19/2020 4:38:04 AM - Process [PID: 29776] Stopped.
-* 2/19/2020 4:38:04 AM - Process [PID: 32628] Stopped.
-* 2/19/2020 4:38:04 AM - Process [PID: 19060] Stopped.
-* 2/19/2020 4:38:04 AM - Process [PID: 15200] Keep alive for this process.
-* 2/19/2020 4:38:04 AM - Process [PID: 31692] Keep alive for this process.
-* 2/19/2020 4:38:07 AM - Process [PID: 15200] Keep alive for this process.
-* 2/19/2020 4:38:07 AM - Process [PID: 31692] Keep alive for this process.
-* 2/19/2020 4:38:10 AM - Process [PID: 15200] Keep alive for this process.
-* 2/19/2020 4:38:10 AM - Process [PID: 31692] Keep alive for this process.
+* 2/19/2020 04:38:04 AM - Process [PID: 29776] Stopped.
+* 2/19/2020 04:38:04 AM - Process [PID: 32628] Stopped.
+* 2/19/2020 04:38:04 AM - Process [PID: 19060] Stopped.
+* 2/19/2020 04:38:04 AM - Process [PID: 15200] Keep alive for this process.
+* 2/19/2020 04:38:04 AM - Process [PID: 31692] Keep alive for this process.
+* 2/19/2020 04:38:07 AM - Process [PID: 15200] Keep alive for this process.
+* 2/19/2020 04:38:07 AM - Process [PID: 31692] Keep alive for this process.
+* 2/19/2020 04:38:10 AM - Process [PID: 15200] Keep alive for this process.
+* 2/19/2020 04:38:10 AM - Process [PID: 31692] Keep alive for this process.
 Wake up, start work.
-* 2/19/2020 4:38:11 AM - Process [PID: 21908] Started.
-* 2/19/2020 4:38:11 AM - Process [PID: 32396] Started.
-* 2/19/2020 4:38:11 AM - Process [PID: 27956] Started.
-* 2/19/2020 4:38:12 AM - Process [PID: 31692] Stopped.
-* 2/19/2020 4:38:12 AM - Process [PID: 15200] Stopped.
-* 2/19/2020 4:38:12 AM - Process [PID: 32396] Stopped.
-* 2/19/2020 4:38:12 AM - Process [PID: 27956] Stopped.
-* 2/19/2020 4:38:12 AM - Process [PID: 21908] Stopped.
+* 2/19/2020 04:38:11 AM - Process [PID: 21908] Started.
+* 2/19/2020 04:38:11 AM - Process [PID: 32396] Started.
+* 2/19/2020 04:38:11 AM - Process [PID: 27956] Started.
+* 2/19/2020 04:38:12 AM - Process [PID: 31692] Stopped.
+* 2/19/2020 04:38:12 AM - Process [PID: 15200] Stopped.
+* 2/19/2020 04:38:12 AM - Process [PID: 32396] Stopped.
+* 2/19/2020 04:38:12 AM - Process [PID: 27956] Stopped.
+* 2/19/2020 04:38:12 AM - Process [PID: 21908] Stopped.
 
 D:\CodeWork\github.com\Andrew.ProcessPoolDemo\NetCoreWorker\bin\Debug\netcoreapp3.1\NetCoreWorker.exe (process 31772) exited with code 0.
 Press any key to close this window . . .
 
 ```
 
-從時間序可以看到執行的過程，4:37:59 時啟動了 5 個 process, 主控端就去休息 10 sec 了。開始休息後過了 5 sec, 每個 process 差不多都超過 idle timeout 了，可以看到 4:38:04 時有 3 個 process 就自我終止了, 由於 min pool size 的限制, 另外有 2 個 process 持續 keep alive, 選擇繼續等待後面隨時會產生的 task. 這 keep alive 的動作每隔一次 timeout 時間就會再確認一次, 直到有新的 task 為止。
+從時間序可以看到執行的過程，`04:37:59` 時啟動了 5 個 process, 主控端就去休息 10 sec 了。開始休息後過了 5 sec, 每個 process 差不多都超過 idle timeout 了，可以看到 `04:38:04` 時有 3 個 process 就自我終止了, 由於 min pool size 的限制, 另外有 2 個 process 持續 keep alive, 選擇繼續等待後面隨時會產生的 task. 這 keep alive 的動作每隔一次 timeout 時間就會再確認一次, 直到有新的 task 為止。
 
-時間序到了 4:38:11, 主程式又有新的 100 task(s) 進來了。這瞬間保留待命的 2 process 又不夠了, 於是 Worker 繼續啟動新的 process 起來應付流量, 從訊息看到又啟動了 3 個新的 process 加入行列。留意一下 PID 跟先前的不同，代表這真的是重新建立的 process。這次不再是 idle, 而是主程式直接呼叫 ```Worker.Stop()``` 了，因此 process pool 進入 shutdown 的程序, 每個 process 結束工作後就退出，這次沒有保留任何 keep alive 的 process, 而是 5 個 process 全數終止，正常離開。
+時間序到了 `04:38:11`, 主程式又有新的 100 task(s) 進來了。這瞬間保留待命的 2 process 又不夠了, 於是 Worker 繼續啟動新的 process 起來應付流量, 從訊息看到又啟動了 3 個新的 process 加入行列。留意一下 PID 跟先前的不同，代表這真的是重新建立的 process。這次不再是 idle, 而是主程式直接呼叫 ```Worker.Stop()``` 了，因此 process pool 進入 shutdown 的程序, 每個 process 結束工作後就退出，這次沒有保留任何 keep alive 的 process, 而是 5 個 process 全數終止，正常離開。
 
 從這過程，看的出來簡單的 100 行 code (寫出來很簡單，要搞懂不簡單啊啊啊啊...) 就能達到這麼精準的資源調度, 果然平行處理是個很迷人的領域啊 (咦?
 
