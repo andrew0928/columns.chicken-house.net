@@ -766,7 +766,7 @@ SingleProcessWorker           : 37037.03703703704 tasks/sec
 
 這些我沒有再深入挖掘，不過根據經驗推論，主要改善應該來自 .NET Core 本身跟 OS 的最佳化做得更好吧，尤其在 I/O 層面 (例如新的 [Async Stream](https://www.infoq.com/articles/Async-Streams/), [IAsyncEnumerable](https://dotnetcoretutorials.com/2019/01/09/iasyncenumerable-in-c-8/))..
 
-記憶體的效率，加上 I/O 效率的改善，這次測試是我完全意料之外的結果。你還在猶豫要不要用 .NET Core 的話, 基本上可以不用考慮了。我現在終於可以理解，Microsoft 為何在 .NET Core 直接放棄 AppDomain 這樣的技術了。從數字上來看，"感覺" 架構上比較理想的 AppDomain, 完全被 Process + .NET Core 打趴在地上啊...
+記憶體的效率，加上 I/O 效率的改善，這次測試是我完全意料之外的結果。你還在猶豫要不要用 .NET Core 的話, 基本上可以不用考慮了。我現在終於可以理解，Microsoft 為何在 .NET Core 直接放棄 AppDomain 這樣的技術了。從數字上來看，"感覺" 架構上比較理想的 AppDomain, 完全被 Process + .NET Core 打趴在地上啊! 因為 AppDomain 必須綁定 .NET Fx, 因此選了他你就無法享用其他所有 .NET Core 帶來的效能優化, AppDomain 帶來的局部架構優化, 抵擋不了 .NET Core 全面效能優化帶來的改進。
 
 
 ### 負載 (工作端) 開發平台的選擇: 推薦 .NET Core
@@ -872,7 +872,7 @@ Press any key to continue . . .
 前面介紹的只是 AppDomain 的示範而已，回過頭來，如果我需要 Process 層級的隔離呢? 因為這是作業系統提供的機制，我不一定需要完全自己寫 code 來實現啊! 我在寫這篇文章時，就已經嘗試過其他方案，透過 infrastructure 領域的工具或服務來達到目的，讓我可以在同一台 server 或是跨越多台 server 建立隔離的 Process 。不過由於應用的環節太廣泛，每種方案都有些不大適用的地方:
 
 1. **Serverless** (例如 Azure Function, AWS Lambda, KNative 等等):  
-門檻在於冷啟動，直接存取 DB 的效能不佳 (database connection pool 的機制在 serverless 無法有效發揮), 缺乏 windows 平台或是 .net framework 的支援性, 在無法大規模改寫 legacy code 的情況下難以採用這解決方案。  
+門檻在於冷啟動、以及直接存取 DB 的效能不佳 (database connection pool 的機制在 serverless 無法有效發揮), 缺乏 windows 平台或是 .net framework 的支援性, 在無法大規模改寫 legacy code 的情況下難以採用這解決方案。  
   
 1. **Container + Orchestration**:  
 同樣的面臨到 windows 平台的支援度就是落後 linux 一截, 能靠 kubernetes 調度的彈性有限; 由於有很多非同步任務的執行頻率很低，即使最少開啟一個 Pod 也是有很大量的閒置資源的浪費。
