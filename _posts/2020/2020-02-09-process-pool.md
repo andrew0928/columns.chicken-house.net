@@ -949,7 +949,8 @@ public class ProcessPoolWorker : HelloWorkerBase
 
     // pool states
     private readonly string _filename = null;
-    private BlockingCollection<(byte[] buffer, HelloTaskResult result)> _queue = new BlockingCollection<(byte[] buffer, HelloTaskResult result)>(5);    // buffer size
+    private BlockingCollection<(byte[] buffer, HelloTaskResult result)> _queue 
+        = new BlockingCollection<(byte[] buffer, HelloTaskResult result)>(10);    // buffer size
     private List<Thread> _threads = new List<Thread>();
     private object _syncroot = new object();
     private int _total_working_process_count = 0;
@@ -970,6 +971,8 @@ public class ProcessPoolWorker : HelloWorkerBase
         {
             if (this._total_created_process_count >= this._max_pool_size) return false;
             if (this._total_created_process_count > this._total_working_process_count) return false;
+            if (this._queue.Count == 0) return false;
+            if (this._queue.IsCompleted) return false;
         }
 
         var t = new Thread(this.ProcessHandler);
@@ -979,7 +982,11 @@ public class ProcessPoolWorker : HelloWorkerBase
     }
     private bool ShouldDecreaseProcess()
     {
-        lock (this._syncroot) if (this._total_created_process_count <= this._min_pool_size) return false;
+        lock (this._syncroot)
+        {
+            if (this._queue.Count > 0) return false;
+            if (this._total_created_process_count <= this._min_pool_size) return false;
+        }
         return true;
     }
 
@@ -998,11 +1005,20 @@ public class ProcessPoolWorker : HelloWorkerBase
         var _reader = _process.StandardOutput;
         var _writer = _process.StandardInput;
 
-        while(this._queue.IsCompleted == false)
+        Console.WriteLine($"* {DateTime.Now} - Process [PID: {_process.Id}] Started.");
+        while (this._queue.IsCompleted == false)
         {
             if (this._queue.TryTake(out var item, this._process_idle_timeout) == false)
             {
-                if (this.ShouldDecreaseProcess()) { break; } else { continue; }
+                if (this.ShouldDecreaseProcess())
+                {
+                    break;
+                }
+                else
+                {
+                    Console.WriteLine($"* {DateTime.Now} - Process [PID: {_process.Id}] Keep alive for this process.");
+                    continue;
+                }
             }
 
             this.TryIncreaseProcess();
@@ -1013,6 +1029,7 @@ public class ProcessPoolWorker : HelloWorkerBase
             lock (this._syncroot) this._total_working_process_count--;
         }
         lock (this._syncroot) this._total_created_process_count--;
+        Console.WriteLine($"* {DateTime.Now} - Process [PID: {_process.Id}] Stopped.");
 
         _writer.Close();
         _process.WaitForExit();
@@ -1035,9 +1052,10 @@ public class ProcessPoolWorker : HelloWorkerBase
     public override void Stop()
     {
         this._queue.CompleteAdding();
-        while(this._queue.IsCompleted == false) this._wait.WaitOne();
+        while (this._queue.IsCompleted == false) this._wait.WaitOne();
     }
 }
+
 
 ```
 
@@ -1057,9 +1075,7 @@ public class ProcessPoolWorker : HelloWorkerBase
 
 
 
-這些定義，大概就足以描述我期望的 process pool 運作所有的必要設定了。接下來我們先看看怎麼 "**管理**" 好單獨的一個 process。請直接看前面完整程式碼的這個 method: ```ProcessHandler()``` ...。
-
-
+這些定義，大概就足以描述我期望的 process pool 運作所有的必要設定了。接下來我們先看看怎麼 "**管理**" 好單獨的一個 process。請直接看前面完整程式碼的這個 method: ```ProcessHandler()``` ...。這邊我結合了先前設計 [ThreadPool](/2007/12/17/threadpool-%E5%AF%A6%E4%BD%9C-3-autoresetevent-manualresetevent/) 的經驗，跟這次 process 的隔離與通訊技巧。我替每個 process 準備了一個專屬的 thread 來照顧他，而 ```ProcessHandler()``` 就是這個 thread 要做的事情。一旦 process 終止，這個 thread 就會跟著結束。其實觀念上你就想像成這是個標準的 thread pool + IPC (Inter-Process Communication) 的設計就好了。不用成熟普遍的 thread pool 套件來用，原因很簡單，這些套件都只開放處理大量 task 的機制啊，thread 本身是被封裝起來的，如果我要做好 thread 跟 process 之間的對應，我就必須自己處理這部分的細節。
 
 我用 ```ProcessHandler()``` 來代表一個 Process 的完整生命週期。其中的關鍵就在中間的 do - while loop 而已，前面只是建立 Process, 後面則是關閉 Process 的程序。我用了個 ```BlockingCollection``` 來接收前端 ```QueueTask()``` 收到的 task, 每個 ```ProcessHandler``` 就不斷地從 ```_queue``` 接收 task 來處理。```TryTake()``` 如果已經沒有 task, 或是等待超過 timeout 時間的話，就會 ```return false```, 這時外面 while() 就會判斷要不要再等下一輪? 如果 ```_queue``` 還沒結束，或是 process 總數已經小於等於 ```_min_pool_size``` 最小數量的話，那這個 process 就不會結束，繼續等下一輪。
 
