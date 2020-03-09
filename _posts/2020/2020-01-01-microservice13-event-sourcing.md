@@ -12,6 +12,14 @@ logo:
 ---
 
 
+// TODO: Command Pattern
+
+// DEMO: CQRS + Event Sourcing, Implement Distributed Transaction (not 2PC, using SAGA patterns)
+
+// 優化 - 局部 code 改寫, 改用更好的元件，框架，服務；
+// 架構 - 用不同的手段解決問題，演算法，處理流程
+
+
 好久沒寫微服務系列的文章了，前陣子有個專案的關係，開始認真的評估 "Event Sourcing" 的設計方式，就順手寫篇心得來記錄一下。這次不寫那麼長了 (希望啦)，我想記錄一下到底甚麼場景下，你才真的需要使用到 Event Sourcing 的設計架構...。
 
 
