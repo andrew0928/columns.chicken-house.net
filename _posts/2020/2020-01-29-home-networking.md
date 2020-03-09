@@ -51,7 +51,7 @@ OK, 專案需求列好了, 設備清單也出來了, 剩下就剩建置系統而
 
 # 前言 - 為何不挑選 UniFi 全家筒?
 
-// cost
+// cost, waiting all in one solution
 
 // 可用性: 希望 router 活著，主要網路都還能正常運作
 
