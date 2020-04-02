@@ -41,6 +41,7 @@ Microservices, 一個很龐大的主題，我分成四大部分陸續寫下去..
 1. **建構微服務開發團隊**
   - [架構面試題 #1](/2018/03/25/interview01-transaction/) 線上交易的正確性; 2018/03/25
   - [架構面試題 #2](/2018/04/01/interview02-stream-statistic/) 連續資料的統計方式; 2018/04/01
+  - [架構面試題 #3](/2020/03/10/interview-abstraction/) 抽象化設計, 折扣規則的設計機制; 2020/04/02
 
 {% unless include.mode == "no_header" %}
 -----
