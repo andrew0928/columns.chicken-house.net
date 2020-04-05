@@ -57,81 +57,37 @@ wordpress_postid: 91
 &nbsp;
 </p>
 <div>
+
+
 <strong>ASP.NET HttpModule開發範例: 把所有來自百度的使用者，引導到抗議的畫面!</strong><span class="copycode">[copy code]</span> 
-<div style="display: none">
-<pre style="display: none">
-public class SiteBlockerHttpModule : IHttpModule{    public void Init(HttpApplication context)    {        context.AuthenticateRequest += new EventHandler(context_AuthenticateRequest);    }    void context_AuthenticateRequest(object sender, EventArgs e)    {        HttpApplication application = sender as HttpApplication;        string referer = application.Context.Request.ServerVariables[&quot;HTTP_REFERER&quot;];        if (string.IsNullOrEmpty(referer) == false)        {            Uri refererURL = new Uri(referer);            if (refererURL.Host.ToUpperInvariant().Contains(&quot;BAIDU.COM&quot;) == true)            {                application.Context.Server.Transfer(&quot;~/Blogs/ShowBlockedMessage.aspx&quot;);            }        }    }}
-</pre>
-</div>
 <div style="border: 1px solid">
 <div class="csharpcode">
-<pre class="alt">
-<span class="lnum">   1:  </span><span class="kwrd">public</span> <span class="kwrd">class</span> SiteBlockerHttpModule : IHttpModule
-</pre>
-<pre>
-<span class="lnum">   2:  </span>{
-</pre>
-<pre class="alt">
-<span class="lnum">   3:  </span>    <span class="kwrd">public</span> <span class="kwrd">void</span> Init(HttpApplication context)
-</pre>
-<pre>
-<span class="lnum">   4:  </span>    {
-</pre>
-<pre class="alt">
-<span class="lnum">   5:  </span>        context.AuthenticateRequest += <span class="kwrd">new</span> EventHandler(context_AuthenticateRequest);
-</pre>
-<pre>
-<span class="lnum">   6:  </span>    }
-</pre>
-<pre class="alt">
-<span class="lnum">   7:  </span>&nbsp;
-</pre>
-<pre>
-<span class="lnum">   8:  </span>    <span class="kwrd">void</span> context_AuthenticateRequest(<span class="kwrd">object</span> sender, EventArgs e)
-</pre>
-<pre class="alt">
-<span class="lnum">   9:  </span>    {
-</pre>
-<pre>
-<span class="lnum">  10:  </span>        HttpApplication application = sender <span class="kwrd">as</span> HttpApplication;
-</pre>
-<pre class="alt">
-<span class="lnum">  11:  </span>        <span class="kwrd">string</span> referer = application.Context.Request.ServerVariables[<span class="str">&quot;HTTP_REFERER&quot;</span>];
-</pre>
-<pre>
-<span class="lnum">  12:  </span>&nbsp;
-</pre>
-<pre class="alt">
-<span class="lnum">  13:  </span>        <span class="kwrd">if</span> (<span class="kwrd">string</span>.IsNullOrEmpty(referer) == <span class="kwrd">false</span>)
-</pre>
-<pre>
-<span class="lnum">  14:  </span>        {
-</pre>
-<pre class="alt">
-<span class="lnum">  15:  </span>            Uri refererURL = <span class="kwrd">new</span> Uri(referer);
-</pre>
-<pre>
-<span class="lnum">  16:  </span>            <span class="kwrd">if</span> (refererURL.Host.ToUpperInvariant().Contains(<span class="str">&quot;BAIDU.COM&quot;</span>) == <span class="kwrd">true</span>)
-</pre>
-<pre class="alt">
-<span class="lnum">  17:  </span>            {
-</pre>
-<pre>
-<span class="lnum">  18:  </span>                application.Context.Server.Transfer(<span class="str">&quot;~/Blogs/ShowBlockedMessage.aspx&quot;</span>);
-</pre>
-<pre class="alt">
-<span class="lnum">  19:  </span>            }
-</pre>
-<pre>
-<span class="lnum">  20:  </span>        }
-</pre>
-<pre class="alt">
-<span class="lnum">  21:  </span>    }
-</pre>
-<pre>
-<span class="lnum">  22:  </span>}
-</pre>
-</div>
+
+	<pre>
+		public class SiteBlockerHttpModule : IHttpModule
+		{
+		   public void Init(HttpApplication context)
+		   {
+			   context.AuthenticateRequest += new EventHandler(context_AuthenticateRequest);
+		   }
+		
+		   void context_AuthenticateRequest(object sender, EventArgs e)
+		   {
+			   HttpApplication application = sender as HttpApplication;
+			   string referer = application.Context.Request.ServerVariables["HTTP_REFERER"];
+		
+			   if (string.IsNullOrEmpty(referer) == false)
+			   {
+				   Uri refererURL = new Uri(referer);
+				   if (refererURL.Host.ToUpperInvariant().Contains("BAIDU.COM") == true)
+				   {
+					   application.Context.Server.Transfer("~/Blogs/ShowBlockedMessage.aspx");
+				   }
+			   }
+		   }
+		}
+		</pre>
+	</div>
 </div>
 <!-- end of code area -->
 </div>
