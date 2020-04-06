@@ -42,7 +42,7 @@ Microservices, 一個很龐大的主題，我分成四大部分陸續寫下去..
   - [架構面試題 #1](/2018/03/25/interview01-transaction/) 線上交易的正確性; 2018/03/25
   - [架構面試題 #2](/2018/04/01/interview02-stream-statistic/) 連續資料的統計方式; 2018/04/01
   - [架構面試題 #3](/2019/06/01/nested-query/) RDBMS 處理樹狀結構的技巧; 2019/06/01
-  - [架構面試題 #4](/2020/03/10/interview-abstraction/) 抽象化設計, 折扣規則的設計機制; 2020/04/02
+  - [架構面試題 #4](/2020/03/10/interview-abstraction/) 抽象化思考；折扣規則的設計機制; 2020/04/02
 
 {% unless include.mode == "no_header" %}
 -----
