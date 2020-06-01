@@ -22,14 +22,13 @@ Microservices, 一個很龐大的主題，我分成四大部分陸續寫下去..
 1. **架構師觀點 - 轉移到微服務架構的經驗分享**
   - [Part #1](/2017/04/15/microservice8-case-study/) 改變架構的動機; 2017/05/09
   - [Part #2](/2017/05/20/microservice8-case-study-p2/) 實際改變的架構案例; 2017/05/20
-  - (計畫) [Part #3] 轉移到微服務的必經之路 - 資料庫的設計與規劃;
+  - [Part #3](/2017/07/11/microservice8-case-study-p3/) 實際部署的考量: 微服務基礎建設; 2017/07/11
 1. **基礎建設 - 建立微服務的執行環境**
-  - [Part #1](/2017/07/11/microservice8-case-study-p3/) 實際部署的考量: 微服務基礎建設; 2017/07/11
-  - [Part #2](/2017/12/31/microservice9-servicediscovery/) 微服務基礎建設 - Service Discovery; 2017/12/31
-  - [Part #3](/2018/06/10/microservice10-throttle/) 微服務基礎建設 - 服務負載的控制; 2018/06/10
-  - [Part #4](/2018/12/12/microservice11-lineup/) 微服務基礎建設 - 排隊機制設計; 2018/12/12
-  - [Part #5](/2019/01/01/microservice12-mqrpc/) 可靠的微服務通訊 - Message Queue Based RPC; 2019/01/01
-  - [Part #6](/2020/02/09/process-pool/) 非同步任務的處理機制 - Process Pool; 2020/02/15
+  - [Part #1](/2017/12/31/microservice9-servicediscovery/) 微服務基礎建設 - Service Discovery; 2017/12/31
+  - [Part #2](/2018/06/10/microservice10-throttle/) 微服務基礎建設 - 服務負載的控制; 2018/06/10
+  - [Part #3](/2018/12/12/microservice11-lineup/) 微服務基礎建設 - 排隊機制設計; 2018/12/12
+  - [Part #4](/2019/01/01/microservice12-mqrpc/) 可靠的微服務通訊 - Message Queue Based RPC; 2019/01/01
+  - [Part #5](/2020/02/09/process-pool/) 非同步任務的處理機制 - Process Pool; 2020/02/15
   - (計畫) 微服務基礎建設 - Service Mesh;
   - (計畫) 微服務基礎建設 - Circuit Breaker;
   - (計畫) 微服務基礎建設 - Log Tracking & Auth;
