@@ -1845,11 +1845,681 @@ static IEnumerable<RuleBase> LoadRules()
 
 ## 解決方案: 來自讀者朋友的 PR
 
-### PR1,5: isdaniel
+在 "進階挑戰" 這段，我先補上了這兩個思考題的設計方式跟範例說明，目的是證明這樣抽象化思考是能真正應付實際複雜的情境的。同時我也用正反兩個案例來說明職責與分工，什麼情況下應該走擴充規則的路線，什麼情況下你應該義無反顧的升及主要結構來滿足需求。
+
+我碰過很多 RD，在思考這類問題時都很兩極化，往往提出的 solution 不是大改架構 (結果變成過度設計)，就是完全不改架構 (結果變成一堆 workround)，過與不及都不好啊! 關鍵在於平衡。我這邊思考的點，是透過 PurchasedItems 的定義，追加了 Tags 的設計，並且在整個購物的過程中 (封裝成 CartContext) 拿 Tags 來記錄折扣的關鍵資訊。面對這些題目，只要遇先定義特定意義的 tag 就能順利的完成 POS 與 Rule(s) 之間的溝通。例如這兩個案例的配對優惠，以及折扣排除。
+
+好好的掌握這三方的設計，你就能設計出既簡潔，好維護，同時擴充能力又強大的架構。我先開了頭，示範了我的程式碼，接下來接著看看幾位這次捧場的朋友們發給我的 PR 吧!
+
+
+### PR1: isdaniel
+
+
+第一個收到的 PR, 再次感謝捧場 :D
+
+這份 code 只解決了配對折扣的題目 (另一題發了另一個 PR, 我列在後面)。可惜的是沒有附上你的測試用購物清單，我只好自己看 source code 反推你的想法, 然後試著自己亂買東西跑看看結帳流程了。如果我的理解有有落差請再回覆讓我知道。
+
+我看到的解決方式，跟我上面範例用標籤來解決配對規則的方式差不多。不過這 code 有花功夫的部分是: 配對的方式 (組數) 與價格也可以動態決定。首先看到為了解決配對與價格，設計了 SpecialOffer 類別，來管理這些 tags 之間的關聯:
+
+```csharp
+
+public class SpecialOffer
+{
+    private HashSet<string> _tags;
+    public HashSet<string> Tags
+    {
+        get
+        {
+            return _tags = (_tags ?? Category.Select(tag => tag + Amount).ToHashSet());
+        }
+    }
+    public string[] Category { get; set; }
+    public decimal Amount { get; set; }
+    private Dictionary<string, Queue<Product>> _productQueue;
+    public Dictionary<string, Queue<Product>> ProductQueue
+    {
+        get
+        {
+            return _productQueue = (_productQueue ?? Tags.ToDictionary(x => x, x => new Queue<Product>()));
+        }
+    }
+}
+
+```
+
+舉例來說，這次題目是 "鮮食" + "飲料" 的配對，那麼 Catagory 就可以給定 "指定鮮食" 與 "指定飲料" 這兩筆資料。另外再給定組合價錢 Amount (例如: $39.00), 這個類別就能自動組合出 "指定鮮食39" 與 "指定飲料39" 的 tags 組合。
+
+至於 ProductQueue, 則是方便後續的處理，替每個 tag 產生一個專屬的 Queue, 來存放購物車內的商品有哪些是符合該 tag 條件的清單。弄成 Queue 我猜應該是方便先進先出處理吧，只要要配對的那組 Queue 裡面都還有東西，就可以 Dequeue 出來湊一對給折扣了。
+
+接著看看配對折扣的優惠規則本體吧! 來看看 DiscountRule5 的程式碼:
+
+```csharp
+
+public class DiscountRule5 : RuleBase
+{
+    private IEnumerable<SpecialOffer> _specialOffer;
+    public DiscountRule5(IEnumerable<SpecialOffer> specialOffersList)
+    {
+        this.Name = "餐餐超值配";
+        this.Note = $"指定鮮食 + 指定飲料 特價 ( 39元, 49元, 59元 )";
+        _specialOffer = specialOffersList;
+    }
+    public override IEnumerable<Discount> Process(CartContext cart)
+    { 
+        foreach (var purchasedItem in cart.PurchasedItems.OrderByDescending(z => z.Price))
+        {
+            var matchOffer = _specialOffer.FirstOrDefault(m => m.Tags.Any(tag => purchasedItem.Tags.Contains(tag)));
+
+            foreach (var tag in purchasedItem.Tags)
+            {
+                if (matchOffer != null && matchOffer.ProductQueue.TryGetValue(tag, out var queue))
+                {
+                    queue.Enqueue(purchasedItem);
+
+                    if (matchOffer.ProductQueue.All(z => z.Value.Count > 0))
+                    {
+                        var products = matchOffer.ProductQueue.Select(x => x.Value.Dequeue()).ToList();
+                        yield return new Discount()
+                        {
+                            Amount = products.Sum(x => x.Price) - matchOffer.Amount,
+                            Products = products.ToArray(),
+                            Rule = this
+                        };
+                    }
+                }
+            }
+        }
+    }
+}
+
+```
+
+開始之前先抓個小毛病，既然都花了功夫，用 SpecialOffer 類別來管理配對組合價了，反而折扣的說明，卻沒有自動產生，而是直接寫死 "指定鮮食 + 指定飲料 特價 ( 39元, 49元, 59元 )" ，有點可惜。不過這完全不影響主結構，單純顯示的內容而已。
+
+接下來的動作，用了一些 Linq 的技巧，簡單的說就是要替 PurchasedItems 跟 SpeciaOffer 的 List 做 Join, 找出有出現在購物商品內的 SpecialOffer Tag 的清單，並且將商品分類放入 ProductQueue, 逐一檢查每個商品是否符合配對，符合就 yield return 傳回配對後的折扣資訊 Discount 物件。
+
+最後一步，這個 DiscountRule5 是如何被建立起來的? 在 LoadRules() 內可以看到:
+
+```csharp
+
+static IEnumerable<RuleBase> LoadRules()
+{
+    
+    // 中略
+
+    yield return new DiscountRule5(new List<SpecialOffer>()
+    {
+        new SpecialOffer()
+        {
+            Category = new[]{ "指定鮮食" , "指定飲料" },
+            Amount = 39
+        },
+        new SpecialOffer()
+        {
+            Category = new[]{ "指定鮮食" , "指定飲料" },
+            Amount = 49
+        },new SpecialOffer()
+        {
+            Category = new[]{ "指定鮮食" , "指定飲料" },
+            Amount = 59
+        }
+    });
+}
+
+```
+
+由於沒有測試案例，我只好自己想像了一些敗家清單，來測試看看了。除了 Category 命名跟我不大依樣之外，結構很雷同。以下是我測試用的購物清單 demo1.json 跑出來的結帳結果:
+
+```text
+
+購買商品:
+---------------------------------------------------
+-  1, [FAMI-003]   $39.00, 龍蝦風味沙拉三明治 , Tags: #指定鮮食49
+-  2, [FAMI-004]   $25.00, 午後時光伯爵奶茶 , Tags: #指定飲料49
+-  3, [FAMI-005]   $39.00, 大口法香烤雞飯糰 , Tags: #指定鮮食59
+-  4, [FAMI-012]   $45.00, 中杯熱拿鐵 , Tags: #指定飲料59
+
+折扣:
+---------------------------------------------------
+- 折抵   $25.00, 餐餐超值配 (指定鮮食 + 指定飲料 特價 ( 39元, 49元, 59元 ))
+  * 符合:  3, [FAMI-005], 大口法香烤雞飯糰 , Tags: #指定鮮食59
+  * 符合:  4, [FAMI-012], 中杯熱拿鐵 , Tags: #指定飲料59
+
+- 折抵   $15.00, 餐餐超值配 (指定鮮食 + 指定飲料 特價 ( 39元, 49元, 59元 ))
+  * 符合:  1, [FAMI-003], 龍蝦風味沙拉三明治 , Tags: #指定鮮食49
+  * 符合:  2, [FAMI-004], 午後時光伯爵奶茶 , Tags: #指定飲料49
+
+
+---------------------------------------------------
+結帳金額:   $108.00
+
+
+```
+
+這跟我前面示範用的例子一樣，我只是把我的標籤格式換成跟這邊規則一致而已。計算出的結果也的確有成功配對，最後結帳是 49 + 59 兩組，總價是 $108 無誤。
+
+不過，看了這份 code 的處理方式，也不難看出沒顧慮到的細節在哪裡。我換了一個購物清單，測試一下是否有滿足跨區配對的需求。來看看我第二個測試購物清單 demo2.json 跑出來的結果:
+
+```text
+
+購買商品:
+---------------------------------------------------
+-  1, [FAMI-003]   $39.00, 龍蝦風味沙拉三明治 , Tags: #指定鮮食49
+-  2, [FAMI-011]   $50.00, 單品咖啡 熱美式小杯 , Tags: #指定飲料59
+-  3, [FAMI-005]   $39.00, 大口法香烤雞飯糰 , Tags: #指定鮮食59
+-  4, [FAMI-012]   $45.00, 中杯熱拿鐵 , Tags: #指定飲料59
+
+折扣:
+---------------------------------------------------
+- 折抵   $30.00, 餐餐超值配 (指定鮮食 + 指定飲料 特價 ( 39元, 49元, 59元 ))
+  * 符合:  3, [FAMI-005], 大口法香烤雞飯糰 , Tags: #指定鮮食59
+  * 符合:  2, [FAMI-011], 單品咖啡 熱美式小杯 , Tags: #指定飲料59
+
+
+---------------------------------------------------
+結帳金額:   $148.00
+
+```
+
+如預料的，這折扣規則沒辦法處理 指定鮮食49 + 指定飲料59 的配對折扣，所以本來我能用 $118 買的套餐，現在得付 $148 才買的到了 XDD
+
+還記得我前面討論這題的解決方式時，有提到在商品的標籤定義上動手腳的解法嗎? 我試著調整一下購物清單，把 "龍蝦風味沙拉三明治" 同時標上 #指定鮮食49 與 #指定鮮食59 的標籤，看看這段 code 能否幫我找出最佳的配對 (demo3.json):
+
+```text
+
+購買商品:
+---------------------------------------------------
+-  1, [FAMI-003]   $39.00, 龍蝦風味沙拉三明治 , Tags: #指定鮮食49,#指定鮮食59
+-  2, [FAMI-011]   $50.00, 單品咖啡 熱美式小杯 , Tags: #指定飲料59
+-  3, [FAMI-005]   $39.00, 大口法香烤雞飯糰 , Tags: #指定鮮食59
+-  4, [FAMI-012]   $45.00, 中杯熱拿鐵 , Tags: #指定飲料59
+
+折扣:
+---------------------------------------------------
+- 折抵   $30.00, 餐餐超值配 (指定鮮食 + 指定飲料 特價 ( 39元, 49元, 59元 ))
+  * 符合:  3, [FAMI-005], 大口法香烤雞飯糰 , Tags: #指定鮮食59
+  * 符合:  2, [FAMI-011], 單品咖啡 熱美式小杯 , Tags: #指定飲料59
+
+
+---------------------------------------------------
+結帳金額:   $148.00
+
+```
+
+很可惜，看來這折扣計算規則，對於標籤的定義容忍程度不高，標籤標記的方式稍有不同就無法辨識了。我這個例子內，龍蝦風味沙拉三明治同時標了 49 / 59 的標籤，但是並沒有被正確的挑出來跟 單品咖啡 熱美式小杯 #指定飲料59 配成一對，結帳仍然是 $148 而不是有成功配對的 $118, 有點可惜。
+
+再來，也是個小細節，無損這次的思考練習，但是我還是提一下。計算過程中需要依賴 SpacialOffer 內建立起來的 ProductQueue, 然而 Queue 本身沒有明確的被 Create / Reset, 因此 POS 若經過多次結帳後，有可能會被前次結帳的狀態，影響到後面結帳的結果。這是意外的處理，每次結帳完畢沒有完全清除狀態，就有發生這情況的風險。我實際設計這類框架時，都會採取一些防護措施，避免實作擴充規則的人，或是使用計算引擎的人出狀況的可能，因此都會確實的把狀態重新 RESET (除非你真的有需要把狀態傳遞至下一個關卡)。
+
+
+最後總評，雖然有些小細節沒有顧到，但是已經可以看的到解決問題的思路，並且也能將他實作出來，已經不容易了 :)
+這份 PR 我並沒有 merge 回我的 master branch, 我獨立成 pr1-isdaniel 這個 branch, 並且我把我付加上去的測試案例 demo1 ~ demo3 購物清單也加進去了。有興趣參考這份 source code 的朋友只要切換 branch 就能看的到。
+
+
 
 ### PR3: andy19900208
 
+接下來 Andy 發給我的 PR 也很有意思，思考的方式跟我最後端出來的解法很類似，只是實作的方式略有出入。
+
+這份 PR 在同一個例子裡，實作了兩個題目，一個是折扣配對，另一個是折扣排除。
+
+我看了 code 往回推敲這解題的方式，跟我上面的例子最後選擇的做法類似，配對折扣就一次定義一組 tag, 由 Rule 來檢查是否有符合配對。對於跨區配對的問題，直接定義多組跨區的折扣組合 (例如: 39 + 39, 49 + 49, 49 + 59, 59 + 49, 59 + 59 這五對)。跟我作法不同的是，我是在單一折扣規則的範圍內定義這些組合，Andy 選擇把這些維度擺在外面，簡化 Rule 的設計，而在外面 POS 執行 LoadRules() 時展開這些組合。
+
+也因為這些跨區組合會被 POS 視為五個不同的折扣，因此這五個 Rule 彼此也必須定義折扣排除的機制。這些都完成後，就是 Andy 發給我的 PR 了。
+
+先來看看測試結果吧! 首先 Andy 自己已經準備了一份測試案例 products4.json, 原來裡面都已經查好全ㄨ的商品售價了啊啊啊啊 (早知道我就不用自己查半天了)... 這清單完全比照廣告上面的定義，直接來看看跑出來的結果:
+
+```text
+購買商品:
+---------------------------------------------------
+-  1, [RiceBall-00001]   $23.00, 肉鬆飯糰 , Tags: #39鮮食
+-  2, [RiceBall-00001]   $23.00, 肉鬆飯糰 , Tags: #39鮮食
+-  3, [RiceBall-00002]   $25.00, 鮪魚飯糰 , Tags: #39鮮食
+-  4, [RiceBall-00003]   $28.00, 明太子龍蝦風味飯糰 , Tags: #49鮮食
+-  5, [RiceBall-00003]   $28.00, 明太子龍蝦風味飯糰 , Tags: #49鮮食
+-  6, [RiceBall-00004]   $39.00, 大口法香烤雞飯糰 , Tags: #59鮮食
+-  7, [Coffee-00001]   $25.00, 小杯熱美式咖啡 , Tags: #39飲料
+-  8, [Coffee-00001]   $25.00, 小杯熱美式咖啡 , Tags: #39飲料
+-  9, [Coffee-00002]   $35.00, 中杯熱美式 , Tags: #49飲料
+- 10, [Coffee-00003]   $45.00, 中杯熱拿鐵 , Tags: #59飲料
+- 11, [Coffee-00003]   $45.00, 中杯熱拿鐵 , Tags: #59飲料
+
+折扣:
+---------------------------------------------------
+- 折抵   $25.00, 餐餐超值配 (59飲料 + 59鮮食 = 59 元)
+  * 符合:  6, [RiceBall-00004], 大口法香烤雞飯糰 , Tags: #59鮮食
+  * 符合: 10, [Coffee-00003], 中杯熱拿鐵 , Tags: #59飲料
+
+- 折抵   $14.00, 餐餐超值配 (59飲料 + 49鮮食 = 59 元)
+  * 符合:  4, [RiceBall-00003], 明太子龍蝦風味飯糰 , Tags: #49鮮食
+  * 符合: 11, [Coffee-00003], 中杯熱拿鐵 , Tags: #59飲料
+
+- 折抵   $14.00, 餐餐超值配 (49飲料 + 49鮮食 = 49 元)
+  * 符合:  5, [RiceBall-00003], 明太子龍蝦風味飯糰 , Tags: #49鮮食
+  * 符合:  9, [Coffee-00002], 中杯熱美式 , Tags: #49飲料
+
+- 折抵   $11.00, 餐餐超值配 (39飲料 + 39鮮食 = 39 元)
+  * 符合:  3, [RiceBall-00002], 鮪魚飯糰 , Tags: #39鮮食
+  * 符合:  7, [Coffee-00001], 小杯熱美式咖啡 , Tags: #39飲料
+
+- 折抵    $9.00, 餐餐超值配 (39飲料 + 39鮮食 = 39 元)
+  * 符合:  1, [RiceBall-00001], 肉鬆飯糰 , Tags: #39鮮食
+  * 符合:  8, [Coffee-00001], 小杯熱美式咖啡 , Tags: #39飲料
+
+
+---------------------------------------------------
+結帳金額:   $268.00
+```
+
+照這清單，可以看到最後結帳，湊齊了 39 + 39, 39 + 39, 49 + 49, 59 + 49, 59 + 59 五對配對折扣, 其餘落單就按照元價。算出來最終是 $268 沒錯 (39 + 39 + 49 + 59 + 59 + 23 = 268)。
+
+第一關通過了，接下來我依樣跑看看我準備的 demo1.json:
+
+```text
+
+購買商品:
+---------------------------------------------------
+-  1, [FAMI-003]   $39.00, 龍蝦風味沙拉三明治 , Tags: #49鮮食
+-  2, [FAMI-004]   $25.00, 午後時光伯爵奶茶 , Tags: #49飲料
+-  3, [FAMI-005]   $39.00, 大口法香烤雞飯糰 , Tags: #59鮮食
+-  4, [FAMI-012]   $45.00, 中杯熱拿鐵 , Tags: #59飲料
+
+折扣:
+---------------------------------------------------
+- 折抵   $25.00, 餐餐超值配 (59飲料 + 59鮮食 = 59 元)
+  * 符合:  3, [FAMI-005], 大口法香烤雞飯糰 , Tags: #59鮮食
+  * 符合:  4, [FAMI-012], 中杯熱拿鐵 , Tags: #59飲料
+
+- 折抵   $15.00, 餐餐超值配 (49飲料 + 49鮮食 = 49 元)
+  * 符合:  1, [FAMI-003], 龍蝦風味沙拉三明治 , Tags: #49鮮食
+  * 符合:  2, [FAMI-004], 午後時光伯爵奶茶 , Tags: #49飲料
+
+---------------------------------------------------
+結帳金額:   $108.00
+
+```
+
+成功配對，結帳金額正確無誤，是 49 + 59 = $108 沒錯。
+
+接著再看看下一個案例: 跨區配對測試案例 (demo2.json):
+
+```text
+
+購買商品:
+---------------------------------------------------
+-  1, [FAMI-003]   $39.00, 龍蝦風味沙拉三明治 , Tags: #49鮮食
+-  2, [FAMI-011]   $50.00, 單品咖啡 熱美式小杯 , Tags: #59飲料
+-  3, [FAMI-005]   $39.00, 大口法香烤雞飯糰 , Tags: #59鮮食
+-  4, [FAMI-012]   $45.00, 中杯熱拿鐵 , Tags: #59飲料
+
+折扣:
+---------------------------------------------------
+- 折抵   $30.00, 餐餐超值配 (59飲料 + 59鮮食 = 59 元)
+  * 符合:  3, [FAMI-005], 大口法香烤雞飯糰 , Tags: #59鮮食
+  * 符合:  2, [FAMI-011], 單品咖啡 熱美式小杯 , Tags: #59飲料
+
+- 折抵   $25.00, 餐餐超值配 (59飲料 + 49鮮食 = 59 元)
+  * 符合:  1, [FAMI-003], 龍蝦風味沙拉三明治 , Tags: #49鮮食
+  * 符合:  4, [FAMI-012], 中杯熱拿鐵 , Tags: #59飲料
+
+
+---------------------------------------------------
+結帳金額:   $118.00
+
+```
+
+完美，結果一樣完全符合商業規則的預期。接著看第三個測試案例 (demo3.json), 同時標記多個標籤:
+
+```text
+購買商品:
+---------------------------------------------------
+-  1, [FAMI-003]   $39.00, 龍蝦風味沙拉三明治 , Tags: #49鮮食,#59鮮食
+-  2, [FAMI-011]   $50.00, 單品咖啡 熱美式小杯 , Tags: #59飲料
+-  3, [FAMI-005]   $39.00, 大口法香烤雞飯糰 , Tags: #59鮮食
+-  4, [FAMI-012]   $45.00, 中杯熱拿鐵 , Tags: #59飲料
+
+折扣:
+---------------------------------------------------
+- 折抵   $30.00, 餐餐超值配 (59飲料 + 59鮮食 = 59 元)
+  * 符合:  1, [FAMI-003], 龍蝦風味沙拉三明治 , Tags: #49鮮食,#59鮮食
+  * 符合:  2, [FAMI-011], 單品咖啡 熱美式小杯 , Tags: #59飲料
+
+- 折抵   $25.00, 餐餐超值配 (59飲料 + 59鮮食 = 59 元)
+  * 符合:  3, [FAMI-005], 大口法香烤雞飯糰 , Tags: #59鮮食
+  * 符合:  4, [FAMI-012], 中杯熱拿鐵 , Tags: #59飲料
+
+
+---------------------------------------------------
+結帳金額:   $118.00
+```
+
+果然惡搞的 input 也難不倒 Andy 的 code, 多重標籤一樣能正確無誤的計算出預期的折扣 $118
+
+來看看 code 吧，主結構擺在 DiscountRule7 :
+
+```csharp
+
+public class DiscountRule7 : RuleBase
+{
+    private string drinkTag;
+    private string foodTag;
+    private int price;
+
+    string token;
+    List<string> abandonDiscount;
+
+    public DiscountRule7(
+        string drinkTag, 
+        string foodTag,
+        int price,
+        string token,
+        List<string> abandonDiscount
+    )
+    {
+        this.Name = "餐餐超值配";
+        this.Note = $"{drinkTag} + {foodTag} = {price} 元";
+
+        this.drinkTag = drinkTag;
+        this.foodTag = foodTag;
+        this.price = price;
+
+        this.token = token;
+        this.abandonDiscount = abandonDiscount;
+    }
+    public override IEnumerable<Discount> Process(CartContext cart)
+    {
+        List<Product> products = cart.PurchasedItems.Where(p => !p.AbandonDiscount.Contains(token))
+                                                    .ToList();
+        List<Product> drinks = products.Where(p => p.Tags.Contains(drinkTag))
+                                        .OrderByDescending(p=>p.Price)
+                                        .ToList();
+        List<Product> foods = products.Where(p => p.Tags.Contains(foodTag))
+                                        .OrderByDescending(p=>p.Price)
+                                        .ToList();
+        int i = 0;
+        while(i < foods.Count() && i < drinks.Count())
+        {
+            yield return new Discount()
+            {
+                Amount = foods[i].Price + drinks[i].Price - price,
+                Products = new Product[]{foods[i], drinks[i]},
+                Rule = this
+            };
+
+            foreach(string t in abandonDiscount)
+            {
+                foods[i].AbandonDiscount.Add(t); 
+                drinks[i].AbandonDiscount.Add(t);    
+            }
+            
+            i++;
+        }
+
+    }
+}
+
+```
+
+其實看完程式碼，不用多說了，結構跟我前面的範例是一樣的，只是寫法略有不同。不過解題的邏輯一樣，跑出來的結果自然不會差太多。結構的說明可以看我前面的範例，我這邊只列出跟我作法有差異的部分:
+
+1. 跨區規則展開，這邊擺在 DiscountRule7 外圍，由 LoadRules() 負責。
+1. 折扣排除，用 List<string> abandonDiscount 來記錄, 符合折扣則在商品上的 HashSet<string> AbandonDiscount 上面加上標記。我的作法濃縮成單一 exclusiveTag, 共用商品的 HashSet<string> Tags
+
+最後看看 LoadRules():
+
+```csharp
+
+static IEnumerable<RuleBase> LoadRules()
+{
+    // 59飲料 + 59鮮食 = 59 元
+    // 59飲料 + 49鮮食 = 59 元
+    yield return new DiscountRule7("59飲料", "59鮮食", 59, "餐餐超值配", new List<string>{"餐餐超值配"});
+    yield return new DiscountRule7("59飲料", "49鮮食", 59, "餐餐超值配", new List<string>{"餐餐超值配"});
+                                                            
+    // 49飲料 + 49鮮食 = 49 元
+    // 49飲料 + 59鮮食 = 49 元
+    yield return new DiscountRule7("49飲料", "59鮮食", 49, "餐餐超值配", new List<string>{"餐餐超值配"}); 
+    yield return new DiscountRule7("49飲料", "49鮮食", 49, "餐餐超值配", new List<string>{"餐餐超值配"}); 
+
+    // 39飲料 + 39鮮食 = 39 元
+    yield return new DiscountRule7("39飲料", "39鮮食", 39, "餐餐超值配", new List<string>{"餐餐超值配"}); 
+}
+
+```        
+
+最後給個總評，其實這種問題，最重要的是 code 背後的思考邏輯。邏輯正確，同時能夠貼近現實世界處理問題的規則的話，寫出來的 code 自然能夠適應實際的各種狀況。這份 source code 沒有經過任何修正就成功通過測試，大推! 有興趣的朋友們可以好好觀摩一下 Andy 的 code.
+
+
+
+
 ### PR4: julian-chu
+
+第三位支持這次 PR 的朋友: Julian-Chu, 也發了他自己的 code 來。這版同樣支援折扣排除，也支援配對折扣的優惠機制。不過 Julian 走的是另一個方法，就我前面提到的，Rule 彼此要事先協調好的運作方式。
+
+有意思的是，這版出現了 "Proxy" 模式的應用了 :D, 先來看看這段 code:
+
+```csharp
+
+public class ComplexDiscountRule : RuleBase
+{
+    private readonly RuleBase _discount1;
+    private readonly RuleBase _discount2;
+
+    public ComplexDiscountRule(RuleBase discount1, RuleBase discount2)
+    {
+        _discount1 = discount1;
+        _discount2 = discount2;
+        this.Note = $"{discount1.Note};{discount2.Note}";
+    }
+
+    public override void Process(CartContext cart)
+    {
+        var productsWithDoubleDiscount =
+            cart.PurchasedItems.Where(p =>
+                    p.Tags.Contains(_discount1.TargetTag) && p.Tags.Contains(_discount2.TargetTag) &&
+                    !p.IsDiscounted)
+                .ToList();
+
+
+        _discount1.Process(cart);
+
+        foreach (var product in productsWithDoubleDiscount)
+        {
+            product.IsDiscounted = false;
+        }
+
+        _discount2.Process(cart);
+    }
+}
+
+```
+
+花了點時間看，總算看懂背後的思路了。首先，這個 ComplexDiscountRule 本身不處理任何折扣規則，他只是把兩個 DiscountRule 包裝起來而已。包裝的過程中也做了些抽象化，讓 POS 可以把這兩個 DiscountRule 當成一個看，實際上該如何運作，則靠 ComplexDiscountRule 來決定該如何把這折扣計算的需求轉到後面的 DiscountRule。兩個併成一個，當然有些規則要遵循，合併的規則就是 ComplexDiscountRule 要處理的問題。
+
+處理的過程很簡單，我用抽象化的步驟表達:
+
+1. 建立 ComplexDiscountRule 時，需要提供兩個 RuleBase 的 instance (discount1, discount2)
+1. 處理折扣計算時 (Process), 先找出同時符合兩個折扣的商品。若同時符合，則只套用 discount1, 同時標記已經給予優惠 (product.IsDiscounted = false)
+1. 剩餘的商品，則繼續交由 discount2 處理。
+
+不過看了這段 code, 我有點納悶, 我原本的設計應該無法這樣跑才對, 因為我並沒有明確定義 如何判定 product 是否符合折扣條件的介面啊 (原因後面說明)。仔細一追才發現，這版的 RuleBase 已經把 TargetTag 變成標準的實作規格了，只要自 RuleBase 繼承後一定要支援。
+
+另一個改變是，原本處理折扣的 method 應該長這樣:
+
+IEnumerable<Discount> RuleBase.Process(CartContext cart);
+
+在這版改成:
+
+void RuleBase.Process(CartContext cart);
+
+省掉的傳回值，想必是直接透過 CartContext 狀態的更新，來替代直接傳回值了。不過我當初會這樣設計也是有原因的 (一樣後面說明)。但是當 RuleBase 的機制這樣調整限縮之後，變數就更少了，因此就能夠做這樣的設計。
+
+第三個改變，我特地去追了 .IsDiscounted 的作用，我在每個 RuleBase 衍生的實作都看到了這段 code (我參考 DiscountRule4):
+
+```csharp
+
+public override void Process(CartContext cart)
+{
+    List<Product> matched = new List<Product>();
+    foreach (var sku in cart.PurchasedItems
+        .Where(p => p.Tags.Contains(this.TargetTag) && !p.IsDiscounted)
+        .Select(p => p.SKU)
+        .Distinct())
+    {
+        matched.Clear();
+        // 以下略
+
+```
+
+看來實作時追加了限制，每個擴充 DiscountRule 的開發人員都必須要知道這條規矩，如果這個折扣不允許重複優惠，則必須要自己判斷 product.IsDiscounted == true 就要被排除。
+
+第四， bool POS.CheckoutProcess(CartContext cart) 端結帳的實作設計也簡化了:
+
+```csharp
+
+public bool CheckoutProcess(CartContext cart)
+{
+    foreach (var rule in this.ActivedRules)
+    {
+        rule.Process(cart);
+    }
+
+    cart.TotalPrice = cart.PurchasedItems.Select(p => p.Price - p.Discount).Sum();
+    return true;
+}
+
+```
+
+其中 CartContext.TotalPrice, 原本是每處理過一個折扣，就會更新一次，現在變成全部處理完才更新。同樣的，先前的設計，也是有目的的，例如前面的案例: TotalPriceDiscountRule 滿千送百這樣的 Rule, 必須判定處理完前面的折扣之後, 結帳金額是否還超過 $1000 ? 這會決定後面的折扣該如何計算。
+
+總結來說，這是個好的設計，透過重新組合 Rule(s) 來創造 & 簡化複合的折扣搭配。不過可惜的是實作方式，為了能做到 ComplexDiscountRule，對原本的 DiscountRule 加上了過多的限制 (如上述四點)，感覺有點得不償失。
+
+我舉幾個例子來說明加上這些限制，會失去的彈性是什麼:
+
+1. 加上 TargetTags 來判定符合商品:  
+就拿這個滿千送百的例子，其實就無法光靠 tags 就判定商品是否符合折扣了，判定是否符合是看總價，不是看商品標籤。何況有些商品標籤符合，最終計算也不一定會被列入折扣，或是有些折扣必須依賴一個以上的標籤才能判定 (例如配對折扣)。這方法雖能將判定商品是否屬於折扣的範圍標準化，但是有太多狀況無法面對了。
+
+1. 修改 Process() 的簽章，不傳回 IEnumerable<Discount>, 而改透過 CartContext 紀錄資訊:  
+這會強迫整個計算過程都必須依賴 CartContext 來分享與傳遞資訊。設計 ComplexDiscountRule 對於需要 "試算" 的情況，或是計算後已經更改 CartContext, 但是事後想要還原時，都會造成阻礙。無狀態的設計 (不更新 CartContext, 只傳回 IEnumerable<Discount>) 相對會適合一些。
+
+1. .IsDiscounted 的設計只允許一件商品套用一個折扣:  
+雖然提交 PR 的時候就有說明了，不過實際狀況下這是避不開的需求啊，前面的案例透過 AbandonDiscount 的方式來處理折扣排除相對的合理的多。
+
+分享一下我過去也曾經時做過類似的例子，用複合的 Rule 來處理擇優 (兩個折扣規則，替客戶挑選比較好的那個) 的機制。我的作法是兩種都跑一次，看看結果哪一個較優，才拿他的結果傳回去。我如果透過 CartContext 來傳遞，那我就必須 clone 後才能試算 (否則就還原不回來了)。排除狀態的話，我只要比較兩組 IEnumerable<Discount> 挑出較優的那組再回傳就好，能簡化不少設計。
+
+不過我還是要補一句，這是不錯的設計方向 (我自己也做過當然要說好 XDDD)，只可惜實作的方式犧牲了不少關鍵的特性。可以再花點時間思考看看如何兼顧。
+
+回到配對折扣的部分，這組的做法其實跟 PR1 很類似，透過配對項目 + 配對金額的組合來設計 tags (例如: #餐餐超值配/39/鮮食, #餐餐超值配/49/飲料) 來方便後續 DiscountRule 的處理，這邊的做法蠻類似的，我就不重複帶一次寫法了。有興趣的朋友可以到這個 branch 去看看 ComboDiscount 的實作, 可以發現一些不一樣的技巧。
+
+
+
+### PR5: isdaniel
+
+最後一個 PR#5, 這位朋友跟 PR#1 是同一位 isdaniel, 我們就再這邊來看看 PR5 是如何解決折扣排除吧。
+
+看了一輪 code, 其實大家心裡想的解決方式沒有差很多，就都是實作細節的差異而已。這份 PR 解決配對折扣的方式大致如下:
+
+1. 在 Product 上面擴充一個屬性 DiscountType 來記錄商品是否已經套用折扣?
+1. 在 Rule 計算折扣前，先過濾掉已經套用折扣的商品
+
+直接來看 code, 修改過後的 Product, 多了個 DiscountType 的 enum 型別, 我就順手貼在一起了 :
+
+```csharp
+
+    public class Product
+    {
+        public int Id;
+        public string SKU;
+        public string Name;
+        public decimal Price;
+        public HashSet<string> Tags;
+
+        public DiscountType DiscountType { get; set; }
+        public string TagsValue { 
+            get
+            {
+                if (this.Tags == null || this.Tags.Count == 0) return "";
+                return ", Tags: " + string.Join(",", this.Tags.Select(t => '#' + t));
+            }
+        }
+    }
+
+    public enum DiscountType
+    {
+        MultipleDiscountAble = 1,
+        SingleOneDiscount = 2,
+        IsDiscounted = 4
+    }
+
+```
+
+商品身上追加 DiscountType 後，來看看在什麼地方會標上這欄位吧:
+
+```csharp
+    public class POS
+    {
+        public readonly List<RuleBase> ActivedRules = new List<RuleBase>();
+
+        public bool CheckoutProcess(CartContext cart)
+        {
+            // reset cart
+            cart.AppliedDiscounts.Clear();
+
+            cart.TotalPrice = cart.GetDiscountAbleProduct().Select(p => p.Price).Sum();
+            foreach (var rule in this.ActivedRules)
+            {
+                var discounts = rule.Process(cart).ToList();
+                cart.AppliedDiscounts.AddRange(discounts);
+                cart.TotalPrice -= discounts.Select(d => d.Amount).Sum();
+                discounts.ForEach(x=>x.SetDiscountStaus());
+            }
+            return true;
+        }
+    }
+
+```
+
+POS 處理完每個折扣規則後，最後會多一段 discounts.ForEach(x=>x.SetDiscountStaus()); 把折扣資訊裡紀載的每一個商品，都更新狀態。看看 .SetDiscountStatus() 做了什麼:
+
+```csharp
+    public class Discount
+    {
+        public int Id;
+        public RuleBase Rule;
+        public Product[] Products;
+        public decimal Amount;
+
+        public void SetDiscountStaus(){
+            foreach(var p in Products){
+                p.DiscountType |= DiscountType.IsDiscounted;
+            }
+        }
+    }
+```    
+
+
+至於標上後，哪裡會用到? 就藏在 CartContext 裡面:
+
+```csharp
+    public class CartContext
+    {
+        public List<Product> GetDiscountAbleProduct(){
+            return PurchasedItems.Where(z=> z.DiscountType != (DiscountType.SingleOneDiscount | DiscountType.IsDiscounted))
+                                 .ToList();
+        }
+        public readonly List<Product> PurchasedItems = new  List<Product>();
+        public readonly List<Discount> AppliedDiscounts = new List<Discount>();
+        public decimal TotalPrice = 0m;
+    }
+```
+
+就如同前面所說的，大致上做法沒什麼不同。我就拿我自己的範例來對比，主要的差異只有一點:
+
+用專屬的 DiscountType 來記錄每個商品的排除狀態。
+
+這樣的優點是簡單快速，缺點是狀態被限縮為只有三個 flags 的組合了。如果碰到 A / B 折扣需要互斥，而 C / D 折扣也要互斥，但是 A / C 不互相影響的情況下，就無法處理了。不過這是小事情，改變標記的結構就能搞定。整個程式的處理邏輯是沒問題的。
+
+另外，在 RuleBase 裡面，我也留意到了，多追加了 Priority 的設定，來決定 Rules 之間的優先權。這其實是很重要的一點。因為折扣既然會互相排除，那麼背後的意義就是先搶先贏。互斥的兩個折扣若同時都符合，那當然是以排在前面的為準。哪個規則該排在前面? 這順序應該是在設定折扣時就要確定了。這邊 POC 其實都一切從簡了，實際狀況應該會是從 DB 載入這些規則設定的，因此多付加一個 Priority 欄位，從 DB 查詢時應該照 Priority 排序是必要的。這份 code 很細心的把這關鍵實作出來了 (雖然在 POC 的 code 多寫這段沒什麼必要)，值得特別說明一下。
+
 
 
 
