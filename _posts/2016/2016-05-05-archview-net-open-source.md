@@ -14,7 +14,7 @@ wordpress_postid: 1218
 開始之前，先來看一個實際的案例... [StackOverflow](http://www.stackoverflow.com)，開發人員很愛用的網站，每隔幾年都會在官方的部落格上面公布他的系統架構。來看看 2016 版的架構演進成什麼樣子 (原文: [Stack Overflow: The Architecture - 2016 Edition](https://nickcraver.com/blog/2016/02/17/stack-overflow-the-architecture-2016-edition/))
 
 
-![](http://columns.chicken-house.net/wp-content/uploads/2016/05/img_572b734171d80.png)
+![](/wp-content/uploads/2016/05/img_572b734171d80.png)
 
 為何我特地拿 stackoverflow 網站的架構當作例子? 其實這個例子蠻特別的，導致我幾年前第一次看到就留下深刻的印象。這網站核心的部分，其實都是用 .NET 開發的，包含 Web Tier 跟 Service Tier 都是。理所當然的，資料庫也用 Microsoft SQL Server。但是這麼大規模的網站，也混搭了不少的 Linux Server, 負責 Search Server (Elastic Search) 跟 Cache Server (Redis), 前端的 Load Balancers 也沒有用 Microsoft IIS ARR (IIS Application Request Routing), 而是採用了 Linux + HAProxy..
 
