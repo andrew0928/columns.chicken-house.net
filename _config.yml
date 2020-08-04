@@ -2,7 +2,7 @@
 #   Main Configs   #
 # ---------------- #
 baseurl:
-url:  https://columns.chicken-house.net
+url:  http://columns.chicken-house.net
 date_format: "ordinal"
 title: 安德魯的部落格
 subtitle: "架構師的修練"
