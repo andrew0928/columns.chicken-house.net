@@ -4,7 +4,7 @@ title: "[架構師觀點] 資安沒有捷徑，請從根本做起!"
 categories:
 - "系列文章: 架構師觀點"
 tags: ["架構師", "資安"]
-published: false
+published: true
 comments: true
 redirect_from:
 logo: /wp-content/images/2020-11-23-security-talk/2020-11-23-01-45-18.png
