@@ -1,9 +1,8 @@
 <div class="fb-like" data-href="{{ site.url }}{{ include.url }}" data-layout="standard" data-action="like" data-size="small" data-show-faces="false" data-share="true"></div>
-<div class="fb-comments-count" data-href="{{ site.url }}{{ include.url }}"></div> comments
 <div class="meta-info">
     <span class="octicon octicon-comment"></span>
     <span class="disqus-comment-count" data-disqus-identifier="{{ include.url }}"></span>
-    
+    , <span class="fb-comments-count" data-href="{{ site.url }}{{ include.url }}"></span> fb-comments
 </div>
 {% if site.debug %}
 <pre>site.url: {{ site.url }}</pre>
