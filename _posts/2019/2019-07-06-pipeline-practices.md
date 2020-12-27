@@ -6,7 +6,7 @@ tags: ["系列文章", "架構師", "Practices"]
 published: true
 comments: true
 use_disqus: false
-# use_fbcomment: false
+use_fbcomment: true
 redirect_from:
 logo: /wp-content/images/2019-07-06-pipeline-practices/logo.png
 ---

@@ -1,6 +1,6 @@
 {% if page.comments != false %}
 
-    {% if page.use_fbcomment != false %}
+    {% if page.comments_facebook != false %}
     <div class="fb-comments" 
         data-href="{{ site.url }}{{ page.url }}" 
         data-width="" 
@@ -12,7 +12,7 @@
     <br />
     {% endif %}
 
-    {% if page.use_disqus != false %}
+    {% if page.comments_disqus != false %}
     <div id="disqus_thread"></div>
     <script>
     /**

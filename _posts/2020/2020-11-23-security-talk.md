@@ -6,6 +6,8 @@ categories:
 tags: ["架構師", "資安"]
 published: true
 comments: true
+# comments_disqus: true
+# comments_facebook: true
 redirect_from:
 logo: /wp-content/images/2020-11-23-security-talk/2020-11-23-01-45-18.jpg
 ---
