@@ -5,7 +5,7 @@ SET IMAGE_TAG=20180723-jekyll-3.8.1
 docker rm -f %CONTAINER_NAME%
 
 : can build under windows container, but can not push (don't know why)
-docker build -t andrew0928/columns:%IMAGE_TAG% -t wcshub.azurecr.io/columns:%IMAGE_TAG% --build-arg GIT_URL=https://github.com/andrew0928/columns.chicken-house.net --build-arg GIT_BRANCH=draft .
+docker build -t andrew0928/columns:%IMAGE_TAG% --build-arg GIT_URL=https://github.com/andrew0928/columns.chicken-house.net --build-arg GIT_BRANCH=draft .
 
 : before push, need to switch to linux container
 
@@ -59,15 +59,15 @@ docker build -t andrew0928/columns:%IMAGE_TAG% -t wcshub.azurecr.io/columns:%IMA
 :: run under repo root ::
 ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
-::: launch daemon
-docker run --name columns -v %CD%:/home/columns -d -p 4000:4000 -v %CD%:/home/columns wcshub.azurecr.io/columns:20180723-jekyll-3.8.1
-start docker logs -t -f columns
+@REM ::: launch daemon
+@REM docker run --name columns -v %CD%:/home/columns -d -p 4000:4000 -v %CD%:/home/columns andrew0928/columns:20180723-jekyll-3.8.1
+@REM start docker logs -t -f columns
 
-::: enter shell, update file(s)
-docker exec -t -i -w /home columns bash
-cp -Ru columns/* source
+@REM ::: enter shell, update file(s)
+@REM docker exec -t -i -w /home columns bash
+@REM cp -Ru columns/* source
 
-::: remove dead containers, use "run as administrator" mode
-net stop docker
-rd /s /q c:\ProgramData\Docker\containers
-net start docker
+@REM ::: remove dead containers, use "run as administrator" mode
+@REM net stop docker
+@REM rd /s /q c:\ProgramData\Docker\containers
+@REM net start docker
