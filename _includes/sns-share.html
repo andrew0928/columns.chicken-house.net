@@ -1,15 +1,19 @@
 <div class="fb-like" data-href="{{ site.url }}{{ include.url }}" data-layout="standard" data-action="like" data-size="small" data-show-faces="false" data-share="true"></div>
 <div class="meta-info">
     <span class="octicon octicon-comment"></span>
-    <span class="disqus-comment-count" data-disqus-identifier="{{ include.url }}"></span>
-    , <span class="fb-comments-count" data-href="{{ site.url }}{{ include.url }}"></span> FB-Comments
+    {% if page.comments_disqus != false %}
+    <span class="disqus-comment-count" data-disqus-identifier="{{ include.url }}"></span>,
+    {% endif %}
+    {% if page.comments_facebook != false %}
+    <span class="fb-comments-count" data-href="{{ site.url }}{{ include.url }}"></span> FB-Comments
+    {% endif %}
 </div>
 {% if site.debug %}
 <pre>site.url: {{ site.url }}</pre>
-<pre>post.url: {{ post.url }}</pre>
+<pre>page.url: {{ page.url }}</pre>
 <pre>page.url: {{ page.url }}</pre>
 <pre>include.url: {{ include.url }}</pre>
 
-<pre>post.url.blank?    {% if post.url.blank? %}true{% else %}false{% endif %} </pre>
+<pre>page.url.blank?    {% if page.url.blank? %}true{% else %}false{% endif %} </pre>
 <pre>include.url.blank? {% if include.url.blank? %}{{ page.url }}{% else %}{{ include.url }}{% endif %} </pre>
 {% endif %}
