@@ -79,6 +79,12 @@
     }
     </script>
 
+
+    <!-- include facebook javascript SDK -->
+    <div id="fb-root"></div>
+    <script async defer crossorigin="anonymous" src="https://connect.facebook.net/zh_TW/sdk.js#xfbml=1&version=v10.0&appId=500757300092333&autoLogAppEvents=1" nonce="38AkQrsI"></script>
+
+    {% comment %}
     <!-- facebook share -->
     <script>(function(d, s, id) {
     var js, fjs = d.getElementsByTagName(s)[0];
@@ -87,7 +93,8 @@
     js.src = "//connect.facebook.net/zh_TW/sdk.js#xfbml=1&version=v2.7&appId=500757300092333";
     fjs.parentNode.insertBefore(js, fjs);
     }(document, 'script', 'facebook-jssdk'));</script>
-
+    {% endcomment %}
+    
     <!-- disqus -->
     <script id="dsq-count-scr" src="//{{ site.disqus_username }}.disqus.com/count.js" async></script>
 </head>
