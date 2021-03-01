@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh-cmn-Hans" prefix="og: http://ogp.me/ns#" class="han-init">
 <head>
+    <!-- debug: site.config_url {{ site.config_url }} -->
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
@@ -82,26 +83,13 @@
 
     <!-- include facebook javascript SDK -->
     <div id="fb-root"></div>
-    <script async defer crossorigin="anonymous" src="https://connect.facebook.net/zh_TW/sdk.js#xfbml=1&version=v10.0&appId=500757300092333&autoLogAppEvents=1" nonce="38AkQrsI"></script>
+    <script async defer crossorigin="anonymous" src="https://connect.facebook.net/zh_TW/sdk.js#xfbml=1&version=v10.0&appId={{ site.fb_appid }}" nonce="38AkQrsI"></script>
 
-    {% comment %}
-    <!-- facebook share -->
-    <script>(function(d, s, id) {
-    var js, fjs = d.getElementsByTagName(s)[0];
-    if (d.getElementById(id)) return;
-    js = d.createElement(s); js.id = id;
-    js.src = "//connect.facebook.net/zh_TW/sdk.js#xfbml=1&version=v2.7&appId=500757300092333";
-    fjs.parentNode.insertBefore(js, fjs);
-    }(document, 'script', 'facebook-jssdk'));</script>
-    {% endcomment %}
-    
+
     <!-- disqus -->
     <script id="dsq-count-scr" src="//{{ site.disqus_username }}.disqus.com/count.js" async></script>
 </head>
 <body class="{{ page.class }}" data-mz="{{ page.class }}">
-    <div id="fb-root"></div>
-
-    <script async defer crossorigin="anonymous" src="https://connect.facebook.net/zh_TW/sdk.js#xfbml=1&version=v9.0&appId=500757300092333&autoLogAppEvents=1" nonce="YtEtxcuY"></script>
 
     <header class="site-header">
         <div class="container">
