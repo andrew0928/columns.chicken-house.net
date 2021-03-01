@@ -1,9 +1,11 @@
 {% if page.comments != false %}
 
     {% if page.comments_gitalk != false %}
+
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
     <div id="gitalk-container"></div>
-    
-    <script>
+    <script type="text/javascript">
         const gitalk = new Gitalk({
             clientID: '9e820078fb6c85d11cf3',
             clientSecret: '37d61d565fd65ff91e6fbd96a35ea88bd307bd97',
