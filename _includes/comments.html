@@ -1,5 +1,27 @@
 {% if page.comments != false %}
 
+    {% if page.comments_gitment != false %}
+    <script>
+      const gitment = new Gitment({
+        //id: 'Your page ID', // optional
+        owner: 'andrew0928',
+        repo: 'columns.chicken-house.net',
+        oauth: {
+          client_id: '9e820078fb6c85d11cf3',
+          client_secret: '37d61d565fd65ff91e6fbd96a35ea88bd307bd97',
+        },
+        // ...
+        // For more available options, check out the documentation below
+      })
+      
+      // gitment.render('comments')
+      // or
+      // gitment.render(document.getElementById('comments'))
+      // or
+      document.body.appendChild(gitment.render())
+    </script>
+    {% endif %}
+
     {% if page.comments_facebook != false %}
     <div class="fb-comments" 
         data-href="{{ site.url }}{{ page.url }}" 
