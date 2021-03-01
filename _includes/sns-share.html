@@ -1,4 +1,5 @@
 <div class="fb-like" data-href="{{ site.url }}{{ include.url }}" data-layout="standard" data-action="like" data-size="small" data-show-faces="false" data-share="true"></div>
+{% comment %}
 <div class="meta-info">
     <span class="octicon octicon-comment"></span>
     {% if page.comments_disqus != false %}
@@ -8,6 +9,7 @@
     <span class="fb-comments-count" data-href="{{ site.url }}{{ include.url }}"></span> FB-Comments
     {% endif %}
 </div>
+{% endcomment %}
 {% if site.debug %}
 <pre>site.url: {{ site.url }}</pre>
 <pre>page.url: {{ page.url }}</pre>

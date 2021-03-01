@@ -3,7 +3,7 @@
     {% if page.comments_gitment != false %}
     <script>
       const gitment = new Gitment({
-        //id: 'Your page ID', // optional
+        id: '{{ page.url }}', // optional
         owner: 'andrew0928',
         repo: 'columns.chicken-house.net',
         oauth: {
@@ -14,11 +14,11 @@
         // For more available options, check out the documentation below
       })
       
-      // gitment.render('comments')
+      gitment.render('comments')
       // or
       // gitment.render(document.getElementById('comments'))
       // or
-      document.body.appendChild(gitment.render())
+      // document.body.appendChild(gitment.render())
     </script>
     {% endif %}
 
