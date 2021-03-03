@@ -42,12 +42,31 @@ permalink: /about/
 如有演講，授課等等合作邀約，歡迎先參考下方我的專長領域的分享經歷，如果合適，歡迎透過 Facebook 粉絲專頁跟我聯絡 (這是對我而言最快的方式)。我把我這邊相關的參考資料整理如下:
 
  
-### 演講錄影:
+### 演講錄影及下載:
+
+- [STUDY4.TW]() [.NET Conf 2020](), 非同步系統的 SLO 設計
+- [STUDY4.TW]() [.NET Conf 2020](), 刻意練習, 抽象化能力的鍛鍊
+
+- [91APP TechDay], 非同步系統的服務水準(SLO)保證
+* 投影片下載: https://www.91app.tech/slides/2020h2-tech-day
+
+- [STUDY4.TW]() [.NET Conf 2019](), 大規模微服務導入 1 / 2
+* 投影片下載: https://github.com/andrew0928/Meetup/tree/master/20191109.dotNetConf
+* 演講錄影: https://fb.watch/3-vhjE2V3c/
+
+- [DevOpsDays Taipei 2019](), 從零開始的 DevOps  
+* SlideShare: https://www.slideshare.net/chickenwu/91app-devops
+* PDF下載: https://github.com/....../Andrew-DevOpsFromZero%20(2019).pdf
+* 大會共筆: https://hackmd.io/....../%2F%40DevOpsDay%2FHkQ0B7UDB
 
 - [STUDY4.TW](http://study4.tw/) [.NET Conf 2018](http://study4.tw/Activity/Details/20) - [Message Queue Based RPC](https://www.facebook.com/andrew.blog.0928/videos/478284192685645/?v=478284192685645), 2018/09/29
+
 - [DevOpsDays Taipei 2018](https://devopsdays.tw/2018/index.html), [微服務基礎建設 - Service Discovery](https://www.facebook.com/andrew.blog.0928/videos/893802841007321/?v=893802841007321), 2018/09/11
+
 - [STUDY4.TW](http://study4.tw/) [與大師對談](http://study4.tw/Activity/Details/12): [轉移到微服務架構必經之路 ~ 系統與資料庫重構](https://www.facebook.com/andrew.blog.0928/videos/545139382528011/), 2018/01/06
+
 - [STUDY4.TW](http://study4.tw/) [.NET Conf 2017](http://study4.tw/Activity/Details/9) - [容器驅動開發](https://www.facebook.com/andrew.blog.0928/videos/509145696127380/?v=509145696127380), 2017/10/14
+
 - [DevOps Taiwan](https://devopstw.club) 社群分享: [大型 Web Application 轉移到 微服務的經驗分享](https://www.slideshare.net/chickenwu/web-application-72464042), 2017/02/22 
 
 
