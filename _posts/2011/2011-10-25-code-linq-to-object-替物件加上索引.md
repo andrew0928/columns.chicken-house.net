@@ -6,6 +6,7 @@ categories:
 tags: ["C#","技術隨筆","物件導向"]
 published: true
 comments: true
+comments_facebook: true
 permalink: "/2011/10/25/code-linq-to-object-替物件加上索引/"
 redirect_from:
   - /columns/post/2011/10/25/indexed_linq.aspx/
