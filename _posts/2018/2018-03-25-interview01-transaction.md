@@ -321,11 +321,19 @@ CREATE TABLE [dbo].[transactions] (
 
 DBMS transaction control, 這就是另一門學問了。害我想起當年在念書時，念到 DBMS (**D**ata**B**ase **M**anagement **S**ystem) 就有唸到 [concurrency control](https://en.wikipedia.org/wiki/Concurrency_control), 沒想到現在廿幾年後還能派上用場啊 :D
 
-只是，這樣的設計，交易的範圍被限制在單一一組 DBMS 上啊! 以這個案例而言，我無法承受太多的連線數量。整個交易的上限，都限制在 DBMS 的處理能力。然而 RDBMS 就是這點最困難啊，由於 "關聯" 式資料庫，強調的就是關聯帶來的各種好處；相對的太多關聯就會難以切割，難以 scale out...
+只是，這樣的設計，交易的範圍被限制在單一一組 DBMS 上啊! 以這個案例而言，我無法承受太多的連線數量。整個交易的上限，都限制在 DBMS 的處理能力。然而 RDBMS 就是這點最困難啊，由於 "關聯" 式資料庫，強調的就是關聯帶來的各種好處；相對的太多關聯就會難以切割，~~難以 scale out...~~ 當你需要 scale out 的時候，必須特別花心思去處理他，例如特別設置 partition (垂直 / 水平)，分表分庫，data sharding，甚至是直接在 application 層來處理。
 
-這明顯違背 microservice / cloud native 的理念啊! 這也是為何服務的規模越大，越難看到 RDBMS 的原因。如果我們真的要邁向微服務，而且是 100+ instances 這種規模，這個作法是無法滿足需求的。要解決這樣的問題，那就繼續看下去...
+~~這明顯違背 microservice / cloud native 的理念啊! 這也是為何服務的規模越大，越難看到 RDBMS 的原因。如果我們真的要邁向微服務，而且是 100+ instances 這種規模，這個作法是無法滿足需求的。要解決這樣的問題，那就繼續看下去...~~
 
+**2021/03/06 修正**:
 
+> 無意間發現這段敘述引起了熱烈的討論，我後面這段的說法容易讓人誤解，我做了點修正。RDBMS 強調 schema 的正規化, 藉由精準的 schema 定義，可以確保資料能進來的都是正確的，也能夠建立正確精準的索引來加速後續的應用。資料庫本身幫你處理掉大部分資料儲存及查詢，甚至組合的需求；也處理了交易的一致性，若要用 [CAP](https://zh.wikipedia.org/wiki/CAP%E5%AE%9A%E7%90%86) 來區隔，RDBMS 是把重心擺在 CA 兩個特性上 (也就是常聽到的 [ACID](https://zh.wikipedia.org/wiki/ACID))。  
+>  
+> 不過這是需要成本的啊，當你的應用需要更靈活的變化，需要比較靈活的變化 schema, 甚至是你需要結構化的資料 (例如 json / xml) 更甚於表格式資料 (table), 或是 CAP 三種特性你需要 CA 以外的組合，例如 AP (也就是 [BASE](http://c.biancheng.net/view/6495.html), Basically Available, Soft-state, Eventually Consistent) 等等，採用 NoSQL 會更適合。在 microsoervice / cloud native 的場景下，有些應用先天就必須面對這些問題，甚至有些 platform 的應用先天就無法在開發時期就定義全部的 schema 的應用，RDBMS 就不再是唯一的選擇。  
+>  
+> 事後想想，會造成誤會的應該是這段吧! 規模越大，包含服務量，也包含應用的複雜度，越來越容易踩到這類問題，越需要從 application 的設計角度來避免，無法單靠 DBA 在資料庫這端就解決掉。NoSQL 走相反的路線，專注在大量快速的儲存，相對查詢跟交易處理能力就弱了一些，需要 developer 花更多心思掌握 data structure 才能駕馭。在 cloud native 的應用情境下, 各個服務自行選擇合適的 DB 技術是很正常的，RDBMS / NoSQL 都有適合運用的場景，規模越大越容易碰到不得不用 NoSQL 的案例 (我原本要表達的是這意思)。這時開發人員就必須面對跨 DB 的問題，不論兩端是不是 RDBMS 或是 NoSQL, 包含下一段我要說明的分散式鎖定 (這也是分散式交易的基礎)。  
+>  
+> 所以熟悉 NoSQL 系列資料庫，搭配處理分散式交易或是鎖定的能力是必備的技能啊, 三年前寫這段腦袋其實是在想下一段的內容，因此簡單幾句帶過。既然被點名了，承認錯誤跟修正說明是必要的，我就保留原本的敘述 (加了刪除線的部分)，同時用註記的方式補上說明。
 
 
 
