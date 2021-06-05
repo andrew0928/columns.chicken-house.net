@@ -42,6 +42,8 @@ Microservices, 一個很龐大的主題，我分成四大部分陸續寫下去..
   - [架構面試題 #2](/2018/04/01/interview02-stream-statistic/) 連續資料的統計方式; 2018/04/01
   - [架構面試題 #3](/2019/06/01/nested-query/) RDBMS 處理樹狀結構的技巧; 2019/06/01
   - [架構面試題 #4](/2020/03/10/interview-abstraction/) 抽象化思考；折扣規則的設計機制; 2020/04/02
+1. **分散式系統的基礎知識**
+  - [分散式系統 #1]() 如何保證 API 呼叫成功? 談 Idempotency Key 的原理與實作
 
 {% unless include.mode == "no_header" %}
 -----
