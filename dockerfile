@@ -22,5 +22,5 @@ WORKDIR /srv/jekyll
 
 
 # ENTRYPOINT [ "jekyll", "s", "--watch", "--drafts", "--incremental", "--source", "/home/source", "--destination", "/tmp", "--unpublished" ]
-ENTRYPOINT [ "jekyll", "s", "--watch", "--source", "/home/source", "--destination", "/tmp" ]
+ENTRYPOINT [ "jekyll", "s", "--watch", "--drafts", "--future", "--unpublished", "--source", "/home/source", "--destination", "/tmp" ]
 # ENTRYPOINT [ "ping", "127.0.0.1" ]
