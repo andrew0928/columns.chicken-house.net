@@ -5,7 +5,8 @@ services:
     build:
       context: .
       dockerfile: dockerfile
-#    restart: always
+#    entrypoint: jekyll s --watch --drafts --future --unpublished --source /home/source --destination /tmp  # 撰寫模式, 會顯示未發行的內容
+    entrypoint: jekyll s --watch --source /home/source --destination /tmp # 正常模式
     ports:
       - 4000:4000
     volumes:
@@ -24,9 +25,7 @@ services:
 
 
 
-# launch service: docker-compose up -d jekyll
-
+# launch service: docker-compose up -d --build --force-recreate jekyll
 # launch console: docker-compose exec -w /home jekyll bash
 #                 >  cp -Ru columns/* source
-
 # launch logs:    docker-compose logs -t --tail 300 -f jekyll

@@ -32,6 +32,11 @@ docker-compose build
 docker-compose up -d jekyll --force-recreate
 ```
 
+或是將上述兩道指令合併:
+```
+docker-compose up -d jekyll --build --force-recreate
+```
+
 成功後即可從 http://localhost:4000 看到 github pages 預覽結果
 
 

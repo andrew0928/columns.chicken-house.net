@@ -4,4 +4,4 @@ ENV JEKYLL_ENV=development
 COPY . /home/source
 WORKDIR /srv/jekyll
 
-ENTRYPOINT [ "jekyll", "s", "--watch", "--drafts", "--future", "--unpublished", "--source", "/home/source", "--destination", "/tmp" ]
+ENTRYPOINT [ "jekyll", "s", "--watch", "--source", "/home/source", "--destination", "/tmp" ]
