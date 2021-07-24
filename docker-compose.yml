@@ -1,0 +1,32 @@
+# 
+version: '3.1'
+services:
+  jekyll:
+    build:
+      context: .
+      dockerfile: dockerfile
+#    restart: always
+    ports:
+      - 4000:4000
+    volumes:
+      - .:/home/columns
+  
+  vscode:
+    image: linuxserver/code-server:latest
+    restart: on-failure
+    ports:
+      - 8443:8443
+    volumes:
+      - .:/config/workspace
+    environment:
+      TZ: Asiz/Taipei
+      SUDO_PASSWORD: 0000
+
+
+
+# launch service: docker-compose up -d jekyll
+
+# launch console: docker-compose exec -w /home jekyll bash
+#                 >  cp -Ru columns/* source
+
+# launch logs:    docker-compose logs -t --tail 300 -f jekyll

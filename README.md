@@ -19,3 +19,33 @@ Branch **develop**:
 
 Branch **draft**:  
 撰寫文章用的 branch, 文章撰寫完成後 merge to master 就能發布文章
+
+
+
+
+
+# 本機預覽環境
+
+* 啟動 (build 時會將目前的 . 部落格內容都複製到 container 的 /home/source, 用以加速 jekyll build)
+```
+docker-compose build
+docker-compose up -d jekyll --force-recreate
+```
+
+成功後即可從 http://localhost:4000 看到 github pages 預覽結果
+
+
+* 開啟 console:
+```
+docker-compose exec -w /home jekyll bash
+```
+
+* 更新檔案:
+```
+cp -Ru columns/* source
+```
+
+* 觀察 jekyll build logs:
+```
+docker-compose logs -t --tail 300 -f jekyll
+```

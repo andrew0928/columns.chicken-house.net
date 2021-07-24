@@ -7,10 +7,11 @@ ARG GIT_BRANCH=master
 
 WORKDIR /home
 
-RUN git clone --branch $GIT_BRANCH $GIT_URL source; chmod 777 source;
+# RUN git clone --branch $GIT_BRANCH $GIT_URL source; chmod 777 source;
 
 # RUN mkdir source; chmod -R 777 source;
 # RUN git clone --branch develop https://github.com/andrew0928/columns.chicken-house.net source
+COPY . /home/source
 
 # WORKDIR /home/source
 # RUN git init; git remote add origin $GIT_URL;
