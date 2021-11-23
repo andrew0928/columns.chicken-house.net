@@ -10,21 +10,15 @@ permalink: /about/
 
 ## 講師介紹：Andrew Wu
 
-談論各種軟體開發與設計的大小事，有 20 年的大型與雲端服務的開發經驗。  
+現任 91APP 首席架構師，91APP 有 500 人的營運團隊，並且在 2021/05 成功上櫃，為台灣的 SaaS 知名服務商，從產品開發到品牌輔導經營，全方位滿足零售品牌的需求。目前已經有超過 10,000 家大型品牌以及知名商店使用選擇了 91APP 的服務。在過去的 20 年工作經驗，主要都專注於 Microsoft .NET Framework 開發 SaaS , B2B2C 的雲端服務。我專長的領域包括: 軟體工程，物件導向設計，分散式系統架構設計，平行處理，API 設計 及 微服務導向架構設計 (microservices) 等。
 
-喜歡研究各種技術背後的原理與實作細節，期許自己做個優秀的系統架構師。  
-
-主題以: .NET / C# / OOP / Container / Microservices / Azure / Distributed System / Cloud Native / DevOps 為主軸，同時在部落格上也持續分享相關主題的一系列文章。期許能將這些實作經驗分享到社群。  
-
-
+我樂於分享技術新知與開發的經驗，常在各大研討會或是在社群活動上分享經驗。同時我也有撰寫部落格文章的習慣，希望能累積我的經驗給需要的夥伴們。我深信知識是越分享越精進的，這也是支持我連續 13 年不間段分享文章的動力來源。
 
 ## 個人經歷:
 
-* 任職 [91APP](https://www.91app.com), 首席架構師 Chief Architect
-* 榮獲 [Microsoft MVP 微軟最有價值專家](https://mvp.microsoft.com/zh-tw/PublicProfile/5002155?fullName=Andrew%20%20Wu) 獎項,2016 ~ 2020
-* 曾任 一宇數位科技 技術長
-* 擔任資策會 雲端系列課程 Azure PaaS 講師
-* 擔任多次 Microsoft Azure Cafe, TechDays, TechEd, DevOpsDays Taiwan, .NET Conf 等大型研討會講師
+* 現任 [91APP](https://www.91app.com), 首席架構師 Chief Architect
+* 榮獲 [Microsoft MVP 微軟最有價值專家](https://mvp.microsoft.com/zh-tw/PublicProfile/5002155?fullName=Andrew%20%20Wu) 獎項,2016 ~ 2022
+* 擔任多次 Microsoft Azure Cafe, TechDays, TechEd, DevOpsDays Taiwan, .NET Conf 等大型研討會講者，與相關 Azure PaaS 雲端系列課程與企業內訓講師
 
 
 ## 相關連結：  
