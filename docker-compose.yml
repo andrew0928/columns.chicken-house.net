@@ -5,8 +5,8 @@ services:
     build:
       context: .
       dockerfile: dockerfile
-#    entrypoint: jekyll s --watch --drafts --future --unpublished --source /home/source --destination /tmp  # 撰寫模式, 會顯示未發行的內容
-    entrypoint: jekyll s --watch --source /home/source --destination /tmp # 正常模式
+    entrypoint: jekyll s --watch --drafts --future --unpublished --source /home/source --destination /tmp  # 撰寫模式, 會顯示未發行的內容
+#    entrypoint: jekyll s --watch --source /home/source --destination /tmp # 正常模式
     ports:
       - 4000:4000
     volumes:

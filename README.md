@@ -52,5 +52,5 @@ cp -Ru columns/* source
 
 * 觀察 jekyll build logs:
 ```
-docker-compose logs -t --tail 300 -f jekyll
+docker-compose logs -t --tail 300 -f --no-log-prefix jekyll
 ```
