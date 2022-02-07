@@ -59,6 +59,13 @@ logo:
 
 # 第一步, UniFi OS Console
 
+> 本段落用到的設備清單:
+> UDMPRO
+> UAP-AC-Lite x 2
+> UAP-AC-LR x 1
+> UVC-G3-Flex x 2
+> UVC-G3-Instant x 2
+
 以我的角度來看，其實整套 UniFi 系統的賣點，就是圍繞著核心的 controller 搭建起來的 SDN (Software Defined Network). 每個設備只要能被接管 (Adoption), 就能從 controller 的角度統一管理所有的設備協作。這能從過去 "管理" 每個設備，建構起整個 "網路" 的做法，轉換為直接在 controller 內管理每個 "網路"，然後由 controller 將這些網路環境的組態翻譯成每個設備需要支援的設定，統一推送給每個設備 (provision). 這也是為何每個 UniFi 的設備都需要被 controller 接管的原因。
 
 舉例來說，常見的 VLAN 在一般的做法是，網管先 (在紙上) 規劃好網路結構，規劃好 vlan id 等等網路結構的設計，然後逐一將這些設定套用在每台 router 或是網管型的 switch 的每個 port. 過去我就是在幾台設備中用了不同的方式在維護同一套 vlan 的經歷... 有的設備是讓你指定每個 port 的 tag / untag 的方式 (例如我這次退役的 netgear prosafe gs116ev2), 有的設備是讓你用 pvid / vid (例如我這次退役的 ubiquiti edgerouter-x sfp+), 而 unifi 的 controller 則是用 SDN 的做法，直接建立你想要的 network (vlan), 對應 port profile 然後套用在你指定的 switch port 上。
@@ -90,6 +97,7 @@ UDM 系列的設計都是 "一體機"，讓你一台搞定所有需求。這是�
 
 ## 網路架構 (UniFi Network)
 
+
 不過，別看到 10G 就 high 起來了，這邊的坑很大，後面 (3) 再來說...。購入 UDMPRO，整個網路結構就大升級了，多年以來我想達成的架構終於實現了。我說明一下我的規劃:
 
 一般人大概就能穩定可靠的上網就夠了，不過我這麼宅怎麼可能這樣就滿足... 對於家裡的網路，我期待有這幾個要求能滿足:
@@ -101,7 +109,7 @@ UDM 系列的設計都是 "一體機"，讓你一台搞定所有需求。這是�
 1. 支援手機或 PC 從外面連 VPN 回來 (至少支援到 L2TP/IPSec)
 1. 能有基本的入侵偵測，擋掉惡意的攻擊
 
-撇開當時其他設備為了搞好 VLAN 花了不少時間之外，沒想到這些需求靠一台 UDMPRO + AP 就搞定了。我目前實體的網路拓樸長這樣 (當時還沒購入 switch, 請先忽略)，我只列出 UniFi 有接管的設備:
+撇開當時其他設備為了搞好 VLAN 花了不少時間之外，沒想到這些需求靠一台 UDM-PRO + AP 就搞定了。除了 UDM-PRO 之外，我陸陸續續添購了三台 AP, 分別是 UAP AC-Lite x 2, 以及 UAP AC-LR... 這三台 AP 都是 Quancomm 的晶片，5G / 2.4GHz 的無線基地台。雖然不是最新的 WiFi6 系列，不過非常穩定可靠啊，我也還沒有打算換掉他，畢竟無線網路對我而言都是穩定度遠遠優先於連線速度，連線速度只要讓我逛網頁跟看串流影片不至於 lag (大約 20Mbps 以上) 就足夠了吧，現有 AP 的規格遠遠超過了。我目前實體的網路拓樸長這樣 (當時還沒購入 switch, 請先忽略)，我只列出 UniFi 有接管的設備:
 
 ![](/wp-content/images/2022-01-29-home-networking/2022-02-02-01-17-48.png)
 
@@ -151,7 +159,7 @@ UniFi 自己定義了擴充的 DHCP options, 設備取得 IP 時連帶的也會�
 
 必要的設備，就是監控主機 NVR 了。說是 NVR，其實主要核心就是背後的監控服務，UniFi Protect。UDM-PRO 你只要啟用這個 app 就可以了。不過 UDM-PRO 的儲存空間有限 (只能安裝一顆 3.5" SATA HDD / SSD, 不支援 RAID)，運算能力也有限，能接管的攝影機數量是有上限的 (我沒去查，不過我自己接四支攝影機是夠用了)。這些都足夠的話，UDM-PRO 是個很好的起手式。
 
-接下來就是攝影機了。我是先買了兩台 UniFi G3-Flex, 透過 PoE 供電的機種，供電跟連線一次搞定。由於前面的網段早就規劃好，這邊實在沒什麼難度，只是 UDM-PRO 不支援 PoE, 我得另外想辦法就是 (先前我用 ER-X SFP 頂著，後來改用 USW-Enterprise-24PoE)。後來越用越順手，趁著官網短暫的開賣 (一上架就被搶光了) 幸運的搶到兩台 UniFi G3-Instant, 這是透過 USB type-c 供電的機種，連線則是透過 WiFi。普通 USB 變壓器插上去就可以用了，如果你想要不斷電，也不用買 UPS 了，找個行動電源插上去就是個陽春的 UPS 了。不然你買這種電池 + 變壓器二合一的也可以，短暫斷電 (只要你的 WiFi 跟主機也有 UPS) 就不會影響運作了。
+接下來就是攝影機了。我是先買了兩台 UniFi G3-Flex, 透過 PoE 供電的機種，供電跟連線一次搞定。由於前面的網段早就規劃好，這邊實在沒什麼難度，只是 UDM-PRO 不支援 PoE, 我得另外想辦法就是 (先前我用 ER-X SFP 頂著，後來改用 USW-Enterprise-24PoE)。後來越用越順手，趁著官網短暫的開賣 (一上架就被搶光了) 幸運的搶到兩台 UniFi G3-Instant, 這是透過 USB type-c 供電的機種，連線則是透過 WiFi。話說這台 G3 Instant 真是超值，我看了 [這篇: UBIQUITI UNIFI G3 INSTANT WI-FI 無線攝影機，UNIFI PROTECT 系統中最超值， 身形如麻雀，用料如殿堂](https://masonsfavour.com/ubiquiti-unifi-g3-instant/) 開箱文才知道，他的用料一點都不含糊，賣這價格被搶光是正常的，他應該扮演的是鼓吹大家多多購買 UniFi OS Console 以及 UniFi AP 的帶路雞吧... 畢竟沒有 Console + AP, 你也沒辦法使用這台監控攝影機... 這台攝影機的供電，只要普通 USB-C 變壓器插上去就可以用了，如果你想要不斷電，也不用買 UPS 了，找個行動電源插上去就是個陽春的 UPS 了。短暫斷電 (只要你的 WiFi 跟主機也有 UPS) 就不會影響運作了。
 
 用了 UniFi Protect, 良好的網頁介面，跟 APP 都是我大推的主要原因。過去用的是便宜的 DVR, 那個介面難用到想打人... 跟 UniFi Protect 比起來完全是兩個世代的產品，大推。
 
@@ -180,6 +188,11 @@ UniFi Protect 唯一下載錄製影片的管道，是透過 Web 或是 APP 選�
 
 # 第二步, Home Service Hosting
 
+> 本段落用到的設備清單:
+> Synology DS1821+ (主力機), 32GB DDR4 ECC RAM
+> Synology DS918+ (備份機)
+> Synology DS412+ (已退役)
+
 有了可靠的基礎建設，就像一個城市的道路交通跟衛生下水道等等都完善後，就可以在上面做各種服務建設了，例如公園，醫院，活動中心等等。我當時的想法也一樣，我自己擅長的是雲端服務開發跟規劃啊，自己家裡沒有對應的配置怎麼說得過去? 雖然我一直有在 NAS 上架設一些自己用的小服務，不過從 DS412+ 換到 DS918+ (當時也是想很久然後碰到特價活動)，總覺得缺了點什麼...
 
 兩個原因，一個是 Synology 給的硬體實在太保守了。當 NAS 的話網路速度都卡在 1G, 即使 plus 系列通常都有 2 ~ 4 ports, 不過 1G 給我那麼多個也沒用啊，即使 LACP 啟用了，我自己 PC 單機的連線速度還是受限。1G 的頻寬很容易就到頂了，現在的 HDD 隨便都能突破，至少到 2.5G 比較合理一點。無奈 S 牌 NAS 沒這選項，要嘛就 1G, 要嘛你要往上跳一大級，挑選有 PCIe 擴充槽的機種，然後自己加購 10G 網路卡...
@@ -193,7 +206,7 @@ UniFi Protect 唯一下載錄製影片的管道，是透過 Web 或是 APP 選�
 
 有了足夠的運算能力，我開始在上面架設我理想中的服務了。這邊我要大推一下 Synology DSM, 有很多實用的小設計，非常適合像我這種個人使用的環境。我雖然知道怎麼善用 public cloud, 善用 container / kubernetes 等等大型服務的基礎建設, 不過自己在家裡搞這些太超過了啊, 家用我只要有基本的穩定度就夠了, 其他則是省事經濟一點為優先。因此就不考慮 azure / aws 之類的服務了, 也暫時不考慮 kubernetes 這種架構了，簡單的 docker, 頂多用到 docker-compose 就夠, 其他盡量用現成的。
 
-Synology DSM 在這需求上，幫了我很大的忙。除了 NAS 本身就最擅長的磁碟管理跟備份服務 (我完全不用擔心這些服務的資料是否夠安全，我只要 mount 到可靠的 volume, 同時有做好備份就夠了, 不用額外花心思去顧慮資料的可靠度)，我就挑幾個我最推薦的功能來介紹就好。
+Synology DSM 在這需求上，幫了我很大的忙。在 NAS 上面架設自己個人或家用的服務，有很多好處的。一來是取得方便，買來就可以用了，相較在公有雲上面開設對應的資源，自己購買 NAS 不但經濟，而且也夠穩定可靠管理容易。二來 NAS 本身擅長的就是磁碟管理跟資料備份，你不大需要去考慮儲存容量或是資料遺失之類的問題，只要你 mount 的 volume 有選擇正確的 RAID type, 有做好正確的備份設定就夠了，不大需要額外花心思去顧慮資料的可靠度等等問題。因為這些特性，那些媒體管理類型的服務 (例如相片管理，音樂或是影片管理，或是 BT 下載管理類的服務特別適合) 都在候選清單內，只要你有需要的話。我就挑幾個我最推薦的功能來介紹就好。
 
 1. Docker
 
@@ -221,27 +234,46 @@ Synology DSM 在這需求上，幫了我很大的忙。除了 NAS 本身就最�
 1. 設置 RP, 將 https://myservice.domain.com 轉發到 127.0.0.1:8001
 1. 申請 SSL 憑證，綁訂到 (3)
 
-之後你就可以隨意地在你家內部，用 https://myservice.domain.com 使用你自己架設的服務了。你可以任意選用你喜歡的 domain name (免費), 你也不用擔心瀏覽器會警告網站不安全，只要你有替她綁定 SSL 憑證 (免費，自動 RENEW)。這些服務大部分都在 docker hub 上垂手可得，只要幾行指令就能裝好 (免費)
+
+舉我實際的例子示範一下，我自己用 docker 架了 AdGuard Home 當作 DNS, 我希望內部網路可以用 https://dns.chicken-house.net 當作管理的網址入口，從 docker 開始上面的步驟:
+
+// 略
+
 
 
 ## 網路服務
 
-這些東西上手後，你開始要擔心的是不自覺就架設太多服務了 XDD
+這些東西上手後，你開始要擔心的是不自覺就架設太多服務了 XDD, 要列應該列不完吧, 有太多適合這樣架設起來自己在家裡玩的服務了。下一步就是挑選你想在自己家裡架設哪些服務來用了。我貼了幾篇其他人的建議:
 
+https://www.mobile01.com/topicdetail.php?f=494&t=5110556
+https://post.smzdm.com/p/avwd6ngn/
+
+我自己則是用了這幾套:
+
+工具類:
+1. AdGuard Home
 1. Home Assistant
 1. BitWarden Server
 1. iperf3
+1. BT client
+1. FTP client
 
-1. photo
-1. video
-1. music
+媒體管理類:
+1. // photo
+1. // video
+1. // music
 
+開發用:
 1. Legacy ASP.NET support (mono)
 1. Legacy Windows Service (virtual machine)
+1. code server
+1. github pages server
+1. pgsql + pgadmin
+1. Ubuntu (當作輕量化的虛擬機來用)
 
 
 
-## 連線速度
+
 
 
 
@@ -250,6 +282,89 @@ Synology DSM 在這需求上，幫了我很大的忙。除了 NAS 本身就最�
 
 # 第三部, Link Speed Upgrade
 
+> 本段落用到的設備清單:
+> USW-Enterprise-24PoE
+> Maxxon ... 10G NIC (SFP+), on Synology DS1821+
+> Intel i225-v 2.5G NIC
+> USB3 2.5G NIC (Realtek chipset)
+> DAC x 2
+
+其實這段應該擺在第二部分來談的，只是我自己實際執行的順序是擺在最後而已。應該要擺在中間的原因是，這部分其實會稍微影響到前面的網路架構跟服務架構 (因為 layer 3 network 的關係)，如果你要參考我的結果重新建置，順序對調會更順利一點。
+
+會把這段獨立出來寫，主要是因為超過 1G 以上的連線速度，到處都是坑啊! 有錢坑，也有陷阱，一不小心就踩進去... 即使我不貪心，只求 2.5G 也是一樣... 有心要用 UniFi 全家餐，又想用 2.5G / 10G 的可以先參考看看..
+
+首先先來科普一下，有幾件事是你必須先知道的:
+
+1. 規格:  
+2.5G 連線速度，是 10G 的規格降頻來的。所以有些老一點的設備只支援 10G, 不支援 5G / 2.5G 等等這種速度的，如果你要從淘寶買 server 的拆機零件的話要特別注意。
+1. 接頭:  
+同樣 10G 的連線速度，用 SFP+ 跟 RJ45 的成本完全不同... SFP+ 本身便宜，熱量低，貴的是那個 SFP+ 頭... 另外不管你是 switch 內建 RJ45, 或是你買 SFP+ 轉 RJ45 都一樣，光轉電的發熱量很高的
+1. 線材:  
+如果你的接頭是 SFP+，距離短的話你可以選擇 DAC (3m 以內)，便宜，發熱低，簡單。超過的話就要買 SFP+ transiver 跟光纖了。  
+如果你用的是 RJ45, 那要上 10G 你至少需要用 cat6a 的線材。如果 5G / 2.5G, 那 cat5e 就夠了
+1. 設備:  
+UDM-PRO 只提供一個 LAN 的 10G SFP+ 接頭, 你如果 PC 跟 NAS 想要達到 10G 連線，要嘛直連不要經過任何 switch / router, 不然你至少要買台 3 port 以上支援 10G 的 switch 才能滿足完整的 10G 連線..
+1. 拓樸:  
+如果你的案例像我一樣，NAS 跟 PC 分別處於不同的網段 (我用 vlan 隔離), 那麼問題會在更複雜一點, 你要考慮到你的 router 效能撐不撐的住。跨越網段的流量 switch 是無法直接轉發的，一定要送回 router 處理才行。
+
+由於以上種種限制，排下來能接受的組合其實很有限。我期待 NAS 至少能用 10G SFP+ 的規格連到 switch, NAS 跟 switch 都擺在機櫃，用 DAC 就足夠了。而我的 PC 在另一個房間，當年布線只用了 cat5e 的線材，短期內我也不打算抽掉換線，因此 PC 端我只要 2.5G 的連線速度就夠了。按照這期待，我最後列出來需要採購的交換器條件:
+
+1. 至少需要具備 10G SFP+ x 2 ports
+1. 至少需要具備 2.5G RJ45 x 3 ports (我有三台設備要用到 2.5G 的頻寬)
+
+從 [這張表: UniFi switch comparison](https://www.ui.com/switching#compare) 來看，符合規格的 "單一" 設備只有這兩台啊: USW-Enterprise-8PoE, USW-Enterprise-24PoE. 原本我是鎖定 8 port 這台的，後來沒捏好就拜了 24 ports 這台 (事後證明我買對了 XDD)。
+
+連線速度，要整個路徑都打通，才能達到我想要的連線速度啊 (2.5G), 因此把路線標出來是重要的。我把上面那張說明 vlan 架構的圖，升級一下，加上交換器。PC 要從 NAS 複製 1GB 檔案的話，資料必須按照紅色的路線傳輸:
+
+![](/wp-content/images/2022-01-29-home-networking/2022-02-02-23-50-05.png)
+
+簡單的計算一下，如果 PC 端想要全速下載檔案，標記 (1) 是 NAS 連到 USW 的 port, 流經這個 port 的資料至少有 2.5Gbps 的流量 (後面以此類推)。然而 PC 跟 NAS 是不同的 VLAN，因此流量會流到 UDM-PRO，(2) 的部分就必須承受 2.5Gbps (In) + 2.5Gps (Out) 的流量，(3) 的部分就必須承受 2.5Gbps 的轉發流量，最後 (4) 的 port 則必須承受 2.5Gbps 的流量。
+
+這四個環節，任何一個點跟不上，整個速度就上不去了。UDMPRO 的部分，我在 [ubnt wiki](https://www.ubntwiki.com/products/unifi/unifi_dream_machine_pro) 找到這張圖:
+
+![](/wp-content/images/2022-01-29-home-networking/2022-02-02-23-56-26.png)
+
+看起來 LAN SFP+ 是直通 CPU 的啊，看來 CPU 處理 routing 的速度就是關鍵了，也是整個規格上沒有明確標示的環節。於是，我在 NAS 上面裝了 iperf3 (對，就是用第二部的 docker 安裝的)，在 PC 端測試看看。結果意外地只跑出 800 Mbps 左右的數字，直接從 NAS 拉檔案 (我重複複製同一個檔案，確保檔案已經在 NAS 的 cache 內) 大概也是停在這個速度就停了...
+
+// 補圖
+
+為了抓問題，我 SSH 進去 UDM-PRO，在 UDM-PRO 裡面也跑了 iperf3, 這樣測出來的成績應該就不需要經過 routing 轉發，跑出來的成績就很正常，大約是在 2.5Gbps 左右。
+
+// 補圖
+
+同樣的測試，我也從 NAS 對 UDM-PRO 測了一次，理論值應該是 10Gbps, 跑出來大約在 8Gbps 左右，基本上也算在正常範圍內:
+
+// 補圖
+
+
+中間抓問題的過程我就跳過了，有興趣的可以到這 facebook 討論串研究。最後是我 UDM-PRO 啟用了 IDS/IPS, 導致整個 routing 轉發的效能掉下來沒辦法跑到全速。不過，即使我關閉 IPS, 或是把這兩個網段設定掠過清單，過程中也發生過沒有重新啟動 UDM-PRO 的話，速度還是一樣拉不起來。
+
+最後，我買的這台是支援 layer 3 network 的 switch 啊，理論上應該可以走底下這條綠色的路徑才對啊:
+
+![](/wp-content/images/2022-01-29-home-networking/2022-02-03-00-08-33.png)
+
+果然調整過後，重新測試了一次，就算 IPS / IDS 全開也能輕鬆達到正常速度 2.5Gbps. 測試了 traceroute 結果也正確無誤。測到這時我心裡就想..
+
+> 不就還好我有買支援 layer 3 switch 的機種，不然現在不就尷尬了嗎?
+
+這時我開始慶幸我挑的是 24PoE 了，另外看上的 8PoE 那台雖然也支援 layer 3, 不過官網是說未來的韌體更新才會加上去啊! 也沒給時間表，意思是我如果買了我還不能馬上用全速跑.. (截至這篇文章撰寫時間 2022/02/02 為止，官方正式釋出的 firmware 還不支援 layer 3 switch).. 
+
+另外，也因為我在 switch 上面啟用了 layer 3 routing, 因此 PC 跟 NAS 的設備，我最理想的接法是通通都接在 24 port switch 上比較合適，如果我還把這兩個 vlan 的設備接在 UDM-PRO 的 1G x 8 ports 上面的話，就真的繞了超級遠的路了。不但拓樸繞路，中間也會經過 UDM-PRO 內部 8 ports 共用 1G 頻寬的瓶頸 (經過 CPU 的那段只有 1G 頻寬)。怎麼想都不應該這樣接，因此相對的 UDM-PRO 上面的 8 ports 我能運用的空間也變小了，這是另一個我慶幸我最後是買了 24 port switch, 而不是原本決定的那台 8 ports switch ...
+
+以上是我為了突破 1G 速度限制，所踩過的坑，當然很多人都會說直上 10G 才是王道，不過我事業沒做那麼大啊，現在的狀態對我來說是個最適合的平衡點了，保留了 10G 的升級空間，現階段可以全面提升到 2.5G 的速度，只要我的 NAS 還在用傳統硬碟 (HDD) 的話，這速度應該都還夠用，而且這樣的搭配我可以有足夠多的 port 都能支援 PoE+, 同時也可以達到精簡設備的目的 (如果我買 8 ports 那台就沒辦法淘汰舊設備了, ports 會不夠用), 整體來說是值得的啦。
+
+這些坑陷阱還蠻多的，如果你不像我一樣家裡自己搞了 VLAN 來折磨自己，也許這些都不會是問題，如果有，設備的挑選就要留意一下..., 經過這次的升級，我終於體會到大家所謂的 10G 都是錢坑 這句話的意思了, Orz ...
+
+<!--
+另外我也補充一下小插曲，在測試過程中發現，其實 UniFi 的 Network Controller 是這樣建構 layer 3 network 的。我是參考官網這篇 KB: [UniFi - USW: How to Enable L3 Routing on UniFi Switch](https://help.ui.com/hc/en-us/articles/360042281174-UniFi-USW-How-to-Enable-L3-Routing-on-UniFi-Switch) 的說明摸索出來的，文內提到為了讓 layer 3 routing 能夠正常運作 (其實就是把 switch 也當作一台有基本功能的 router 來看待), controller 會自動建立 inter-vlan routing 這個 network (vlan id: 4040, ip: 10.255.253.0/8) 來當作橋接. 因此我就突發奇想，如果我把 PC (vlan: 200) 的 port 指定到 UDM-PRO，那會怎麼樣?
+
+我分別以不啟用 & 啟用 layer 3 network 的角度來看一下這樣的設定，預期的路徑應該怎麼跑。先來看看 layer 2 的模式:
+
+
+
+
+再來看看 layer 3 的模式:
+-->
 
 
 
@@ -257,9 +372,7 @@ Synology DSM 在這需求上，幫了我很大的忙。除了 NAS 本身就最�
 
 
 
-
-
-<!-- more -->
+<!--
 
 不得不說，UniFi 的設備整合度都做的不錯，除了 NAS 之外上述需求大概都搞的定... 以下是這篇文章內會出現的主角們:
 
@@ -313,7 +426,7 @@ Synology DSM 在這需求上，幫了我很大的忙。除了 NAS 本身就最�
 
 
 
-<!-- more -->
+-->
 
 <!--
 
@@ -329,7 +442,7 @@ Synology DSM 在這需求上，幫了我很大的忙。除了 NAS 本身就最�
 
 
 
-
+<!--
 
 趁著過年, 繼上篇把家裡的 wifi 弄起來之後, 過年期間我把最後一哩路也補上了。總算，從 12 年前初次建置後，這次我終於把累積的幾個需求通通都解決掉了。物理上最麻煩的就是布線了，這次總算在過年前把實體的環境跟設備都準備到位了，過年期間可以好好的把線上的設定跟組態全部搞定，過完年開工就可以正式享用建設的成果了 :D
 
@@ -368,7 +481,6 @@ Synology DSM 在這需求上，幫了我很大的忙。除了 NAS 本身就最�
 OK, 專案需求列好了, 設備清單也出來了, 剩下就剩建置系統而已。如果上面有講到你感興趣的細節, 那就往下看吧 :D
 
 
-<!--more-->
 
 # 前言 - 為何不挑選 UniFi 全家筒?
 
@@ -452,3 +564,5 @@ OK, 專案需求列好了, 設備清單也出來了, 剩下就剩建置系統而
 ## 佈線
 
 ## UniFi Video / UniFi Protect / Synology Surveillance Station
+
+-->
