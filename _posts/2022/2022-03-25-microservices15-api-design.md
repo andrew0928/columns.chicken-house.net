@@ -440,36 +440,81 @@ event list:
 
 // 圖
 
+同樣的，我用條列方式，標示可執行的角色:
 
+* Register(),		USER
+* ValidateEmail(),	USER
+* CheckPassword(),	USER
+* ResetPassword(),	USER, STAFF
+* Remove(),			USER, STAFF
 
 
 同樣的，標上去之後，前面的案例自己再地圖上跑一次驗證看看。有沒有哪些情境套上角色後是達不到目的地的? 有的話同樣的從整張圖重新檢視一次，看看是狀態少了，還是動作少了? 每個環節都有可能遺漏。修正後直到所有情境你都覺得合理為止。
 
+有聯想到為何要標示可用角色，並且同樣的在 FSM 上面驗證嗎? 用肉眼在 FSM 上驗證能否執行是很容易的，就像在看 google map 一樣照走一次就好。如果標上角色同時也都驗證通過，那代表這設計是合理的。標上角色的方式，其實就跟業界授權管理慣例的 RBAC (Role Based Access Control) 是一樣的啊! 
+
+先來看看 ASP.NET Core 對於 RBAC 的作法: [ASP.NET Core 中以角色為基礎的授權](https://docs.microsoft.com/zh-tw/aspnet/core/security/authorization/roles?view=aspnetcore-6.0)
+
+Microsoft 的做法很漂亮優雅啊，其實當年在 .NET Framework 2.0 的年代，就已經是這樣做了。如果這次的 sample code 是寫成 ASP.NET Core 的 Controller 的話, 那這幾個 method 就只要標記上對應的 AuthorizeAttribute, 就完成宣告授權的任務了。隨後在每個 Request 呼叫時, ASP.NET 都會替你做好授權檢查:
+
+```csharp
+
+    public class MemberService
+    {
+        public MemberStateEnum State { get; private set; } = MemberStateEnum.START;
+
+		[Authorize(Roles = "USER")]
+        public bool Register() { ... }
+
+		[Authorize(Roles = "USER")]
+        public bool ValidateEmail() { ... }
+
+		[Authorize(Roles = "USER")]
+        public bool CheckPassword(string username, string password) { ... }
+
+		[Authorize(Roles = "USER,STAFF")]
+        public bool ResetPassword() { ... }
+
+		[Authorize(Roles = "USER,STAFF")]
+        public bool Remove() { ... }
+    }
 
 
-這邊補充一下，這步驟的設計，如何跟程式碼對應。你想像一下，你的 API 將來怎麼管控權限? 你如何驗證授權這些角色使用你的 API ?
+```
 
-如果這邊的案例是使用者 / 客服，由於是很明確的前後台關係，你可以直接拆分成兩個實體隔離的 endpoint, 如果你要簡單一點，也可以用 RBAC 搞定他就好。
+很神奇嗎? 其實一點也不，這就是 C# 語言優雅的地方，可以透過 Attribute 標上標記，然後你就有機會在外圍 (例如 Middleware) 用 Reflection 的方式預先做檢查。這其實是很典型的 AOP 作法，讓你可以隔離不同層級的邏輯。Attribute 其實只是負責 "標記"，真正的判斷藏在你看不到的地方。
 
-舉例來說，上面的 abstract class, 實體隔離的話我會這樣做:
+當然，設計規設計，沒有人限制你這樣的設計一定要用 ASP.NET Core / RBAC 的方式實作。舉例來說，如果 USER / STAFF 會由完全不同的系統呼叫 API, 甚至連網路環境都是隔離的話 (前後台的網路環境實體隔離很常見)，你該做的可能就不是自己寫 code 處理了。你該做的可能是直接分成兩組 API, 有兩組不同的 endpoint, 分開發行。給 USER 的那組只會提供標示 USER 的 API，而給 STAFF 的那組也比照辦理。這些都是按照設計，在實作時自己按照當時情境找出合適的方式執行。
+
+除了用 ASP.NET Core 支援的 RBAC, 或是物理隔離成兩個獨立的 endpoint, 還有其他方法嗎? 有的。第三個我們拿 Azure API Management 來說明。
+通常會動用到基礎建設的層級 (例如 Azure API Management 或是 AWS API Gateway 之類的產品)，大概對安全性跟實體隔離都有一定的要求。因此你可以選擇這樣對應:
+
+1. 替每個使用 Member Service 的第三方開發商，建立獨立的定用帳戶 (Subscriptions)
+1. 按照 USER / STAFF 分別建立兩個 Products, 並且按照 FSA 上面的標記來設定 Products 發行的 API
+1. 按照 Products 給予 Subscriptions 正確的授權
+
+參考連結: [Subscriptions in Azure API Management](https://docs.microsoft.com/en-us/azure/api-management/api-management-subscriptions)
 
 
+最後一個，講一下認證授權的公開標準: OAuth2
+在 API 的世界內，認證跟授權是分得很清楚的。任正式確認你是不是本人，而授權則是我受予權力讓你做哪些事情。授權對於 "人"，就是前面講的 RBAC 的 R (Role), 授權對於第三方，就是用 OAuth2 提到的 Scope. 標準的作法就是，你在後端上的服務，可以替每個 API 或是資源，自己宣告需要的 "Scope", 而 OAuth2 在進行認證時, 一次性地取得目前這個人 (或是系統，組織等等) 被授權使用那些 Scopes, 並且標記關聯在 token 上。在每個 Request 執行時動態的檢查依附在 token 上的 scopes 與該資源宣告需要的 scope 是否有交集。其實名詞換一換，結構上跟我們在 FSA 上標記的 "角色" 都是同樣的授權模型，很容易一對一的對應的。
 
-如果小型服務不需要搞到這樣分內外網段，只想透過 token 之類的機制管控，那我會這樣做:
-
-
-
+舉了這幾種例子，我的目的還是一樣，我想把 "設計" 跟 "實作" 清楚的分開。設計的結構對了，你的實作應該都不是問題，甚至你會意外的發現，合理的設計，就能無痛的直接跟業界標準串接再一起。上面的例子就說明了 FSA 的標記方式，完全可以用 ASP.NET Core Authorize / RBAC / Azure API Management Subscriptions / OAuth2 Scopes 等等不同的管理方式對應。
 
 實作的決定權在各位手上，但是不管你決定怎麼實作，設計階段應該要很明確的標示出來才是上策。
 
 
 # 第五步，補上其他不影響狀態的動作，並且標示角色
 
-最後是修飾的階段了。我一直強調我是拿狀態圖當作主軸來看待，你的商業邏輯或是需求，有可能無法再狀態圖上面表達。不代表他們不重要，只是在我以狀態圖為主軸的設計十，那些不相干的我會在這階段才考慮。其實你可以搭配 DDD 等等其他方法論，應該也能盤點初一些結論，在這個階段合併就好。因為狀態圖的設計，是把狀態、事件、動作、腳色、全限等等維度的事情都擺在一起看，我能夠很清楚的看見全貌，也能夠很清楚的修正連動的關係。這在 API 設計上是我認為最難做好的一個環節，因此我才把他當作第一順位。
+設計的步驟走到這邊，其實到第四步應該已經都完成了。第五步是選用的，畢竟前面我一切都用 FSA 為主軸，強迫自己先忘掉跟狀態無關的環節，因為我必須優先抓準最關鍵的部分設計。這過程中，也許有其他不會改變狀態的動作 (actions), 或是非狀態改變的事件 (events, 或是退化的 action - hooks)。這些其實也能用一樣的實作方式發行。我選擇在最後步驟再來考慮它們，是因為我想等主結構都修正收斂好了後才來追加。這樣能最大幅度降低調整設計的困難。
 
-其他的東西，主要就是動作(箭頭) 跟事件。不需要硬加上狀態圖，你只需要把他們捕到清單上即可。補上去的動作，也請醫治的飆上對應的腳色。
+其實這段對於設計來說就沒有太特別的了。你只需要重新檢視，有哪些 actions 需要一起標上來的? 標出 action name, 並且在 FSA 上面標示那些 state 下才能呼叫?
 
-捕到清單的好處，是你能夠用同樣的機制，把你的設計對應到程式碼。舉例來說，這次我補了動作跟事件:
+事件的部分也是一樣，追加標示出來即可。
+
+把這些資訊都標記在 FSA 上面有個好處，FSA 是集中設計結構的地方，你可以統一由 FSA 對應到你程式碼的骨架，當作後續開發的 template. FSA 在系統上的實作, 也能藉由 AOP 的方式先幫你檢驗這些 API 呼叫的行為是否符合 FSA 的順序。
+
+配合我這次使用的案例，，我補了下列的動作跟事件。我把完整的清單重新列了一次，加上星號的就是我追加的項目:
 
 action:
 * 驗證密碼
@@ -484,8 +529,15 @@ events:
 
 
 
+# 參考
 
-最後，這些程式碼可以簡單的腦補成 Restful 的 API, 這時有一堆 design guideline 可以依循, 有一堆 framework design guideline 可以參考, 我就不多說了。列幾個參考原則給大家。
+API design 的幾個參考資源:
+
+1. framework design
+1. api design patterns
+1. resources 為主的 API design guidelines (ex: HTTP RESTful)
+1. rpc (remote procedure call) 為主的 API design guidelines (ex: SOAP, gRPC, HTTP API)
+1. query 為主的 API design guidelines & patterns (ex: GraphQL, OData)
 
 
 
