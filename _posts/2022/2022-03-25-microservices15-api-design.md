@@ -21,7 +21,11 @@ logo:
 
 其實這個問題我已經被問到爛了，答案當然是 "沒有" 啊 XDDD, 如果有的話，這個問題根本就不會是個難題，也不會有這 FAQ 了。首先，API 的好壞，"設計" 占了九成以上啊! 設計問題是沒有正確答案的，既然是設計，就是帶有個人風格的，你會發現有些大師的設計就是既精準又靈活，看的到背後的巧思，每個環節都搭配的恰到好處，找不出一絲多餘的設計。指南 (Guideline) 通常是告訴你該做什麼，不該做什麼。它可以讓你設計出及格的 API，但是沒辦法讓你設計出理想的 API。要達到這個境界 (我也還不夠格) 需要依靠的是對 domain 更精準的掌握...。
 
-雖然如此，不過如果你的服務要處理的 domain 是很明確的，要設計出理想的 API 倒也沒有那麼困難，掌握一些要領就能做到水準之上了。我這篇就是想聊聊這主題，最近工作上常常碰到 API 設計的這個課題，趁我記憶還猶新的時候把它寫下來好了。在服務導向的觀念未成熟的年代，一切都還是以資料庫為中心的設計。那個年代設計軟體的第一步是 ER Model, 或是任何從 DB schema 開始的設計。現在講求服務導向，重點就轉移到服務本身要處理的 domain 了。服務透過各種介面 (interface) 來解決 domain 相關問題, 資訊的傳遞就需要 model, 要從 domain 分析出這些可以系統化的資訊，方法論首推 DDD (Domain Driven Development)。
+先定義一下，何謂 "好" 的 API? 我很看重 API 設計上的一致性。API 必須顧及很多層面，例如你要端出那些功能? 這些功能是否都用一樣的視角來設計? (主詞會不會一直變動?) 背後處理的邏輯是否一致? (某個 API 不准你取得的資訊，另一個 API 卻又可以?) 你能否在呼叫前就很明確的知道能不能這樣用? (還是任何大小事都要查文件才能搞懂?)
+
+其實這些細節都很煩人啊! 這些都是很多不同面向的考量，我們在實作時同個面向的問題往往都能很一致的處理，不同面向的一致性往往就因為背後的實作階段不同，就很容易被忽略。因此我蠻重視在設計階段就先想辦法對齊這些不同面向的問題。我的作法是，通通都在狀態圖上面把這些 API 設計的要素標示出來，在同一張圖上面思考，就很容易在設計階段解決一致性問題。
+
+回到 domain 的掌控問題: 如果你的服務要處理的 domain 是很明確的，要設計出理想的 API 倒也沒有那麼困難，掌握一些要領就能做到水準之上了。我這篇就是想聊聊這主題，最近工作上常常碰到 API 設計的這個課題，趁我記憶還猶新的時候把它寫下來好了。在服務導向的觀念未成熟的年代，一切都還是以資料庫為中心的設計。那個年代設計軟體的第一步是 ER Model, 或是任何從 DB schema 開始的設計。現在講求服務導向，重點就轉移到服務本身要處理的 domain 了。服務透過各種介面 (interface) 來解決 domain 相關問題, 資訊的傳遞就需要 model, 要從 domain 分析出這些可以系統化的資訊，方法論首推 DDD (Domain Driven Development)。
 
 不過這些方法論，對大部分的團隊來說門檻是高的，我自己嘗嘗試著找出一些平衡的做法，這篇我想介紹的就是我自己愛用的手段: 先從狀態圖的分析開始 (正規的名詞: 有限狀態機, [Finite State Machine](https://zh.wikipedia.org/wiki/%E6%9C%89%E9%99%90%E7%8A%B6%E6%80%81%E6%9C%BA), 以下都簡稱 FSM)。大部分的服務都不是單純的功能，而是都會針對某個主體 (Entity) 來提供相關服務。提供的方式有 API (主動呼叫) 或是 Event / WebHook (回呼), 這些服務的運作也需要有基本的授權管控。我認為 API 的設計，狹義的就是 API 規格了，廣義的是上述這些 (狀態、操作、事件、授權) 整個應該是一體，一致的設計，最後才實作成一個微服務。
 
@@ -206,29 +210,45 @@ FSM 其實很有結構的收整了很全面的資訊，包含前面講的狀態�
 
     public abstract class StateMachineBase<TEnum>
     {
-        public abstract (bool result, TEnum finalState) TryExecute(TEnum currentState, string actionName);
+        protected Dictionary<(TEnum currentState, string actionName), TEnum> _state_transits = null;
+
+        public virtual (bool result, TEnum finalState) TryExecute(TEnum currentState, string actionName)
+        {
+            if (this._state_transits.TryGetValue((currentState, actionName), out var result) == false) return (false, default(TEnum));
+            return (true, result);
+        }
     }
 
     public class MemberStateMachine : StateMachineBase<MemberStateEnum>
     {
-        public override (bool result, MemberStateEnum finalState) TryExecute(MemberStateEnum currentState, string actionName)
+        public MemberStateMachine()
         {
-            throw new NotImplementedException();
+            this._state_transits = new Dictionary<(MemberStateEnum currentState, string actionName), MemberStateEnum>()
+            {
+                { (MemberStateEnum.START, "Register"), MemberStateEnum.REGISTERED },
+                { (MemberStateEnum.REGISTERED, "EmailValidate"), MemberStateEnum.VERIFIED },
+                { (MemberStateEnum.VERIFIED, "Lock"), MemberStateEnum.LOCKING },
+                { (MemberStateEnum.LOCKING, "ResetPassword"), MemberStateEnum.VERIFIED },
+                { (MemberStateEnum.VERIFIED, "Remove"), MemberStateEnum.ARCHIVED },
+                { (MemberStateEnum.ARCHIVED, "Archive"), MemberStateEnum.END }// 腦補
+            };
         }
-    } 
+    }
 
 ```
 
-至於狀態實際上該怎麼被改變? 如果你的服務需要考慮到高流量，高併發等等問題，那麼請記好一件事: 狀態的轉移請把它當作 atom operation 來看待
+上面的 sample code, 我定義了泛型的抽象類別 StateMachineBase<TEnum>, 讓你帶入自己的 State 列舉型別，同時你可以在自己的衍生類別內初始化 FSM. StateMachineBase 類別我只讓他負責 "查詢" FSM, 執行期的控制我通通都擺在 Service 那邊。這邊我以程式碼的語意最清楚為優先，因此我採用狀態轉移清單的作法。
 
-意思是，如果你的某一筆資料目前是狀態 A, 執行兩個不同的 API 分別會讓他的狀態從 A => B, A => C, 那麼你要做好交易的控制，同一瞬間只能有一個 API 能執行成功。
+要定義自己的 FSM 很簡單，繼承 StateMachineBase<TEnum>, 定義自己的 State Enum 型別 (預設值請給 UNDEFINE), 在 constructor 內初始化狀態轉移清單即可。查詢用的介面我只開一個 method: (bool result, TEnum finalState) TryExecute(TEnum currentState, string actionName), 傳入目前的狀態 (currentState) 跟你想要執行的動作 (actionName), StateMachineBase 會傳回 (bool result, TEnum finalState), 第一個資訊會讓你知道能不能執行? 第二個資訊會告訴你如果可以執行，那麼執行後的狀態應該是什麼。
+
+至於狀態實際上該怎麼被改變? 查詢後搭配 action 的執行結果，如果成功就改變狀態。這邊要特別留意平行處理的問題，狀態的轉移請把它當作 atom operation 來看待，如果你的服務有高流量或是高併發的需求時。這意思是，如果你的某一筆資料目前是狀態 A, 執行兩個不同的 API 分別會讓他的狀態從 A => B, A => C, 那麼你要做好交易的控制，同一瞬間只能有一個 API 能執行成功。
 
 平行處理的文章我寫過很多篇了，不外乎是 (分散式) 鎖定機制運用得當就可以了。所有這些問題關鍵都可以濃縮成一小段 critical section, 判定有沒有搶到 lock 後就能決定該不該繼續執行，這就應該包括在狀態機來控制。只要狀態轉移不被許可。一般沒好好規劃 FSM 的團隊，開出來的 API 很容易在流量大的時候就栽在這個環節。知道為何前面我提 AOP 嗎? 如果你團隊的實作能力已經能用 AOP 來專職處理 FSM 相關限制的話，這題就很簡單了。交給有能力的工程師處理這段，他就能在不影響商業邏輯的狀況下，幫你解決所有 API 的狀態轉移 atom operation 問題。
 
 流程走到這邊，知道為何我那麼強調狀態圖了嗎? 簡單的狀態圖，背後就能代表這些基礎的結構設計了，而且能很精準很一致地轉換成程式碼。我很講求每一個階段的設計跟最終系統或程式碼的對應關係夠不夠直接，越直接越簡單，代表你最終的系統越容易跟你的設計維持一致。無形之間，這就是你系統設計的品質。
 
 
-綜合上面所討論的，這個 domain service 的實作應該要長這樣才對:
+綜合上面所討論的，我先以本機執行為範例，用 Mutex 的做法來確保同一筆資料 (Entity) 的狀態轉移不會有並行的問題。有需要 scale out 的朋友們，請自行換成我另一篇文章介紹過的 distributed lock 來替代 mutex. 這個 domain service 的實作應該要長這樣才對:
 
 ```csharp
 
@@ -350,6 +370,7 @@ FSM 其實很有結構的收整了很全面的資訊，包含前面講的狀態�
 這樣來回幾次，應該就能收斂你的設計了。我在替別的團隊 review API design 時，用這個方法很容易在早期階段，就點出設計上的缺失。因為我是從全貌跟結構下去 review 的，而大部分工程師的 API，則是像寫 code 一樣，我需要什麼就開什麼，覺得太多了再參數化合併；這樣不是不對，只是你很容易有盲點，你的設計只會過度集中在你踩過的範圍。你未知的部分很難有機會被找出來，直到系統上線後用的人多了才...
 
 
+
 # 第三步，列出事件清單
 
 前面兩個步驟的分析設計結束後，接著開始來看看事件驅動。終於忍到這步驟了，我先發一點牢騷....
@@ -372,15 +393,30 @@ event list:
 * Account Activated
 
 
-這時，我發現我的業務需求，Actived 跟 Verified 是有差別的，不該混為一談。但是狀態上兩者沒有區分，都是 Verified, 這現象刺激了我重新檢視這段的設計是否合理，於是我做了主觀的決定，追加了一個狀態，並且把對應的動作也調整了一次。嚴格的說，Verify 是動作，完成這動作的狀態，最後我決定是 Activated 比較合理，他代表目前會員停留在可正常操作全部功能的狀態中。通過驗證，只是達成這狀態的其中一個路線而已，因此我把 Verified 這狀態修正為 Activated, 而對照的 Locked 則修正為 Deactived.
+一開始靠 coding 多年的經驗，依賴直覺列出來的 event 清單，我發現跟狀態對不大起來啊，而且說不上來哪裡怪怪的。這時，我發現我的業務需求，Actived 跟 Verified 是有差別的，不該混為一談。但是狀態上兩者沒有區分，都是 Verified, 這現象刺激了我重新檢視這段的設計是否合理，於是我做了主觀的決定，追加了一個狀態，並且把對應的動作也調整了一次。嚴格的說，Verify 是動作，完成這動作的狀態，最後我決定是 Activated 比較合理，他代表目前會員停留在可正常操作全部功能的狀態中。通過驗證，只是達成這狀態的其中一個路線而已，因此我把 Verified 這狀態修正為 Activated, 而對照的 Locked 則修正為 Deactived. 另外，狀態的 Registered 也覺得不洽當，Register 應該是動作，但是完成註冊的狀態我覺得應該是 Created 比較合理。因為有可能有批次匯入的狀況，我想讓這狀態同時能涵蓋註冊成功 & 匯入成功 (但是尚未通過 email 驗證)。
 
-前面的 sample code 也實作了一個密碼錯誤三次的 method: CheckPasswordFailOverLimit(), 我也把它對應成一個更明確的動作: Lock()
-重設密碼 method: ResetPassword() 也是，他應該是個單純的 domain 相關的操作，真正抽出來會影響狀態的那個動作，應該改為 Enable() 更為適合。
-
-所以來看看修正過的 state machine:
+至此的修正，我讓狀態更一致了，以整個 Entity 的生命週期來表達，分別是 Created / Activated / Deactivated / Archived, 嗯, 看起來都在同一個軸線上。
 
 
-![](/wp-content/images/2022-03-25-microservices15-api-design/2022-03-27-00-03-24.png)
+
+接著，對應的 action 跟 events 我也回頭重新檢視了一下，前面的 sample code 也實作了一個密碼錯誤三次的 method: CheckPasswordFailOverLimit(), 我也把它對應成一個更明確的動作: Lock(), 這動作會讓會員的狀態從 ACTIVATED 轉移到 DEACTIVED。重設密碼 method: ResetPassword() 也是，他應該是個單純的 domain 相關的操作，真正會影響狀態的不應該是 ResetPassword(), 而是服務應該有更明確的 Enable() 動作才對。
+
+同理，很多動作我都比照調整了。比如 EmailValidate() 我也改成 Activate() .. 最終整個動作清單被我改成: Register() / Import() / Activate() / Lock() / UnLock() / Remove().
+
+調整過後，開始會有跟狀態改變沒有直接關連的動作，例如被我改掉的 EmailValidate(), ResetPassword() 等等。這些我先保留，最後的步驟 5 再來處理。
+
+最後重新列了一次對應的事件。我直接在狀態上面標上閃電的符號，代表會有個事件對應到狀態轉移。例如從任何狀態轉移到 ACTIVATED 的話，就會有對應的 OnMemberActivated 事件被觸發。對應的狀態改變事件有: OnMemberCreated, OnMemberActivated, OnMemberDeactived, OnMemberArchived.
+
+但是看了看商業需求，比如我希望使用我服務的人，能夠透過事件自訂一些專屬行為。比如會員註冊後我想發一封 email 給他。這時我該訂閱 OnMemberCreated 事件嗎? 如果我批次匯入 10000 筆名單，系統也要發 email 給這些人? 仔細想了想，我真正的意圖，並不是在狀態轉移時通知，而是只有走 Register() 這條路時才要通知... 精準地說，我要的不是狀態改變的事件，而是 Register() 動作的掛鉤 (hook). 當指定的動作 (Register) 確認完成後，就觸發對應的 Hook (OnMemberRegisterCompleted)
+
+同樣的列了這些 hook, 共有: OnMemberRegisterCompleted. 其他動作看來都完全跟狀態轉移重疊，暫時沒有必要追加。在 FSM 圖上，我在動作旁邊一樣加上閃電符號代表。
+
+因為這些修正，包含了各個面向，所以我不急著改一堆程式就是這原因。先紙上作業，把剛才的思路都更新到 FSM 的圖上。至於程式碼，前面第二步驟都交代過了 FSM 怎麼很標準的跟你程式碼一一對應，用修正過的 FSM 重新對應就好了。重新對應，你可以善用重構的工具跟技巧來執行，因為有 FSM 你可以很明確的知道你想把 code 重構成什麼樣子，按照你的經驗一步一步修正就好了 (題外話: 很多人都知道重構的動作該怎麼操作，但是卻都忘了最重要的題目，你想要重構成甚麼樣子....)。修正過更合理的 state machine 應該變成這樣:
+
+
+<!-- ![](/wp-content/images/2022-03-25-microservices15-api-design/2022-03-29-06-23-19.png) -->
+
+![](/wp-content/images/2022-03-25-microservices15-api-design/2022-03-29-06-28-43.png)
 
 
 我刻意在前面的步驟，示範了錯誤的的分析，而在後面的步驟對 state machine 做出修正的這過程，就是我所謂的快速驗證。所有設計跟驗證的環節，都圍繞著狀態圖，以及狀態圖標示的資訊列出來的清單。在這情況下，你還很容易修正設計，更好的地方在於你修正了狀態，你會連同動作等等環節都一併修正 (否則多一個狀態，可能地圖上的路就斷了)，你很容易能夠顧及全局，不會出現改了狀態結果忘了改行為等等這種蠢事 (如果你在實作階段才改，就很容易這樣)。這些環節是否彼此緊密搭配，才是影響 API 設計品質的最大主因。
@@ -430,6 +466,9 @@ event list:
 
 
 ```
+
+
+
 
 
 # 第四步，列出角色，並且標示在動作上面
@@ -506,26 +545,38 @@ Microsoft 的做法很漂亮優雅啊，其實當年在 .NET Framework 2.0 的�
 
 # 第五步，補上其他不影響狀態的動作，並且標示角色
 
-設計的步驟走到這邊，其實到第四步應該已經都完成了。第五步是選用的，畢竟前面我一切都用 FSA 為主軸，強迫自己先忘掉跟狀態無關的環節，因為我必須優先抓準最關鍵的部分設計。這過程中，也許有其他不會改變狀態的動作 (actions), 或是非狀態改變的事件 (events, 或是退化的 action - hooks)。這些其實也能用一樣的實作方式發行。我選擇在最後步驟再來考慮它們，是因為我想等主結構都修正收斂好了後才來追加。這樣能最大幅度降低調整設計的困難。
+設計的步驟走到這邊，其實到第四步應該已經都完成了。第五步是選用的，畢竟前面我一切都用 FSA 為主軸，強迫自己先忘掉跟狀態無關的環節，因為我必須優先抓準最關鍵的部分設計。這過程中，也許有其他不會改變狀態的動作 (actions), 或是非狀態改變的事件 (events, 或是退化的 action - hooks), 也有一些單純處理 domain 相關的 action, 或是是已經定義好的幾個 action 的組合。這些其實也能用一樣的實作方式發行。我選擇在最後步驟再來考慮它們，是因為我想等主結構都修正收斂好了後才來追加。這樣能最大幅度降低調整設計的困難。
 
-其實這段對於設計來說就沒有太特別的了。你只需要重新檢視，有哪些 actions 需要一起標上來的? 標出 action name, 並且在 FSA 上面標示那些 state 下才能呼叫?
-
-事件的部分也是一樣，追加標示出來即可。
-
-把這些資訊都標記在 FSA 上面有個好處，FSA 是集中設計結構的地方，你可以統一由 FSA 對應到你程式碼的骨架，當作後續開發的 template. FSA 在系統上的實作, 也能藉由 AOP 的方式先幫你檢驗這些 API 呼叫的行為是否符合 FSA 的順序。
+其實這段對於設計來說就沒有太特別的了。你只需要重新檢視，有哪些 actions 需要一起標上來的? 標出 action name, 並且在 FSA 上面標示那些 state 下才能呼叫? 事件的部分也是一樣，追加標示出來即可。把這些資訊都標記在 FSA 上面有個好處，FSA 是集中設計結構的地方，你可以統一由 FSA 對應到你程式碼的骨架，當作後續開發的 template. FSA 在系統上的實作, 也能藉由 AOP 的方式先幫你檢驗這些 API 呼叫的行為是否符合 FSA 的順序。
 
 配合我這次使用的案例，，我補了下列的動作跟事件。我把完整的清單重新列了一次，加上星號的就是我追加的項目:
 
-action:
-* 驗證密碼
-* (使用正式會員的功能)
 
-events:
+需要在執行前明確檢查狀態的 action:
+(這些 action 不會也不應該直接改變狀態。改變狀態需要呼叫 FSM 上以定義過的 action)
+
+* 驗證密碼
+* (其他使用正式會員的功能)
+
+需要明確在對應的 action 完成後執行的 hooks / events:
+(無法只靠狀態轉移事件觸發的要求)
+
 * 驗證密碼完成(成功/失敗)
 
 
 
 我也跟著重新修正一次我產出的程式碼:
+
+```csharp
+
+
+```
+
+
+
+這個版本的設計，是不是更貼近你理想中的 API 了? 最後再把它翻譯成對應的 WebAPI, 就是個良好的 Microservice 開發的 project template 了。
+
+
 
 
 
