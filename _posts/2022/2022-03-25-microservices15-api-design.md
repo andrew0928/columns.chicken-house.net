@@ -5,7 +5,9 @@ categories:
 - "系列文章: 微服務架構"
 tags: ["系列文章", "架構師的修練", "microservices"]
 published: true
-comments: true
+comments_disqus: false
+comments_facebook: false
+comments_gitalk: true
 redirect_from:
 logo: /wp-content/images/2022-03-25-microservices15-api-design/2022-03-27-15-03-23.png
 ---
