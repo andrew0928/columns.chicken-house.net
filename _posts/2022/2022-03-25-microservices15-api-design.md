@@ -38,7 +38,7 @@ logo: /wp-content/images/2022-03-25-microservices15-api-design/2022-03-27-15-03-
 
 {% include series-2016-microservice.md %}
 
-# 前言
+# 何謂 "理想" 的 API 設計?
 
 微服務，溝通的管道，就是要靠 API。但是什麼才是 "理想" 的 API 設計?
 
