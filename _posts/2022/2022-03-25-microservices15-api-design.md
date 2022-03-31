@@ -692,7 +692,7 @@ Press any key to close this window . . .
 
 
 --
-附上這次用的 sample code: https://github.com/andrew0928/AndrewDemo.MemberServiceDesign
+附上這次用的 [sample code](https://github.com/andrew0928/AndrewDemo.MemberServiceDesign)  
 ASP.NET Core 版本的還在努力中，敬請期待續集 :D
 
 
