@@ -45,22 +45,22 @@ logo: /wp-content/images/2022-03-25-microservices15-api-design/2022-03-27-15-03-
 我現在的主要角色，是在公司的產品開發團隊擔任架構師，架構的設計我是擺第一位。API 的設計結構一旦複雜，他被使用的方式或順序就會難以預測，一不小心就會被有 "創意" 的人惡意使用，結果就往往會出乎你意料之外 (當然造成的後果跟損失也會意料之外)，然後資安或是漏洞就發生了。最近公司相關專案也在推動 API 的改善，我趁著記憶還清楚的時候紀錄一下我們自己團隊的作法好了。我通常用這幾個層次 (按照順序)，來評斷 API 設計的品質:
 
 1. 結構設計是否明確清晰 (狀態, 領域知識, 設計的一致性)
-2. API 規格是否符合業界慣例 (API style, 資源導向 / RPC 導向, 文件..)
+2. API 規格是否符合業界慣例 (API style, Resource 導向 / RPC 導向, 文件..)
 3. Service 是否穩定可靠 (效能，可靠度，BUG 多寡，安全性)
 
 結構，是我最在意的，也是我這篇的主題，這是很抽象層面的設計，跟你使用的語言或是通訊協定沒有太大關係。我挑選的切入點，是從狀態著手，用 FSM 的機制往下展開。我希望能夠從一個正確的 FSM，就能夠導出整個服務完整的介面設計，包含 API, Event 等等一整套的設計。
 
 在正式開始前，我先舉一個反例:
 
-現今幾乎所有的服務都需要註冊會員才能使用，背後一定會有一組會員相關的資料。每一筆會員資料都有主要的狀態欄位，例如 [停用], [未驗證]... 等等。其中一種設計，就是所謂的 "貧血模型"，你開出來的 API 大概就是透過 HTTP 執行 CRUD, 介面規格遵循 RESTful 的要求, 網址結構對應 resource (table), 對應 http command 的慣例來操作 resource ... 
+現今幾乎所有的服務都需要註冊會員才能使用，背後一定會有一組會員相關的資料。每一筆會員資料都有主要的狀態欄位，例如 ```停用```, ```未驗證```... 等等。其中一種設計，就是所謂的 "貧血模型"，你開出來的 API 大概就是透過 HTTP 執行 CRUD, 介面規格遵循 RESTful 的要求, 網址結構對應 resource (table), 對應 http command 的慣例來操作 resource ... 
 
 這種設計方式，能夠應付以資料操作為主的服務類型。但是你很難精準的管控你的服務內容。舉例來說，註冊新會員，你要翻譯成 CRUD 的語言，才能呼叫 API:
 
-> 我要透過 RESTful API 建立一筆會員資料，同時把她的狀態設為 [未驗證]
+> 我要透過 RESTful API 建立一筆會員資料，同時把她的狀態設為 ```未驗證```
 
 如果註冊時有額外的機制需要驗證，或是有事件要發出通知其他外部系統，那你的實作就有點難收斂了。你是要在 C(reate) 就發出事件，還是在 C(reate) 跟 U(pdate) 都做一些判斷，確認狀態跟資料內容都對了才發出事件? 會不會一不小心在某些狀況下不會發出事件，某些狀況下發出了兩次? blah blah ...
 
-這些都是貧血模型的缺點，背後的關鍵是你只管 CRUD，你就間皆的把這些邏輯判斷都交給外人了。跟貧血模型對應的，就是所謂的充血模型。
+這些都是貧血模型的缺點，背後的關鍵是你只管 CRUD，你就間皆的把這些邏輯判斷都交給外人了。跟貧血模型對應的，就是所謂的充血模型。想多了解一些這兩種模型，可以看一下大師級的 [Martin Fowler](https://martinfowler.com/) 在 2003 年寫的這篇文章: [AnemicDomainModel](https://martinfowler.com/bliki/AnemicDomainModel.html).
 
 另一種設計方式，就是我不開放 CRUD 這層級的 API，改用分析出來的 "動作" 來開 API。舉例來說，會員 "註冊" 就是個很明確的動作，我會有對應的 register API, 必要的輸入跟輸出，要那些狀態下才能呼叫? 呼叫後的狀態應該變成? 這些實作就會變得很明確，執行 register 成功後發出 registered 的事件也很理所當然，不多不少，就發一次，成功後立即發出，也不需要安排排程來處理。
 
@@ -119,37 +119,35 @@ logo: /wp-content/images/2022-03-25-microservices15-api-design/2022-03-27-15-03-
 
 ```csharp
 
-    public enum MemberStateEnum : int
-    {
-        START = 1000,
-        END = 1001,
+public enum MemberStateEnum : int
+{
+	START = 1000,
+	END = 1001,
 
-        CREATED = 1002,
-        ACTIVATED = 1003,
-        DEACTIVATED = 1004,
-        ARCHIVED = 1005,
+	CREATED = 1002,
+	ACTIVATED = 1003,
+	DEACTIVATED = 1004,
+	ARCHIVED = 1005,
 
-        UNDEFINED = 0,
-    }
-
+	UNDEFINED = 0,
+}
 
 ```
 
-再來，我們列出來的 **動作** 清單呢? 他就應該對應到 會員 能被呼叫的動作 (method), 對應到 C# 的程式碼，應該對應到 MemberService 的 Method. 於是按照上面的設計，我可以寫出這個 class:
+再來，我們列出來的 **動作** 清單呢? 他就應該對應到 會員 能被呼叫的動作 (method), 對應到 C# 的程式碼，應該對應到 ```MemberService``` 的 Method. 於是按照上面的設計，我可以寫出這個 class:
 
 ```csharp
 
-    public class MemberService
-    {
-        public MemberStateEnum State { get; private set; } = MemberStateEnum.START;
+public class MemberService
+{
+	public MemberStateEnum State { get; private set; } = MemberStateEnum.START;
 
-        public bool Register() { ... }
-        public bool ValidateEmail() { ... }
-        public bool CheckPassword(string username, string password) { ... }
-        public bool ResetPassword() { ... }
-        public bool Remove() { ... }
-    }
-
+	public bool Register() { ... }
+	public bool ValidateEmail() { ... }
+	public bool CheckPassword(string username, string password) { ... }
+	public bool ResetPassword() { ... }
+	public bool Remove() { ... }
+}
 
 ```
 
@@ -188,10 +186,10 @@ FSM 其實很有結構的收整了很全面的資訊，包含前面講的狀態�
 |ARCHIVED		||||||
 |(END)			||||||
 
-其中有一格沒那麼明確，我先打星號後面再補充，其他應該沒有太大問題。查表法最明顯的優點就是: 簡單明確，效率又高，實作也很容易。缺點是狀態跟動作多的話，初始化其實有點辛苦，你需要填 N x M 比設定。而實際狀態不見得需要這麼多種組合，有些複雜度會因為表格的放大而被凸顯出來。另外這表格在狀態設計調整時，也不是那麼容易維護，因此有了另一種作法。
+其中有一格沒那麼明確，我先打星號後面再補充，其他應該沒有太大問題。查表法最明顯的優點就是: 簡單明確，效率又高，實作也很容易。缺點是狀態跟動作多的話，初始化其實有點辛苦，你需要填 ```N x M``` 比設定。而實際狀態不見得需要這麼多種組合，有些複雜度會因為表格的放大而被凸顯出來。另外這表格在狀態設計調整時，也不是那麼容易維護，因此有了另一種作法。
 
 
-第二種就是條列轉移清單。簡單的說你一條一條 (目前狀態) + (動作) => (轉移後狀態) 的列出清單就好。State Machine 照著搜尋，有找到就中，沒有就是為地圖沒這條路。同樣拿我們的案例，由於 action 都很單純，因此圖上幾個箭頭就列幾行...
+第二種就是條列轉移清單。簡單的說你一條一條 ```(目前狀態) + (動作) => (轉移後狀態)``` 的列出清單就好。State Machine 照著搜尋，有找到就中，沒有就是為地圖沒這條路。同樣拿我們的案例，由於 action 都很單純，因此圖上幾個箭頭就列幾行...
 
 | init state | action | final state |
 |------------|----------|-----------|
@@ -204,49 +202,49 @@ FSM 其實很有結構的收整了很全面的資訊，包含前面講的狀態�
 
 這作法好處是初始化的過程更貼近邏輯思考的結構，通常 FSM 都是設計階段就確定的，只要有變更就是設計變更，是要改 code 並且重新測試部署的，不需要特地拉出來放在 config 或是 database。條列轉移清單的缺點，就是當你狀態圖複雜的時候，初始化跟查詢的過程會比第一個方法複雜。你可以是你自己的情況，團隊內部的使用工具來評估使用。雖然各有優缺點，但是都沒有到無法克服的步驟。這些優缺點都可以因為搭配的工具而被改善，其實不需要太在意。
 
-總之，這邊我就定義 StateMachine 的介面就好，不論你用哪一種實作方式，最終使用的介面是相同的。實作大家可以自己研究看看，很簡單不困難的。需要找現成的，可以參考我上面推薦的: [stateless](https://github.com/dotnet-state-machine/stateless) 封裝得不錯，有興趣的可以用看看。
+總之，這邊我就定義 ```StateMachine``` 的介面就好，不論你用哪一種實作方式，最終使用的介面是相同的。實作大家可以自己研究看看，很簡單不困難的。需要找現成的，可以參考我上面推薦的: [stateless](https://github.com/dotnet-state-machine/stateless) 封裝得不錯，有興趣的可以用看看。
 
 
 以下是我自己訂的 interface, 後續的 demo 我都以這個 interface 為準。State Machine 只負責查詢 FSM, 並不處理實際狀態改變的邏輯。先來看看 FSM 的定義:
 
 ```csharp
 
-    public abstract class StateMachineBase<TEnum>
-    {
-        protected Dictionary<(TEnum currentState, string actionName), TEnum> _state_transits = null;
+public abstract class StateMachineBase<TEnum>
+{
+	protected Dictionary<(TEnum currentState, string actionName), TEnum> _state_transits = null;
 
-        public virtual (bool result, TEnum initState, TEnum finalState) TryExecute(TEnum currentState, string actionName)
-        {
-            if (this._state_transits.TryGetValue((currentState, actionName), out var result) == false)
-            {
-                Console.WriteLine($"WARNING: Can not change state from [{currentState}] with [{actionName}()] command.");
-                return (false, currentState, default(TEnum));
-            }
-            return (true, currentState, result);
-        }
-    }
+	public virtual (bool result, TEnum initState, TEnum finalState) TryExecute(TEnum currentState, string actionName)
+	{
+		if (this._state_transits.TryGetValue((currentState, actionName), out var result) == false)
+		{
+			Console.WriteLine($"WARNING: Can not change state from [{currentState}] with [{actionName}()] command.");
+			return (false, currentState, default(TEnum));
+		}
+		return (true, currentState, result);
+	}
+}
 
-    public class MemberStateMachine : StateMachineBase<MemberStateEnum>
-    {
-        public MemberStateMachine()
-        {
-            this._state_transits = new Dictionary<(MemberStateEnum currentState, string actionName), MemberStateEnum>()
-            {
-                { (MemberStateEnum.START, "Register"), MemberStateEnum.REGISTERED },
-                { (MemberStateEnum.REGISTERED, "EmailValidate"), MemberStateEnum.VERIFIED },
-                { (MemberStateEnum.VERIFIED, "Lock"), MemberStateEnum.LOCKING },
-                { (MemberStateEnum.LOCKING, "ResetPassword"), MemberStateEnum.VERIFIED },
-                { (MemberStateEnum.VERIFIED, "Remove"), MemberStateEnum.ARCHIVED },
-                { (MemberStateEnum.ARCHIVED, "Archive"), MemberStateEnum.END }// 腦補
-            };
-        }
-    }
+public class MemberStateMachine : StateMachineBase<MemberStateEnum>
+{
+	public MemberStateMachine()
+	{
+		this._state_transits = new Dictionary<(MemberStateEnum currentState, string actionName), MemberStateEnum>()
+		{
+			{ (MemberStateEnum.START, "Register"), MemberStateEnum.REGISTERED },
+			{ (MemberStateEnum.REGISTERED, "EmailValidate"), MemberStateEnum.VERIFIED },
+			{ (MemberStateEnum.VERIFIED, "Lock"), MemberStateEnum.LOCKING },
+			{ (MemberStateEnum.LOCKING, "ResetPassword"), MemberStateEnum.VERIFIED },
+			{ (MemberStateEnum.VERIFIED, "Remove"), MemberStateEnum.ARCHIVED },
+			{ (MemberStateEnum.ARCHIVED, "Archive"), MemberStateEnum.END }// 腦補
+		};
+	}
+}
 
 ```
 
-上面的 sample code, 我定義了泛型的抽象類別 StateMachineBase<TEnum>, 讓你帶入自己的 State 列舉型別，同時你可以在自己的衍生類別內初始化 FSM. StateMachineBase 類別我只讓他負責 "查詢" FSM, 執行期的控制我通通都擺在 Service 那邊。這邊我以程式碼的語意最清楚為優先，因此我採用狀態轉移清單的作法。
+上面的 sample code, 我定義了泛型的抽象類別 ```StateMachineBase<TEnum>```, 讓你帶入自己的 State 列舉型別，同時你可以在自己的衍生類別內初始化 FSM. ```StateMachineBase``` 類別我只讓他負責 "查詢" FSM, 執行期的控制我通通都擺在 Service 那邊。這邊我以程式碼的語意最清楚為優先，因此我採用狀態轉移清單的作法。
 
-要定義自己的 FSM 很簡單，繼承 StateMachineBase<TEnum>, 定義自己的 State Enum 型別 (預設值請給 UNDEFINE), 在 constructor 內初始化狀態轉移清單即可。查詢用的介面我只開一個 method: (bool result, TEnum finalState) TryExecute(TEnum currentState, string actionName), 傳入目前的狀態 (currentState) 跟你想要執行的動作 (actionName), StateMachineBase 會傳回 (bool result, TEnum initState, TEnum finalState), 第一個資訊會讓你知道能不能執行? 第三個資訊會告訴你如果可以執行，那麼執行後的狀態應該是什麼。
+要定義自己的 FSM 很簡單，繼承 ```StateMachineBase<TEnum>```, 定義自己的 State Enum 型別 (預設值請給 ```UNDEFINE```), 在 constructor 內初始化狀態轉移清單即可。查詢用的介面我只開一個 method: ```(bool result, TEnum finalState) TryExecute(TEnum currentState, string actionName)```, 傳入目前的狀態 (```currentState```) 跟你想要執行的動作 (```actionName```), ```StateMachineBase``` 會傳回 ```(bool result, TEnum initState, TEnum finalState)```, 第一個資訊會讓你知道能不能執行? 第三個資訊會告訴你如果可以執行，那麼執行後的狀態應該是什麼。
 
 至於狀態實際上該怎麼被改變? 查詢後搭配 action 的執行結果，如果成功就改變狀態。這邊要特別留意平行處理的問題，狀態的轉移請把它當作 atom operation 來看待，如果你的服務有高流量或是高併發的需求時。這意思是，如果你的某一筆資料目前是狀態 A, 執行兩個不同的 API 分別會讓他的狀態從 A => B, A => C, 那麼你要做好交易的控制，同一瞬間只能有一個 API 能執行成功。
 
@@ -255,54 +253,49 @@ FSM 其實很有結構的收整了很全面的資訊，包含前面講的狀態�
 流程走到這邊，知道為何我那麼強調狀態圖了嗎? 簡單的狀態圖，背後就能代表這些基礎的結構設計了，而且能很精準很一致地轉換成程式碼。我很講求每一個階段的設計跟最終系統或程式碼的對應關係夠不夠直接，越直接越簡單，代表你最終的系統越容易跟你的設計維持一致。無形之間，這就是你系統設計的品質。
 
 
-綜合上面所討論的，我先以本機執行為範例，用 C# 語言本身的 lock 來實作這個機制 (我假設不會 scale out, 就這麼一個單一 instance)。有需要 scale out 的朋友們，請自行換成我另一篇文章介紹過的 distributed lock 來代替。這個 domain service 的實作應該要長這樣才對:
+綜合上面所討論的，我先以本機執行為範例，用 C# 語言本身的 lock 來實作這個機制 (我假設不會 scale out, 就這麼一個單一 instance)。有需要 scale out 的朋友們，請自行換成我另一篇 [文章](https://columns.chicken-house.net/2018/03/25/interview01-transaction/#%E8%A7%A3%E6%B3%953-%E6%90%AD%E9%85%8D%E4%B8%8D%E6%94%AF%E6%8F%B4%E4%BA%A4%E6%98%93%E7%9A%84%E5%84%B2%E5%AD%98%E9%AB%94-%E8%80%83%E5%88%86%E6%95%A3%E5%BC%8F%E9%8E%96%E5%AE%9A) 介紹過的 distributed lock 來代替。這個 domain service 的實作應該要長這樣才對:
 
 ```csharp
 
-    public class MemberService
-    {
-        public MemberStateEnum State { get; private set; } = MemberStateEnum.START;
+public class MemberService
+{
+	public MemberStateEnum State { get; private set; } = MemberStateEnum.START;
 
-        // event(s)
-        public delegate void MemberServiceEventHandler(object sender, EventArgs e);
+	// event(s)
+	public delegate void MemberServiceEventHandler(object sender, EventArgs e);
 
-        public event MemberServiceEventHandler OnMemberRegistered;
-        public event MemberServiceEventHandler OnMemberEmailVerified;
-        public event MemberServiceEventHandler OnMemberLocked;
-        public event MemberServiceEventHandler OnMemberArchived;
-        public event MemberServiceEventHandler OnMemberActivated;
+	public event MemberServiceEventHandler OnMemberRegistered;
+	public event MemberServiceEventHandler OnMemberEmailVerified;
+	public event MemberServiceEventHandler OnMemberLocked;
+	public event MemberServiceEventHandler OnMemberArchived;
+	public event MemberServiceEventHandler OnMemberActivated;
 
+	public bool Register()
+	{
+		var check = this._state_machine.TryExecute(this.State, "Register");
+		if (check.result == false) return false;
 
+		lock(this._state_sync_root)
+		{
+			if (this.State != check.initState) return false; // lock fail.
 
+			// TODO: do domain action here.
 
-        public bool Register()
-        {
-            var check = this._state_machine.TryExecute(this.State, "Register");
-            if (check.result == false) return false;
+			this.State = check.finalState;
+		}
 
-            lock(this._state_sync_root)
-            {
-                if (this.State != check.initState) return false; // lock fail.
+		// fire events
+		this.OnMemberCreated?.Invoke(this, null);
+		this.OnMemberRegisterCompleted?.Invoke(this, null);
 
-                // TODO: do domain action here.
+		return true;
+	}
 
-                this.State = check.finalState;
-            }
+	// 其他 Action Method 我都略過，請參考 Register() 即可
 
-            // fire events
-            this.OnMemberCreated?.Invoke(this, null);
-            this.OnMemberRegisterCompleted?.Invoke(this, null);
-
-            return true;
-        }
-
-		// 其他 Action Method 我都略過，請參考 Register() 即可
-
-        private object _state_sync_root = new object();
-        private MemberStateMachine _state_machine = new MemberStateMachine();
-    }
-
-
+	private object _state_sync_root = new object();
+	private MemberStateMachine _state_machine = new MemberStateMachine();
+}
 
 ```
 
@@ -311,31 +304,33 @@ FSM 其實很有結構的收整了很全面的資訊，包含前面講的狀態�
 在這段範例內，其他 method 只要改掉這三個部分:
 
 ```csharp
-        public bool Register()
-        {
-            var check = this._state_machine.TryExecute(this.State, "Register");
-            if (check.result == false) return false;
 
-            lock(this._state_sync_root)
-            {
-                if (this.State != check.initState) return false; // lock fail.
+public bool Register()
+{
+	var check = this._state_machine.TryExecute(this.State, "Register");
+	if (check.result == false) return false;
 
-                // TODO: do domain action here.
+	lock(this._state_sync_root)
+	{
+		if (this.State != check.initState) return false; // lock fail.
 
-                this.State = check.finalState;
-            }
+		// TODO: do domain action here.
 
-            // fire events
-            this.OnMemberCreated?.Invoke(this, null);
-            this.OnMemberRegisterCompleted?.Invoke(this, null);
+		this.State = check.finalState;
+	}
 
-            return true;
-        }
+	// fire events
+	this.OnMemberCreated?.Invoke(this, null);
+	this.OnMemberRegisterCompleted?.Invoke(this, null);
+
+	return true;
+}
+
 ```
 
-1. 改掉 actionName: "Register"
-1. 改掉 // TODO 你自己的執行邏輯
-1. 改掉 OnMemberRegistered 觸發事件的部分 (換成你自己定義的事件)
+1. 改掉 actionName: ```"Register"```
+1. 改掉 ```// TODO``` 你自己的執行邏輯
+1. 改掉 ```OnMemberRegistered``` 觸發事件的部分 (換成你自己定義的事件)
 (事件的部分我先偷跑了，如何定義是建請看下一段 XDD)
 
 除了上面三個部分要每個 action 都改一次之外，其他就照抄就好。這邊我為了容易理解，而且不想跟太多 framework 綁在一起，就用比較醜的方式來寫這段 code 了。如果你這段 code 很明確是綁訂在 ASP.NET Core 身上， (1) 其實可以換成在 Method 上面標示 Attrib, 同時 (1) 頭尾控制的邏輯都可以轉移到對應的 Middleware 執行，你的主體只要留下 (2) + (3) 就好了。
@@ -377,22 +372,20 @@ FSM 其實很有結構的收整了很全面的資訊，包含前面講的狀態�
 至此的修正，我讓狀態更一致了，以整個 Entity 的生命週期來表達，分別是 Created / Activated / Deactivated / Archived, 嗯, 看起來都在同一個軸線上。
 
 
-接著，對應的 **動作** 跟 **事件** 我也回頭重新檢視了一下，前面的 sample code 也實作了一個密碼錯誤三次的 method: CheckPasswordFailOverLimit(), 我也把它對應成一個更明確的動作: Lock(), 這動作會讓會員的狀態從 ACTIVATED 轉移到 DEACTIVED。重設密碼 method: ResetPassword() 也是，他應該是個單純的 domain 相關的操作，真正會影響狀態的不應該是 ResetPassword(), 而是服務應該有更明確的 Enable() 動作才對。
+接著，對應的 **動作** 跟 **事件** 我也回頭重新檢視了一下，前面的 sample code 也實作了一個密碼錯誤三次的 method: ```CheckPasswordFailOverLimit()```, 我也把它對應成一個更明確的動作: ```Lock()```, 這動作會讓會員的狀態從 ACTIVATED 轉移到 DEACTIVED。重設密碼 method: ```ResetPassword()``` 也是，他應該是個單純的 domain 相關的操作，真正會影響狀態的不應該是 ```ResetPassword()```, 而是服務應該有更明確的 ```Enable()``` 動作才對。
 
-同理，很多動作我都比照調整了。比如 EmailValidate() 我也改成 Activate() .. 最終整個動作清單被我改成: Register() / Import() / Activate() / Lock() / UnLock() / Remove().
+同理，很多動作我都比照調整了。比如 ```EmailValidate()``` 我也改成 ```Activate()``` .. 最終整個動作清單被我改成: ```Register()``` / ```Import()``` / ```Activate()``` / ```Lock()``` / ```UnLock()``` / ```Remove()```.
 
-調整過後，開始會有些動作 (method) 不會直接影響狀態的改變了，例如被我改掉的 EmailValidate(), ResetPassword() 等等。這些我先保留，最後的步驟 5 再來處理。
+調整過後，開始會有些動作 (method) 不會直接影響狀態的改變了，例如被我改掉的 ```EmailValidate()```, ```ResetPassword()``` 等等。這些我先保留，最後的步驟 5 再來處理。
 
-最後重新列了一次對應的事件。我直接在狀態上面標上閃電的符號，代表會有個事件對應到狀態轉移。例如從任何狀態轉移到 ACTIVATED 的話，就會有對應的 OnMemberActivated 事件被觸發。對應的狀態改變事件有: OnMemberCreated, OnMemberActivated, OnMemberDeactived, OnMemberArchived.
+最後重新列了一次對應的事件。我直接在狀態上面標上閃電的符號，代表會有個事件對應到狀態轉移。例如從任何狀態轉移到 ACTIVATED 的話，就會有對應的 ```OnMemberActivated``` 事件被觸發。對應的狀態改變事件有: ```OnMemberCreated```,``` OnMemberActivated```, ```OnMemberDeactived```, ```OnMemberArchived```.
 
-但是看了看商業需求，比如我希望使用我服務的人，能夠透過事件自訂一些專屬行為。比如會員註冊後我想發一封 email 給他。這時我該訂閱 OnMemberCreated 事件嗎? 如果我批次匯入 10000 筆名單，系統也要發 email 給這些人? 仔細想了想，我真正的意圖，並不是在狀態轉移時通知，而是只有走 Register() 這條路時才要通知... 精準地說，我要的不是狀態改變的事件，而是 Register() 動作的掛鉤 (hook). 當指定的動作 (Register) 確認完成後，就觸發對應的 Hook (OnMemberRegisterCompleted)
+但是看了看商業需求，比如我希望使用我服務的人，能夠透過事件自訂一些專屬行為。比如會員註冊後我想發一封 email 給他。這時我該訂閱 ```OnMemberCreated``` 事件嗎? 如果我批次匯入 10000 筆名單，系統也要發 email 給這些人? 仔細想了想，我真正的意圖，並不是在狀態轉移時通知，而是只有走 ```Register()``` 這條路時才要通知... 精準地說，我要的不是狀態改變的事件，而是 ```Register()``` 動作的掛鉤 (hook). 當指定的動作 (Register) 確認完成後，就觸發對應的 Hook (```OnMemberRegisterCompleted```)
 
-同樣的列了這些 hook, 共有: OnMemberRegisterCompleted. 其他動作看來都完全跟狀態轉移重疊，暫時沒有必要追加。在 FSM 圖上，我在動作旁邊一樣加上閃電符號代表。
+同樣的列了這些 hook, 共有: ```OnMemberRegisterCompleted```. 其他動作看來都完全跟狀態轉移重疊，暫時沒有必要追加。在 FSM 圖上，我在動作旁邊一樣加上閃電符號代表。
 
 因為這些修正，包含了各個面向，所以我不急著改一堆程式就是這原因。先紙上作業，把剛才的思路都更新到 FSM 的圖上。至於程式碼，前面第二步驟都交代過了 FSM 怎麼很標準的跟你程式碼一一對應，用修正過的 FSM 重新對應就好了。重新對應，你可以善用重構的工具跟技巧來執行，因為有 FSM 你可以很明確的知道你想把 code 重構成什麼樣子，按照你的經驗一步一步修正就好了 (題外話: 很多人都知道重構的動作該怎麼操作，但是卻都忘了最重要的題目，你想要重構成甚麼樣子....)。修正過更合理的 state machine 應該變成這樣:
 
-
-<!-- ![](/wp-content/images/2022-03-25-microservices15-api-design/2022-03-29-06-23-19.png) -->
 
 ![](/wp-content/images/2022-03-25-microservices15-api-design/2022-03-29-06-28-43.png)
 
@@ -411,40 +404,39 @@ FSM 其實很有結構的收整了很全面的資訊，包含前面講的狀態�
 
 ```csharp
 
-    public class MemberService
-    {
-        public MemberStateEnum State { get; private set; } = MemberStateEnum.START;
+public class MemberService
+{
+public MemberStateEnum State { get; private set; } = MemberStateEnum.START;
 
-        // event(s)
-        public delegate void MemberServiceEventHandler(object sender, EventArgs e);
+// event(s)
+public delegate void MemberServiceEventHandler(object sender, EventArgs e);
 
-        public event MemberServiceEventHandler OnMemberRegistered;
-        public event MemberServiceEventHandler OnMemberEmailVerified;
-        public event MemberServiceEventHandler OnMemberLocked;
-        public event MemberServiceEventHandler OnMemberArchived;
-        public event MemberServiceEventHandler OnMemberActivated;
+public event MemberServiceEventHandler OnMemberRegistered;
+public event MemberServiceEventHandler OnMemberEmailVerified;
+public event MemberServiceEventHandler OnMemberLocked;
+public event MemberServiceEventHandler OnMemberArchived;
+public event MemberServiceEventHandler OnMemberActivated;
 
-        public bool Register()
-        {
-            var check = this._state_machine.TryExecute(this.State, "Register");
-            if (check.result == false) return false;
+public bool Register()
+{
+	var check = this._state_machine.TryExecute(this.State, "Register");
+	if (check.result == false) return false;
 
-            lock(this._state_sync_root)
-            {
-                if (this.State != check.initState) return false; // lock fail.
+	lock(this._state_sync_root)
+	{
+		if (this.State != check.initState) return false; // lock fail.
 
-                // TODO: do domain action here.
+		// TODO: do domain action here.
 
-                this.State = check.finalState;
-            }
+		this.State = check.finalState;
+	}
 
-            // fire events
-            this.OnMemberCreated?.Invoke(this, null);
-            this.OnMemberRegisterCompleted?.Invoke(this, null);
+	// fire events
+	this.OnMemberCreated?.Invoke(this, null);
+	this.OnMemberRegisterCompleted?.Invoke(this, null);
 
-            return true;
-        }
-
+	return true;
+}
 
 ```
 
@@ -477,49 +469,48 @@ FSM 其實很有結構的收整了很全面的資訊，包含前面講的狀態�
 
 Microsoft 的做法很漂亮優雅啊，其實當年在 .NET Framework 2.0 的年代，就已經是這樣做了。只是當年 .NET Framework 支援 CAS (Code Access Security), 其實是在整個 .NET CLR (Common Language Runtime) 都能支援這種宣告式的執行期間安全機制，不過這個機制到 .NET Core 已經完全被 [移除](https://docs.microsoft.com/zh-tw/dotnet/core/compatibility/core-libraries/5.0/code-access-security-apis-obsolete) 了。只剩下 ASP.NET Core 框架內的還支援這樣的寫法。過去的設計太依賴底層的 windows 了，這應該是拿掉的主要原因，真心覺得可惜...。
 
-如果這次的 sample code 是寫成 ASP.NET Core 的 Controller 的話, 那這幾個 method 就只要標記上對應的 AuthorizeAttribute, 就完成宣告授權的任務了。隨後在每個 Request 呼叫時, ASP.NET 都會替你做好授權檢查。我先寫一小段讓各位體會一下，真正的 ASP.NET Core 範例程式碼，搭配 JWT 標記 scope 的整套設計，我們在下一篇來驗證一次。
+如果這次的 sample code 是寫成 ASP.NET Core 的 ```Controller``` 的話, 那這幾個 method 就只要標記上對應的 ```AuthorizeAttribute```, 就完成宣告授權的任務了。隨後在每個 Request 呼叫時, ASP.NET 都會替你做好授權檢查。我先寫一小段讓各位體會一下，真正的 ASP.NET Core 範例程式碼，搭配 JWT 標記 scope 的整套設計，我們在下一篇來驗證一次。
 
 ```csharp
 
-    public class MemberService
-    {
-        public MemberStateEnum State { get; private set; } = MemberStateEnum.START;
+public class MemberService
+{
+	public MemberStateEnum State { get; private set; } = MemberStateEnum.START;
 
-		[Authorize(Roles = "USER")]
-        public bool Register() { ... }
+	[Authorize(Roles = "USER")]
+	public bool Register() { ... }
 
-		[Authorize(Roles = "USER")]
-        public bool Activate() { ... }
+	[Authorize(Roles = "USER")]
+	public bool Activate() { ... }
 
-		[Authorize(Roles = "USER")]
-        public bool Lock() { ... }
+	[Authorize(Roles = "USER")]
+	public bool Lock() { ... }
 
-		[Authorize(Roles = "USER,STAFF")]
-        public bool UnLock() { ... }
+	[Authorize(Roles = "USER,STAFF")]
+	public bool UnLock() { ... }
 
-		[Authorize(Roles = "USER,STAFF")]
-        public bool Remove() { ... }
-    }
-
+	[Authorize(Roles = "USER,STAFF")]
+	public bool Remove() { ... }
+}
 
 ```
 
-很神奇嗎? 其實一點也不，這就是 C# 語言優雅的地方，可以透過 Attribute 標上標記，然後你就有機會在外圍 (例如 Middleware) 用 Reflection 的方式預先做檢查。這其實是很典型的 AOP 作法，讓你可以隔離不同層級的邏輯。Attribute 其實只是負責 "標記"，真正的判斷藏在你看不到的地方。
+很神奇嗎? 其實一點也不，這就是 C# 語言優雅的地方，可以透過 ```Attribute``` 標上標記，然後你就有機會在外圍 (例如 ```Middleware```) 用 Reflection 的方式預先做檢查。這其實是很典型的 AOP 作法，讓你可以隔離不同層級的邏輯。```Attribute``` 其實只是負責 "標記"，真正的判斷藏在你看不到的地方。
 
-不過，這篇的說明我還不打算帶到 ASP.NET Core 的安全機制，我就用陽春一點的 IPrincipal 來替代吧。這也是個從 .NET Framework 誕生以來就有的機制 (從 C# 1.0 開始算，廿年有了吧)。你只要在前面宣告 CurrentPrincipal，指定你是誰 (IIdentity) 跟你被授予什麼身分 (IPrincipal), 並且把身份存在 Thread.CurrentPrincipal 裡面，其餘各個地方只要把它拿出來，並且用 IsInRole(string role) 來判定身分即可。
+不過，這篇的說明我還不打算帶到 ASP.NET Core 的安全機制，我就用陽春一點的 IPrincipal 來替代吧。這也是個從 .NET Framework 誕生以來就有的機制 (從 C# 1.0 開始算，廿年有了吧)。你只要在前面宣告 ```CurrentPrincipal``` ，指定你是誰 (```IIdentity```) 跟你被授予什麼身分 (```IPrincipal```), 並且把身份存在 ```Thread.CurrentPrincipal``` 裡面，其餘各個地方只要把它拿出來，並且用 ```IsInRole(string role)``` 來判定身分即可。
 
 我貼一下片段的案例，這是設定身分的地方:
 
 ```csharp
 
-        static void Main(string[] args)
-        {
-            Thread.CurrentPrincipal = new GenericPrincipal(
-                new GenericIdentity("andrew", "demo"),
-                new string[] { "USER" });
+static void Main(string[] args)
+{
+	Thread.CurrentPrincipal = new GenericPrincipal(
+		new GenericIdentity("andrew", "demo"),
+		new string[] { "USER" });
 
-			// 以下略過
-        }
+	// 以下略過
+}
 
 ```
 
@@ -527,34 +518,34 @@ Microsoft 的做法很漂亮優雅啊，其實當年在 .NET Framework 2.0 的�
 
 ```csharp
 
-        public bool Register()
-        {
-            if (!Thread.CurrentPrincipal.IsInRole("USER")) return false;
-            var check = this._state_machine.TryExecute(this.State, "Register");
-            if (check.result == false) return false;
+public bool Register()
+{
+	if (!Thread.CurrentPrincipal.IsInRole("USER")) return false;
+	var check = this._state_machine.TryExecute(this.State, "Register");
+	if (check.result == false) return false;
 
-            lock(this._state_sync_root)
-            {
-                if (this.State != check.initState) return false; // lock fail.
+	lock(this._state_sync_root)
+	{
+		if (this.State != check.initState) return false; // lock fail.
 
-                // TODO: do domain action here.
+		// TODO: do domain action here.
 
-                this.State = check.finalState;
-            }
+		this.State = check.finalState;
+	}
 
-            // fire events
-            this.OnMemberCreated?.Invoke(this, null);
-            this.OnMemberRegisterCompleted?.Invoke(this, null);
+	// fire events
+	this.OnMemberCreated?.Invoke(this, null);
+	this.OnMemberRegisterCompleted?.Invoke(this, null);
 
-            return true;
-        }
+	return true;
+}
 
 ```
 
 
 
 
-當然，設計規設計，沒有人限制你這樣的設計一定要用 ASP.NET Core / RBAC 的方式實作。舉例來說，如果 USER / STAFF 會由完全不同的系統呼叫 API, 甚至連網路環境都是隔離的話 (前後台的網路環境實體隔離很常見)，你該做的可能就不是自己寫 code 處理了。你該做的可能是直接分成兩組 API, 有兩組不同的 endpoint, 分開發行。給 USER 的那組只會提供標示 USER 的 API，而給 STAFF 的那組也比照辦理。這些都是按照設計，在實作時自己按照當時情境找出合適的方式執行。
+當然，設計規設計，沒有人限制你這樣的設計一定要用 ASP.NET Core / RBAC 的方式實作。舉例來說，如果 ```USER``` / ```STAFF``` 會由完全不同的系統呼叫 API, 甚至連網路環境都是隔離的話 (前後台的網路環境實體隔離很常見)，你該做的可能就不是自己寫 code 處理了。你該做的可能是直接分成兩組 API, 有兩組不同的 endpoint, 分開發行。給 USER 的那組只會提供標示 ```USER``` 的 API，而給 ```STAFF``` 的那組也比照辦理。這些都是按照設計，在實作時自己按照當時情境找出合適的方式執行。
 
 除了用 ASP.NET Core 支援的 RBAC, 或是物理隔離成兩個獨立的 endpoint, 還有其他方法嗎? 有的。第三個我們拿 Azure API Management 來說明。
 通常會動用到基礎建設的層級 (例如 Azure API Management 或是 AWS API Gateway 之類的產品)，大概對安全性跟實體隔離都有一定的要求。因此你可以選擇這樣對應:
@@ -605,15 +596,17 @@ Scope 是什麼? 如果你用過第三方開發的服務，過程中需要你登
 這些程式碼就單純的多，由於不需要改變狀態，所以也不需要 lock 了，只要在進入之初做好檢查即可 (檢查狀態，授權)。節錄如下:
 
 ```csharp
-        public bool ValidateEmail()
-        {
-            var check = this._state_machine.TryExecute(this.State, "Register");
-            if (check.result == false) return false;
 
-            // TODO: do domain actions here
+public bool ValidateEmail()
+{
+	var check = this._state_machine.TryExecute(this.State, "Register");
+	if (check.result == false) return false;
 
-            return true;
-        }
+	// TODO: do domain actions here
+
+	return true;
+}
+
 ```
 
 這個版本的設計，是不是更貼近你理想中的 API 了? 
@@ -642,19 +635,19 @@ Scope 是什麼? 如果你用過第三方開發的服務，過程中需要你登
 
 ```csharp
 
-        static void Main(string[] args)
-        {
-            Thread.CurrentPrincipal = new GenericPrincipal(
-                new GenericIdentity("andrew", "demo"),
-                new string[] { "USER" });
+static void Main(string[] args)
+{
+	Thread.CurrentPrincipal = new GenericPrincipal(
+		new GenericIdentity("andrew", "demo"),
+		new string[] { "USER" });
 
-            var ms = new MemberService();
+	var ms = new MemberService();
 
-            Console.WriteLine($"* Call Register(): {ms.Register()}");
-            Console.WriteLine($"* Call Activate(): {ms.Activate()}");
-            Console.WriteLine($"* Call Lock(): {ms.Lock()}");
-            Console.WriteLine($"* Call Remove(): {ms.Remove()}");
-        }
+	Console.WriteLine($"* Call Register(): {ms.Register()}");
+	Console.WriteLine($"* Call Activate(): {ms.Activate()}");
+	Console.WriteLine($"* Call Lock(): {ms.Lock()}");
+	Console.WriteLine($"* Call Remove(): {ms.Remove()}");
+}
 
 ```
 
@@ -681,7 +674,7 @@ Press any key to close this window . . .
 
 記得當年我第一次開始寫這些比較 思考 設計 面的文章時，當年我寫的這系列，其實我印象很深刻。很多朋友給我的 feedback 是感謝我，說我讓他們想通了，為何他們寫的 code 都會動，也都符合規範，也都通過測試；但是寫起來就是覺得 "怪怪的"，有種是湊答案的感覺。當時我告訴大家的是要搞清楚背後的資料結構與演算法。
 
-時至今日，現在的程式碼，不再只等於 資料結構 + 演算法 了 ( Pascal 大師: code = data structure + algorithm ), 我開始擴大為 service = state + action, 其中 state 就包含了資料結構，action 就是所有相關的程式邏輯與演算法。衍伸出來的是整個服務的設計，包含主動(外界呼叫)，跟被動(回呼)，自動(排程) 的行為介面。工程師依定要掌握十座的技巧，但是如果背後沒有設計的思路輔助，你很容易拿了上等的工具，但是做不出偉大的作品的。我想到在 FB 看到的一句話，不過忘了出處了:
+時至今日，現在的程式碼，不再只等於 資料結構 + 演算法 了 ( Pascal 大師: code = data structure + algorithm ), 我開始擴大為 service = state + action, 其中 state 就包含了資料結構，action 就是所有相關的程式邏輯與演算法。衍伸出來的是整個服務的設計，包含主動(外界呼叫)，跟被動(回呼)，自動(排程) 的行為介面。工程師依定要掌握實作的技巧，但是如果背後沒有設計的思路輔助，你很容易拿了上等的工具，但是做不出偉大的作品的。我想到在 FB 看到的一句話，不過忘了出處了:
 
 > 我給你一把鑿子了，可是為什麼妳還沒變成米開朗基羅?
 
