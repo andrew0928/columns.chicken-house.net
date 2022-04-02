@@ -625,7 +625,7 @@ public bool ValidateEmail()
  -->
 
 
-# 驗證
+# 第五步，案例驗證
 
 最後，來牛刀小試一下。複習一下最後版本的 FSM:
 
