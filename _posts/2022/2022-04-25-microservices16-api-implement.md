@@ -9,13 +9,13 @@ comments_disqus: false
 comments_facebook: false
 comments_gitalk: true
 redirect_from:
-logo: /wp-content/images/2022-03-25-microservices15-api-design/2022-03-27-15-03-23.png
+logo: /wp-content/images/2022-04-25-microservices16-api-implement/2022-05-08-02-58-31.png
 ---
 
 微服務 API 的設計與實作，來到第二篇。
 
-![](/wp-content/images/2022-03-25-microservices15-api-design/2022-03-27-15-03-23.png)
-> 圖片來源: https://www.giga.de/artikel/was-ist-eine-api-schnell-erklaert/
+![](/wp-content/images/2022-04-25-microservices16-api-implement/2022-05-08-02-58-31.png)
+> 圖片來源: https://www.freecodecamp.org/news/rest-api-best-practices-rest-endpoint-design-examples/
 
 
 會有這篇，其實是有感現在講架構的文章太多了, 但是每個人看了同樣的文章, 最後實作出來的落差都很大啊。很多架構類的文章都是標竿大型系統的設計，不過還沒有對應經驗的人，看了這類文章是沒辦法從小規模的系統經驗，直接跨過那道鴻溝啊，所以往往有些看的多的人，在專案上拿捏不好設計的力道，不知不覺就做了過度的設計 (過度可能是超出期待太多，或是超出能力範圍太多都算)。因此我在講完架構的設計概念後，我都會希望能搭配實作的驗證，PoC 也好, MVP 也好，總之能夠真正用能運作的方式，把要解決的情境用你想的架構實際推演一次。架構實作一定是複雜的，有很多工程問題要解決，因此能否在這階段盡可能的排除非必要的實作，又能達到驗證的目的，就是抽象化能力的考驗了。Do the right thing 比 do the things right 同樣重要，但是不先看清楚 right thing 的話會讓你後面的 do the thing right 功虧一簣，因此有了這篇文章，來驗證上一篇我介紹的方法: 用狀態機來驅動 API 設計。
