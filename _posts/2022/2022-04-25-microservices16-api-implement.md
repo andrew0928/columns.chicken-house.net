@@ -1677,3 +1677,21 @@ Content-Length: 0
 因此，想通背後的脈絡，一直是我認為最重要的一環，那麼龐大的系統你要維持一致，你就必須做好抽象化，訂好規則，所有團隊用各自擅長的技術來配合。架構師不可能自己搞懂所有細節，原因其實很單純，因為根本不可能。如果你的團隊不大，大約 5 ~ 10 個以內，那你的確有可能摸透所有團隊採用的 tech stack, 但是這種規模的團隊通常有能力夠好的工程師就能運作順利。當團隊多到 50 - 100 甚至更多時，你不可能摸透所有的細節的 (尤其你的團隊能力越好的時候越是如此)，你能做的是訂好架構讓大家來遵循。
 
 雖然都說是 "微" 服務了，但是不代表它就可以省略一些環節。微服務的 "微" 是指每個服務都負責單純專一的領域，是精簡，而不是簡陋。因此每個服務本身的設計考量一個都沒有少。看到這裡，你是否對於微服務 API 該怎麼設計有更精確的理解了嗎?
+
+
+# 附錄: 參考連結
+
+**Source Code**:
+- [AndrewDemo.MemberServiceDesign](https://github.com/andrew0928/AndrewDemo.MemberServiceDesign/tree/article2) (請看 article2 這個分支)
+
+**API Token / JWT**:
+- [API & SDK Design #5](/2016/12/01/microservice7-apitoken/) 如何強化微服務的安全性? API Token / JWT 的應用; 
+- 讀書會 [錄影](https://www.facebook.com/andrew.blog.0928/videos/345280552513896/), [投影片](http://www.slideshare.net/chickenwu/api-token?qid=7bd09d0a-587f-4ed6-826d-d12c71f0b252&v&b&from_search=1), [Code](https://github.com/andrew0928/MeetUp.ApiTokenDemo)
+- [JWT](https://jwt.io/introduction/), Json Web Token
+
+**系列文章: "授權碼" 如何實作?**:
+1. [需求與問題](/2016/02/17/casestudy_license_01_requirement/), 2016/02/17
+1. [序列化](/2016/02/24/casestudy_license_02_serialization/), 2016/02/24
+1. [數位簽章](/2016/02/24/casestudy_license_03_digital_signature/), 2016/02/24
+1. [金鑰的保護](/2016/03/19/casestudy_license_03_appendix_key_management/), 2016/03/19
+
