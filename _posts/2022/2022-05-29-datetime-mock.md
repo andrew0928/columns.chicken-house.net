@@ -9,10 +9,10 @@ comments_disqus: false
 comments_facebook: false
 comments_gitalk: true
 redirect_from:
-logo: /wp-content/images/2022-06-04-datetime-mock/2022-05-29-00-57-25.png
+logo: /wp-content/images/2022-05-29-datetime-mock/2022-05-29-00-57-25.png
 ---
 
-![](/wp-content/images/2022-06-04-datetime-mock/2022-05-29-00-57-25.png)
+![](/wp-content/images/2022-05-29-datetime-mock/2022-05-29-00-57-25.png)
 圖片來源: [動畫瘋, SPYxFAMILY #4](https://ani.gamer.com.tw/animeVideo.php?sn=29007)
 
 
