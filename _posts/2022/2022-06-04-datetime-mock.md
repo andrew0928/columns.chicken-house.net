@@ -7,7 +7,7 @@ tags: ["系列文章", "架構師的修練", "刻意練習", "UnitTest", "PoC"]
 published: true
 comments_disqus: false
 comments_facebook: false
-comments_gitalk: false
+comments_gitalk: true
 redirect_from:
 logo: /wp-content/images/2022-06-04-datetime-mock/2022-05-29-00-57-25.png
 ---
