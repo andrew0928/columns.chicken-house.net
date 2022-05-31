@@ -396,7 +396,7 @@
     padding: 0 15px;
     color: #444444;
     background-color: #f2f2f2;
-    border-left: 4px solid #78B5DE
+    border-left: 6px solid #78B5DE !important;
 }
 
 .markdown-body blockquote>:first-child {
