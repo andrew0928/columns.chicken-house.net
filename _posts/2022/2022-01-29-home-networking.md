@@ -7,8 +7,307 @@ tags: ["水電工", "有的沒有的", "敗家"]
 published: false
 comments: true
 redirect_from:
-logo: 
+logo: /wp-content/images/2022-01-29-home-networking/2022-06-05-03-48-45.png
 ---
+
+![](/wp-content/images/2022-01-29-home-networking/2022-06-05-03-48-45.png)
+
+
+自從 2019/10 因為原本網路設備掛掉, 開始敗入 UniFi 的體系, 果然如同傳聞的一般, 不知不覺就整套換下去, UniFi 的設備就這樣一直繁殖下去了。事隔兩年半, 我家網路主要設備總算都更新完畢, 於是重新補上這篇, 把我對家裡網路的想法交代一下。
+
+這篇我想寫的，不是只介紹硬體的更新而已。硬體更新沒啥特別要交代的啊，這種東西裝好了大概就無感了 (會有感都是網路出問題)。我想說明的是我怎麼藉由 UniFi 的 SDN 把我想要的環境搭建起來。從 2007 我開始在家裡擺機櫃開始，機櫃裡的設備其實都在處理這些事情:
+
+1. 網路設施 (routing, switch)
+1. 網路服務 (dns, web server, storage, backup)
+1. 監控設備
+1. 電話總機
+
+回顧一下[當年的設備](/2007/10/05/水電工日誌-6-機櫃設備展示/), 果然看得出時代的眼淚, 在過去幾年都被我逐步的換掉了。這一連串設備的整併更新，其實我早就想做了，只是一直都沒有看到滿意的 solution 就沒有很積極的替換，直到我開始購入 UDM-PRO ...
+
+<!--more-->
+
+
+# 前言: 理想的網路環境
+
+寫到前面，提到當年的設備... 我自己回顧了一下當年的文章，這 15 年來變化還真大啊... 有些當年的規劃, 現在已經完全派不上用場了。現在回頭看，投資錯誤的地方有:
+
+1. 同軸電纜的布線完全出局了，我家已經沒有第四台了，無線的數位電視也沒在用了，家裡的監控攝影機也換成 IPCam，當時在家裡拉了 10 條的同軸電纜，目前處於完全荒廢的狀態 XDD
+1. 當年網路線太保守，沒有投資 CAT6A.. (我拉的線路是 CAT5E), 導致我跟 10G 無緣
+1. 市內電話幾乎完全陣亡了, 電話總機 & 牆壁上的 RJ12 插座也幾乎荒廢
+1. 當年買了 4U 的電腦機殼, 組了台 PC, 跑 windows server 負責家裡的網路 & 我自己工作相關需要架設的各種 lab 環境.. 這也撤掉好幾年了, 完全被 UniFi + NAS + Cloud 取代了
+
+以上的想法，在 15 年後其實都不一樣了，我把我期待的架構描述一下，分成五大目標，後面段落再介紹我的作法:
+
+回到現代，一切都簡單的多了，只要有穩定可靠的網路 (包含有線跟無線) 跟足夠的頻寬，其他都不是大問題了。還好當時的網路線拉的很充足，即使只有 CAT5E, 但是到現在跑 2.5G 完全沒問題。所有升級的路線都往 IP 化, PoE 化的方向在進行。因此我的理想是，設備越精簡越好，能用一台就不要用兩台，規格能統一就不要用兩種規格。這段的過程就是我的第一個目標: 網路設備整併。
+
+既然所有東西都往網路靠攏了，我就開始期待網路能有些隔離跟規劃了，主要是網段的規劃跟管理。過去我沒有太多網管的經驗 (我的經驗都集中在軟體開發啊啊啊啊)，設備也大多是陽春的非網管類型，直到跨入 UDM-PRO 我才開始大量使用 VLAN (這是剛好，不是只有靠 UDM-PRO 才辦的到)。我希望家人上網的品質是被保障的；我希望我的 LAB 區是被隔離的 (至少要有基本的 routing & firewall 隔離)；我希望有些我不信任的設備 (或是客人) 能上網，但是跟我家人用或 LAB 用的環境是隔離的；最後我希望能善用 HINET 提供的同時最多八組 PPPoE 撥接，有時我自己臨時需要，能直接從筆電或是 PC 撥接上網取得外部 IP，不用經過家裡的 router ..。這是我的第二個目標: 網路基礎建設。
+
+原本我是有規劃 DVR 的 (還升級過一次)，布線相當的麻煩，需要拉一條同軸電纜 (又粗又硬的纜線)，還要外加電源.. DVR 的介面又難用的很，我希望從攝影機開始就走網路 + PoE, 或是 WiFi 加上一般的 USB 供電就好。這是我的第三個目標: 居家監控。
+
+硬體建設的背後，終究還是要靠軟體服務來整合啊，第四個目標就是我希望有良好可靠的網路服務規劃。從 DNS 開始，到各種個人用的網路服務，到我的 LAB 環境，我都投資在 UDM-PRO, NAS, 以及上面可靠的 Docker 環境了。這部份是我的第四個目標: 網路服務。
+
+最後一個，單純是個人的怨念而已。15 年前想說 CAT5E 可以跑到 1GB 已經很夠用了 (當時機櫃裝的 switch 還只是 24 ports 100M unmanaged 的規格而已)，沒預先準備好 CAT6A (就算只有一條也好啊, 拉到我的書桌), 也沒先拉好光纖... 不過隨著 1GB 的頻寬逐漸不夠 NAS 跟 HDD 使用的情況下，我開始肖想 10GB 的環境.. 這是我第五個目標: 邁向 10G 網路
+
+每個阿宅，其實都想在家裡弄這些東西啊 (是這樣沒錯吧)，我運氣好一點，有機櫃跟布線，其他都是相對好辦的東西了，我就從這兩年多，升級到 UniFi 全家餐的過程中，如何逐步搭建我理想中的環境吧。
+
+
+# 目標 1, 網路設備整併
+
+整個看來，設備整併，其實是最簡單的一環了。中間經歷過很多評估考慮的過程，我就跳過了。上一篇剛採用 UniFi WiFi AP 時, 購入的一批設備 (主要是 router, 兩台 switch) 最終也被我換掉了。目前上線運作中的設備 (這批應該夠我用很久了，沒有更換的打算了，應該夠我用到壞掉為止吧) 如下:
+
+(我就直接用 UniFi Console 提供的 Network Topology 就好了)
+
+![](/wp-content/images/2022-01-29-home-networking/2022-02-02-01-17-48.png)
+
+跟基礎建設有關的就都在上面了, 底下這些除了兩台 UAP AC-Lite 之外，都是這兩年間購入的, 在 [上一篇] 都還沒出現:
+
+* UDM-PRO:   UniFi Dream Machine Pro, 擔任 router, network controller, 監控錄影 service, firewall 等服務。
+* USW-ENT:   UniFi Enterprise 24 PoE Switch, layer 3 switch, 身兼了內網的 routing, 24 ports 都支援 PoE+ 供電, 提供 10G ports x 2
+* USW:       UniFi Switch Flex Mini, 家人書桌上的小台 switch, 接兩台 PC 及印表機
+* UAP:       UniFi AP AC-Lite x 2, UniFi AP AC-LR (Long Range)
+
+其他網路設備 (Orz, 都是 [上一篇] 介紹的...) 都被我換下線了，包含:
+
+* Netgear (16 ports GBE managed switch)
+* Netgear (8 ports GBE PoE managed switch)
+* Ubiquiti EdgeRouter-X SFP
+
+其他更古早也被退下的設備:
+
+* 擔任 router 角色好一段時間的刷機神器 ASUS RT-N16, 以及 MikroTek 的 RB450G ...
+* 白牌的監控主機 DVR, 四路
+* 市內電話主機, 3 外線, 8 內線
+* 第四台 cable 訊號強波器
+* 白牌 (其實有牌子，懶得記型號而已) 5 ports GBE switch
+
+其他有些軟硬體，也被網路基礎設替代了，包含:
+
+* UniFi Network Controller (本來是安裝在 NAS 的 docker 上, 現在內建在 UDM-PRO 裡面)
+* DVR + Camera, 被 UDM-PRO 內建的 UniFi Protect 取代, 攝影機也因為老舊故障, 直接換成 UniFi Protect 系列的 G3-Flex 跟 G3-Instant
+* 兩台 Synology NAS ( 8 Bay + 4 Bay ), 取代了當年那台 4U PC server, 被取代的除了硬體之外，也包含上面跑的各種服務
+
+最後，為了跟 10G 沾上一點邊，也敗了這些東西:
+
+* Mellanox ConnectX-3 10G NIC (SFP+), 裝在 Synology DS1821+ 上面
+* Intel i225-v 2.5G NIC, 裝在我的桌機上
+* USB3 2.5G NIC (Realtek chipset), 筆電用
+
+為了串連這些東西，由於佈線的關係，加上現實的考量，我決定 NAS 主幹先升級到 10G 就好 (都在機櫃內沒有佈線的問題)，直接用 UniFi 原廠的 DAC 銅線，用 SPF+ 接頭跟 switch 對接。而 PC 端則先升級到 2.5G 就夠了。一來 NAS 我沒有用太複雜的 RAID, 單顆硬碟其實 2.5G 的速度就足夠了。也因為這樣 (加上後面會交代的 L3 switch 的連線速度問題) 我才決定一次到位，購入了 UniFi Switch - Enterprise 24PoE, 提供了 24(RJ45) + 2(SPF+) ports, 提供了 12 個 2.5G ports, 2 個 10G ports, 以及 Layer 3 Switch 的管理能力。
+
+最後，幾乎沒有在用的市內電話，當年的我實在太睿智了 (其實只是懶得另外換線)，即使是電話線，我都統一用一樣的線材 (CAT5E) 來佈線，趁著這次我用多餘的 Patch Panel, 把機櫃跟牆上的插座，都換成 RJ45 了。線材早就是 CAT5E 了，而且電話用的插座規格 RJ11 其實跟網路的規格 RJ45 是相容的啊 (這點我是後來才知道的)，我當年根本可以不用另外做不同的插座的。現在一切都統一了，我需要時再跳線就好，隨時可以把牆上的插座按照我的需要，改成網路或是市內電話使用。
+
+最後，硬體的整併就變成上述的這樣了。當年那麼多設備，現在只要 5U 的空間就通通搞定了。這三年陸陸續續清出了不少老舊設備，現在機櫃也清爽多了，換上 UniFi 原廠的線材 (其實價格很合理不貴啊)，10cm / 30cm 的 CAT6A 短跳線, 藍色連接主幹設備, 白色連接 Client 設備，以及 UniFi 的 DAC (SPF+), 50cm 拿來串接 UDM-PRO 跟 USW-ENT24POE, 2m 拿來串接 NAS 跟 Switch, 線材換上去整個質感就起來了 XDD, 貼一下目前機櫃的照片當作這段的結尾:
+
+
+![](/wp-content/images/2022-01-29-home-networking/2022-06-05-03-49-52.png)
+
+
+
+# 目標 2, 網路基礎建設
+
+這段落的主角，其實都是 UDM-PRO 啊，因為這些東西大概都是靠 UDM-PRO 建立起來的。不過說在前頭，以硬體、或是 CP 值來說，UniFi 最被推崇的都是 WiFi AP 系列的產品。其他像是 UniFi Console, 或是 Switch 等等, 單純就功能與規格來說, 就沒有那麼突出了。例如 Router / Switch, 尤其是你越需要進階管理，或是講求效能的，都有其他更好的選擇，UniFi 不會是首選。不過我會在這邊談 UniFi Network，一定有它特別的地方，就是高度的整合。
+
+也是因為 UniFi Network 高度整合這些複雜的網路管理機制，我這種半調子的網管才有能力建構這些環境起來啊，換成他牌的 (例如前一手我用的 MikroTek) 可以做得更出色，但是我學不來啊 XDDD, 因為 UDM-PRO 內建的 netowkr controller 大幅簡化, 加上 UDM-PRO 用硬體把這些服務都塞進去了, 我可以在單一設備搞定這些服務，這才是 UniFi 全家桶的魅力。我就說明一下我拿 UDM-PRO 的應用方式。
+
+我在家裡的網路，建構了這些我期待的自用服務, 包含:
+
+1. 5 個不同用途的 VLAN 與其之間的 routing (UDM-PRO, USW-ENT24)
+1. VPN (L2TP, Teleport VPN)
+1. 基本的對外攻擊防禦 (IDS/IPS)
+1. 基本的網路監控與流量分析
+1. IPerf3 server
+1. Internal DNS rewrite (這不是 UDM-PRO 提供的, 我是裝在 NAS 上)
+
+
+## VLAN
+
+其實 VLAN 的建置跟兩年前那篇沒有太大的改變，我直接列我切了幾個 VLAN 以及用途就好。這麼做的目的可以看上一篇:
+
+1. TRUNK(0, 10.0.0.0/24): 預設, 主要用來網路骨幹設備 ( Router, Switch, AP, Camera, DNS ) 串聯用
+1. MODEM(10, --): 直連光世代的數據機, 當我有任何設備要直接 PPPoE 撥接，或是電視要直接看 MOD 時使用 (不過我沒有申請 MOD)
+1. NAS (100, 192.168.100.0/24): 主要是供兩台 NAS, 以及在 NAS 上面跑的各種 docker containers, 包含我的 LAB 環境都在這邊。做基本的隔離跟防火牆，跟家人用的上網往段隔離，方便我做實驗，也方便監控流量。
+1. HOME (200, 192.168.200.0/24): 主要家人各種設備上網用。WiFi SSID 也都是配置到這個網段
+1. GUEST/IOT (201, 192.168.201.0/24): 直接用 UDM-PRO 內建的 Guest Network 功能搭起來的。這網段能直接上網，但是無法連到內部其他的網段。適合給那些還沒換掉的對岸聯網設備或是家電。
+
+其實這些設定並不難，你有良好的 TCP/IP 基礎知識，還有懂得那些 VLAN 的設定方式 ( tag / untag, 或是 pvid 之類的表示方式就 OK 了 )，以及多個網段之間的 routing 管理。另外 Guest Network 就麻煩一點，除了 VLAN 跟 routing 之外，你還要知道怎麼處理認證問題啊... 這之前我在用 RouterOS 的時候就碰到瓶頸了，天分不夠弄起來就是不滿意...。在更換 UDM-PRO 之前這些設置對我而言是個大工程，尤其還橫跨多種設備時，VLAN 我得要自己去整合啊，光是換個 VLAN ID 我就得去三台設備改三次就夠頭痛的了。Guest Network 也是，沒有 UniFi Network Controller 提供的 Guest Portal 的話，我大概也是弄不起來...。這些高度整合的服務幫了我不少忙，我才會下定決心，用全家餐換掉其他牌子或是系列的 router / switch.
+
+整合的好處是網路拓樸一目了然 (實體連結)，網段或是 switch ports 的流量也是輕鬆就可以掌握。如果你想知道這些流量都是在傳輸哪些類型的資料 (application) 也難不倒 UDM-PRO, 可以看網段，或是設備跟流量之間的統計，當你發現流量異常時，你至少可以知道是哪類通訊協定在傳資料。雖然這些都是要花 CPU 標示統計出來的，不過買了就是要用啊，這些東西要自己架設也做得到，不過要花不少功夫研究就是了。
+
+(圖: 網路拓樸)
+(圖: PORT統計)
+(圖: APP統計)
+
+至於 VLAN 之間的 routing, 除了 L3 switch 之外, 其他也沒有太多需要留意的。L3 這部分我留待最後聊 10G 的部分再談就好。
+
+## DNS - AdGuard Home
+
+DNS 我想了很久，最後我還是把他歸類到基礎建設這段了 (雖然他應該算是網路服務)。我不需要在家裡弄一套完全獨立的 domain name (例如 andrew.local 這類的)，不過礙於 SSL 憑證的關係，有些自己的 host 在家裡連，不想繞到外面再繞回來，但是沒有 DNS 來指路的話又有點麻煩，最後選擇在 NAS 的 docker 上面架設了 AdGuard Home 這套服務。他是透過 DNS 的機制，幫你擋掉廣告或是惡意網站，同時也提供讓你 rewrite 的白名單。當你沒有特別指定覆寫的清單，或是被 AdGuard Home 列為黑名單被阻擋之外，其他情況他都會把 DNS Query 轉發到上游的 DNS。不需要太多的管理，對我而言剛剛好夠用，就是個理想的選擇。
+
+對 DNS 有掌控能力之後，後面會提到的網路服務就開始有好的出發點了。我可以很輕鬆的用 domain 來搭配 reverse proxy (NAS 內建), 去組織我用 docker 建立起來的一堆服務。這後面再談。
+
+
+## VPN - Teleport VPN / L2TP
+
+最後一個 VPN，也是被我歸類在網路基礎建設，而非網路服務的另一個功能。UDM-PRO 內建了幾種主流的 VPN service, 同時也內建了讓你管理帳號認證的 RADIUS service. 一樣是簡單方便的懶人 solution, UniFi Network Controller 可以幫我搞定大部分的雜事, 包含網段、Routing、開通防火牆等等。最後我設定了 L2TP/IPsec 來架設家裡的 VPN, 有需要的話我可以直接從外面撥接回家。
+
+不過 L2TP 有點年代了，UDM-PRO 又還不支援 SSL-VPN 這類協定... 正好在上周正式 release 了新功能: Teleport VPN, 這個真的要大推一下。
+
+Teleport VPN, 其實早在 UniFi 其他產品線就出現過了，對於懶人是個福音，幾乎不需要任何的設定就能啟用了。它背後的基礎不是基於 OpenVPN, 而是另一套後起之秀: WireGuard VPN. 相對 OpenVPN 完整的生態系，WireGuard VPN 的快速與簡易是另一個不錯的選擇。使用的體驗 加上 UniFi 的整合能力都很令人滿意，唯一不足的是目前還沒有 windows 版本的 client, 所以暫時我還拿不掉 L2TP ...
+
+想要自己設定的也很簡單，先在 UniFi Netowkr Controller 內產生連結，給 Client 點選接受，就完成了。手機端的 APP 是 WiFi Man, 他會幫你完成所有的設定，你不需要再繞到系統那邊自己建立 VPN Profile。
+
+(圖: generate link)
+
+(圖: click link)
+
+想體驗或是深入了解的，可以看一下這些介紹...
+
+
+
+# 目標 3, 居家監控
+
+監控系統，是主要讓我決定敗入 UDM-PRO 的最後一根稻草。雖說整合式的一體機 UDM-PRO 有很多優勢，但是不管再怎麼說，我先前也是很克難的搞定 VPN / VLAN / DNS 了啊... 主要就是先體驗過 UniFi Network Controller 的優勢，加上家裡的古早監控攝影機一台接著一台掛掉了... 於是先購入兩台 G3-Flex, 搭配當時的末代自建 controller: UniFi Video, 使用起來還不錯, 加上官網宣告 UniFi Video 不再繼續維護, 以後會將重心轉移到 UniFi Protect (這個只限定 UniFi Console 內建使用).. 於是就敗了 UDM-PRO, 同時也正式的邁入全家餐的行列
+
+之後又陸陸續續加了兩台 G3-Instant, 有可靠的 WiFi 訊號, 又有隨手可得的 USB-C 電源供應，就這樣替換掉原本的 RG58 同軸電纜, 類比式的監控攝影機, 還有難用的 DVR 主機了..
+
+# 目標 4, 網路服務
+
+這段就真的是大雜燴了，有了好的基礎建設，真的要玩什麼都容易了。我在一年半前，因為原本的 NAS (Synology DS412+) 無預警掛掉了，看來是主機板陣亡了。快要十年的機器就直接讓他安息吧，備份用的設備也沒有造成什麼損失，只是剩下一台 Synology DS918+ 也有點不安。所以在接下來的時間就物色了一台新機，同時為了跑 docker / virtual machine / 10G 做好準備，就挑了這台 Synology DS1821+, 同時陸陸續續擴充了 32GB RAM, 跟 10G NIC (SPF+)。
+
+S 牌的硬體都給的很小氣，這等級的設備也只是給到 4 ports GBE 網路, 我自己擴充才有 10G SPF+ 擴充能力。這款也開始改用 AMD Ryzen 的 CPU (v1500b), 運算能力不能跟桌機比，但是跟之前的 DS412+ / DS918+ 比起來就好太多了，至少已經可以跑跑輕量級的 virtual machine 了。網路的連線速度雖然給的很不乾脆，但是數量也夠了。10G 我就接在 NAS 的網段 (VLAN: 100) 專門拿來提供檔案傳輸的服務 (SMB), 另外接了 TRUNK 網段 (VLAN: 0) 與 HOME (VLAN: 200), 分別給 DNS 與 HomeKit Assistant 使用。
+
+只能說 NAS + Docker 真是好物，我簡單介紹一下我在上面跑了哪些東西:
+
+## 網路基礎服務相關
+
+歸在這類的有 ADGuardHome (DNS), 還有取代 Synology 自己封裝的 Docker 管理工具用的 Portainer-CE. 其他還有一些冷門的我就略過了。DNS 前面提過我就不多說了，這是個必要的東西，也是所有其他網路服務架起來好不好用的基礎。沒有 DNS，你就得用 IP + PORT。你用了 IP 就沒辦法用 SSL，你也得記得每個服務的 Port 號碼。有了 DNS 你就能申請 Let's Encrypt 憑證 (讓你的瀏覽器別跳警告而已 XDD)，你也能搭配 NAS 內建的 Reverse Proxy, 讓你不同 domain 的網址都能共用 443 ports, 省了不少麻煩。這組合大推! 你需要的所有東西，NAS 都可以替你搞定。我就拿後面示範的 Bitwarden 來說明:
+
+(圖: NAS Docker, 架設你的服務, 並且指定 port mapping)
+
+(圖: AdGuard Home 指定 rewrite)
+
+(圖: Synology Control Panel -> Application Portal -> Reverse Proxy 轉址)
+
+(圖: Synology Control Panel -> Security -> Certification, 綁定到 Reverse Proxy 轉址項目)
+
+前後互相搭配，你的服務看起來就很專業了 (誤)。
+
+## 個人應用相關
+
+拿 NAS 當 server, 跟自己架設 PC 當 server, 其實有幾點很關鍵的差別。功能上都能做得到，但是 NAS 廠商在設計上的最佳化角度就完全不同。如果你還在傷腦筋這兩者之間的選擇，給你一些我的建議:
+
+1. NAS 是以儲存為出發點, 資料的可靠度 (RAID), 資料的安全 (Backup) 都有很妥善的設置。
+1. NAS 在能達到上述目的為前提, 搭配的硬體資源足夠就好 (CPU, RAM, I/O). 其餘以能長時間運作, 降低耗電為主
+1. NAS 考量市場規模，使用者定位在入門與進階，基本上操作的門檻不會太高。真正需要的是背後的知識 (例如網路設定，或是憑證等等)
+
+對我來說，如果要我把一些重要的服務 (重要是指資料重要)，我最擔心的是怎麼確保資料安全? 最終我還是需要 RAID 跟 Backup 啊，這些就是自己弄最麻煩的地方。過去我曾經買過這種 [MiniPC](), 灌了 Linux 專門拿來跑 docker, 效果其實不錯, 不過維護麻煩, 加上上面的資料問題, 我終究只能擺些 LAB 的應用。像我這段要介紹的 Bitwarden 這類應用我就不敢擺上去了。
+
+Birwarden 是個不錯的密碼管理服務，他 open source, 也提供 docker image 讓你自己架設。家用吃不了多少運算資源的, NAS 的 CPU / RAM 要應付他綽綽有餘了。他的資料庫也沒多大，幾十 MB 就夠了。你要為了這些就去弄一組 RAID 嗎? 好像小題大作了，但是這在 NAS 卻是很容易辦到的事情。當我發現除了 LAB 以外，真正要解決自己生活上的應用，這些資料層面的問題越來越比效能跟 C/P 值還重要，這也是我逐漸放棄自組 PC 當作 Server, 而轉向改採用中高階 NAS 型號來當作 server 的原因。
+
+我自己用 docker 架設，個人使用的服務，最具代表性的就屬 Bitwarden 了，其他像是相簿，筆記等等選擇也很多。你如果不放心放在別人家，自己嘗試建立看看是個好選擇。
+
+## Network Tools
+
+被我歸類在這邊的，有兩個 Docker: Iperf3, 以及 FileZilla client.
+
+NAS 既然負責儲存，那麼網路傳輸才是他的本業對吧! FTP 雖然已經越來越少用了，但是我自己的應用上，偶爾還是有需要啊。我想要找一個類似 Download Station 那樣，有基本的功能即可，但是我需要長時間放著讓 NAS 慢慢傳輸。我需要足夠的 disk storage 當作暫存空間, 無奈找不到太多合適的 web 介面 ftp client ... 都只有 GUI 版本的 ftp client, 例如 FileZilla FTP Client ...
+
+但是我卻無意間發現, 有人把 Linux, GUI support, File Zilla FTP Client, 以及 VNC service 打包成同一個 docker image... 這實在太方便了 XDD, 我只需要啟動這個 container, mount 好必要的 volumns, 其餘我只需要啟動瀏覽器, 用 web browser 充當 vnc client 就好了。操作上雖然不像是 web application, 比較像是 remote desktop, 不過這無所謂, 已經能解決我的主要問題了。至少在目前這是最理想的選擇。
+
+推薦: (docker hub link)
+
+另一個是 Iperf3, 升級到 10G, 最在意的就是連線速度了。與其每次都 copy 大檔案測試, 還要 copy 兩次避免 disk cache 等等土炮的測試方式，用 Iperf 這類正規的網路傳輸測試工具才是正軌啊! 我不想在 NAS 上用一些奇怪的手段 SSH 進去裝這些工具，我選擇用 docker 的方式安裝。一來效能影響應該能夠忽略, 二來這樣的安裝方式較好管理與維護。為了後續的 10G 之路，這也變成一個常駐在我的 NAS 內的 container.
+
+
+## Labs for Web Developer
+
+VSCODE, GitHub Pages, Blog Engine (with mono)
+
+我自己工作相關，常常會需要架設一些環境自己來研究。那些短期架完就砍掉的我就不寫了，我留三個值得介紹的，都是跟我寫部落格相關的主題。其中之一是 GitHub Pages 模擬環境，加上 Web 版本的 VS CODE 整合。另一個是我過去舊版的 Blog, 是架設在 Blog Engine 之上的 (參考: Blog As Code), 我自己的已經移轉完成了，但是我家大人的沒有啊啊啊啊。Blog Engine 當年的版本是 .NET Framework 開發的，我想辦法把 Blog Engine 讓他能在 Mono 上面執行，並且封裝成 docker image ..
+
+把寫部落格的環境，轉移到 NAS 上，是我的實驗專案。我自己部落格已經轉移到 GitHub Pages 上面執行了，不過從 push 到看到結果，要等個幾分鐘啊，我自然希望能有快速一點的回饋，之前在做實驗時，發現 windows 架構的關係，container 的 I/O 效率在某些情況下會變得很糟，尤其是需要監控 file system 異動時，若又碰到 volume mount, 橫跨不同的 file system (例如 NTFS mount 到 container 內)，這時 I/O 的效能整個掉下來，我改一行字要等上兩分鐘才看的到結果 (參考: XXXXX)
+
+於是我就有了這樣的念頭，能否直接把檔案編輯好放上 NAS, 然後透過 NAS 上面的 container 幫我做及時發布與預覽? 後半段我找到合適的 solution 了，就是 GitHub Pages Emulator 了。
+
+但是想想不對啊，我的網站最終是要 push 到 git repo 上的, 我要嘛就把 local repo 擺在網路磁碟機上，或是要預覽時 copy 到 NAS, 但是怎麼想都不對... 最後把腦筋動到 vs code 身上。VSCode 不是有 web 版本嗎 (參考: CDR) ? 我把她一起裝到 NAS 上就可以了啊...
+
+於是這樣的組合就出現了。我可以很方便地從任何地方，只要瀏覽器一開，連回家就可以開 vscode 寫部落格了。其他類似的檔案管理也可以這樣使用，VSCode 已經可以搖身一變變成 NAS 上面的檔案編輯器了。不過我還沒正式遷移到這個方案 (目前還只是在測試中)，因為我試了好幾套，能自動替我把剪貼簿裡面的圖形，存成圖檔，然後在 Markdown 插入正確的圖片連結標記的 vscode extension, 沒有一套能在這環境下運作的... 這就是唯一的未解決問題啊, 其他就一切完美了。
+
+
+
+
+
+# 目標 5, 邁向 10G 的路
+
+最後一個，就是未完成的夢想: 10G 網路。其實這也不是特別難的事情，10G 就是錢坑而已，看你要不要一次跳進去...。我的選擇是，先讓骨幹做好準備，外圍先升級到夠用為止就好，所以在這兩年間的升級計畫都是以這目標為準，用最低的花費滿足大部分的需求。
+
+即使如此，也是碰到一點狀況，規劃時要留意的地方不少啊，特地保留這段，讓其他用 UniFi 全家餐，也想要升級到 10G 的人參考。10G 對家用網路環境來說，是個不算低的門檻，除了線材的挑選 (RJ45, SPF+, CAT6A, DAC, 光纖..), 設備能不能上 10G, 規格效能都是個考驗。我說明兩個我踩過的坑:
+
+## UDM-PRO 架構上的瓶頸
+
+這不是來自官方資訊 (我也不之來源)，但是所有 UniFi 的社群看似大家都知道這回事，就是 UDM-PRO 本身的 10G, 你要把 10G 跟 1G x 8 當作兩個分開的設備來看待 (只是他們剛好被裝在同一個盒子裡)。
+
+最主要的原因，就是這張架構圖:
+
+
+
+意思是，如果我在 LAN 的 SPF+ 裝上 10G 的 NAS, 我在 LAN 1 ~ 8 每個 port 雖然都只有 1G 的頻寬，但是同時對 NAS 存取時，能否每個 client 都有 1G 的滿速, 讓 NAS 同時達到 8GB 的 throughtput 呢?
+
+從架構圖上看來，是不行的，因為內部架構，你要把那 8 ports switch 當作內置一台 9 ports giga switch, 連結到一台 1G + 10G LAN, 與 1G + 10G WAN 的 router (咦? 這不就是 USG4 pro 嗎? XDDD), 瓶頸會卡在內部看不到的那 1G 連線..
+
+所以，如果你要走 10G, 第一件事是你就要放棄左邊那 8 ports switch 了... 否則你那單一 10G port 只是升級好看的，他的流量永遠上不去 10G, 除非你的 NAS 只跟 UDM-PRO 本身的 application 通訊..
+
+因此，大部分社群上有經驗的人，都會配置一台專業一點的 switch, 把所有的流量都集中到 switch 身上，只把 UDM-PRO 當作 up-link, 當作單純的 router 使用。不過，就在上周的更新 (UDM-PRO firmware: 1.12.22) 這個局勢有些微的改變了。新版 firmware, 允許你自己選擇第二個 SPF+ 是要當作 LAN or WAN 看待，如果你改成 LAN，至少 UDM-PRO 有辦法有兩個 10G LAN port 可以對接，如果這樣足夠你使用，你是可以省下一筆 switch 的花費的...
+
+(圖: 1.12.22 settings)
+
+
+我本來以為 10G 的事情只到這裡為止，直到我敗入了 UniFi Switch - Enterprise 24 PoE ...
+
+## UDM-PRO IDS/IPS 的效能瓶頸
+
+購入 USW-ENT-24POE 後，很開心的用 DAC，把 UDM-PRO / USW 用 10G 連線串起來，另外多的一個 10G 則接到 NAS 身上..., 而 PC 端也升級成 2.5G 網卡, 接到 USW 上的 2.5G port..
+
+不過，用上前面介紹的 Iperf3, 我在 PC 端連到 NAS, 怎麼測都測不到預期的 2.5G 速度啊，而且速度是落在很詭異的 1.1Gbps 左右... 如果速度是卡在 1G, 那我怎麼測的出 1.1G 的速度? 如果不是，線材或是設定的關係導致的嗎? 我的線材有這麼不勘嗎? 
+
+後來我甚至 SSH 進 UDM-PRO，也裝了 Iperf3 ... 才發現:
+
+(我先畫張網路拓樸好了，方便大家理解)
+
+1. NAS -> UDMPRO, 可以跑到 7.x G, 算是可以接受的速度
+1. PC -> UDMPRO, 可以跑到 2.5G, 滿速
+1. PC -> (USW) -> (UDMPRO) -> NAS, 1.1G
+
+因為 (1), (2) 的結果，可以證明完全不是實體連線或是線材的問題了啊
+
+
+
+
+## 小結
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 離上次更新 [#水電工日誌](/categories/#系列文章:%20水電工日誌) 這系列文章已經兩年了。上次的升級 ([水電工日誌 #7](/2019/12/12/home-networking/))，替家裡的網路環境打了良好的基礎，開始採用 VLAN，以及開始改用 UniFi 的 Thin AP 來替代一般家用的 router + wifi 機種 (每次都覺得這種機種的 wifi 很差, router 也很差, 然後一換就整個重來, 用兩台第二台就要廢掉一半武功)。UniFi Network 是個很好的起點, 我決定接下來的基礎連線設備都往這邊靠攏。穩定的連線都到位之後，就開始想要朝向設備精簡，提升速度，以及開始重新建置家裡用的各種服務了。
 
