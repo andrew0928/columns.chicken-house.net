@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "水電工日誌 #8. 家用網路設備整合, UniFi + NAS 的升級之路"
+title: "水電工日誌 #8. 家用網路設備整合, UniFi + NAS 升級之路"
 categories:
 - "系列文章: 水電工日誌"
 tags: ["水電工", "有的沒有的", "敗家", "UniFi"]
