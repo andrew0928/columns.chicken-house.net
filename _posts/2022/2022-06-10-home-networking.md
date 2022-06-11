@@ -66,9 +66,9 @@ logo: /wp-content/images/2022-06-10-home-networking/2022-06-12-03-36-32.png
 
 整個看來，設備整併，其實是最簡單的一環了。中間經歷過很多評估考慮的過程，我就跳過了。上一篇剛採用 UniFi WiFi AP 時, 購入的一批設備 (主要是 router, 兩台 switch) 最終也被我換掉了。目前上線運作中的設備 (這批應該夠我用很久了，沒有更換的打算了，應該夠我用到壞掉為止吧) 如下:
 
-(我就直接用 UniFi Console 提供的 Network Topology 就好了)
-
 ![](/wp-content/images/2022-06-10-home-networking/2022-02-02-01-17-48.png)
+> 圖: UniFi Console 提供的 Network Topology
+
 
 跟基礎建設有關的就都在上面了, 底下這些除了兩台 UAP AC-Lite 之外，都是這兩年間購入的, 在 [上一篇] 都還沒出現:
 
@@ -110,19 +110,21 @@ logo: /wp-content/images/2022-06-10-home-networking/2022-06-12-03-36-32.png
 最後來到線材的部分，全部都集中到 CAT5E 的線路上了。這幾年來，我家幾乎沒有在用的市內電話，[當年](/2007/09/14/水電工日誌-2-資訊插座-面板/) 的我實在太睿智了，即使是電話線，我都統一用一樣的線材 (CAT5E) 來佈線，我個人喜好也剛好符合結構化布線的要求，線的兩端都是固定的資訊插座。這次只有簡單地把牆上的插座換成 RJ45，而機櫃這端則是用 24 ports 的 patch panel, 線材的兩端都是 RJ45... 電話用的插座規格是 RJ11 ，其實跟網路的規格 RJ45 是相容的啊 (這點我是後來才知道的)，電話線的水晶頭完全可以插在 RJ45 上面，只要另一頭是電話線，不是網路 switch 就好... 我當年根本可以不用另外做不同的插座的。現在一切都統一了，我需要時再跳線就好，隨時可以把牆上的插座按照我的需要，改成網路或是市內電話使用。
 
 ![](/wp-content/images/2022-06-10-home-networking/2022-06-12-03-50-25.png)
-> 大推的小配件: UniFi 乙太網路跳線, 我把自己壓的短跳線全換掉了。可彎護套實在太讚, 可以彎成你想要的角度 (SKU: U-Cable-Patch-RJ45)
+> 圖: UniFi 乙太網路跳線, 我把自己壓的短跳線全換掉了。可彎護套實在太讚, 可以彎成你想要的角度 (SKU: U-Cable-Patch-RJ45)
 
 最後硬體的整併就變成上述的這樣了。當年那麼多設備，現在只要 5U 的空間就通通搞定了。這三年陸陸續續清出了不少老舊設備，現在機櫃也清爽多了，換上 UniFi 原廠的跳線 (其實價格很合理不貴啊，內藏鐵絲的接頭護套很好用，大推)，10cm / 30cm 的 CAT6A 短跳線, 藍色連接主幹設備, 白色連接 Client 設備，以及 UniFi 的 DAC (SPF+), 50cm 拿來串接 UDM-PRO 跟 USW-ENT24POE, 2m 拿來串接 NAS 跟 Switch, 線材換上去整個質感就起來了 XDD, 貼一下目前機櫃的照片當作這段的結尾。跟 15 年前比，是不是單純多了? 現在只剩 NAS x 2, UPS, Router, Switch 就沒有了。當年規模小一些，但是設備複雜多了，有 4U PC-Server, Switch, DVR, 電話總機...
 
 
 ![](/wp-content/images/2022-06-10-home-networking/2022-06-11-15-20-03.png)  
-懷舊照片: 2007/10 的機櫃設備
+> 圖: 懷舊照片, 2007/10 的機櫃設備
 
 ![](/wp-content/images/2022-06-10-home-networking/2022-06-11-17-24-46.png)
-懷舊照片: 2019/12 的機櫃設備, 已經換上 VLAN, UniFi AP, 還未購入 UDM-PRO, 零散的設備一堆, 同時電話總機跟 DVR 也都還在服役中的混亂期, 也開始體會到 UniFi 的整合優勢。當時我的 Synology DS412+ 還健在..
+> 圖: 懷舊照片, 2019/12 的機櫃設備
+
+2019/12 的那批升級，已經換上 VLAN, UniFi AP 了, 不過當時還未購入 UDM-PRO, 零散的設備一堆, 同時電話總機跟 DVR 也都還在服役中的混亂期, 也開始體會到 UniFi 的整合優勢。當時我的 Synology DS412+ 還健在...
 
 ![](/wp-content/images/2022-06-10-home-networking/2022-06-11-13-59-39.png)  
-現況照片: 2022/06 的機櫃設備, 設備通通都整併了, 軟體都塞 NAS, 硬體跟線路都用 UDM-PRO + USW 以及網路線收整統一了。
+> 圖: 現況照片, 2022/06 的機櫃設備, 設備都整併成 UniFi 了, 軟體都塞 NAS 了, 線路都整併成網路線了。
 
 
 # 目標 2, 網路基礎建設
@@ -146,31 +148,38 @@ logo: /wp-content/images/2022-06-10-home-networking/2022-06-12-03-36-32.png
 其實 VLAN 的建置跟[兩年前那篇](/2019/12/12/home-networking/)沒有太大的改變，我直接列我切了幾個 VLAN 以及用途就好。這麼做的目的可以看上一篇:
 
 ![](/wp-content/images/2022-06-10-home-networking/2022-06-11-14-02-42.png)
+> 圖: VLAN 架構示意圖
 
-1. TRUNK(0, 10.0.0.0/24): 預設, 主要用來網路骨幹設備 ( Router, Switch, AP, Camera, DNS ) 串聯用
-1. MODEM(10, --): 直連光世代的數據機, 當我有任何設備要直接 PPPoE 撥接，或是電視要直接看 MOD 時使用 (不過我沒有申請 MOD)
-1. NAS (100, 192.168.100.0/24): 主要是供兩台 NAS, 以及在 NAS 上面跑的各種 docker containers, 包含我的 LAB 環境都在這邊。做基本的隔離跟防火牆，跟家人用的上網往段隔離，方便我做實驗，也方便監控流量。
-1. HOME (200, 192.168.200.0/24): 主要家人各種設備上網用。WiFi SSID 也都是配置到這個網段
-1. GUEST/IOT (201, 192.168.201.0/24): 直接用 UDM-PRO 內建的 Guest Network 功能搭起來的。這網段能直接上網，但是無法連到內部其他的網段。適合給那些還沒換掉的對岸聯網設備或是家電。
+1. **TRUNK(0, 10.0.0.0/24)**:  
+預設, 主要用來網路骨幹設備 ( Router, Switch, AP, Camera, DNS ) 串聯用
+1. MODEM(10, --):  
+直連光世代的數據機, 當我有任何設備要直接 PPPoE 撥接，或是電視要直接看 MOD 時使用 (不過我沒有申請 MOD)
+1. **NAS (100, 192.168.100.0/24)**:  
+主要是供兩台 NAS, 以及在 NAS 上面跑的各種 docker containers, 包含我的 LAB 環境都在這邊。做基本的隔離跟防火牆，跟家人用的上網往段隔離，方便我做實驗，也方便監控流量。
+1. **HOME (200, 192.168.200.0/24)**:  
+主要家人各種設備上網用。WiFi SSID 也都是配置到這個網段
+1. **GUEST/IOT (201, 192.168.201.0/24)**:  
+直接用 UDM-PRO 內建的 Guest Network 功能搭起來的。這網段能直接上網，但是無法連到內部其他的網段。適合給那些還沒換掉的對岸聯網設備或是家電。
 
 其實這些設定並不難，就是很麻煩而已，你要懂得那些 VLAN 的設定方式 ( tag / untag, 或是 pvid 之類的表示方式 )，以及多個網段之間的 routing 管理。兩年前我是自己在三套設備之間一個一個 ports 慢慢指定 tag / untag vlan id, 好幾次弄到網路不通, 搞半天才弄起來的 (弄好就完全不想改了, 即使我臨時想讓桌機換個 VLAN 也懶)。另外 Guest Network 就麻煩一點，除了 VLAN 跟 routing 之外，你還要知道怎麼處理認證啊... 這之前我在用 RouterOS 的時候就碰到瓶頸了，天分不夠弄起來就是不滿意...。在更換 UDM-PRO 之前這些設置對我而言是個大工程，尤其還橫跨多種設備時，VLAN 我得要自己去整合，光是換個 VLAN ID 我就得去三台設備改三次就夠頭痛的了。Guest Network 也是，沒有 UniFi Network Controller 提供的 Guest Portal 的話，我大概也是弄不起來...。這些高度整合的服務幫了我不少忙，我才會下定決心，用全家餐換掉其他牌子或是系列的 router / switch.
 
 整合的好處是網路拓樸一目了然 (實體連結)，網段或是 switch ports 的流量也是輕鬆就可以掌握。如果你想知道這些流量都是在傳輸哪些類型的資料 (application) 也難不倒 UDM-PRO, 可以看網段，或是設備跟流量之間的統計，當你發現流量異常時，你至少可以知道是哪類通訊協定在傳資料。雖然這些都是要花 CPU 標示統計出來的，不過買了就是要用啊，這些東西要自己架設也做得到，不過要花不少功夫研究就是了。
 
 ![](/wp-content/images/2022-06-10-home-networking/2022-06-11-14-06-07.png)  
-(圖: 網路拓樸)
+> 圖: 網路拓樸
 
 ![](/wp-content/images/2022-06-10-home-networking/2022-06-11-14-07-09.png)  
-(圖: PORT統計)
+> 圖: PORT 流量統計
 
 ![](/wp-content/images/2022-06-10-home-networking/2022-06-11-14-08-10.png)  
-(圖: APP統計)
+> 圖: APP 流量統計
 
 至於 VLAN 之間的 routing, 除了 L3 switch 之外, 其他也沒有太多需要留意的。L3 這部分我留待最後聊 10G 的部分再談就好。
 
 ## DNS - AdGuard Home
 
 ![](/wp-content/images/2022-06-10-home-networking/2022-06-11-14-08-46.png)
+> 圖: AdGuard Home
 
 
 DNS 我想了很久，最後我還是把他歸類到基礎建設這段了 (雖然他應該算是網路服務)。我不需要在家裡弄一套完全獨立的 domain name (例如 andrew.local 這類的)，不過礙於 SSL 憑證的關係，有些自己的 host 在家裡連，不想繞到外面再繞回來，但是沒有 DNS 來指路的話又有點麻煩，最後選擇在 NAS 的 docker 上面架設了 [AdGuard Home](https://adguard.com/zh_tw/adguard-home/overview.html) 這套服務。他是透過 DNS 的機制，幫你擋掉廣告或是惡意網站，同時也提供讓你 rewrite 的白名單。當你沒有特別指定覆寫的清單，或是被 AdGuard Home 列為黑名單被阻擋之外，其他情況他都會把 DNS Query 轉發到上游的 DNS。不需要太多的管理，對我而言剛剛好夠用，就是個理想的選擇。
@@ -190,6 +199,7 @@ Teleport VPN, 其實早在 UniFi 其他產品線 (AMPLIFI) 就出現過了，對
 想要自己設定的也很簡單，先在 UniFi Netowkr Controller 內產生連結 (下圖左方)，產生的連結想辦法傳給對方的手機點選，會跳出 APP 問你是否接受，就完成了 (右方)。手機端的 APP 是 [WiFi Man](https://apps.apple.com/us/app/ubiquiti-wifiman/id1385561119), 他會幫你完成所有的設定，你不需要再繞到系統那邊自己建立 VPN Profile。要連線時你只需要打開或關閉 VPN 就好，其他什麼 server ip address, secret, password, 還有啥安全設定的通通不需要, 就是這麼無腦。
 
 ![](/wp-content/images/2022-06-10-home-networking/2022-06-11-17-33-00.png)
+> 圖: Teleport VPN 的設定 (WEB) 與啟用 (APP) 畫面
 
 
 想體驗或是深入了解的，可以看一下這些介紹...
@@ -208,7 +218,7 @@ Teleport VPN, 其實早在 UniFi 其他產品線 (AMPLIFI) 就出現過了，對
 不得不說，UniFi 的軟體與整合真是大加分，UDM-PRO 內建 UniFi Protect, 你只要自己插一顆硬碟進去就可以錄影了。監控的 Web 介面或是手機 APP 也寫得很好用，完全跟當年那些小廠的 DVR (難用到爆的 UI) 完全是不同檔次的。說到好用，其實 [Synology Surveillance Station](https://www.synology.com/zh-tw/surveillance) 也不錯，不過要額外授權，設定的選項也過頭了，我個人是比較喜歡 UniFi 的體驗，恰到好處不用花太多心思。
 
 ![](/wp-content/images/2022-06-10-home-networking/2022-06-12-03-43-39.png)
-> 沒啥出場機會的照片: 裝在我家門口的 UniFi G3-Flex (SKU: UVC-G3-FLEX)
+> 圖: 沒啥出場機會的照片: 裝在我家門口的 UniFi G3-Flex (SKU: UVC-G3-FLEX)
 
 如果真要說 UniFi Protect 的缺點，當然也有。一來是攝影機只能用自家的，雖然有不錯的入門機種 (G3 Instant, 有[網友的開箱文](https://masonsfavour.com/ubiquiti-unifi-g3-instant/), 這台買的到的話真的大推) ，也是超高 CP 值，用料好又穩定可靠，一台還不到 1000 塊，不過大缺貨，根本買不到啊啊啊啊。買的到的只有高階機種，一台要上萬...；另外就是硬碟配置完全沒有自主的彈性，錄影的額外備份機制也完全沒有，你只能自己手動下載你要的區間影片，如果你想要大量匯出錄影，那現在並沒有很好的做法。比較推薦的作法是: UniFi Protect 可以統一提供每支攝影機的 rtsp:// 網址, 拿 Synology Surveillance Station 當作自訂攝影機輸入，就用 NAS 同步抄寫一份當作備份了。
 
@@ -219,6 +229,7 @@ Teleport VPN, 其實早在 UniFi 其他產品線 (AMPLIFI) 就出現過了，對
 最後貼一下 Web UI / APP 的介面，跟相關的介紹文章，讓各位體驗一下操作介面；實在太好用，我媽除了看第四台之外，看得最多的影片就是這個 APP 了 XDDD，錄影內容涉及居家隱私我就不貼了，只貼 Web UI 的介面，同時把監控內容馬賽克一下...。想多了解的，我貼別人的介紹..
 
 ![](/wp-content/images/2022-06-10-home-networking/2022-06-11-17-38-24.png)
+> 圖: UniFi Protect 的 Web UI 畫面, 右側會列出偵測到動作的時間軸
 
 參考連結:
 * 官網 [UniFi Protect, 易於擴充的安全監控系統](https://tw.ui.com/camera-security)
@@ -242,21 +253,21 @@ S 牌的硬體都給的很小氣，這等級的設備也只是給到 4 ports GBE
 歸在這類的有 [ADGuardHome](https://adguard.com/zh_tw/adguard-home/overview.html) (DNS), 還有取代 Synology 自己封裝的 Docker 管理工具用的 [Portainer-CE](https://www.portainer.io/). 其他還有一些冷門的我就略過了。DNS 前面提過我就不多說了，這是個必要的東西，也是所有其他網路服務架起來好不好用的基礎。沒有 DNS，你就得用 IP + PORT。你用了 IP 就沒辦法用 SSL，你也得記得每個服務的 Port 號碼。有了 DNS 你就能申請 Let's Encrypt 憑證 (讓你的瀏覽器別跳警告而已 XDD)，你也能搭配 NAS 內建的 Reverse Proxy, 讓你不同 domain 的網址都能共用 443 ports, 省了不少麻煩。這組合大推! 你需要的所有東西，NAS 都可以替你搞定。我就拿後面示範的 [Bitwarden](https://bitwarden.com/) 來說明:
 
 ![](/wp-content/images/2022-06-10-home-networking/2022-06-11-14-29-55.png)  
-(圖: NAS Docker, 架設你的服務, 並且指定 port mapping)
+> 圖: NAS Docker, 架設你的服務, 並且指定 port mapping
 
 
 <!-- ![](/wp-content/images/2022-06-10-home-networking/2022-06-11-14-32-52.png) -->
 ![](/wp-content/images/2022-06-10-home-networking/2022-06-11-17-49-49.png)  
-(圖: AdGuard Home 指定 rewrite)
+> 圖: AdGuard Home 指定 rewrite
 
 <!-- ![](/wp-content/images/2022-06-10-home-networking/2022-06-11-14-34-12.png) -->
 ![](/wp-content/images/2022-06-10-home-networking/2022-06-11-17-50-36.png)  
-(圖: Synology Control Panel -> Application Portal -> Reverse Proxy 轉址)
+> 圖: Synology Control Panel -> Application Portal -> Reverse Proxy 轉址
 
 我自己是沒那麼勤勞啦，不過如果你介意瀏覽器會顯示 "不安全的網站"，或是你要開放對外，必須要有 SSL 憑證的話，搭配 NAS 也是很容易一次到位的。除了上面的步驟之外，再多追加這步驟，憑證就完成了 (而且還會定期自動更新)，真是懶人的福音:
 
 ![](/wp-content/images/2022-06-10-home-networking/2022-06-11-14-36-32.png)
-(圖: Synology Control Panel -> Security -> Certification, 自動取得 SSL 憑證，並且綁定到 Reverse Proxy 轉址項目)
+> 圖: Synology Control Panel -> Security -> Certification, 自動取得 SSL 憑證，並且綁定到 Reverse Proxy 轉址項目
 
 大部分個人用的服務，大都能這樣建置起來。我自己有買 domain name (對，就是這個部落格用的: chicken-house.net) 搭配起來就更方便了。隨手架設一個服務，NAS + Docker + Reverse Proxy, 加上自訂 domain name 跟免費的 SSL, 實在是個自家用的黃金組合啊..
 
@@ -289,6 +300,7 @@ S 牌的硬體都給的很小氣，這等級的設備也只是給到 4 ports GBE
 NAS 既然負責儲存，那麼網路傳輸才是他的本業對吧! FTP 雖然已經越來越少用了，但是我自己的應用上，偶爾還是有需要啊。我想要找一個類似 [Download Station](https://www.synology.com/zh-tw/dsm/packages/DownloadStation) 那樣，有基本的功能即可，但是我需要長時間放著讓 NAS 慢慢傳輸。我需要足夠的 disk storage 當作暫存空間, 無奈找不到太多合適的 web 介面 ftp client ... 都只有 GUI 版本的 ftp client, 例如 FileZilla FTP Client ...
 
 ![](/wp-content/images/2022-06-10-home-networking/2022-06-11-17-54-43.png)
+> 圖: 透過瀏覽器, 內嵌 VNC player 直接操作 FileZilla ..
 
 但是我卻無意間發現, 有人把 Linux, GUI support, File Zilla FTP Client, 以及 VNC service 打包成同一個 [docker image](https://registry.hub.docker.com/r/jlesage/filezilla/)... 這實在太方便了 XDD, 我只需要啟動這個 container, mount 好必要的 volumns, 其餘我只需要啟動瀏覽器, 用 web browser 充當 vnc client 就好了。操作上雖然不像是 web application, 比較像是 remote desktop, 不過這無所謂, 已經能解決我的主要問題了。至少在目前這是最理想的選擇。
 
