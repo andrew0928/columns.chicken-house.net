@@ -9,10 +9,10 @@ comments_disqus: false
 comments_facebook: false
 comments_gitalk: true
 redirect_from:
-logo: /wp-content/images/2022-06-10-home-networking/2022-06-05-03-48-45.png
+logo: /wp-content/images/2022-06-10-home-networking/2022-06-12-03-36-32.png
 ---
 
-![](/wp-content/images/2022-06-10-home-networking/2022-06-05-03-48-45.png)
+![](/wp-content/images/2022-06-10-home-networking/2022-06-12-03-36-32.png)
 
 
 自從 2019/10 因為原本網路設備掛掉, 開始敗入 UniFi 的體系, 果然如同傳聞的一般, 不知不覺就整套換下去, UniFi 的設備就這樣一直繁殖下去了。事隔兩年半, 我家網路主要設備總算都更新完畢, 於是重新補上這篇, 把我對家裡網路的想法交代一下。
@@ -109,6 +109,9 @@ logo: /wp-content/images/2022-06-10-home-networking/2022-06-05-03-48-45.png
 
 最後來到線材的部分，全部都集中到 CAT5E 的線路上了。這幾年來，我家幾乎沒有在用的市內電話，[當年](/2007/09/14/水電工日誌-2-資訊插座-面板/) 的我實在太睿智了，即使是電話線，我都統一用一樣的線材 (CAT5E) 來佈線，我個人喜好也剛好符合結構化布線的要求，線的兩端都是固定的資訊插座。這次只有簡單地把牆上的插座換成 RJ45，而機櫃這端則是用 24 ports 的 patch panel, 線材的兩端都是 RJ45... 電話用的插座規格是 RJ11 ，其實跟網路的規格 RJ45 是相容的啊 (這點我是後來才知道的)，電話線的水晶頭完全可以插在 RJ45 上面，只要另一頭是電話線，不是網路 switch 就好... 我當年根本可以不用另外做不同的插座的。現在一切都統一了，我需要時再跳線就好，隨時可以把牆上的插座按照我的需要，改成網路或是市內電話使用。
 
+![](/wp-content/images/2022-06-10-home-networking/2022-06-12-03-50-25.png)
+> 大推的小配件: UniFi 乙太網路跳線, 我把自己壓的短跳線全換掉了。可彎護套實在太讚, 可以彎成你想要的角度 (SKU: U-Cable-Patch-RJ45)
+
 最後硬體的整併就變成上述的這樣了。當年那麼多設備，現在只要 5U 的空間就通通搞定了。這三年陸陸續續清出了不少老舊設備，現在機櫃也清爽多了，換上 UniFi 原廠的跳線 (其實價格很合理不貴啊，內藏鐵絲的接頭護套很好用，大推)，10cm / 30cm 的 CAT6A 短跳線, 藍色連接主幹設備, 白色連接 Client 設備，以及 UniFi 的 DAC (SPF+), 50cm 拿來串接 UDM-PRO 跟 USW-ENT24POE, 2m 拿來串接 NAS 跟 Switch, 線材換上去整個質感就起來了 XDD, 貼一下目前機櫃的照片當作這段的結尾。跟 15 年前比，是不是單純多了? 現在只剩 NAS x 2, UPS, Router, Switch 就沒有了。當年規模小一些，但是設備複雜多了，有 4U PC-Server, Switch, DVR, 電話總機...
 
 
@@ -203,6 +206,9 @@ Teleport VPN, 其實早在 UniFi 其他產品線 (AMPLIFI) 就出現過了，對
 監控系統，是主要讓我決定敗入 UDM-PRO 的最後一根稻草。雖說整合式的一體機 UDM-PRO 有很多優勢，但是不管再怎麼說，我先前也是很克難的搞定 VPN / VLAN / DNS 了啊... 主要就是先體驗過 UniFi Network Controller 的優勢，加上家裡的古早監控攝影機一台接著一台掛掉了... 於是先購入兩台 G3-Flex, 搭配當時的末代自建 controller: UniFi Video, 使用起來還不錯, 加上官網宣告 UniFi Video 不再繼續維護, 以後會將重心轉移到 UniFi Protect (這個只限定 UniFi Console 內建使用).. 於是就敗了 UDM-PRO, 同時也正式的邁入全家餐的行列。
 
 不得不說，UniFi 的軟體與整合真是大加分，UDM-PRO 內建 UniFi Protect, 你只要自己插一顆硬碟進去就可以錄影了。監控的 Web 介面或是手機 APP 也寫得很好用，完全跟當年那些小廠的 DVR (難用到爆的 UI) 完全是不同檔次的。說到好用，其實 [Synology Surveillance Station](https://www.synology.com/zh-tw/surveillance) 也不錯，不過要額外授權，設定的選項也過頭了，我個人是比較喜歡 UniFi 的體驗，恰到好處不用花太多心思。
+
+![](/wp-content/images/2022-06-10-home-networking/2022-06-12-03-43-39.png)
+> 沒啥出場機會的照片: 裝在我家門口的 UniFi G3-Flex (SKU: UVC-G3-FLEX)
 
 如果真要說 UniFi Protect 的缺點，當然也有。一來是攝影機只能用自家的，雖然有不錯的入門機種 (G3 Instant, 有[網友的開箱文](https://masonsfavour.com/ubiquiti-unifi-g3-instant/), 這台買的到的話真的大推) ，也是超高 CP 值，用料好又穩定可靠，一台還不到 1000 塊，不過大缺貨，根本買不到啊啊啊啊。買的到的只有高階機種，一台要上萬...；另外就是硬碟配置完全沒有自主的彈性，錄影的額外備份機制也完全沒有，你只能自己手動下載你要的區間影片，如果你想要大量匯出錄影，那現在並沒有很好的做法。比較推薦的作法是: UniFi Protect 可以統一提供每支攝影機的 rtsp:// 網址, 拿 Synology Surveillance Station 當作自訂攝影機輸入，就用 NAS 同步抄寫一份當作備份了。
 
@@ -347,13 +353,13 @@ COPY . /app
 
 其實這個段落，我本來還想聊聊 Home Assistant 的，不過我還沒弄到滿意，這段就先略過了。我把前面介紹過的相關資源跟外部連結，都收整在這裡，有需要的請取用:
 
-* [是時候裝一套 AdGuard Home 全局擋廣告神器了！](https://www.jkg.tw/p2158/),2019/06 Jkgtw's Blog
-* 官網介紹: (AMPLIFI Teleport](https://tw.amplifi.com/teleport)
+* 部落格: [是時候裝一套 AdGuard Home 全局擋廣告神器了！](https://www.jkg.tw/p2158/),2019/06 Jkgtw's Blog
+* 官網介紹: [AMPLIFI Teleport](https://tw.amplifi.com/teleport)
 * Mobile01: [Ubiquiti Amplifi Teleport 傳送術 穿梭來去自如](https://www.mobile01.com/topicdetail.php?f=110&t=5945594)
 * [WireGuard 與 OpenVPN：哪個更高級？](https://www.purevpn.com.tw/blog/wireguard-vs-openvpn/)
-* 官網 [UniFi Protect, 易於擴充的安全監控系統](https://tw.ui.com/camera-security)
-* [UBIQUITI UNIFI G3 INSTANT WI-FI 無線攝影機，UNIFI PROTECT 系統中最超值， 身形如麻雀，用料如殿堂](https://masonsfavour.com/ubiquiti-unifi-g3-instant/), written by Mason, 2021/09/04
-* [買買買!都買！教你簡單用NAS整合管理WI-FI攝影機！｜NAS1821+安裝監視系統｜UNIFI G3 instant IP Camera 開箱｜cp值高的監視器](https://www.youtube.com/watch?v=yUFFyagPS-I)
+* 官網介紹: [UniFi Protect, 易於擴充的安全監控系統](https://tw.ui.com/camera-security)
+* 部落格: [UBIQUITI UNIFI G3 INSTANT WI-FI 無線攝影機，UNIFI PROTECT 系統中最超值， 身形如麻雀，用料如殿堂](https://masonsfavour.com/ubiquiti-unifi-g3-instant/), written by Mason, 2021/09/04
+* YouTube Channel: [買買買!都買！教你簡單用NAS整合管理WI-FI攝影機！｜NAS1821+安裝監視系統｜UNIFI G3 instant IP Camera 開箱｜cp值高的監視器](https://www.youtube.com/watch?v=yUFFyagPS-I)
 * [Bitwarden 與 LastPass（哪個密碼管理器更好、更安全……而且更便宜？）](https://www.websiterating.com/zh-TW/password-managers/bitwarden-vs-lastpass/)
 * Docker Hub: [Docker container for FileZilla](https://registry.hub.docker.com/r/jlesage/filezilla/)
 * Docker Hub: [IPerf3 Docker Build for Network Performance and Bandwidth Testing](https://registry.hub.docker.com/r/networkstatic/iperf3/)
@@ -383,7 +389,8 @@ COPY . /app
 
 我本來天真的以為 10G 的事情只到這裡為止，直到我敗入了 UniFi Switch - Enterprise 24 PoE 想要替我的內網提升到 2.5G 時, 才發現問題並不單純...
 
-
+![](/wp-content/images/2022-06-10-home-networking/2022-06-12-03-47-21.png)
+> 這段落的主角: UniFi Switch Enterprise 24 PoE (SKU: USW-Enterprise-24-PoE)
 
 ## UDM-PRO IDS/IPS 的效能瓶頸
 
