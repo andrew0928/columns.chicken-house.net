@@ -4,8 +4,10 @@ title: "水電工日誌 #8. 邁向 UniFi 全家餐的升級之路"
 categories:
 - "系列文章: 水電工日誌"
 tags: ["水電工", "有的沒有的", "敗家"]
-published: false
-comments: true
+published: true
+comments_disqus: false
+comments_facebook: false
+comments_gitalk: true
 redirect_from:
 logo: /wp-content/images/2022-06-10-home-networking/2022-06-05-03-48-45.png
 ---
