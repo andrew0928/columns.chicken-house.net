@@ -12,6 +12,9 @@ redirect_from:
 logo: /wp-content/images/2022-06-10-home-networking/2022-06-12-03-36-32.png
 ---
 
+ 
+  
+  
 ![](/wp-content/images/2022-06-10-home-networking/2022-06-12-03-36-32.png)
 
 
@@ -66,6 +69,9 @@ logo: /wp-content/images/2022-06-10-home-networking/2022-06-12-03-36-32.png
 
 整個看來，設備整併，其實是最簡單的一環了。中間經歷過很多評估考慮的過程，我就跳過了。上一篇剛採用 UniFi WiFi AP 時, 購入的一批設備 (主要是 router, 兩台 switch) 最終也被我換掉了。目前上線運作中的設備 (這批應該夠我用很久了，沒有更換的打算了，應該夠我用到壞掉為止吧) 如下:
 
+ 
+  
+  
 ![](/wp-content/images/2022-06-10-home-networking/2022-02-02-01-17-48.png)
 > 圖: UniFi Console 提供的 Network Topology
 
@@ -109,22 +115,40 @@ logo: /wp-content/images/2022-06-10-home-networking/2022-06-12-03-36-32.png
 
 最後來到線材的部分，全部都集中到 CAT5E 的線路上了。這幾年來，我家幾乎沒有在用的市內電話，[當年](/2007/09/14/水電工日誌-2-資訊插座-面板/) 的我實在太睿智了，即使是電話線，我都統一用一樣的線材 (CAT5E) 來佈線，我個人喜好也剛好符合結構化布線的要求，線的兩端都是固定的資訊插座。這次只有簡單地把牆上的插座換成 RJ45，而機櫃這端則是用 24 ports 的 patch panel, 線材的兩端都是 RJ45... 電話用的插座規格是 RJ11 ，其實跟網路的規格 RJ45 是相容的啊 (這點我是後來才知道的)，電話線的水晶頭完全可以插在 RJ45 上面，只要另一頭是電話線，不是網路 switch 就好... 我當年根本可以不用另外做不同的插座的。現在一切都統一了，我需要時再跳線就好，隨時可以把牆上的插座按照我的需要，改成網路或是市內電話使用。
 
+ 
+  
+  
 ![](/wp-content/images/2022-06-10-home-networking/2022-06-12-03-50-25.png)
 > 圖: UniFi 乙太網路跳線, 我把自己壓的短跳線全換掉了。可彎護套實在太讚, 可以彎成你想要的角度 (SKU: U-Cable-Patch-RJ45)
 
 最後硬體的整併就變成上述的這樣了。當年那麼多設備，現在只要 5U 的空間就通通搞定了。這三年陸陸續續清出了不少老舊設備，現在機櫃也清爽多了，換上 UniFi 原廠的跳線 (其實價格很合理不貴啊，內藏鐵絲的接頭護套很好用，大推)，10cm / 30cm 的 CAT6A 短跳線, 藍色連接主幹設備, 白色連接 Client 設備，以及 UniFi 的 DAC (SPF+), 50cm 拿來串接 UDM-PRO 跟 USW-ENT24POE, 2m 拿來串接 NAS 跟 Switch, 線材換上去整個質感就起來了 XDD, 貼一下目前機櫃的照片當作這段的結尾。跟 15 年前比，是不是單純多了? 現在只剩 NAS x 2, UPS, Router, Switch 就沒有了。當年規模小一些，但是設備複雜多了，有 4U PC-Server, Switch, DVR, 電話總機...
 
 
+ 
+  
+  
 ![](/wp-content/images/2022-06-10-home-networking/2022-06-11-15-20-03.png)  
 > 圖: 懷舊照片, 2007/10 的機櫃設備
 
+ 
+  
+  
 ![](/wp-content/images/2022-06-10-home-networking/2022-06-11-17-24-46.png)
 > 圖: 懷舊照片, 2019/12 的機櫃設備
 
 2019/12 的那批升級，已經換上 VLAN, UniFi AP 了, 不過當時還未購入 UDM-PRO, 零散的設備一堆, 同時電話總機跟 DVR 也都還在服役中的混亂期, 也開始體會到 UniFi 的整合優勢。當時我的 Synology DS412+ 還健在...
 
+ 
+  
+  
 ![](/wp-content/images/2022-06-10-home-networking/2022-06-11-13-59-39.png)  
 > 圖: 現況照片, 2022/06 的機櫃設備, 設備都整併成 UniFi 了, 軟體都塞 NAS 了, 線路都整併成網路線了。
+
+ 
+  
+  
+![](/wp-content/images/2022-06-10-home-networking/2022-06-12-16-08-48.png)
+> 圖: 主要設備的管理就都靠 UniFi OS Console 了。管理畫面可以看到所有被託管的 UniFi Devices (正式突破 2 位數)
 
 
 # 目標 2, 網路基礎建設
@@ -147,6 +171,9 @@ logo: /wp-content/images/2022-06-10-home-networking/2022-06-12-03-36-32.png
 
 其實 VLAN 的建置跟[兩年前那篇](/2019/12/12/home-networking/)沒有太大的改變，我直接列我切了幾個 VLAN 以及用途就好。這麼做的目的可以看上一篇:
 
+ 
+  
+  
 ![](/wp-content/images/2022-06-10-home-networking/2022-06-11-14-02-42.png)
 > 圖: VLAN 架構示意圖
 
@@ -165,12 +192,21 @@ logo: /wp-content/images/2022-06-10-home-networking/2022-06-12-03-36-32.png
 
 整合的好處是網路拓樸一目了然 (實體連結)，網段或是 switch ports 的流量也是輕鬆就可以掌握。如果你想知道這些流量都是在傳輸哪些類型的資料 (application) 也難不倒 UDM-PRO, 可以看網段，或是設備跟流量之間的統計，當你發現流量異常時，你至少可以知道是哪類通訊協定在傳資料。雖然這些都是要花 CPU 標示統計出來的，不過買了就是要用啊，這些東西要自己架設也做得到，不過要花不少功夫研究就是了。
 
+ 
+  
+  
 ![](/wp-content/images/2022-06-10-home-networking/2022-06-11-14-06-07.png)  
 > 圖: 網路拓樸
 
+ 
+  
+  
 ![](/wp-content/images/2022-06-10-home-networking/2022-06-11-14-07-09.png)  
 > 圖: PORT 流量統計
 
+ 
+  
+  
 ![](/wp-content/images/2022-06-10-home-networking/2022-06-11-14-08-10.png)  
 > 圖: APP 流量統計
 
@@ -178,6 +214,9 @@ logo: /wp-content/images/2022-06-10-home-networking/2022-06-12-03-36-32.png
 
 ## DNS - AdGuard Home
 
+ 
+  
+  
 ![](/wp-content/images/2022-06-10-home-networking/2022-06-11-14-08-46.png)
 > 圖: AdGuard Home
 
@@ -198,6 +237,9 @@ Teleport VPN, 其實早在 UniFi 其他產品線 (AMPLIFI) 就出現過了，對
 
 想要自己設定的也很簡單，先在 UniFi Netowkr Controller 內產生連結 (下圖左方)，產生的連結想辦法傳給對方的手機點選，會跳出 APP 問你是否接受，就完成了 (右方)。手機端的 APP 是 [WiFi Man](https://apps.apple.com/us/app/ubiquiti-wifiman/id1385561119), 他會幫你完成所有的設定，你不需要再繞到系統那邊自己建立 VPN Profile。要連線時你只需要打開或關閉 VPN 就好，其他什麼 server ip address, secret, password, 還有啥安全設定的通通不需要, 就是這麼無腦。
 
+ 
+  
+  
 ![](/wp-content/images/2022-06-10-home-networking/2022-06-11-17-33-00.png)
 > 圖: Teleport VPN 的設定 (WEB) 與啟用 (APP) 畫面
 
@@ -217,6 +259,9 @@ Teleport VPN, 其實早在 UniFi 其他產品線 (AMPLIFI) 就出現過了，對
 
 不得不說，UniFi 的軟體與整合真是大加分，UDM-PRO 內建 UniFi Protect, 你只要自己插一顆硬碟進去就可以錄影了。監控的 Web 介面或是手機 APP 也寫得很好用，完全跟當年那些小廠的 DVR (難用到爆的 UI) 完全是不同檔次的。說到好用，其實 [Synology Surveillance Station](https://www.synology.com/zh-tw/surveillance) 也不錯，不過要額外授權，設定的選項也過頭了，我個人是比較喜歡 UniFi 的體驗，恰到好處不用花太多心思。
 
+ 
+  
+  
 ![](/wp-content/images/2022-06-10-home-networking/2022-06-12-03-43-39.png)
 > 圖: 沒啥出場機會的照片: 裝在我家門口的 UniFi G3-Flex (SKU: UVC-G3-FLEX)
 
@@ -228,6 +273,9 @@ Teleport VPN, 其實早在 UniFi 其他產品線 (AMPLIFI) 就出現過了，對
 
 最後貼一下 Web UI / APP 的介面，跟相關的介紹文章，讓各位體驗一下操作介面；實在太好用，我媽除了看第四台之外，看得最多的影片就是這個 APP 了 XDDD，錄影內容涉及居家隱私我就不貼了，只貼 Web UI 的介面，同時把監控內容馬賽克一下...。想多了解的，我貼別人的介紹..
 
+ 
+  
+  
 ![](/wp-content/images/2022-06-10-home-networking/2022-06-11-17-38-24.png)
 > 圖: UniFi Protect 的 Web UI 畫面, 右側會列出偵測到動作的時間軸
 
@@ -252,20 +300,32 @@ S 牌的硬體都給的很小氣，這等級的設備也只是給到 4 ports GBE
 
 歸在這類的有 [ADGuardHome](https://adguard.com/zh_tw/adguard-home/overview.html) (DNS), 還有取代 Synology 自己封裝的 Docker 管理工具用的 [Portainer-CE](https://www.portainer.io/). 其他還有一些冷門的我就略過了。DNS 前面提過我就不多說了，這是個必要的東西，也是所有其他網路服務架起來好不好用的基礎。沒有 DNS，你就得用 IP + PORT。你用了 IP 就沒辦法用 SSL，你也得記得每個服務的 Port 號碼。有了 DNS 你就能申請 Let's Encrypt 憑證 (讓你的瀏覽器別跳警告而已 XDD)，你也能搭配 NAS 內建的 Reverse Proxy, 讓你不同 domain 的網址都能共用 443 ports, 省了不少麻煩。這組合大推! 你需要的所有東西，NAS 都可以替你搞定。我就拿後面示範的 [Bitwarden](https://bitwarden.com/) 來說明:
 
+ 
+  
+  
 ![](/wp-content/images/2022-06-10-home-networking/2022-06-11-14-29-55.png)  
 > 圖: NAS Docker, 架設你的服務, 並且指定 port mapping
 
 
-<!-- ![](/wp-content/images/2022-06-10-home-networking/2022-06-11-14-32-52.png) -->
+
+ 
+  
+  
 ![](/wp-content/images/2022-06-10-home-networking/2022-06-11-17-49-49.png)  
 > 圖: AdGuard Home 指定 rewrite
 
-<!-- ![](/wp-content/images/2022-06-10-home-networking/2022-06-11-14-34-12.png) -->
+
+ 
+  
+  
 ![](/wp-content/images/2022-06-10-home-networking/2022-06-11-17-50-36.png)  
 > 圖: Synology Control Panel -> Application Portal -> Reverse Proxy 轉址
 
 我自己是沒那麼勤勞啦，不過如果你介意瀏覽器會顯示 "不安全的網站"，或是你要開放對外，必須要有 SSL 憑證的話，搭配 NAS 也是很容易一次到位的。除了上面的步驟之外，再多追加這步驟，憑證就完成了 (而且還會定期自動更新)，真是懶人的福音:
 
+ 
+  
+  
 ![](/wp-content/images/2022-06-10-home-networking/2022-06-11-14-36-32.png)
 > 圖: Synology Control Panel -> Security -> Certification, 自動取得 SSL 憑證，並且綁定到 Reverse Proxy 轉址項目
 
@@ -299,6 +359,9 @@ S 牌的硬體都給的很小氣，這等級的設備也只是給到 4 ports GBE
 
 NAS 既然負責儲存，那麼網路傳輸才是他的本業對吧! FTP 雖然已經越來越少用了，但是我自己的應用上，偶爾還是有需要啊。我想要找一個類似 [Download Station](https://www.synology.com/zh-tw/dsm/packages/DownloadStation) 那樣，有基本的功能即可，但是我需要長時間放著讓 NAS 慢慢傳輸。我需要足夠的 disk storage 當作暫存空間, 無奈找不到太多合適的 web 介面 ftp client ... 都只有 GUI 版本的 ftp client, 例如 FileZilla FTP Client ...
 
+ 
+  
+  
 ![](/wp-content/images/2022-06-10-home-networking/2022-06-11-17-54-43.png)
 > 圖: 透過瀏覽器, 內嵌 VNC player 直接操作 FileZilla ..
 
@@ -309,13 +372,22 @@ NAS 既然負責儲存，那麼網路傳輸才是他的本業對吧! FTP 雖然�
 
 Iperf3 沒有 web UI, 不過在用這工具的人應該也沒在管 UI 的吧... 你要操作時可以 SSH 進 NAS 用 docker exec 的指令來使用，後面我在說明 10G 連線測試時就是這樣測的，直接截圖:
 
+ 
+  
+  
 ![](/wp-content/images/2022-06-10-home-networking/2022-06-11-17-57-11.png)
 
 或者，你就是不想用 SSH 的話，DSM 介面的 Docker 管理工具也能幫上一些忙，你可以直接在裡面開 terminal:
 
+ 
+  
+  
 ![](/wp-content/images/2022-06-10-home-networking/2022-06-11-17-59-28.png)
 
 如果只是要看別的 client 連過來的測試 log, 那打開 iperf3 container 的 log 就可以了:
+ 
+  
+  
 ![](/wp-content/images/2022-06-10-home-networking/2022-06-11-17-59-52.png)
 
 
@@ -341,7 +413,11 @@ COPY . /app
 
 不過，我不想把我整包部落格 (包含內容) 都打包丟上 docker hub 啊，加上這只是懷舊用的，我就在本機 build docker image, 同時手動 export image, 再扔到 NAS 上面 import 就可以了。除了當年塞了一些 social plugins 現在不能動之外畫面會破圖 (記得我好像有用 FunP 之類的)，其他基本運作都 OK 啊! 貼個截圖懷舊一下我當年的 blog, 看來我當年最後一篇在 BlogEngine 寫的文章是 2013 啊...
 
+ 
+  
+  
 ![](/wp-content/images/2022-06-10-home-networking/2022-06-11-15-02-51.png)
+> 圖: 把當年 Blog Engine 年代的備份檔案 (code + content 一起) 重新在 container 上面跑起來的感動... (原本我都打算要用 VM 來做這件事了)
 
 
 接下來，把寫部落格的環境，轉移到 NAS 上，是我進行中的一個實驗專案。我自己部落格已經轉移到 GitHub Pages 上面執行了，不過從 push 到看到結果，要等個幾分鐘啊，我自然希望能有快速一點的回饋，之前在做實驗時，發現 windows 架構的關係，container 的 I/O 效率在某些情況下會變得很糟，尤其是需要監控 file system 異動時，若又碰到 volume mount, 橫跨不同的 file system (例如 NTFS mount 到 container 內)，這時 I/O 的效能整個掉下來，我改一行字要等上兩分鐘才看的到結果 (參考: [使用 LCOW 掛載 Volume 的效能陷阱](/2018/07/28/labs-lcow-volume/))
@@ -352,9 +428,13 @@ COPY . /app
 
 於是這樣的組合就出現了。我可以很方便地從任何地方，只要瀏覽器一開，連回家就可以開 vscode 寫部落格了。其他類似的檔案管理也可以這樣使用，VSCode 已經可以搖身一變變成 NAS 上面的檔案編輯器了。不過我還沒正式遷移到這個方案 (目前還只是在測試中)，因為我試了好幾套，能自動替我把剪貼簿裡面的圖形，存成圖檔，然後在 Markdown 插入正確的圖片連結標記的 vscode extension, 沒有一套能在這環境下運作的... 這就是唯一的未解決問題啊, 其他就一切完美了。
 
+ 
+  
+  
 ![](/wp-content/images/2022-06-10-home-networking/2022-06-11-18-09-06.png)
+> 圖: 透過 container, 能透過 browser 執行安裝在 NAS 上的 vscode, 也能藉由 vscode 的 terminal 執行 NAS 本地的指令
 
-由於太多敏感資訊，我就不貼我平時工作用的畫面了，另外開一個新的截圖展示一下。我只要起一個 container, 瀏覽器就能開出一個位在我 NAS 本機上的 vscode 了。因為就在本機, 只要我 mount volume, 我其實不需要另外 SSH 了，只要開出 vscode 的 terminal, 就可以直接在本機作業了。我就是這樣跟 github pages (其實背後就是 jekyll) 整合的, 不論人在哪邊，只要 VPN + 瀏覽器開啟 vscode (這有點危險，我還沒大膽到不用 VPN 就能使用), 改完可以本地直接 build 直接預覽 (也是 NAS 上的另一個 docker), 基本上也是開個瀏覽器分頁就可以看編輯的成果了。如果內容滿意，VSCODE 直接 commit / push 推上 github, 部落格內容就完成發布了。整個流程一氣呵成，沒有半點多餘的動作。真是適合 developer 的黃金組合。
+由於太多敏感資訊，我就不貼我平時工作用的畫面了，上面的圖是我另外開一個新的 container, 目的只是截圖展示一下。我只要起一個 container, 瀏覽器就能開出一個位在我 NAS 本機上的 vscode 了。因為就在本機, 只要我 mount volume, 我其實不需要另外 SSH 了，只要開出 vscode 的 terminal, 就可以直接在本機作業了。我就是這樣跟 github pages (其實背後就是 jekyll) 整合的, 不論人在哪邊，只要 VPN + 瀏覽器開啟 vscode (這有點危險，我還沒大膽到不用 VPN 就能使用), 改完可以本地直接 build 直接預覽 (也是 NAS 上的另一個 docker), 基本上也是開個瀏覽器分頁就可以看編輯的成果了。如果內容滿意，VSCODE 直接 commit / push 推上 github, 部落格內容就完成發布了。整個流程一氣呵成，沒有半點多餘的動作。真是適合 developer 的黃金組合。
 
 參考:
 * [Code-server：在瀏覽器上執行雲端 VS Code](https://noob.tw/code-server/), Noob's Space
@@ -390,23 +470,35 @@ COPY . /app
 
 最主要的原因，就是這張架構圖:
 
+ 
+  
+  
 ![](/wp-content/images/2022-06-10-home-networking/2022-06-11-12-41-16.png)
-來源: [Ubiquiti Community Wiki](https://ubntwiki.com/products/unifi/unifi_dream_machine_pro)
+> 來源: [Ubiquiti Community Wiki](https://ubntwiki.com/products/unifi/unifi_dream_machine_pro)
 
 意思是，如果我在 LAN 的 SPF+ 裝上 10G 的 NAS, 我在 LAN 1 ~ 8 每個 port 雖然都只有 1G 的頻寬，但是同時對 NAS 存取時，能否每個 client 都有 1G 的滿速, 讓 NAS 同時達到 8GB 的 throughtput 呢? 從架構圖上看來，是不行的，因為內部架構，你要把那 8 ports switch 當作內置一台 9 ports giga switch, 連結到一台 1G + 10G LAN, 與 1G + 10G WAN 的 router (咦? 這不就是 Next-generation Gateway Pro 嗎? XDDD), 瓶頸會卡在內部看不到的那 1G 連線..
 
 所以，如果你要走 10G, 第一件事是你就要放棄左邊那 8 ports switch 了... 否則你那單一 10G port 只是升級好看的，他的流量永遠上不去 10G, 除非你的 NAS 只跟 UDM-PRO 本身的 application 通訊.. 因此，大部分社群上有經驗的人，都會配置一台專業一點的 switch, 把所有的流量都集中到 switch 身上，只把 UDM-PRO 當作 up-link, 當作單純的 router 使用。不過，就在上周的更新 (UDM-PRO firmware update: [1.12.22](https://community.ui.com/releases/UniFi-OS-Dream-Machines-1-12-22/851bdc97-fc39-40ef-bd71-786766512c58)) 這個局勢有些微的改變了。新版 firmware, 允許你自己選擇第二個 SPF+ 是要當作 LAN or WAN 看待，如果你改成 LAN，至少 UDM-PRO 有辦法有兩個 10G LAN port 可以對接，如果這樣足夠你使用，你是可以省下一筆 switch 的花費的...
 
+ 
+  
+  
 ![](/wp-content/images/2022-06-10-home-networking/2022-06-11-15-28-31.png)
+> 圖: UDM-PRO 更新到 1.12.22 版之後，就允許你重新定義兩個 SPF+ 的用途了
 
 我本來天真的以為 10G 的事情只到這裡為止，直到我敗入了 UniFi Switch - Enterprise 24 PoE 想要替我的內網提升到 2.5G 時, 才發現問題並不單純...
 
+ 
+  
+  
 ![](/wp-content/images/2022-06-10-home-networking/2022-06-12-03-47-21.png)
-> 這段落的主角: UniFi Switch Enterprise 24 PoE (SKU: USW-Enterprise-24-PoE)
+> 曬圖, 這段落的主角: UniFi Switch Enterprise 24 PoE (SKU: USW-Enterprise-24-PoE)
 
 ## UDM-PRO IDS/IPS 的效能瓶頸
 
 購入 USW-ENT-24POE 後，很開心的用 DAC，把 UDM-PRO / USW 用 10G 連線串起來，另外多的一個 10G 則接到 NAS 身上..., 而 PC 端也升級成 2.5G 網卡, 接到 USW 上的 2.5G port.. 不過，用上前面介紹的 Iperf3, 我在 PC 端連到 NAS, 怎麼測都測不到預期的 2.5G 速度啊，而且速度是落在很詭異的 1.4Gbps 左右... (之前速度卡在 8xx mbps, firmware 升級到 1.2.22 後有改善) 如果是我配置錯誤, 走 1G port, 那我怎麼測的出 1.4G 的速度? 如果不是，難道這些設備連 2.5G 都跟不上嗎? 或是線材品質問題? 我的線材有這麼不堪嗎? 
+  
+
 
 ```
 
@@ -432,10 +524,15 @@ Connecting to host home.chicken-house.net, port 5201
 iperf Done.
 
 ```
+> 測試結果: 從 PC 到 NAS 的 iperf3 的連線速度測試
 
 後來我 SSH 進 UDM-PRO，在 UDM-PRO 上面也裝了 Iperf3 ... 各種組合都測一輪，才發現問題的源頭。我先畫張網路拓樸好了，方便大家理解好了，下圖是我的 PC 連到 NAS 的路徑，PC 用 2.5G 連線速率連到 USW-24ENT, 然後透過 10G SPF+ uplink 連到 UDM-PRO，因為屬於不同網段，所以需要通過路由 (UDM-PRO) 封包才能轉到 NAS 的網段，然後再繞回 USW-24ENT，最後走 10G SPF+ 的 port 連到 NAS (紅線) :
 
+ 
+  
+  
 ![](/wp-content/images/2022-06-10-home-networking/2022-06-11-12-59-39.png)
+> 圖: 從網路拓樸來看傳輸路徑。跨 VLAN 需要經過 UDM-PRO 處理 routing
 
 
 為了找出瓶頸卡在哪邊，我分別測試這幾個不同路徑的 iperf3 傳輸速度:
@@ -451,9 +548,14 @@ iperf Done.
 
 這時傳輸路徑應該是這樣:
 
+ 
+  
+  
 ![](/wp-content/images/2022-06-10-home-networking/2022-06-11-13-00-20.png)
+> 圖: PC / NAS 同 VLAN 的話，不需要 routing 就能通，只需要經過 (L2) switch 封包交換
 
-這個看來就正常多了，看來問題就是出在 UDM-PRO 身上沒錯了... 最後追查，才發現... 我有打開 IDS/IPS, UDM-PRO 會分析過濾每個經過的封包，判斷他的 protocol, 以及內容與行為, 判定是否符合惡意攻擊的 patterns ... 看起來是 layer 7 層次的服務，跑這些功能是要吃 CPU 的... 當我在跑 iperf3 的時候，UDM-PRO 的 CPU usage 直接飆上來。雖然關掉就解決了，不過我沒打算關掉這功能，這時突然想到，我買的這台 switch 不是有支援 L3 switch 嗎?
+
+這個測試結果看來就正常多了，看來問題就是出在 UDM-PRO 身上沒錯了... 最後追查，才發現... 我有打開 IDS/IPS, UDM-PRO 會分析過濾每個經過的封包，判斷他的 protocol, 以及內容與行為, 判定是否符合惡意攻擊的 patterns ... 看起來是 layer 7 層次的服務，跑這些功能是要吃 CPU 的... 當我在跑 iperf3 的時候，UDM-PRO 的 CPU usage 直接飆上來。雖然關掉就解決了，不過我沒打算關掉這功能，這時突然想到，我買的這台 switch 不是有支援 L3 switch 嗎?
 
 最後，我搬出了 L3 switch 的功能出來用了... 我會買這台 USW-ENT-24POE 有很多原因，有 10G x 2, 有 2.5G x 12, 有 PoE+, RJ45 ports 的佈局是一排的 (大多數 switch 為了省電路板面積，都會做成上下兩排...)，L3 switch 本來不是我考量的重點, 我個人用的流量應該不至於需要動用到 L3 吧? 雖然我切了很多 VLAN ... 結果事後證明，還好我買了這台 XDD, 看來啟動 L3 switch 來負責 VLAN 之間的 routing, 問題就全沒了。PC -> NAS 的速度很正常, 跑到 2.35G, 算是滿足我目前的需求了。
 
@@ -461,7 +563,11 @@ iperf Done.
 
 啟用 L3 switch 之後，內網的 routing 就不會繞到 UDM-PRO 本身了。上圖的流量，在啟用 L3 switch 後應該會變成這樣:
 
+ 
+  
+  
 ![](/wp-content/images/2022-06-10-home-networking/2022-06-11-13-00-43.png)
+> 圖: 啟用 L3 switch, 跨 VLAN 的 routing, 可以就近由 switch 負責, 流量與運算不需再依靠 UDM-PRO, 能有效降低不必要的流量, 也不會佔用 IDS/IPS 的運算資源
 
 整個傳輸過程，只要靠 switch 就能搞定了，自然沒有 UDM-PRO 架構限制，也不會碰到 IDS/IPS 瓶頸了，同時也不會碰到單一線路頻寬減半的問題。可惜我的設備太陽春，沒有多餘可以跑 10G 的設備，來測看看是不是真的有突破瓶頸...，這個等以後真的有機會再補了 XDD。
 
