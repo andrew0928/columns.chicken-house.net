@@ -161,7 +161,7 @@ logo: /wp-content/images/2022-06-10-home-networking/2022-06-12-03-36-32.png
 
 1. 5 個不同用途的 VLAN 與其之間的 routing (UDM-PRO, USW-ENT24)
 1. VPN (L2TP, Teleport VPN)
-1. 基本的對外攻擊防禦 (IDS/IPS)
+1. 基本的對外攻擊防禦 (Threat Management)
 1. 基本的網路監控與流量分析
 1. IPerf3 server
 1. Internal DNS rewrite (這不是 UDM-PRO 提供的, 我是在 NAS 上面另外安裝的)
@@ -494,7 +494,7 @@ COPY . /app
 ![](/wp-content/images/2022-06-10-home-networking/2022-06-12-03-47-21.png)
 > 曬圖, 這段落的主角: UniFi Switch Enterprise 24 PoE (SKU: USW-Enterprise-24-PoE)
 
-## UDM-PRO IDS/IPS 的效能瓶頸
+## 啟用 threat management 的效能瓶頸
 
 購入 USW-ENT-24POE 後，很開心的用 DAC，把 UDM-PRO / USW 用 10G 連線串起來，另外多的一個 10G 則接到 NAS 身上..., 而 PC 端也升級成 2.5G 網卡, 接到 USW 上的 2.5G port.. 不過，用上前面介紹的 Iperf3, 我在 PC 端連到 NAS, 怎麼測都測不到預期的 2.5G 速度啊，而且速度是落在很詭異的 1.4Gbps 左右... (之前速度卡在 8xx mbps, firmware 升級到 1.2.22 後有改善) 如果是我配置錯誤, 走 1G port, 那我怎麼測的出 1.4G 的速度? 如果不是，難道這些設備連 2.5G 都跟不上嗎? 或是線材品質問題? 我的線材有這麼不堪嗎? 
   
@@ -555,7 +555,7 @@ iperf Done.
 > 圖: PC / NAS 同 VLAN 的話，不需要 routing 就能通，只需要經過 (L2) switch 封包交換
 
 
-這個測試結果看來就正常多了，看來問題就是出在 UDM-PRO 身上沒錯了... 最後追查，才發現... 我有打開 IDS/IPS, UDM-PRO 會分析過濾每個經過的封包，判斷他的 protocol, 以及內容與行為, 判定是否符合惡意攻擊的 patterns ... 看起來是 layer 7 層次的服務，跑這些功能是要吃 CPU 的... 當我在跑 iperf3 的時候，UDM-PRO 的 CPU usage 直接飆上來。雖然關掉就解決了，不過我沒打算關掉這功能，這時突然想到，我買的這台 switch 不是有支援 L3 switch 嗎?
+這個測試結果看來就正常多了，看來問題就是出在 UDM-PRO 身上沒錯了... 最後追查，才發現... 我有打開 Threat Management, UDM-PRO 會分析過濾每個經過的封包，判斷他的 protocol, 以及內容與行為, 判定是否符合惡意攻擊的 patterns ... 看起來是 layer 7 層次的服務，跑這些功能是要吃 CPU 的... 當我在跑 iperf3 的時候，UDM-PRO 的 CPU usage 直接飆上來。雖然關掉就解決了，不過我沒打算關掉這功能，這時突然想到，我買的這台 switch 不是有支援 L3 switch 嗎?
 
 要轉移到 L3 switch 之前，我做最後的測試，因為要改這個很麻煩啊 (聽說新版的 network 可以簡化設定的動作，不過還沒 release 就沒有理它了)，我直接把這個威脅偵測的功能關掉:
 
@@ -575,9 +575,9 @@ iperf Done.
   
   
 ![](/wp-content/images/2022-06-10-home-networking/2022-06-11-13-00-43.png)
-> 圖: 啟用 L3 switch, 跨 VLAN 的 routing, 可以就近由 switch 負責, 流量與運算不需再依靠 UDM-PRO, 能有效降低不必要的流量, 也不會佔用 IDS/IPS 的運算資源
+> 圖: 啟用 L3 switch, 跨 VLAN 的 routing, 可以就近由 switch 負責, 流量與運算不需再依靠 UDM-PRO, 能有效降低不必要的流量, 也不會佔用 Threat Management 的運算資源
 
-整個傳輸過程，只要靠 switch 就能搞定了，自然沒有 UDM-PRO 架構限制，也不會碰到 IDS/IPS 瓶頸了，同時也不會碰到單一線路頻寬減半的問題。可惜我的設備太陽春，沒有多餘可以跑 10G 的設備，來測看看是不是真的有突破瓶頸...，這個等以後真的有機會再補了 XDD。
+整個傳輸過程，只要靠 switch 就能搞定了，自然沒有 UDM-PRO 架構限制，也不會碰到 Threat Management 瓶頸了，同時也不會碰到單一線路頻寬減半的問題。可惜我的設備太陽春，沒有多餘可以跑 10G 的設備，來測看看是不是真的有突破瓶頸...，這個等以後真的有機會再補了 XDD。
 
 
 
