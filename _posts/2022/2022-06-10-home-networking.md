@@ -252,6 +252,127 @@ Teleport VPN, 其實早在 UniFi 其他產品線 (AMPLIFI) 就出現過了，對
 
 
 
+## Multiple PPPoE Connection
+
+> Note @ 2022/06/24  
+> 這段是文章發布後才追加的, 感謝 1.12.22 版本更新, 終於讓我願望成真了 :D
+
+感謝一下官方的努力, [1.12.22](https://community.ui.com/releases/UniFi-OS-Dream-Machines-1-12-22/851bdc97-fc39-40ef-bd71-786766512c58) 版本更新, 我終於可以用一個 HiNET 光世代的線路, 同時撥兩組 PPPoE 連線, 取得兩組 IP 給 UDM-PRO 使用。其中 WAN1 我給浮動 IP, 作為所有設備預設連上 internet 使用；另一個 WAN2 我則給撥接配發的固定 IP, 保留給 NAS 使用, 包含 NAS Download Station 連外使用, NAS 上的一堆服務對外開放 (用 Port Forwarding) 使用惹。
+
+這配置得力於 UDM-PRO 1.12.22 Firmware, 以及 UniFi Network [7.1.66](https://community.ui.com/releases/UniFi-Network-Application-7-1-66/cf1208d2-3898-418c-b841-699e7b773fd4) 帶來的這幾個新功能:
+
+1. **Port Remapping**:  
+UDM-PRO 上面的 Port #8, Port #9, Port #10 (SPF+ 10G), Port #11 (SPF+ 10G) 終於可以自由的對應 LAN / WAN1 / WAN2 了。除了我可以把兩個 SPF+ 對應到 LAN 連接兩台 10G 設備之外，我也可以不用多買額外的配件 (SPF+ 轉 RJ45) 就可以玩玩 Dual WAN 了.. 我家頻寬只有 100M/40M 啊，原本的配置 WAN2 一定要用 SPF+ 真是個折磨人的設計..  
+
+1. **Traffic Routing**:
+這後面再仔細介紹, 這版終於支援以前 Policy Routing 的功能了，你可以指定那些人連上哪些網站，要走哪條線路出去... WAN1 / WAN2 終於不再只能是備援了，可以有更多樣化的應用。
+
+好，感謝完畢，開始來聊正題了。前面講到我自己家裡切了幾個 VLAN, 最主要的就是分別管理我設備骨幹 (**TRUNK**), 我的 NAS 網段 (**NAS**), 以及我上網用的設備網段 (**HOME**)。我的期待是這樣:
+
+1. 我希望能同時建立兩個 PPPoE 連線, 取得兩個 IP address, 分別指派給 UDM-PRO 的 WAN1 與 WAN2 使用
+1. WAN1 就用浮動 IP 就好, 會隨時間變動沒關係, 反正只是上網用。我不希望連到網站, 下載內容, 或是 PTT 長期都使用一樣的 IP address ... 
+1. WAN2 則使用固定 IP (PPPoE 每次都配發固定的 IP, 不是企業專線的那種)。我自己有用 NAS 架設一些服務 (後面的段落: [目標 4, 網路服務](#目標-4-網路服務) 會介紹)，我希望這對外服務能有固定 IP, 搭配我自己的 domain name, 以及 UDM-PRO 的 Port Forward, 還有 Threat Management 等等防護功能，發布我內部架設的個人用服務。
+1. 其他我自己臨時的需求, 內部特定設備或是網段, 可以安排 Rules, 選擇要從 WAN1 或是 WAN2 上網
+1. 最後其他狀況下, 我希望我自己的 PC 或是 Notebook, 能無視這些設定, 選擇自己直接 PPPoE 撥接取得對外的 IP address 使用與測試
+
+
+**STEP 1, Setup Dual WAN**
+
+有點變態的需求 (你是有多少對外 IP 要用啊...)，不過單一一台 UDM-PRO 其實都很容易的就滿足了 XDD, 因為是新功能, 我就特別花點篇幅說明一下好了... 首先, 先把 Internet Connection 建起來。這是我的設定畫面:
+
+![](/wp-content/images/2022-06-10-home-networking/2022-06-25-00-28-30.png)
+> 圖: Internet 設定畫面, 設定了兩組 Internet Connection 連線
+
+
+接著來看一下 Port Remapping, 我把能重新定義的四個 ports ( #8, #9, #10, #11 ) 中的兩個 RJ45 1G 留給 WAN, 兩個珍貴的 SPF+ 10G 則留給 LAN 使用:
+
+![](/wp-content/images/2022-06-10-home-networking/2022-06-25-00-30-22.png)
+> 圖: 重新指派 WAN2 給 Port 8
+
+接著，這兩個 ports 就直接連到 HINET 的小烏龜了。我正好買了一堆 UniFi 原廠的短跳線 (好用, 大推), 黑色的我就專門拿來標示對外的線路了。我拿兩條黑色的把 Port #8, #9 直接連到小烏龜。我家只有 100M/40M, 小烏龜還是舊款走電話線的, LAN port 的規格只有 100M ... 無奈還沒辦法升級 FTTH, 只能將就著看他閃黃燈 (100M)...
+
+![](/wp-content/images/2022-06-10-home-networking/2022-06-25-00-34-30.png)
+> 圖: 實機照片, 小烏龜拉了兩條黑色的網路線, 分別接到 Port #8, #9
+
+![](/wp-content/images/2022-06-10-home-networking/2022-06-25-00-39-30.png)
+> 圖: UniFi Network 上面的顯示, 綠色的圖示是 FE, 裡面有個地球的 icon 是指這是 internet 連線。
+
+(其實應該還要有第三條黑色的連到 Port #7, 接到 MODEM 這個 VLAN 的, 讓我的桌機連這個 VLAN 就能夠直接本機 PPPoE, 不過拍的時候剛好拔掉就懶得重拍了)
+
+
+
+**STEP 2, Setup Traffic Routes**
+
+接下來就是另一個新功能登場了: **Traffic Routes** !!
+
+![](/wp-content/images/2022-06-10-home-networking/2022-06-25-00-42-25.png)
+
+
+我只設定一條 rule: 我的 NAS 上網走 WAN2, 其他沒有指定的就通通都走預設的 WAN1, 除非 WAN1 掛掉才會切到備援的 WAN2... 不過這對我沒啥意義啊，我就那麼一台數據機，就只有一條實體的線路，要掛也是一起掛掉 XDD，備援的功能就當作自嗨就好 XDD。設定畫面簡單到不行，我也懶得說明了，貼圖就好:
+
+![](/wp-content/images/2022-06-10-home-networking/2022-06-25-00-46-58.png)
+> 圖: 指定來自 NAS 的 Internet Access 流量通通都改走 WAN2
+
+畫面上的 Category, 你可以選擇類型, 看是指定 domain, 或是指定 ip + port, 或是指定全部上網的轉導類型。Source 是指定那些範圍需要轉導, 可以指定個別 Devices, 或是 Group (看起來是照 Network 來區分的), 最後 Interface 就是讓你選擇符合的流量要走哪個 Internet 連線出去... 
+
+實際上真的可行啊, 我做了簡單的測試:
+
+1. 我用我的桌機, 連到 www.myip.com
+1. 我用我的 NAS, 用 Synology 內建的 DDNS 自動偵測對外 IP 註冊 DDNS
+
+畫面我就不貼了，都是我的 IP address, 但是都會被我馬賽克遮掉... 既然都看不到我還貼這圖幹嘛呢? XDD, 我只講結論, 這樣設定證實真的會走不同線路出去。而這兩個 IP 則會跟 UDM-PRO 拿到的對外 IP 是一致的。你可以從 dashboard 這邊核對看看:
+
+![](/wp-content/images/2022-06-10-home-networking/2022-06-25-00-56-11.png)
+> 圖: dashboard 現在會顯示 UDM-PRO 內外 IP 資訊了 (忘了哪一版才開始有這資訊... 以前很難找)
+
+為了證實真的有效，我又多加了第二個 traffic routes, 我想把我自己的 PC 連到 [MyIP.com](https://www.myip.com/) 的流量改走 WAN2:
+
+> 不知為何, 我測試時用 domain 轉導 [MyIP.com](https://www.myip.com/) 無效, 我就手動改轉導指定 ip address 就成功了.. 以下用 ip address 示範
+
+先 nslookup 一下 [MyIP.com](https://www.myip.com/) 的資訊:
+
+```
+
+D:\> nslookup myip.com
+Server:  UnKnown
+Address:  10.0.0.20
+
+Non-authoritative answer:
+Name:    myip.com
+Addresses:  2606:4700:3033::6815:1705
+          2606:4700:3031::ac43:d02d
+          172.67.208.45
+          104.21.23.5
+
+```
+
+我拿 IPv4 就好, 多加這條 traffic rules:
+
+![](/wp-content/images/2022-06-10-home-networking/2022-06-25-01-09-06.png)
+> 圖: 指派來自 ANDREW-PC 對外部指定 IP 的流量，通通改走 WAN2
+
+我拿了兩個偵測外部 IP 的網站來實驗，真的有效耶 (算了，我就保留 IP 最後一段不要馬賽克好了) ... 第一個拿我轉導的標的, [MyIP.com](https://www.myip.com/) :
+
+![](/wp-content/images/2022-06-10-home-networking/2022-06-25-01-10-47.png)
+> 圖: 我的 PC 連上 MyIP.com 的結果
+
+接這找沒列入清單的對照組，我隨便找了一個, 我用 [WhatIsMyIpAddress.com](https://whatismyipaddress.com/) :
+
+![](/wp-content/images/2022-06-10-home-networking/2022-06-25-01-12-37.png)
+> 圖: 我的 PC 連上 WhatIsMyIpAddress.com 的結果
+
+當然這兩個 IP 都是對的，都是 UDM-PRO 的 WAN1 / WAN2 的 IP, 不是網站亂掰的結果。
+
+測試到這邊，最後小結一下，這功能真是太棒了，我買了 UDM-PRO 買了一年半，總算是等到這個功能了。只能說 UniFi Network Application 整合的真好，操作使用起來完全沒有障礙，WAN1 / WAN2 的功能在每個地方都有正確的標示。例如我讓 NAS 走 WAN2 之後，在 Port Forward 的設定，我也能精準的指定我要讓哪個 WAN 的對外 Port 轉導回來內部的 NAS:
+
+![](/wp-content/images/2022-06-10-home-networking/2022-06-25-01-16-54.png)
+> 圖: Port Forward 可以指定你要轉發 WAN1 / WAN2 哪個 interface 的 port
+
+這跟當年 (2021/01 左右) 剛買 UDM-PRO 的時候完全不同檔次啊，那時的 WAN2 對我就跟雞肋一樣，食之無味棄之可惜，擺一個漂亮的高規格 SPF+ 在那邊看的到吃不到，當時的 WAN2 除了備援之外根本也沒別的用途，更何況我真要備援的話還沒有那些設備 (家用的寬頻上網用不到 SPF+ 啊, 看看我的小烏龜還只配備 100M 的網路規格...)，我還得額外準備 SPF+ 轉 RJ45 ...
+
+不過這批更新一次到位，實用度完全不一樣了。我除了 NAS 能有專屬 IP 發布服務之外，我自己電腦連特定服務也能走專屬 IP 了。這一切都只要在 UniFi Network 上面簡單的設定幾條規則就可以搞定，大推!
+
+
 
 # 目標 3, 居家監控
 
@@ -578,6 +699,14 @@ iperf Done.
 > 圖: 啟用 L3 switch, 跨 VLAN 的 routing, 可以就近由 switch 負責, 流量與運算不需再依靠 UDM-PRO, 能有效降低不必要的流量, 也不會佔用 Threat Management 的運算資源
 
 整個傳輸過程，只要靠 switch 就能搞定了，自然沒有 UDM-PRO 架構限制，也不會碰到 Threat Management 瓶頸了，同時也不會碰到單一線路頻寬減半的問題。可惜我的設備太陽春，沒有多餘可以跑 10G 的設備，來測看看是不是真的有突破瓶頸...，這個等以後真的有機會再補了 XDD。
+
+
+
+
+
+
+
+
 
 
 
