@@ -49,7 +49,7 @@ logo: /wp-content/images/2022-06-10-home-networking/2022-06-12-03-36-32.png
 
 1. 我希望家人上網的品質是被保障的；
 1. 我希望我的 LAB 區是被隔離的 (至少要有基本的 routing & firewall 隔離)；
-1. 我希望有些我不信任的設備 (或是客人) 能上網，但是跟我家人用或 LAB 用的環境是隔離的；
+1. 我希望設備存取網路資源能被管控，例如有些我不信任的設備 (或是訪客) 能上網，但是跟我家人用或 LAB 用的環境是隔離的；或是有些設備只限定或拒絕存取特定服務 (例如 Facebook), 最好還能排程 (父母必備功能)。
 1. 最後我希望能善用 HINET 提供的同時最多八組 PPPoE 撥接，有時我自己臨時需要，能直接從筆電或是 PC 撥接上網取得外部 IP，不用經過家裡的 router ..。
 
 以上，這是我的第二個目標: 網路基礎建設。
@@ -251,8 +251,31 @@ Teleport VPN, 其實早在 UniFi 其他產品線 (AMPLIFI) 就出現過了，對
 * [WireGuard 與 OpenVPN：哪個更高級？](https://www.purevpn.com.tw/blog/wireguard-vs-openvpn/)
 
 
+## Traffic Rules - 限制設備連網能力
 
-## Multiple PPPoE Connection
+兩年前，還在用 NAS 架設 UniFi Network Controller, UI 設備只有兩台 AP 的時候，當時要限制小孩網路不要用過頭，唯一的做法只有一個: 就是 WiFi Scheduler, 開一組 SSID 給小孩使用，然後排排程定期開關這個 SSID, 直接用物理斷網的方式來讓小孩網路別用過頭...
+
+其實更早之前我用過各種方法，無奈都被小孩一一破解了 XDD, 我用過:
+
+1. DHCP 配發固定 IP, 然後封鎖特定 IP ==> 無效, 小孩因此學會了手動設定 IP address ...
+1. 鎖定 Mac Address (黑名單) ==> 無效, 小孩也學會怎麼改 Mac Address, 甚至現在 windows / android / ios 都有隨機變換 mac 防追蹤的功能...。改成白名單也許有效, 不過管理成本太大了, 最終放棄。
+1. Guest Portal + Coupon, 當時還沒買 USG / UDM, 太麻煩, 放棄
+
+各種方法都試過後，最後負擔最小的就是 WiFi SSID + 排程。在社群尚有段時間這也變成 FAQ 了，有頭痛的父母 PO 文詢問時，就會有人回答這 "標準答案"。
+
+UI 在這部分 (父母控制) 做得並不好，這些功能都沒有直接命中為人父母 + 網管的需求啊，另一個類似功能也是，在 Client List 後面的 Block 功能，只能阻擋 "無線存取" 的連線，如果是 PC 或筆電接有線網路就被略過了... 我家每個房間都有拉網路線啊...
+
+以上只是發發牢騷而已，也是為了接下來的說明鋪梗。同樣的在 UDM-PRO 1.12.22 新版 Firmware 與對應的 UniFi Network Application 發布後, 有了組好用的新功能: Traffic Management -> Rules.
+
+> Note @ 2022/06/24  
+> 這段是文章發布後才追加的, 感謝 1.12.22 版本更新, 終於讓我願望成真了 :D
+>
+> (本段未完待續)
+>
+
+
+
+## Traffic Routes - Multiple PPPoE Connection
 
 > Note @ 2022/06/24  
 > 這段是文章發布後才追加的, 感謝 1.12.22 版本更新, 終於讓我願望成真了 :D
