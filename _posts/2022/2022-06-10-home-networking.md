@@ -622,6 +622,14 @@ COPY . /app
 
 意思是，如果我在 LAN 的 SPF+ 裝上 10G 的 NAS, 我在 LAN 1 ~ 8 每個 port 雖然都只有 1G 的頻寬，但是同時對 NAS 存取時，能否每個 client 都有 1G 的滿速, 讓 NAS 同時達到 8GB 的 throughtput 呢? 從架構圖上看來，是不行的，因為內部架構，你要把那 8 ports switch 當作內置一台 9 ports giga switch, 連結到一台 1G + 10G LAN, 與 1G + 10G WAN 的 router (咦? 這不就是 Next-generation Gateway Pro 嗎? XDDD), 瓶頸會卡在內部看不到的那 1G 連線..
 
+
+![](/wp-content/images/2022-06-10-home-networking/2022-06-26-14-25-24.png)
+> 圖: 想像 UDM-PRO 就是上述產品的合體
+
+其實，把 UDM-PRO 的架構圖中間畫一條線，你會發現規格跟 UXG-PRO 一模一樣啊... UDM-PRO 的功能就相當於 UXG-PRO (10G + 10G + 1G + 1G) + USW-8 (1G x 8, 沒有 PoE) + UCKG2+ (Network + Protect + HDD) 的合體，做在一個盒子內，省了一些重複的硬體設計，共用了一些運算資源 (CPU / RAM 是共用的) 而已。這樣想像，你就很自然地能弄清楚瓶頸在哪邊了。
+
+
+
 所以，如果你要走 10G, 第一件事是你就要放棄左邊那 8 ports switch 了... 否則你那單一 10G port 只是升級好看的，他的流量永遠上不去 10G, 除非你的 NAS 只跟 UDM-PRO 本身的 application 通訊.. 因此，大部分社群上有經驗的人，都會配置一台專業一點的 switch, 把所有的流量都集中到 switch 身上，只把 UDM-PRO 當作 up-link, 當作單純的 router 使用。不過，就在上周的更新 (UDM-PRO firmware update: [1.12.22](https://community.ui.com/releases/UniFi-OS-Dream-Machines-1-12-22/851bdc97-fc39-40ef-bd71-786766512c58)) 這個局勢有些微的改變了。新版 firmware, 允許你自己選擇第二個 SPF+ 是要當作 LAN or WAN 看待，如果你改成 LAN，至少 UDM-PRO 有辦法有兩個 10G LAN port 可以對接，如果這樣足夠你使用，你是可以省下一筆 switch 的花費的...
 
  
