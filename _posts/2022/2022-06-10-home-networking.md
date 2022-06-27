@@ -294,15 +294,15 @@ UI 在這部分 (父母控制) 做得並不好，這些功能都沒有直接命�
 
 ![](/wp-content/images/2022-06-10-home-networking/2022-06-27-23-40-05.png)
 
-我找不到地方全列出來，各位就自己想像了。UniFi 已經幫你把這些 App 背後的流量 pattern 定義好了，你只要選擇這些 APP 就可以了。在 Category 層級，你可以選擇 APP | APP Group | Domain Name | IP address | Region | Internet | Local Network 來當作分類條件。
+我找不到地方全列出來，各位就自己想像了。UniFi 已經幫你把這些 App 背後的流量 pattern 定義好了，你只要選擇這些 APP 就可以了。在 Category 層級，你可以選擇 APP / APP Group / Domain Name / IP address / Region / Internet / Local Network 來當作分類條件。
 
-第二個維度，是 Target, 你可以選擇這些規則要套用在那些 device? 你可以用 ALL | Group Devices (Network?) | Devices (直接從 Client List 挑) ...
+第二個維度，是 Target, 你可以選擇這些規則要套用在那些 device? 你可以用 ALL / Group Devices (Network?) / Devices (直接從 Client List 挑) ...
 
 第三個維度，是時間的維度。提供了幾種常用的時間維度定義方式。用過 corn table 的大概都不會陌生吧! 我直接截圖就好:
 
 ![](/wp-content/images/2022-06-10-home-networking/2022-06-27-23-44-19.png)
 
-這三個維度交成起來的組合，只要符合，最後你只要選擇 Action ( Block | Allow ) 就可以了。因為有這些維度的組合 (尤其是 Category 提供了 APP | APP Group), 你要扮演父母的角色 (咦? 這樣講好像怪怪的) 就完全不是問題了。例如你可以這樣下條件:
+這三個維度交成起來的組合，只要符合，最後你只要選擇 Action ( Block / Allow ) 就可以了。因為有這些維度的組合 (尤其是 Category 提供了 APP / APP Group), 你要扮演父母的角色 (咦? 這樣講好像怪怪的) 就完全不是問題了。例如你可以這樣下條件:
 
 ![](/wp-content/images/2022-06-10-home-networking/2022-06-27-23-48-37.png)
 
