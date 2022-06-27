@@ -269,9 +269,42 @@ UI 在這部分 (父母控制) 做得並不好，這些功能都沒有直接命�
 
 > Note @ 2022/06/24  
 > 這段是文章發布後才追加的, 感謝 1.12.22 版本更新, 終於讓我願望成真了 :D
->
-> (本段未完待續)
->
+
+
+升級後的 firmware, 釋放出一堆過去沒有的功能, 跟這主題相關的就是: Traffic Rule .. 你可以替你的流量設定一系列的管控規則。這規則得力於背後的 Traffic & Device Identfication 功能, 能透過分析每個封包, 識別出這是你網路上的哪個 "Device" 在傳遞甚麼 "Traffic" ...
+
+![](/wp-content/images/2022-06-10-home-networking/2022-06-27-23-30-47.png)
+
+這些功能有啟用的話，你就能在這邊開始設定你的流量管控規則 ( Traffic Rules ) 了... UniFi Network 把這些設定弄得單純些, 這邊只影響 "能不能" 使用，歸類在 Traffic Rules, 下一段落決定資料要走哪條路，歸類在 Traffic Routes .. 這樣分別好懂多了:
+
+![](/wp-content/images/2022-06-10-home-networking/2022-06-27-23-33-16.png)
+
+設定的畫面很單純的，你用過防火牆之類的規則大概就難不倒你了。所有的 Rule 背後都是 "match" + "action" 的模式。符合條件 (category, target, schedule) 就執行指定動作 (action):
+
+![](/wp-content/images/2022-06-10-home-networking/2022-06-27-23-35-07.png)
+
+好吧，這段我是來湊篇幅的.. 其實懂得看了就懂了，沒啥好介紹的了。我特別想說明的原因是，他把很 high level 的條件都放進來了。一般而言這些都是 L7 的設備才做得到的事情。一般防火牆你大概都得知道對方的 IP address, 或是 TCP/UDP ports 之類的資訊, 才能設定規則阻擋。不過現在的 application 越來越複雜了，就連我都搞不清楚那些 application 走哪些 ip + ports... 舉例來說你知道 LINE 要擋掉他要怎麼檔嗎?
+
+這就是 traffic identification 厲害的地方了。L7 都是吃 CPU 換來的, 這些 App Category 也都是 UI 開發團隊辛苦一個一個定義出來的，所以在 UDM-PRO 上你不用傷腦筋去查這些協定的定義.. 除了常見的 domain name, ip address, network 等等條件之外, 我特別提一下 L7 相關的 APP 選擇畫面:
+
+![](/wp-content/images/2022-06-10-home-networking/2022-06-27-23-40-05.png)
+
+我找不到地方全列出來，各位就自己想像了。UniFi 已經幫你把這些 App 背後的流量 pattern 定義好了，你只要選擇這些 APP 就可以了。在 Category 層級，你可以選擇 APP | APP Group | Domain Name | IP address | Region | Internet | Local Network 來當作分類條件。
+
+第二個維度，是 Target, 你可以選擇這些規則要套用在那些 device? 你可以用 ALL | Group Devices (Network?) | Devices (直接從 Client List 挑) ...
+
+第三個維度，是時間的維度。提供了幾種常用的時間維度定義方式。用過 corn table 的大概都不會陌生吧! 我直接截圖就好:
+
+![](/wp-content/images/2022-06-10-home-networking/2022-06-27-23-44-19.png)
+
+這三個維度交成起來的組合，只要符合，最後你只要選擇 Action ( Block | Allow ) 就可以了。因為有這些維度的組合 (尤其是 Category 提供了 APP | APP Group), 你要扮演父母的角色 (咦? 這樣講好像怪怪的) 就完全不是問題了。例如你可以這樣下條件:
+
+![](/wp-content/images/2022-06-10-home-networking/2022-06-27-23-48-37.png)
+
+> 圖: 暑假期間的星期一 ~ 星期五的晚上 22:00 ~ 24:00 禁止兒子的手機使用 Social Networks
+
+應該會有青少年怨恨我貼了這篇介紹文吧? XDDD, 可惜這功能來的太晚，我家小孩已經過了這樣年紀了... 這段介紹就留給需要的朋友們參考就好...
+
 
 
 
@@ -613,9 +646,6 @@ COPY . /app
 要上 10G, 簡單的說設備之間每個環節都要 10G, 不然就沒有意義了。別以為 UDM-PRO 上面有兩個 10G 的 SPF+ 接上去就搞定了... 背後有陷阱啊! 這不是來自官方資訊 (我也不之來源)，但是所有 UniFi 的社群看似大家都知道這回事，就是 UDM-PRO 本身的 10G, 你要把 10G 跟 1G x 8 當作兩個分開的設備來看待 (只是他們剛好被裝在同一個盒子裡)。
 
 最主要的原因，就是這張架構圖:
-
- 
-  
   
 ![](/wp-content/images/2022-06-10-home-networking/2022-06-11-12-41-16.png)
 > 來源: [Ubiquiti Community Wiki](https://ubntwiki.com/products/unifi/unifi_dream_machine_pro)
@@ -628,11 +658,7 @@ COPY . /app
 
 其實，把 UDM-PRO 的架構圖中間畫一條線，你會發現規格跟 UXG-PRO 一模一樣啊... UDM-PRO 的功能就相當於 UXG-PRO (10G + 10G + 1G + 1G) + USW-8 (1G x 8, 沒有 PoE) + UCKG2+ (Network + Protect + HDD) 的合體，做在一個盒子內，省了一些重複的硬體設計，共用了一些運算資源 (CPU / RAM 是共用的) 而已。這樣想像，你就很自然地能弄清楚瓶頸在哪邊了。
 
-
-
-所以，如果你要走 10G, 第一件事是你就要放棄左邊那 8 ports switch 了... 否則你那單一 10G port 只是升級好看的，他的流量永遠上不去 10G, 除非你的 NAS 只跟 UDM-PRO 本身的 application 通訊.. 因此，大部分社群上有經驗的人，都會配置一台專業一點的 switch, 把所有的流量都集中到 switch 身上，只把 UDM-PRO 當作 up-link, 當作單純的 router 使用。不過，就在上周的更新 (UDM-PRO firmware update: [1.12.22](https://community.ui.com/releases/UniFi-OS-Dream-Machines-1-12-22/851bdc97-fc39-40ef-bd71-786766512c58)) 這個局勢有些微的改變了。新版 firmware, 允許你自己選擇第二個 SPF+ 是要當作 LAN or WAN 看待，如果你改成 LAN，至少 UDM-PRO 有辦法有兩個 10G LAN port 可以對接，如果這樣足夠你使用，你是可以省下一筆 switch 的花費的...
-
- 
+所以，如果你要走 10G, 第一件事是你就要放棄左邊那 8 ports switch 了... 因為這 8 ports 絕對不會產生大於 1G 的流量到右邊啊... 否則你那單一 10G port 只是升級好看的，他的流量永遠上不去 10G, 除非你的 NAS 只跟 UDM-PRO 本身的 application 通訊.. 因此，大部分社群上有經驗的人，都會配置一台專業一點的 switch, 把所有的流量都集中到 switch 身上，只把 UDM-PRO 當作 up-link, 當作單純的 router 使用。不過，就在上周的更新 (UDM-PRO firmware update: [1.12.22](https://community.ui.com/releases/UniFi-OS-Dream-Machines-1-12-22/851bdc97-fc39-40ef-bd71-786766512c58)) 這個局勢有些微的改變了。新版 firmware, 允許你自己選擇第二個 SPF+ 是要當作 LAN or WAN 看待，如果你改成 LAN，至少 UDM-PRO 有辦法有兩個 10G LAN port 可以對接，如果這樣足夠你使用，你是可以省下一筆 switch 的花費的...
   
   
 ![](/wp-content/images/2022-06-10-home-networking/2022-06-11-15-28-31.png)
