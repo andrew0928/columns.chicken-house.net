@@ -251,7 +251,7 @@ Teleport VPN, 其實早在 UniFi 其他產品線 (AMPLIFI) 就出現過了，對
 
 想體驗或是深入了解的，可以看一下這些介紹...
 
-* 官網介紹: (AMPLIFI Teleport](https://tw.amplifi.com/teleport)
+* 官網介紹: [AMPLIFI Teleport](https://tw.amplifi.com/teleport)
 * Mobile01: [Ubiquiti Amplifi Teleport 傳送術 穿梭來去自如](https://www.mobile01.com/topicdetail.php?f=110&t=5945594)
 * [WireGuard 與 OpenVPN：哪個更高級？](https://www.purevpn.com.tw/blog/wireguard-vs-openvpn/)
 
