@@ -1,0 +1,5 @@
+.markdown-body img {
+    border-style: solid;
+    border-width: thin;
+    max-width: 97%;
+}

@@ -17,6 +17,14 @@
     <link rel="stylesheet" href="/assets/vendor/share.js/dist/css/share.min.css">
     <link rel="stylesheet" href="/assets/css/globals/responsive.css">
     <link rel="stylesheet" href="/assets/css/posts/index.css">
+
+    {% if page.comments_gitalk == true %}
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+    {% endif %}
+
+    <link rel="stylesheet" href="/assets/css/andrew.css">
+
+
     <!-- Latest compiled and minified CSS -->
     {% for css in page.css %}
     <link rel="stylesheet" href="/assets/css/{{css}}">
@@ -26,6 +34,7 @@
        <meta name="apple-mobile-web-app-capable" content="yes">
        <meta name="apple-mobile-web-app-status-bar-style" content="black">
     {% endif %}
+
     <link rel="canonical" href="{{ page.url | prepend: site.url }}">
     <link rel="alternate" type="application/atom+xml" title="{{ site.title }}" href="{{ site.subscribe_rss }}">
     <link rel="shortcut icon" href="/favicon.ico">
