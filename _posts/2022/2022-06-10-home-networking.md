@@ -256,19 +256,29 @@ Teleport VPN, 其實早在 UniFi 其他產品線 (AMPLIFI) 就出現過了，對
 * [WireGuard 與 OpenVPN：哪個更高級？](https://www.purevpn.com.tw/blog/wireguard-vs-openvpn/)
 
 
-## Traffic Rules - 限制設備連網能力
+## Traffic Rules - Parental Control
 
-兩年前，還在用 NAS 架設 UniFi Network Controller, UI 設備只有兩台 AP 的時候，當時要限制小孩網路不要用過頭，唯一的做法只有一個: 就是 WiFi Scheduler, 開一組 SSID 給小孩使用，然後排排程定期開關這個 SSID, 直接用物理斷網的方式來讓小孩網路別用過頭...
+UniFi Network, 出了名的好用, 簡化了不少網管的苦差事, 雖然標榜商用, 但是因為 controller 做的太好, 也吸引了不少人拿來家用... 不過既然拿來家用, 一定會有這種需求: Parental Control, 管控小孩上網時間..
 
-其實更早之前我用過各種方法，無奈都被小孩一一破解了 XDD, 我用過:
+不過這普遍的功能 (連我的 ASUS RT-N16 都有內建) 反而在當年的 USG / UAP 上不是件那麼容易的事情... 不信的話，Google 一下 2022 年以前的關鍵字: [UniFi + Parental + Control](https://www.google.com/search?q=unifi+parental+control&ei=LxC7Ysn9IJKImgbo1oPYCg&ved=0ahUKEwiJ0eXdrdD4AhUShMYKHWjrAKsQ4dUDCA4&uact=5&oq=unifi+parental+control&gs_lcp=Cgdnd3Mtd2l6EAMyBQgAEIAEMgUIABCABDIECAAQHjIECAAQHjIECAAQHjIECAAQHjIGCAAQHhAIMgYIABAeEAgyBggAEB4QBTIGCAAQHhAIOgcIABBHELADSgQIQRgASgQIRhgAUOwNWIkbYOkcaAFwAXgAgAE-iAHXAZIBATSYAQCgAQHIAQrAAQE&sclient=gws-wiz) 就知道了... 隨便貼幾篇比較有人氣的討論:
 
-1. DHCP 配發固定 IP, 然後封鎖特定 IP ==> 無效, 小孩因此學會了手動設定 IP address ...
-1. 鎖定 Mac Address (黑名單) ==> 無效, 小孩也學會怎麼改 Mac Address, 甚至現在 windows / android / ios 都有隨機變換 mac 防追蹤的功能...。改成白名單也許有效, 不過管理成本太大了, 最終放棄。
-1. Guest Portal + Coupon, 當時還沒買 USG / UDM, 太麻煩, 放棄
+* [Feature Request - Parental Controls for the UDM](https://community.ui.com/questions/Feature-Request-Parental-Controls-for-the-UDM/9e9dce1e-9e85-4181-aa65-1b630c62668e)
 
-各種方法都試過後，最後負擔最小的就是 WiFi SSID + 排程。在社群尚有段時間這也變成 FAQ 了，有頭痛的父母 PO 文詢問時，就會有人回答這 "標準答案"。
+> As the UDM (base) is clearly a consumer product (see almost every topology map in community threads), cause no sane admin would deploy that in a corporate environment, parental controls would be much appreciated. Even simple scheduling of firewall rules is missing. With USG you could do that (pretty cumbersome) with a custom json-file, but with UDM? No way at all.  
+>  
+> Atm i'm helping me out with a separate SSID for the kids with scheduled outtages and an old spare switch with a manual timer switch that goes off at night to restrict access for wired devices. Digitalization at it best...
 
-UI 在這部分 (父母控制) 做得並不好，這些功能都沒有直接命中為人父母 + 網管的需求啊，另一個類似功能也是，在 Client List 後面的 Block 功能，只能阻擋 "無線存取" 的連線，如果是 PC 或筆電接有線網路就被略過了... 我家每個房間都有拉網路線啊...
+* [UDM PRO schedule/parental control](https://community.ui.com/questions/UDM-PRO-schedule-parental-control/86cb33e3-c130-4c28-8588-2106d4dca950)
+
+> UDM Pro only supports timer based disable of a specific SSID.  
+>  
+> It doesn't contain parental control features.
+
+搜尋到的方法，都是拿大砲打小鳥的應用啊，有人說要為小孩建立專屬的 VLAN + SSID, ... 有人說要為小孩設定群組 + 防火牆規則 blah blah ... 看起來慘不忍睹, 不是做不到, 而是完成的方法對於 "家用" 而言的門檻實在太高了啊 XDDD, 舉這篇當例子你大概就能了解我的意思了:
+
+* [用 UniFi Controller 實現小孩的網路使用時段控制](https://cychien.tw/wordpress/2021/12/12/%e7%94%a8-unifi-controller-%e5%af%a6%e7%8f%be%e5%b0%8f%e5%ad%a9%e7%9a%84%e7%b6%b2%e8%b7%af%e4%bd%bf%e7%94%a8%e6%99%82%e6%ae%b5%e6%8e%a7%e5%88%b6/)
+
+其實更早之前我用過各種方法，不是太麻煩，就是規則太死 (例如鎖 IP 或是鎖 Mac Address)，無奈都被小孩一一破解了 XDD, 最後留下可行的方式, 就是操作負擔最小的方法: WiFi SSID + 排程。UniFi Network 在 5.x 版的時候, WiFi scheduler 的 UI 做得還不錯，設定還算方便，就是有點大材小用，要為一個小孩 create 專屬的 SSID 有點浪費就是了。在社群尚有段時間這也變成 FAQ 了，有頭痛的父母 PO 文詢問時，就會有人回答這 "標準答案"。UI 在這部分 (父母控制) 做得並不好，這些功能都沒有直接命中為人父母 + 網管的需求啊，另一個類似功能也是，在 Client List 後面的 Block 功能，只能阻擋 "無線存取" 的連線，如果是 PC 或筆電接有線網路就被略過了... 我家每個房間都有拉網路線啊...
 
 以上只是發發牢騷而已，也是為了接下來的說明鋪梗。同樣的在 UDM-PRO 1.12.22 新版 Firmware 與對應的 UniFi Network Application 發布後, 有了組好用的新功能: Traffic Management -> Rules.
 
