@@ -32,7 +32,7 @@ logo: /wp-content/images/2022-06-10-home-networking/2022-06-12-03-36-32.png
 <!--more-->
 
 編修歷程:
-* 2022/06/28 新增: [Traffic Rules - 限制設備聯網能力](#traffic-rules---限制設備連網能力)
+* 2022/06/28 新增: [Traffic Rules - Parental Control](#traffic-rules---parental-control)
 * 2022/06/25 新增: [Traffic Routes - Multiple PPPoE](#traffic-routes---multiple-pppoe-connection)
 
 
