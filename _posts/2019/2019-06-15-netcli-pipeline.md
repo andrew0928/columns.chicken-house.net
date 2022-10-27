@@ -6,7 +6,8 @@ categories:
 - "系列文章: 架構面試題"
 tags: ["系列文章", "架構師", "CLI", "POC", "C#", "PIPELINE", "串流處理", "thread"]
 published: true
-comments: true
+comments_disqus: true
+comments_gitalk: true
 redirect_from:
 logo: /wp-content/images/2019-06-15-netcli-pipeline/2019-06-17-01-35-31.png
 ---
