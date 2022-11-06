@@ -18,9 +18,11 @@ Microservices, 一個很龐大的主題，我分成四大部分陸續寫下去..
   - [API Design #3](/2016/10/31/microservice5/) API 的向前相容機制; 2016/10/31
   - [API Design #4](/2016/11/27/microservice6/) API 上線前的準備 - Swagger + Azure API Apps; 2016/11/27
   - [API Design #5](/2016/12/01/microservice7-apitoken/) 如何強化微服務的安全性? API Token / JWT 的應用; 2016/12/01
-  - [API Design #6](/2022/03/25/microservices15-api-design/) 微服務架構 - 從狀態圖來驅動 API 的設計; 2022/03/25
-  - [API Design #7](/2022/04/25/microservices16-api-implement/) 微服務架構 - 從狀態圖來驅動 API 的實作範例 (ASP.NET Core); 2022/05/08
-  - (計畫) API Design # 微服務架構 - API 的安全機制;
+1. **API First Workshop: 設計概念與實做案例**
+  - [API First #1](/2022/10/26/apifirst/) 架構師觀點 - API First 的開發策略; 2022/10/26
+  - [API First #2](/2022/03/25/microservices15-api-design/) 微服務架構 - 從狀態圖來驅動 API 的設計; 2022/03/25
+  - [API First #3](/2022/04/25/microservices16-api-implement/) 微服務架構 - 從狀態圖來驅動 API 的實作範例 (ASP.NET Core); 2022/05/08
+  - (計畫) API First # 微服務架構 - API 的安全機制;
 1. **架構師觀點 - 轉移到微服務架構的經驗分享**
   - [Part #1](/2017/04/15/microservice8-case-study/) 改變架構的動機; 2017/05/09
   - [Part #2](/2017/05/20/microservice8-case-study-p2/) 實際改變的架構案例; 2017/05/20
