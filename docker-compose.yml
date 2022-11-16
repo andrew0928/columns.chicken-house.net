@@ -29,3 +29,5 @@ services:
 # launch console: docker-compose exec -w /home jekyll bash
 #                 >  cp -Ru columns/* source
 # launch logs:    docker-compose logs -t --tail 300 -f jekyll
+
+# sync NAS: robocopy /MIR . \\home.chicken-house.net\docker\columns.chicken-house.net\
