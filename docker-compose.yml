@@ -30,4 +30,4 @@ services:
 #                 >  cp -Ru columns/* source
 # launch logs:    docker-compose logs -t --tail 300 -f jekyll
 
-# sync NAS: robocopy /MIR . \\home.chicken-house.net\docker\columns.chicken-house.net\
+# sync NAS: robocopy /MOT:1 /MIR . \\home.chicken-house.net\docker\columns.chicken-house.net\
