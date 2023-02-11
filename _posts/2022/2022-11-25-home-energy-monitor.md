@@ -4,7 +4,7 @@ title: "水電工日誌 #9. 監控全家用電神器, Emporia Vue 2"
 categories:
 - "系列文章: 水電工日誌"
 tags: ["水電工", "有的沒有的", "敗家"]
-published: true
+published: false
 comments_disqus: false
 comments_facebook: false
 comments_gitalk: false
