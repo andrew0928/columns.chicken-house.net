@@ -9,7 +9,7 @@ comments_disqus: false
 comments_facebook: false
 comments_gitalk: true
 redirect_from:
-logo: /wp-content/images/2022-10-26-apifirst/slides/slide01.png
+logo: /wp-content/images/2023-01-01-api-design-workshop/slides/slides-01.png
 ---
 
 ![](/wp-content/images/2023-01-01-api-design-workshop/slides/slides-01.png)
