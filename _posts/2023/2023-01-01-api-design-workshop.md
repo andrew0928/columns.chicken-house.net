@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "架構師觀點 - API First, 從 Design Workshop"
+title: "架構師觀點 - API Design Workshop"
 categories:
 - "系列文章: 微服務架構"
 tags: ["系列文章", "架構師的修練", "microservices"]
