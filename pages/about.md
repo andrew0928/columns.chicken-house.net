@@ -12,12 +12,12 @@ permalink: /about/
 
 現任職於大型軟體開發團隊的架構師，負責核心產品的服務化，與內部產品開發團隊的架構改善等任務。在過去的 20 年工作經驗，主要都專注於 Microsoft .NET Framework 開發 SaaS , B2B2C 的雲端服務。我專長的領域包括: 軟體工程，物件導向設計，分散式系統架構設計，平行處理，API 設計 及 微服務導向架構設計 (microservices) 等。
 
-我樂於分享技術新知與開發的經驗，常在各大研討會或是在社群活動上分享經驗。同時我也有撰寫部落格文章的習慣，希望能累積我的經驗給需要的夥伴們。我深信知識是越分享越精進的，這也是支持我連續 13 年不間段分享文章的動力來源。
+我樂於分享技術新知與開發的經驗，常在各大研討會或是在社群活動上分享經驗。同時我也有撰寫部落格文章的習慣，希望能累積我的經驗給需要的夥伴們。我深信知識是越分享越精進的，這也是支持我自 2004 至今連續 20 年不間段分享文章的動力來源。
 
 ## 個人經歷:
 
 * 現任 [91APP](https://www.91app.com), 首席架構師 Chief Architect
-* 榮獲 [Microsoft MVP 微軟最有價值專家](https://mvp.microsoft.com/zh-tw/PublicProfile/5002155?fullName=Andrew%20%20Wu) 獎項,2016 ~ 2022
+* 榮獲 [Microsoft MVP 微軟最有價值專家](https://mvp.microsoft.com/zh-tw/PublicProfile/5002155?fullName=Andrew%20%20Wu) 獎項,2016 ~ 2023
 * 擔任多次 Microsoft Azure Cafe, TechDays, TechEd, DevOpsDays Taiwan, .NET Conf 等大型研討會講者，與相關 Azure PaaS 雲端系列課程與企業內訓講師
 
 
@@ -37,6 +37,13 @@ permalink: /about/
 
  
 ### 演講錄影及下載:
+
+- [.NET Conf 2022](), API First, 從理想的 API Spec 設計開始
+- [Will 保哥的技術交流中心](), DevOps 潮流下的 API First 開發策略
+- [DevOpsDays Taipei 2022](), DevOps 潮流下的 API First 開發策略
+
+- [.NET Conf 2021](), 微服務資料管理的天堂路 - CQRS / Event Sourcing 的應用與實踐
+- [DevOpsDays Taipei 2021](), 大型團隊落實 CI/CD 的挑戰
 
 - [STUDY4.TW]() [.NET Conf 2020](), 非同步系統的 SLO 設計
 - [STUDY4.TW]() [.NET Conf 2020](), 刻意練習, 抽象化能力的鍛鍊
