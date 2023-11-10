@@ -33,19 +33,69 @@ logo:
 1. Session Tracking
 1. Audit
 
+我曾經想過，為何這類題目的討論度不高? 這些權限管理的設計方式，理論上在這產業應該很普遍很容易碰到才對，但是能找到有參考價值的說明少之又少 (所以我才會試著自己摸索看看)。我的觀察，我發現:
+
+1. 擅長軟體開發或是設計的人，大都走向 application development。往商業領域發展其實更容易展現出成果，這類吃力不討好的題目，通常都被擺在第二或第三順位；或是做一做堪用就行。
+1. 擅長做大規模的權限管理，有其他相關系統使用經驗的人，大都是 SRE，IT，MIS 等屬性的人。這類人都很熟悉這些機制的使用方式，但是他們的任務大都不是大型應用系統商業邏輯的開發角色...。
+
+於是，這兩種屬性的經歷沒辦法湊在一起 (對使用的 domain 掌握不夠到位，對開發與抽象化的能力也不夠的話)，自然就不會產出我一直在尋找的內容了。其實除了 software develop, IT management 兩種角色之外，我覺得還有第三種的人也是，就是熟 operation system，熟 protocol design，或是熟 hardware / firmware design 的角色也是。還記得上一篇談 TCP 怎麼重新排列封包的案例嗎? 或是我更多過去寫的文章 (例如 pipeline, 或是 rate limit, QoS 等等) 這些想法，都是取材自 CPU，Networking，Firewall 等等硬體跟網路的設計。
+
+也因為這樣，我才體會到我能把這些 know how 結合再一起，才能用高度整合的角度來解決這些題目。
+
 
 ## 權限管理的基本模型
 
 {你被允許能做什麼} CheckPermission({你是誰}, {你的意圖範圍})
 
 
+## 你需要的 interface
 
-## 基本型: 授權表
+### 1. 基礎授權查詢:
 
-## 基本型: 用群組簡化管理
+bool CanExecuteAction(int clientId, int userId, int actionId);
 
-## 進階型: 從設計著手, 角色, ACL
+缺點: 呼叫太頻繁，可能的 input / output 組合過多，高頻次呼叫的優化空間很有限
+(10000 users, 5000 actions, 10000 clients, 3 possibility) => total 10000 x 5000 x 10000 x 3 = 1.5T 種可能的組合
 
-## 進階型: Policy 簡化管理複雜度
+### 2. 介面最佳化
 
-## 企業級: 合約授權方案
+將運算分散，盡可能地把組合從乘法變成加法，降級至合理的範圍，就容易靠計算與 Cache 加速
+
+permission_sets CheckModulePermission(session_context, module_context);
+
+session_context: 包含當前登入的使用者所有相關資訊。通常這些資訊在登入期間不會改變，適合用 JWT 來處理，每個 session 只需一份 (cache key 可用 session id)
+
+module_context: 將相關的功能聚合成一個模組，同一個模組內的多個功能 (actions) 可能在同時間會被密集檢查 (ex: 同一段 code，或是 user 在操作該功能的那 5 min 時間內)。一次性的查詢直接傳回整組可能使用到的權限判定結果
+
+(10000 users x 10000 clients, 5000 actions = 50 modules x 100 commands, 3 possibility) => 10000 x 10000 x 50, cache body: 100 x 3
+
+
+### 3. 資料結構最佳化
+
+如果你的邏輯更明確的定義 (例如 RBAC)，則可以進一步簡化。例如 session 直接先解析當前登入人員的一些授權資訊，例如群組或是角色等等
+
+permission_sets CheckModulePermission((clientId, roleId[], groupId[]), module_context);
+
+
+(10000 users -> 20roles, 20groups, ...)
+=> 10000x20x20 x 50, cache body: 100 x 3
+
+
+
+## 你需要的權限定義資料結構
+
+### 1. 授權表
+
+### 2. 用群組簡化管理
+
+### 3. 從設計著手, 角色, ACL
+
+### 4. Policy 簡化管理複雜度
+
+### 5. 合約授權方案
+
+## 資料層級的權限管理
+
+### 1. Data Attribute
+
+### 2. 從 Database Query 層級就支援權限過濾
