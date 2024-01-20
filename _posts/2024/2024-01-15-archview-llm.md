@@ -342,13 +342,26 @@ Microsoft 身為 Open AI 的大股東, 對 GPT 模型有最優先的掌握度。
 2. **善用 Prompt**:  
 告訴 GPTs 該怎麼回應使用者的詢問，而 API 本身也用自然語言告訴 GPTs 他是幹嘛用的，讓 LLM 能理解何時該呼叫他 (就是在 API swagger 的 description, 就是給 LLM 的 Prompt)
 
-這兩者打通之後，LLM 就搖身一變，變成控制中心了，也因此，未來的 APP 或是 Service, 應該都是為了成為 LLM 的助手而生的。
-
-所以，應用程式都會沒落了嗎? 不會的，他還是會存在，但是超大型的應用應該會越來越少，超複雜的多步驟流程也會逐漸消失，UX 的改善大部分都會落在 LLM 身上，而 APP 與各自的 UI 則會專注在更精確範圍內的應用了，例如填表單，或是特定的觸控操作等等。
+這兩者打通之後，LLM 就搖身一變，變成控制中心了，也因此，未來的 APP 或是 Service, 應該都是為了成為 LLM 的助手而生的。所以，應用程式都會沒落了嗎? 不會的，他還是會存在，但是超大型的應用應該會越來越少，超複雜的多步驟流程也會逐漸消失，UX 的改善大部分都會落在 LLM 身上，而 APP 與各自的 UI 則會專注在更精確範圍內的應用了，例如填表單，或是特定的觸控操作等等。
 
 那麼，以後的軟體開發框架會是? 想想過去 20 年來的主流框架吧，2000 年流行的是三層式架構，Presentation / Business / Data, 到 Cloud 年代主流的 MVC ( Model / View / Control , 這邊泛指通用的 MVC, 不是特地指 ASP.NET MVC ), 到了 AI 年代, 以 LLM 為核心, 外面包了一層供 LLM 協作的技術堆疊開始成形了, 現在看到的 Semantic Kernel 就最有這樣的架式了 (我後面談 "整合" 的部分再來細談)
 
-Semantic Kernal 我就不在這多做介紹了，基本上他就是把能善用 LLM 的軟體開發方式抽象化，變成一個能抽換擴充的機制。用了他，你底層的 LLM 到底是 Open AI, 或是其他的語言模型或服務就沒那麼重要了，反正被抽象化了，你開發應用就好好利用他就行，你只要想辦法給定清楚明確的 Prompt 就行，語言模型在本地，或在雲端，版本升級就不是那麼的重要了。目前，Semantic Kernel 看到的還是在 Application 內的 AI 應用開發框架，作業系統層級的通訊協定還沒看到，不過我猜也快了，如果真的有 windows 12, 應該可以看到一些蛛絲馬跡。
+幾個月前，我在思考應用程式該怎麼跟 LLM 有效的結合? 一個是要有明確的規格跟流程，另一個都是用很模糊的輸入 (對 code 而言，prompt 只是 string, 所有 input 都是 string, 跟全部是 object 其實沒兩樣)，那麼兩者的處理協作方式到底該是什麼樣貌? 研究了 GPTs, 剛好也看到 [Microsoft Semantic Kernel](https://learn.microsoft.com/en-us/semantic-kernel/overview/?source=docs&WT.mc_id=email&sharingId=23CD1DDC7AC4C645), 我發現這就是以後的應用程式分層架構了..
+
+![](/wp-content/images/2024-01-15-archview-llm/2024-01-20-18-00-28.png)
+
+看懂 Semantic Kernel 的這兩張圖就夠了，這張講的是 AI infrastructure / models 與 Plugins / Copilot 之間的協作，Semantic Kernel 就是扮演把這些全部串在一起的框架。如果 安德魯小舖 GPTs 我用 Semantic Kernel 改寫成單機版，那麼我的 API 就是圖上的 Plugins 了，我不管用什麼技術刻出來的 UI，就是對等 Copilot 的位置了。而不論我是跑本機板的 LLM，或是使用 cloud 的 AI service, 我用 connector 串聯它們，就是底下的 foundation models / AI infrastructure 了
+
+
+![](/wp-content/images/2024-01-15-archview-llm/2024-01-20-18-00-37.png)
+
+從另一個角度來看，這張圖更清楚。Model 只是按照 prompt 幫你算該回應什麼內容，對話過程是 application 應該自己維護的，在 Semantic Kernel 架構中的 Memory 就是指能記住對話過程的 "記憶"，Semantic Kernel 會協調 Memory / Model / Plugins, 自己處理這些元件之間的協作。
+
+雖然 Semantic Kernel 只是單一應用程式的框架，但是事實上規模放大到分散式的高度來看，Chat GPT 背後的運作機制也類似，只是它們的範圍是跨網路的。真正落實他們的技術跟協定可能不同，但是抽象化的觀念應該都是一致的。
+
+Semantic Kernal 再深入的技術細節，我就不在這多做介紹了，基本上他就是把能善用 LLM 的軟體開發方式抽象化，變成一個能抽換擴充的機制。目前，Semantic Kernel 看到的還是在 Application 內的 AI 應用開發框架，作業系統層級的通訊協定還沒看到，不過我猜也快了，如果真的有 windows 12, 應該可以看到一些蛛絲馬跡。
+
+接下來 (如果搞得定的話)，我打算把 安德魯小舖 GPTs 的應用，用 Semantic Kernel 的架構改寫一次，到時再來分享技術細節。這邊各位先有概念就好，就像 MVC 架構一般，LLM 加持驅動的應用程式，他的基本架構就是 Semantic Kernel 描述的這樣。你思考你的應用程式要包含 LLM 處理能力時，務必要先了解這開發框架背後的精神。
 
 
 ## 整合三者的應用模式
@@ -404,9 +417,9 @@ LLM 很有彈性，能理解語意，運算成本很高；相對寫 code 必須�
 
 第四個，是搞懂 AI 世代的開發框架，目前我看到最具代表性的就是 Microsoft Semantic Kernel. 當然就像 MVC, 是抽象的架構, 而 ASP.NET Core MVC 是一套廣為使用的開發框架，而你該掌握的是你的 Application 該有哪些 Model? 有哪些 View? Controller? 不是一開始就毫無設計，直接套用 ASP.NET Core MVC 硬幹...
 
-在 AI 的世界裡, Semantic Kernel 區分了 Kernel, Skill, Planner, Memory, Connector, 這些就是 AI 整合到應用程式內的標準結構啊，我在設計 安德魯小舖 GPTs 時，嚴格的來說也是用這框架去設計的，只是 GPTs 給了我很低的門檻來做這件事，我幾乎只是靠 Skill (掛上我的 Custom Action) 跟 Planner (只靠 Prompt 描述) 就完成了，Memory GPT 內建我完全不用煩惱，Knowledge 也內建了，我只管上傳檔案就好。
+在 AI 的世界裡, 我暫時找不到其他框架，就先拿 Semantic Kernel 當代表吧。Semantic Kernel 區分了 Kernel, Skill, Planner, Memory, Connector, 這些就是 AI 整合到應用程式內的標準結構，我在設計 安德魯小舖 GPTs 時，嚴格的來說也是用這框架去設計的，只是 GPTs 給了我很低的門檻跟設定畫面來做這件事 (連設定畫面都有 GPTs 來幫助我，我用聊的他就會幫我設定好了)，我幾乎只是靠 Skill (掛上我的 Custom Action) 跟 Planner (只靠 Prompt 描述) 就完成了，Memory GPT 內建我完全不用煩惱，Knowledge 也內建了，我只管上傳檔案就好。
 
-但是事後想想，其實也是 Semantic Kernel 的抽象化架構。身為架構師，你應該替你的服務或是產品，仔細思考長遠的發展中，你該怎麼樣在這樣的框架下，逐步累積你的元件。
+身為架構師，親手做一次是必要的，但是更重要的是你務必掌握這框架背後的精神，未來有需求你能夠正確的對應，並且正確的把它們組裝起來。你應該替你的服務或是產品，仔細思考長遠的發展中，你該怎麼樣在這樣的框架下，逐步累積你的元件，這才是 "架構" 師的主要職責。
 
 
 # 5, 開發人員該怎麼看待 AI ?
