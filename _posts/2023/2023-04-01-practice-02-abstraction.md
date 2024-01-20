@@ -22,6 +22,7 @@ https://columns.chicken-house.net/2016/05/05/archview-net-open-source/
 另一篇是講抽象化設計的文章，標題是: 架構面試題 #4 - 抽象化設計；折扣規則的設計機制
 https://columns.chicken-house.net/2020/03/10/interview-abstraction/
 
+<!--more-->
 
 第一篇，當時的時空背景是 Microsoft 正全面的轉型, 從封閉 (一切都是 Windows) 到開放 (擁抱 open source, 擁抱 linux)。從 .NET Framework 到 .NET Core, 開始有官方的支持, 能在 Linux 上面執行 (甚至效率還比 Windows 強)，到 SQL server 都推出 Linux 版本, 之後不管再看到什麼都不奇怪了的年代 (包括 windows 內建 linux shell, windows 支援 windows container / linux container, 推出 mac 版本的 visual studio 等等)，這篇當時受到不少歡迎，就是我表達了當時 Microsoft 生態的開發人員，怎麼適應這麼大的改變..
 
