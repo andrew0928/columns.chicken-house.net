@@ -4,7 +4,7 @@ title: "[架構師觀點] 開發人員該如何看待 AI 帶來的改變?"
 categories:
 - "系列文章: 架構師觀點"
 tags: ["架構師觀點","技術隨筆"]
-published: true
+published: false
 comments_disqus: false
 comments_facebook: false
 comments_gitalk: true
