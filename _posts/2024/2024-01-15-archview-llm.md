@@ -278,7 +278,7 @@ UX 並不是只在刻劃面而已，更重要的是 UI 設計目的是 "猜" 使
 
 
 
-# 3, 看懂 Microsoft 的技術布局
+# 3, 看懂 Microsoft 的 AI 技術布局
 
 ![](/wp-content/images/2024-01-15-archview-llm/2024-01-20-13-31-37.png)
 
