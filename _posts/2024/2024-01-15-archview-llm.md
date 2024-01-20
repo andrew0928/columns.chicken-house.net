@@ -9,9 +9,9 @@ comments_disqus: false
 comments_facebook: false
 comments_gitalk: true
 redirect_from:
-logo: /wp-content/images/2024-01-15-archview-llm/2024-01-20-12-29-24.png
+logo: /wp-content/images/2024-01-15-archview-llm/2024-01-20-12-29-24.jpg
 ---
-![](/wp-content/images/2024-01-15-archview-llm/2024-01-20-12-29-24.png)
+![](/wp-content/images/2024-01-15-archview-llm/2024-01-20-12-29-24.jpg)
 (圖片來源: DALL-E, 不過我參不透 AI 在想啥 XDD)
 
 
@@ -348,12 +348,12 @@ Microsoft 身為 Open AI 的大股東, 對 GPT 模型有最優先的掌握度。
 
 幾個月前，我在思考應用程式該怎麼跟 LLM 有效的結合? 一個是要有明確的規格跟流程，另一個都是用很模糊的輸入 (對 code 而言，prompt 只是 string, 所有 input 都是 string, 跟全部是 object 其實沒兩樣)，那麼兩者的處理協作方式到底該是什麼樣貌? 研究了 GPTs, 剛好也看到 [Microsoft Semantic Kernel](https://learn.microsoft.com/en-us/semantic-kernel/overview/?source=docs&WT.mc_id=email&sharingId=23CD1DDC7AC4C645), 我發現這就是以後的應用程式分層架構了..
 
-![](/wp-content/images/2024-01-15-archview-llm/2024-01-20-18-00-28.png)
+![](/wp-content/images/2024-01-15-archview-llm/2024-01-20-18-19-10.png)
 
 看懂 Semantic Kernel 的這兩張圖就夠了，這張講的是 AI infrastructure / models 與 Plugins / Copilot 之間的協作，Semantic Kernel 就是扮演把這些全部串在一起的框架。如果 安德魯小舖 GPTs 我用 Semantic Kernel 改寫成單機版，那麼我的 API 就是圖上的 Plugins 了，我不管用什麼技術刻出來的 UI，就是對等 Copilot 的位置了。而不論我是跑本機板的 LLM，或是使用 cloud 的 AI service, 我用 connector 串聯它們，就是底下的 foundation models / AI infrastructure 了
 
 
-![](/wp-content/images/2024-01-15-archview-llm/2024-01-20-18-00-37.png)
+![](/wp-content/images/2024-01-15-archview-llm/2024-01-20-18-18-51.png)
 
 從另一個角度來看，這張圖更清楚。Model 只是按照 prompt 幫你算該回應什麼內容，對話過程是 application 應該自己維護的，在 Semantic Kernel 架構中的 Memory 就是指能記住對話過程的 "記憶"，Semantic Kernel 會協調 Memory / Model / Plugins, 自己處理這些元件之間的協作。
 
