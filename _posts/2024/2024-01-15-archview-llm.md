@@ -4,7 +4,7 @@ title: "[架構師觀點] 開發人員該如何看待 AI 帶來的改變?"
 categories:
 - "系列文章: 架構師觀點"
 tags: ["架構師觀點","技術隨筆"]
-published: false
+published: true
 comments_disqus: false
 comments_facebook: false
 comments_gitalk: true
@@ -231,6 +231,8 @@ Demo 內容就到此先告一段落，背後很多技術細節，跟我處理過
 
 這些整合，主要都是透過後端 API ( server to server ) 的型態發生；也有在前端整合的做法，不過直接共享 DB 的類型也有，但是越來越不是主流的做法，我就不畫了。
 
+
+
 然而，我看到的改變，會是這樣 (個人觀點):
 
 ![](/wp-content/images/2024-01-15-archview-llm/2024-01-20-09-40-47.png)
@@ -329,9 +331,19 @@ Microsoft 身為 Open AI 的大股東, 對 GPT 模型有最優先的掌握度。
 想像一下，如果像我 Demo 這樣的應用，未來主流的服務都用同樣的方式整合在 Chat GPT 上，會是什麼樣的光景? 想想就覺得可怕，因為現在看來已經是完全可行的技術了，只差整合而已。只是我不覺得 Open AI 的 Chat GPT 會變成以後大家必定使用的 "入口"，夠格扮演這角色的還是作業系統大廠 Microsoft (Windows) / Apple ( iOS / MacOS ) / Google ( Android / ChromeOS ) 比較有機會。而現在看來領先的就是 Microsoft Windows + Copilot 最被看好
 
 
-## 開發框架 (Semantic Kernel)
+## AI 應用的開發框架 (Semantic Kernel)
 
 最後一個，開發框架。我雖然對這個 安德魯小舖 GPTs 的 Demo 感到驚艷，但是我不覺得未來的平台會是 Chat GPT, 只是 Chat GPT 門檻最低，是拿來做 PoC 的首選而已。在做這個 side project 時，我體會到一件事:
+
+過去是以 UI 操作驅動整個應用程式的發展，因此會發展出 MVC 的開發框架。V (View) 就是對應 UI 的操作部分，而 M (Model) 則是對應到 View 需要對應的資料結構，C (Controller) 則是回應 UI 運作的邏輯與背後的流程。不光是 Microsoft, 各個主流的 Web 開發框架大致上都不脫離這模式。
+
+到了 AI 的時代，有了 LLM 的加持，UI 不再是唯一的操作方式，直接或間接透過自然語言開始是另一條可能的方式。而操作與邏輯的綁定關係，也變得更靈活 (相對的就是更不明確)。想看看，如果 Model 都已經變成一個一個的 Prompt, Controller 還能知道收到 Prompt 後該怎麼回應嗎? 該寫檔案? 還是該發出 email? 還是該執行交易?
+
+因此，要發揮 LLM 的威力，充分整合到你的應用內，你需要一個能透過對話方式驅動整個應用程式的發展框架。我之前在這門[線上課程](https://www.youtube.com/watch?v=JhCl-GeT4jw)，看到這張圖，我覺得很貼切:
+
+![](/wp-content/images/2024-01-15-archview-llm/2024-01-21-02-16-49.png)
+
+LLM 扮演了 Controller 的角色，或是講得更精準一點，Orchestration 會更貼切。他接收各種來源的自然語言要求，了解之後會判斷該如何回應。LLM 需要決定該轉發什麼樣的要求給後端的服務 (不論是 search engine, 或是 api, 或是 access database) 等等。LLM 扮演了 "理解語言背後的意圖"，翻譯成精確的指令，轉發 API 給其他系統。並且把得到的結果再度翻譯成自然語言，或是需要再次轉發成後續的指令。LLM 是 "精確運算" 與 "模糊的語意分析" 之間的橋樑，這是傳統的應用程式最難突破的環節，也是融合 AI 應用的核心。
 
 未來軟體開發，會是圍繞著 LLM 為核心，在外圍搭建 UI, 服務, 靠 LLM 統控操作流程 (orchestration), 探究為何 LLM 做得到? 他就是專精在自然語言的處理，只是 Chat GPT 很巧妙地運用他來整合語言對談與 API 而已。
 
@@ -344,7 +356,13 @@ Microsoft 身為 Open AI 的大股東, 對 GPT 模型有最優先的掌握度。
 
 這兩者打通之後，LLM 就搖身一變，變成控制中心了，也因此，未來的 APP 或是 Service, 應該都是為了成為 LLM 的助手而生的。所以，應用程式都會沒落了嗎? 不會的，他還是會存在，但是超大型的應用應該會越來越少，超複雜的多步驟流程也會逐漸消失，UX 的改善大部分都會落在 LLM 身上，而 APP 與各自的 UI 則會專注在更精確範圍內的應用了，例如填表單，或是特定的觸控操作等等。
 
-那麼，以後的軟體開發框架會是? 想想過去 20 年來的主流框架吧，2000 年流行的是三層式架構，Presentation / Business / Data, 到 Cloud 年代主流的 MVC ( Model / View / Control , 這邊泛指通用的 MVC, 不是特地指 ASP.NET MVC ), 到了 AI 年代, 以 LLM 為核心, 外面包了一層供 LLM 協作的技術堆疊開始成形了, 現在看到的 Semantic Kernel 就最有這樣的架式了 (我後面談 "整合" 的部分再來細談)
+很明顯的，MVC 不再適合處理這樣特性的應用程式了，AI 相關的應用程式開發 必須要有更合用的開發框架。如果把這張圖，濃縮成單機版本，範圍限定在單一 AI 相關的應用程式開發框架的話，那目前的最佳選擇，就是我一直提到的 Microsoft Semantic Kernel 了。
+
+
+
+
+
+## 整合三者的應用模式
 
 幾個月前，我在思考應用程式該怎麼跟 LLM 有效的結合? 一個是要有明確的規格跟流程，另一個都是用很模糊的輸入 (對 code 而言，prompt 只是 string, 所有 input 都是 string, 跟全部是 object 其實沒兩樣)，那麼兩者的處理協作方式到底該是什麼樣貌? 研究了 GPTs, 剛好也看到 [Microsoft Semantic Kernel](https://learn.microsoft.com/en-us/semantic-kernel/overview/?source=docs&WT.mc_id=email&sharingId=23CD1DDC7AC4C645), 我發現這就是以後的應用程式分層架構了..
 
@@ -364,13 +382,7 @@ Semantic Kernal 再深入的技術細節，我就不在這多做介紹了，基�
 接下來 (如果搞得定的話)，我打算把 安德魯小舖 GPTs 的應用，用 Semantic Kernel 的架構改寫一次，到時再來分享技術細節。這邊各位先有概念就好，就像 MVC 架構一般，LLM 加持驅動的應用程式，他的基本架構就是 Semantic Kernel 描述的這樣。你思考你的應用程式要包含 LLM 處理能力時，務必要先了解這開發框架背後的精神。
 
 
-## 整合三者的應用模式
-
 講到這邊，我開始能串起來了。應用程式只要用 Semantic Kernel 開發, 甚至變成 OS 內建的服務，安裝軟體會變成安裝 Plugins / Planner, 而 AI OS / AI PC 則提供了足夠的 LLM 運算能力，讓你的 Application 能充分使用這些 AI 資源；最後 Copilot 變成作業系統的標準 (主要) 操作介面，統合起本地端與雲端的各種資源...
-
-我想，這就是 Microsoft 投入這麼多資源想要達成的目標吧! 這符合 Microsoft 一直強調 Productivity 生產力的方向 (有什麼東西對生產力的幫助會比 Chat GPT + GitHub Copilot 還強大?)，AI 模型的技術也鞏固了 Azure / Windows 的發展，作業系統會再度成為 Microsoft 的強力武器；最後 Semantic Kernel + GitHub (Copilot), 別忘了還有 Visual Studio / VS Code, 也會讓 Microsoft 重新對軟體開發技術站上主導地位.
-
-我想，這就是 Microsoft 在打的如意算盤吧! 不得不佩服這些作藍圖規畫的人，不知道 Satya 在幾年前就預想到今天的情境? 我則是後知後覺，都浮上了檯面一整年了，我才看懂這個局 (也才寫了這篇文)
 
 
 
@@ -400,7 +412,11 @@ LLM 很有彈性，能理解語意，運算成本很高；相對寫 code 必須�
 
 因為，掛上 LLM 後的 API ( Plugins ), 呼叫你 API 的不再是其他開發者了, 會變成 AI 來呼叫你的 API。你已經無法 "預測" 或是 "約束" 對方該怎麼呼叫。這時你只剩兩條路可以選擇，一個是把你的 API 設計的合情合理，完全符合現實世界的運作邏輯 (就是我常講的 OOP 精神: 模擬世界 加以處理)，你只要用 Prompt 就足以交代 AI 該怎麼使用 API。另一個就是把你的 API 做到邏輯無懈可擊，滴水不漏。不論 AI 用什麼順序呼叫，傳遞什麼參數給你，都不會發生意料之外的結果。這個非常吃嚴謹的設計，我曾在 API First 不斷強調 "有限" 狀態機的重要性，就是預防這種錯誤。因為狀態機的變化是 "有限" 的，你才能在這範圍內精準地控制各種行為，不會暴走，這樣的 API 設計才是 AI Friend 的設計。
 
-因此，API 不再是能動就好，而是要精確，可靠，合理，做到 AI Friendly，才是能在未來世界有競爭力的服務。OOP，DDD 等等領域相關的設計，以及開發的基礎工程能力，會越來越重要。因為你沒掌握這些設計原則，你幾乎不可能設計出 AI Friendly 的 API 規格的。
+AI 會解決很多過去 UI / UX 難解的問題，這會有兩個效應，一個是原本由 UI / BL 負責的體驗改善，會大幅往 LLM 靠攏偏移。而抽走這些流程的處理，你的 API 就只會剩下最核心最關鍵的 Domain API 了。就拿我這次示範的 "安德魯小舖  GPTs" 當例子，我的 API 真的精簡到不能再精簡了，精簡到你拿掉任何一個 API，就連最基本的成立訂單都做不到。
+
+有哪些是原本該提供的 API，但是因為有了 LLM 輔助可以不需要再提供的? 最明顯的就是 BL 層，以案例來說如果需求有這麼一條，要按照客戶預算規劃採購內容的話，一定會有一組 API 對應這些需求。但是在這示範案例中，LLM 完全把這塊扛了下來...。就眼前來看，已知的需求可以不需要再開發了，就未來來看，也許有更多你目前想像不到的需求，LLM 也可以有足夠能力替你處理。唯獨最關鍵的是: 你的核心購物 API 一定要能精準確實可靠的處理好結帳的需。
+
+這就回到我一直在強調的 Domain API Design，API First，API 必須精準對應 Business Model 這些議題要探討的: 要開對 API。因此，API 不再是能動就好，而是要精確，可靠，合理，做到 AI Friendly，才是能在未來世界有競爭力的服務。OOP，DDD 等等領域相關的設計，以及開發的基礎工程能力，會越來越重要。因為你沒掌握這些設計原則，你幾乎不可能設計出 AI Friendly 的 API 規格的。
 
 
 ## 3, UI 應該盡可能拆解, 讓 Copilot 能引導操作
