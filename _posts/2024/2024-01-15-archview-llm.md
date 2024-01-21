@@ -380,9 +380,9 @@ UX 並不是只在刻劃面而已，更重要的是 UI 設計目的是 "猜" 使
 
 # 3, 看懂 Microsoft 的 AI 技術布局
 
-![](/wp-content/images/2024-01-15-archview-llm/2024-01-20-13-31-37.png)
-
 回到開頭講的 2016 那一篇文章吧，當時 .NET 開發人員 (越資深的體會越深刻，就是一路跟著 Microsoft 的技術路線走過來的那群人)，從一切都是 Microsoft 生態的環境 ( Windows, .NET Framework, COM+, SQL server, IIS server, Visual Studio, Office, Active Directory .. ), 突然間 .NET Core 橫跨 Linux ( 而且效能還比 windows 好 ), Container ( 完全是 Linux 生態系的技術 ) 也突然席捲軟體部署的方式, Microsoft 突然之間從 Steve Ballmer 年代的抨擊 Open Source 是毒瘤, 到 Satya 開始講 Microsoft Love Linux / Open Source ..
+
+![](/wp-content/images/2024-01-15-archview-llm/2024-01-20-13-31-37.png)
 
 回顧歷史，我長期都是走 Microsoft 技術路線討生活的，我自己看到這樣改變的時刻也不少，每隔 5 ~ 8 年都會碰到一波。例如:
 
@@ -407,7 +407,7 @@ container 當道, 世界快速的往 cloud, open source, linux, container 發展
 部署於 OS ( 使用者端 ) 的使用者入口, 會演變成整個 OS / Device 的 controller。Copilot 的成功與否關鍵在是否由 OS 來主導，LLM 的運算資源是否充足 (不論用雲端或是本地端) 以及背後的軟硬體整合是否到位。
 1. **Semantic Kernel**
 會發展成未來 Application 主要的開發框架，決定了生態系，也決定了 LLM 能夠協作的範圍有多廣
-1. (還沒看到, 純猜測)**Copilot as a Service**??  
+1. (還沒看到, 純猜測) **Copilot as a Service**??  
 軟體運作模式是從本質上就改變的，Semantic Kernel 是為了改變 "單一" 軟體的開發模式產生的框架，作業系統層級多個應用程式，整個網路跨越多個服務的整合，都會有對等的改變。我猜 Azure 會有對等 Semantic Kernel 分散式版本的服務, 加速大家開發整合以 AI 為核心的應用服務基礎建設..
 
 這三者的關係則是緊密相扣，互相發展加成。一個一個來看彼此之間的關聯...
