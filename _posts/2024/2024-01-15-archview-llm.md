@@ -266,21 +266,32 @@ Demo 內容就到此先告一段落，背後很多技術細節，跟我處理過
 
 而 LLM (大型語言模型, Large Language Model) 的成熟，我認為這個隔閡開始被打破了。所有在去年初次體驗 Chat GPT 的人大概都有一樣的感受吧! Chat GPT 的 UI 不怎麼樣，就是聊天而已，很陽春，但是他對你輸入的文字能很正確的猜到你的意圖，給你合理的回應，光是這點就完全把其他的 UX 做的努力甩到一邊去了。對我而言，這是所謂的 "降維打擊"，LLM 用截然不同的方式，來解決 "了解意圖" 這件事，這解決方式的差異，注定了傳統的 UX 優化，在怎麼樣是跟不上 LLM 的，只要 LLM 持續進步的話...
 
-因此，我在這次 PoC 我親身體會到 LLM + API 的整合威力了。這次 PoC 我認為影響我想法最大的，就是我的 API 怎麼被呼叫的這個過程。過去，API 一直都不是給 "人" 看的東西，都是工程師們之間溝通用的火星文，凡人是看不懂這種外星語言的.. 然而如果你把 LLM 當 "人" 來看，他卻又有辦法在 "自然語言" 跟 "程式語言" 之間對應..
+因此，我在這次 PoC 我親身體會到 LLM + API 的整合威力了。這次 PoC 我認為影響我想法最大的，就是我的 API 怎麼被呼叫的這個過程。過去，API 一直都不是給 "人" 看的東西，都是工程師們之間溝通用的火星文，凡人是看不懂這種外星語言的.. 然而如果你把 LLM 當 "人" 來看，他卻又有辦法在 "自然語言" 跟 "程式語言" 之間對應..。
+
+這部分 open ai 的文件: [Function calling](https://platform.openai.com/docs/guides/function-calling) 這篇就說明的很清楚, 各位可以不用看他的完整規格, 但是流程說明倒是可以看一下，我節錄部分:
+
+> Function calling allows you to more reliably get structured data back from the model. For example, you can:
+>
+> - Create assistants that answer questions by calling external APIs (e.g. like ChatGPT Plugins)
+>   - e.g. define functions like send_email(to: string, body: string), or get_current_weather(location: string, unit: 'celsius' | 'fahrenheit')
+> - Convert natural language into API calls
+>   - e.g. convert "Who are my top customers?" to get_customers(min_revenue: int, created_before: string, limit: int) and call your internal API
+> - Extract structured data from text
+>   - e.g. define a function called extract_data(name: string, birthday: string), or sql_query(query: string)
+>
+> ...and much more!
+
+
 
 過去，UI 是由前端工程師做出來的，在 UI 之後，完全就是工程師的世界了。UI 接受使用者的操作，UI 設計人員就必須負擔把他轉譯成 "正確" API 的任務，而這 API 一路往下層傳遞，變成呼叫其他服務，或是存取資料庫等等細節。
 
 而透過 LLM，這路線就不同了，LLM 能夠理解來自多方的自然語言描述，並且做出對應或是彙整。例如你丟給 Chat GPT 一篇文章，你在接著問他一些問題，Chat GPT 能 "消化" 這些文章內容，並且重新整理萃取你要的內容，甚至按照你要求，加工整理之後給你結果。
 
-如果 API 規格，也是文件的一部分，這就好理解了。你問 GPTs 的問題，他會從他預先讀過的 API 規格，整理出要回應你期待的內容，該如何用 API 規格文件內的資訊組合出正確的流程跟參數給你? 這段克服後，GPTs 其實只要多做一件事就好了:
-
-他也不用回應流程跟參數給你，他自己產生對應的 API call 程式碼，自己執行，然後再把結果當作其他 input (類似其他文章)，消化之後再給你結果。你就會有這樣的感受: GPTs 懂你要幹嘛，而且都幫你做好 (呼叫 API) 了。
-
 這個 [安德魯小舖 GPTs](https://andrewshopoauthdemo.azurewebsites.net/swagger/index.html) 就是在做這件事，而且做得還不錯，我才開始感到震撼，未來的軟體開發，免不了一定要有個環節，必須善用 LLM 的解讀使用者意圖的能力才行。而 LLM 會扮演的是整個軟體系統的中控中心 (因為他能斷定該呼叫什麼模組，而不是單純照預先寫好的邏輯)
 
-我所謂的 "整個軟體開發的變革" 就是指這個，"A 呼叫 B，B 傳回執行結果給 A" 這樣的事情以後會變得不一樣了，會變成 "A 告訴 LLM 想要做什麼，LLM 從註冊的所有 API 中組合最適當的結果，並且執行後傳給 A"。不論你想不想要，未來的軟體開發框架一定會有這樣的架構存在。
+我所謂的 "整個軟體開發的變革" 就是指這個，未來越需要貼近使用者意圖的應用，越會依賴 LLM 當作中控中心。所有操作都先轉化成自然語言丟給 LLM，由 LLM 幫你 "思考" 該調用那些功能來滿足使用者。這 "思考" 的過程就是從前後文找出對應的 API，然後從前後文萃取出參數來呼叫。而應用程式的開發框架，也開始會配合這樣的架構抽象化，方便軟體開發人員快速堆疊建構應用程式。
 
-所以，API 不會消失，但是 API 不再是給其他開發者看的火星文，API 的設計也必須開始合理化 & 標準化，因為未來會呼叫你 API 的不再是 developer，而是 LLM。無法被 AI 善用的 API 將會是落伍的武器，無法在下個世代發揮戰力。
+所以，在未來 API 不會消失，但是 API 不再是給其他開發者看的火星文，API 的設計也必須開始合理化 & 標準化，因為未來會呼叫你 API 的不再是 developer，而是 LLM。無法被 AI 善用的 API 將會是落伍的武器，無法在下個世代發揮戰力。
 
 
 ## 2-3, 所有應用程式都會圍繞著 AI 而開發
@@ -410,10 +421,22 @@ container 當道, 世界快速的往 cloud, open source, linux, container 發展
 部署於 OS ( 使用者端 ) 的使用者入口, 會演變成整個 OS / Device 的 controller。Copilot 的成功與否關鍵在是否由 OS 來主導，LLM 的運算資源是否充足 (不論用雲端或是本地端) 以及背後的軟硬體整合是否到位。
 1. **Semantic Kernel**
 會發展成未來 Application 主要的開發框架，決定了生態系，也決定了 LLM 能夠協作的範圍有多廣。市場上另一個發展中的框架: LangChain，也是常被擺在一起比較的熱門專案
-1. (還看不出風向) **Copilot as a Service**??  
-軟體運作模式是從本質上就改變的，Semantic Kernel 是為了改變 "單一" 軟體的開發模式產生的框架，作業系統層級多個應用程式，整個網路跨越多個服務的整合，都會有對等的改變。我猜 Azure 會有對等 Semantic Kernel 分散式版本的服務 (PaaS), 加速大家開發整合以 AI 為核心的應用服務基礎建設.. PaaS 還沒看到，但是 Copilot 的 SaaS 已經有預覽版了，可以參考 [Microsoft Copilot for Service](https://learn.microsoft.com/zh-tw/microsoft-copilot-service/) ...
 
 這三者的關係則是緊密相扣，互相發展加成。一個一個來看彼此之間的關聯...
+
+其他還有些空缺，我猜應該會有對應的計畫，只是現在還沒看到。應用程式開發，一直都是 Microsoft 擅長的領域。從單一應用開發框架 Semantic Kernel 開始 ( SDK )，我相信一路往上，都會有對應的架構或是基礎建設的.. 我的想法是:
+
+1. **AI Application Develop Framework**:  
+Semantic Kernel, 已經 release 1.0 了
+1. **OS Support for AI Application**:  
+還沒看到, 我猜 windows 12 會看的到端倪, 動作快的話今年應該就看的到了
+1. **Cloud AI Application Infrastructure (PaaS)**:  
+還沒看到, 也沒有時間表, 我猜 Azure 之後應該會有一整套的 PaaS 可以使用
+1. **Cloud AI Service (SaaS**):  
+已經看到類似的服務了 - [Microsoft Copilot for Service](https://learn.microsoft.com/zh-tw/microsoft-copilot-service/)
+
+
+
 
 ## 3-1, 大型語言模型 (LLM) 服務
 
