@@ -287,7 +287,10 @@ Demo 內容就到此先告一段落，背後很多技術細節，跟我處理過
 
 什麼叫做 "無法被 AI 善用的 API" ?
 
-AI 理解你 API 的使用方式，靠的就是 "文件"。你可以透過文件告訴 AI 該怎麼使用 API，但是你無法約束他，因此你的 API 設計是否有一致性，是否合理，是否夠嚴謹就很關鍵。你必須有很明確的流程，AI 才能長出正確的呼叫順序的腳本來執行，如果流程錯誤，你的 API 必須能辨別 (這就是我為何那麼強調狀態機)，如果你發現你的 API 有很多 "特例"，你就得花更多時間來寫文件，並且測試 AI 能否理解。
+前面 2-2 聊的問題，關鍵只有一句話，就是: LLM 負責自然語言與函數呼叫之間的轉換
+( LLM 要將自然語言轉為 API call 的順序與解析出對應參數，而要將 API 回應結果彙整給使用者 )
+
+翻成白話，就是 AI 理解你 API 的使用方式，靠的就是 "文件"。你可以透過文件告訴 AI 該怎麼使用 API，但是你無法約束他，因此你的 API 設計是否有一致性，是否合理，是否夠嚴謹就很關鍵。你必須有很明確的流程，AI 才能長出正確的呼叫順序的腳本來執行，如果流程錯誤，你的 API 必須能辨別 (這就是我為何那麼強調狀態機)，如果你發現你的 API 有很多 "特例"，你就得花更多時間來寫文件，並且測試 AI 能否理解。
 
 在這次的 PoC, 我就犯過類似的問題。不合理的設計，靠文件是補不完的，你能做的只有幾個:
 
@@ -406,9 +409,9 @@ container 當道, 世界快速的往 cloud, open source, linux, container 發展
 1. **Copilot**  
 部署於 OS ( 使用者端 ) 的使用者入口, 會演變成整個 OS / Device 的 controller。Copilot 的成功與否關鍵在是否由 OS 來主導，LLM 的運算資源是否充足 (不論用雲端或是本地端) 以及背後的軟硬體整合是否到位。
 1. **Semantic Kernel**
-會發展成未來 Application 主要的開發框架，決定了生態系，也決定了 LLM 能夠協作的範圍有多廣
-1. (還沒看到, 純猜測) **Copilot as a Service**??  
-軟體運作模式是從本質上就改變的，Semantic Kernel 是為了改變 "單一" 軟體的開發模式產生的框架，作業系統層級多個應用程式，整個網路跨越多個服務的整合，都會有對等的改變。我猜 Azure 會有對等 Semantic Kernel 分散式版本的服務, 加速大家開發整合以 AI 為核心的應用服務基礎建設..
+會發展成未來 Application 主要的開發框架，決定了生態系，也決定了 LLM 能夠協作的範圍有多廣。市場上另一個發展中的框架: LangChain，也是常被擺在一起比較的熱門專案
+1. (還看不出風向) **Copilot as a Service**??  
+軟體運作模式是從本質上就改變的，Semantic Kernel 是為了改變 "單一" 軟體的開發模式產生的框架，作業系統層級多個應用程式，整個網路跨越多個服務的整合，都會有對等的改變。我猜 Azure 會有對等 Semantic Kernel 分散式版本的服務 (PaaS), 加速大家開發整合以 AI 為核心的應用服務基礎建設.. PaaS 還沒看到，但是 Copilot 的 SaaS 已經有預覽版了，可以參考 [Microsoft Copilot for Service](https://learn.microsoft.com/zh-tw/microsoft-copilot-service/) ...
 
 這三者的關係則是緊密相扣，互相發展加成。一個一個來看彼此之間的關聯...
 
@@ -456,11 +459,16 @@ LLM 扮演了 Controller 的角色，或是講得更精準一點，Orchestration
 
 這兩者打通之後，LLM 就搖身一變，變成控制中心了，也因此，未來的 APP 或是 Service, 應該都是為了成為 LLM 的助手而生的。所以，應用程式都會沒落了嗎? 不會的，他還是會存在，但是超大型的應用應該會越來越少，超複雜的多步驟流程也會逐漸消失，UX 的改善大部分都會落在 LLM 身上，而 APP 與各自的 UI 則會專注在更精確範圍內的應用了，例如填表單，或是特定的觸控操作等等。
 
-很明顯的，MVC 不再適合處理這樣特性的應用程式了，AI 相關的應用程式開發 必須要有更合用的開發框架。如果把這張圖，濃縮成單機版本，範圍限定在單一 AI 相關的應用程式開發框架的話，那目前的最佳選擇，就是我一直提到的 [Microsoft Semantic Kernel](https://github.com/microsoft/semantic-kernel/) 了。
+很明顯的，MVC 不再適合處理這樣特性的應用程式了，AI 相關的應用程式開發 必須要有更合用的開發框架。如果把這張圖，濃縮成單機版本，範圍限定在單一 AI 相關的應用程式開發框架的話，那目前的最佳選擇，就是我一直提到的 [Microsoft Semantic Kernel](https://github.com/microsoft/semantic-kernel/) 了。如果不是限定於 Microsoft Solution (C#), 也有另一套 Python 走向的套件: LangChain。挑哪套都沒關係，重要的是要看懂框架的設計，是要引導開發人員正確的使用 LLM ...
 
-同時，我也預期 (雖然現在還沒看到)，就像 MVC ( Model / View / Controller ) 進化到 SK ( Semantic Kernel ) 一般，Windows  勢必也會有作業系統層級的架構 (例如軟體安裝就會註冊支援的行為到 Microsoft Copilot，類似當年的 COM+)，Azure 也會有分散式架構的版本出現 (能整合 LLM 的 API Management ?)。
+同時，我也預期 (雖然現在還沒看到)，就像 MVC ( Model / View / Controller ) 進化到 SK ( Semantic Kernel ) 一般，Windows  勢必也會有作業系統層級的架構 (例如軟體安裝就會註冊支援的行為到 Microsoft Copilot，類似當年的 COM+)，Azure 也會有分散式架構的版本出現 (能整合 LLM 的 API Management ?)。架構上的演化，勢必會有 Application 開發框架層級, 作業系統層級, 開發者服務層級 (PaaS)，應用軟體層級 (SaaS) 對應的 solution..
 
-這些我還沒看到，我也不知道最終會長什麼樣子，不過看懂 AI 會帶來什麼改變後，很明顯這邊就是缺兩塊，遲早會有對應的東西近來填補這空缺的。
+- 開發者層級: 就屬 Semantic Kernel / Lang Chain
+- 作業系統層級: 還沒看到規範出現
+- 服務基礎建設 ( PaaS ): 還沒看到規範，目前看到 Open AI API 已經有類似架構出現，但是還未成標準，也未見 PaaS 廠商出來整合
+- 應用系統層級 ( SaaS ): 已有看到 Microsoft 推出接近定位的服務: Microsoft Copilot for Service .
+
+這些服務的發展，我也不知道最終會長什麼樣子，不過看懂 AI 會帶來什麼改變後，很明顯這邊的缺口遲早會有對應的東西近來填補。如果你看清楚趨勢，就可以預先構想 & 持續關注這些服務的發展，盡早做好準備來面對了。
 
 
 
