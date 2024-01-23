@@ -342,7 +342,7 @@ Microsoft 有追上這波趨勢, 當年的 ASP / IIS / COM / ASP.NET 技術跟�
 - **2008, cloud / mobile 年代**:  
 Microsoft 當時在這兩個領域只是有跟上, 並不算領導廠商。Azure 表現中規中矩, mobile 則 ...
 - **2014, cloud first, mobile first 年代**:  
-container 當道, 世界快速的往 cloud, open source, linux, container 發展, Microsoft 換了 CEO 後有跟上這潮流, Azure 也開始走出自己的路線, .NET Core 也帶領開發人員跳出傳統的 Windows 體系, 開發工具除了 VS 之外也發展出 VS code, GitHub 也被 Microsoft 收編.. 從此 C# 開始跨入非 Windows 的領域, [直到今年 (2024) 就要 Java](https://www.ithome.com.tw/news/160776) ..
+container 當道, 世界快速的往 cloud, open source, linux, container 發展, Microsoft 換了 CEO 後有跟上這潮流, Azure 也開始走出自己的路線, .NET Core 也帶領開發人員跳出傳統的 Windows 體系, 開發工具除了 VS 之外也發展出 VS code, GitHub 也被 Microsoft 收編.. 從此 C# 開始跨入非 Windows 的領域, [直到今年 (2024) 就要超越 Java 了](https://www.ithome.com.tw/news/160776) ..
 - **2023: GenAI 橫空出世的年代**:
   (對我這種外行人來說的確是這樣), Microsoft 投資 Open AI 有押對寶, Azure Open AI service 領先, Bing / Copilot 等服務都快速地推出, [Semantic Kernel](https://github.com/microsoft/semantic-kernel/) 開發框架也推出, Microsoft 瞬間在 AI 的技術，服務，工具，開發框架，生態系都跑在前面..
 
@@ -370,7 +370,7 @@ Semantic Kernel, 已經 release 1.0 了
 1. **Cloud AI Application Infrastructure (PaaS)**:  
 還沒看到, 也沒有時間表, 我猜 Azure 之後應該會有一整套的 PaaS 可以使用
 1. **Cloud AI Service (SaaS**):  
-已經看到類似的服務了 - [Microsoft Copilot for Service](https://learn.microsoft.com/zh-tw/microsoft-copilot-service/)
+已經看到類似的服務了 - [Microsoft Copilot for Service](https://learn.microsoft.com/zh-tw/microsoft-copilot-service/?wt.mc_id=AZ-MVP-5002155)
 
 
 
@@ -437,7 +437,7 @@ LLM 扮演了 Controller 的角色，或是講得更精準一點，Orchestration
 
 ## 3-4, 整合三者的應用模式
 
-幾個月前，我在思考應用程式該怎麼跟 LLM 有效的結合? 一個是要有明確的規格跟流程，另一個都是用很模糊的輸入 (對 code 而言，prompt 只是 string, 所有 input 都是 string, 跟全部是 object 其實沒兩樣)，那麼兩者的處理協作方式到底該是什麼樣貌? 研究了 GPTs, 剛好也看到 [Microsoft Semantic Kernel](https://learn.microsoft.com/en-us/semantic-kernel/overview/?source=docs&WT.mc_id=email&sharingId=23CD1DDC7AC4C645), 我發現這就是以後的應用程式分層架構了..
+幾個月前，我在思考應用程式該怎麼跟 LLM 有效的結合? 一個是要有明確的規格跟流程，另一個都是用很模糊的輸入 (對 code 而言，prompt 只是 string, 所有 input 都是 string, 跟全部是 object 其實沒兩樣)，那麼兩者的處理協作方式到底該是什麼樣貌? 研究了 GPTs, 剛好也看到 [Microsoft Semantic Kernel](https://learn.microsoft.com/en-us/semantic-kernel/overview/??wt.mc_id=AZ-MVP-5002155), 我發現這就是以後的應用程式分層架構了..
 
 ![](/wp-content/images/2024-01-15-archview-llm/2024-01-20-18-19-10.png)
 
