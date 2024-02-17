@@ -162,6 +162,8 @@ HINT: 根據您提供的購物清單，您選購了含酒精的「18天台灣生
 
 [![](/wp-content/images/2024-02-10-archview-int-app/2024-02-17-02-09-41.png)](/wp-content/images/2024-02-10-archview-int-app/2024-02-17-02-09-41.png)
 
+> 圖 3, copilot 輔助, 每一次操作都有 AI 在背後協助, 適時提醒你是否有更好的做法
+
 其實我都找不到這樣的開發案例，只好自己想像，硬著頭皮上了。我的想法是: 就用流水帳把客人的操作過程，都一五一十的用白話文 ( user prompt ) 跟 LLM 報告。要求 LLM 沒事就回 OK (這時 UI 就不做任何顯示)，有需要注意 UI 才用醒目的提醒。
 
 
@@ -217,13 +219,71 @@ assistant: HINT: 我注意到您已經多次加入與移除同一件商品，是
 
 最理想的方案，才是像我在 "安德魯小舖" GPTs 展示的一樣，完全都透過 Agent 的介面，用自然語言溝通 (包含語音等等媒介) 來驅動的應用程式。不過，這個 Agent 不一定要是掛在 Chat GPT 這平台上的 GPTs，有更多適合 Hosting 這個 Agent 的方式。我認為較有可能能的發展，是在主流的使用者端作業系統 (目前局勢看來，就三大終端系統: windows / android / iOS ) 提供相關服務，讓應用程式 "掛" 上去，並且由 OS 提供 Agent 的存取介面。
 
+雖然已經做過 "安德魯小舖 GPTs" 了，我還是在這個 console ui 的專案重寫了一次，讓這個版本也能接受用對話完成交易。而這些過程整合在應用程式內，好處很多，分工能更明確 (不是所有任務都適合由 AI 處理的，有些需要精準效率的仍然適合直接寫 code 處理)，流程也能控制得更精準 (例如登入是必備的，我可以在一啟動就先完成登入程序)，而我也可以混合手動跟自動的流程，用我期待的方式完成購物。
+
+一樣，我貼一段示範案例:
+
+[![](/wp-content/images/2024-02-10-archview-int-app/2024-02-17-17-07-59.png)](/wp-content/images/2024-02-10-archview-int-app/2024-02-17-17-07-59.png)
+
+> 圖 4, 同樣介面也可以達成手動的效率 + AI 輔助的彈性
+
+這段流程是這樣:
+1. 我直接用對話方式問: "1000 元預算，啤酒跟可樂各買 10 罐，剩下的預算都買綠茶。結帳前跟我確認購物車的內容"
+1. LLM 解讀我的需求後, 自行呼叫對應的 Function
+1. 手動下指令確認內容無誤，手動進行結帳，並回應感謝訊息
+1. 結帳過程 AI 仍然提醒購買酒類的法律限制，並且感謝我對他服務的肯定
+
+這邊，我特別聊一下這段過程:
+
+```
+command > 1000 元預算，啤酒跟可樂各買 10 罐，剩下的預算都買綠茶。結帳前跟我確認購物車的內容
+assistant > 請稍待，正在幫您詢問助理店長 (copilot) 中...
+copilot > user: 店長請問: 1000 元預算，啤酒跟可樂各買 10 罐，剩下的預算都買綠茶。結帳前跟我確認購物車的內容
+copilot > function call: ShopFunction_ListProducts()
+copilot > function call: ShopFunction_AddItemToCart(productId: 1, quanty: 10)
+copilot > function call: ShopFunction_AddItemToCart(productId: 2, quanty: 10)
+copilot > function call: ShopFunction_EstimatePrice()
+copilot > function call: ShopFunction_AddItemToCart(productId: 3, quanty: 12)
+copilot > function call: ShopFunction_ShowMyCartItems()
+copilot answer > 根據您的預算 1000 元，我們已經將啤酒和可樂各加入 10 罐到購物車中，目前總金額是 700 元。剩餘的預算我們用來加入了 12 罐綠茶到購物車。
+
+目前購物車內的內容為:
+- 18 天台灣生啤酒 355ml x 10 罐
+- 可口可樂 350ml x 10 罐
+- 御茶園 特撰冰醇綠茶 550ml x 12 罐
+
+請確認購物車的內容是否符合您的期望，如果沒有問題，我們就可以進行結帳了。您還需要做其他變更嗎？
+```
+
+中間，我用深灰色，印出系統的訊息。可以看到我說了一句話之後，AI 背後就自己理解，拆解成數個步驟執行。從系統資訊看的出來 AI 理解我的意圖後，背後在嘗試替我找答案:
+
+1. ```ShopFunction_ListProducts( )```  
+列出所有商品，AI 可以從這邊得知品名跟商品 ID 對應關係。我並沒有給 exact match 的商品名稱，中間他有自己對應
+1. ```ShopFunction_AddItemToCart(productId: 1, quanty: 10)```  
+按照我的指示，購物車加入啤酒 (id:1) x 10
+1. ```ShopFunction_AddItemToCart(productId: 2, quanty: 10)```  
+按照我的指示，購物車加入可樂 (id:2) x 10
+1. ```ShopFunction_EstimatePrice( )```  
+試算目前的結帳金額，我猜背後 AI 拿金額跟 1000 的差額，默默計算了剩下的錢還能買多少罐綠茶
+1. ```ShopFunction_AddItemToCart(productId: 3, quanty: 12)```  
+按照我的指示，剩下的預算都拿來買綠茶，在購物車加入綠茶 (id: 3) x 12
+1. ```ShopFunction_ShowMyCartItems( )```  
+按照我的指示，列出購物車清單讓我確認
+
+其實，AI 有理解語言，到對應正確的 API，才是過去這一個月以來最令我驚訝的環節。先前用 Chat GPT 完成這驗證，這次我自己寫 code, 靠 Semantic Kernel, 成功地靠 AI 呼叫我自己程式碼內部的 Function (非外部 service API, 我這範例完全沒有接受外部連線)
+
+細節的推演，我就留到下一章節再聊，這邊先讓各位體會這個階段的 "智慧化" 能做到什麼地步。
+
+
+如果你也想了解完全在 Chat GPTs 處理這些任務，我上一篇也有同樣的案例，我把懶人包貼到這裡:
+
 > 這段，就是我上一篇 "安德魯小舖 GPTs", 我就不再重複了，你有幾種方式可以體驗 [安德魯小舖 GPTs](https://andrewshopoauthdemo.azurewebsites.net/swagger/index.html):
 > 1. 懶人包, 可以直接看完整 [對談紀錄](https://chat.openai.com/share/836ef17f-3f70-47f1-9a36-eb56d9acc4c1)。
 > 1. 技術細節，可以直接看我這次開出來的 [購物網站 API 規格](https://andrewshopoauthdemo.azurewebsites.net/swagger/index.html)
 > 1. 實際體驗 [安德魯小舖 GPTs](https://andrewshopoauthdemo.azurewebsites.net/swagger/index.html), 只要你有 Chat GPT Plus 訂閱，點這個連結就可以體驗了。我只是實驗性質，API 目前架設在 Azure App Service 下，沒有 HA，隨時會關掉。資料都是存在記憶體內，服務重啟就會清空。帳號註冊登入只是個流程，只看 username，密碼亂打都可以過。
 
 
-# 2, 對應 AI Agent 的發展階段
+# 2, 對應 AI Agent 發展的技術選擇
 
 其實，這些發展的脈絡，是我自己先有個構想，嘗試與驗證的過程中，看到這篇文章，才發現我想的發展脈絡，其實 Microsoft 已經整理好並且寫成 Guideline 了 (不過 Microsoft 跳太快，直接接到 Semantic Kernel 了，我想要多補充中間的結構)，我就借用一下:
 
@@ -265,7 +325,7 @@ RAG 是個檢索的方式，可以讓 LLM 擴充他的 "知識庫" 的做法。�
 
 
 
-# 2, 應用程式要加上 "智慧" 的設計框架
+## 2-0, 應用程式要加上 "智慧" 的設計框架
 
 
 
@@ -319,7 +379,7 @@ RAG 是個檢索的方式，可以讓 LLM 擴充他的 "知識庫" 的做法。�
 參考: [Retrieval Augmented Generation using Azure Machine Learning prompt flow](https://learn.microsoft.com/en-us/azure/machine-learning/concept-retrieval-augmented-generation?view=azureml-api-2&WT.mc_id=linkedin&sharingId=AZ-MVP-5002155)
 
 
-### Skills, 運用技能 (才能)
+## 2-3, Skills (才能)
 
 AI 終究不能只出一張嘴，也要會做事才行，這樣才能真正替你分攤任務。這是 Agent 很重要的關鍵，也是 LLM 開始跨入實用階段的重要突破。我就是想通這段，才搞定 "安德魯小舖 GPTs" 的。在搞懂 LLM 怎麼呼叫外部 API 前，先回想一下 "人" 是怎麼學會使用技能的..
 
@@ -349,7 +409,7 @@ AI 終究不能只出一張嘴，也要會做事才行，這樣才能真正替�
 挖到這邊，LLM (大腦) + Chat History (短期記憶) + Knowledge (長期記憶、知識) + Skill (技能)，整個整合好之後，這整組服務就能對自然語言的輸入，做出正確的回應，或是執行正確的動作了。
 
 
-### Persona 人格, 個性, 個人化
+## 2-4, Persona (人格)
 
 最後，我把沒提到的環節補完吧。Prompt Engineer 都會提到的技巧 - Persona, 角色設定，我把他補上去了:
 
@@ -364,7 +424,7 @@ AI 終究不能只出一張嘴，也要會做事才行，這樣才能真正替�
 不過，這些都還不是我這次要探索的範圍，因此我的 demo 都略過了，只是簡單地把這些資訊，用有限的文字描述，直接放在 prompt 裡面。你可以想像我把這些都簡化成你跟陌生人聊天，前幾句話都是 "自我介紹" 那樣而已，就足以應付我目前的情境了。
 
 
-### 小結
+## 2-5, 小結
 
 寫到這邊，不知道你有無看到重點? 這邊我都在理解怎樣在軟體架構設計內，合理的把 AI 也放進去的思路。除了 LLM 最核心，最難理解 LLM 怎麼能搞的懂自然語言之外，其他都是基於這核心，用很單純的系統化做法把外圍的資訊都串起來。你會發現沒有 LLM，這一切都沒有用了。
 
@@ -376,9 +436,110 @@ AI 終究不能只出一張嘴，也要會做事才行，這樣才能真正替�
 
 > 來源: [Want to build a Copilot for your app? Semantic Kernel & Prompt Flow for Beginners](https://techcommunity.microsoft.com/t5/healthcare-and-life-sciences/want-to-build-a-copilot-for-your-app-semantic-kernel-amp-prompt/ba-p/3902524)
 
+Microsoft Semantic Kernel 的這張圖, 就把我這次的 POC 都涵蓋進去了。從左到右來看:
+
+1. AU UX: Copilot  
+其實就是對應到我重新改寫的 console-ui, AI 呈現到眾人面前的, 不會只有 "Chat" GPT, 而是可能隱藏在各種大家熟悉的 APP 內，這才是 AI UX。而 Copilot, 則是在 APP 智慧化的進化過程中會出現的一種樣貌，也是 Microsoft 接下來這幾年各大主要產品線的重頭戲。
+
+1. Semantic Kernel  
+不意外，就是整合所有 AI 必要元件的開發框架。整個 SK 涵蓋了整個 APP 的開發 ，包含了幾個關鍵元件: Model, State, Side Effects.. 上面的那段話就貫穿了全貌，SK 就是讓開發者能夠整合這些智慧應用的利器
+
+1. Models  
+講更具體一點，LLM (大型語言模型)，或是文字轉圖形、聲音等等模型都算。SK 提供了各種 connector 來抽象化這些模型的應用，可以連接多種模型，包含本地端運行，也包含透過 API 開 放的模型。你不必遷就特定的模型，就必須使用特定框架或是 API。
+
+1. State / Memories  
+前面提到 RAG, 以及向量資料庫。向量資料庫就是 AI 儲存 "知識" 的地方，在 SK 內就是把它抽象化成 "記憶" ( Memory )，同樣的提供多種選擇與實做。你不必因為使用了某種向量資料庫，就要改變整個應用程式的寫法。
+
+1. Side Effects / Plugins  
+就是我前面提到的 Skills, SK 在 1.0 之前，就是使用 "Skill" 這名詞，來描述你的應用程式，賦予了 AI 那些 "技能"。在 1.0 release 後改成 Plugins 這個比較工程味道的用語了。不過我個人比較喜歡 "Skill", 在描述 AI 時，各方面來看把 AI 當作 "人" 來溝通會更容易理解，這時 Skill 比 Plugins 貼切多了。我一直覺得 Model 跟 Plugins 是相輔相成，Model 不夠成熟我根本不敢給他任何 Skill ... 而有了 Skill 的 Model 才是個有才能的 AI，而不是只能出一張嘴的半殘角色。
+
+其他都相對好理解，我真正想談的就是 Plugins, 我把前面 1-4 示範案例中，提到的 functions 片段程式碼貼出來 (這篇唯一的 source code 解說就這段了):
+
+```csharp
+
+        [KernelFunction, Description("清空購物車。購物車內的代結帳商品清單會完全歸零回復原狀")]
+        public static void ShopFunction_EmptyCart( ) { ... }
+
+        // Cart_AddItem
+        [KernelFunction, Description("將指定的商品與指定的數量加入購物車。加入成功會傳回 TRUE，若加入失敗會傳回 FALSE，購物車內容會維持原狀不會改變")]
+        public static bool ShopFunction_AddItemToCart(
+            [Description("指定加入購物車的商品ID")] int productId,
+            [Description("指定加入購物車的商品數量")] int quanty) { ... }
+
+        // Cart_RemoveItem
+        [KernelFunction, Description("將指定的商品與指定的數量從購物車移除。移除成功會傳回 TRUE，若移除失敗會傳回 FALSE，購物車內容會維持原狀不會改變")]
+        public static bool ShopFunction_RemoveItemToCart(
+            [Description("指定要從購物車移除的商品ID")] int productId,
+            [Description("指定要從購物車移除的商品數量")] int quanty) { ... }
+
+        // Cart_EstimatePrice
+        [KernelFunction, Description("試算目前購物車的結帳金額 (包含可能發生的折扣)")]
+        public static decimal ShopFunction_EstimatePrice( ) { ... }
+
+        [KernelFunction, Description("傳回目前購物車的內容狀態")]
+        public static Cart.CartLineItem[] ShopFunction_ShowMyCartItems( ) { ... }
+
+        // Cart_Checkout
+        [KernelFunction, Description("購買目前購物車內的商品清單，提供支付代碼，完成結帳程序，傳回訂單內容")]
+        public static Order ShopFunction_Checkout(
+            [Description("支付代碼，此代碼代表客戶已經在外部系統完成付款")] int paymentId) { ... }
+
+        // Product_List
+        [KernelFunction, Description("傳回店內所有出售的商品品項資訊")]
+        public static Product[] ShopFunction_ListProducts( )  { ... }
+
+        // Product_Get
+        [KernelFunction, Description("傳回指定商品 ID 的商品內容")]
+        public static Product ShopFunction_GetProduct(
+            [Description("指定查詢的商品 ID")] int productId) { ... }
+
+        // Member_Get
+        [KernelFunction, Description("傳回我 (目前登入) 的個人資訊")]
+        public static Member ShopFunction_GetMyInfo( ) { ... }
+
+        // Member_GetOrders
+        [KernelFunction, Description("傳回我 (目前登入) 的過去訂購紀錄")]
+        public static Order[] ShopFunction_GetMyOrders( ) { ... }
+
+```
+
+這些，是我在這個專案內，所有的 Skills 清單。我只保留了 method 的簽章, 實作我拿掉了, 那個不重要。C# 的語言提供的 attribute 機制非常適合來應付這種場合，而 SK 也的確把它運用的很到位。這些 method 都被標上了 ```[KernelFunction]```, 而包含這些 method 的 class 或是 instance 被註冊到 kernel 後，就正式變成能讓 Model 支配的 "技能" 了。
+
+怎麼註冊? 很簡單，在 init 的階段，把這個 type 掛上 SK 的 kernel plugins 就行了:
+
+```csharp
+
+var builder = Kernel.CreateBuilder()
+    .AddAzureOpenAIChatCompletion("SKDemo_GPT4_Preview", "https://andrewskdemo.openai.azure.com/", config["azure-openai:apikey"]);
+
+// 上述這些 ShopFunction, 都放在 Program 這個類別內。只要註冊這個類別就可以把所有標示 KernelFunction 的 method 都掛上去
+builder.Plugins.AddFromType<Program>();
+
+_kernel = builder.Build();
+
+```
+
+你可能會問，LLM 怎麼會 "理解" 這些 Skill 怎麼使用? 是拿來幹嘛用的? 別忘了 LLM 的專長就是 "理解自然語言"，不論這自然語言是使用者提供的，或是開發者預先準備好的 prompt，只要是自然語言都在它處理範圍內。SK 就是靠這些 method 與 parameters 上面的 ```[Description(...)]``` 描述，當作他的 prompt.
+ 而 LLM 解讀後若需要呼叫，SK 就會有一連串的機制 (這就是開發框架的威力) 來幫你呼叫這個 method。因此，這部分的說明請認真的寫，並且要經過測試與調整。文字敘述 (prompt) 寫得好不好，完全影響了 AI 解讀能力是否正確。
+
+ 在 ChatGPT 設計 GPTs, 其實也有類似的設計，只是 GPTs 的對象是 API, 而不是 code 內的 function, 因此他採用 swagger 的描述檔案來做同樣的事情。Swagger 描述已經包含了所有 API 規格清單，裡面的 "description" 也會被拿來當作 LLM 理解的內容。標記與運作方式雖然有差異，但是精神跟結構關係都是相同的。
+
+ 當這些都準備就緒，也都 init 完成後，把這一切串再一起，很神奇的，這一切就動起來了。上面的 PoC, 就是這樣做出來的。
+
+搞定這一步，SK 的主要功能就算踩過一次了，腦袋裡開始能掌握 SK 整個開發框架的樣貌了，接下來才是開始看規格，說明文件，與嘗試各種擴充元件的使用方式。如果你還沒想通，可以回頭再看一次，同時參考我的 source 對照著解讀看看。
 
 
-看到這裡，挑一個合適的開發框架 (我挑 Semantic Kernel), 它會讓你的應用程式有很好的擴充與替換的空間。我後面會做的示範，就是從 console-ui 版本的線上商店，逐步加上上述功能，重新做一次 .NET console app 版本的安德魯小舖。
+
+
+
+
+
+
+
+
+
+
+
 
 
 
