@@ -16,12 +16,13 @@ logo:
 
 > DALL-E, 過年期間的研究心得, 就用龍年, 文明發展到極致的太空都市當主題吧
 
-上一篇文章 [架構師觀點 - 開發人員該如何看待 AI 帶來的改變?](/2024/01/15/archview-llm/)，展示了我嘗試的 GPTs 整合應用，實現了讓 AI 助理的嘗試，我開始真的可以用自然語言就完成整個購買流程的操作了。過程中，AI 也幫我 "腦補" 了部分我 API 沒有提供的功能 (指定預算跟購買條件，AI 自動幫我思考購買組合)。這結果其實比我預期的還理想，完成之後，我開始探索接下來的這兩個問題:
+
+上一篇文章 [架構師觀點 - 開發人員該如何看待 AI 帶來的改變?](/2024/01/15/archview-llm/)，展示了我嘗試的 [安德魯小舖 GPTs](https://chat.openai.com/g/g-Bp79bdOOJ-an-de-lu-xiao-pu-v5-0-0) 整合應用，實現了讓 AI 助理的嘗試，我開始真的可以用自然語言就完成整個購買流程的操作了。過程中，AI 也幫我 "腦補" 了部分我 API 沒有提供的功能 (指定預算跟購買條件，AI 自動幫我思考購買組合)。這結果其實比我預期的還理想，完成之後，我開始探索接下來的這兩個問題:
 
 - 未來的應用程式，會怎麼運用 "AI" ?
 - 未來軟體開發的流程與角色，會變成甚麼樣貌?
 
-因此，這篇我就要面向應用程式的開發面，來探討該怎樣把 "智慧" 加到你的應用程式內。雖然 LLM 還有很多缺點，但是你應該開始把 LLM 當作 "人" 來看待了，溝通的方式都要把它當作 "人" 的方式溝通 (因此要善用 prompt, 而不是 function + parameters)。這其實跟傳統的軟體開發結構完全不同，也是我這篇想繼續往下挖的主題。
+因此，這篇我就要面向應用程式的開發面，來探討該怎樣把 "智慧" (我暫時把 "智慧" 解讀為能理解語意的能力，拿 LLM / Large Language Model / 大型語言模型 當作代表) 加到你的應用程式內。雖然目前 LLM 還有很多缺點，但是應該開始把 LLM 當作 "人" 來看待了，溝通的方式都要把它當作 "人" 的方式溝通 (因此要善用 prompt, 而不是 function + parameters)。這其實跟傳統的軟體開發結構完全不同，也是我這篇想繼續往下挖的主題。
 
 <!--more-->
 
@@ -35,13 +36,24 @@ logo:
 
 
 >
-> 說在前頭，我目前仍然是個 AI 的門外漢，這篇是野人獻曝，分享我自己摸索過程而已。我擅長在摸索過程中盡可能搞清楚全貌，再來學習會比較精準有效率。過年期間 K 了很多文章，總算搞清楚 Open AI / Semantic Kernel 在幹嘛。文內的敘述有錯的話歡迎留言通知我，感謝~
+> 我目前仍然是個 AI 的門外漢，這篇是野人獻曝的分享內容，單純分享我自己摸索過程而已。我習慣盡可能搞清楚全貌，再來學習會比較精準有效率。因此過年期間 K 了很多文章，總算搞清楚 Open AI / Semantic Kernel 在幹嘛。文內的敘述有錯的話歡迎留言通知我，感謝~
 >
+
+這篇文章會用到的相關資源:
+* 安德魯小舖 GPTs: https://chat.openai.com/g/g-Bp79bdOOJ-an-de-lu-xiao-pu-v5-0-0
+* Microsoft Semantic Kernel: https://learn.microsoft.com/en-us/semantic-kernel/overview/?source=docs&WT.mc_id=linkedin&sharingId=AZ-MVP-5002155
+* Azure OpenAI: https://learn.microsoft.com/zh-tw/azure/ai-services/openai/overview?WT.mc_id=linkedin&sharingId=AZ-MVP-5002155
+* Open AI: Function calling, https://platform.openai.com/docs/guides/function-calling
+* Open AI: Assistants API, https://platform.openai.com/docs/assistants/overview
+
+* Source Code: AndrewDemo.NetConf2023, https://github.com/andrew0928/AndrewDemo.NetConf2023
+
+
 
 # 1, "安德魯小舖" 的進化
 
 
-雖然完成了 "安德魯小舖 GPTs" 的 POC, 但是我仍然這不會是短期內 ( 1 ~ 3 年內 ) 大量運用 AI 的應用程式樣貌。把應用程式 Host 在 Chat GPT 上，還有很多不夠成熟的地方:
+先前，雖然完成了 "安德魯小舖 GPTs" 的 POC, 但是我仍然這不會是短期內 ( 1 ~ 3 年內 ) 大量運用 AI 的應用程式樣貌。把應用程式 Host 在 Chat GPT 上，還有很多不夠成熟的地方:
 
 * 很容就踩到使用量的限制
 * 並非每個消費者都有 Chat GPT plus 訂閱
@@ -49,17 +61,18 @@ logo:
 
 這些對線上交易而言都不是個很好的選擇，我相信 Open AI 會持續改善這些問題，不過算力珍貴 (現在是各大廠的必爭之地)，也不可能一夜之間改善，我覺得漸進式的在現有應用程式內加入 "智慧"，先從最需要 "智慧" 的環節改變，才是合理的發展路線。
 
-於是，既然可行性已經確認了，接下來就往產品發展的方向來思考了。我拆解了 "應用程式加入智慧" 這願景，拆成這四個階段，重作了一次這題目，作為這篇 demo 的主軸。開發細節跟程式碼，這篇實在寫不下，我就先截圖給大家體會，同時先提供 github repo, 有興趣的可以先看, 或是等我下一篇文章..
+於是，既然可行性已經確認，接下來就往產品發展的方向來思考了。我拆解了 "**將應用程式加入智慧**" 這願景，拆成這四個階段，重作了一次這題目，作為這篇 PoC 的主軸。開發細節跟程式碼，這篇實在寫不下，我就先截圖給大家體會，同時先提供 github repo, 有興趣的可以先看, 或是告訴我你想了解哪個部分，我看看是否整理成另一篇文章...
 
+- - - - -
 
 我想像中，安德魯小舖從典型的 APP 到智慧化的演進過程，應該有這幾個階段:
 
 1. 尚無智慧, 只提供 **標準的操作模式**  
 1. 在關鍵環節使用 AI, **從操作意圖評估風險**  
-1. 操作過程使用 AI 輔助提示: **從操作歷程判定使用者的狀況，即時提供操作建議**
+1. 操作過程使用 AI 輔助提示: **從操作歷程，即時提供操作建議**
 1. AI 能自主代替使用者操作: **全對話式的操作**
 
-每個階段, 我都試著寫了一點 code 來試做可行性, 除了 PoC 之外, 我另一個目的也是想要掌握這類應用程式的開發結構，跟過去有多少差別? 對我而言，架構師要判斷 "該不該" 使用某些技術，比 "會不會"  使用，或 "專不專精" 這些技術還重要。我也期待在這次試作的過程中，掌握一些這類應用程式設計的手感。
+在這個 PoC 的每個階段, 我都試著寫了一點 code 來試做可行性, 而我另一個目的也是想要掌握這類應用程式的開發結構，跟過去有多少差別? 對我而言，架構師要判斷 "**該不該**" 使用某些技術，比 "**會不會**"  使用，或 "**專不專精**" 這些技術還重要。我也期待在這次試作的過程中，掌握一些這類應用程式設計的手感。
 
 雖然客觀的來看，要發展到 (4) 普及的階段還要好一段時間，至少要 3 ~ 5 年以上才會成熟吧。但是看看現在 Micosoft Copilot 跟 Open AI 的發展，我覺得技術發展應該都快要到位了，在等待的是廣大的軟體開發人員跟上，以及這些應用的關鍵資源門檻下降。
 
@@ -82,13 +95,13 @@ logo:
 1. 結帳 (支付代碼: 6741)
 1. 列出交易紀錄
 
-這邊體驗一下就好，重點在後面延伸加入 AI 處理的部分。
+這邊體驗一下就好，重點在後面延伸加入 LLM 處理的部分。
 
 
 
 ## 1-2, 從操作意圖評估風險
 
-在關鍵功能 (我的定義: 結帳) 執行時，能靠 LLM 歸納與推理的能力提供個人化的建議，找出各種不是和交易執行的問題或是風險。除了 rule based 的規則檢查，應該有一個關卡是由 AI (這邊指 Generative AI, 不是 Machine Learning AI) 來進行前後文的邏輯推演，找出 "常識" 裡不合理的地方，提醒使用者。
+在關鍵功能 (我的定義: 結帳) 執行時，能靠 LLM 歸納與推理的能力提供個人化的建議，找出各種不是和交易執行的問題或是風險。除了 rule based 的規則檢查，應該有一個關卡是由 LLM 來進行前後文的邏輯推演，找出 "常識" 裡不合理的地方，提醒使用者。
 
 [![](/wp-content/images/2024-02-10-archview-int-app/2024-02-17-02-03-08.png)](/wp-content/images/2024-02-10-archview-int-app/2024-02-17-02-03-08.png)
 
@@ -100,7 +113,7 @@ logo:
 
 System Prompt 的內容如下:
 
-```
+```prompt
 
 你是 "安德魯小舖" 的助理店長, 負責協助引導每個來商店購買的客人順利結帳。
 主要任務有三類:
@@ -129,28 +142,33 @@ System Prompt 的內容如下:
 
 另一個 prompt 是結帳時要詢問 AI 是否有注意事項的 prompt:
 
-```
+```csharp
+
+// C# string
+$"""
 我要進行結帳前確認
 我要開始結帳，沒問題請回覆 "OK: "，有注意事項請回覆 "HINT: "。
 其他建議可以在回覆之後接著說明。
-""",
-$"""
+
 以下是我購物車內的清單:{items}
 預估結帳金額: {Cart.Get(_cartId).EstimatePrice():C}
-""",
-$"""
+
 購買註記:
 - {prompt}
+"""
+
 ```
 
 這段 prompt 會包含:
-1. 回應規則 (沒問題回 OK，有注意事項回 HINT)
-1. 購物清單，結帳金額
-1. 客人在結帳時留的 "購買註記"
 
-我加了這段，目的是要善用 LLM 對語意的理解，還有常識的判斷。這些若沒有 AI 輔助，大概很難做的好吧。自然語言處理在這邊就派上用場了。我截圖上的案例，整個 prompt 長這樣:
+1. **回應規則** (沒問題回 OK，有注意事項回 HINT)
+1. **購物車資訊**，包含購物清單，結帳金額
+1. **購買註記**，客人在結帳時留的 "購買註記"
 
-```
+我加了這段，目的是要善用 LLM 對語意的理解，還有常識的判斷。這些若沒有 LLM 輔助，大概很難做的好吧。自然語言處理在這邊就派上用場了。我截圖上的案例，整個 prompt 長這樣:
+
+```prompt
+
 我要進行結帳前確認
 我要開始結帳，沒問題請回覆 "OK: "，有注意事項請回覆 "HINT: "。
 其他建議可以在回覆之後接著說明。
@@ -162,20 +180,23 @@ $"""
 
 購買註記:
 - 小孩10歲生日派對要用的, 請附上卡片跟氣球給我, 謝謝
+
 ```
 
 我故意要求其他的東西 (卡片 + 氣球)，無意間提到小孩。具備 "一般人" 的嘗試，加上 FAQ 的提醒，LLM 聯想到未成年不能喝酒的關聯，於是就給我下面這段提醒:
 
-```
+```prompt
 助理店長提醒:
+
 HINT: 根據您提供的購物清單，您選購了含酒精的「18天台灣生啤酒」，請您確認是否有符合法律規定的年齡限制（需年滿18歲），並請留意避免酒後駕駛。
 
 另外，由於您提到購買這些商品是為了小孩10歲的生日派對，請確認是否有成人將負責管理並確保啤酒不被未成年者飲用。您購買的「可口可樂」數量較多，請注意不要過量攝取含糖飲料。
 
 若這些商品確實是您所期待的，且您已經遵守相關法律規範與健康指引，就可以開始結帳程序。至於您提到的卡片與氣球，請讓我確認我們是否有這項服務可供提供。稍後將給您進一步的訊息。
+
 ```
 
-這是我第一個嘗試，我不再是整個購物流程都靠 AI 來進行了 (這再等幾年環境更成熟再做不遲)，而是在正常的操作流程中，靠 LLM 來處理關鍵需要 AI 判定的任務。而 prompt 的決定，也由使用者自己下，改為軟體開發團隊事先準備好。這樣的操作，你需要的不再是 Chat GPT, 而是需要在應用程式內使用 Open AI API, 搭配 AI 的開發框架 ( 我用 Semantic Kernel ) 來達成。
+這是我第一個嘗試，我不再是整個購物流程都靠 AI 來進行了，而是在正常的操作流程中，靠 LLM 來處理關鍵需要 AI 判定的任務。而 prompt 的決定，也改為 developer 事先準備好。這樣的操作，你需要的不再是 Chat GPT, 而是需要在應用程式內使用 Open AI API, 搭配 AI 的開發框架 ( 我用 Semantic Kernel ) 來達成。
 
 
 
@@ -183,7 +204,7 @@ HINT: 根據您提供的購物清單，您選購了含酒精的「18天台灣生
 
 接下來，這段就是我為何要在 2024 年這時代，還搞一個 30 年前的操作介面的原因了 XDD
 
-在思考怎麼讓現有的 APP 智慧化，我第一個想到的就是 GitHub Copilot, 相信大家都用過了吧? 我才打完一行 code, 他就猜出我想幹嘛, 然後提示一串 code, 而且命中率高的可怕, 不只語法正確, 連我的意圖都很準 (對我而言，大概有八成都被猜中了吧，省了我不少時間)。
+在思考怎麼讓現有的 APP 智慧化，我第一個想到的就是 [GitHub Copilot](https://github.com/features/copilot), 相信大家都用過了吧? 我才打完一行 code, 他就猜出我想幹嘛, 然後提示一串 code, 而且命中率高的可怕, 不只語法正確, 連我的意圖都很準 (對我而言，大概有 90% 都被猜中了吧，省了我不少時間)。
 
 除了建議很有用之外，另一個是他幾乎不需要學習 (我只有怎麼安裝跟啟用有看一下文件)，因為它完全沒有改變你的操作方式，你只要如往常的寫 code, 他會躲在 IDE 背後默默觀察, 等你有需要時他自己會跳出來給你提示，你只要看到提示時決定要不要接受就好 (就按下 tab)
 
@@ -197,7 +218,7 @@ HINT: 根據您提供的購物清單，您選購了含酒精的「18天台灣生
 
 我調整了 system prompt, 加上這段規則:
 
-```
+```prompt
 
 選購過程的操作過程關注:
 1. 如果購物車是空的，就進行結帳，代表客人可能遺漏操作步驟。請提醒客人留意，並在結帳前主動列出購物車內容再次確認。
@@ -210,14 +231,16 @@ HINT: 根據您提供的購物清單，您選購了含酒精的「18天台灣生
 
 UI 上客人每下一道指令，我就會送出這樣的 user prompt:
 
-```
+```csharp
+
 $"我已進行操作: {message}"
-```
-
-而 message 內容，則是每個功能自己產生的。我就拿截圖的案例來說明。我故意重複將啤酒加入購物車，又把他移除。多做幾次 copilot 就察覺不對勁了，我略過 UI 的訊息，只留下 user prompt 跟 assistant message:
-
 
 ```
+
+而 message 內容，則是每個功能自己產生的。我就拿截圖的案例來說明。我故意重複將啤酒加入購物車，又把他移除。多做幾次 copilot 就察覺不對勁了，我略過 UI 的訊息，只留下 **user prompt** 跟 **assistant message**:
+
+
+```prompt
 
 user:   我已進行操作: 我在購物車內加入了 5 件商品 (商品 ID: 1, 18天台灣生啤酒 355ml)
 assistant:  OK
@@ -256,31 +279,43 @@ assistant: HINT: 我注意到您已經多次加入與移除同一件商品，是
 > 圖 4, 同樣介面也可以達成手動的效率 + AI 輔助的彈性
 
 這段流程是這樣:
-1. 我直接用對話方式問: "1000 元預算，啤酒跟可樂各買 10 罐，剩下的預算都買綠茶。結帳前跟我確認購物車的內容"
-1. LLM 解讀我的需求後, 自行呼叫對應的 Function
-1. 手動下指令確認內容無誤，手動進行結帳，並回應感謝訊息
-1. 結帳過程 AI 仍然提醒購買酒類的法律限制，並且感謝我對他服務的肯定
+
+1. 我**直接用對話方式**問: "1000 元預算，啤酒跟可樂各買 10 罐，剩下的預算都買綠茶。結帳前跟我確認購物車的內容"
+1. **LLM 解讀**我的需求後, **自行呼叫**對應的 Function
+1. **手動**下指令確認內容無誤，**手動**進行結帳，並且輸入**感謝訊息**
+1. 結帳過程 AI 仍然**提醒**購買酒類的法律限制，並且感謝我對他服務的肯定
 
 這邊，我特別聊一下這段過程:
 
-```
-command > 1000 元預算，啤酒跟可樂各買 10 罐，剩下的預算都買綠茶。結帳前跟我確認購物車的內容
+```text
+
+command > 1000 元預算，啤酒跟可樂各買 10 罐，剩下的預算都買綠茶。  
+結帳前跟我確認購物車的內容
+
 assistant > 請稍待，正在幫您詢問助理店長 (copilot) 中...
-copilot > user: 店長請問: 1000 元預算，啤酒跟可樂各買 10 罐，剩下的預算都買綠茶。結帳前跟我確認購物車的內容
+
+copilot > user: 店長請問: 1000 元預算，啤酒跟可樂各買 10 罐，剩下的預算都買綠茶。  
+結帳前跟我確認購物車的內容
+
 copilot > function call: ShopFunction_ListProducts()
 copilot > function call: ShopFunction_AddItemToCart(productId: 1, quanty: 10)
 copilot > function call: ShopFunction_AddItemToCart(productId: 2, quanty: 10)
 copilot > function call: ShopFunction_EstimatePrice()
 copilot > function call: ShopFunction_AddItemToCart(productId: 3, quanty: 12)
 copilot > function call: ShopFunction_ShowMyCartItems()
-copilot answer > 根據您的預算 1000 元，我們已經將啤酒和可樂各加入 10 罐到購物車中，目前總金額是 700 元。剩餘的預算我們用來加入了 12 罐綠茶到購物車。
+
+copilot answer > 根據您的預算 1000 元，我們已經將啤酒和可樂各加入 10 罐到購物車中，  
+目前總金額是 700 元。剩餘的預算我們用來加入了 12 罐綠茶到購物車。
 
 目前購物車內的內容為:
+
 - 18 天台灣生啤酒 355ml x 10 罐
 - 可口可樂 350ml x 10 罐
 - 御茶園 特撰冰醇綠茶 550ml x 12 罐
 
-請確認購物車的內容是否符合您的期望，如果沒有問題，我們就可以進行結帳了。您還需要做其他變更嗎？
+請確認購物車的內容是否符合您的期望，如果沒有問題，我們就可以進行結帳了。  
+您還需要做其他變更嗎？
+
 ```
 
 中間，我用深灰色，印出系統的訊息。可以看到我說了一句話之後，AI 背後就自己理解，拆解成數個步驟執行。從系統資訊看的出來 AI 理解我的意圖後，背後在嘗試替我找答案:
@@ -332,16 +367,20 @@ RAG 是個檢索的方式，可以讓 LLM 擴充他的 "知識庫" 的做法。�
 1. **Fully autonomous**:  
 這個階段，Agent 應該要有 "自主運作" 的能力了。而所謂的自主運作，就如同我上一篇文章第一段，示範的 "安德魯小舖 GPTs" 一般，你只要用自然語言跟他對談就夠了，Agent 會幫你完成你想要做的事情。這背後，最主要的突破，是要讓 LLM 有能力呼叫你的 API 完成任務的相關機制。這就是對應到我講的第四階段 (**全對話式的操作**)。
 
-正好，這四個階段，我的 POC 都有點到了，範例程式可以體驗一下。我的目的是概念驗證，因此為了降低我腦袋的負荷，我不擔心的工程細節我都跳過了。我在 .NET Conf 2023 那個場次講的 "降級" 思考，就是這麼一回事。
+正好，這四個階段，我的 POC 都有點到了，範例程式可以體驗一下。我的目的是概念驗證，因此為了降低我腦袋的負荷，我不擔心的工程細節我都跳過了。我在 [.NET Conf 2023 那個場次](https://www.facebook.com/andrew.blog.0928/posts/869000775234735)講的 "降級" 思考，就是這麼一回事。
+
+> 參考連結: [架構師也要 DevOps - 彈模型的降級驗證技巧](https://www.facebook.com/andrew.blog.0928/posts/869000775234735)
 
 對我而言，很多工程細節，是開發過程中一定要克服的，那些事情是 "把事做對"，但是 POC 階段，更重要的是弄清楚該不該做? 關鍵是 "做對的事"。這是我選擇降級，忽略掉我不擔心的環節，把心力放在探索上面的原因。
 
 因此，這 PoC 我用到的技術或是平台，有這些:
+
 1. 開發框架: .NET 8, C#, Microsoft Semantic Kernel (我用 1.3.0)
 1. API 我採用 Azure Open AI, 用的是 GPT4 model (我用 1106 preview)
 1. Chat GPT plus ( GPTs + Custom Actions )
 
 而實做過程中，有些我認為該用，但是我沒往下挖的部分:
+
 1. Microsoft Semantic Kernel 的細部應用  
 (PromptTemplate, Planner, Memory)
 1. Open AI - Assistant API
@@ -351,13 +390,11 @@ RAG 是個檢索的方式，可以讓 LLM 擴充他的 "知識庫" 的做法。�
 
 ## 2-1, 加上 "智慧" 的設計框架
 
-
-
-我是 AI 大外行，資料分析、深度學習也不是我的專長，因此我也沒辦法討論模型訓練等等很深入的 AI 議題；不過我擅長的是軟體開發，我擅長用程式碼正確的實現領域模型，因此我在過去一年都在想的是: 如果 LLM 越來越成熟，那我該如何好好運用他? 因此，我假定已知 LLM 的這些問題 (例如幻覺，不可預測，運算資源... etc) 三年後都會被解決，那三年後我準備好擔任那個世代的架構師了嗎?
+我是 AI 大外行，資料分析、深度學習也不是我的專長，因此我也沒辦法討論模型訓練等等很深入的 AI 議題；不過我擅長的是軟體開發，我擅長用程式碼正確的實現領域模型，因此我在過去一年都在想的是: 如果 LLM 越來越成熟，那我該如何好好運用他? 因此，我假定已知 LLM 的這些問題 (例如幻覺、黑箱、不可預測、運算資源... etc) 三年後都會被解決，那三年後我準備好擔任那個世代的架構師了嗎?
 
 所以，這個段落，我特別想花點篇幅聊一下，我覺得現在是改變想法的轉折點，是該投入時間好好研究了。在過去 (尤其像我這類) 在軟體開發領域的資深人員，往往所有事情背後都會被拆解成明確的規則，流程，演算法，資料結構等等，然後試圖在所有問題背後都能理出一個脈絡，所有的 input 跟 output 都應該是明確的可被預測的... 但是 AI 出現後 (尤其是生成式 AI)，這一切開始沒有這麼 "明確" 了。連很多 AI 的專家其實也猜不透 LLM 背後運行的邏輯是什麼，只知道餵給他足夠的訓練資料，產出的模型能回答出理想的答案而已。資料的複雜度，已經被轉移到模型的複雜度，然而 AI 專家們自己也無法掌握模型背後的運作方式..
 
-在這基礎的觀念被打破的時候，你的 "傳統" 應用程式，該如何加入這些 "不可預測" (你無法預期使用者會問你什麼怪問題)，卻又要精準執行 (你要解讀使用者的需求後，呼叫對應的 API，給對應的參數) 系統功能之間的矛盾，就變成這些資深人員需要思考的事情了。我也無法搞清楚模型背後在幹嘛 (我是 AI 外行人啊)，不過我至少得弄清楚它的特性，才能決定應用程式架構該怎麼設計。
+在這基礎的觀念被打破的時候，你的 "傳統" 應用程式，該如何加入這些 "不可預測" (你無法預期使用者會問你什麼怪問題)，卻又要精準執行 (你要解讀使用者的需求後，呼叫對應的 API，給對應的參數) 系統功能之間的矛盾，就變成這些資深人員需要思考的事情了。我也無法搞清楚模型背後在幹嘛，不過我至少得弄清楚它的特性，才能決定應用程式架構該怎麼設計。
 
 我參考了 Semantic Kernel 的框架設計，也參考了 Open AI 的 Assistant API，實在很佩服訂出這些介面規格的人。它們把背後 AI 如何運作這件事，抽象化的非常清楚明確。起初我看了一堆 SK 的文章，看的一頭霧水，我決定暫停看 code，趁著過年好好地看完一些文章，了解流程後再回頭看 code 就恍然大悟了。
 
@@ -388,9 +425,9 @@ RAG 是個檢索的方式，可以讓 LLM 擴充他的 "知識庫" 的做法。�
 
 ## 2-3, RAG, 長期記憶 (智慧)
 
-當你累積的知識變多，不再能每次起始對談都把那堆知識塞進 prompt ( token 很貴的... ), 你就需要更有效率的做法了。人類在求學階段念了很多書，往後的日子會不斷的把過去學習的 "知識" 拿出來應用，這就是 knowledge。這些 knowledge 可不是原封不動一字不漏的存在腦袋，然後在腦袋裡做全文檢索... 而是你會把知識分類 & 消化，需要時你會去 "聯想" 找出關聯的知識出來用。
+當累積的知識變多，不再能每次起始對談都把那堆知識塞進 prompt ( token 很貴的... ), 你就需要更有效率的做法了。人類在求學階段念了很多書，往後的日子會不斷的把過去學習的 "知識" 拿出來應用，這就是 knowledge。這些 knowledge 可不是原封不動一字不漏的存在腦袋，然後在腦袋裡做全文檢索... 而是你會把知識分類 & 消化，需要時你會去 "聯想" 找出關聯的知識出來用。
 
-這過程，就是 text embedding, vector storage 以及 RAG 的運作過程。讀書的過程就是理解，對應到 AI 的處理機制，就是靠 LLM 來做 text embedding，也就是把知識 (一段文字) 向量化，靠 LLM 解讀了解後，將這段文字在幾千個維度的空間內標示一個向量來代表，儲存在 vector storage。每個維度代表一個知識領域，這維度的投影就代表這段知識在這個領域的關聯度有多高。
+這過程，就是 [text embedding](https://platform.openai.com/docs/guides/embeddings), vector storage 以及 RAG 的運作過程。讀書的過程就是理解，對應到 AI 的處理機制，就是靠 LLM 來做 text embedding，也就是把知識 (一段文字) 向量化，靠 LLM 解讀了解後，將這段文字在幾千個維度的空間內標示一個向量來代表，儲存在 vector storage。每個維度代表一個知識領域，這維度的投影就代表這段知識在這個領域的關聯度有多高。
 
 事後你問 LLM 問題，LLM 一樣把問題 (prompt) 用 text embedding 解讀成向量，這時只要拿著 input 的向量，到向量資料庫內做基本的過濾，加上搜尋相近的片段 (就是兩個向量之間的 cos 值，越相近數字越接近 1.0 ), 檢索出來的結果當作上下文，再交由 LLM 彙整後回傳，這就是 AI 如何在大量知識庫內快速檢索的過程，也就是 RAG (Retrieval Augmented Generation,擷取增強生成) 的運作原理。
 
@@ -424,13 +461,8 @@ AI 終究不能只出一張嘴，也要會做事才行，這樣才能真正替�
 ![](/wp-content/images/2024-02-10-archview-int-app/2024-02-16-12-37-47.png)
 
 
-<!-- 
 
-> 科普: 其實這段，不知道大家有沒有聯想到? 目前已經很多工程師，靠 Chat GPT 寫 code 了，你需求用白話文輸進去，Chat GPT 就能給你一段有模有樣的 code, 其實就是運用了上面的能力，只是產出的是 source code 而已。如果再加一段 "AI 的助手"，幫你把這段 code 在安全的 sandbox 編譯，執行，直接給你結果，其實就是上面在做的事情了。這在 Chat GPT 裡稱作 "code interpreter" ..  
-> 當這技術成熟到某個程度，成本低到某個程度時，軟體開發的流程就會再度被翻一輪了。到現在為止，我們談的都還是 "怎麼寫程式"，"怎麼寫智慧的程式" .. 等到這階段，已經是不需要寫程式的時代了。不過看來離我還很遠，可行性我覺得不遠了 ( 5 ~ 10 年內應該看的到 )，但是效率我覺得還是比不上產生程式碼再編譯執行，即使自動化也是 -->
-
-
-挖到這邊，LLM (大腦) + Chat History (短期記憶) + Knowledge (長期記憶、知識) + Skill (技能)，整個整合好之後，這整組服務就能對自然語言的輸入，做出正確的回應，或是執行正確的動作了。
+挖到這邊，LLM (**大腦**) + Chat History (**短期記憶**) + Knowledge (**長期記憶**、**知識**) + Skill (**技能**)，整個整合好之後，這整組服務就能對自然語言的輸入，做出正確的回應，或是執行正確的動作了。
 
 
 ## 2-5, Persona (人格)
@@ -454,8 +486,8 @@ AI 終究不能只出一張嘴，也要會做事才行，這樣才能真正替�
 
 從 LLM 往外延伸，有志往這領域鑽研的朋友們，一定要掌握的關鍵技巧，我認為有這兩個:
 
-1. 提示工程 (Prompt Engineering)，這是你操控 LLM 的關鍵能力
-1. Skill / Plugins 的設計與開發能力，這是你能賦予 LLM 多少招式的另一個關鍵能力
+1. **提示工程** (Prompt Engineering)，這是你操控 LLM 的關鍵能力
+1. **Skill / Plugins 的設計與開發能力**，這是你能賦予 LLM 多少招式的另一個關鍵能力
 
 
 如果 LLM 是核心，圍繞著 LLM 最原始的 input, 就是自然語言。回頭看看 1-2, 1-3 兩個案，這兩個案例的關鍵都不是程式碼 (程式碼單純的是把 message 丟給 LLM, 拿回傳值判斷是不是 OK 而已)，而是你對 LLM 下了什麼樣的提示? 需要包含哪些資訊? 這些資訊給太多會很慢，也很貴 ( token 直接影響到速度與費用 )，甚至會影響到 LLM 回應的品質。Prompt Engineering 會是你要好好運用 LLM 的必修科目。
@@ -464,74 +496,79 @@ AI 終究不能只出一張嘴，也要會做事才行，這樣才能真正替�
 
 當初我就是沒先想通這一段聊的內容，就直接看 SK 的開發文件，最後搞得一頭霧水.. 現在再回過頭來看這張圖，突然之間都清楚了:
 
+![](/wp-content/images/2024-02-10-archview-int-app/2024-02-18-00-21-51.png)
+> 來源: [Large Language Models and The End of Programming - CS50 Tech Talk with Dr. Matt Welsh](https://www.youtube.com/watch?v=JhCl-GeT4jw)
+
+這邊的關鍵是: 自然語言 (prompt), LLM, API, Task (Orchestration), Vector DB, 其實講的就是前面列的幾個主要元件的組合啊。再看看 Semantic Kernel 相關的介紹 ( 我找到一篇 Build 2023 的場次 ) 就更貼切了:
+
 ![](/wp-content/images/2024-02-10-archview-int-app/2024-02-17-01-49-13.png)
 
 > 來源: [Want to build a Copilot for your app? Semantic Kernel & Prompt Flow for Beginners](https://techcommunity.microsoft.com/t5/healthcare-and-life-sciences/want-to-build-a-copilot-for-your-app-semantic-kernel-amp-prompt/ba-p/3902524)
 
 Microsoft Semantic Kernel 的這張圖, 就把我這次的 POC 都涵蓋進去了。從左到右來看:
 
-1. AU UX: Copilot  
+1. **AU UX**: Copilot  
 其實就是對應到我重新改寫的 console-ui, AI 呈現到眾人面前的, 不會只有 "Chat" GPT, 而是可能隱藏在各種大家熟悉的 APP 內，這才是 AI UX。而 Copilot, 則是在 APP 智慧化的進化過程中會出現的一種樣貌，也是 Microsoft 接下來這幾年各大主要產品線的重頭戲。
 
-1. Semantic Kernel  
+1. **Semantic Kernel**  
 不意外，就是整合所有 AI 必要元件的開發框架。整個 SK 涵蓋了整個 APP 的開發 ，包含了幾個關鍵元件: Model, State, Side Effects.. 上面的那段話就貫穿了全貌，SK 就是讓開發者能夠整合這些智慧應用的利器
 
-1. Models  
+1. **Models**  
 講更具體一點，LLM (大型語言模型)，或是文字轉圖形、聲音等等模型都算。SK 提供了各種 connector 來抽象化這些模型的應用，可以連接多種模型，包含本地端運行，也包含透過 API 開 放的模型。你不必遷就特定的模型，就必須使用特定框架或是 API。
 
-1. State / Memories  
+1. **State** / Memories  
 前面提到 RAG, 以及向量資料庫。向量資料庫就是 AI 儲存 "知識" 的地方，在 SK 內就是把它抽象化成 "記憶" ( Memory )，同樣的提供多種選擇與實做。你不必因為使用了某種向量資料庫，就要改變整個應用程式的寫法。
 
-1. Side Effects / Plugins  
+1. **Side Effects** / Plugins  
 就是我前面提到的 Skills, SK 在 1.0 之前，就是使用 "Skill" 這名詞，來描述你的應用程式，賦予了 AI 那些 "技能"。在 1.0 release 後改成 Plugins 這個比較工程味道的用語了。不過我個人比較喜歡 "Skill", 在描述 AI 時，各方面來看把 AI 當作 "人" 來溝通會更容易理解，這時 Skill 比 Plugins 貼切多了。我一直覺得 Model 跟 Plugins 是相輔相成，Model 不夠成熟我根本不敢給他任何 Skill ... 而有了 Skill 的 Model 才是個有才能的 AI，而不是只能出一張嘴的半殘角色。
 
 其他都相對好理解，我真正想談的就是 Plugins, 我把前面 1-4 示範案例中，提到的 functions 片段程式碼貼出來 (這篇唯一的 source code 解說就這段了):
 
 ```csharp
 
-        [KernelFunction, Description("清空購物車。購物車內的代結帳商品清單會完全歸零回復原狀")]
-        public static void ShopFunction_EmptyCart( ) { ... }
+[KernelFunction, Description("清空購物車。購物車內的代結帳商品清單會完全歸零回復原狀")]
+public static void ShopFunction_EmptyCart( ) { ... }
 
-        // Cart_AddItem
-        [KernelFunction, Description("將指定的商品與指定的數量加入購物車。加入成功會傳回 TRUE，若加入失敗會傳回 FALSE，購物車內容會維持原狀不會改變")]
-        public static bool ShopFunction_AddItemToCart(
-            [Description("指定加入購物車的商品ID")] int productId,
-            [Description("指定加入購物車的商品數量")] int quanty) { ... }
+// Cart_AddItem
+[KernelFunction, Description("將指定的商品與指定的數量加入購物車。加入成功會傳回 TRUE，若加入失敗會傳回 FALSE，購物車內容會維持原狀不會改變")]
+public static bool ShopFunction_AddItemToCart(
+    [Description("指定加入購物車的商品ID")] int productId,
+    [Description("指定加入購物車的商品數量")] int quanty) { ... }
 
-        // Cart_RemoveItem
-        [KernelFunction, Description("將指定的商品與指定的數量從購物車移除。移除成功會傳回 TRUE，若移除失敗會傳回 FALSE，購物車內容會維持原狀不會改變")]
-        public static bool ShopFunction_RemoveItemToCart(
-            [Description("指定要從購物車移除的商品ID")] int productId,
-            [Description("指定要從購物車移除的商品數量")] int quanty) { ... }
+// Cart_RemoveItem
+[KernelFunction, Description("將指定的商品與指定的數量從購物車移除。移除成功會傳回 TRUE，若移除失敗會傳回 FALSE，購物車內容會維持原狀不會改變")]
+public static bool ShopFunction_RemoveItemToCart(
+    [Description("指定要從購物車移除的商品ID")] int productId,
+    [Description("指定要從購物車移除的商品數量")] int quanty) { ... }
 
-        // Cart_EstimatePrice
-        [KernelFunction, Description("試算目前購物車的結帳金額 (包含可能發生的折扣)")]
-        public static decimal ShopFunction_EstimatePrice( ) { ... }
+// Cart_EstimatePrice
+[KernelFunction, Description("試算目前購物車的結帳金額 (包含可能發生的折扣)")]
+public static decimal ShopFunction_EstimatePrice( ) { ... }
 
-        [KernelFunction, Description("傳回目前購物車的內容狀態")]
-        public static Cart.CartLineItem[] ShopFunction_ShowMyCartItems( ) { ... }
+[KernelFunction, Description("傳回目前購物車的內容狀態")]
+public static Cart.CartLineItem[] ShopFunction_ShowMyCartItems( ) { ... }
 
-        // Cart_Checkout
-        [KernelFunction, Description("購買目前購物車內的商品清單，提供支付代碼，完成結帳程序，傳回訂單內容")]
-        public static Order ShopFunction_Checkout(
-            [Description("支付代碼，此代碼代表客戶已經在外部系統完成付款")] int paymentId) { ... }
+// Cart_Checkout
+[KernelFunction, Description("購買目前購物車內的商品清單，提供支付代碼，完成結帳程序，傳回訂單內容")]
+public static Order ShopFunction_Checkout(
+    [Description("支付代碼，此代碼代表客戶已經在外部系統完成付款")] int paymentId) { ... }
 
-        // Product_List
-        [KernelFunction, Description("傳回店內所有出售的商品品項資訊")]
-        public static Product[] ShopFunction_ListProducts( )  { ... }
+// Product_List
+[KernelFunction, Description("傳回店內所有出售的商品品項資訊")]
+public static Product[] ShopFunction_ListProducts( )  { ... }
 
-        // Product_Get
-        [KernelFunction, Description("傳回指定商品 ID 的商品內容")]
-        public static Product ShopFunction_GetProduct(
-            [Description("指定查詢的商品 ID")] int productId) { ... }
+// Product_Get
+[KernelFunction, Description("傳回指定商品 ID 的商品內容")]
+public static Product ShopFunction_GetProduct(
+    [Description("指定查詢的商品 ID")] int productId) { ... }
 
-        // Member_Get
-        [KernelFunction, Description("傳回我 (目前登入) 的個人資訊")]
-        public static Member ShopFunction_GetMyInfo( ) { ... }
+// Member_Get
+[KernelFunction, Description("傳回我 (目前登入) 的個人資訊")]
+public static Member ShopFunction_GetMyInfo( ) { ... }
 
-        // Member_GetOrders
-        [KernelFunction, Description("傳回我 (目前登入) 的過去訂購紀錄")]
-        public static Order[] ShopFunction_GetMyOrders( ) { ... }
+// Member_GetOrders
+[KernelFunction, Description("傳回我 (目前登入) 的過去訂購紀錄")]
+public static Order[] ShopFunction_GetMyOrders( ) { ... }
 
 ```
 
@@ -551,20 +588,20 @@ _kernel = builder.Build();
 
 ```
 
-你可能會問，LLM 怎麼會 "理解" 這些 Skill 怎麼使用? 是拿來幹嘛用的? 別忘了 LLM 的專長就是 "理解自然語言"，不論這自然語言是使用者提供的，或是開發者預先準備好的 prompt，只要是自然語言都在它處理範圍內。SK 就是靠這些 method 與 parameters 上面的 ```[Description(...)]``` 描述，當作他的 prompt.
- 而 LLM 解讀後若需要呼叫，SK 就會有一連串的機制 (這就是開發框架的威力) 來幫你呼叫這個 method。因此，這部分的說明請認真的寫，並且要經過測試與調整。文字敘述 (prompt) 寫得好不好，完全影響了 AI 解讀能力是否正確。
+你可能會問，LLM 怎麼會 "理解" 這些 Skill 怎麼使用? 是拿來幹嘛用的? 別忘了 LLM 的專長就是 "理解自然語言"，不論這自然語言是使用者提供的，或是開發者預先準備好的 prompt，只要是自然語言都在它處理範圍內。SK 就是靠這些 method 與 parameters 上面的 ```[Description(...)]``` 描述，當作他的 prompt. 
 
- 回頭想想，LLM 怎麼 "找到" Skills? Skills 越多就越好嗎? 不是這樣的。Skill 貴不再多，而在精。就如同我前面幾篇都在聊 API 設計，跟 領域模型的對應一樣，Skills 廣義的說就是讓 LLM 呼叫的 API 啊。LLM 擅長的是自然語言，還有通識知識，你弄了大雜燴的 API 給 LLM，給得越多只是讓 LLM 有越多機會搞錯而已。這邊不下功夫，你會發現掛上越多 Skill, 你的 "智慧" 應用程式會越來沒有智慧，因為它會一直放錯招...
+而 LLM 解讀後若需要呼叫，SK 就會有一連串的機制 (這就是開發框架的威力) 來幫你呼叫這個 method。因此，這部分的說明請認真的寫，並且要經過測試與調整。文字敘述 (prompt) 寫得好不好，完全影響了 AI 解讀能力是否正確。
 
- 這部分的探討，我在上一篇其實已經提過，有興趣的朋友可以回頭看看這一段:
 
- * [架構師、資深人員該怎麼看待 AI ?](/archview-llm/#4-%E6%9E%B6%E6%A7%8B%E5%B8%AB%E8%B3%87%E6%B7%B1%E4%BA%BA%E5%93%A1%E8%A9%B2%E6%80%8E%E9%BA%BC%E7%9C%8B%E5%BE%85-ai-)
+回頭想想，LLM 怎麼 "找到" Skills? Skills 越多就越好嗎? 不是這樣的。Skill 貴不再多，而在精。就如同我前面幾篇都在聊 API 設計，跟 領域模型的對應一樣，Skills 廣義的說就是讓 LLM 呼叫的 API 啊。LLM 擅長的是自然語言，還有通識知識，你弄了大雜燴的 API 給 LLM，給得越多只是讓 LLM 有越多機會搞錯而已。這邊不下功夫，你會發現掛上越多 Skill, 你的 "智慧" 應用程式會越來沒有智慧，因為它會一直放錯招...
 
- 在 ChatGPT 設計 GPTs, 其實也有類似的設計，只是 GPTs 的對象是 API, 而不是 code 內的 function, 因此他採用 swagger 的描述檔案來做同樣的事情。Swagger 描述已經包含了所有 API 規格清單，裡面的 "description" 也會被拿來當作 LLM 理解的內容。標記與運作方式雖然有差異，但是精神跟結構關係都是相同的。
+這部分的探討，我在上一篇其實已經提過，有興趣的朋友可以回頭看看這一段:
 
- 當這些都準備就緒，也都 init 完成後，把這一切串再一起，很神奇的，這一切就動起來了。上面的 PoC, 就是這樣做出來的。
+* [架構師、資深人員該怎麼看待 AI ?](/archview-llm/#4-%E6%9E%B6%E6%A7%8B%E5%B8%AB%E8%B3%87%E6%B7%B1%E4%BA%BA%E5%93%A1%E8%A9%B2%E6%80%8E%E9%BA%BC%E7%9C%8B%E5%BE%85-ai-)
 
-搞定這一步，SK 的主要功能就算踩過一次了，腦袋裡開始能掌握 SK 整個開發框架的樣貌了，接下來才是開始看規格，說明文件，與嘗試各種擴充元件的使用方式。如果你還沒想通，可以回頭再看一次，同時參考我的 source 對照著解讀看看。
+在 ChatGPT 設計 GPTs, 其實也有類似的設計，只是 GPTs 的對象是 API, 而不是 code 內的 function, 因此他採用 swagger 的描述檔案來做同樣的事情。Swagger 描述已經包含了所有 API 規格清單，裡面的 "description" 也會被拿來當作 LLM 理解的內容。標記與運作方式雖然有差異，但是精神跟結構關係都是相同的。
+
+當這些都準備就緒，也都 init 完成後，把這一切串再一起，很神奇的，這一切就動起來了。上面的 PoC, 就是這樣做出來的。搞定這一步，SK 的主要功能就算踩過一次了，腦袋裡開始能掌握 SK 整個開發框架的樣貌了，接下來才是開始看規格，說明文件，與嘗試各種擴充元件的使用方式。如果你還沒想通，可以回頭再看一次，同時參考我的 source 對照著解讀看看。
 
 
 # 3, 未來的發展 (個人觀點)
@@ -582,9 +619,9 @@ _kernel = builder.Build();
 
 想到這邊，我不禁繼續往下想:
 
-如果 AI 已經能正確地幫你 (產生 code) 呼叫正確的 API, 以後的程式開發，還需要 developer 明確的呼叫 method ( 附帶正確的 parameters ) 嗎?
+* 如果 AI 已經能正確地幫你 (產生 code) 呼叫正確的 API, 以後的程式開發，還需要 developer 明確的呼叫 method ( 附帶正確的 parameters ) 嗎?
 
-如果不是明確的由 developer 呼叫 method, 那會變成什麼? 丟正確的 Prompt 嗎?
+* 如果不是明確的由 developer 呼叫 method, 那會變成什麼? 丟正確的 Prompt 嗎?
 如果...
 
 想到這邊我就沒有再繼續想下去了，我知道到這個階段的時候，就真的變成 "完全" 用嘴巴寫程式了。未來的程式語言，就是自然語言；未來的 CLR ( Common Language Runtime ) 就是 LLM；未來的程式開發技巧，軟體工程，就是提示工程 ( Prompt Engineering )...
@@ -594,19 +631,20 @@ _kernel = builder.Build();
 不過，我還在念書時學的組合語言，當時想說 640kb 有限的記憶體只能用組合語言才能充分運用 blah blah.. 直譯式的語言在那個年代被當成玩具看待.. 到了現代就完全不是這麼一回事了啊 XDD, 會不會未來的發展，過了 20 年，用自然語言寫 code 已經變成再自然不過的事情?
 
 
-念書的時候，指導教授教我們物件導向設計 ( OOP, Object Oriented Programming ), 用的語言是 Small Talk... 當時一段話我印象深刻 (找不到原文了，只能憑印象):
+念書的時候，指導教授教我們物件導向設計 ( OOP, Object Oriented Programming ), 用的語言是 [Small Talk](https://zh.wikipedia.org/zh-tw/Smalltalk)... 當時一段話我印象深刻 (找不到原文了，只能憑印象):
 
-"物件之間的溝通，是靠 message passing"
+> 物件之間的溝通，是靠 message passing
 
-但是，當時所有的主流 OOP 程式語言，都是 object.method() 這樣，用 function call 的做法來實做物件之間的溝通，只有 Small Talk 真的丟一個 message 過去，由另一個物件接收到後 "自己" 決定怎麼回應。非常有彈性，彈性到同一個類別的不同 instance，都可以有完全不同的行為... 彈性到這個語言只拿來被學術應用，效能慘不忍睹...
+但是，當時所有的主流 OOP 程式語言，都是 ```object.method( )``` 這樣，用 function call 的做法來實做物件之間的溝通，只有 Small Talk 真的丟一個 message 過去，由另一個物件接收到後 "自己" 決定怎麼回應。非常有彈性，彈性到同一個類別的不同 instance，都可以有**完全不同的行為** (某種程度的不可預測)... 彈性到這個語言只拿來被學術應用，**彈性大到能適應各種狀況，但是執行效能慘不忍睹...，導致不適合被用在生產環境上**... 不過也因為這些學術研究，才有後來的 Java, C# 等這類兼顧各種特性，集各種優點於一身的新語言與新 runtime .. 我們現在不就大量的使用這樣強大威力的語言在開發各種系統嗎?
 
-這段印象，現在看來，不就是 Prompt 跟 LLM 之間的關係嗎? 照這樣發展，我覺得這次應該不需要 20 年了，10 年差不多，到時 AI 的運算能力，語言模型的優化，等等問題應該都被解決掉了，成本跟效率優化到某個程度，應該這條路就被開啟了。
+這段印象，現在看來，不就是 Prompt 跟 LLM 之間的關係嗎? 因此，我無法預測這些 LLM 的問題會被什麼樣的方式解決，但是我猜他應該是會被解決的，而且會成熟到能大量應用在關鍵的運算上。照這樣發展，我覺得這次應該不需要 20 年了，10 年差不多，到時 AI 的運算能力，語言模型的優化，等等問題應該都被解決掉了，成本跟效率優化到某個程度，應該這條路就被開啟了。
 
 前陣子看了一段文章，有人問到 speaker: LLM 的不可確定性 blah blah .. (這已經是 FAQ 了，以下省略)，我覺得那位 speaker 回答的還蠻妙的:
 
-> 企業在面試工程師，沒有人能保證你短短幾小時面試過程中，挑選出來的人，每件事情都能做的很到位，寫 code 沒有 bug, 部署不會出錯等等，但是我們錄用他了。因為我們覺得他有潛力，能把事情做好，我們可以容忍他有一定的犯錯空間。
->  人類所有企業都這樣用人，而人類的社會文明也這樣持續的進步。
-> ...
+> 企業在面試工程師，沒有人能保證你短短幾小時面試過程中，挑選出來的人，每件事情都能做的很到位，寫 code 沒有 bug, 部署不會出錯等等，但是我們錄用他了。因為我們覺得他有潛力，能把事情做好，我們可以容忍他有一定的犯錯空間。  
+>
+>  人類所有企業都這樣用人，人類沒有因此而毀滅，人類的社會文明也這樣持續的進步。  
+> 
 > LLM 會犯錯，行為不保證一致，但是我們認為他有潛力，能把事情做得更好。同樣的事情發生在 AI 上面，組織 & 系統的運作能夠承擔這樣的差異，世界會持續的進步。因為過去幾百年來人類就是這樣發展起來的，AI 也可以
 
 最近看了太多東西了，一樣這段話我也找不到出處了，只能憑印象寫出來。我覺得講得很對啊 (有說服我)。某些角度，我們被現有很精準運作的系統刻板印象框住了，在要求 AI 解決過去精準執行體系無法處理的問題的同時，也要他有精準的結果 (其實這本質上就是矛盾的啊)。我們該做的，是要先區分出哪些該用精準的手段來處理，那些要用有智慧的手段來處理，然後才能對症下藥。
