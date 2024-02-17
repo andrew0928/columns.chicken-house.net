@@ -3,13 +3,13 @@ layout: post
 title: "替你的應用程式加上智慧! 談 LLM 的應用程式開發"
 categories:
 - "系列文章: 架構師觀點"
-tags: ["架構師觀點","技術隨筆"]
-published: false
+tags: ["架構師觀點","技術隨筆", "AI", "Semantic Kernel"]
+published: true
 comments_disqus: false
 comments_facebook: false
 comments_gitalk: true
 redirect_from:
-logo: 
+logo: /wp-content/images/2024-02-10-archview-int-app/2024-02-17-10-06-40.png
 ---
 
 ![](/wp-content/images/2024-02-10-archview-int-app/2024-02-17-10-06-40.png)
