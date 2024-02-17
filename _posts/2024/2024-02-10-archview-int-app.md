@@ -40,13 +40,12 @@ logo: /wp-content/images/2024-02-10-archview-int-app/2024-02-17-10-06-40.png
 >
 
 這篇文章會用到的相關資源:
-* 安德魯小舖 GPTs: https://chat.openai.com/g/g-Bp79bdOOJ-an-de-lu-xiao-pu-v5-0-0
-* Microsoft Semantic Kernel: https://learn.microsoft.com/en-us/semantic-kernel/overview/?source=docs&WT.mc_id=linkedin&sharingId=AZ-MVP-5002155
-* Azure OpenAI: https://learn.microsoft.com/zh-tw/azure/ai-services/openai/overview?WT.mc_id=linkedin&sharingId=AZ-MVP-5002155
-* Open AI: Function calling, https://platform.openai.com/docs/guides/function-calling
-* Open AI: Assistants API, https://platform.openai.com/docs/assistants/overview
-
-* Source Code: AndrewDemo.NetConf2023, https://github.com/andrew0928/AndrewDemo.NetConf2023
+* [安德魯小舖 GPTs](https://chat.openai.com/g/g-Bp79bdOOJ-an-de-lu-xiao-pu-v5-0-0)
+* [Microsoft Semantic Kernel](https://learn.microsoft.com/en-us/semantic-kernel/overview/?source=docs&WT.mc_id=linkedin&sharingId=AZ-MVP-5002155)
+* [Azure OpenAI](https://learn.microsoft.com/zh-tw/azure/ai-services/openai/overview?WT.mc_id=linkedin&sharingId=AZ-MVP-5002155)
+* Open AI: [Function calling](https://platform.openai.com/docs/guides/function-calling)
+* Open AI: [Assistants API](https://platform.openai.com/docs/assistants/overview)
+* Source Code: [AndrewDemo.NetConf2023](https://github.com/andrew0928/AndrewDemo.NetConf2023)
 
 
 
@@ -142,10 +141,8 @@ System Prompt 的內容如下:
 
 另一個 prompt 是結帳時要詢問 AI 是否有注意事項的 prompt:
 
-```csharp
+```
 
-// C# string
-$"""
 我要進行結帳前確認
 我要開始結帳，沒問題請回覆 "OK: "，有注意事項請回覆 "HINT: "。
 其他建議可以在回覆之後接著說明。
@@ -155,7 +152,6 @@ $"""
 
 購買註記:
 - {prompt}
-"""
 
 ```
 
@@ -231,9 +227,9 @@ HINT: 根據您提供的購物清單，您選購了含酒精的「18天台灣生
 
 UI 上客人每下一道指令，我就會送出這樣的 user prompt:
 
-```csharp
+```
 
-$"我已進行操作: {message}"
+我已進行操作: {message}
 
 ```
 
