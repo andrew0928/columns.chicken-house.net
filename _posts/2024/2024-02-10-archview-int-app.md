@@ -47,6 +47,7 @@ logo: /wp-content/images/2024-02-10-archview-int-app/2024-02-17-10-06-40.png
 * Open AI: [Assistants API](https://platform.openai.com/docs/assistants/overview)
 * Source Code: [AndrewDemo.NetConf2023](https://github.com/andrew0928/AndrewDemo.NetConf2023)
 * [The architecture of today’s LLM applications](https://github.blog/2023-10-30-the-architecture-of-todays-llm-applications/)
+* [Large Language Models and The End of Programming - CS50 Tech Talk with Dr. Matt Welsh](https://youtu.be/JhCl-GeT4jw?si=4iEgqSFs1FzqbsNb&t=3173)
 
 
 
@@ -642,7 +643,7 @@ _kernel = builder.Build();
 
 這段印象，現在看來，不就是 Prompt 跟 LLM 之間的關係嗎? 因此，我無法預測這些 LLM 的問題會被什麼樣的方式解決，但是我猜他應該是會被解決的，而且會成熟到能大量應用在關鍵的運算上。照這樣發展，我覺得這次應該不需要 20 年了，10 年差不多，到時 AI 的運算能力，語言模型的優化，等等問題應該都被解決掉了，成本跟效率優化到某個程度，應該這條路就被開啟了。
 
-前陣子看了一段文章，有人問到 speaker: LLM 的不可確定性 blah blah .. (這已經是 FAQ 了，以下省略)，我覺得那位 speaker 回答的還蠻妙的:
+前陣子看了一段~~文章~~ [影片](https://youtu.be/JhCl-GeT4jw?si=4iEgqSFs1FzqbsNb&t=3173)，有人問到 speaker: LLM 的不可確定性 blah blah .. (這已經是 FAQ 了，以下省略)，我覺得那位 speaker 回答的還蠻妙的:
 
 > 企業在面試工程師，沒有人能保證你短短幾小時面試過程中，挑選出來的人，每件事情都能做的很到位，寫 code 沒有 bug, 部署不會出錯等等，但是我們錄用他了。因為我們覺得他有潛力，能把事情做好，我們可以容忍他有一定的犯錯空間。  
 >
@@ -650,7 +651,20 @@ _kernel = builder.Build();
 > 
 > LLM 會犯錯，行為不保證一致，但是我們認為他有潛力，能把事情做得更好。同樣的事情發生在 AI 上面，組織 & 系統的運作能夠承擔這樣的差異，世界會持續的進步。因為過去幾百年來人類就是這樣發展起來的，AI 也可以
 
-最近看了太多東西了，一樣這段話我也找不到出處了，只能憑印象寫出來。我覺得講得很對啊 (有說服我)。某些角度，我們被現有很精準運作的系統刻板印象框住了，在要求 AI 解決過去精準執行體系無法處理的問題的同時，也要他有精準的結果 (其實這本質上就是矛盾的啊)。我們該做的，是要先區分出哪些該用精準的手段來處理，那些要用有智慧的手段來處理，然後才能對症下藥。
+
+![](/wp-content/images/2024-02-10-archview-int-app/2024-02-18-14-39-35.png)
+> 來源: [Large Language Models and The End of Programming - CS50 Tech Talk with Dr. Matt Welsh](https://youtu.be/JhCl-GeT4jw?si=4iEgqSFs1FzqbsNb&t=3173)
+
+
+
+另外，這篇文章也有類似的觀點，蠻有意思的，可以花點時間讀一下:
+
+
+![](/wp-content/images/2024-02-10-archview-int-app/2024-02-18-14-32-35.png)
+
+> 來源:  [The End of Programming](https://matthewberman.substack.com/p/the-end-of-programming)
+
+"The End of Programming" 這篇我覺得講得很對啊 (有說服我)。某些角度，我們被現有很精準運作的系統刻板印象框住了，在要求 AI 解決過去精準執行體系無法處理的問題的同時，也要他有精準的結果 (其實這本質上就是矛盾的啊)。我們該做的，是要先區分出哪些該用精準的手段來處理，那些要用有智慧的手段來處理，然後才能對症下藥。
 
 這就是我說的，看清楚全貌跟格局之後，你才會用對技術，才會把它用在對的地方。面對 AI 的進步，我想未來幾年，有太多這類問題需要思考了。我們都在這個變革內，無法閃開，只能面對。
 
