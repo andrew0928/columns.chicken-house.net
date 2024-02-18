@@ -46,6 +46,7 @@ logo: /wp-content/images/2024-02-10-archview-int-app/2024-02-17-10-06-40.png
 * Open AI: [Function calling](https://platform.openai.com/docs/guides/function-calling)
 * Open AI: [Assistants API](https://platform.openai.com/docs/assistants/overview)
 * Source Code: [AndrewDemo.NetConf2023](https://github.com/andrew0928/AndrewDemo.NetConf2023)
+* [The architecture of today’s LLM applications](https://github.blog/2023-10-30-the-architecture-of-todays-llm-applications/)
 
 
 
