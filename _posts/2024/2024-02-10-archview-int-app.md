@@ -628,11 +628,17 @@ _kernel = builder.Build();
 * 如果不是明確的由 developer 呼叫 method, 那會變成什麼? 丟正確的 Prompt 嗎?
 如果...
 
-想到這邊我就沒有再繼續想下去了，我知道到這個階段的時候，就真的變成 "完全" 用嘴巴寫程式了。未來的程式語言，就是自然語言；未來的 CLR ( Common Language Runtime ) 就是 LLM；未來的程式開發技巧，軟體工程，就是提示工程 ( Prompt Engineering )...
+> 補充: 後來才發現，其實現在 Chat GPT 已經有部分功能是這樣做的了，有訂閱的用戶可能會看到有個功能叫 ["code intepreter"](https://openai.com/blog/chatgpt-plugins#code-interpreter), 當你問的問題需要的時候, Chat GPT 會在背後按照你的需求寫一段 python code, 然後若你有啟用 code interpreter, 就會啟動一塊安全的 sandbox 環境, 來跑這段 code 替你下載、分析資料等等其他用途。
 
-因為我把過程串起來了，因此我更相信這是可行的，只是差在人類的工藝能力還沒到位。目前 method invoke 速度很快，不需要 1 ns 就能執行完畢了吧? 一秒鐘呼叫個 1000 萬次不是問題。而 LLM ? 現在一秒鐘能消化 100 個 token 就很了不起了，運算成本天差地遠 (有在用雲端就會很有感)
+> 補充: 某種程度上，Semantic Kernel 的 Planner, 也踩到了一部分的功能，他能將  prompt 拆解出來的多個任務 (可能是呼叫多個 kerenel function) 安排執行，角色上像 kernel function(s) 之間的 orchestration。我在這邊提他，跟 AI 寫 code + 執行無關，但是它包裝了部分 AI 解析 prompt, 判定呼叫 kernel function 的整個流程 (如果有多個步驟的話)
 
-不過，我還在念書時學的組合語言，當時想說 640kb 有限的記憶體只能用組合語言才能充分運用 blah blah.. 直譯式的語言在那個年代被當成玩具看待.. 到了現代就完全不是這麼一回事了啊 XDD, 會不會未來的發展，過了 20 年，用自然語言寫 code 已經變成再自然不過的事情?
+想到這邊我就沒有再繼續想下去了，我知道到這個階段的時候，就真的變成 "完全" 用嘴巴寫程式了。也許未來的程式語言，已經是自然語言了 (其他語言可能還會存在，但是比例應該會逐步降低)；對比 C#, 未來的自然語言的 CLR ( Common Language Runtime ) 也許就是 LLM 了；未來的程式開發技巧，軟體工程，就是提示工程 ( Prompt Engineering )...
+
+在做這次的 PoC, 其實已經隱約感受到了，搭配 Semantic Kernel, Code 寫起來的模式已經很固定了, 都是由各種管道取得 prompt / message, 包好後送給 chat completion service, 然後解析傳回來的資訊而已。這些 code 未來應該越寫越少了，可能都內建。反倒是開發過程，有幾個關鍵的功能都是靠 prompt 做出來的 (例如我給店長的 instructions, 結帳前的檢驗 prompt, 或是 copilot 檢驗使用者操作步驟的 prompt...)。要到完全用自然語言寫 code, 還要很久吧 ( 10 ~ 20 年，我猜 )，不過這趨勢應該不可逆了，年輕的朋友應該先做好準備。Developer 未來主要的任務也許不再是 coding 了，但是 developer 還是 developer，終究有人要替應用程式定義 prompt，所以我不擔心 developer 會消失，但是使用的工具一定會改變，背後需要的技能也會改變，如此而已。
+
+回到主題，用 prompt 寫 code；因為我把過程串起來了，因此我更相信這是可行的，只是差在人類的硬體製造工藝能力還沒到位。目前 method invoke 速度很快，不需要 1 ns 就能執行完畢了吧? 一秒鐘呼叫個 1000 萬次不是問題。而 LLM ? 現在一秒鐘能消化 100 個 token 就很了不起了，運算成本天差地遠 (有在用雲端就會很有感)
+
+我還在念書的年代，當時學的組合語言，當時想說 640kb 有限的記憶體只能用組合語言才能充分運用 blah blah.. 直譯式的語言在那個年代被當成玩具看待 ( Basic, 4GL, 那年代的直譯式語言只能處理資料，上不了正規應用程式開發的檯面的。主流是 C / C++).. 到了現代就完全不是這麼一回事了啊 XDD, 會不會未來的發展，過了 20 年，用自然語言寫 code 已經變成再自然不過的事情?
 
 
 念書的時候，指導教授教我們物件導向設計 ( OOP, Object Oriented Programming ), 用的語言是 [Small Talk](https://zh.wikipedia.org/zh-tw/Smalltalk)... 當時一段話我印象深刻 (找不到原文了，只能憑印象):
