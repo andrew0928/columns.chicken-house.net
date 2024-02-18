@@ -600,6 +600,12 @@ _kernel = builder.Build();
 
 當這些都準備就緒，也都 init 完成後，把這一切串再一起，很神奇的，這一切就動起來了。上面的 PoC, 就是這樣做出來的。搞定這一步，SK 的主要功能就算踩過一次了，腦袋裡開始能掌握 SK 整個開發框架的樣貌了，接下來才是開始看規格，說明文件，與嘗試各種擴充元件的使用方式。如果你還沒想通，可以回頭再看一次，同時參考我的 source 對照著解讀看看。
 
+最後，視角再拉大一點，整個應用程式的架構全貌，這篇文章說明的不錯，視角不大一樣，但是就是把上述的流程與架構勾勒的更具體。不習慣的是這張圖是從右 ( user ) 到左，我上面的圖都是從左到右..
+
+![](/wp-content/images/2024-02-10-archview-int-app/2024-02-18-14-29-02.png)
+
+> 來源: [The architecture of today’s LLM applications](https://github.blog/2023-10-30-the-architecture-of-todays-llm-applications/)
+
 
 # 3, 未來的發展 (個人觀點)
 
