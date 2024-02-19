@@ -440,9 +440,9 @@ RAG 是個檢索的方式，可以讓 LLM 擴充他的 "知識庫" 的做法。�
 
 當累積的知識變多，不再能每次起始對談都把那堆知識塞進 prompt ( token 很貴的... ), 你就需要更有效率的做法了。人類在求學階段念了很多書，往後的日子會不斷的把過去學習的 "知識" 拿出來應用，這就是 knowledge。這些 knowledge 可不是原封不動一字不漏的存在腦袋，然後在腦袋裡做全文檢索... 而是你會把知識分類 & 消化，需要時你會去 "聯想" 找出關聯的知識出來用。
 
-這過程，就是 [text embedding](https://platform.openai.com/docs/guides/embeddings), vector storage 以及 RAG 的運作過程。讀書的過程就是理解，對應到 AI 的處理機制，就是靠 LLM 來做 text embedding，也就是把知識 (一段文字) 向量化，靠 LLM 解讀了解後，將這段文字在幾千個維度的空間內標示一個向量來代表，儲存在 vector storage。每個維度代表一個知識領域，這維度的投影就代表這段知識在這個領域的關聯度有多高。
+這過程，就是 [text embedding](https://platform.openai.com/docs/guides/embeddings), vector storage 以及 RAG 的運作過程。讀書的過程就是理解，對應到 AI 的處理機制，就是靠 Text Embedding Model 來把知識 (一段文字) 向量化，靠 Text Embedding Model 解讀後，將這段文字在幾千個維度的空間內標示一個向量來代表，儲存在 vector storage。每個維度代表一個知識領域，這維度的投影就代表這段知識在這個領域的關聯度有多高。
 
-事後你問 LLM 問題，LLM 一樣把問題 (prompt) 用 text embedding 解讀成向量，這時只要拿著 input 的向量，到向量資料庫內做基本的過濾，加上搜尋相近的片段 (就是兩個向量之間的 cos 值，越相近數字越接近 1.0 ), 檢索出來的結果當作上下文，再交由 LLM 彙整後回傳，這就是 AI 如何在大量知識庫內快速檢索的過程，也就是 RAG (Retrieval Augmented Generation,擷取增強生成) 的運作原理。
+事後你問 LLM 問題之前，先把問題同樣丟給 Text Embedding Model 解讀成向量，這時只要拿著 input 的向量，到向量資料庫內做基本的過濾，加上搜尋相近的片段 (就是兩個向量之間的 cos 值，越相近數字越接近 1.0 ), 檢索出來的結果當作上下文，再交由 LLM 彙整後回傳，這就是 AI 如何在大量知識庫內快速檢索的過程，也就是 RAG (Retrieval Augmented Generation,擷取增強生成) 的運作原理。
 
 ![](/wp-content/images/2024-02-10-archview-int-app/2024-02-16-00-17-29.png)
 
