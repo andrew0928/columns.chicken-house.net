@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "替你的部落格加上智慧! 談 RAG 的檢索與應用"
+title: "替你的知識庫加上智慧! 談 RAG 的檢索與應用"
 categories:
 - "系列文章: 架構師觀點"
 tags: ["架構師觀點","技術隨筆", "AI", "Semantic Kernel"]
@@ -203,6 +203,7 @@ Storage: SimpleFileStorage (storage), IMemoryStorage ( disk / memory )
 
 
 
-# 5. 心得
+# 5. 總結
+
 
 
