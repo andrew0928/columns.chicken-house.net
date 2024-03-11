@@ -487,6 +487,12 @@ LLM 其實就已經有很好的能力能處理問答了，問題只剩下知識�
 
 
 # 3. 技術選擇
+
+原本，我都做好心理準備了。上面的 RAG 操作，搞懂後拆解出來的步驟都不難，都打算自己用 Semantic Kernel 動手刻一個簡單的 API 來用，結果在查 SK 有沒有實做單機版的 Semantic Memory 時，意外找到了另一個 Microsoft 開源的專案: Kernel Memory.
+
+看了一下，根本就是我原本想要自己動手做的東西啊啊啊啊，這是套基於 Semantic Kernel 開發出來的獨立服務版本，提供 http api, 支援文件的 CRUD, 外加 RAG 檢索能力。提供的部署方式也很完整，可以獨立部署 (service mode, 透過 http 存取)，也可以內嵌在你的 .net application 內 (serverless mode, 就像  SQLite 那樣)。不論你用哪種部署方式，他都提供了 SK 的 Memory Plugins, 你可以無縫的跟你的 SK project 整合在一起使用。雖然只有 0.29 版，不過對於我只是要 POC 的情境來說很夠用了。
+
+
 不過，實做上好多元件跟技術需要解決啊，要站在巨人的肩膀上，其實有很多方便的選擇:
 
 1. PaaS 的選擇
