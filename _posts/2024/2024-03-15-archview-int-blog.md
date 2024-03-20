@@ -218,6 +218,215 @@ Demo 先到這邊，我先自己給個 comments. GPTs 要協助各位讀者快�
 
 
 
+
+
+# 2, 打造專屬的 GPTs - "安德魯的部落格"
+
+這算是我第二個自己打造的 GPTs 了，其實 GPTs 很容易就能做出來了，只是即使是 Open AI，他的模型也無法回答所有問題。這次我準備的 "安德魯的部落格 - GPTs"，除了給他正確的 instructions 之外，最重要的就是背後的檢索服務 - Microsoft Kernel Memory..
+
+我的構想是這樣，GPTs 負責的是直接跟讀者對談的介面，當使用者詢問了相關問題，GPTs 就會嘗試從對談中把問題 ( question, 後面解釋 ) 擷取出來，呼叫我準備的檢索服務 API。這檢索服務會像一般的查詢一樣，按照詢問的問題內容，逐筆 (按照相關性排序) 把內容傳回來。
+
+而這樣的內容看起來就像 search engine 啊，GPTs 會把前面收到的詢問，以及搜尋的結果，在 GPT4 語言模型內部消化彙整，整理成適合的回答 (answer) 後才回應給使用者。因為 GPT4 有良好的語言理解與彙整能力，只要背後搭配的檢索服務能正確的找出相關內容的話，GPTs 就能表現得跟一位專家一樣，用自然語言回應你的詢問了。而在對談過程中，GPTs 也能記得前後文，不斷的修正給你的回覆，必要時也會修正問題 (question) 重新再檢索 (search) 一次，重新彙整更貼切的答案 (answer) 給你。
+
+其實，這就是基本的 RAG 大致的流程，留意兩個關鍵:
+
+1. LLM:  
+負責對話，包含從對話中擷取問題 (question)，轉換成 API / Function call，並且把呼叫結果再次彙整成答案的主要角色。
+1. Search Service:  
+負責檢索內容。這是個獨立的服務，能依據收到的問題 (question)，用 json 按照相關性的高低傳回相關的內容。
+
+
+
+## 2-1, calling search api
+
+不知各位在看前面的 demo 時，是否注意到這段訊息:
+
+![](/wp-content/images/2024-03-15-archview-int-blog/2024-03-21-02-02-55.png)
+
+其中，看到這段 ""，就代表 GPTs 嘗試呼叫我設定好的 Custom Action ( API ), 來透過外部服務取得資訊了。點下去你可以大致看到，GPTs 帶了哪些資訊給外部 API:
+
+![](/wp-content/images/2024-03-15-archview-int-blog/2024-03-21-02-04-18.png)
+
+雖然這是被簡化過的內容，不是原始的 API call request payload, 但是大致能解讀出這些資訊:
+
+- API endpoints: andrewblogkms.azurewebsites.net
+- Parameters:
+  - query: "微服務 資料一致性 維持作法"
+  - minRelevance: 0.3
+  - limit: 5
+
+GPTs 之所以知道這些資訊，是因為我在 GPTs 背後設置了這個 Custom Action:
+
+![](/wp-content/images/2024-03-15-archview-int-blog/2024-03-21-02-08-49.png)
+
+只要你的 API 符合標準規範，就能掛進來。很重要的一點是你必須讓 GPTs 理解你的 API 怎麼使用。一般人要靠文件，而 Open API (前身是 swagger) 就是拿來定義 API 用的 json / yaml 格式，把你的 API schema 貼進來就可以了。我用的檢索服務 API schema 長這樣:
+
+Swagger UI: https://andrewblogkms.azurewebsites.net/swagger/index.html
+
+上面的服務我部署在我的 azure subscription, 我會維持它運作一陣子的。為了方便說明，我直接截圖:
+![](/wp-content/images/2024-03-15-archview-int-blog/2024-03-21-02-13-00.png)
+
+有了這些 swagger 的定義，加上 swagger 上面對每個 path, parameters 的說明，就成為告訴 GPTs 怎麼使用 API 的 prompt 了。在 GPTs 的 Function calling 機制下，AI 會自動從前後文，產生符合 API spec 的 request, 經過使用者同意後，就替使用者呼叫外部服務了。
+
+
+我試著自己還原這個過程 (我無法 debug GPTs 做這些動作的過程，只能模擬)，按照上面看到的資訊，我自己試著呼叫我的檢索服務:
+
+Request: https://andrewblogkms.azurewebsites.net/search
+
+```json
+{
+  "query": "微服務 資料一致性 維持作法",
+  "filters": [ ],
+  "minRelevance": 0.3,
+  "limit": 5
+}
+```
+
+Response: (為了精簡，我刪除不必要的 json 片段)
+
+```json
+{
+  "query": "微服務 資料一致性 維持作法",
+  "noResult": false,
+  "results": [
+    {
+      "link": "default/post-2022-04-25/0db8eaa31cb946e78d03ba825db0a624",
+      "index": "default",
+      "documentId": "post-2022-04-25",
+      "fileId": "0db8eaa31cb946e78d03ba825db0a624",
+      "sourceContentType": "text/plain",
+      "sourceName": "content.txt",
+      "partitions": [
+        {
+          "text": "微服務 API 的設計與實作，來到第二篇。\n圖片來源: https://www.freecodecamp.org/news/rest-api-best-practices-rest-endpoint-design-examples/\r\n會有這篇，其實是有感現在講架構的文章太多了, 但是每個人看了同樣的文章,\r\n最後實作出來的落差都很大啊。很多架構類的文章都是標竿大型系統的設計，不過還沒有對應經驗的人，看了這類文章是沒辦法從小規模的系統經驗，直接跨過那道鴻溝啊，所以往往有些看的多的人，在專案上拿捏不好設計的力道，不知不覺就做了過度的設計\r\n(過度可能是超出期待太多，或是超出能力範圍太多都算)\r\n。因此我在講完架構的設計概念後，我都會希望能搭配實作的驗證，PoC 也好,\r\nMVP 也好，總之能夠真正用能運作的方式，把要解決的情境用你想的架構實際推演一次。架構實作一定是複雜的，有很多工程問題要解決，因此能否在這階段盡可能的排除非必要的實作，又能達到驗證的目的，就是抽象化能力的考驗了。Do the\r\nright thing 比 do the things right 同樣重要，但是不先看清楚 right thing 的話會讓你後面的 do the thing right 功虧一簣，因此有了這篇文章，來驗證上一篇我介紹的方法: 用狀態機來驅動 API 設計。",
+          "relevance": 0.48848033,
+          "partitionNumber": 0,
+          "sectionNumber": 0,
+          "lastUpdate": "2024-02-29T15:37:06+00:00",
+          "tags": {
+            "user-tags": [
+              "系列文章",
+              "架構師的修練",
+              "microservices"
+            ],
+            "categories": [
+              "系列文章: 微服務架構"
+            ],
+            "post-url": [
+              "https://columns.chicken-house.net/2022/04/25/microservices16-api-implement/"
+            ],
+            "post-date": [
+              "2022-04-25"
+            ],
+            "post-title": [
+              "微服務架構 - 從狀態圖來驅動 API 的實作範例"
+            ],
+            "post-content-type": []
+          }
+        },
+        {
+          "text": "然而，這同時間還得面對其他棘手的問題，例如平行處理一定會碰到的 racing condition, 如果同時有兩個 client 在同一瞬間要做狀態轉移，誰會成功? 總不能兩者都成功吧! 那麼這些機制該怎麼處理?\r\n這邊不管誰負責，DB 也好，AP 也好，或是 Core Library 負責也好，總是要有人負責擔任協調者，只能讓其中一個 client\r\n成功執行。其他要明確接受到錯誤訊息，並且阻擋他執行到一半。這部分沒做好，流量一大，你會發現有很多幽靈的資訊，狀態也許正確，但是關聯的資料錯誤，這些問題越晚越難追查，到最後就變成一個不夠可靠的系統.\r\n.. 這種程度的服務是無法架構出具規模的微服務架構的..\r\n一旦確定能執行該 action 並且執行成功後，後面的就單純一些了 (我沒說容易喔)。後面就剩下要 \"保證\" 後續的處理一定會被觸發就好，這邊最典型的就是觸發 \"狀態已改變\" 的事件通知。我這邊就用 C# 的 event 機制來代替了。C# 用 event handler 來代表，實際上如果你有分散式的需求，應該被改寫成發送訊息到 message queue,\r\n並且在 queue 的另一端安排對應的 worker 來接收並且處理訊息。 想到這些難題，頭就痛起來了 XDD, 不過越頭痛的問題,",
+          "relevance": 0.48434806,
+          "partitionNumber": 49,
+          "sectionNumber": 0,
+          "lastUpdate": "2024-02-29T15:37:06+00:00",
+          "tags": {
+            "user-tags": [
+              "系列文章",
+              "架構師的修練",
+              "microservices"
+            ],
+            "categories": [
+              "系列文章: 微服務架構"
+            ],
+            "post-url": [
+              "https://columns.chicken-house.net/2022/04/25/microservices16-api-implement/"
+            ],
+            "post-date": [
+              "2022-04-25"
+            ],
+            "post-title": [
+              "微服務架構 - 從狀態圖來驅動 API 的實作範例"
+            ],
+            "post-content-type": []
+          }
+        }
+      ]
+    },
+    { ... } // 略過後面三筆
+  ]
+}
+```
+
+當我的檢索服務傳回這樣內容後，GPTs 一樣會依照 API schema 的描述，理解這堆 json 的意義後，再次消化這些內容，整理成我要的答案，回應在 Chat 的介面上給使用者。
+
+
+我自己腦補一下這段動作，我把上面這段 json 轉換成下列的 prompt，然後貼到標準的 Chat GPT (GPT4) 詢問:
+
+```
+我會用下列結構整理我的問題跟參考資訊，請你彙整後給我回答，並且在回答的內容附上來源網址 (post-url, 請用 hyperlink 的方式呈現)。
+
+理解後回我 OK，我會開始給你問題內容
+```
+
+
+```
+
+## ask
+那麼有微服務之間維持資料一致性的作法嗎？
+
+
+## facts
+- relevance: 48.84%
+- post-url: https://columns.chicken-house.net/2022/04/25/microservices16-api-implement/
+
+微服務 API 的設計與實作，來到第二篇。\n圖片來源: https://www.freecodecamp.org/news/rest-api-best-practices-rest-endpoint-design-examples/\r\n會有這篇，其實是有感現在講架構的文章太多了, 但是每個人看了同樣的文章,\r\n最後實作出來的落差都很大啊。很多架構類的文章都是標竿大型系統的設計，不過還沒有對應經驗的人，看了這類文章是沒辦法從小規模的系統經驗，直接跨過那道鴻溝啊，所以往往有些看的多的人，在專案上拿捏不好設計的力道，不知不覺就做了過度的設計\r\n(過度可能是超出期待太多，或是超出能力範圍太多都算)\r\n。因此我在講完架構的設計概念後，我都會希望能搭配實作的驗證，PoC 也好,\r\nMVP 也好，總之能夠真正用能運作的方式，把要解決的情境用你想的架構實際推演一次。架構實作一定是複雜的，有很多工程問題要解決，因此能否在這階段盡可能的排除非必要的實作，又能達到驗證的目的，就是抽象化能力的考驗了。Do the\r\nright thing 比 do the things right 同樣重要，但是不先看清楚 right thing 的話會讓你後面的 do the thing right 功虧一簣，因此有了這篇文章，來驗證上一篇我介紹的方法: 用狀態機來驅動 API 設計。
+
+## facts
+- relevance: 48.43%
+- post-url: https://columns.chicken-house.net/2022/04/25/microservices16-api-implement/
+
+然而，這同時間還得面對其他棘手的問題，例如平行處理一定會碰到的 racing condition, 如果同時有兩個 client 在同一瞬間要做狀態轉移，誰會成功? 總不能兩者都成功吧! 那麼這些機制該怎麼處理?\r\n這邊不管誰負責，DB 也好，AP 也好，或是 Core Library 負責也好，總是要有人負責擔任協調者，只能讓其中一個 client\r\n成功執行。其他要明確接受到錯誤訊息，並且阻擋他執行到一半。這部分沒做好，流量一大，你會發現有很多幽靈的資訊，狀態也許正確，但是關聯的資料錯誤，這些問題越晚越難追查，到最後就變成一個不夠可靠的系統.\r\n.. 這種程度的服務是無法架構出具規模的微服務架構的..\r\n一旦確定能執行該 action 並且執行成功後，後面的就單純一些了 (我沒說容易喔)。後面就剩下要 \"保證\" 後續的處理一定會被觸發就好，這邊最典型的就是觸發 \"狀態已改變\" 的事件通知。我這邊就用 C# 的 event 機制來代替了。C# 用 event handler 來代表，實際上如果你有分散式的需求，應該被改寫成發送訊息到 message queue,\r\n並且在 queue 的另一端安排對應的 worker 來接收並且處理訊息。 想到這些難題，頭就痛起來了 XDD, 不過越頭痛的問題,
+
+## answer
+
+
+```
+
+這樣的 prompt, 我可以得到這樣的回應，基本上跟我前面示範的 GPTs demo 已經有 87% 像了:
+
+![](/wp-content/images/2024-03-15-archview-int-blog/2024-03-21-02-39-09.png)
+
+
+到這邊，我盡力還原 GPTs 背後做的事情了。我特地補充這段的目的，是希望大家知道 GPTs 是怎樣把這些內容產生出來的。這很重要，理解 AI 怎麼運用知識庫，我後面的內容才聊得下去啊 XDD, 記好這些過程, 未來你的 AI 應用, 不一定會是在 Chat GPT 這平台上面開發，如果你了解這過程，那你就有能力透過 Semantic Kernel，自己完成相同的功能。
+
+
+
+
+
+## 2-2, Kernel Memory
+
+前面那段，看懂了 GPTs 怎麼使用我的 API 來完成部落格的檢索，接下來就來看看這背後的服務: Kernel Memory 吧。
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# WIP WIP WIP
+
+
 # 2, 內容搜尋方式的改變
 
 講這段之前，還是要再提醒一下，我是老一派的開發人員，從組合語言學起來的那一代。無法精確交代執行過程的技術，對我來說都很虛幻。在我對內容檢索的 know how 還停留在關鍵字搜尋，全文檢索的程度時，我是很難想像如何能 "精確" 的找出語意相近的內容，尤其是它們呈現的文字 (到 bytes 層級) 是完全不相干的前提下...。
