@@ -243,7 +243,9 @@ Demo 先到這邊，我先自己給個 comments. GPTs 要協助各位讀者快�
 
 
 
-# 2, 部落格檢索服務 - AndrewBlogKMS
+# 2, 部落格檢索服務
+
+ **AndrewBlogKMS**
 
 這算是我第二個自己打造的 GPTs 了，其實 GPTs 很容易就能做出來了。GPTs 允許你自訂 instructions, 同時允許你掛上能呼叫外部 API 的 Custom Action, 這麼一來就打通他的行為與外部操作的客製化能力，GPTs 就能展現出模型本身無法直接回答的問題。這次我的 PoC，最主要的環節，就是打造一個檢索服務讓 GPTs 使用，我選擇的是來自 Microsoft 的開源專案 - [Kernel Memory](https://github.com/microsoft/kernel-memory) ...
 
@@ -289,24 +291,19 @@ Demo 先到這邊，我先自己給個 comments. GPTs 要協助各位讀者快�
 1. 建立文章向量化的資料庫 (**Ingestion**)
 
 
-## 2-1, RAG 資料檢索的應用 (Synthesis)
-
-**設置 GPTs, 呼叫 search API, 產生 Response 內容**
-
+## 2-1, RAG 資料檢索的應用
+ **Synthesis**
 
 ![](/wp-content/images/2024-03-15-archview-int-blog/2024-03-23-14-30-04.png)
 
 回到這張圖，我把重點擺在綠色區塊 Synthesis 的部分。留意他有兩個 input: Retrieval 的結果 + Query。意思是拿著 Query 本身 (就是你問的問題)，加上 Retrieval 用同樣 Query 查詢出來的結果 (先別管結果怎麼來的)，讓 LLM 來加工，把它修飾成使用者能理解的回應內容。
 
 
-
-**function calling: call search api**:
-
 至於實做過程，我一步一步來拆解: 不知各位在看前面的 demo 時，是否注意到這段訊息:
 
 ![](/wp-content/images/2024-03-15-archview-int-blog/2024-03-21-02-02-55.png)
 
-其中，看到這段 "`Talked to andrewblogkms.azurewebsites.net`"，就代表 GPTs 嘗試呼叫我設定好的 Custom Action ( API ), 來透過外部服務取得資訊了。點下去你可以大致看到，GPTs 帶了哪些資訊給外部 API:
+其中，看到這段 "**Talked to andrewblogkms.azurewebsites.net**"，就代表 GPTs 嘗試呼叫我設定好的 Custom Action ( API ), 來透過外部服務取得資訊了。點下去你可以大致看到，GPTs 帶了哪些資訊給外部 API:
 
 ![](/wp-content/images/2024-03-15-archview-int-blog/2024-03-21-02-04-18.png)
 
@@ -329,7 +326,6 @@ GPTs 之所以知道這些資訊，是因為我在 GPTs 背後設置了這個 Cu
 有了這些 swagger 的定義，加上 swagger 上面對每個 path, parameters 的說明，就成為告訴 GPTs 怎麼使用 API 的 prompt 了。在 GPTs 的 Function calling 機制下，AI 會自動從前後文，產生符合 API spec 的 request, 經過使用者同意後，就替使用者呼叫外部服務了。
 
 
-**get retrieval result**
 
 我試著自己還原這個過程 (我無法 debug GPTs 做這些動作的過程，只能模擬)，按照上面看到的資訊，我自己試著呼叫我的檢索服務:
 
@@ -420,7 +416,8 @@ Response: (為了精簡，我刪除不必要的 json 片段)
 }
 ```
 
-**use prompt engineering with LLM, generate the final answer to the user**
+
+
 
 當我的檢索服務傳回這樣內容後，GPTs 一樣會依照 API schema 的描述，理解這堆 json 的意義後，再次消化這些內容，整理成我要的答案，回應在 Chat 的介面上給使用者。
 
@@ -487,9 +484,9 @@ Response: (為了精簡，我刪除不必要的 json 片段)
 
 
 
-## 2-2, 語意的檢索 - 向量搜尋 (Retrieval)
+## 2-2, 語意的檢索 - 向量搜尋
+**Retrieval**
 
-**設置 kernel-memory service, 提供 retrieval 檢索服務 (search api)**
 
 ![](/wp-content/images/2024-03-15-archview-int-blog/2024-03-23-15-13-39.png)
 
@@ -508,7 +505,7 @@ Response: (為了精簡，我刪除不必要的 json 片段)
 
 
 
-### 2-2-1, 基本原理 - Text Embedding
+### 2-2-1, Text Embedding
 
 Embedding, 這是檢索的核心, 檢索的目的是先找到語意相近的片段資訊，而要怎麼明確的表達 "語意" 這種概念? 就是將各種領域變成維度，把每一段資料都在這些維度組成的空間，標示一個座標，來表達這段資料在各個領域上的相關性有多高。這座標就是所謂的 "向量"。而 Embedding, 是指把一段文字轉成向量的過程。為何稱作 "embedding" ? 要花點想像力。你就先想成一個 N 度空間，裡面所有的資訊都變成一個 "向量"，而文字轉成向量的過程，就好像把資訊 "embed" 到那個空間內，因此用這抽象的字，來形容這個過程。
 
@@ -548,7 +545,7 @@ Embedding, 簡單的說就是把所有資訊都轉成向量, 而這向量的意�
 
 
 
-### 2-2-2, 基本原理 - Retrieval
+### 2-2-2, Retrieval
 
 了解了 embedding 是什麼，後面就簡單得多了。
 
@@ -687,7 +684,7 @@ Request: https://andrewblogkms.azurewebsites.net/ask
 
 
 
-### 2-2-3, Inside - Kernel Memory Codes ...
+### 2-2-3, Start Coding
 
 
 由於我原本真的有打算自己刻這段 code 的，因此除了列出 API spec 之外，我還是忍不住挖了 source code 出來看 ( Open Source 萬歲 )，畢竟這專案除了提供 service mode 讓你呼叫 Http API 之外，也提供 serverless mode 可以在你的 code 內直接呼叫。看一下 serverless mode 可以使用的介面怎麼定義的:
@@ -827,7 +824,7 @@ public class MemoryFilter : TagCollection
 我自己在 Azure 部署了這兩個模型來使用:
 
 * text-embedding-3-large
-* gpt-4
+* GPT4
 
 有趣的是 Kernel Memory 提供了很大的應用彈性。前面我花了不少篇幅在介紹 RAG, 課程中的流程圖也把 Retrieval / Synthesis 這兩大區塊區隔出來。而我的組合是拿 Chat GPT 當前端，因此我的組合是這樣:
 
@@ -857,6 +854,7 @@ public class MemoryFilter : TagCollection
 會問這問題，是因為這段 example code 前面已經先建立 (Ingestion) 了這段文字進去:
 
 ```csharp
+
     // Uploading some text, without using files. Hold a copy of the ID to delete it later.
     Console.WriteLine("Uploading text about E=mc^2");
     var docId = await memory.ImportTextAsync("""
@@ -865,6 +863,7 @@ public class MemoryFilter : TagCollection
       constant and the units of measurement. The principle is described by the physicist
       Albert Einstein's formula: E = m*c^2
       """);
+
 ```
 
 這問題(Question) 與這段文字，用 text-embedding-003 large 模型來做向量比對，最後算出來的相關性是 64.1% (就是問題向量跟內容向量的 cos 值為 0.641)，檢索出來符合的結果只有這一筆。
@@ -917,7 +916,8 @@ The mass-energy equivalence principle is a cornerstone of the theory of relativi
 
 
 
-## 2-3, 建立文章向量化的資料庫 (Ingestion)
+## 2-3, 建立文章向量化的資料庫
+**Ingestion**
 
 ![](/wp-content/images/2024-03-15-archview-int-blog/2024-03-23-18-55-47.png)
 
@@ -1148,27 +1148,27 @@ namespace AndrewDemo.BlogCopilot.PostIndexer
 
 ```csharp
 
-            foreach(var post in GetBlogPosts(@"d:\CodeWork\columns.chicken-house.net\"))
-            {
-                count++;
-                Console.WriteLine($"import({count}): {post.PublishDate:yyyy-MM-dd} - {post.Title}");
+  foreach(var post in GetBlogPosts(@"d:\CodeWork\columns.chicken-house.net\"))
+  {
+      count++;
+      Console.WriteLine($"import({count}): {post.PublishDate:yyyy-MM-dd} - {post.Title}");
 
-                var tags = new TagCollection();
+      var tags = new TagCollection();
 
-                if (post.Tags != null) tags.Add("user-tags", post.Tags.ToList<string>());
-                if (post.Categories != null) tags.Add("categories", post.Categories.ToList<string>());
+      if (post.Tags != null) tags.Add("user-tags", post.Tags.ToList<string>());
+      if (post.Categories != null) tags.Add("categories", post.Categories.ToList<string>());
 
-                tags.Add("post-url", post.URL.ToString());
-                tags.Add("post-date", post.PublishDate.ToString("yyyy-MM-dd"));
-                tags.Add("post-title", post.Title);
+      tags.Add("post-url", post.URL.ToString());
+      tags.Add("post-date", post.PublishDate.ToString("yyyy-MM-dd"));
+      tags.Add("post-title", post.Title);
 
-                memory.ImportTextAsync(
-                    post.Content,
-                    $"post-{post.PublishDate:yyyy-MM-dd}",
-                    tags,
-                    null,
-                    null).Wait();
-            }
+      memory.ImportTextAsync(
+          post.Content,
+          $"post-{post.PublishDate:yyyy-MM-dd}",
+          tags,
+          null,
+          null).Wait();
+  }
 
 ```
 
@@ -1234,20 +1234,21 @@ Kernel Memory 實做的 TagCollection, 結構很單純，他是一個 TagKey, �
 匯入文件時，我寫了這樣的 code:
 
 ```csharp
-                var tags = new TagCollection();
-                if (post.Tags != null) tags.Add("user-tags", post.Tags.ToList<string>());
-                if (post.Categories != null) tags.Add("categories", post.Categories.ToList<string>());
-                tags.Add("post-url", post.URL.ToString());
-                tags.Add("post-date", post.PublishDate.ToString("yyyy-MM-dd"));
-                tags.Add("post-title", post.Title);
 
-                memory.ImportTextAsync(
-                    post.Content,
-                    $"post-{post.PublishDate:yyyy-MM-dd}",
-                    tags,
-                    null,
-                    null)
-                    .Wait();
+  var tags = new TagCollection();
+  if (post.Tags != null) tags.Add("user-tags", post.Tags.ToList<string>());
+  if (post.Categories != null) tags.Add("categories", post.Categories.ToList<string>());
+  tags.Add("post-url", post.URL.ToString());
+  tags.Add("post-date", post.PublishDate.ToString("yyyy-MM-dd"));
+  tags.Add("post-title", post.Title);
+
+  memory.ImportTextAsync(
+      post.Content,
+      $"post-{post.PublishDate:yyyy-MM-dd}",
+      tags,
+      null,
+      null).Wait();
+
 ```
 
 而在匯入後的資料片段 (就我上面貼的 json)，會長出這樣的結構:
@@ -1403,7 +1404,7 @@ Kernel Memory 把這機制保留下來了，而且在 SimpleVectorDB 裡面也�
 我算是有幸經歷過三種資料庫演進的年代，我就從 RDB，NoSQL，到 VectorDB 的演進，來談一下資料搜尋的進化吧。每次的進化都代表技術的演進，背後都有不同的象徵意義，代表著資料的儲存與查詢的層次改變。
 
 
-### RDB: 以表格 (Table) 為主的儲存結構
+### 3-1-1, RDB: 表格為主
 
 **表格，是最有效率的資料儲存方式，出發點是 storage / data structure 的最佳化，為的是效率與精確度的工程考量**
 
@@ -1412,7 +1413,7 @@ Kernel Memory 把這機制保留下來了，而且在 SimpleVectorDB 裡面也�
 table, 是最單純且有效率的結構。就如同程式語言最有效率的結構永遠都是 array 一樣，table 在資料庫就是同樣的存在。table 結構明確，容易做索引，也容易做各種 I/O 的優化。不過 table 結構離最終應用程式要使用的結構差距太遠 (為了把現實世界資料完美的放進 table, 做了過多的正規化，導致使用時必須做 join 來還原。許多 RDBMS 的限制都來自這裡)
 
 
-### NoSQL: 以文件 (Entity) 為主的儲存結構:
+### 3-1-2, NoSQL: 文件為主
 
 **物件/文件，是最理想的模型對應結構。應用程式都已 "物件" 的方式思考，而 "文件" 則是跟他一對一的存在。NoSQL 最大的改進就是讓工程師以模型來思考，而不是以怎麼拆解成 table 來思考的突破**
 
@@ -1421,7 +1422,7 @@ table, 是最單純且有效率的結構。就如同程式語言最有效率的�
 entity, 對應到程式語言的 object 可說是完整的對應, 省去過多的 "ORM" 操作，同時 entity 也較貼近應用程式最終使用資料的樣貌，nosql 對 join 的需求降低很多，各種分散式的最佳化也得以發展，在 cloud native 世代逐漸變成顯學，雖沒有完全取代 RDBMS，但是也發展出他不可取代的應用領域。
 
 
-### VectorDB: 以向量 (Vector) 為索引的儲存結構
+### 3-1-3, VectorDB: 以向量為索引
 
 **物件為主的儲存，加上向量索引，就是個理想的資訊儲存方式了。每個物件都有它的狀態 (entity)，而每個物件也在 embedding space 有它的意義 (vector) 存在，比起 RDBMS，NoSQL 更能完美的跟向量查詢搭配，一邊拿向量當作 AI 世界的索引，一邊拿 NoSQL 精確地描述物件的狀態**
 
@@ -1431,7 +1432,7 @@ entity, 對應到程式語言的 object 可說是完整的對應, 省去過多�
 
 然而，向量代表的主要是來自原始資訊 ( text, image 等等 ) 轉換成多維度空間結果，並沒有辦法還原成原始資訊的，因此，這類應用還是得依靠 RDB 或是 NOSQL，來做原始資料的儲存，以及額外的過濾等等的輔助機制。因此，向量資料庫不是取代傳統的資料庫，而是強化資料庫在 AI 世界運作的能力。你會看到各種主流服務，都積極的替自己的服務加上向量檢索的能力。就我看來，NoSQL + Vector 較有優勢，因為他們都是對應主體 ( entity, document ) 而設計的儲存方式，而 "向量"，則是這些主體，在語意上最有效率的索引，讓其他系統能快速準確地找出 "語意相近" 的資料。這整篇談的 RAG，就是這樣的應用。
 
-### 世代的改變
+### 3-1-4, 資料庫世代的改變
 
 對我來說，這三種世代的改變，不是新的取代舊的，而是新的資料儲存方式，提升了資料操作的層級。RDB 處理的就是一連串的 "欄位" 組合，基本上處理的單位就是程式碼的變數。而 NoSQL，處理的是一連串的 json document，基本上你可以把它看成程式碼的物件。而 VectorDB，處理的是 embedding space 內的 vector, 你可以把它看成處理他的語意，有能力判斷這段文章跟另一段文章是否相關這種層級的搜尋與操作。
 
@@ -1439,13 +1440,13 @@ entity, 對應到程式語言的 object 可說是完整的對應, 省去過多�
 
 所以，拆解出 AI 時代，各位都應該掌握的幾個關鍵元件:
 
-1. 向量化 (embedding):  
+1. **向量化** (embedding):  
 把資料轉成向量的關鍵。有各種技巧，包含 ML (machine learning) 等等，這些我沒有能力談，我只能用現成的模型來處理。後面範例我會用的是 Open AI 的 text-embedding-003 large model. 他的輸入是 text, 輸出是 vector, 主要的成本來自要處理的 input tokens 數。
 
-1. 向量資料庫:  
+1. **向量資料庫**:  
 用來儲存預先處理過的向量資料, 並且能有效率的查詢相近的向量
 
-1. 語言模型 (LLM):  
+1. **語言模型** (LLM):  
 有兩個用途，一個是將你的輸入 (詢問的自然語言) 的意圖抓出來，再把問題轉成向量 (這樣就能找出相近的其他向量)；接著再把查詢的結果對應到原始內容，這時你已經從幾百萬筆資料，濃縮到只有幾筆相近的資料了，再次靠 LLM 把這些問題與檢索結果彙整歸納成你要的答案
 
 這三者缺一不可，組合起來就能達到 "用嘴巴來找資料" 的期待。
@@ -1455,7 +1456,7 @@ entity, 對應到程式語言的 object 可說是完整的對應, 省去過多�
 除了 "儲存" 的方式改變之外，"查詢" 的方式，以及查詢用的 "語言" 也都有不同。這我後面分兩段來聊聊
 
 
-## 3-2, 從 "條件" 到 "語意" 的查詢方式
+## 3-2, 從 "條件" 到 "語意" 的查詢
 
 
 **SQL, 專屬的查詢語言**
@@ -1500,12 +1501,12 @@ filtering (過濾你要的 entity)
 這時，查詢方式已經進化到自然語言，或是提示工程 (prompt)，影響正確性的已經是模型的能力與訓練.. 你會發現這已經跨過開發的工程問題，真正已經轉移到語意的定義問題了，我覺得這真的是一大進步，開發人員終於要面對的是使用者的需求，而不再是替使用者跟電腦之間做溝通的橋樑。
 
 
-## 3-3, 從 "APP" 操作，到 "AGENT" 操作
+## 3-3, 從 "APP" 到 "AGENT" 的操作
 
 最後，聊一下我這次的選擇，我選用 GPTs，而沒有第一時間自己開發 "ASK" 的 UI ... 仔細想想，這兩個選擇不是只有 "哪個比較好" 的差別而已，想通了我才發現這是不同的目標跟策略下的對應作法。我用幾點來對照:
 
 
-1. 我是否需要 "對談式" 的介面? 
+1. **我是否需要 "對談式" 的介面**? 
 
 Chat GPT, 畢竟是個 "Chat", 先天就有上下文的處理。如果我自己的部落格要提供檢索的功能，第一件事應該是想: 我要用對談的方式? 還是問答的方式 (有個搜尋框，讓使用者在裡面填問題，就列出答案；每次問答之間是獨立的，沒有上下文關係) ?
 
@@ -1518,7 +1519,7 @@ Chat GPT, 畢竟是個 "Chat", 先天就有上下文的處理。如果我自己�
 再者，Chat GPT 有基本的個人 profile, 這些細節也許都能協助讓你的回答更貼近 user 的期待，這些都屬於 prompt engineering 微調的範圍內。其實你收集好這些資訊，下對 prompt，用同樣的 LLM ( GPT4 )，應該都能做到對等的效果。但是就看你要不要 (有沒有辦法) 收集到這些資訊啊! 這是平台化的威力，依附在某個平台，這些好處就是現成的。以我來說，只是個單純的部落格搜尋，應該沒有人想在我這邊留下 user profiles 吧..
 
 
-2. 我要誰來付擔 AI 推理的運算費用?
+2. **我要誰來付擔 AI 推理的運算費用**?
 
 接下來這是比較現實的問題，AI 的推論費用 ( token 費用 ) 很貴，由誰來支付? 你選擇的做法，背後就決定了這題 ...
 
@@ -1538,7 +1539,7 @@ Chat GPT, 畢竟是個 "Chat", 先天就有上下文的處理。如果我自己�
 
 
 
-3. 我想要的是 APP 還是 AGENT 操作?
+3. **我想要的是 APP 還是 AGENT 操作**?
 
 這題思考層面更大了，你想要的是網站的檢索功能? 還是獨立 APP? 還是是一個整合的 Agent ?
 
