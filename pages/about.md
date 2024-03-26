@@ -17,7 +17,7 @@ permalink: /about/
 ## 個人經歷:
 
 * 現任 [91APP](https://www.91app.com), 首席架構師 Chief Architect
-* 榮獲 [Microsoft MVP 微軟最有價值專家](https://mvp.microsoft.com/zh-tw/PublicProfile/5002155?fullName=Andrew%20%20Wu) 獎項,2016 ~ 2023
+* 榮獲 [Microsoft MVP 微軟最有價值專家](https://mvp.microsoft.com/zh-tw/PublicProfile/5002155?fullName=Andrew%20%20Wu) 獎項,2016 ~ 2024
 * 擔任多次 Microsoft Azure Cafe, TechDays, TechEd, DevOpsDays Taiwan, .NET Conf 等大型研討會講者，與相關 Azure PaaS 雲端系列課程與企業內訓講師
 
 
@@ -26,7 +26,7 @@ permalink: /about/
 * 安德魯的部落格 / [Facebook](https://www.facebook.com/andrew.blog.0928)
 * 安德魯的部落格 / [Blog](http://columns.chicken-house.net)
 * [GitHub](https://github.com/andrew0928)
-* [SlideShare](https://www.slideshare.net/chickenwu/presentations)
+* [LinkedIn](https://www.linkedin.com/in/andrew0928/)
 
 
 
@@ -37,6 +37,11 @@ permalink: /about/
 
  
 ### 演講錄影及下載:
+
+
+- [.NET Conf 2023](), 架構師也要 DevOps - 談模型的降級驗證技巧
+- [Microsoft Reactor](https://www.youtube.com/watch?v=k3-vspoHcuI), MVP 聚技站 - .NET C# 系列 4, 在 C# 控制台應用程式中使用變數
+- [DevOpsDays Taipei 2023](), 架構師也要 DevOps - 談服務模型的持續交付 ([共筆](https://hackmd.io/@DevOpsDay/2023/%2FRx1Z6uWySeaJoE-d-PZ42g), [回饋](https://www.facebook.com/andrew.blog.0928/posts/pfbid02ke45RD4ivBYGau3YaKKxNXCsbfsvLnPowTtgNatF5mxYJxqujrYqKXXE3gbGWLUsl))
 
 - [.NET Conf 2022](), API First, 從理想的 API Spec 設計開始
 - [Will 保哥的技術交流中心](), DevOps 潮流下的 API First 開發策略
@@ -71,7 +76,11 @@ permalink: /about/
 - [DevOps Taiwan](https://devopstw.club) 社群分享: [大型 Web Application 轉移到 微服務的經驗分享](https://www.slideshare.net/chickenwu/web-application-72464042), 2017/02/22 
 
 
- 
+
+### LLM 應用程式開發 系列文章
+
+{% include series-2024-llm-appdev.md mode="no_header" %}
+
 
 ### 微服務系列文章
 

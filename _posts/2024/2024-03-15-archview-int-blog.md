@@ -37,9 +37,7 @@ LLM 應用開發，來到第三篇。這篇我想談談 LLM 應用程式處理�
 
 如果你也想看看相關的文章，我把 Gen AI 主題系列文章列在這:
 
-1. [開發人員該如何看待 AI 帶來的改變?](/2024/01/15/archview-llm/)
-1. [替你的應用程式加上智慧! 談 LLM 的應用程式開發](/2024/02/10/archview-int-app/)
-1. 替你的應用程式加上智慧! 談 RAG 的檢索與應用 (就是這篇)
+{% include series-2024-llm-appdev.md mode="no_header" %}
 
 
 # 1. "安德魯的部落格" GPTs - Demo
