@@ -39,13 +39,13 @@ permalink: /about/
 ### 演講錄影及下載:
 
 
-- [.NET Conf 2023](), 架構師也要 DevOps - 談模型的降級驗證技巧
-- [Microsoft Reactor](https://www.youtube.com/watch?v=k3-vspoHcuI), MVP 聚技站 - .NET C# 系列 4, 在 C# 控制台應用程式中使用變數
+- [.NET Conf 2023](https://www.facebook.com/andrew.blog.0928/posts/869000775234735), 架構師也要 DevOps - 談模型的降級驗證技巧
+- [Microsoft Reactor](https://www.facebook.com/andrew.blog.0928/posts/848699790598167), MVP 聚技站 - .NET C# 系列 4, 在 C# 控制台應用程式中使用變數, [官方教材](https://learn.microsoft.com/zh-tw/collections/yz26f8y64n7k07?WT.mc_id=dotnet-35129-website&sharingId=AZ-MVP-5002155)
 - [DevOpsDays Taipei 2023](), 架構師也要 DevOps - 談服務模型的持續交付 ([共筆](https://hackmd.io/@DevOpsDay/2023/%2FRx1Z6uWySeaJoE-d-PZ42g), [回饋](https://www.facebook.com/andrew.blog.0928/posts/pfbid02ke45RD4ivBYGau3YaKKxNXCsbfsvLnPowTtgNatF5mxYJxqujrYqKXXE3gbGWLUsl))
 
-- [.NET Conf 2022](), API First, 從理想的 API Spec 設計開始
-- [Will 保哥的技術交流中心](), DevOps 潮流下的 API First 開發策略
-- [DevOpsDays Taipei 2022](), DevOps 潮流下的 API First 開發策略
+- [.NET Conf 2022](https://www.facebook.com/andrew.blog.0928/posts/604455578355924), API First, 從理想的 API Spec 設計開始
+- [Will 保哥的技術交流中心](https://www.facebook.com/andrew.blog.0928/posts/1752738905101380), DevOps 潮流下的 API First 開發策略
+- [DevOpsDays Taipei 2022](https://www.facebook.com/andrew.blog.0928/posts/1735039560204648), DevOps 潮流下的 API First 開發策略, [問券回饋 - Keynotes 最高分](https://www.facebook.com/andrew.blog.0928/posts/1769189283456342)
 
 - [.NET Conf 2021](), 微服務資料管理的天堂路 - CQRS / Event Sourcing 的應用與實踐
 - [DevOpsDays Taipei 2021](), 大型團隊落實 CI/CD 的挑戰
@@ -53,7 +53,7 @@ permalink: /about/
 - [STUDY4.TW]() [.NET Conf 2020](), 非同步系統的 SLO 設計
 - [STUDY4.TW]() [.NET Conf 2020](), 刻意練習, 抽象化能力的鍛鍊
 
-- [91APP TechDay], 非同步系統的服務水準(SLO)保證
+- [91APP TechDay](), 非同步系統的服務水準(SLO)保證
 * 投影片下載: https://www.91app.tech/slides/2020h2-tech-day
 
 - [STUDY4.TW]() [.NET Conf 2019](), 大規模微服務導入 1 / 2
@@ -92,7 +92,7 @@ permalink: /about/
 {% include series-2008-good-programmer.md mode="no_header" %}
 
 
-### 架構師觀點
+### 架構師觀點 [清單](/categories/#%E7%B3%BB%E5%88%97%E6%96%87%E7%AB%A0:%20%E6%9E%B6%E6%A7%8B%E5%B8%AB%E8%A7%80%E9%BB%9E)
  
 {% include series-2019-archview.md mode="no_header" %}
 
