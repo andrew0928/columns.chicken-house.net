@@ -9,8 +9,12 @@ comments_disqus: false
 comments_facebook: false
 comments_gitalk: false
 redirect_from:
-logo: 
+logo: /wp-content/images/2024-07-20-devopsdays-keynote/2024-07-25-20-19-06.png
 ---
+
+
+![](/wp-content/images/2024-07-20-devopsdays-keynote/2024-07-25-20-19-06.png)
+
 
 這篇的內容，是我在今年 DevOpsDays Taipei 2024 擔任 Keynoye 演講 + 時間不夠被我略過的部分寫下來的文章。延續 2022, 2023 談的 "API First", 延伸到 AI 應用程式開發，正好銜接到我半年前在研究的 LLM App 時寫的三篇文章內容, 這次投稿就用了這標題 "從 API First 到 AI First" 來聊聊這內容。
 
@@ -18,7 +22,7 @@ logo:
 
 這整篇的心得，其實摘要起來只有一段話，就是: 
 
-> 未來 AI 充分運用在各個領域的年代，你現在的軟體開發基礎只會越來越重要。
+> 未來 AI 充分運用在各個領域的年代，你現在的軟體開發基礎只會越來越重要。  
 > 要確保未來 AI 盛行的世代還保有競爭力，請把基礎的功夫做好。
 
 <!--more-->
@@ -27,15 +31,17 @@ logo:
 
 這些體驗，我更確定了這篇文章我想傳達的兩個觀點:
 
-1. 當 coding 可以量產的時候, 會決勝的是抽象化設計的品質 (能否被高效率 reuse 才是關鍵, 一次性 / 客製化的 code, AI 會寫得比你好)
-1. 當 coding 速度不再是瓶頸的時候, 基礎建設與架構的設計決策會是關鍵 (你是否能有系統有效率的管控 AI 相關的基礎元件? 包含 CI / CD 的 pipeline? 對於 AI 最重要的數據與模型, 你知道該如何 DevOps 嗎?)
+1. **當 coding 可以量產的時候, 會決勝的是抽象化設計的品質**  
+(能否被高效率 reuse 才是關鍵, 一次性 / 客製化的 code, AI 會寫得比你好)
+1. **當 coding 速度不再是瓶頸的時候, 基礎建設與架構的設計決策會是關鍵**  
+(你是否能有系統有效率的管控 AI 相關的基礎元件? 包含 CI / CD 的 pipeline? 對於 AI 最重要的數據與模型, 你知道該如何 DevOps 嗎?)
 
-在我寫這篇文章的時候，正好看到這篇 [貼文](https://www.reddit.com/r/ycombinator/comments/1e7rtdw/feeling_very_powerful_as_a_technical_founder_with/)，驗證了我的觀點。 
-
-感謝好心人 [蕭上農] 給了中文的註釋，留言的討論也都是中文的, 我直接附上 [連結](https://www.facebook.com/share/p/owakHVUQb5XAMUck/)
+在我寫這篇文章的時候，正好看到這篇 [貼文](https://www.reddit.com/r/ycombinator/comments/1e7rtdw/feeling_very_powerful_as_a_technical_founder_with/)，驗證了我的觀點。感謝好心人 [蕭上農] 給了中文的註釋，留言的討論也都是中文的, 我直接附上 [連結](https://www.facebook.com/share/p/owakHVUQb5XAMUck/)
 
 整串討論下來，我摘要我最有感的部分:
 
+> ...
+>
 > 我認為一件非常重要的事是，你需要對你的應用程式架構有非常好的掌握，不僅是大局，還包括更具體的程式碼相關事項，如你處理數據獲取的設計模式等。如果你在這方面缺乏經驗（這是透過成為一個優秀的程式開發者獲得的），而只是使用 Claude，我認為程式庫通常會變得過於雜亂和複雜，導致日後難以進行修改。
 >
 > ... (略) ...
@@ -45,36 +51,59 @@ logo:
 > ... (略) ...
 >
 > 我同意你的看法，你仍然需要做出架構決策。只是現在實際的實施部分變得如此快速。
+>
+> ...
 
-
-看到這裡，認同我的觀點，那就繼續往下看吧!
-
-本文正式開始 : )
+看到這裡，認同我的觀點，那就繼續往下看吧! 本文正式開始 : )
 
 
 # 1. 寫在前面
 
-// P2
+前情提要的部分我就直接略過了 (演講當下不是每個人都聽過我過去的場次，總是要交代一下)，我直接給參考資料，有興趣的朋友自己看。前情提要主要包含 2021 ~ 2023, 連同今年 2024 的內容:
 
-前情提要的部分我就直接略過了 (演講當下不是每個人都聽過我過去的場次，總是要交代一下)，我直接給參考資料，有興趣的朋友自己看。前情提要主要包含 2021 ~ 2023 的內容:
+- 2024: **從 API First 到 AI First**
+    - [演講簡報](https://docs.google.com/presentation/d/10o1VN0Q-97eTwYN_N-UP8pzLlxrxSBJbfXCcq0mTEDk/edit?usp=sharing)
+    - [大會共筆](https://hackmd.io/@DevOpsDay/2024/%2F%40DevOpsDay%2FSylpzzOL0)
+- 2023: **架構師也要 DevOps - 談服務模型的持續交付**
+    - [演講簡報](https://docs.google.com/presentation/d/1-bZvI5B5gToB2BjvR3SUS2vM5KurnFH01tT9PESJOH0/edit?usp=sharing)
+    - [大會共筆]( https://hackmd.io/@DevOpsDay/2023/%2FRx1Z6uWySeaJoE-d-PZ42g)
+    - [演講後心得文](https://www.facebook.com/andrew.blog.0928/posts/pfbid02kQXWAz1RyzgX8o2cWEdM1PAujF8rZVzJ8W1vsxXLD54BawQwKyJy33FxpR1iVo3bl)
+- 2022: **DevOps 潮流下的 API First 開發策略**
+    - [演講簡報](https://www.facebook.com/andrew.blog.0928/posts/pfbid02Du2gpZ8nD3XPmfULAyHNs4DBAGDKHsHKpNP84QhBTN7NJ9UUr4nGzoKeCjhHj4wPl)
+    - [大會共筆](https://hackmd.io/@DevOpsDay/2022/%2F%40DevOpsDay%2FryaejF6ei)
+    - Will 保哥的技術交流中心 [直播錄影](https://www.facebook.com/andrew.blog.0928/posts/pfbid0wsyjsDxvjG8b2VpvtgQxjkcnaZsE5LF4FJDW18yCUdU2oGkvQDDPSPdBMxqv7pe7l)
+    - [演講後心得文](https://www.facebook.com/andrew.blog.0928/posts/pfbid0fjBfC88n6Q8WuwsvZbaJQSGNGK8K8j5RRLGLSfECK3NhC6TiQcLmbg6cp86gyyGSl)
+- 2021: **大型團隊落實 CI/CD 的挑戰**
+    - [演講簡報](https://docs.google.com/presentation/d/1OIfx3BN2ZV7OPwAACk6SwrsPvxtOEuGqH8AWPodmaIk/edit#slide=id.g1017f446193_0_114)
+    - [大會共筆](https://hackmd.io/RFrmQotZQjKQJZExFJWvmA)
+    - [演講後心得文](https://www.facebook.com/andrew.blog.0928/posts/pfbid02kANcEBdryJ4rcuGeyCTp6QDeKLBjU2SoTxL3QCX45z3wk5jtHZnGDjL1cBeuBvuyl)
 
-* 2023:
-* 2022:
-* 2021:
 
-這篇我準備了幾個我為了 PoC 做的 DEMO (主要是 GPTs 的形式) 來帶出我想談的幾個議題:
+本文相關的四篇文章，我也一起放在這邊:
 
-1. 由自然語言處理能力的進步，所帶來的 UX 改變 ( demo #1 )
-1. (延伸) 由自然語言處理能力, 掌握使用者的滿意度; 精準地做到個人化 ( demo #2 )
-1. AI 作為輔助的角色 ( copilot ) 的應用情境, 說明應用程式架構該如何整合 LLM，以及開發人員該具備的基本設計技巧 ( demo #3 )
-1. AI 處理資料的基本技巧 ( demo #4 )
+- 2023/01, [架構師觀點 - API Design Workshop](/2023/01/01/api-design-workshop/)
+- 2024/01, [架構師觀點 - 開發人員該如何看待 AI 帶來的改變?](/2024/01/15/archview-llm/)
+- 2024/02, [替你的應用程式加上智慧! 談 LLM 的應用程式開發](/2024/02/10/archview-int-app/)
+- 2024/03, [替你的知識庫加上智慧! 談 RAG 的檢索與應用](/2024/03/15/archview-int-blog/)
 
-DEMO 的過程，我會穿插說明背後用到的技術與觀念的改變。文章第四段，會提到我老闆 Happy 在 Generative AI 年會 ( 2024 / 05 ) 也談到 "零售業該如何應用 AI" 的案例。這題目正好是我這場的最佳應用。兩者一起看，你會發現，原來活生生的應用案例，就是這樣跟基礎的技術發展搭配起來的。
+
+
+
+這篇我準備了幾個我為了 PoC 做的 4 個 DEMO (主要是 GPTs 的形式) 來帶出我想談的幾個議題:
+
+1. DEMO #1, 由自然語言處理能力的進步，所帶來的 UX 改變
+1. DEMO #2, 由自然語言處理能力, 掌握使用者的滿意度; 精準地做到個人化
+1. DEMO #3, AI 作為輔助的角色 ( copilot ) 的應用情境, 說明應用程式架構該如何整合 LLM，以及開發人員該具備的基本設計技巧
+1. DEMO #4, AI 處理資料的基本技巧
+
+DEMO 的過程，我會穿插說明背後用到的技術與觀念的改變。文章第四段，會提到我老闆 Happy 在 Generative AI 年會 ( 2024 / 05 ) 也談到 "[零售業的 AI 產業應用 - AI 可以幫助做銷售嗎？](https://videos.gaiconf.com/view/gaiconf2024-04)" 的案例。這題目正好是我這場的最佳應用。兩者一起看，你會發現，原來活生生的應用案例，就是這樣跟基礎的技術發展搭配起來的。
 
 演講當下我覺得很可惜，這段實際應用案例的串聯因為時間關係沒有講到，其實這關聯才是關鍵。部落格文章的部分，我就把這段補回來了。就算你當下有在台下聽我 DevOpsDaysTaipei 的這場 Keynote 演講，我也建議你再看一次這篇文章，我相信你會多看到 (體會) 到不一樣的內容。
 
 
-// P5
+![](/wp-content/images/2024-07-20-devopsdays-keynote/2024-07-25-20-18-06.png)  
+// 簡報 P5
+
 
 Generative AI 對大部分的軟體開發人員 (除了本來就在鑽研 AI 相關領域的之外) 而言，都算是新東西。面對新東西，社群與新聞媒體的討論自然也很熱烈。不過我很在意其中一點，就是在社群與媒體上，大家討論的熱度都集中在: 
 
@@ -86,11 +115,11 @@ Generative AI 對大部分的軟體開發人員 (除了本來就在鑽研 AI 相
 
 業界在 AI 投入了那麼多資金在建立算力，在發展模型，不過創造出來的運算能力卻還沒有足夠多的應用程式來善用他，需要大量的軟體開發人員投入研究，如何有效的把 AI 應用在你自己的產品服務上。為了想通這些問題，我逐一問自己:
 
-1. 當模型 (LLM) 越來越強:  
+1. **當模型 (LLM) 越來越強**:  
 我有需要從頭訓練自己的模型嗎? 如果業界的模型成熟到某一個程度，我會知道我該拿它來幹嘛嗎?
-1. 當 GPU / NPU / CPU 的運算能力越來越強:  
+1. **當 GPU / NPU / CPU 的運算能力越來越強**:  
 等到 AI 算力普及了 ( 雲端的 token 夠便宜、雲端的 GPU 算力夠便宜、終端的 NPU 夠普及 )，我想好我的產品或服務該如何運用它了嗎?
-1. 當 AI 相關工具的成熟:  
+1. **當 AI 相關工具的成熟**:  
 現在的 AI 相關工具，都在強化 "你" 自身的能力，讓你做現在的工作能有 10x 效率，但你準備好拿 AI 發展自己的服務，來寫未來其他人需要的 code 了嗎? 如果是，你該多學習什麼?
 
 這些問題還沒有標準答案，不過我自己的想像，就在這篇文章內了。
@@ -99,22 +128,38 @@ Generative AI 對大部分的軟體開發人員 (除了本來就在鑽研 AI 相
 
 # 2. 示範案例: 安德魯小舖 GPTs
 
+![](/wp-content/images/2024-07-20-devopsdays-keynote/2024-07-25-23-25-22.png)  
+// 簡報 P12
+
+首先登場的，是先前我已經發表過的 GPTs, [安德魯小舖](https://chatgpt.com/g/g-Bp79bdOOJ-an-de-lu-xiao-pu-v5-2-0)。他已經上架到 ChatGPT 的 GPT Store , 如果你看了我的介紹跟 DEMO 感興趣也可以親自體驗看看。不需要 GPT plus 訂閱就可以使用 (只是有額度限制)，不需要註冊安德魯小舖的帳號，需要登入的話直接挑一個你喜歡的 ID 就可以。
+
+![](/wp-content/images/2024-07-20-devopsdays-keynote/2024-07-25-23-29-23.png)  
+// 簡報 P13
+
+
+
 有看過我前面幾篇文章的朋友，應該對 "安德魯小舖 GPTs" 不陌生吧! 半年前第一次發表，時隔半年至今，基本結構沒有太大改變，但是我多嘗試了幾種應用方式。基本能力介紹我就不再多說，有興趣的可以參考這一篇，第一段我都在介紹這個應用:
 
-* [架構師觀點 - 開發人員該如何看待 AI 帶來的改變?](/2024/01/15/archview-llm/)
+![](/wp-content/images/2024-01-15-archview-llm/2024-01-20-12-29-24.jpg)  
+#安德魯的部落格, [架構師觀點 - 開發人員該如何看待 AI 帶來的改變?](/2024/01/15/archview-llm/)
 
 
 ## 2-1, 出一張嘴就能買東西的魔法 DEMO
 
+![](/wp-content/images/2024-07-20-devopsdays-keynote/2024-07-25-23-32-30.png)  
+// 簡報 P14
+
 不過，DEMO 的腳本我還是有重新設計。為了方便在 Keynote 當下展示，我預先錄好了影片，也做了案例說明簡報，大家可以對照看。簡報左邊我標上影片的時間跟對應的案例情境，右邊則是實際的影片播放。
 
-// P15
+![](/wp-content/images/2024-07-20-devopsdays-keynote/2024-07-25-20-18-29.png)  
+// 簡報 P15
 
 
 我直接把 DEMO 影片拿出來放這邊:
 
 <iframe width="384" height="456" src="https://www.youtube.com/embed/9f-dv98DQZ8" title="DevOpsDays2024-DEMO1" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-
+<br/>
+<br/>
 
 這個 DEMO 我示範了三個情境:
 
@@ -130,13 +175,15 @@ Generative AI 對大部分的軟體開發人員 (除了本來就在鑽研 AI 相
 
 多了這層 "意圖" 的轉譯，我覺得是個很大的變革了。這背後主要的機制都是 LLM 帶來的改變，如何從對話解析出意圖，然後呼叫對應 API 的一連串機制。簡報的 P15 ~ P18 主要是說明我做了哪些準備，才完成這個 GPTs 的。這些細節其實在上面那篇文章說明過了，這裡就先跳過。
 
-在後面第三章的部分，我會有一段說明 AI 開發的基礎技能，那邊會再談談 LLM 是如何從單純的對話解析，逐步演進到有能力進行 function calling ( 或是有的 AI 廠商稱為: tool using，講白話就是讓 AI 自己判斷他該呼叫那些 API 來完成任務 )。
+在後面第三章的部分，我會有一段說明 AI 開發的基礎技能，那邊會再談談 LLM 是如何從單純的對話解析，逐步演進到有能力進行 function calling ( OpenAI 稱為 [function calling](https://platform.openai.com/docs/guides/function-calling), Anthropic 稱為: [tool use](https://docs.anthropic.com/en/docs/build-with-claude/tool-use)，講白話就是讓 AI 自己判斷他該呼叫那些 API 來完成任務 )。
 
 
 
 ## 2-2, 透過 AI 來提升使用者體驗
 
-// P19, 降維打擊
+![](/wp-content/images/2024-07-20-devopsdays-keynote/2024-07-25-20-19-40.png)  
+// 簡報 P19, 降維打擊
+
 
 從結果來看，安德魯小舖 GPTs 比一般的購物網站做得好的地方，就是 "精確的對話回應" 吧。由於能理解意圖並且代替客戶操作網站就能完成下訂單的過程，我暫且把這結果當作 "使用者體驗大幅提升" 吧。這時，我回頭想:
 
@@ -152,24 +199,35 @@ Generative AI 對大部分的軟體開發人員 (除了本來就在鑽研 AI 相
 
 我用兩頁簡報來總結這些想法:
 
-// P20, P21
+![](/wp-content/images/2024-07-20-devopsdays-keynote/2024-07-25-20-20-06.png)  
+// 簡報 P20
+
+![](/wp-content/images/2024-07-20-devopsdays-keynote/2024-07-25-20-20-22.png)  
+// 簡報 P21
 
 除了前面聊到的，還有一些較瑣碎的觀點，我一起列在這邊:
 
-* 以 LLM 改善 UX 的路線:  
+* **以 LLM 改善 UX 的路線**:  
 這方式靠的是 LLM 理解對話上下文的能力，邏輯推論的能力，再搭配呼叫 API 執行動作的能力組合而成的。這些能力組合起來，你會開始有種錯覺，GPTs 聽得懂你 "想" 幹嘛，同時還能 "替你" 代勞操作系統 (挑選商品，加入購物車，結帳)。
-* 過去的程式，都沒有 "真正" 去 "理解" 使用者的意圖:  
+* **"真正" 去 "理解" 使用者的意圖**:  
 現有系統靠的都是大量的流程與介面 "引導"，搭配統計數據去推測使用者意圖而設計的。一來不夠直接，驗證很花時間；二來小眾的想法容易被忽略，因為這些小眾的需求不容易在統計數據與行為追蹤被凸顯出來，自然就不會被設計在 UI 內解決。透過 LLM 直接解析個別對話的做法，恰巧避開了這些盲點，因此這也是我所謂 "不同維度" 就是這個意思。
-* 現在開始評估用新的做法 (AI):  
+* **現在開始評估用新的做法 (AI)**:  
 目前 AI 還不夠成熟，速度也慢，費用也高。不過這些問題會在未來被解決掉。到我寫這篇文章為止 (2024/07)，產業大老說 AI 運算能力每 2 年會提升 10 倍，OpenAI 每次的更新都會讓模型的費用減半，速度提升，功能提升，而 CPU + NPU 廠商也不斷地在提升終端設備 AI 的推論能力，這些 LLM 的推論可能都不再需要支付雲端費用..。
 
 
 
-## 2-4, 偵測購買滿意度的魔法 Demo
+## 2-4, 偵測購買滿意度的魔法 DEMO
 
 接著繼續往 AI 改善 UX 這方向嘗試，這次的情境是:
 
-// P23
+![](/wp-content/images/2024-07-20-devopsdays-keynote/2024-07-25-20-20-43.png)  
+// 簡報 P23
+
+
+DEMO 的影片我放在這裡:
+<iframe width="384" height="456" src="https://www.youtube.com/embed/LJ9TgVBVTXs" title="DevOpsDays2024-DEMO2" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+<br/>
+<br/>
 
 這次我想挑戰兩個期待:
 
@@ -178,14 +236,15 @@ Generative AI 對大部分的軟體開發人員 (除了本來就在鑽研 AI 相
 
 同樣的，各位對比一下，想要做到個人化 & 滿意度回饋，現在是怎麼做的?
 
-1. 收集數據:  
+1. **收集數據**:  
 包含: 購買內容，操作行為，跨站的追蹤，廣告喜好等等，善用各種大數據或是機器學習的技巧來替使用者貼標分類
-1. 指標監控:  
+1. **指標監控**:  
 監控: 跳出率，轉換率等。用各種監控指標，來看看某些特定商品，或是某些介面或功能設計，是否更獲得使用者喜好?
-1. 滿意度問券:  
+1. **滿意度問券**:  
 設計問券，並且搭配各種誘因 (例如給五星好評送小菜，填問券送贈品或是累計點數) 讓使用者願意回饋評分或是評價
 
-不過，經過前面 UX 的思考，我開始也有同樣的感覺: 
+不過，經過前面 UX 的思考，我開始也有同樣的感覺:  
+
 這也是透過大量事前的布置，或是事後的統計，試圖在外圍累計的數字上來 "猜測" 使用者真正的想法。而在這樣的量化指標下，也開始有偏差的做法 (例如餐廳要你給五星好評才送你小菜，這樣的評價還是真的評價嗎?)。然而是否有機會跟前面案例一樣，如果有了成熟的 LLM，能否直接從赤裸裸的上下文紀錄，捕捉到使用者背後的情緒，喜好，感受?
 
 現在的 LLM "可以" 做得到，但是做的還不夠好，不過我還是做了嘗試。我賭的是: 好不好的問題，時間會解決 (對，我就相信還沒踩到理論極限，就交給訓練大模型的 AI 大廠吧)，然而可不可行這件事，程式該怎麼寫，系統該怎麼設計，我覺得現在就能開始嘗試了。嘗試的結果，我發現事情遠比我想像的簡單得多... (作法很簡單，但是正確性還有待提升)。
@@ -194,9 +253,11 @@ Generative AI 對大部分的軟體開發人員 (除了本來就在鑽研 AI 相
 
 
 > 情境: 使用者說明自身喜好，店長推薦商品。店長自己記下會員摘要註記 (下次會記得)
+
 // 驗證結果: GPTs 從對話過程中，擷取並摘要我的喜好描述 "架構師，喜歡在專心思考時喝綠茶，週末放鬆時喝可樂。"，並且呼叫 API 記錄在我的客戶註記欄位
 
 > 三天後使用者再次來訪，只描述情境，店長能根據使用者喜好 (上次留下的註記) + 情境給予推薦商品
+
 // AI 在我詢問內容，要回答我之前，先嘗試透過 API 讀取我的客戶註記資訊，並且把它併入上下文，綜合之後給我推薦建議，並且代替我執行對應的 API
 
 
@@ -204,17 +265,20 @@ Generative AI 對大部分的軟體開發人員 (除了本來就在鑽研 AI 相
 
 // 結帳完成後，AI 總結這次購物過程的對話歷程，擷取並且摘要跟 "滿意度" 相關的註記，並且給了一個主觀的分數，呼叫 API 註記在訂單身上
 
+
+
+
 ## 2-5, 再來一次, 你覺得 UX 夠好嗎?
 
-這個案例，我看到幾個地方:
+從這個案例，我看到幾個地方:
 
-* 從數據統計，到 LLM 判斷使用者體驗:  
+* **從數據統計，到 LLM 判斷使用者體驗**:  
 同樣的，這是事前 / 事後，靠統計 / 靠當下情境判斷 + AI 的差別。我認為這也是不同維度的做法了，不是取不取代的差別。你沒有必要捨棄目前已經運作得很好的做法，而是做好準備，用新方法來面對既有作法改善不到的環節。
 
-* 從數據推薦，到 LLM 判斷喜好後量身訂做推薦:  
+* **從數據推薦，到 LLM 判斷喜好後量身訂做推薦**:  
 同樣的模式，只是都把資訊轉成自然語言，一切交給 LLM 來判斷 (這邊應該要善用 Embedding, 類似 RAG 的做法, 但是我 PoC 沒有處理這段)
 
-這實驗結果，給我的感覺就像是老練的業務員，他會有先天敏銳的直覺，就能察覺客人背後的想法，同樣的客戶給他服務，業績就是會比較好 (完全無關數據統計)。其實這也是需要數據 (經驗) 的累積，只是收集的數據是這業務員一輩子的經歷訓練出來的模型 (在業務員的腦袋內)，而不是在這個系統內的大數據。現在 LLM 發展的路線，就是用全世界的資料來訓練 (而不是為了你的系統滿意度來訓練)，這規模的大模型，開始會有機會跟上資深業務員的判斷能力，而我只是撿現成，拿這樣規模的模型來解這問題而已。
+這實驗結果，給我的感覺就像是老練的業務員，他會有先天敏銳的直覺，就能察覺客人背後的想法，同樣的客戶給他服務，業績就是會比較好 (完全無關數據統計)。回到頭來，其實業務員的經驗也是需要數據 (經驗) 的累積，只是收集的數據是這業務員一輩子的經歷訓練出來的模型 (存在業務員的腦袋內)，而不是在這個系統內的大數據。現在 LLM 發展的路線，就是用全世界規模的資料來訓練 (而不是為了你的系統滿意度來訓練)，這規模的大模型開始會有機會跟上資深業務員的判斷能力，而我只是撿現成，拿這樣規模的模型來解這問題而已。
 
 我看到的改變，也是不同 "維度" 的做法。維度的差距也出現在模型的規模。從單一系統累積的數據用機器學習訓練 (ML，自己收集資料，自己訓練模型，自己預測解讀結果)，改為用世界級的資料訓練的大模型 LLM 來解析 (LLM，AI 廠商收集資料，訓練出通用的大模型，軟體開發商拿來解讀單次歷程背後隱藏的訊息)。AI 模型訓練更往前了，模型訓練規模更大了，而模型的效益也更通用了，後面的應用就直接拿案例 + 自訂的 Prompt 就能得到結果了，這就是不同規模的競賽。比起來應用的層次不同了，解讀資訊的層級也不同了，才會造成這樣的落差。
 
@@ -225,13 +289,17 @@ Generative AI 對大部分的軟體開發人員 (除了本來就在鑽研 AI 相
 
 ## 2-6, 小結
 
-// P25
+![](/wp-content/images/2024-07-20-devopsdays-keynote/2024-07-25-20-23-25.png)  
+// 簡報 P25
 
-還是要強調一次, 我寫的 DEMO 只是 "概念驗證" (POC) 的程度而已，要搬上正式環境還遠遠不及格。不是要你現在就用這方法改掉你既有的 code ... LLM 的成熟會帶來很多本質上的做法改變，這會發生在各個環節上，不只軟體開發。我只是把它拿來應用在我的服務本身而已。我嘗試將 LLM 納入服務內，試試用 LLM 來解決過去別的方式解決的 UX 問題。
+
+還是要強調一次, 我寫的 DEMO 只是 "概念驗證" (PoC) 的程度而已，要搬上正式環境還遠遠不及格。不是要你現在就用這方法改掉你既有的 code ... LLM 的成熟會帶來很多本質上的做法改變，這會發生在各個環節上，不只軟體開發。我只是把它拿來應用在我的服務本身而已。我嘗試將 LLM 納入服務內，試試用 LLM 來解決過去別的方式解決的 UX 問題。
 
 我的目的是點出 "變革" 的可能性，你留意到哪些地方可能在未來發生變革嗎?
 
-我看到的是: LLM 開始有能力 "自主判斷" 該呼叫那些 API 了，這會串起 "對話" 跟 "任務" 中間的關聯，也是你開始可以用 "對話" 來執行 "任務" 的關鍵環節。而現在的 LLM 已經足以勝任這任務，這很快會變成所有開發人員必須具備的技能 (門檻很低啊，你不用嗎?)
+我看到的是:  
+
+LLM 開始有能力 "自主判斷" 該呼叫那些 API 了，這會串起 "對話" 跟 "任務" 中間的關聯，也是你開始可以用 "對話" 來執行 "任務" 的關鍵環節。而現在的 LLM 已經足以勝任這任務，這很快會變成所有開發人員必須具備的技能 (門檻很低啊，你不用嗎?)
 
 過去 API 設計好壞，談的是 DX (Developer Experience)。想想看，你過去設計 API 在意的是什麼? 可讀性? 一致性等等。現在，會有越來越多來自 AI 呼叫你的 API 的場景了 (而且我預期會快速增加，尤其是越靠近使用者端的 API 越是如此)，你設計的 API 該考量什麼?
 
@@ -242,6 +310,7 @@ Generative AI 對大部分的軟體開發人員 (除了本來就在鑽研 AI 相
 不同層次的作法，對我來說就是不同的維度。多一個維度所有的效益都是 "乘法"，而不是 "加法"。用的好的話，你的效益會加成；用的不好，會加成的是複雜度或是成本... 該如何選擇，我後面再聊。
 
 最後一句話總結，也是我在 DevOpsDays 台上講的結論:  
+
 別小看跨維度的差距。多一個維度帶來的差距就是這麼大，站在三次元的視角是可以完全輾壓二次元的生物的 (這就是所謂的: 降維打擊)
 
 // 不對，夠宅的話就會有人說: 2 次元的老婆可以輾壓 3 次元的老婆 XDDD
@@ -250,9 +319,12 @@ Generative AI 對大部分的軟體開發人員 (除了本來就在鑽研 AI 相
 
 # 3. 軟體開發還是你想像的樣貌嗎?
 
-看完兩個 demo, 歸納一下想法，然後帶出我認為的軟體開發樣貌會如何改變:
+看完兩個 DEMO, 歸納一下想法，然後帶出我認為的軟體開發樣貌會如何改變:
 
-// P27
+![](/wp-content/images/2024-07-20-devopsdays-keynote/2024-07-25-20-24-17.png)  
+// 簡報 P27
+
+
 
 感想只有一個，就是現在 AI 的發展已經到 "已知用火" 的階段。你給他合適的工具，告訴他你的需要，然後他就開始懂得如何使用工具來為你做事了。不過我覺得現在的 LLM 做這些事還在幼兒階段，做的還不夠好，因此你有這些地方要留意:
 
@@ -275,16 +347,17 @@ https://www.techbang.com/posts/116944-which-number-is-higher-911-or-99-this-simp
 
 因此，擴大這個主題，也就是這篇文章的標題，開始來看看 "如何" 從 API First 到 AI First.
 
-// P28
+![](/wp-content/images/2024-07-20-devopsdays-keynote/2024-07-25-20-24-36.png)  
+// 簡報 P28
+
 
 先從你如何看待 API，以及你該改掉的一些壞習慣開始。投影片其實都有寫摘要了，所以我直接講我的想法:
 
-第一個壞習慣: "檯面下的溝通"
 
+第一個壞習慣, **"檯面下的溝通"**:  
 尤其是內部的 API，或是非 100% 公開的 API 更是如此，因為要呼叫你 API 的是其他 "人"，只要這些 "人" 的數量是可控的，例如限定內部使用的 API，使用的人就是你隔壁部門的幾個 RD；或是限定合作夥伴的 API，會呼叫的就是它們的 RD (如果兩邊地位不平等就更明顯了，我有 BUG 的地方你給我繞過去 blah blah blah ...)
 
-再來，API 設計過度像目前的使用案例偏斜
-
+再來，**"API 設計過度向目前的使用案例偏斜"**:  
 典型的就是 UI 跟 API 的戰爭。這也是去年、前年那兩場我在聊的主軸，API 該做的是把你的 domain service 用 API 型態開放出來，而不是把你現在的 Application UI 能做的事情開放出來。兩者不完全重疊，但是沒分清楚就足以讓你的 API 完全沒達到他該發揮的效益。
 
 我最常看到的狀況，就是 API 過度為了配合 UI 的用法，多了一些 "捷徑"。例如 UI 需要一次取得三個服務的資訊，UI team 覺得呼叫三次太麻煩，就要其中一個服務先整好再給他...。
@@ -299,17 +372,18 @@ https://www.techbang.com/posts/116944-which-number-is-higher-911-or-99-this-simp
 
 因此，這些壞習慣，其實都建立在用 "檯面下的溝通" 來迴避設計或架構問題。我要很直接地告訴各位，這些做法在 AI 都行不通。不是不能跟 AI 溝通，而是本末倒置，效果大打折扣，不如不做。如果你要認真為了下個世代的基礎做準備，請好好看待你的 API。有兩個面向一定要注意:
 
-1. 做到合情合理:  
+1. **做到合情合理**:  
 做到你的 API 規格讓 AI 一看就懂 ( LLM 都是由一堆 "常理" 訓練出來的，你設計邏輯越符合 "常理" 越不會出錯)。
 
-1. 做到足夠 "可靠":  
+1. **做到足夠 "可靠"**:  
 做到 API 即使被胡亂呼叫，該守住的邊界一定要守住，要做到不容許有任何例外的狀況 (難保你不會被 AI 找到漏洞)。例如你 APIKEY 明明沒給的權限，不要被找到奇怪的呼叫順序，就能做到不該做的操作；或是有限的 API 不正常的呼叫就會導致資料損毀 (必須去後台修理之類的狀況)。
 
 
 
 如果你沒看過我之前談的 API First Workshop, 投影片的 P30 ~ P36, 或是參考我這篇文章都可以:
 
-* [API First Workshop]()
+![](/wp-content/images/2023-01-01-api-design-workshop/slides/slides-01.png)  
+#安德魯的部落格: [架構師觀點 - API Design Workshop](/2023/01/01/api-design-workshop/)
 
 我花了不少篇幅在闡述如何設計，你的 API 的介面才會夠可靠。簡單的說就是從狀態機出發，因為:
 
@@ -322,10 +396,11 @@ https://www.techbang.com/posts/116944-which-number-is-higher-911-or-99-this-simp
 
 試想一下，如果你不顧好 API 的設計品質，交給 AI 使用會發生什麼狀況?
 
-1. 你得寫一堆 prompt 額外告訴 AI 要閃開哪些行為...
+1. **你得寫一堆 prompt 額外告訴 AI 要閃開哪些行為**...  
 不過，這些你原本會乖乖地寫在 API documentation 上嗎? 會的話直接餵給 AI 倒是還好 (就是多花 token 費用而已)，不會的話你終究還是要寫 prompt ( instructions ), 也就是你還是得寫文件。
 
-1. 設計不佳的 API，你要更多的引導才能讓 AI 正確使用。例如我曾經嘗試過一個版本的 CRUD API (我定義 訂單 的 schema，然後 EF core + ASP.NET 自動幫我產生 CRUD API ... )，慘不忍睹，我寫了一堆文件告訴 AI，甚麼情況下該更新訂單的哪個欄位，整個商業邏輯通通曝光在 CRUD API 規格內了。更慘的是我還完全無法控制狀態，連資料都被改壞了 (欄位內容不符合商業情境)
+1. **設計不佳的 API，你要更多的引導才能讓 AI 正確使用**...  
+例如我曾經嘗試過一個版本的 CRUD API (我定義 訂單 的 schema，然後 EF core + ASP.NET 自動幫我產生 CRUD API ... )，慘不忍睹，我寫了一堆文件告訴 AI，甚麼情況下該更新訂單的哪個欄位，整個商業邏輯通通曝光在 CRUD API 規格內了。更慘的是我還完全無法控制狀態，連資料都被改壞了 (欄位內容不符合商業情境)
 
 其他狀態，資料正確性，分散式交易等等議題就更不用談了，我連正常的展示安德魯小舖的情境都沒辦法。經過這些折騰，我重新好好的照設計方式來開 API，結果一次就成功了。
 
@@ -336,22 +411,28 @@ https://www.techbang.com/posts/116944-which-number-is-higher-911-or-99-this-simp
 
 (有人說我用動畫的梗圖用的比 AI 產圖還到位 XDD, 我就繼續拿動畫梗來用了.. 這次是千年魔法使出場)
 
-// P37
+
+![](/wp-content/images/2024-07-20-devopsdays-keynote/2024-07-25-20-25-00.png)  
+// 簡報 P37
+
 
 "葬送的芙莉蓮" 這部動畫不需要我介紹了吧 XD, 撇開勇者等等的故事, 單就 "專業" 角度來看，芙莉蓮傳達給徒弟的專業知識 & 觀念是很正確的，包含 "隱藏實力" (沒有必要的話就別拿大招出來，其實就是技術選擇的能力)，做好 "基礎訓練" (基礎魔法練好就足以對付這時代的魔法使了，其實就是基礎知識與技能掌握能力的問題)，魔法靠的是 "想像力" (你要想像的出來才有可能學的會，其實就是架構思考的能力) 都是，未來我給新人訓練的教材應該要加上這三條... XDD
 
-實際上我工作 2x 年的經驗 ( Orz, 離活了千年的魔法使還差 20 倍 ) 看來真的是這樣。常看我文章的大概都知道，我通通都在講基礎知識。基礎知識要學得透徹，我都會用 POC 的方式從頭到尾做過一次，驗證設計，開發，實際上線運作，監控，維運等等過程。這些都能掌握，就是基本功夫。
+實際上我工作 2x 年的經驗 ( Orz, 離活了千年的魔法使還差 20 倍 ) 看來真的是這樣。常看我文章的大概都知道，我通通都在講基礎知識。基礎知識要學得透徹，我都會用 PoC 的方式從頭到尾做過一次，驗證設計，開發，實際上線運作，監控，維運等等過程。這些都能掌握，就是基本功夫。
 
 為何我會在 AI 這主題談這個 (基礎功夫) ? 有兩個原因:
 
 1. 在 API 的部分，你必須顧好 API 的基礎設計，在 AI 時代它的重要性會更勝以往。
 1. AI 的時代，有新的 AI 基礎功夫出現，你要有能力掌握新時代基礎元件的功夫。
 
-我的做法都一樣，看清楚背後做什麼 (想像力)，你有能力自己 POC 跑過一次掌握重點 (基礎功夫)，剩下的就是實戰練習了 (技術選擇)。
+我的做法都一樣，看清楚背後做什麼 (想像力)，你有能力自己 PoC 跑過一次掌握重點 (基礎功夫)，剩下的就是實戰練習了 (技術選擇)。
 
 到目前為止，要開發 AI 應用程式，撇開那些需要大資本，大數據才能玩的領域 (模型，訓練，算力) 之外，我認為該要有的基礎是: "理解 AI 怎麼處理問題" ..
 
-// P38
+![](/wp-content/images/2024-07-20-devopsdays-keynote/2024-07-25-20-25-14.png)  
+// 簡報 P38
+
+
 
 我列舉了四個我認為的基礎:
 
@@ -365,7 +446,10 @@ https://www.techbang.com/posts/116944-which-number-is-higher-911-or-99-this-simp
 
 這段其實就是大家常常聽到的 "Prompt Engineering", 提示工程。不過常看到的案例都是教你怎麼在 ChatGPT 問問題等等 "工具" 的使用技巧，實際上真正該問問題的是開發應用程式的工程師，你某部分的邏輯，應該要變成 prompt 才能正確的命令 LLM 做你要做的事情，這段就是講這些技巧。
 
-// P39
+![](/wp-content/images/2024-07-20-devopsdays-keynote/2024-07-25-20-25-28.png)  
+// 簡報 P39
+
+
 
 這邊技巧太多了 (我也沒有熟悉到那種程度)，我挑了一篇講得還蠻清楚的文章，擷取了其中三種用法當案例就好。這些用法大家都可以直接拿手邊的 ChatGPT 親自驗證看看，專業一點的你可以找 Azure OpenAI 提供的 Playground (遊樂場)，直接用他的介面來測試你下的 prompt 會有何種回應。用 Chat GPT 當作測試環境，你完全不需要準備任何特殊的環境。你只要想像未來這些問答的內容，是你自己用程式碼組出來的就好，其他通通都一樣。
 
@@ -373,9 +457,8 @@ https://www.techbang.com/posts/116944-which-number-is-higher-911-or-99-this-simp
 
 ### 3-3-1, 基本型
 
-// P40
-
-> 出處: [Building LLM-powered products — Part 2](https://medium.com/@remitoffoli/building-llm-powered-products-part-2-32d843bef590)
+![](/wp-content/images/2024-07-20-devopsdays-keynote/2024-07-25-20-25-54.png)  
+// 簡報 P40, [Building LLM-powered products — Part 2](https://medium.com/@remitoffoli/building-llm-powered-products-part-2-32d843bef590)
 
 看到這篇寫的比我還好，我就沒必要自己寫了 XDD，單純導讀一下就好。
 
@@ -395,25 +478,29 @@ LLM 的回應也經過應用程式處理 (Handle completion) 後再決定該如�
 
 ### 3-3-2, Json Mode
 
-// P41
+![](/wp-content/images/2024-07-20-devopsdays-keynote/2024-07-25-20-26-11.png)  
+// 簡報 P41, [Building LLM-powered products — Part 2](https://medium.com/@remitoffoli/building-llm-powered-products-part-2-32d843bef590)
 
-> 出處: [Building LLM-powered products — Part 2](https://medium.com/@remitoffoli/building-llm-powered-products-part-2-32d843bef590)
-
-來自同一篇文章，這個例子開始進階一點了。處理自然語言是 LLM 的強項，但是不是一般 developer 很容易處理的環節啊! 例如 LLM 回答 "好的" 跟回答 "OK"，要我處理就很傷腦筋了，差一個 byte 都不行... 因此開始有些先進一點的模型，提供 json mode .. ( 例如: OpenAI GPT4 - Json Mode )
+來自同一篇文章，這個例子開始進階一點了。處理自然語言是 LLM 的強項，但是不是一般 developer 很容易處理的環節啊! 例如 LLM 回答 "好的" 跟回答 "OK"，要我處理就很傷腦筋了，差一個 byte 都不行... 因此開始有些先進一點的模型，提供 json mode .. ( 例如: OpenAI GPT4 - [Json Mode](https://platform.openai.com/docs/guides/json-mode) )
 
 這例子很有趣，要從一段對話，抽出其中的地址資訊。這段對話內容大概是這樣:
 
 ```
+
 A: For the tea shop in Paris there is a good one on rue montorgueil.
 B: You remember the number?
 A: 90, I guess
+
 ```
 
 翻成中文:
+
 ```
+
 A：在巴黎的蒙托蓋伊街 (rue montorgueil) 上有一家不錯的茶館。
 B：你記得號碼嗎？
 B：我猜是 90
+
 ```
 
 一般人想都不用想，也知道這家茶館的地址是: 巴黎 蒙托蓋伊街 90 號，不過要如何寫程式轉換這段對話? 更重要的是，如果你要存入標準的地址格式，你得正確拆解國家，路，巷弄，號 等等資訊...
@@ -421,6 +508,7 @@ B：我猜是 90
 於是 developer 就可以這樣下 prompt (如上圖):
 
 ```
+
 Extract the address from the following text:
 
 "
@@ -444,7 +532,6 @@ Respond using the following format:
     "street_address":"90 rue montorgueil",
     "city": "Paris"
 }
-
 ```
 
 回到一開始，你怎麼知道要這樣下 prompt ? 我自己都會先這樣在 ChatGPT (或是其他 LLM 都會有類似 ChatGPT 簡易的操作介面, 例如 ollama + webui 之類的) 上面先測試過，再放到 code 裡面驗證。
@@ -467,9 +554,8 @@ Respond using the following format:
 
 其實，變得出 Json Mode, 就已經離 API call 不遠了。延續 Json Mode 控制 LLM 回應格式的技巧，再來看這個例子:
 
-// P42
-
-> 出處: [Building LLM-powered products — Part 2](https://medium.com/@remitoffoli/building-llm-powered-products-part-2-32d843bef590)
+![](/wp-content/images/2024-07-20-devopsdays-keynote/2024-07-25-20-26-39.png)  
+// 簡報 P42, [Building LLM-powered products — Part 2](https://medium.com/@remitoffoli/building-llm-powered-products-part-2-32d843bef590)
 
 
 過程我就不多說了，例子幾乎一樣，只是換一個案例而已。這次是維護購物清單的 prompt:
@@ -525,7 +611,10 @@ LLM 會回應這樣的內容給你:
 
 接下來看第三個應用案例，算是組合技，也是最吃 AI 推理能力的情況，因此不同的 LLM 行為差異會比前面兩個案例還大。使用前務必多方嘗試，挑選推理能力較好，或是參數數量較大的模型比較能得到預期的效果。
 
-// P43
+![](/wp-content/images/2024-07-20-devopsdays-keynote/2024-07-25-20-27-09.png)  
+// 簡報 P43
+
+
 
 這情境基本上就是組合前面的幾種用法，但是重複多次。圖上的案例是:
 
@@ -563,7 +652,7 @@ LLM 會回應這樣的內容給你:
 
 我給的指令清單 (有時你亂寫，甚至寫成註解也會通):
 
-```json
+```
 
 [
     // check my calendar, list my scheduled events in specified date
@@ -584,22 +673,27 @@ LLM 會回應這樣的內容給你:
 這整個過程，其實就是 prompt engineering。未來的 developer，除了要能掌握程式語言跟電腦溝通之外，也要開始掌握 prompt engineering 來跟 AI (LLM) 溝通了。
 
 
-## 3-4, Copilot 的設計架構 (Demo)
+## 3-4, Copilot 的設計架構 (DEMO)
 
-// P47
+![](/wp-content/images/2024-07-20-devopsdays-keynote/2024-07-25-23-52-05.png)  
+// 簡報 P47
 
-接著，再來看一下這個版本的 "安德魯小舖" demo 吧! 這次我脫離 ChatGPT 的 GPTs, 改用 .NET Console Apps + Semantic Kernel, 自己寫 code 來呼叫 Azure OpenAI API, 嘗試自己來開發完整的 AI 應用程式。
+接著，再來看一下這個版本的 "安德魯小舖" DEMO 吧! 這次我脫離 ChatGPT 的 GPTs, 改用 .NET Console Apps + Semantic Kernel, 自己寫 code 來呼叫 Azure OpenAI API, 嘗試自己來開發完整的 AI 應用程式。
 
-這次我的構想是: 不要再全部都用對話來操作了 (對話很貴的...)。都用對話操作很炫，但是也很不實際。明明簡單明瞭的 UI 操作起來會更簡單，我只要我碰到困難時再用對話的方式就好了。於是我開始嘗試 Copilot 的模式，來重做一次這個 POC。
+這次我的構想是: 不要再全部都用對話來操作了 (對話很貴的...)。都用對話操作很炫，但是也很不實際。明明簡單明瞭的 UI 操作起來會更簡單，我只要我碰到困難時再用對話的方式就好了。於是我開始嘗試 Copilot 的模式，來重做一次這個 PoC。
 
 Copilot 要做什麼，直接看這頁簡報:
 
-// P49
+![](/wp-content/images/2024-07-20-devopsdays-keynote/2024-07-25-20-27-57.png)  
+// 簡報 P49
 
 
-Demo 過程，我錄了影片，直接看操作就好了
 
-// P50
+DEMO 過程，我錄了影片，直接看操作就好了:
+<iframe width="720" height="405" src="https://www.youtube.com/embed/mosuMPn9830" title="DevOpsDays2024-DEMO3" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+<br/>
+<br/>
+
 
 我簡單用文字敘述，寫一下這段 DEMO 背後的操作情境
 
@@ -611,7 +705,9 @@ Demo 過程，我錄了影片，直接看操作就好了
 
 回到這個 DEMO 本身，我實在懶得慢慢刻畫面，所以才用 console app 來表現互動的過程。背後的運作跟想法，其實我在今年 3 月的這篇文章有聊過了，有興趣的可以看這篇:
 
-// LINK: 替你的應用程式加上智慧
+
+![](/wp-content/images/2024-02-10-archview-int-app/2024-02-17-10-06-40.png)  
+#安德魯的部落格, [替你的應用程式加上智慧! 談 LLM 的應用程式開發](/2024/02/10/archview-int-app/)
 
 
 這個 DEMO，我想重現的就是: 該如何在一般的操作介面中，安插 Copilot (AI) 的輔助機制? 既不需要改變現在的操作方式，又可以帶來 AI 輔助應用的優點? 我覺得 Copilot 就是答案了。
@@ -622,44 +718,64 @@ Demo 過程，我錄了影片，直接看操作就好了
 
 歸納一下 Copilot 的設計方向吧，我理解的有這幾個要點:
 
-- Copilot 在旁邊輔助你 ( APP 不時把操作過程，用文字敘述傳給 LLM, 有需要提示時再回覆 Hint 訊息)，你不用改變既有的操作習慣。
-- Copilot 要能依據事先設定好的指示，或是從服務資料庫內搜尋，判定使用者碰到困難時主動協助 (例如我安排了一直顯示操作方式，就要詢問使用者是否操作有困難)。這一切不是由寫更多的 code 來達成，而是要給 AI 更正確的 instruction，所謂的用嘴巴寫程式就是這意思。
-- 使用者有管道可以直接向 copilot 尋求協助 ( 不下指令操作 APP, 直接輸入問題。LLM 可以直接調用 API 來代替使用者操作系統)
+- **Copilot 在旁邊輔助你**  
+( APP 不時把操作過程，用文字敘述傳給 LLM, 有需要提示時再回覆 Hint 訊息)，你不用改變既有的操作習慣。
+- **Copilot 要能依據事先設定好的指示，或是從服務資料庫內搜尋，判定使用者碰到困難時主動協助**  
+(例如我安排了一直顯示操作方式，就要詢問使用者是否操作有困難)。這一切不是由寫更多的 code 來達成，而是要給 AI 更正確的 instruction，所謂的用嘴巴寫程式就是這意思。
+- **使用者有管道可以直接向 copilot 尋求協助**  
+( 不下指令操作 APP, 直接輸入問題。LLM 可以直接調用 API 來代替使用者操作系統)
 
 然而，對我來說最大的收穫，是我想清楚了應用程式架構該怎麼調整，該留那些位置給 AI 的核心 (LLM) 跟對應的基礎元件。在沒有 AI 之前，應用程式大概長這樣:
 
-// P51 (動畫前)
+![](/wp-content/images/2024-07-20-devopsdays-keynote/2024-07-25-20-30-05.png)  
+// 簡報 P51 (動畫前)
+
 
 而有了 AI 之後，長這樣
 
-// P51 (全部)
+
+![](/wp-content/images/2024-07-20-devopsdays-keynote/2024-07-25-20-29-40.png)  
+// 簡報 P51 (全部)
+
 
 對架構師而言，最大的改變就是 (這就是: 魔法使的想像力):
 
 控制整個應用程式行為跟流程的，從唯一的 Controller, 變成 Controller (正駕駛) + Copilot (副駕駛) 了。Controller 開始可以把繁雜瑣碎的任務交給 Copilot 了，Controller 則可以負責更複雜，往 AI 還無法擔任的角色發展。而 Copilot 的能力也會越來越強大，當某一天 Copilot 能完全涵蓋 Controller 該做的事情時，Full Agent 的時代就來臨了。
 
-不過各位不用擔心，我認為 Controller 不會消失的，AI 越來越強，人的期待就會越來越大。人的期待一定都是先由 Controller 來實現，然後再逐步轉移給 Copilot。目前 LLM 的推理能力還不足以負擔太複雜或大型的任務，執行效率與執行成本也高，但是現在發展的程度，我覺得已經足夠你做各種的 POC 了，現在開始嘗試各種可能性，是個很好的時間點。
+不過各位不用擔心，我認為 Controller 不會消失的，AI 越來越強，人的期待就會越來越大。人的期待一定都是先由 Controller 來實現，然後再逐步轉移給 Copilot。目前 LLM 的推理能力還不足以負擔太複雜或大型的任務，執行效率與執行成本也高，但是現在發展的程度，我覺得已經足夠你做各種的 PoC 了，現在開始嘗試各種可能性，是個很好的時間點。
 
 
 
-## 3-5, RAG 基礎元件 & 設計模式 (Demo)
+## 3-5, RAG 基礎元件 & 設計模式 (DEMO)
+
+![](/wp-content/images/2024-07-20-devopsdays-keynote/2024-07-25-23-55-45.png)  
+// 簡報 P57
 
 
 這段，我就來聊聊其他我也認為很重要的 AI 基礎開發能力，但是沒有包含在 "安德魯小舖 GPTs" 內的部分吧。除了 AI + API 之外，另一個我認為一定要會的就是 RAG 了。
 
-很巧的，我剛好也有另一個自己開發的 GPTs: "安德魯的部落格 GPTs" .. (葉配)，就是在做 RAG.. 這段我就拿這個 GPTs 來示範。
+很巧的，我剛好也有另一個自己開發的 GPTs: "[安德魯的部落格 GPTs](https://chatgpt.com/g/g-F3ckJut37-an-de-lu-de-bu-luo-ge)" .. (葉配)，就是在做 RAG.. 這段我就拿這個 GPTs 來示範。
 
-// P58 
+![](/wp-content/images/2024-07-20-devopsdays-keynote/2024-07-25-20-30-30.png)  
+// 簡報 P58 
+
+
 
 這個 GPTs，你可以把它當成我部落格的專屬小編，他熟讀我所有的文章。你可以簡單的問他某段內容在哪一篇，也可以問她困難一點的問題，問問我的文章講的知識該怎麼解。
 
 其實針對這個主題，我也有一篇文章就在聊這個，想看完整內容可以看這篇，這邊我就講摘要就好
 
-// LINK: 為你的知識庫加上智慧
 
-同樣的，我也錄了一段 demo video, 各位可以實際體驗一下這 GPTs 能幹嘛: 
+![](/wp-content/images/2024-03-15-archview-int-blog/2024-03-10-00-46-41.jpg)  
+#安德魯的部落格, [替你的知識庫加上智慧! 談 RAG 的檢索與應用](/2024/03/15/archview-int-blog/)
 
-// P59
+
+
+同樣的，我也錄了一段 DEMO video, 各位可以實際體驗一下這 GPTs 能幹嘛: 
+
+<iframe width="384" height="456" src="https://www.youtube.com/embed/ZkbEFfCkS9A" title="DevOpsDays2024-DEMO4" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+<br/>
+<br/>
 
 其中背後的技巧，我用了一部分是 API 呼叫的能力 (我背後用了 Microsoft Kernel Memory 這個專案來提供向量索引跟查詢)，而查詢後的結果則是靠 GPTs 來消化與彙整最後的答案。你可以想像我是用我的知識庫 (API) 來強化 ChatGPT 的知識 (特別是專注在我寫的文章上)，用強化過的 GPTs 來回答各位問他的問題。
 
@@ -669,13 +785,17 @@ RAG 的拆解，其實也跟前面 3-3-3 workflow 相同，只是他拆解的任
 
 我在這頁 sequence diagram 大概說明了這流程
 
-// P62
+![](/wp-content/images/2024-07-20-devopsdays-keynote/2024-07-25-20-32-08.png)  
+// 簡報 P62, 動畫播放前
+
 
 一切都是從對話開始。LLM 從對話過程中，會判斷你要問的關鍵問題是甚麼，會透過 API 查詢資料庫，把跟這些關鍵問題最相關的前 30 筆資料拿回來 (包含片段文字內容，對應文章的資訊等等)。
 
 而這些檢索出來的內容，會合併成一段大的 prompt，簡單的說，就像你在 ChatGPT 這樣問他:
 
+
 ```
+
 Hey, 我從資料庫查到這些內容:
 
 // 檢索的內容都放在這邊
@@ -693,11 +813,13 @@ Hey, 我從資料庫查到這些內容:
 這就是 RAG 的基本型態。當然為了強化效率與提高正確性，RAG 還有很多變形，像是加了 Ranking Model ，或是建立資料庫的演算法，內容分段方式，多媒體的索引方式等等都是熱門的研究課題，這我就點到為止，讓大家知道 RAG 的應用模式為何就好。
 
 
-// P61
+![](/wp-content/images/2024-07-20-devopsdays-keynote/2024-07-25-20-32-24.png)  
+// 簡報 P61
+
 
 這邊我就補充一小段，我做這個 GPTs 額外考慮過的問題，當作心得給大家參考吧! 除了前面聊很多的 AI + API，模型選擇等等之外，主要還有兩項:
 
-1. AI 算力，模型部署與條被選擇的能力
+1. AI 算力，模型部署與調配算力選擇的能力
 1. 數據收集，資料更新的能力 ( AI 相關的基礎建設該如何持續部署 )
 
 
@@ -708,8 +830,8 @@ Hey, 我從資料庫查到這些內容:
 
 這整段，我想談的主軸，就是:
 
-當 AI 已經變成應用程式開發的主要元件之一時，現在整個軟體開發領域一定會高度往 AI 偏斜。
-到那時，每個人必備的基礎會是什麼? 這些基礎在將來會是用甚麼型態出現在產品、服務、架構與流程內?
+> 當 AI 已經變成應用程式開發的主要元件之一時，現在整個軟體開發領域一定會高度往 AI 偏斜。  
+> 到那時，每個人必備的基礎會是什麼? 這些基礎在將來會是用甚麼型態出現在產品、服務、架構與流程內?
 
 想通這些後，你就會清楚你現在該準備的是什麼，而不是整天擔心會不會被 AI 取代等這類問題 XD
 
@@ -718,23 +840,38 @@ Hey, 我從資料庫查到這些內容:
 
 我再貼一次前面談 Copilot 用過的這張圖:
 
-// P51
+![](/wp-content/images/2024-07-20-devopsdays-keynote/2024-07-25-20-29-40.png)  
+// 簡報 P51, 動畫播放後
 
-從 Copilot 的開發架構來看，Controller + LLM 會是決定核心邏輯的兩大關鍵。這時是個很好的時間點，除了思考你的應用程式架構之外，資訊基礎建設的架構其實也該開始思考了。這張圖我並沒有標示實際的部署方式，Controller + Copilot 就如同當年的三層式架構一般；可以小到塞進同一個 Application 內，就如同 Copilot Demo 一樣，收在單一一個 .NET Console App, 靠 Semantic Kernel 整合起來；也可以 scale out 到大型系統，Controller / LLM 可以是獨立的服務各自部署，靠呼叫 API 來整合。
+從 Copilot 的開發架構來看，Controller + LLM 會是決定核心邏輯的兩大關鍵。這時是個很好的時間點，除了思考你的應用程式架構之外，資訊基礎建設的架構其實也該開始思考了。這張圖我並沒有標示實際的部署方式，Controller + Copilot 就如同當年的三層式架構一般；可以小到塞進同一個 Application 內，就如同 Copilot DEMO 一樣，收在單一一個 .NET Console App, 靠 Semantic Kernel 整合起來；也可以 scale out 到大型系統，Controller / LLM 可以是獨立的服務各自部署，靠呼叫 API 來整合。
 
 而 LLM 的部署方式，也會是將來基礎建設的課題之一。你有可能從 Cloud 取得其他 AI 公司發展的私有模型服務 ( ex: Azure OpenAI, By Token 計價)，也有可能來自 Cloud 的 Hosting 的其他 LLM (例如 LLaMa3)，按照 Token 或是 GPU hours 計價；當然也可能是自己準備機器 + GPU，準備足夠的專屬 AI 算力來跑模型訓練或是推論；更極端一點的甚至是開始部署 Edge 端的算力，用 CPU / NPU / GPU 讓設備端也開始有 LLM 的推論能力，這些應用程式將可以在終端設備離線獨自運作 (例如前陣子新聞炒很兇的 AI PC / Copilot+ PC ，使用內建在 Windows Copilot Runtime 的 SLM) ...
 
 這些部署方式也會影響你的成本結構。舉我 3-5 RAG 的案例來說，我最終選擇在 GPTs 展示 RAG，而非在我的 API 內執行 RAG 的完整流程 ( LLM + Embed + VectorDB )，其中一個原因就是 Token 的價格，我想把費用分攤到每個使用者自己 ChatGPT 的額度，而不是全部綁在我自己的 OpenAI APIKEY。每個人都有基本的額度，足以拿來嘗鮮與 PoC, 而集中用 AP 端的 APIKEY 則有整體成本管控的效益 (但是我得替所有體驗的人買單，問一次問題大約要台幣 TWD$ 3 ~ 5 元左右)。這些經驗與能力，其實都會是將來正式開發 AI 應用程式需要考量的規劃與設計。
 
-最後一個我這次演講提到的，就是整個應用程式的部署 Pipeline。多了 AI ，需要部署的服務與資源也會不同。我在 DevOpsDays Taipei 2021 講了這個題目: 大型團隊落實 CI/CD 的挑戰，就提及這張圖:
+最後一個我這次演講提到的，就是整個應用程式的部署 Pipeline。多了 AI ，需要部署的服務與資源也會不同。我在 DevOpsDays Taipei 2021 講了這個題目: 大型團隊落實 CI/CD 的挑戰
 
-// P56
+![](/wp-content/images/2024-07-20-devopsdays-keynote/2024-07-26-00-00-51.png)
+// DevOpsDays Taipei 2021, [大型團隊落實 CI/CD 的挑戰](https://docs.google.com/presentation/d/1OIfx3BN2ZV7OPwAACk6SwrsPvxtOEuGqH8AWPodmaIk/edit#slide=id.p)
 
-> 其實這張圖的作者 Paul, 就是這次大會邀請的 TBD (Trunk Based Development) 的 Keynote Speaker, 特此感謝 : )
+裡面提及這張圖:
+
+![](/wp-content/images/2024-07-20-devopsdays-keynote/2024-07-26-00-02-29.png)
+// 簡報 P13
+// 其實這張圖的作者 Paul, 就是這次大會邀請的 TBD (Trunk Based Development) 的 Keynote Speaker, 特此感謝 : )
+
+
+今年，我再度拿這張圖出來用，部署應用程式的三大 pipeline 應該再多一條 AI 專屬的 pipeline:
+
+![](/wp-content/images/2024-07-20-devopsdays-keynote/2024-07-25-20-33-19.png)  
+// 簡報 P56
+
+
+
 
 應用程式主要是由 Application + Configuration + Environment 三大面向組合起來的，如果這三大面向的產出都用 code 來管理 ( Git Repository )，部署流程就都能用 CI / CD 的模式來推送上線，那整個 Application 的部署管理模式就能統一用 GitOps 來運作了，這是當時我講這頁背後的精神。
 
-那麼，加上了 AI 會有何不同?
+> 那麼，加上了 AI 會有何不同?
 
 我覺得不會有什麼不同，一樣是 Git Ops。只是你需要部署的東西，多了第四個面向要考量了，那就是 AI。
 
@@ -742,9 +879,12 @@ AI 會有資料 (收集的資料要轉移去訓練模型)，會有模型 (訓練
 
 我想，這些就是軟體開發團隊，在 AI 時代必須做好的基本功夫。最後我再用一次這段開頭的投影片當結尾:
 
-// P37
-> ... ... ... 用基礎的魔法，就足以對付這個時代的魔法使了 ... ... ...
+![](/wp-content/images/2024-07-20-devopsdays-keynote/2024-07-25-20-25-00.png)  
+// 簡報 P37
 
+> ...
+> ... ... ... 用基礎的魔法，就足以對付這個時代的魔法使了 ... ... ...
+> ...
 
 
 
@@ -756,14 +896,18 @@ AI 會有資料 (收集的資料要轉移去訓練模型)，會有模型 (訓練
 
 所幸，在我準備這些文章內容的同時，Happy 的這些內容也有部落格文章的版本了，有興趣的可以直接看他的原文:
 
-
 ![](/wp-content/images/2024-07-20-devopsdays-keynote/2024-07-25-18-53-08.png)
+#零售的科學, [零售業的四種銷售場景](https://happylee.blog/rs/retail-4-scene/?ref=ling-shou-de-ke-xue-by-happy-lee-newsletter), Happy Lee
 
-* #零售的科學, [零售業的四種銷售場景](https://happylee.blog/rs/retail-4-scene/?ref=ling-shou-de-ke-xue-by-happy-lee-newsletter), Happy Lee
+其他相關連結我也一起附上:
+- Generative AI 年會: [大會共筆 - 李昆謀](https://hackmd.io/@ejc/2024gaiconf/https%3A%2F%2Fhackmd.io%2F%40ejc%2FB1y3ZfjMC)
+- 簡報連結: [零售業的 AI 產業應用](https://drive.google.com/file/d/12jE9wZajaJQ1Lb0S51bZBg-EQRNWCBxa/view)
 
 
 我這邊只補充簡介，以及跟我想傳達的主題有關聯的部分。節錄 Happy 這篇文章的最後一段:
 
+> ...
+>
 > 這是一個相對富足的時代，我們販賣的是消費的「心理滿足」，而不只是販賣消費者的「基本需求」。回到零售業的四種銷售場景，透過這樣子的討論，我們更可以進一步思考這些線所代表的銷售場景的意義。雖然零售業進入到了全通路的時代，有各式各樣五花八門的銷售場景，但如果回到這種本質面的討論，更可以知道在銷售端，身在零售業，應該要如何佈局。
 > 
 > 透過用零售業的四種銷售場景來思考，可以一種全新的視角，探討零售業，在各種新科技的衝擊下，所面臨的機遇與挑戰。
@@ -778,12 +922,16 @@ AI 會有資料 (收集的資料要轉移去訓練模型)，會有模型 (訓練
 > AI是會取代無人的銷售？
 > 還是會取代有人的銷售？
 >
+> ...
 
 現在零售業賣的是「心理滿足」，而不只是販賣「基本需求」，經驗老到的業務員，就是能抓住顧客的「心理滿足」，這個維度的問題不是傳統資訊科學能有效面對的，而 LLM 開始有能力理解消費者的意圖，這件事開始看的到曙光了，我前面在做的 PoC (偵測滿意度，個人化) 其實就是在做這件事。
 
 另一段，Happy 還沒寫成文章，不過他在 Generative AI 年會已經釋出的簡報有提到，未來是各種 Agent + Engine 協作的年代；Agent 可以代表消費者，也可以代表店家；而 Agent 在代表人類進行各種交涉與收集資料的同時 ( 我示範的 安德魯小舖 GPTs, 就是代表店長的 Agent )，也需要各種後端系統的輔助 ( 就是 Engine )，我節錄一頁 Happy 的簡報:
 
-// P74
+
+![](/wp-content/images/2024-07-20-devopsdays-keynote/2024-07-25-20-34-13.png)  
+// 簡報 P74
+
 
 AI (Agent) 會變成最終面對人類 (不論是店長、客服、或是消費者) 的代理人，負責溝通的管道 (所以要會自然語言，要會察言觀色)。而他也需要有使用工具的能力，善用後端的各種 Engines (如簡報上的 Knowledge Engine, Recommendation Engine, Assistance Engine)。
 
@@ -800,7 +948,8 @@ AI (Agent) 會變成最終面對人類 (不論是店長、客服、或是消費�
 
 除了前面兩大段落的小結，剩下我還有一些想談，但是沒包含在這次演講的內容，我就一起寫在這裡了。
 
-// P77
+![](/wp-content/images/2024-07-20-devopsdays-keynote/2024-07-25-20-34-32.png)  
+// 簡報 P77
 
 * AI 的進步，每個環節都會帶來改變。
 
@@ -814,16 +963,19 @@ AI (Agent) 會變成最終面對人類 (不論是店長、客服、或是消費�
 
 這些都是很好的思考題目，對我來說，就像是十年前大家都在談論 Cloud Native 時，我在想像 Microservice 對於設計與部署的樣貌是一樣的光景。現在雖然 AI 已經把軟體業翻了一輪了，不過他還是剛起步，很多領域都還在發展中，各位其實還有時間做好準備。最後，我還是拿我最關注的軟體架構設計這領域，用這兩張簡報來做結尾吧!
 
-第一個心得是:  思考你的產品服務，未來該用 AI 強化什麼?
+第一個心得是:  **思考你的產品服務，未來該用 AI 強化什麼**?
 
-我嘗試的是 Agent & Copilot, POC 的過程中我已經得到了我想要的實做經驗跟細節了，我有更充足的資訊支撐我繼續往下思考軟體服務該怎麼善用 AI 這課題。
+我嘗試的是 Agent & Copilot, PoC 的過程中我已經得到了我想要的實做經驗跟細節了，我有更充足的資訊支撐我繼續往下思考軟體服務該怎麼善用 AI 這課題。
 
-// P78
+![](/wp-content/images/2024-07-20-devopsdays-keynote/2024-07-25-20-34-48.png)  
+// 簡報 P78
 
-另一個心得是: 思考你的技術架構，你的基礎建設與開發元件，還需要補足那些環節?
 
-// P79
 
+另一個心得是: **思考你的技術架構，你的基礎建設與開發元件，還需要補足那些環節**?
+
+![](/wp-content/images/2024-07-20-devopsdays-keynote/2024-07-25-20-34-59.png)  
+// 簡報 P79
 
 
 最後，在這篇文章要發表的時候，正好也收到了大會寄來的問券與回饋。感謝 2024/07/10 當天在台下聽我講這場的朋友們，也感謝各位給我的回饋，我就一起貼在這邊表達感謝了 : )
