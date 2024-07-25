@@ -618,11 +618,11 @@ LLM 會回應這樣的內容給你:
 
 這情境基本上就是組合前面的幾種用法，但是重複多次。圖上的案例是:
 
-使用者: Find a 30 min slot for a run tomorrow morning
+> 使用者: Find a 30 min slot for a run tomorrow morning
 
 中間則是 LLM 跟應用程式處理的黑箱 (使用者看不到)，我先跳到最終結果，使用者會看到這樣的回應:
 
-機器人: Morning run scheduled for tomorrow at 9am!
+> 機器人: Morning run scheduled for tomorrow at 9am!
 
 中間做了甚麼? 當你都先透過 system prompt ( instruction ) 告知做事的原則，以及告知它有哪些 action 可以執行，他基本上就有基本能力了。所以她聽到要求內容後，邏輯上 LLM 會產出執行計畫:
 
@@ -740,7 +740,7 @@ DEMO 過程，我錄了影片，直接看操作就好了:
 
 對架構師而言，最大的改變就是 (這就是: 魔法使的想像力):
 
-控制整個應用程式行為跟流程的，從唯一的 Controller, 變成 Controller (正駕駛) + Copilot (副駕駛) 了。Controller 開始可以把繁雜瑣碎的任務交給 Copilot 了，Controller 則可以負責更複雜，往 AI 還無法擔任的角色發展。而 Copilot 的能力也會越來越強大，當某一天 Copilot 能完全涵蓋 Controller 該做的事情時，Full Agent 的時代就來臨了。
+> 控制整個應用程式行為跟流程的，從唯一的 Controller, 變成 Controller (正駕駛) + Copilot (副駕駛) 了。Controller 開始可以把繁雜瑣碎的任務交給 Copilot 了，Controller 則可以負責更複雜，往 AI 還無法擔任的角色發展。而 Copilot 的能力也會越來越強大，當某一天 Copilot 能完全涵蓋 Controller 該做的事情時，Full Agent 的時代就來臨了。
 
 不過各位不用擔心，我認為 Controller 不會消失的，AI 越來越強，人的期待就會越來越大。人的期待一定都是先由 Controller 來實現，然後再逐步轉移給 Copilot。目前 LLM 的推理能力還不足以負擔太複雜或大型的任務，執行效率與執行成本也高，但是現在發展的程度，我覺得已經足夠你做各種的 PoC 了，現在開始嘗試各種可能性，是個很好的時間點。
 
@@ -857,8 +857,8 @@ Hey, 我從資料庫查到這些內容:
 裡面提及這張圖:
 
 ![](/wp-content/images/2024-07-20-devopsdays-keynote/2024-07-26-00-02-29.png)
-// 簡報 P13
-// 其實這張圖的作者 Paul, 就是這次大會邀請的 TBD (Trunk Based Development) 的 Keynote Speaker, 特此感謝 : )
+// 簡報 P13 , 來源: [Provisioning, Deployment and Application Config Cycles](https://paulhammant.com/2014/08/27/provisioning-deployment-and-app-config-cycles/)  
+// 其實這張圖的作者 [Paul Hammant](https://paulhammant.com/), 就是這次大會邀請的 TBD (Trunk Based Development) 的 Keynote Speaker, 特此感謝 : )
 
 
 今年，我再度拿這張圖出來用，部署應用程式的三大 pipeline 應該再多一條 AI 專屬的 pipeline:
