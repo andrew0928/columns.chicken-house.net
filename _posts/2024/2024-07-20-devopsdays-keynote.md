@@ -36,7 +36,7 @@ logo: /wp-content/images/2024-07-20-devopsdays-keynote/2024-07-25-20-19-06.png
 1. **當 coding 速度不再是瓶頸的時候, 基礎建設與架構的設計決策會是關鍵**  
 (你是否能有系統有效率的管控 AI 相關的基礎元件? 包含 CI / CD 的 pipeline? 對於 AI 最重要的數據與模型, 你知道該如何 DevOps 嗎?)
 
-在我寫這篇文章的時候，正好看到這篇 [貼文](https://www.reddit.com/r/ycombinator/comments/1e7rtdw/feeling_very_powerful_as_a_technical_founder_with/)，驗證了我的觀點。感謝好心人 [蕭上農] 給了中文的註釋，留言的討論也都是中文的, 我直接附上 [連結](https://www.facebook.com/share/p/owakHVUQb5XAMUck/)
+在我寫這篇文章的時候，正好看到這篇 [貼文](https://www.reddit.com/r/ycombinator/comments/1e7rtdw/feeling_very_powerful_as_a_technical_founder_with/)，驗證了我的觀點。感謝好心人給了中文的註釋，留言的討論也都是中文的, 我直接附上 [連結](https://www.facebook.com/share/p/owakHVUQb5XAMUck/)
 
 整串討論下來，我摘要我最有感的部分:
 
@@ -648,7 +648,7 @@ LLM 會回應這樣的內容給你:
 
 不論如何，你會發現，軟體開發到這個階段，你開始會有感覺是 AI 指導你該做甚麼的錯覺了，不再是過去完全由 developer 決定程式怎麼跑，或是由 product owner 決定規格。開始有越來越多的 "應用程式設計" 是來自 AI，而不是來自設計師。
 
-同時，看到 "定義 API 規格" 在 AI 應用程師開發李越來越重要了嗎? 這個例子中，AI 雖說 "規劃" 了該怎麼回答這問題，給了一系列的指令，但是 AI 終究是在最前面的 system prompt 由你給他的指令清單，從裡面組合出來合適的指令啊! 
+同時，看到 "定義 API 規格" 在 AI 應用程師開發領域裡越來越重要了嗎? 這個例子中，AI 雖說 "規劃" 了該怎麼回答這問題，給了一系列的指令，但是 AI 終究是在最前面的 system prompt 由你給他的指令清單，從裡面組合出來合適的指令啊! 
 
 我給的指令清單 (有時你亂寫，甚至寫成註解也會通):
 
