@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "從 API First 到 AI First, 我在 DevOpsDays 2024 Keynote 的分享主題"
+title: "從 API First 到 AI First"
 categories:
 - "系列文章: 架構師觀點"
 tags: ["架構師觀點","技術隨筆", "AI", "DevOpsDays"]
