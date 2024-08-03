@@ -12,8 +12,8 @@ redirect_from:
 logo: /wp-content/images/2024-07-20-devopsdays-keynote/2024-08-03-18-58-39.jpg
 ---
 
+![](/wp-content/images/2024-07-20-devopsdays-keynote/2024-08-03-18-58-39.jpg)
 
-![](/wp-content/images/2024-07-20-devopsdays-keynote/2024-07-25-20-19-06.png)
 
 
 這篇的內容，是我在今年 DevOpsDays Taipei 2024 擔任 Keynoye 演講 + 時間不夠被我略過的部分寫下來的文章。延續 2022, 2023 談的 "API First", 延伸到 AI 應用程式開發，正好銜接到我半年前在研究的 LLM App 時寫的三篇文章內容, 這次投稿就用了這標題 "從 API First 到 AI First" 來聊聊這內容。
@@ -61,6 +61,8 @@ logo: /wp-content/images/2024-07-20-devopsdays-keynote/2024-08-03-18-58-39.jpg
 <a id="chapter1" />
 
 # 1. 寫在前面
+
+![](/wp-content/images/2024-07-20-devopsdays-keynote/2024-07-25-20-19-06.png)
 
 前情提要的部分我就直接略過了 (演講當下不是每個人都聽過我過去的場次，我還是花了點時間交代關聯)，我直接給參考資料，有興趣的朋友自己看。前情提要主要包含 2021 ~ 2023, 連同今年 2024 的內容我一起放在下方:
 
