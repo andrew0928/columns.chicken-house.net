@@ -9,7 +9,7 @@ comments_disqus: false
 comments_facebook: false
 comments_gitalk: true
 redirect_from:
-logo: /wp-content/images/2024-07-20-devopsdays-keynote/2024-07-25-20-19-06.png
+logo: /wp-content/images/2024-07-20-devopsdays-keynote/2024-08-03-18-58-39.jpg
 ---
 
 
