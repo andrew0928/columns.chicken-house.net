@@ -31,3 +31,9 @@ services:
 # launch logs:    docker-compose logs -t --tail 300 -f jekyll
 
 # sync NAS: robocopy /MOT:1 /MIR . \\home.chicken-house.net\docker\columns.chicken-house.net\
+
+# run on codespace (init):
+# gem install bundler jekyll & bundle update & bundle exec jekyll serve --watch --drafts --future --unpublished
+
+# run on codespace (launch service):
+# jekyll s --watch --drafts --future --unpublished
