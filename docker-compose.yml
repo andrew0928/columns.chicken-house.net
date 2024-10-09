@@ -1,33 +1,18 @@
-# 
-version: '3.1'
+# docker run --rm -p 4000:4000 -v .:/usr/src/app starefossen/github-pages
 services:
-  jekyll:
-    build:
-      context: .
-      dockerfile: dockerfile
-    entrypoint: jekyll s --watch --drafts --future --unpublished --source /home/source --destination /tmp  # 撰寫模式, 會顯示未發行的內容
-#    entrypoint: jekyll s --watch --source /home/source --destination /tmp # 正常模式
+  github-pages:
+    image: starefossen/github-pages
+#    entrypoint: jekyll serve --watch --drafts --future --unpublished --incremental 
+    command: jekyll serve -d /_site --watch -H 0.0.0.0 -P 4000  --drafts --future --unpublished --incremental 
     ports:
       - 4000:4000
     volumes:
-      - .:/home/columns
+      - .:/usr/src/app
   
-  vscode:
-    image: linuxserver/code-server:latest
-    restart: on-failure
-    ports:
-      - 8443:8443
-    volumes:
-      - .:/config/workspace
-    environment:
-      TZ: Asiz/Taipei
-      SUDO_PASSWORD: 0000
-
-
 
 # launch service: docker-compose up -d --build --force-recreate jekyll
 # launch console: docker-compose exec -w /home jekyll bash
 #                 >  cp -Ru columns/* source
 # launch logs:    docker-compose logs -t --tail 300 -f jekyll
 
-# sync NAS: robocopy /MOT:1 /MIR . \\home.chicken-house.net\docker\columns.chicken-house.net\
+# sync NAS: robocopy /MOT:1 /MIR . \\home.chicken-house.net\docker\columns.chicken-house.net\ 
