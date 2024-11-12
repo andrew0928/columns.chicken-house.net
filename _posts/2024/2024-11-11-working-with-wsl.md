@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "關於我轉升成為 Linux 用户的那件事"
+title: "關於我轉生成為 Linux 使用者的那件事"
 categories:
 - "系列文章: 架構師觀點"
 tags: ["架構師觀點","技術隨筆"]
@@ -54,12 +54,12 @@ OS: Microsoft Windows 11 Pro ( 當時跑的是 23H2 )
 
 雖然工作環境很多，但是歸納一下其實也只有三種類型.. 我就各挑一個代表來展示就好:
 
-1. 需要大量 IO 的 docker container - Microsoft Kernel Memory
-1. 需要 GPU 支援的 docker container - Ollama + OpenWeb-UI
+1. 需要大量 IO 的 docker container - Qdrant
 1. 需要整合環境 Visual Studio Code - 我的部落格撰寫環境 GitHub Pages
+1. 需要 GPU 支援的 docker container - Ollama + OpenWeb-UI
 
 
-# 2, Microsoft Kernel Memory
+# 2, 容器化的向量資料庫 - Qdrant
 
 第一個就先來面對我最痛的 IO 效能問題 (因為根本慢到沒辦法跑啊..)。首先，到底有多慢? 我找個 Linux 下的 disk benchmark tools (我用無腦就能跑的 Bonnie++) 跑看看就知道了..
 
@@ -69,7 +69,7 @@ OS: Microsoft Windows 11 Pro ( 當時跑的是 23H2 )
 
 不囉嗦，直接來看 Bonnie 跑出來的結果..
 
-## 2-1, WSL 磁碟效能測試
+## 2-1, WSL 磁碟效能 Benchmark
 
 我用的設備是同一套，就我的桌機，規格跟組態如下:
 
@@ -172,7 +172,7 @@ https://chatgpt.com/share/6730c417-e928-800d-8f5c-e00295bbe0a1
 
 實在無法想像，這些都是在同一台電腦，同一顆硬碟上面測出來的結果.. 只是換個存取路徑就有這種天差地遠的差別。知道這差異之後，我就知道該怎麼調整用法了...
 
-## 2-2, 實際部署 Kernel Memory Service 測試
+## 2-2, 實際部署 Qdrant 測試資料庫
 
 接下來，就拿我實際的測試案例出來吧。在之前聊 RAG 的文章: "______" 內，我用的是 Microsoft Kernel Memory 這個服務，封裝 file storage 以及 vector database, 整合幾種主流的 LLM 與 Embedding Model, 結合而成的 RAG 服務框架..
 
@@ -255,11 +255,16 @@ qdrant-1  | 2024-11-11T15:15:44.801357Z  INFO qdrant::tonic: TLS disabled for gR
 
 同樣的，那麼明顯的差距 ( 啟動時間差了 20x, 差了 64 sec ) ，我就懶得再拿 benchmark 來測試 DB 效能了。基本上我自己在測試的時候，打 API 要 insert 一筆資料庫，就需要花掉 5 sec 的時間... 這段的重點在怎麼重新改變我的工作環境，不是在 tune performance ..
 
+## 2-3, 在 windows 下掛載 wsl 的資料夾
+
 解決方法其實也很簡單，換個目錄就搞定了。但是會踩這麼多次地雷，就是因為這樣用太方便了啊 (終究我是個以 windows desktop 為主要工作環境的使用者...)，打開檔案總管，能直接看到我的檔案是最方便的啊...
 
 山不轉路轉，我就把檔案擺在對的地方，然後想辦法繼續照我習慣的方式 ( 在 windows 下，可以用正常的磁碟路徑存取他，也能用我習慣的工具去讀取檔案 ) 來存取檔案，問題就解決了。相對於 WSL 自動把 windows 下的 c:\ 掛載到 wsl 下的 /mnt/c 這樣的做法，我能不能反過來做一樣的事情，把 wsl 下的 /opt/docker 掛到 windows 下的 c:\codes\docker 呢?
 
 其實還真的有，而且也不是新東西了。大概在 windows 2000 那個年代的 ntfs 就開始支援的 reparse points 機制。中間還冒出很多讓人搞不清楚分別的東西 (例如 junction points)，使用的指令也是，有 mklink, 也有 mountvol ...
+
+https://learn.microsoft.com/zh-tw/windows-server/administration/windows-commands/mklink
+
 
 我用的是 mklink, wsl 的檔案系統可以透過 \\wsl$\ubuntu\.... 來存取 ( ubuntu 是 distro name )，所以你只需要把 \\wsl$\ubuntu\opt\docker -> c:\codes\docker 就好了
 
@@ -280,253 +285,181 @@ mklink /d \\wsl$\ubuntu\opt\docker c:\codes\docker
 
 透過 mklink, 在 windows 掛載 wsl 的工作環境，雖然解決了使用習慣問題，但是終究是把效能問題換邊放而已啊，跨越 OS 的存取效能終究不好。我只是把效能好的部分保留給 linux 端 ( wsl ) 而已。如果我在 windows 端有別的工具要處理檔案，還是會踩到效能糟的那個環節。
 
-最常碰到的是 IDE，例如 Visual Studio, 或是 VS code, 以及常用的 dotnet build, 或是 git 等等，都是需要大量操作檔案的工具。這時兩邊不能兼顧也是很麻煩...
 
-同時，跨 OS，跨 File System，使用上除了效能之外，很多細微的地方也是有差別的，像是 file change event 會失效, 部分 file system 的特色也會因為轉換而遺失，例如沒多少人聽過的 NTFS stream... 
+前面的案例是 container 跑 database, 大量的 io 都是發生在 runtime, 因此把檔案丟到 wsl 為主的環境很正常，在 windows 端的操作大概就編輯 dockerfile, docker-compose.yaml 這類操作而已，慢一點不會有感。
 
-因此，我開始想是否有辦法連 CLI / GUI 的工具都在 Linux 端執行，只有操作跟顯示保留在 Windows 端? 本來我想的方式原始了點，想說 wslg 已經支援 linux 的 gui 整合了，可以把 x-window 的 display 設到 windows 來，結果我想太多了，原來 Microsoft 早就替我搞定了...
+但是如果情境是 IDE, 我要面對的是 source code 編輯, 有大量的 css / html / 圖檔等等，IDE 運作會高頻次的存取這些檔案，而 code 在 build 或是 git pull / push / commit 也都會有大量小檔案的存取操作，這時狀況就反過來了。更糟的情況是: 開發編譯需要大量 I/O, 執行也需要大量 I/O, 那你該怎麼辦?
 
-有兩個關鍵的技術:
+這問題就更硬了，只是把檔案挑地方放已經不夠了，你的 IDE, git, build tool, runtime, container 等等都應該在同一個體系內才能解決... 這就回到這段的主題: 跨系統 (跨 OS Kernel) 的互通性了。
 
-1. wsl 支援在 linux 環境下執行 windows pe 格式的執行檔 (所以我可以在 linux 下叫出 vscode)
-1. vscode 支援 remote shell, 我可以在 windows 下操作 vscode, 但是 vscode 背後會連結 vscode-server, 在 linux 下用原生的工具 ( dotnet, git, shell ) 來做事..
+不得不誇一下 Microsoft, WSL 在這部份真的是做得沒話講，整合的程度我都覺得是外星黑科技了。就算是我也花了點功夫，才搞清楚 Microsoft 在背後做了哪些事情...
 
-有點玄? 直接看這番操作, 你會覺得好像在變魔術一樣，一時之間不知道背後發生了什麼事情... (我也是看半天價構說明才搞懂的)
+首先, 前面提到 Microsoft 在 WSL 已經把 file system 打通了。windows -> wsl 有 drvfs, 可以在 wsl 內 mount windows file system, 而 wsl -> windows 也支援 9p protocol, windows 內可以用 \\wsl$\ubuntu\ 來存取
 
+接下來是 UI, 某一版 windows 開始支援 WSLg, 意思是你可以把 Linux 的 UI 顯示到 Windows 上，就是 Xwindows 那套機制，可以運用到 GPU 資源。這背後其實打通了 device 這層 (後面會再度聊到 GPU，我這邊先點到為止)，UI 操作面也打通了。 (不過最終這個我覺得不大實用，我用不到)
+
+第三個是 command 的整合。這個真的是黑科技，我示範幾個情境:
+
+在 wsl 下 ( bash )，我可以啟動 dos prompt:
+
+```
+andrew@113N000081:~$ cmd.exe /c dir a*
+'\\wsl.localhost\Ubuntu\home\andrew'
+CMD.EXE was started with the above path as the current directory.
+UNC paths are not supported.  Defaulting to Windows directory.
+ Volume in drive C is Windows
+ Volume Serial Number is 6A76-E5CC
+
+ Directory of C:\Windows
+
+10/07/2024  02:05 PM    <DIR>          appcompat
+10/30/2024  12:00 PM    <DIR>          apppatch
+11/07/2024  11:20 AM    <DIR>          AppReadiness
+10/08/2024  10:26 AM    <DIR>          assembly
+               0 File(s)              0 bytes
+               4 Dir(s)  262,307,336,192 bytes free
+andrew@113N000081:~$
+```
+
+看起來頂多只是像 ssh 那樣的感覺，好像沒有那麼了不起... 我再示範另一個 case, 直接在 wsl 下叫出檔案總管，並且開到目前 (wsl) 的工作目錄:
+
+```
+andrew@113N000081:~$ explorer.exe .
+```
+
+開出來的檔案總管，作用中的路徑是這個
+
+```
+\\wsl.localhost\Ubuntu\home\andrew
+```
+
+這個就神奇了，開起來就是個貨真價實的 windows 版檔案總管 ( file explorer ), UI 也是 windows 原生的, Process 也是 windows 的。這黑科技怎麼做到的其實很有趣，Microsoft 動了點手腳，讓 linux 認得 PE 格式的擋頭，然後重新導向這個啟動的動作.. 細節我就不多說，有興趣可以看這篇文章:
+
+// linux + windows pe
+
+如果這樣就嚇到你，那我再加碼一個:  這次我在 wsl 叫出 vscode, 然後這個 vscode 除了 UI 看起來都是 windows 原生地之外，其他看起來都像是 linux 的... 在這個 vscode 開啟檔案, 是 wsl 的 file system 結構；執行檔案 ( run / debug ) 都是跑 linux 版本的程式碼... 開起來的 terminal, 是 linux 的 shell ... 執行的 vscode extension, 都是 linux 下的 extension ( 這不是全部 ) ...
+
+沒錯，這已經不是 file system 整合，或是遠端呼叫那麼簡單了。這有兩個層級:
+
+1. 透過 wsl 啟動 windows 的 process (並且傳遞 environment 相關資訊)
+1. Visual Studio Code 其實有特別的設計: Remote Shell, 拆成 UI 跟 Code Server .. UI 在 windows 端執行，Code Server 在 Linux 端執行，中間靠 ssh 通訊..
+1. Visual Studio Code 準備了一組 shell script, 試圖欺騙你.. 其實你執行的 code 是 shell script, 背後做了一連串準備動作，最後才會去呼叫 code.exe 才是真正的啟用 windows 版本的 vscode ..
+
+// 貼 vscode remote shell 架構圖
+https://code.visualstudio.com/docs/remote/ssh
+
+到這裡，這真的是我認為的終極解法了。UI 完全就是 windows 的影子，但是骨子裡完全就是 linux 的東西... 彷彿就是 windows 的 kernel 完全替換成 linux 一樣...
+
+
+這真的解掉我一個大難題，就是我的部落格撰寫環境。
+
+還記得我 X 年前寫的這篇嗎? Blog as Code!, 我老早就用 vscode 在寫部落格了。我的標準環境就是 GitHub Pages, 我整個部落格就放在 GitHub 上..
+
+1. 要寫部落格, 就把 git repo 拉下來就可以開始編輯了
+1. 要發布內容, 就 git commit / git push 推回 github, 內建的 ci / cd 機制就會把我的部落格 build 成靜態檔案發佈出去了 ( github pages, jekyll )
+
+我在本機，需要處理部落格上萬個檔案, 因此 vscode 要開起來不是件輕鬆的事情 (左側的 tree 要載入的項目不少)。不過本機環境，這樣的 loading 對我的電腦還不成問題
+
+不過預覽是很痛苦的一件事啊。我如果 push 上 github 要等三分鐘才看的到結果 (就算只改一個字也一樣)..
+
+於是我嘗試過，裝 windows 版本的 jekyll, 相依 ruby, 我直接放棄...
+
+接著我跑 docker 版本的 jekyll, 碰到 file system 的問題。windows 的 file system 掛載到 docker volume, 檔案異動的 event 過不去，只能用 pooling，效能已經夠糟了還雪上加霜... 改一個字要花 80 sec 才能 build 完...
+
+後來我用了折衷方案, 就前面 file system 的互通作法，改善了 github pages 的效能，就得犧牲 vscode 的效能，無法兼顧。有一段時間我是真的放兩份檔案，要預覽的時候就用 robocopy.exe 同步 ( windows 下類似 rsync 的工具)。同步大約花 30s, build website 大約花 10s, 雖不滿意但是已經好很多了...
+
+最後，我用了 vscode + remote shell ... 完全不需要同步, jekyll watch 也運作正常。我只要 vscode 按下儲存, jekyll 馬上自動 build website, 5s 完成..., 而且這一切都在 vscode 內完成 ( 我直接開一個 vscode terminal 跑 github pages 的 docker container ...)
+
+多追加一個，因為 code server 也能監控網路，所以我跑的 docker container 發佈了那些 tcp port 他也知道了，vscode 還會直接提是我要不要開 localhost:4000 來預覽我的網站?
+
+我選擇了直接在 vscode 內預覽，畫面就是你看到的這個樣子:
+
+// 貼圖, vscode 寫 blog + preview
+
+看到這邊，我沒有遺憾了 XDD
+所有開發環境的問題都解決了，整合度高，效率好，都能用 linux 原生環境，容器化，一行指令就跑起來，不用裝一大堆套件 (就搞定 vscode + docker 就夠了)
+
+所以，我在部落格 root 擺了一個 docker-compose.yaml, 以後只要 git clone, code ., 開 terminal 跑 docker compose up, 開 http://localhost:4000 就可以開始寫部落格了..
+
+
+我的案例剛好沒示範到 build code, 如果你不是寫部落格而是寫 code, 在 terminal 下直接跑 dotnet run 就可以在 wsl 跑你的 c# code 了，用法完全一樣，你不需要在 windows 測試完，在打包成 docker image 丟到 linux 再測一次。你可以很容易地從一開始開發，測試就通通都再以後要執行的 linux 環境下運行。
 
 
 
 # 4, Ollama with CUDA support
 
-接著下一個問題: 我在 windows 下面跑 AI 的應用，光是處理 Python 環境，搞定 CUDA 的套件跟環境，就已經快抓狂了... 工作環境問題，我希望能用 docker 這樣虛擬化的方式幫我搞定，我不需要在我真正工作環境夏裝那麼多相依性的套件，只要 docker pull 正確的 image 回來就能用..
+終於來到最後一個，跑 LLM 需要用到 GPU , 需要相依 Python 套件, 也要相依很難搞的 CUDA ... ( CUDA 版本相容性很糟，裝錯版本可能就跑不起來了 )
 
-軟體安裝倒是簡單，docker 已經很成熟了。問題在於 GPU 的支援。不過，我後來才發現，這點我白擔心了...，Microsoft 早在幾年前就搞定了，WSL 原生支援 GPU support ...
 
-我查了我主要的應用: ollama, 發現 ollama 官網的安裝說明直接教你怎麼搞定 wsl 的 nvidia gpu support 了...
+結果，這個問題真的是我庸人自擾，想太多了。Microsoft 早就幫我解決掉了... 在搞清楚黑科技怎麼做的之前，先來體驗一下效果。我直接看 ollama 的 docker hub 上的說明，他把步驟整理的很精簡:
 
 https://hub.docker.com/r/ollama/ollama
 
-沒想到這是最容易的，基本上照做就完成了。懶得看指令的，我總結一下好處:
+摘要步驟，大致是這樣:
 
-1. windows 環境什麼都不用裝，只要安裝夠新的 nvidia gpu driver 就夠了
-1. wsl 不需要裝 gpu driver, 只要裝 nvidia container toolkit 就好了
-1. 其他只要正確的使用 docker image, 在啟動 container 時 docker run 記得加上  --gpus=all 這參數就夠了，docker 會把所有的 GPU 都分配給 container 使用..
+1. windows 上面要裝 NVIDIA GPU driver (版本夠新就可以，沒有特別的軟體要安裝或設定)
+2. wsl 安裝 NVIDIA container toolkit, 注意 wsl 不需要再裝 GPU driver 了..
+3. wsl 設定 docker runtime 要正確使用 nvidia-ctk
 
-你可以用 nvidia-smi 這指令查看 GPU 的狀況:
+其實, 第一步做完, wsl 本身就已經支援 GPU 了，後面的動作都是為了 docker 內可以使用 GPU 而準備的。
 
-
-我就真的跑個 LLM 吧，來試試 llama3.2:
-
-
-
-
-
-
-回答的速度挺快的，一秒大概 10+ tokens, 比正常講話速度還快。看了一下 windows task manager, 果然 loading 是在 GPU 身上無誤
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-# 2. 確認 Disk IO 的差異
-
-首先，我好奇 Disk IO 的效率到底有差多大，花了點時間了解一下...
-
-基本上，問題來自跨 OS 的 file system 互通這層。Windows Kernel / NTFS 算是 Windows 原生的系統，我就不用管他了。效率自然是沒問題。而 WSL2 開始，Microsoft 的做法基本上是內含一個 Hyper-V 的 VM 來跑 Linux Kernel，然後外掛各種機制來讓你覺得 Windows / WSL 是無縫銜接的，而這中間的效率問題就是元兇...
-
-簡單的區隔一下，使用 WSL 時，磁碟空間大致可以分兩大區域:
-
-1. 來自 windows 原生的 disk, 基本上你在 disk manager 看的到的 ( c:\ , d:\ , e:\ 等等 ) 都屬於這類
-1. 來自 WSL 虛擬硬碟 ( wsl.vhdx ) 的, 例如 ~/ 都屬於這類
-
-從使用情境來看，大致也是兩種狀況:
-1. 在 WSL 下，執行 linux application, 可以透過 /mnt/c 這種路徑來存取 windows c:\ 的檔案，這些檔案是透過 drvfs mount 掛上去的，這就是跨系統的檔案存取。
-1. 另一種是在 windows 下，執行 windows application，藉由 \\wsl$\ubuntu\... 這種路徑來存取 WSL 下 /... 的檔案，這種也是跨系統的檔案存取，靠的是 9P protocol ..
-
-參考虛擬化領域的專家 MVP 的說明:
-
-![](https://www.netadmin.com.tw/netadmin/upload/pic/2023-03/202303301530430456147917.jpg)
-> 來源: 網管人 [第2版視窗子系統Linux - 二刀流無縫順暢運行](https://www.netadmin.com.tw/netadmin/zh-tw/technology/EDC6D4560B184F0D9E7A750862D3C9E4)
-
-
-通常，像我這種 windows 為主的人，使用 docker / wsl 的情境，大都是把檔案擺在 windows 管理範圍內，用熟悉的 windows 管理工具來編輯或是整理檔案 ( vscode, 檔案總管 等等 )，碰到的是 (1) 這種狀況。過去我只知道 (1) 這種狀況的 IO 效能是 "有感" 的慢，到底慢多少我還真沒認真測過.. 這次我剛好升級了設備，就來試試看:
-
-我用的設備是同一套，就我的桌機，規格跟組態如下:
-
-CPU: AMD Ryzen9 3900X
-RAM: DDR4 16GB x 4 = 64GB
-SSD: Crucial T500 2TB PCIe Gen4 NVMe M.2 SSD
-GPU: NVidia RTX 4060Ti - 16GB
-OS: Microsoft Windows 11 Pro (24H2)
-WSL Distro: Ubuntu 24.04 LTS
-
-
-我在 WSL 下跑 Linux 的磁碟效能測試工具: Bonnie++, 第一組 測試存取 ~/temp 目錄的讀寫效能
+你可以下這指令: nvidia-smi 就看的到顯卡的資訊了:
 
 ```
-Version 2.00a       ------Sequential Output------ --Sequential Input- --Random-
-                    -Per Chr- --Block-- -Rewrite- -Per Chr- --Block-- --Seeks--
-Name:Size etc        /sec %CP  /sec %CP  /sec %CP  /sec %CP  /sec %CP  /sec %CP
-ANDREW-PC       63G  540k  99  728m 100  958m  91 2205k  99  1.1g  58 +++++ +++
-Latency             16366us    5650us   12027us    4465us    1806us     478us
-Version 2.00a       ------Sequential Create------ --------Random Create--------
-ANDREW-PC           -Create-- --Read--- -Delete-- -Create-- --Read--- -Delete--
-              files  /sec %CP  /sec %CP  /sec %CP  /sec %CP  /sec %CP  /sec %CP
-                 16 +++++ +++ +++++ +++ +++++ +++ +++++ +++ +++++ +++ +++++ +++
-Latency               586us     404us    3818us    3324us     837us    3156us
-1.98,2.00a,ANDREW-PC,1,1731168315,63G,,8192,5,540,99,745124,100,980550,91,2205,99,1203968,58,+++++,+++,16,,,,,+++++,+++,+++++,+++,+++++,+++,+++++,+++,+++++,+++,+++++,+++,16366us,5650us,12027us,4465us,1806us,478us,586us,404us,3818us,3324us,837us,3156us
+qauser1@TPE-AI-PC:~$ nvidia-smi
+Tue Nov 12 17:37:25 2024
++-----------------------------------------------------------------------------------------+
+| NVIDIA-SMI 550.40.06              Driver Version: 551.31         CUDA Version: 12.4     |
+|-----------------------------------------+------------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
+|                                         |                        |               MIG M. |
+|=========================================+========================+======================|
+|   0  NVIDIA GeForce RTX 4080 ...    On  |   00000000:01:00.0  On |                  N/A |
+|  0%   30C    P8             11W /  320W |     726MiB /  16376MiB |      3%      Default |
+|                                         |                        |                  N/A |
++-----------------------------------------+------------------------+----------------------+
+
++-----------------------------------------------------------------------------------------+
+| Processes:                                                                              |
+|  GPU   GI   CI        PID   Type   Process name                              GPU Memory |
+|        ID   ID                                                               Usage      |
+|=========================================================================================|
+|    0   N/A  N/A        33      G   /Xwayland                                   N/A      |
++-----------------------------------------------------------------------------------------+
 ```
 
-第二組, 一樣 WSL 下，只是測試的目錄是 /mnt/c/temp 的讀寫效能
 
-```
-Version 2.00a       ------Sequential Output------ --Sequential Input- --Random-
-                    -Per Chr- --Block-- -Rewrite- -Per Chr- --Block-- --Seeks--
-Name:Size etc        /sec %CP  /sec %CP  /sec %CP  /sec %CP  /sec %CP  /sec %CP
-ANDREW-PC       63G    6k   6 50.6m   6 22.2m   6    6k   7 39.4m   4  8475 109
-Latency              1445ms   17524us    9356us    1284ms    5950us     408ms
-Version 2.00a       ------Sequential Create------ --------Random Create--------
-ANDREW-PC           -Create-- --Read--- -Delete-- -Create-- --Read--- -Delete--
-              files  /sec %CP  /sec %CP  /sec %CP  /sec %CP  /sec %CP  /sec %CP
-                 16     0   6     0   7     0   7     0   6     0   8     0   6
-Latency             15088us   15053us   18784us   11317us    3377us   12653us
-1.98,2.00a,ANDREW-PC,1,1731170067,63G,,8192,5,6,6,51776,6,22717,6,6,7,40308,4,8475,109,16,,,,,793,6,1765,7,1574,7,827,6,1945,8,1416,6,1445ms,17524us,9356us,1284ms,5950us,408ms,15088us,15053us,18784us,11317us,3377us,12653us
-```
+之後就可以快樂的讓你的 container 能直接使用到 GPU 運算資源了。你只需要在 docker run 啟動 container 時追加這參數 --gpus=all，指派可用的 GPU 給他就可以了。
 
-這組我不用看數字就知道有問題了，第一組大概跑個幾分鐘就結束了 (抱歉我沒有特別紀錄)，而第二組跑了兩個多小時...
+例如:
 
-這數字不大好判讀，全部貼到 ChatGPT o1 preview, 他幫我解讀如下:
+docker run -d --gpus=all -v ollama:/root/.ollama -p 11434:11434 --name ollama ollama/ollama
 
---
-
-您提供了兩份來自 Bonnie++ 的基準測試結果，以下我將對這兩份結果進行比較和分析，幫助您理解它們之間的差異以及可能的原因。
-
-**概述**:
-主機名稱：兩份結果均來自 ANDREW-PC
-測試文件大小：都是 63GB
-
-**第一份測試結果**
-- 順序輸出 - 單字元：6 KB/s，CPU 使用率 6%
-- 順序輸出 - 區塊：50.6 MB/s，CPU 使用率 6%
-- 順序輸出 - 重寫：22.2 MB/s，CPU 使用率 6%
-- 順序輸入 - 單字元：6 KB/s，CPU 使用率 7%
-- 順序輸入 - 區塊：39.4 MB/s，CPU 使用率 4%
-- 隨機搜尋：8,475 次/秒，CPU 使用率 109%
-
-**第二份測試結果**
-- 順序輸出 - 單字元：540 KB/s，CPU 使用率 99%
-- 順序輸出 - 區塊：728 MB/s，CPU 使用率 100%
-- 順序輸出 - 重寫：958 MB/s，CPU 使用率 91%
-- 順序輸入 - 單字元：2,205 KB/s，CPU 使用率 99%
-- 順序輸入 - 區塊：1.1 GB/s，CPU 使用率 58%
-- 隨機搜尋：顯示為 “+++++”，表示性能極高
-
-**比較分析**
-1. 整體性能差異  
-第一份結果顯示出相對較低的 I/O 性能，尤其是在單字元 I/O 操作中，速度極低。  
-第二份結果顯示出異常高的 I/O 性能，傳輸速率達到數百 MB/s，甚至超過 1 GB/s。  
-
-2. CPU 使用率  
-第一份結果的 CPU 使用率普遍較低，除隨機搜尋外，大多在 4-7% 之間。  
-第二份結果的 CPU 使用率極高，單字元和區塊操作中達到 91-100%。  
-
-3. 單字元 I/O 性能  
-第一份結果：6 KB/s，非常低，表示存在性能瓶頸或配置問題。  
-第二份結果：540 KB/s（輸出）和 2,205 KB/s（輸入），有明顯提升，但 CPU 使用率也大幅增加。  
-
-4. 區塊 I/O 性能  
-第一份結果：輸出約 50.6 MB/s，輸入約 39.4 MB/s，屬於機械硬碟的正常範圍。  
-第二份結果：輸出達到 728 MB/s，輸入達到 1.1 GB/s，遠超一般硬碟的性能。  
-
-5. 隨機搜尋性能  
-第一份結果：8,475 次/秒，CPU 使用率 109%。  
-第二份結果：顯示為 “+++++”，表示性能極高或測試結果異常。  
-
-6. 文件創建與刪除操作  
-第一份結果：每秒操作數為 0，操作未成功。  
-第二份結果：每秒操作數顯示為 “+++++”，表示操作速度極高。  
-
---
-
-
-後面還有可能原因分析跟建議作法，我就不貼了，有興趣看整份完整的 report 解讀:
-https://chatgpt.com/share/6730c417-e928-800d-8f5c-e00295bbe0a1
-
-知道了架構上的差異，也知道了實際數字上的差異，怎麼配置就很清楚了。基本上看你最在意效能的環節是哪個，檔案放置的地方就配合它吧，方不方便使用的問題，再由其他工具層級的設定來解決就好。這後面再聊我的案例
-
-
-
-# 3. 確認 WSL 能否存取 GPU 的運算能力
-
-前陣子我為了在本機跑 LLM (我用 ollama)，專程去買了張有 16GB RAM, 規格最入門的 RTX 4060Ti ... 這張沒啥 CP 值，就是老黃專門切給我們這種只是要 "有" GPU 可以用來跑 AI 的人用的產品... 
+試跑了一下 llama3.2, 問了幾個問題, 回應速度還挺快的, 比正常人說話的速度快多了:
 
 
 
 
 
+對應 windows 的 task manager, 果然看的到 GPU 有 loading :
 
 
 
 
----
+執行過程中，再次看一下 nvidia-smi 也一樣看的到有成試在使用 GPU:
 
 
 
-1. AI 相關
-	為了跑 ollama ( 雖然有 windows 版，但是相關資源少很多，往往都得自己除錯。很多錯誤都是低級錯誤，例如檔案路徑 / 跟 \ 的差別，shell script 跟 powershell 的差別，檔案系統特性的差別等等 )。為了跑 LLM 我換了張 4600Ti-16GB 的顯卡，在 windows 上面要裝 CUDA，裝 Python 等等環境，加上相容性問題等等，真是災難...
-
-1. Docker with Heavy IO 相關
-	於是我把念頭動到 docker 身上。上面那些問題如果能用 docker 不是就萬事太平了嗎? docker 是 linux 為基礎的機制，雖然有 windows container，不過連我是 MVP 我都在 2020 年左右棄用它了，改用純 linux docker .. 跑 AI 應用程式開發，當然免不了向量資料庫。在 docker 跑資料庫是一件很 xxxx 的事情，因為這樣我重新踩到 windows 環境 docker 的 IO 問題
-
-1. Windows Desktop 的整合
-	其實我都知道，現在 Server Side 都是以 Linux 為主流了，但是我主要工作環境是 Windows Desktop OS，我不響各種小事都要 ssh 到 linux 才能用啊，本機我還是希望能搞定大部分的事情，而且要簡單，不要做個小事也要啟動 VM blah blah ..., 光是一個 IDE, 我用 visual studio code, 以前嘗試過 code server, 用 browser 來當作工作環境，但是 ...
-
-最後我決定用 WSL 為基礎，重新打造我的工作環境了。Microsoft 提供了一個高度整合 windows / linux 的環境: WSL ( Windows Subsystem for Linux ), 比起你直接跑一個 Linux VM 強太多了，
-
-幾個主要要解決的問題:
-
-- WSL: Ubuntu + Docker ( 不再用 Docker Desktop for Windows )
-	- WSL
-	- Ubuntu + Docker
-- 解決跨 Linux / Windows 的 IO 問題
-	- 在 WSL 內放 docker files / volumes 以提升效能
-
-- 解決 Linux / Windows 的交互操作問題
-	- NTFS 掛上 WSL 的資料夾
-	- VSCODE remote ssh
-	- 其他指令: WSL 啟動 vscode ( code . )
-	- 其他指令: Windows 執行 Linux 指令 ( wsl ls -la )
-	- 其他指令: WSL 執行 Windows ( explorer.exe . )
+大功告成! 看來我也可以無痛的在 wsl 下面執行需要 CUDA 的應用程式了
 
 
-應用案例: 我的部落格 + GitHub Pages
-- docker
-- vscode remote shell exec
-
-
-應用案例: Microsoft Kernel Memory ( using Qdrant )
-- docker volume
-- dotnet develop
+# 5, 心得
 
 
 
 
 
+因為工作環境重整之後，實在太好用，我決定把主要工作環境都轉移到 wsl 上了，用的就是上面示範的幾種應用方式。
 
-
-後端的環境, Linux 早就是標準了, 不過我在 .com 年代就開始在用 windows server, 說實在話很多環境我還是對 windows 掌握比較熟悉一點。不熟的部分，靠著虛擬化，靠著 docker 的幫助，好像不用真的變成 "原生" linux 的使用者，繼續以 windows 當作 desktop 作業環境，日子也可以很開心的過下去...
-
-不過，最近認真重新整理我的工作環境，也順勢換上了 Windows 11 24H2，迎來了 kernel 用 rust 改寫，以及第一版 copilot+ pc 的支援，我決定重新安裝 OS，而非用升級的方式 (我上一次重新安裝我的桌機，應該是六年前換電腦時的事了)
-
-
+也因為這樣，投資了 GPU ( RTX 4060TI-16G ), 也添購了顆 2TB Gen4 SSD ..
