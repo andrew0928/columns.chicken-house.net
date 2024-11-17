@@ -1,0 +1,8 @@
+{
+    "markdown.copyFiles.destination": {
+        "/_posts/**/*": "/wp-content/images/${documentBaseName}/${fileName}"
+    }
+}
+// 2023/05, VSCode New Version (1.79) Supports Pasting Images in Markdown
+// https://code.visualstudio.com/docs/languages/markdown#_path-completions
+// https://dev.to/francecil/vscode-new-version-179-supports-pasting-images-in-markdown-1fd2

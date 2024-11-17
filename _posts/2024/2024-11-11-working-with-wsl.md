@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "關於我轉生成為 Linux  使用者的那件事"
+title: "關於我轉生成為 Linux  開發者的那件事"
 categories:
 - "系列文章: 架構師觀點"
 tags: ["架構師觀點","技術隨筆"]
@@ -9,28 +9,29 @@ comments_disqus: false
 comments_facebook: false
 comments_gitalk: false
 redirect_from:
-logo: 
+logo: /wp-content/images/2024-11-11-working-with-wsl/logo.jpg
 ---
 
 ![](/wp-content/images/2024-11-11-working-with-wsl/logo.jpg)
 > 圖: DALL-E, 我讓 ChatGPT 搜尋我自己然後畫出來的形象圖..
+2
+最近認真的重新整理我桌機的開發環境了。我過去都是完全以 windows 為主的工作環境，只有必要時我才搬出 docker 來跑 Linux 環境的服務。偶爾碰到 windows / linux 跨 OS 整合的問題，就靠我一些小聰明的技巧來閃開，頻率不高，倒也都相安無事。
 
-
-最近認真的重新整理我桌機的開發環境了。以前都是 90% 以 windows 為主的工作環境 ( visual studio, powershell, docker desktop for windows, file system 都用 NTFS ... )。我主要開發的生態系都是 .NET，即使 server side 都是 Linux 的天下, 開發環境都繼續留在 windows，必要時再用 Docker 擋一下，日子也是過得去...
-
-不過，最近有幾個情境，需要大量使用 Linux 原生環境了，這讓我認真考慮要跨出純 windows 環境的舒適圈... 。也因為這樣，最近認真了研究一下 WSL ( Windows Subsystems for Linux )，才發現 Microsoft 在整合兩大作業系統上花了不少功夫，老實說挺厲害的，了解 WSL 整合了多少 windows / linux 之間的問題之後，覺得這應該只有作業系統廠商 ( microsoft, apple, google 這種規模 ) 才做得到的層級了。
-
-這篇，就當作我個人轉移工作環境的心得文好了。其實我要講的都不是新聞了，這些大都是 2022 年就成熟的技巧，有認真在這環境下工作的人大概也都熟悉了，我就當作野人獻曝，講一下我工作環境的作法，跟我理解背後 WSL 如何整合 windows 跟 linux 兩大 kernel ...。
+不過，最近情況改觀了，AI 的關係我開始碰到更多新的服務、工具、甚至操作環境的問題，都需要轉移到 linux 了... 這時以前一些懶的解決的問題不能不面對了 XDD, 不過也多虧有了這個動力，我才發現 WSL ( Windows Subsystem for Linux ) 已經跟我的認知完全不同了。Microsoft 有扮演好作業系統廠商該有的角色，雖然底層是虛擬化，用 VM 跑 Linux Kernel (這是 WSL2 才開始的)，但是在整合面做的不錯，包含 file system, gpu, gui, shell 甚是 executable file, networking 等等層面都做到位了，身為 developer 終於可以忘掉 "os-kernel" 這件事的隔閡了。
 
 <!--more-->
 
-先摘要一下，我要解決的情境有這幾個:
+接下來就是流水帳了，紀錄我用 WSL 如何解決我三種主要使用情境的障礙。我先在這邊列一下清單，沒有先後順序，各位可以挑有興趣的看就好:
 
-1. docker 效率問題，docker desktop for windows 很多餘，docker container 的 IO 效率很糟糕..
-2. 能在 docker 下順利的運行 AI / LLM 的應用，要能高效率的使用我本機的運算資源 ( GPU, CPU, RAM, Disk ...)
-3. 需要桌面應用的操作 (例如 editor, IDE, browser 等等 ) 仍然保留 windows 的介面
+1. WSL / docker 的 IO 效率問題:  
+跨越 os-kernel 的情況下，不論是透過 docker 或是直接在 WSL 下執行 linux app, 有時都會碰到 IO 效率很糟糕的問題..
+1. ide / tools 操作整合的問題:  
+不斷往返兩套作業系統 ( windows, linux ) 的操作介面，再加上視窗與命令列 ( GUI, CLI ) 的區別，最誇張的是一件事要學四種操作方式...
+1. GPU 虛擬化的問題:  
+我想要能在 docker 下順利的運行 AI / LLM 的應用，要能高效率的使用我本機的運算資源 ( GPU, CPU, RAM, Disk ...)。除了效率之外，CUDA 複雜的套件、驅動程式等相依性問題也很令人頭痛..
 
-過去就無腦的在 windows 下開專案，然後在 PowerShell 下啟動 docker 跑 container，基本上 WSL 我只把它當作執行 container 的 host 而已，沒有太多機會直接開 shell 進去下指令，直到我決定調整我工作環境..
+經過這次下定決心要重新轉移工作環境，而這幾年相關的整合也都成熟了 (其實不是新東西，可能用的兇的人早就在用了，我其實是慢半拍)，我就野人獻曝，分享一下我的整理心得。
+
 
 
 # 1. 換工作環境的動機
@@ -39,14 +40,16 @@ logo:
 
 接著重啟服務 (我用 docker compose), 結果服務竟然要花一分多鐘才能啟動完成, 我心裡想這是什麼狀況? 我的桌機雖然是五年前的設備，但是也沒這麼不堪吧? 我列一下我的配備:
 
+```
 CPU: AMD Ryzen9 3900X (12 cores, 24 threads)
 RAM: DDR4 16GB x 4 ( 64GB )
 SSD: Samsung 970Pro 512GB (MLC), PCIE 3.0, NVME
 OS: Microsoft Windows 11 Pro ( 當時跑的是 23H2 )
+```
 
 最後，我想起我多年前踩過的地雷，而且還踩過好幾次... 姑且確認看看吧，我把整個 docker compose 的目錄，包含 docker volumes 都從 windows 下的資料夾，搬到 WSL (Linux) 內的 ~/mskm 目錄下，這次直接在 WSL 下啟動 docker ...
 
-結果竟然秒開.. 然後匯入資料的速度變正常了。連同 embedding 的計算在內，一秒可以跑 5 筆左右。基本上瓶頸就是卡在 embedding 的速度了。這差了幾十倍的速度，才是正常的表現啊。經歷過這次，我決定不撐了，趁著要升級 24H2 打算整個重灌的契機，我打算直接換掉我主要的工作環境，從 windows 為主變成 linux (WSL) 為主。
+結果竟然秒開.. 然後匯入資料的速度變正常了。連同 embedding 的計算在內，一秒可以跑 5 筆左右；如果排除這計算，應該差了千倍有吧。基本上這才是正常的表現啊。經歷過這次，我決定趁著升級 24H2 整個重灌，直接換掉我主要的工作環境: 從 windows 為主變成 linux (WSL) 為主。
 
 雖然工作環境很多，但是歸納一下其實也只有三種類型.. 我就各挑一個代表來展示就好:
 
@@ -55,9 +58,9 @@ OS: Microsoft Windows 11 Pro ( 當時跑的是 23H2 )
 1. 需要 GPU 支援的 docker container - 示範案例: AI 模型推論的基本環境, Ollama + OpenWeb-UI
 
 
-# 2, 容器化的向量資料庫 - Qdrant
+# 2, 案例: 容器化的向量資料庫 - Qdrant
 
-第一個就先來面對我最痛的 IO 效能問題 (因為不解決根本慢到沒辦法跑啊..)。首先，到底有多慢? 我找個 Linux 下的 disk benchmark tools (我用無腦就能跑的 Bonnie++) 跑看看就知道了..
+第一個就先來面對我最痛的 IO 效能問題 (因為不解決根本慢到沒辦法跑啊..)。首先，到底有多慢? 我找個 Linux 下的 disk benchmark tools (我用 Bonnie++) 跑看看就知道了..
 
 我測試的方式很簡單，就測兩組: (1) 在 Linux 下測試原生的 ext4 file system ( 這是在虛擬化環境內，在 OS disk 下的 ext4.vhdx，理論上效能應該會略低於真正的 disk )； (2) 則是測試 Linux 下，存取藉由 WSL2 掛進來的 windows ntfs file system ( 透過 drvfs, 掛載在 /mnt/c 這樣的路徑 )。
 
@@ -265,6 +268,23 @@ qdrant-1  | 2024-11-11T15:15:44.801357Z  INFO qdrant::tonic: TLS disabled for gR
 
 https://learn.microsoft.com/zh-tw/windows-server/administration/windows-commands/mklink
 
+有了這個工具, windows 下也能像 linux 一樣自由的掛載目錄結構了。剩下的問題是: windows 如何直接存取 linux 下的原生 file system? (反過來也一樣, linux 下如何存取原生的 windows file system?)
+
+// 說明 drvfs 系統架構
+
+// 說明  \\wsl$\{distro}\ 的用法
+
+// 說明 /mnt/c 的用法
+
+// 用 mklink ( windows side ) 與 mount ( linux side ) 來解決問題
+
+
+
+
+
+
+
+
 
 WSL 的檔案系統，在 windows 下可以透過 \\wsl$\ubuntu\.... 來存取 ( ubuntu 是 distro name )，所以你只需要用 mklink 指令，把 \\wsl$\ubuntu\opt\docker 掛在 c:\codes\docker 就好了
 
@@ -281,25 +301,42 @@ mklink /d \\wsl$\ubuntu\opt\docker c:\codes\docker
 不過，撇開這些不談，用 mklink 重新掛載 WSL 的資料夾，這倒不失為一個好方法，既維持了我原本工作的習慣與方便性，也解決了硬碟效能問題 (你要買多高級的 SSD 才能有 20x 的效能提升? )
 
 
+## 2-4, 其他 file system 議題
+
+
+最後，補充兩項我在研究這議題翻到的資訊，但是我這篇決定不特別深談的議題
+
+1. windows / linux 對於檔案系統的權限管理機制不同
+1. windows NTFS 額外支援的特殊功能: NTFS stream
+
+
 
 
 # 3, GitHub Pages with Visual Studio Code
 
 透過 mklink, 在 windows 掛載 wsl 的工作環境，雖然解決了使用習慣問題，但是終究是把效能問題換邊放而已啊，跨越 OS kernel 的存取效能終究不好。我只是把效能好的部分保留給 linux 端 ( wsl ) 而已。如果我在 windows 端有別的工具要處理檔案，還是會踩到效能糟的那個環節。
 
-前面的案例是 container 跑 database, 大量的 io 都是發生在 runtime, 因此把檔案丟到 wsl 為主的環境很正常，在 windows 端的操作大概就編輯 dockerfile, docker-compose.yaml 這類操作而已，慢一點不會有感。
+舉例來說，前面的案例是 container 跑 database, 大量的 io 都是發生在 runtime, 因此把檔案丟到 wsl 為主的環境很正常，在 windows 端的操作大概就編輯 dockerfile, docker-compose.yaml 這類操作而已，慢一點不會有感。
 
-但是如果情境是 IDE, 我要面對的是 source code 編輯, 有大量的 css / html / 圖檔等等，IDE 運作會高頻次的存取這些檔案，而 code 在 build 或是 git pull / push / commit 也都會有大量小檔案的存取操作，這時狀況就反過來了。更糟的情況是: 開發編譯需要大量 I/O, 執行也需要大量 I/O, 那你該怎麼辦?
+不過複雜一點的情境，同一份檔案我可能 "同時" 需要透過 windows / linux application 存取，同時都對檔案的存取效能很敏感。例如 IDE, 我要面對的是 source code 編輯, 有大量的 css / html / 圖檔等等，IDE 運作會高頻次的存取這些檔案，而 code 在 build 或是 git pull / push / commit 也都會有大量小檔案的存取操作，如果同時又有需要在 container 下存取這些檔案，上面的作法就無法兼顧了。這時，所有的軟體，包含 IDE, git, build tool, runtime, container 等等都應該在同一個體系內 (白話: 這些工具通通都改用 linux 版，因為很多東西在 windows 上不堪用，或是沒有選擇) 才能解決... 這就回到這段的主題: 跨系統 (跨 OS Kernel) 操作的互通性了。
 
-這問題就更硬了，只是把檔案挑地方放已經不夠了，你的 IDE, git, build tool, runtime, container 等等都應該在同一個體系內 (白話: 這些工具通通都改用 Linux 版) 才能解決... 這就回到這段的主題: 跨系統 (跨 OS Kernel) 操作的互通性了。
+不得不誇一下 Microsoft, WSL 在這部份真的是做得沒話講，先天上 Microsoft 居於劣勢 (無法拋棄 windows nt kernel)，但是跨兩個 os-kernel，居然能做到這般整合的程度，連我都覺得是外星黑科技了。就算是我也花了點功夫，才搞清楚 Microsoft 在背後做了哪些事情... 這段就來聊聊這部分神奇的機制
 
-不得不誇一下 Microsoft, WSL 在這部份真的是做得沒話講，整合的程度我都覺得是外星黑科技了。就算是我也花了點功夫，才搞清楚 Microsoft 在背後做了哪些事情...
+(1) 跨 OS 的 file system 整合:  
+首先, 前面提到 Microsoft 在 WSL 已經把 file system 打通了。windows -> wsl 有 drvfs, 可以在 wsl 內 mount windows file system, 而 wsl -> windows 也支援 9p protocol, windows 內可以用 \\wsl$\ubuntu\ 來存取
 
-(1) 首先, 前面提到 Microsoft 在 WSL 已經把 file system 打通了。windows -> wsl 有 drvfs, 可以在 wsl 內 mount windows file system, 而 wsl -> windows 也支援 9p protocol, windows 內可以用 \\wsl$\ubuntu\ 來存取
+(2) 跨 OS 的 GUI 整合:  
+接下來是 UI, 某一版 windows 開始支援 WSLg, 意思是你可以把 Linux 的 UI 顯示到 Windows 上，就是 Xwindows 那套機制，可以運用到 GPU 資源。這背後其實打通了 device 這層 (後面會再度聊到 GPU，我這邊先點到為止)，UI 操作面也打通了。 (不過最終這個我覺得不大實用，我用不到)
 
-(2) 接下來是 UI, 某一版 windows 開始支援 WSLg, 意思是你可以把 Linux 的 UI 顯示到 Windows 上，就是 Xwindows 那套機制，可以運用到 GPU 資源。這背後其實打通了 device 這層 (後面會再度聊到 GPU，我這邊先點到為止)，UI 操作面也打通了。 (不過最終這個我覺得不大實用，我用不到)
+(3) 跨 OS 的 CLI / Executable File 整合:  
+第三個是 command 的整合。這個真的是黑科技，我可以在 linux 下啟動 windows application, 反過來也可以 ( ssh 很普及, windows 下 linux 指令反倒沒甚麼 ) 
 
-(3) 第三個是 command 的整合。這個真的是黑科技，我示範幾個情境:
+其中 (1) 前面介紹過了，(2) 其實我這次用不到，單純介紹就好。(3) 我覺得是關鍵的黑科技，花點篇幅聊一下..
+
+
+## 3-1, 在 WSL 下執行 Windows CLI / Application
+
+我先示範幾個情境，各位猜看看，你猜不猜的到背後 Microsoft 是怎麼做的?
 
 在 wsl 下 ( bash )，我可以啟動 dos prompt:
 
@@ -464,3 +501,4 @@ docker run -d --gpus=all -v ollama:/root/.ollama -p 11434:11434 --name ollama ol
 因為工作環境重整之後，實在太好用，我決定把主要工作環境都轉移到 wsl 上了，用的就是上面示範的幾種應用方式。
 
 也因為這樣，投資了 GPU ( RTX 4060TI-16G ), 也添購了顆 2TB Gen4 SSD ..
+
