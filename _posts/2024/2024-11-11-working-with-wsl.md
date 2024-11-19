@@ -14,31 +14,36 @@ logo: /wp-content/images/2024-11-11-working-with-wsl/logo.jpg
 
 ![](/wp-content/images/2024-11-11-working-with-wsl/logo.jpg)
 > 圖: DALL-E, 我讓 ChatGPT 搜尋我自己然後畫出來的形象圖..
-2
-最近認真的重新整理我桌機的開發環境了。我過去都是完全以 windows 為主的工作環境，只有必要時我才搬出 docker 來跑 Linux 環境的服務。偶爾碰到 windows / linux 跨 OS 整合的問題，就靠我一些小聰明的技巧來閃開，頻率不高，倒也都相安無事。
 
-不過，最近情況改觀了，AI 的關係我開始碰到更多新的服務、工具、甚至操作環境的問題，都需要轉移到 linux 了... 這時以前一些懶的解決的問題不能不面對了 XDD, 不過也多虧有了這個動力，我才發現 WSL ( Windows Subsystem for Linux ) 已經跟我的認知完全不同了。Microsoft 有扮演好作業系統廠商該有的角色，雖然底層是虛擬化，用 VM 跑 Linux Kernel (這是 WSL2 才開始的)，但是在整合面做的不錯，包含 file system, gpu, gui, shell 甚是 executable file, networking 等等層面都做到位了，身為 developer 終於可以忘掉 "os-kernel" 這件事的隔閡了。
+因為越來越多東西需要在原生的 linux 環境下執行, 趁著要更新 24H2 要重灌系統的機會, 就一起認真的重整我的開發環境了。在 windows 下要以 linux 為主要的工作環境，用 wsl (windows subsystem for linux) 是首選。也因為這次改便環境，研究作法的同時也惡補了一下 wsl 的相關背景知識，這才發現 Microsoft 對 WSL 下了不少功夫啊，背後藏了很多不錯的巧思，正好用這篇整理一下心得。
+
+後面我會交代我的作法，以及我理解的背後架構與限制。不管原理，其實我最想解決的問題 (也是我的動機) 是這幾個:
+
+1. 拋開 docker desktop for windows, 改成直接在 linux 下執行 docker 就好了
+1. 在 windows 下執行 docker, 掛載 volumes 的 IO 效能很糟糕 (糟到用不下去)
+1. 我想在 docker 下執行 CUDA 相關的 AI 應用
+1. 我想建立一個 linux 為主, 能長期使用的通用工作環境，並且能無縫的跟我慣用的 windows 環境整合在一起。常用的工具就那些，包含 visual studio code, git, dotnet 等
+
+
+總算，灌好 windows 11 pro 24h2 的這個禮拜，我總算把我的工作環境打造好了。過程中也發現不少 WSL 的冷知識，也挖出了不少 Microsoft 藏在裡面的黑科技。經過這次下定決心要重新轉移工作環境，而這幾年相關的整合也都成熟了 (其實不是新東西，可能用的兇的人早就在用了，我其實是慢半拍)，我就野人獻曝，分享一下我的整理心得。
 
 <!--more-->
 
-接下來就是流水帳了，紀錄我用 WSL 如何解決我三種主要使用情境的障礙。我先在這邊列一下清單，沒有先後順序，各位可以挑有興趣的看就好:
 
-1. WSL / docker 的 IO 效率問題:  
-跨越 os-kernel 的情況下，不論是透過 docker 或是直接在 WSL 下執行 linux app, 有時都會碰到 IO 效率很糟糕的問題..
-1. ide / tools 操作整合的問題:  
-不斷往返兩套作業系統 ( windows, linux ) 的操作介面，再加上視窗與命令列 ( GUI, CLI ) 的區別，最誇張的是一件事要學四種操作方式...
-1. GPU 虛擬化的問題:  
-我想要能在 docker 下順利的運行 AI / LLM 的應用，要能高效率的使用我本機的運算資源 ( GPU, CPU, RAM, Disk ...)。除了效率之外，CUDA 複雜的套件、驅動程式等相依性問題也很令人頭痛..
-
-經過這次下定決心要重新轉移工作環境，而這幾年相關的整合也都成熟了 (其實不是新東西，可能用的兇的人早就在用了，我其實是慢半拍)，我就野人獻曝，分享一下我的整理心得。
 
 
 
 # 1. 換工作環境的動機
 
-起因是最近在研究 AI 的相關應用開發，免不了都會碰到向量資料庫的建置...。我用的是 Microsoft Kernel-Memory 這個服務，他做的是封裝 RAG 必要的幾個元件，包含 LLM, Embedding, VectorDB, 以及 File Storage ... 我選擇了 Qdrant 當作 VectorDB, 而當我想倒入約 40000 萬筆資料的時候 (這數量以資料庫來說不算很多吧?)，竟然發現建立一筆資料要花掉 5 ~ 10 sec, 而且不論我怎麼優化都沒有用, 看了 CPU / Memory / Disk 也都正常.., 但是就是很慢...
+動機前面帶過了，不過更具體地來說，推動我決定這樣做的最後一根稻草，是 AI 相關的應用。年中的時候，為了跑本地端的 LLM (我當時只有 CPU: AMD 3900X 跟 GPU: AMD RX570 而已)，算力完全不夠啊，買了張 NVIDIA RTX4060Ti 16GB，結果發現要搞定 CUDA 那堆環境還真惱人...
 
-接著重啟服務 (我用 docker compose), 結果服務竟然要花一分多鐘才能啟動完成, 我心裡想這是什麼狀況? 我的桌機雖然是五年前的設備，但是也沒這麼不堪吧? 我列一下我的配備:
+查了一下，難道就不能像 docker 那樣一堆相依的環境都裝在 docker 裡面就好嗎? 還真的有，而且大部分科學運算的應用也都是以 Linux 為主，在 Windows 下要搞定 CUDA，還要搞定 Python，還真是件煩死人的任務。
+
+於是，一路就從 docker, 從 GPU, 連帶的解決 docker / wsl 存取 windows file system 很離譜的 IO 效能問題, 到整個 visual studio code 的環境完全搬移到 linux ( 對，連你開出 vscode terminal, 都直接是 bash, 不是 powershell ..., 檔案的路徑都是 rootfs, 不是 windows ntfs..)
+
+而 IO 問題，我有兩個案例，一個是跑向量資料庫 Qdrant, 才塞了四萬筆資料，結果整個 container 啟動竟然需要一分鐘? (換了 Gen4 SSD 後有改善，"只要" 不到 40 sec ... )，另外我自己的部落格，要用 Jekyll 的 container 預覽，竟然也要跑 110 sec ... 這實在不是個能接受的工作環境..
+
+我心裡想這是什麼狀況? 我的桌機雖然是五年前的設備，但是也沒這麼不堪吧? 我列一下我的配備:
 
 ```
 CPU: AMD Ryzen9 3900X (12 cores, 24 threads)
@@ -47,26 +52,63 @@ SSD: Samsung 970Pro 512GB (MLC), PCIE 3.0, NVME
 OS: Microsoft Windows 11 Pro ( 當時跑的是 23H2 )
 ```
 
-最後，我想起我多年前踩過的地雷，而且還踩過好幾次... 姑且確認看看吧，我把整個 docker compose 的目錄，包含 docker volumes 都從 windows 下的資料夾，搬到 WSL (Linux) 內的 ~/mskm 目錄下，這次直接在 WSL 下啟動 docker ...
+我想起我多年前踩過的地雷 ( 2018 的文章: [使用 LCOW 掛載 Volume 的效能陷阱](/2018/07/28/labs-lcow-volume/) )，也碰過類似的狀況，這次我趁著有乾淨環境的狀況下，好好的測試一次，也重新調整過磁碟的使用方式，算是徹底解決掉了，這是第一個成果，我只要些微的改變磁碟目錄的安置方式，問題就搞定了。啟動 Qdrant 的時間只需要原本的 1/25, 部落格文章預覽需要的建置時間只要原本的 1/18 ...
 
-結果竟然秒開.. 然後匯入資料的速度變正常了。連同 embedding 的計算在內，一秒可以跑 5 筆左右；如果排除這計算，應該差了千倍有吧。基本上這才是正常的表現啊。經歷過這次，我決定趁著升級 24H2 整個重灌，直接換掉我主要的工作環境: 從 windows 為主變成 linux (WSL) 為主。
+這麼戲劇化的改善，一定是原本的架構有問題 XDD，不然你要花多少錢才買的到 25 倍快的 SSD?
 
-雖然工作環境很多，但是歸納一下其實也只有三種類型.. 我就各挑一個代表來展示就好:
+細節後面會交代，我整理了一下，我把我所有問題歸納成這三種類型.. 每種題型我就各挑一個代表來展示就好:
 
 1. 需要大量 IO 的 docker container - 示範案例: Qdrant
 1. 需要整合環境 Visual Studio Code - 示範案例: 我的部落格撰寫環境 GitHub Pages
 1. 需要 GPU 支援的 docker container - 示範案例: AI 模型推論的基本環境, Ollama + OpenWeb-UI
 
+最後，也因為這些調整跟研究，我也更清楚知道我未來的工作環境需要什麼了，就趁這次機會做個小幅的升級，小規模的敗家，升級了部分配備，現在，我的桌機的配備是:
+
+```
+CPU: AMD Ryzen9 3900X (沒變)
+RAM: DDR4 16GB x 4 = 64GB (沒變)
+WSL Distro: Ubuntu 24.04 LTS (重新建立)
+
+SSD: Crucial T500 2TB PCIe Gen4 NVMe M.2 SSD (升級了容量跟速度)
+GPU: NVidia RTX 4060Ti - 16GB (添購了 GPU)
+OS: Microsoft Windows 11 Pro (24H2, 趁機重灌, 重建環境)
+```
+
 
 # 2, 案例: 容器化的向量資料庫 - Qdrant
 
-第一個就先來面對我最痛的 IO 效能問題 (因為不解決根本慢到沒辦法跑啊..)。首先，到底有多慢? 我找個 Linux 下的 disk benchmark tools (我用 Bonnie++) 跑看看就知道了..
+第一個就先來面對我最痛的 Docker IO 效能問題，當時我心裡想，這題要是無解，我就直接放棄了 XDD。以前我認為這無解，就乾脆不在本機跑這些服務了 (我直接丟到 NAS / Cloud 用原生的 Linux 來跑，眼不見為淨)。首先，為了弄清楚在 Windows 上面跑 Docker 的 IO 到底有多慢? 我找了同時有 windows / linux 版本的 disk benchmark 工具: [fio](https://fio.readthedocs.io/en/latest/fio_doc.html) 來測試。
 
-我測試的方式很簡單，就測兩組: (1) 在 Linux 下測試原生的 ext4 file system ( 這是在虛擬化環境內，在 OS disk 下的 ext4.vhdx，理論上效能應該會略低於真正的 disk )； (2) 則是測試 Linux 下，存取藉由 WSL2 掛進來的 windows ntfs file system ( 透過 drvfs, 掛載在 /mnt/c 這樣的路徑 )。
 
-如果你在 windows 下執行 docker, 然後在 docker run ......  -v 掛載了 c:\working-dir\ 的目錄，那就會踩到第二種情境了。Linux 環境下的 container 必須透過 drvfs 掛載 c:\working-dir 才能讓 container 存取，就踩到跨 kernel 的 file system access 問題。你會高機率就踩到這情境 (而且通常是不知不覺)，因為大部分的範例都是這樣教你的 XDD
+我測試的方式很簡單，有兩組要被測試的資料夾，分別在 windows 下的 NTFS, 以及在 wsl (linux) 下的 ext4 ... 以這兩個磁碟空間為測試標的，個別測試從 windows 以及從 wsl 去存取這資料夾，看看這四種組合跑出來的 disk i/o benchmark 分數..
 
-不囉嗦，直接來看 Bonnie 跑出來的結果..
+在這邊先科普一下 WSL 的 file system 架構... 看底下這張圖:
+
+![](/wp-content/images/2024-11-11-working-with-wsl/image.png)
+> https://www.polarsparc.com/xhtml/IntroToWSL2.html
+
+
+基本上存取路徑大致可以這樣分，應用程式都是在黃色的 user space 執行的 ( 有 windows / wsl 兩個 )，而 file system 也都是跟著 kernel 的 ( 一樣有 windows: NTFS, 也有 wsl: ext4 ), 而我用預設的 wsl, disk 多一層虛擬化 (對應到 NTFS 上的檔案: ext4.vhdx )
+
+因此，我列出所有的 4 種組合情境:
+
+1. 由 windows app 存取 windows file system:  
+NTFS, c:\benchmark_temp, 最直接的存取路徑, 完全沒有額外消耗的理想情境, 大部分單純的 windows 應用都是這類。
+1. 由 windows app 存取 wsl file system:  
+EXT4, \\wsl$\ubuntu\home\andrew\benchmark_temp, 中間跨越 9p protocol 進到 linux kernel, 而 linux 要存取 disk 還得經過一層 hyper-v 虛擬化的機制 (存取放在 NTFS 上的 .vhdx, 多一層虛擬化轉換)
+1. 由 wsl application 存取 wsl file system:  
+EXT4, ~/benchmark_temp, 基本上軟體也是直接的路徑, 只是 wsl 終究是 VM, 終究需要透過 hyper-v 虛擬化機制存取 .vhdx
+1. 由 wsl application 存取 windows file system:  
+NTFS, /mnt/c/benchmark_temp, 中間經過一層 drvfs (檔案系統對應，同時包含 9p protocol) 的轉換..
+
+
+如果你在 windows 下執行 docker, 然後在 docker run ......  -v 掛載了 c:\working-dir\ 的目錄，那就會踩到第四種情境了，磁碟效能會被扒一層皮 ( drvfs )。WSL 的前生 LCOW ，就我前面提到，2018 那篇文章，也是踩到第四種情境。你會發現效能掉的很離譜，就是這種狀況。
+
+在 Linux 環境下的 container 必須透過 drvfs 掛載 c:\working-dir 才能讓 container 存取，這層轉換損失了效能，也遺失了部分 file system 的特性 (例如 file change event)。你如果只是照各種範例教學，就在 windows 下使用 docker 的話，高機率就踩到這情境 (而且通常是不知不覺)... 實測之後，我才發現較能差距有這麼大，以前真的白花了很多冤枉時間在電腦前面發呆...  
+
+不囉嗦，直接來看跑分的結果.. 這四種組合我都跑一次 disk benchmark 來比較看看差異...。
+
+
 
 ## 2-1, WSL 磁碟效能 Benchmark
 
@@ -83,100 +125,172 @@ GPU: NVidia RTX 4060Ti - 16GB
 OS: Microsoft Windows 11 Pro (24H2)
 ```
 
-我在 WSL 下跑 Linux 的磁碟效能測試工具: Bonnie++, 第一組 測試存取 ~/temp 目錄的讀寫效能
+我用的 disk benchmark 測試工具是 fio, 安裝很容易, 在 wsl 下只要一行指令就能安裝:
 
 ```
-Version 2.00a       ------Sequential Output------ --Sequential Input- --Random-
-                    -Per Chr- --Block-- -Rewrite- -Per Chr- --Block-- --Seeks--
-Name:Size etc        /sec %CP  /sec %CP  /sec %CP  /sec %CP  /sec %CP  /sec %CP
-ANDREW-PC       63G  540k  99  728m 100  958m  91 2205k  99  1.1g  58 +++++ +++
-Latency             16366us    5650us   12027us    4465us    1806us     478us
-Version 2.00a       ------Sequential Create------ --------Random Create--------
-ANDREW-PC           -Create-- --Read--- -Delete-- -Create-- --Read--- -Delete--
-              files  /sec %CP  /sec %CP  /sec %CP  /sec %CP  /sec %CP  /sec %CP
-                 16 +++++ +++ +++++ +++ +++++ +++ +++++ +++ +++++ +++ +++++ +++
-Latency               586us     404us    3818us    3324us     837us    3156us
-1.98,2.00a,ANDREW-PC,1,1731168315,63G,,8192,5,540,99,745124,100,980550,91,2205,99,1203968,58,+++++,+++,16,,,,,+++++,+++,+++++,+++,+++++,+++,+++++,+++,+++++,+++,+++++,+++,16366us,5650us,12027us,4465us,1806us,478us,586us,404us,3818us,3324us,837us,3156us
+sudo apt-get install fio
 ```
 
-第二組, 一樣 WSL 下，只是測試的目錄是 /mnt/c/temp 的讀寫效能
+在 windows 下也差不多:
 
 ```
-Version 2.00a       ------Sequential Output------ --Sequential Input- --Random-
-                    -Per Chr- --Block-- -Rewrite- -Per Chr- --Block-- --Seeks--
-Name:Size etc        /sec %CP  /sec %CP  /sec %CP  /sec %CP  /sec %CP  /sec %CP
-ANDREW-PC       63G    6k   6 50.6m   6 22.2m   6    6k   7 39.4m   4  8475 109
-Latency              1445ms   17524us    9356us    1284ms    5950us     408ms
-Version 2.00a       ------Sequential Create------ --------Random Create--------
-ANDREW-PC           -Create-- --Read--- -Delete-- -Create-- --Read--- -Delete--
-              files  /sec %CP  /sec %CP  /sec %CP  /sec %CP  /sec %CP  /sec %CP
-                 16     0   6     0   7     0   7     0   6     0   8     0   6
-Latency             15088us   15053us   18784us   11317us    3377us   12653us
-1.98,2.00a,ANDREW-PC,1,1731170067,63G,,8192,5,6,6,51776,6,22717,6,6,7,40308,4,8475,109,16,,,,,793,6,1765,7,1574,7,827,6,1945,8,1416,6,1445ms,17524us,9356us,1284ms,5950us,408ms,15088us,15053us,18784us,11317us,3377us,12653us
+winget install --id fio.fio
 ```
 
-這測試我不用看數字就知道有問題了，因為跑第一組大概跑個幾分鐘就結束了 (抱歉我沒有特別紀錄)，而第二組跑了兩個多小時... 這數字不大好判讀，我全部貼到 ChatGPT o1 preview, 他幫我解讀如下:
 
---
+我測試的參數統一如下 (除了不同環境，會換掉 path, 也會換掉 io engine 之外, 其餘都相同)，測試的都是同一顆硬碟:
 
-您提供了兩份來自 Bonnie++ 的基準測試結果，以下我將對這兩份結果進行比較和分析，幫助您理解它們之間的差異以及可能的原因。
-
-**概述**:
-主機名稱：兩份結果均來自 ANDREW-PC
-測試文件大小：都是 63GB
-
-**第一份測試結果**
-- 順序輸出 - 單字元：6 KB/s，CPU 使用率 6%
-- 順序輸出 - 區塊：50.6 MB/s，CPU 使用率 6%
-- 順序輸出 - 重寫：22.2 MB/s，CPU 使用率 6%
-- 順序輸入 - 單字元：6 KB/s，CPU 使用率 7%
-- 順序輸入 - 區塊：39.4 MB/s，CPU 使用率 4%
-- 隨機搜尋：8,475 次/秒，CPU 使用率 109%
-
-**第二份測試結果**
-- 順序輸出 - 單字元：540 KB/s，CPU 使用率 99%
-- 順序輸出 - 區塊：728 MB/s，CPU 使用率 100%
-- 順序輸出 - 重寫：958 MB/s，CPU 使用率 91%
-- 順序輸入 - 單字元：2,205 KB/s，CPU 使用率 99%
-- 順序輸入 - 區塊：1.1 GB/s，CPU 使用率 58%
-- 隨機搜尋：顯示為 “+++++”，表示性能極高
-
-**比較分析**
-1. 整體性能差異  
-第一份結果顯示出相對較低的 I/O 性能，尤其是在單字元 I/O 操作中，速度極低。  
-第二份結果顯示出異常高的 I/O 性能，傳輸速率達到數百 MB/s，甚至超過 1 GB/s。  
-
-2. CPU 使用率  
-第一份結果的 CPU 使用率普遍較低，除隨機搜尋外，大多在 4-7% 之間。  
-第二份結果的 CPU 使用率極高，單字元和區塊操作中達到 91-100%。  
-
-3. 單字元 I/O 性能  
-第一份結果：6 KB/s，非常低，表示存在性能瓶頸或配置問題。  
-第二份結果：540 KB/s（輸出）和 2,205 KB/s（輸入），有明顯提升，但 CPU 使用率也大幅增加。  
-
-4. 區塊 I/O 性能  
-第一份結果：輸出約 50.6 MB/s，輸入約 39.4 MB/s，屬於機械硬碟的正常範圍。  
-第二份結果：輸出達到 728 MB/s，輸入達到 1.1 GB/s，遠超一般硬碟的性能。  
-
-5. 隨機搜尋性能  
-第一份結果：8,475 次/秒，CPU 使用率 109%。  
-第二份結果：顯示為 “+++++”，表示性能極高或測試結果異常。  
-
-6. 文件創建與刪除操作  
-第一份結果：每秒操作數為 0，操作未成功。  
-第二份結果：每秒操作數顯示為 “+++++”，表示操作速度極高。  
-
---
-
-不得不說 AI 真是這年代的得力助手，這些資訊解讀省了我不少時間。ChatGPT 在後面還有補充可能原因分析跟建議作法，我就不貼了，有興趣看整份完整的 report 解讀:
-
-https://chatgpt.com/share/6730c417-e928-800d-8f5c-e00295bbe0a1
-
-實在無法想像，這些都是在同一台電腦，同一顆硬碟上面測出來的結果.. 只是換個存取路徑就有這種天差地遠的差別。知道這差異之後，我就知道該怎麼調整用法了...
+```
+fio  --name=benchmark \
+      --directory=//wsl$/ubuntu/home/andrew/benchmark_temp \
+      --size=16G \
+      --rw=randrw \
+      --bs=4k \
+      --numjobs=8 \
+      --iodepth=64 \
+      --ioengine=windowsaio \
+      --direct=1 \
+      --time_based \
+      --runtime=300
+```
 
 
+測試檔案大小 16GB, 隨機讀寫, 4k block, 8 concurrent processes, disable cache, 測試 300 sec
 
-## 2-2, 實際部署 Qdrant 測試資料庫
+
+四組測試的結果，我直接都貼給 ChatGPT 幫我彙整了，我就不另外整理數據了，請看分析報告:
+
+以下是最終版本的數據表格以及測試數據的解讀：
+
+
+---
+
+### 數據表格 (via ChatGPT)
+
+| 測試環境        | 檔案系統  | READ (MiB/s) | READ IO (GiB) | WRITE (MiB/s) | WRITE IO (GiB) | 測試時長 (秒) |
+|----------------|---------------|-------------------|------------------|--------------------|-------------------|---------------|
+| Windows    | Windows       | 576               | 169              | 576                | 169               | 300           |
+| WSL            | WSL           | 209               | 61.2             | 209                | 61.2              | 300           |
+| Windows    | WSL           | 16.5              | 4.951            | 16.5               | 4.958             | 300           |
+| WSL            | Windows       | 37.5              | 11.0             | 37.6               | 11.0              | 300           |
+
+---
+
+### 測試數據的解讀 (via ChatGPT)
+
+**1. Windows → Windows（測試編號 1）**
+- **結果：高性能**  
+  - 帶寬達到 576 MiB/s，總 IO 169 GiB。
+  - 此結果完全符合 PCIe 4.0 NVMe SSD 的隨機 4K 性能範疇，表現正常。
+- **解讀：**  
+  - Windows 原生檔案系統（NTFS）的優化和直接 I/O 訪問使性能接近硬體極限。
+  - 測試中的多工作線程和高 I/O 深度設置沒有明顯的瓶頸。
+
+**2. WSL → WSL（測試編號 2）**
+- **結果：中等性能**  
+  - 帶寬 209 MiB/s，總 IO 61.2 GiB。
+  - 性能約為 Windows → Windows 的 36%，存在虛擬化損耗。
+- **解讀：**  
+  - WSL2 虛擬環境中的 EXT4 模擬檔案系統性能相較於 Windows 原生檔案系統略有降低。
+  - 虛擬化層和多線程高併發的開銷影響了性能。
+
+**3. Windows → WSL（測試編號 3）**
+- **結果：低性能**  
+  - 帶寬僅 16.5 MiB/s，總 IO 約 4.951 GiB。
+  - 性能明顯低於預期。
+- **解讀：**  
+  - Windows 透過 9P 協定存取 WSL 的 EXT4 檔案系統，導致高延遲。
+  - NTFS 和 EXT4 之間的檔案格式轉換以及協定處理的低效率是主要瓶頸。
+  - 此測試結果在跨系統操作中屬於合理範圍，但對於高性能應用場景不具代表性。
+
+**4. WSL → Windows（測試編號 4）**
+- **結果：低性能**  
+  - 帶寬 37.5 MiB/s，總 IO 11 GiB。
+  - 性能略優於 Windows → WSL，但仍顯著低於其他情境。
+- **解讀：**  
+  - 類似於測試編號 3，WSL 存取 Windows 的 NTFS 檔案系統同樣依賴 9P 協定。
+  - 虛擬化層、協定延遲以及 I/O 格式轉換造成了性能瓶頸。
+
+---
+
+### 數據的關鍵洞察 (via ChatGPT)
+
+1. **Windows 原生操作系統表現最佳**  
+   - Windows 原生存取 Windows 檔案系統（NTFS）能發揮 SSD 性能的最大潛力。
+
+2. **WSL 中的虛擬化開銷明顯**  
+   - WSL → WSL 性能較佳，但仍有顯著虛擬化損耗。
+   - EXT4 模擬和虛擬化層影響性能，但結果在合理範圍內。
+
+3. **跨系統檔案系統操作存在嚴重性能損耗**  
+   - Windows ↔ WSL 的存取受制於 9P 檔案系統協定，導致性能顯著下降。
+   - 此類操作不適合高性能需求場景，應避免頻繁使用。
+
+4. **測試設置合理，數據整體可信**  
+   - 測試參數（隨機讀寫、4K 區塊、多工作線程）模擬了真實的高負載場景。
+   - 結果反映了不同檔案系統與操作環境的性能差異。
+
+
+---
+
+
+
+
+別的不看，光是看 4k random access 存取同一顆 SSD, 最好跟最差就有 576MB/s 跟 16.5 MB/s 的差別，足足 35x 的差距... (我用 HDD 跟 SSD 也沒差這麼多啊)。實在無法想像，這些都是在同一台電腦，同一顆硬碟上面測出來的結果.. 。還好我有做過這測試，知道這差異之後，我就知道該怎麼調整用法了...
+
+
+## 2-2, 測試數據的解讀, 與 WSL 架構
+
+繼續往下看怎麼調整環境前，我先把 benchmark 這段作個結尾吧。雖說對這結果 (分數) 有點意外，因為落差實在太大，但是對照架構圖來看，其實都解釋的通。我就用架構圖來說明這測試背後發生什麼事，結束這段落吧。
+
+首先，我特地引用了張我平常根本不會看的網站資訊 XDDD
+
+![](/wp-content/images/2024-11-11-working-with-wsl/image-1.png)
+> https://ascii.jp/elem/000/004/026/4026714/
+
+我在 Microsoft 官網找了半天，都沒有找到合適的架構圖來講我講說的主題，結果意外的翻到這張圖，講得最到位；看了一下內容，也完全是我要講的題目啊啊啊 (難怪圖那麼搭)。我就破例用這篇日文的技術文章來說明吧
+
+首先，WSL2 就是用 VM 來執行完整的 Linux Kernel, 外加 Microsoft 替 WSL 做的各種整合，來讓 Windows / Linux 兩組 Kernel 能夠盡量無縫的整合再一起的架構，其中第一個就是 file system 的整合。
+
+圖的左側 (橘色)，就是正常的 win32 環境, 直接透過 windows driver 存取 disk, 通常都是用 NTFS 來格式化, 這是正常的部分。而 WSL2 主體的 Linux, 是在 VM 內執行的一套 Linux, 主要的 rootfs 來自 c:\users 下某目錄的 ext4.vhdx 虛擬硬碟，如圖左下所示。這 vhdx 對應到 WSL 內的 /dev/sda (Linux 設備內的第一顆硬碟)
+
+而原生 windows 的 disk, 則透過內建在 WSL2 內的 DrvFS 驅動程式掛載進來的, 預設會按照 windows 的磁碟機代號, 按照 /mnt/c, /mnt/d ... 照順序一個一個 mount, 因此你可以在 WSL2 內用這樣的路徑存取 windows 的檔案。
+
+而反過來，windows 也可以透過 \\wsl$\ubuntu\ 來存取 wsl2 的 rootfs, 其中 ubuntu 應該替換成你安裝的 distro 名稱 (如果你不是選 ubuntu 的話)，這是透過 9p protocol 來存取的 (這看 Microsoft 官方的圖就比較清楚了)
+
+![alt text](/wp-content/images/2024-11-11-working-with-wsl/image-2.png)
+> https://www.netadmin.com.tw/netadmin/zh-tw/technology/EDC6D4560B184F0D9E7A750862D3C9E4
+
+每多一層轉換，IO 的效率就會 **很有感** 的下降一級... 我把前面測試的四種案例，都在圖上標示:
+
+1. windows -> windows: 最短路徑, 當作理想毫無損耗的對照組
+1. windows -> wsl2, 經過 **9P protocol** 到 linux kernel, 再經過 **hpyervisor** 處理硬碟的虛擬化 (實體是 ext4.vhdx)
+1. wsl2 -> wsl2, 只有經過 **hypervisor** 虛擬化硬碟, 其餘都沒有經過額外的轉換
+1. wsl2 -> windows, 只有經過 **DrvFS** 轉譯 ( 背後也是有經過 9P protocol, 不過我就把它當作同一件事了) 來傳送檔案存取的要求
+
+每層轉換，我都用黑體標示了。我把上面那張表格內容換一下，對照看就知道影響多大了:
+
+| 測試環境        | 檔案系統  | READ (MiB/s) | 轉換層 | 效能表現 |
+|---------------|------------|---------------|---------|----------|
+| Windows      | Windows  | 576               | --         | 100% (對照組)     |
+| WSL              | WSL         | 209               | Hyper-V | 36.28% |
+| Windows     | WSL          | 16.5              | 9P protocol + Hyper-V | 2.86% |
+| WSL            | Windows   | 37.5              | DrvFS | 6.51% |
+
+我用很不精準的估算，其實還算合理。如果單純經過 Hpyer-V 大概只剩 36.28% 的效能；只經過 9P 大概剩 6.51% 的效能，兩個都過一次就是 36.28% x 6.51% = 2.34%, 其實跟第三項測試結果接近 (2.86%), 大致上可以驗證架構圖上的路徑。
+
+而我說這篇文章 (日文這篇) 很有意思，後面的內容就是介紹 WSL2 如何額外掛載獨立的 Disk, Hyper-V 允許你直接掛上原生的硬碟, 效率會好得多。
+
+而 WSL 層層轉譯的效能研究，這一篇也講得不錯，它把我的情境做了更多詳細的測試跟圖表 (怎麼又是日文的... Orz)
+https://news.mynavi.jp/article/20220318-2296803/
+
+其實還有一個組合，我這次沒拿出來用，就是 WSL - WSL 的組態，受限於預設的 WSL 配置，Windows 會在 c:\ 配置一個 vhdx 檔案給 wsl 當作 disk 使用，導致無可避免地多了一層 Hyper-V 的轉換。其實如果你願意的話，是可以直接掛載實體的 disk 或是 partation 給 WSL 用的 (其實就是這篇日文文章的後半段在講的作法，或是 Microsoft 官方文件也有說明: [Mount a Linux disk in WSL2](https://learn.microsoft.com/en-us/windows/wsl/wsl2-mount-disk?source=docs&WT.mc_id=email&sharingId=AZ-MVP-5002155))。你可以原生就格式化成 ext4 .. 這會最大化 WSL 的磁碟效能，應該跟原生的磁碟表現同等級的吧。目前硬體設備不足，等到哪天我 WSL 越用越兇，願意投資一顆專屬的 SSD 給 WSL 用的話，再來補這個測試..
+
+看到這邊，大概心理的疑慮都有答案了。雖然數字不好看，但是知道原因，知道表現，我至少有能力閃開他，挑選我最適合的用法了。接下來繼續往下，看看我實際的配套措施。
+
+
+
+## 2-3, 實際部署 Qdrant 測試資料庫
 
 接下來，就拿我實際的測試案例出來吧。在之前聊 RAG 的文章: "______" 內，我用的是 Microsoft Kernel Memory 這個服務，封裝 file storage 以及 vector database, 整合幾種主流的 LLM 與 Embedding Model, 結合而成的 RAG 服務框架..
 
@@ -193,6 +307,17 @@ Bytes: 5.386GB
 其實，還不需要動用到 benchmark, 光是看啟動時間就有差別了... 我直接拿 docker logs 來看，從第一筆啟動的 log timestamp, 直到看到 gRPC ready 的紀錄為止:
 
 ```
+Attaching to qdrant-1
+qdrant-1  |            _                 _
+qdrant-1  |   __ _  __| |_ __ __ _ _ __ | |_
+qdrant-1  |  / _` |/ _` | '__/ _` | '_ \| __|
+qdrant-1  | | (_| | (_| | | | (_| | | | | |_
+qdrant-1  |  \__, |\__,_|_|  \__,_|_| |_|\__|
+qdrant-1  |     |_|
+qdrant-1  |
+qdrant-1  | Version: 1.12.4, build: 5b578c4f
+qdrant-1  | Access web UI at http://localhost:6333/dashboard
+qdrant-1  |
 qdrant-1  | 2024-11-11T15:17:28.311248Z  INFO storage::content_manager::consensus::persistent: Loading raft state from ./storage/raft_state.json
 qdrant-1  | 2024-11-11T15:17:28.399231Z  INFO storage::content_manager::toc: Loading collection: b2e-knowledge
 qdrant-1  | 2024-11-11T15:17:34.362612Z  INFO collection::shards::local_shard: Recovering collection b2e-knowledge: 0/1 (0%)
@@ -222,73 +347,26 @@ qdrant-1  | 2024-11-11T15:18:35.962011Z  INFO qdrant::tonic: Qdrant gRPC listeni
 qdrant-1  | 2024-11-11T15:18:35.962079Z  INFO qdrant::tonic: TLS disabled for gRPC API
 ```
 
-第一組，是跑在 /mnt/c 底下的測試結果，啟動需要 67.563 sec .. (17:28.399 ~ 18:35.962)
+第一組，是跑在 /mnt/c 底下的測試結果，也就是 wsl -> windows 的組態，啟動已有四萬筆資料的 qdrant container, 需要 38.376 sec ..
 
-
+仔細看看 docker logs, 你會發現, 時間都花費在載入 collection，例如這行就花掉 6 sec, 才看的到下一行:
 
 ```
-qdrant-1  | 2024-11-11T15:15:41.384524Z  INFO storage::content_manager::toc: Loading collection: b2e-knowledge
-qdrant-1  | 2024-11-11T15:15:41.659300Z  INFO collection::shards::local_shard: Recovering collection b2e-knowledge: 0/1 (0%)
-qdrant-1  | 2024-11-11T15:15:41.753061Z  INFO collection::shards::local_shard: Recovered collection b2e-knowledge: 1/1 (100%)
-qdrant-1  | 2024-11-11T15:15:41.755562Z  INFO storage::content_manager::toc: Loading collection: pq-points-testcase
-qdrant-1  | 2024-11-11T15:15:41.954480Z  INFO collection::shards::local_shard: Recovering collection pq-points-testcase: 0/1 (0%)
-qdrant-1  | 2024-11-11T15:15:42.039353Z  INFO collection::shards::local_shard: Recovered collection pq-points-testcase: 1/1 (100%)
-qdrant-1  | 2024-11-11T15:15:42.040599Z  INFO storage::content_manager::toc: Loading collection: erp-shop-qa
-qdrant-1  | 2024-11-11T15:15:42.762995Z  INFO collection::shards::local_shard: Recovering collection erp-shop-qa: 0/1 (0%)
-qdrant-1  | 2024-11-11T15:15:42.834588Z  INFO collection::shards::local_shard: Recovered collection erp-shop-qa: 1/1 (100%)
-qdrant-1  | 2024-11-11T15:15:42.835558Z  INFO storage::content_manager::toc: Loading collection: pq-testcase-documents
-qdrant-1  | 2024-11-11T15:15:43.111973Z  INFO collection::shards::local_shard: Recovering collection pq-testcase-documents: 0/1 (0%)
-qdrant-1  | 2024-11-11T15:15:43.199262Z  INFO collection::shards::local_shard: Recovered collection pq-testcase-documents: 1/1 (100%)
-qdrant-1  | 2024-11-11T15:15:43.200216Z  INFO storage::content_manager::toc: Loading collection: pq-test-cases
-qdrant-1  | 2024-11-11T15:15:43.406815Z  INFO collection::shards::local_shard: Recovering collection pq-test-cases: 0/1 (0%)
-qdrant-1  | 2024-11-11T15:15:43.485705Z  INFO collection::shards::local_shard: Recovered collection pq-test-cases: 1/1 (100%)
-qdrant-1  | 2024-11-11T15:15:43.487100Z  INFO storage::content_manager::toc: Loading collection: erp-shop-production
-qdrant-1  | 2024-11-11T15:15:44.716729Z  INFO collection::shards::local_shard: Recovering collection erp-shop-production: 0/1 (0%)
-qdrant-1  | 2024-11-11T15:15:44.793619Z  INFO collection::shards::local_shard: Recovered collection erp-shop-production: 1/1 (100%)
-qdrant-1  | 2024-11-11T15:15:44.795503Z  INFO qdrant: Distributed mode disabled
-qdrant-1  | 2024-11-11T15:15:44.795852Z  INFO qdrant: Telemetry reporting enabled, id: 744ae5dd-7970-4431-bdd0-b7a958f7c25d
-qdrant-1  | 2024-11-11T15:15:44.799686Z  INFO qdrant::actix: TLS disabled for REST API
-qdrant-1  | 2024-11-11T15:15:44.800206Z  INFO qdrant::actix: Qdrant HTTP listening on 6333
-qdrant-1  | 2024-11-11T15:15:44.800226Z  INFO actix_server::builder: Starting 15 workers
-qdrant-1  | 2024-11-11T15:15:44.800233Z  INFO actix_server::server: Actix runtime found; starting in Actix runtime
-qdrant-1  | 2024-11-11T15:15:44.801323Z  INFO qdrant::tonic: Qdrant gRPC listening on 6334
-qdrant-1  | 2024-11-11T15:15:44.801357Z  INFO qdrant::tonic: TLS disabled for gRPC API
+qdrant-1  | 2024-11-11T15:17:28.399231Z  INFO storage::content_manager::toc: Loading collection: b2e-knowledge
 ```
 
-第二組，換了個位置，我直在 vhdx 內 /opt/docker/ 下面測試，啟動只需要 3.417 sec .. (41.384 ~ 44.801)
+第二組，換了個位置，Log 都長的一樣我就不貼了, 條件完全都一樣，只是檔案搬到 wsl rootfs 內，直接存在 VM 的 vhdx 內。這對應到的是 wsl -> wsl 的組態，這次啟動 qdrant 只需要 1.499 sec ..
 
-同樣的，那麼明顯的差距 ( 啟動時間差了 20x, 從 67.56 s 降至 3.42 s ) ，我就懶得再拿 benchmark 來測試 DB 效能了。基本上我自己在測試的時候，打 API 要 insert 一筆資料庫，就需要花掉 5 sec 的時間... 這段的重點在怎麼重新改變我的工作環境，不是在 tune performance ..
-
-
-## 2-3, 在 windows 下掛載 wsl 的資料夾
-
-知道問題原因在 volume 沒有擺對地方後，解決方法就換個目錄就搞定了。我把檔案擺在對的地方 ( linux 的 /opt/docker )，然後想辦法繼續照我習慣的方式 ( 在 windows 下，可以用正常的磁碟路徑存取他，也能用我習慣的工具去讀取檔案 ) 來存取檔案，問題就解決了。相對於 WSL 自動把 windows 下的 c:\ 掛載到 wsl 下的 /mnt/c 這樣的做法，我能不能反過來做一樣的事情，把 wsl 下的 /opt/docker 掛到 windows 下的 c:\codes\docker 呢?
-
-其實還真的有，而且也不是新東西了。大概在 windows 2000 那個年代的 ntfs 就開始支援的 reparse points 機制。對應的 windows command 是 mklink.exe 就可以做跟 linux 下的 mount 類似的操作:
-
-https://learn.microsoft.com/zh-tw/windows-server/administration/windows-commands/mklink
-
-有了這個工具, windows 下也能像 linux 一樣自由的掛載目錄結構了。剩下的問題是: windows 如何直接存取 linux 下的原生 file system? (反過來也一樣, linux 下如何存取原生的 windows file system?)
-
-// 說明 drvfs 系統架構
-
-// 說明  \\wsl$\{distro}\ 的用法
-
-// 說明 /mnt/c 的用法
-
-// 用 mklink ( windows side ) 與 mount ( linux side ) 來解決問題
+同樣的，那麼明顯的差距 ( 啟動時間差了 25x, 從 38.376 s 降至 1.499 s ) ，我就懶得再拿 benchmark 來測試 DB 效能了。基本上我自己在測試的時候，打 API 要 insert 一筆資料庫，就需要花掉 5 sec 的時間... 這段的重點在確認問題來源，跟怎麼重新改變我的工作環境，不是在測試與調教 qdrant 的效能 ...
 
 
+## 2-4, 在 windows 下掛載 wsl 的資料夾
 
+知道問題原因在 volume 沒有擺對地方後，解決方法就換個目錄就搞定了。我把檔案擺在對的地方，也就是執行效率最好的地方 ( wsl 的 /opt/docker )，然後想辦法用 mount 的技巧，維持我習慣的存取方式，問題就解決了。Linux 下有 mount 跟 ln 可以自由的掛載目錄結構，我只要在 windows 下做同一件事，把 wsl 下的 /opt/docker 掛到 windows 下的 c:\codes\docker 就好了。
 
+有的, windows 也能這樣玩。大概在 windows 2000 那個年代的 ntfs 就開始支援的 reparse points 機制。對應的 windows command 是 [mklink.exe](https://learn.microsoft.com/zh-tw/windows-server/administration/windows-commands/mklink?source=docs&WT.mc_id=email&sharingId=AZ-MVP-5002155) 就可以做類似的操作。
 
-
-
-
-
-WSL 的檔案系統，在 windows 下可以透過 \\wsl$\ubuntu\.... 來存取 ( ubuntu 是 distro name )，所以你只需要用 mklink 指令，把 \\wsl$\ubuntu\opt\docker 掛在 c:\codes\docker 就好了
-
-指令很簡單: 
+WSL 的檔案系統，在 windows 下可以透過 \\wsl$\ubuntu\.... 來存取 ( ubuntu 是 distro name )，所以你只需要用 mklink 指令，把 \\wsl$\ubuntu\opt\docker 掛在 c:\codes\docker 就好了。指令很簡單: 
 
 ```
 mklink /d \\wsl$\ubuntu\opt\docker c:\codes\docker
@@ -296,12 +374,12 @@ mklink /d \\wsl$\ubuntu\opt\docker c:\codes\docker
 
 這麼一來，你不論用檔案總管，或是 vscode，只要照原本的習慣操作就好了。唯一需要留意的是記得備份。因為它終究是個連結，實際檔案是存在 ext4.vhdx 虛擬硬碟內的。這 vhdx 檔案結構損毀的話，你的檔案就消失了.. 
 
-另一個要留意的是，換個地方擺 volume, 直接避開了 Qdrant 執行時大量跨 kernel 的 IO 效能問題, 但是問題仍然在那邊... 如果你有需求從 windows 端對這目錄做大量 IO 操作的話，仍然會碰到這個問題..
+另一個要留意的是，換個地方擺 volume, 雖然直接避開了 qdrant 執行時大量跨 kernel 的 IO 效能問題, 但是問題仍然在... 只要你有跨系統存取同一份資料夾的話，終究會有一邊的效能較差的 (此例就是 windows 端存取會變慢)。如果你有需求從 windows 端對這目錄做大量 IO 操作的話，仍然會碰到這個問題..
 
-不過，撇開這些不談，用 mklink 重新掛載 WSL 的資料夾，這倒不失為一個好方法，既維持了我原本工作的習慣與方便性，也解決了硬碟效能問題 (你要買多高級的 SSD 才能有 20x 的效能提升? )
+這問題在後面的互通性再繼續聊，現在先跳過不談，用 mklink 重新掛載 WSL 的資料夾，這倒不失為一個好方法，既維持了我原本工作的習慣與方便性，也解決了硬碟效能問題 (你要買多高級的 SSD 才能有 20x 的效能提升? )
 
 
-## 2-4, 其他 file system 議題
+## 2-5, 其他 file system 議題
 
 
 最後，補充兩項我在研究這議題翻到的資訊，但是我這篇決定不特別深談的議題
@@ -309,7 +387,13 @@ mklink /d \\wsl$\ubuntu\opt\docker c:\codes\docker
 1. windows / linux 對於檔案系統的權限管理機制不同
 1. windows NTFS 額外支援的特殊功能: NTFS stream
 
+科普一下，Windows 的權限設計較複雜，NTFS 導入了完整的 RBAC ( Role Based Access Control )，支援用 ACL ( Access Control List ) 的方式來管控檔案權限。而 Linux 則單純的多，只是按照當前的執行者身分跟群組，以及檔案的屬性 (chmod) 來決定能否存取。兩者管控的模式完全不同，DrvFS 是無法直接對應轉換的，因此這些設定，在跨系統存取的時候都會失效。
 
+另一個 NTFS 的特異功能也是，就是 NTFS stream... 我想應該沒幾個人聽過 & 用過這東西吧? 基本上一般認知的檔案，就是一個唯一的檔名，對應到一組串流資料 ( stream )。而 NTFS，允許你一個檔案，有主要的串流資料之外，還可以有多個附掛的 stream.. 
+
+這些機制，Linux 同樣不支援。因此，有些檔案你在 wsl 下來看，會多出一些莫名其妙的檔案名稱出來，就是這些 NTFS stream 在作怪。看到的時候請無視它就好。
+
+https://blog.miniasp.com/post/2008/07/23/Useful-tools-Streams-let-you-know-the-uncovered-secret-in-NTFS
 
 
 # 3, GitHub Pages with Visual Studio Code
@@ -444,17 +528,17 @@ https://hub.docker.com/r/ollama/ollama
 你可以下這指令: nvidia-smi 就看的到顯卡的資訊了:
 
 ```
-qauser1@TPE-AI-PC:~$ nvidia-smi
-Tue Nov 12 17:37:25 2024
+andrew@ANDREW-PC:/opt/docker$ nvidia-smi
+Wed Nov 20 01:30:26 2024
 +-----------------------------------------------------------------------------------------+
-| NVIDIA-SMI 550.40.06              Driver Version: 551.31         CUDA Version: 12.4     |
+| NVIDIA-SMI 565.51.01              Driver Version: 565.90         CUDA Version: 12.7     |
 |-----------------------------------------+------------------------+----------------------+
 | GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |
 | Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
 |                                         |                        |               MIG M. |
 |=========================================+========================+======================|
-|   0  NVIDIA GeForce RTX 4080 ...    On  |   00000000:01:00.0  On |                  N/A |
-|  0%   30C    P8             11W /  320W |     726MiB /  16376MiB |      3%      Default |
+|   0  NVIDIA GeForce RTX 4060 Ti     On  |   00000000:0A:00.0  On |                  N/A |
+|  0%   51C    P8             15W /  165W |    1582MiB /  16380MiB |      1%      Default |
 |                                         |                        |                  N/A |
 +-----------------------------------------+------------------------+----------------------+
 
@@ -463,8 +547,10 @@ Tue Nov 12 17:37:25 2024
 |  GPU   GI   CI        PID   Type   Process name                              GPU Memory |
 |        ID   ID                                                               Usage      |
 |=========================================================================================|
-|    0   N/A  N/A        33      G   /Xwayland                                   N/A      |
+|    0   N/A  N/A        35      G   /Xwayland                                   N/A      |
 +-----------------------------------------------------------------------------------------+
+andrew@ANDREW-PC:/opt/docker$
+
 ```
 
 
