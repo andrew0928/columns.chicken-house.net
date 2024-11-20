@@ -15,17 +15,16 @@ logo: /wp-content/images/2024-11-11-working-with-wsl/logo.jpg
 ![](/wp-content/images/2024-11-11-working-with-wsl/logo.jpg)
 > 圖: DALL-E, 我讓 ChatGPT 搜尋我自己然後畫出來的形象圖..
 
-因為越來越多東西需要在原生的 linux 環境下執行, 趁著要更新 24H2 要重灌系統的機會, 就一起認真的重整我的開發環境了。在 windows 下要以 linux 為主要的工作環境，用 wsl (windows subsystem for linux) 是首選。也因為這次改便環境，研究作法的同時也惡補了一下 wsl 的相關背景知識，這才發現 Microsoft 對 WSL 下了不少功夫啊，背後藏了很多不錯的巧思，正好用這篇整理一下心得。
+因為越來越多東西需要在原生的 linux 環境下執行, 趁著更新 24H2，重灌 windows 的機會, 就一起認真的重整我的開發環境了。在 windows 下要以 linux 為主要的工作環境，用 wsl (windows subsystem for linux) 是首選，不過畢竟是跨 OS 的使用，也有不少障礙要排除。趁這次花了點時間研究作法，同時也惡補了一下 wsl 的相關背景知識，這才發現 Microsoft 對 WSL 下了不少功夫啊，背後藏了很多不錯的巧思。
 
-後面我會交代我的作法，以及我理解的背後架構與限制。不管原理，其實我最想解決的問題 (也是我的動機) 是這幾個:
+在這篇，我會交代我的作法，同時我也會整理一下我找到的參考資訊，以及背後架構與限制。我最想解決的問題 (也是我的動機) 是這幾個:
 
-1. 拋開 docker desktop for windows, 改成直接在 linux 下執行 docker 就好了
-1. 在 windows 下執行 docker, 掛載 volumes 的 IO 效能很糟糕 (糟到用不下去)
-1. 我想在 docker 下執行 CUDA 相關的 AI 應用
-1. 我想建立一個 linux 為主, 能長期使用的通用工作環境，並且能無縫的跟我慣用的 windows 環境整合在一起。常用的工具就那些，包含 visual studio code, git, dotnet 等
+1. 我想拋開 docker desktop for windows, 太多我不必要的東西了, 授權的限制也是原因之一。其實我用的功能不多，改成直接在 linux 下執行 docker 就好了
+1. 目前用法，在 windows 下執行 docker, 掛載 volumes 的 IO 效能很糟糕 (糟到用不下去)
+1. 目前在 windows 下跑 CUDA 困難重重，我只是想爽快地跑 ollama 啊... 我想要把 AI 應用都搬到 docker 環境下去執行, 支援 GPU 的 docker / linux 環境是必要條件
+1. 我想建立一個 linux 為主, 能長期使用的通用工作環境，並且能無縫的跟我慣用的 windows 環境整合在一起。常用的工具就那些，包含 visual studio code, git, dotnet 等，能高度整合 windows, 不需要花太多心思在兩套系統間的協作，認知負荷越低越好
 
-
-總算，灌好 windows 11 pro 24h2 的這個禮拜，我總算把我的工作環境打造好了。過程中也發現不少 WSL 的冷知識，也挖出了不少 Microsoft 藏在裡面的黑科技。經過這次下定決心要重新轉移工作環境，而這幾年相關的整合也都成熟了 (其實不是新東西，可能用的兇的人早就在用了，我其實是慢半拍)，我就野人獻曝，分享一下我的整理心得。
+花了一個禮拜的下班時間，我總算把我的工作環境打造好了。過程中也發現不少 Microsoft 藏在 WSL 裡面的黑科技。自 WSL2 推出以來，這幾年相關的整合也都成熟了，我就野人獻曝，分享一下我的整理心得。
 
 <!--more-->
 
@@ -35,15 +34,15 @@ logo: /wp-content/images/2024-11-11-working-with-wsl/logo.jpg
 
 # 1. 換工作環境的動機
 
-動機前面帶過了，不過更具體地來說，推動我決定這樣做的最後一根稻草，是 AI 相關的應用。年中的時候，為了跑本地端的 LLM (我當時只有 CPU: AMD 3900X 跟 GPU: AMD RX570 而已)，算力完全不夠啊，買了張 NVIDIA RTX4060Ti 16GB，結果發現要搞定 CUDA 那堆環境還真惱人...
+動機前面帶過了，不過我決定這樣做的最後一根稻草，是我需要在 docker 上面跑 AI 相關的應用。2024/06 的時候，為了跑本地端的 LLM (我當時只有 CPU: AMD 3900X 跟 GPU: AMD RX570 而已)，算力完全不夠啊，買了張 NVIDIA RTX4060Ti 16GB，結果發現要搞定 CUDA 那堆相依性的套件與設定還真惱人...
 
-查了一下，難道就不能像 docker 那樣一堆相依的環境都裝在 docker 裡面就好嗎? 還真的有，而且大部分科學運算的應用也都是以 Linux 為主，在 Windows 下要搞定 CUDA，還要搞定 Python，還真是件煩死人的任務。
+難道就不能像 docker 那樣，相依的環境都裝在 image 裡面，拉下來啟動就好嗎? 還真的有，而且大部分科學運算的應用也都是以 Linux 為主，在 Windows 下要搞定 CUDA，還要搞定 Python 執行環境，真的是件煩死人的任務。
 
-於是，一路就從 docker, 從 GPU, 連帶的解決 docker / wsl 存取 windows file system 很離譜的 IO 效能問題, 到整個 visual studio code 的環境完全搬移到 linux ( 對，連你開出 vscode terminal, 都直接是 bash, 不是 powershell ..., 檔案的路徑都是 rootfs, 不是 windows ntfs..)
+於是，我就一路從 docker 環境簡化 (我放棄掉 docker desktop), 搞清楚 GPU 虛擬化, 成功的在 wsl / docker 內能使用 GPU 資源，連帶的解決 docker / wsl 存取 windows file system 的 IO 效能問題, 到整個 visual studio code 的環境完全搬移到 linux ( 對，連你開出 vscode terminal, 都直接是 bash, 不是 powershell ..., 檔案的路徑都是 rootfs, 不是 windows ntfs..)
 
-而 IO 問題，我有兩個案例，一個是跑向量資料庫 Qdrant, 才塞了四萬筆資料，結果整個 container 啟動竟然需要一分鐘? (換了 Gen4 SSD 後有改善，"只要" 不到 40 sec ... )，另外我自己的部落格，要用 Jekyll 的 container 預覽，竟然也要跑 110 sec ... 這實在不是個能接受的工作環境..
+其中 IO 問題，影響最大。其中的效能差異可以到幾十倍之譜。我有兩個案例，一個是跑向量資料庫 Qdrant, 才塞了四萬筆資料，結果整個 container 啟動竟然需要一分鐘? 另外一個是我自己的部落格，用 Jekyll (Ruby, GitHub Pages 用這套) 來 Build 靜態網站，竟然也要花掉 110 sec ... 我改了一行字要等兩分鐘才看的到結果，這實在不是個能接受的工作環境..
 
-我心裡想這是什麼狀況? 我的桌機雖然是五年前的設備，但是也沒這麼不堪吧? 我列一下我的配備:
+我的桌機雖然是五年前的設備，但是也沒這麼不堪吧? 我列一下我的配備:
 
 ```
 CPU: AMD Ryzen9 3900X (12 cores, 24 threads)
@@ -56,7 +55,7 @@ OS: Microsoft Windows 11 Pro ( 當時跑的是 23H2 )
 
 這麼戲劇化的改善，一定是原本的架構有問題 XDD，不然你要花多少錢才買的到 25 倍快的 SSD?
 
-細節後面會交代，我整理了一下，我把我所有問題歸納成這三種類型.. 每種題型我就各挑一個代表來展示就好:
+細節後面會交代，我把我這過程碰到的案例，整理歸納成三種類型.. 每種題型我就各挑一個代表來展示就好。後面段落我就來說明這三個情境背後的關鍵原因，跟我解套的方式:
 
 1. 需要大量 IO 的 docker container - 示範案例: Qdrant
 1. 需要整合環境 Visual Studio Code - 示範案例: 我的部落格撰寫環境 GitHub Pages
