@@ -92,26 +92,37 @@ OS: Microsoft Windows 11 Pro (24H2, 趁機重灌, 重建環境)
 因此，我列出所有的 4 種組合情境:
 
 1. 由 windows app 存取 windows file system:  
-NTFS, c:\benchmark_temp, 最直接的存取路徑, 完全沒有額外消耗的理想情境, 大部分單純的 windows 應用都是這類。
+NTFS, c:\benchmark_temp, 最直接的存取路徑, 沒有額外消耗的理想情境, 大部分單純的 windows 應用都是這類。  
+
 1. 由 windows app 存取 wsl file system:  
-EXT4, \\wsl$\ubuntu\home\andrew\benchmark_temp, 中間跨越 9p protocol 進到 linux kernel, 而 linux 要存取 disk 還得經過一層 hyper-v 虛擬化的機制 (存取放在 NTFS 上的 .vhdx, 多一層虛擬化轉換)
+EXT4, \\wsl$\ubuntu\home\andrew\benchmark_temp, 中間跨越 9p protocol 進到 linux kernel 就能存取到檔案。但是 wsl 畢竟是個 windows 下運作的 lightweight VM，他的磁碟是虛擬化而來的，多了一層 .vhdx 的轉換。   
+
 1. 由 wsl application 存取 wsl file system:  
-EXT4, ~/benchmark_temp, 基本上軟體也是直接的路徑, 只是 wsl 終究是 VM, 終究需要透過 hyper-v 虛擬化機制存取 .vhdx
+EXT4, ~/benchmark_temp, 在 linux kernel 內基本上軟體也是直接的路徑, 不過同上, 虛擬硬碟終究多了一層 .vhdx 轉換。  
+
 1. 由 wsl application 存取 windows file system:  
-NTFS, /mnt/c/benchmark_temp, 中間經過一層 drvfs (檔案系統對應，同時包含 9p protocol) 的轉換..
+NTFS, /mnt/c/benchmark_temp, 中間經過一層 drvfs 檔案系統的處理 (這是由 Microsoft 開發並且開源的 linux file system, 會負責將檔案系統的存取經由 9p protocol 轉接到 windows file system) 的轉換..
 
 
-如果你在 windows 下執行 docker, 然後在 docker run ......  -v 掛載了 c:\working-dir\ 的目錄，那就會踩到第四種情境了，磁碟效能會被扒一層皮 ( drvfs )。WSL 的前生 LCOW ，就我前面提到，2018 那篇文章，也是踩到第四種情境。你會發現效能掉的很離譜，就是這種狀況。
+舉例來說，如果你在 windows 下執行 docker, 下了這個指令:
 
-在 Linux 環境下的 container 必須透過 drvfs 掛載 c:\working-dir 才能讓 container 存取，這層轉換損失了效能，也遺失了部分 file system 的特性 (例如 file change event)。你如果只是照各種範例教學，就在 windows 下使用 docker 的話，高機率就踩到這情境 (而且通常是不知不覺)... 實測之後，我才發現較能差距有這麼大，以前真的白花了很多冤枉時間在電腦前面發呆...  
+```
+docker run ......  -v c:\working-dir\:/mydir .....
+```
 
-不囉嗦，直接來看跑分的結果.. 這四種組合我都跑一次 disk benchmark 來比較看看差異...。
+Docker 會啟動一個 container, 並且把 windows 下的 c:\working-dir\ 掛載到 container 內的 /mydir 路徑。這時 container 存取檔案的時候，就會走 (4) 的路徑了，磁碟效能會被扒一層皮 ( drvfs )。你會發現效能掉的很離譜，就是這種狀況。
+
+這時，除了損失效能之外，DrvFS 對應兩種截然不同的 file system, 也會失去部分 NTFS 的特性。例如 NTFS 的檔案異動通知 [FileSystemWatcher](https://learn.microsoft.com/zh-tw/dotnet/api/system.io.filesystemwatcher?source=docs&WT.mc_id=email&sharingId=AZ-MVP-5002155) 就無法對應到 Linux 的檔案異動通知 [inotify](https://zh.wikipedia.org/zh-tw/Inotify)，因此 container 如果掛載了 windows 下的檔案目錄，這些功能就失效了。
+
+這影響有多大? 我後面會提及的例子: GitHub Pages 的應用就很頭痛。我在 windows 編輯的檔案，GitHub Pages 的 container 內無法靠檔案系統的機制偵測到異動，因此只能用很蠢的輪巡 (polling) 機制來檢查，效能跟反應速度就掉了一大截，慘不忍睹 (有一段時間我都直接放棄這機制，改採手動，我自己有更動檔案，自己重啟一次 container, 結果還比較快)。偏偏很多教學文件，都教你這樣用 .... ，連我都踩雷了一陣子才發現，過去都在浪費時間...
+。
 
 
 
 ## 2-1, WSL 磁碟效能 Benchmark
 
-我用的設備是同一套，就我的桌機，不過測試的當下，我已經小幅度升級軟硬體了，升級後的規格跟組態如下:
+
+這次我不忍了，先來跑分量化一下效能到底差距有多大.. ，再來研究怎麼解決。前面提到的四種組合我都跑一次 disk benchmark 來比較看看差異...。 我用同一套設備，就我的桌機，測試當下我已經小幅度升級軟硬體了，升級後的規格跟組態如下:
 
 ```
 CPU: AMD Ryzen9 3900X
@@ -153,14 +164,9 @@ fio  --name=benchmark \
       --runtime=300
 ```
 
+測試檔案大小 16GB, 隨機讀寫, 4k block, 8 jobs, disable cache, 連續測試 300 sec
 
-測試檔案大小 16GB, 隨機讀寫, 4k block, 8 concurrent processes, disable cache, 測試 300 sec
-
-
-四組測試的結果，我直接都貼給 ChatGPT 幫我彙整了，我就不另外整理數據了，請看分析報告:
-
-以下是最終版本的數據表格以及測試數據的解讀：
-
+這四組測試的結果，我直接都貼給 ChatGPT 幫我彙整了，我就不另外整理數據了，請看 AI 幫我整理的分析報告:
 
 ---
 
@@ -235,32 +241,19 @@ fio  --name=benchmark \
 
 
 
-別的不看，光是看 4k random access 存取同一顆 SSD, 最好跟最差就有 576MB/s 跟 16.5 MB/s 的差別，足足 35x 的差距... (我用 HDD 跟 SSD 也沒差這麼多啊)。實在無法想像，這些都是在同一台電腦，同一顆硬碟上面測出來的結果.. 。還好我有做過這測試，知道這差異之後，我就知道該怎麼調整用法了...
+其他情境差距更大，我只關注我最在意的 database access 使用情境，因此我挑 4k random 讀寫, 並且有多 process 平行處理的情況, 最好跟最差就有 576MB/s 跟 16.5 MB/s 的差別，足足 35x 的差距... (我用 HDD 跟 SSD 也沒差這麼多啊)。實在無法想像，還好我有做過這測試才知道差距這麼大... 既然知道狀況了，我就知道該怎麼解決 (或是避開) 這問題了。
 
 
 ## 2-2, 測試數據的解讀, 與 WSL 架構
 
-繼續往下看怎麼調整環境前，我先把 benchmark 這段作個結尾吧。雖說對這結果 (分數) 有點意外，因為落差實在太大，但是對照架構圖來看，其實都解釋的通。我就用架構圖來說明這測試背後發生什麼事，結束這段落吧。
+雖說對這結果 (分數) 有點意外，但是對照架構圖來看，其實都能找到合理的解釋。還記得前面我描述四種路徑的檔案存取，個別經過甚麼轉換嗎?
 
-首先，我特地引用了張我平常根本不會看的網站資訊 XDDD
-
-![](/wp-content/images/2024-11-11-working-with-wsl/image-1.png)
-> https://ascii.jp/elem/000/004/026/4026714/
-
-我在 Microsoft 官網找了半天，都沒有找到合適的架構圖來講我講說的主題，結果意外的翻到這張圖，講得最到位；看了一下內容，也完全是我要講的題目啊啊啊 (難怪圖那麼搭)。我就破例用這篇日文的技術文章來說明吧
-
-首先，WSL2 就是用 VM 來執行完整的 Linux Kernel, 外加 Microsoft 替 WSL 做的各種整合，來讓 Windows / Linux 兩組 Kernel 能夠盡量無縫的整合再一起的架構，其中第一個就是 file system 的整合。
-
-圖的左側 (橘色)，就是正常的 win32 環境, 直接透過 windows driver 存取 disk, 通常都是用 NTFS 來格式化, 這是正常的部分。而 WSL2 主體的 Linux, 是在 VM 內執行的一套 Linux, 主要的 rootfs 來自 c:\users 下某目錄的 ext4.vhdx 虛擬硬碟，如圖左下所示。這 vhdx 對應到 WSL 內的 /dev/sda (Linux 設備內的第一顆硬碟)
-
-而原生 windows 的 disk, 則透過內建在 WSL2 內的 DrvFS 驅動程式掛載進來的, 預設會按照 windows 的磁碟機代號, 按照 /mnt/c, /mnt/d ... 照順序一個一個 mount, 因此你可以在 WSL2 內用這樣的路徑存取 windows 的檔案。
-
-而反過來，windows 也可以透過 \\wsl$\ubuntu\ 來存取 wsl2 的 rootfs, 其中 ubuntu 應該替換成你安裝的 distro 名稱 (如果你不是選 ubuntu 的話)，這是透過 9p protocol 來存取的 (這看 Microsoft 官方的圖就比較清楚了)
+我找了張仔細一點的架構圖:
 
 ![alt text](/wp-content/images/2024-11-11-working-with-wsl/image-2.png)
 > https://www.netadmin.com.tw/netadmin/zh-tw/technology/EDC6D4560B184F0D9E7A750862D3C9E4
 
-每多一層轉換，IO 的效率就會 **很有感** 的下降一級... 我把前面測試的四種案例，都在圖上標示:
+每多一層轉換，IO 的效率就會 **很有感** 的下降一級... 按照這圖的說明，我把前面測試的四種案例經過的轉換，都整理成列表，並且做成表格:
 
 1. windows -> windows: 最短路徑, 當作理想毫無損耗的對照組
 1. windows -> wsl2, 經過 **9P protocol** 到 linux kernel, 再經過 **hpyervisor** 處理硬碟的虛擬化 (實體是 ext4.vhdx)
@@ -276,31 +269,25 @@ fio  --name=benchmark \
 | Windows     | WSL          | 16.5              | 9P protocol + Hyper-V | 2.86% |
 | WSL            | Windows   | 37.5              | DrvFS | 6.51% |
 
-我用很不精準的估算，其實還算合理。如果單純經過 Hpyer-V 大概只剩 36.28% 的效能；只經過 9P 大概剩 6.51% 的效能，兩個都過一次就是 36.28% x 6.51% = 2.34%, 其實跟第三項測試結果接近 (2.86%), 大致上可以驗證架構圖上的路徑。
 
-而我說這篇文章 (日文這篇) 很有意思，後面的內容就是介紹 WSL2 如何額外掛載獨立的 Disk, Hyper-V 允許你直接掛上原生的硬碟, 效率會好得多。
+我用很不精準的估算，其實還算合理。從 (2) 大約可以推估經過 Hpyer-V 會只剩 36.28% 的效能；從 (4) 推估經過 9P protocol 剩 6.51% 的效能，那麼兩個都過一次就是 36.28% x 6.51% = 2.34%, 其實已經很接近 (3) 的測試結果了, 大致上可以驗證架構圖上的路徑。
 
-而 WSL 層層轉譯的效能研究，這一篇也講得不錯，它把我的情境做了更多詳細的測試跟圖表 (怎麼又是日文的... Orz)
-https://news.mynavi.jp/article/20220318-2296803/
+而 WSL 層層轉譯的效能研究，也有網友做了比我還詳盡的測試: [Windows Subsystem for Linuxガイド 第5回 wsl$ファイルシステムとWSLファイルベンチマーク編](https://news.mynavi.jp/article/20220318-2296803/) (竟然是日文的)   
 
-其實還有一個組合，我這次沒拿出來用，就是 WSL - WSL 的組態，受限於預設的 WSL 配置，Windows 會在 c:\ 配置一個 vhdx 檔案給 wsl 當作 disk 使用，導致無可避免地多了一層 Hyper-V 的轉換。其實如果你願意的話，是可以直接掛載實體的 disk 或是 partation 給 WSL 用的 (其實就是這篇日文文章的後半段在講的作法，或是 Microsoft 官方文件也有說明: [Mount a Linux disk in WSL2](https://learn.microsoft.com/en-us/windows/wsl/wsl2-mount-disk?source=docs&WT.mc_id=email&sharingId=AZ-MVP-5002155))。你可以原生就格式化成 ext4 .. 這會最大化 WSL 的磁碟效能，應該跟原生的磁碟表現同等級的吧。目前硬體設備不足，等到哪天我 WSL 越用越兇，願意投資一顆專屬的 SSD 給 WSL 用的話，再來補這個測試..
+其實，如果你認真要用 WSL，(2) 的情境是有機會調整到跟 (1) 差不多的，那就是直接掛實體硬碟 (disk) 或是分割區 (partition) 讓 WSL 專用，就可以免去 Hyper-V 處理 .vhdx 的效能折損 (只剩 36.28%)。Microsoft 官方文件就有說明作法: [Mount a Linux disk in WSL2](https://learn.microsoft.com/en-us/windows/wsl/wsl2-mount-disk?source=docs&WT.mc_id=email&sharingId=AZ-MVP-5002155)。雖然設置麻煩了一點，不過你可以得到最好的效能表現。等到哪天我 WSL 越用越兇，願意投資一顆專屬的 SSD 給 WSL 用的話，再來補這個測試..
 
 看到這邊，大概心理的疑慮都有答案了。雖然數字不好看，但是知道原因，知道表現，我至少有能力閃開他，挑選我最適合的用法了。接下來繼續往下，看看我實際的配套措施。
 
-
-
 ## 2-3, 實際部署 Qdrant 測試資料庫
 
-接下來，就拿我實際的測試案例出來吧。在之前聊 RAG 的文章: "______" 內，我用的是 Microsoft Kernel Memory 這個服務，封裝 file storage 以及 vector database, 整合幾種主流的 LLM 與 Embedding Model, 結合而成的 RAG 服務框架..
+接下來，就拿我實際的測試案例出來吧。在之前聊 RAG 的文章: [替你的應用程式加上智慧! 談 RAG 的檢索與應用](/2024/03/15/archview-int-blog/) 內，我用的是 [Microsoft Kernel Memory](https://github.com/microsoft/kernel-memory) 這個服務，封裝 file storage 以及 vector database, 整合幾種主流的 LLM 與 Embedding Model, 結合而成的 RAG 服務框架..
 
-而這服務，背後的 vector database 是可以選擇的，我選用了最廣受好評的 Qdrant。我自己一份測試資料，大約包含了 40000 筆資料，整個 DB 內涵的資料樣貌大致如下:
+而這服務，背後的 vector database 是可以選擇的，我選用了最廣受好評的 [Qdrant](https://qdrant.tech/) 。我自己一份測試資料，大約包含了 40000 筆資料，整個 DB 內涵的資料樣貌大致如下:
 
 ```
-
 Dirs:	43782
 Files:	282797
 Bytes: 5.386GB
-
 ```
 
 其實，還不需要動用到 benchmark, 光是看啟動時間就有差別了... 我直接拿 docker logs 來看，從第一筆啟動的 log timestamp, 直到看到 gRPC ready 的紀錄為止:
@@ -348,7 +335,7 @@ qdrant-1  | 2024-11-11T15:18:35.962079Z  INFO qdrant::tonic: TLS disabled for gR
 
 第一組，是跑在 /mnt/c 底下的測試結果，也就是 wsl -> windows 的組態，啟動已有四萬筆資料的 qdrant container, 需要 38.376 sec ..
 
-仔細看看 docker logs, 你會發現, 時間都花費在載入 collection，例如這行就花掉 6 sec, 才看的到下一行:
+仔細看看 docker logs, 你會發現, 時間都花費在載入 collection，例如光這行就花掉 6 sec, 才看的到下一行:
 
 ```
 qdrant-1  | 2024-11-11T15:17:28.399231Z  INFO storage::content_manager::toc: Loading collection: b2e-knowledge
@@ -361,11 +348,9 @@ qdrant-1  | 2024-11-11T15:17:28.399231Z  INFO storage::content_manager::toc: Loa
 
 ## 2-4, 在 windows 下掛載 wsl 的資料夾
 
-知道問題原因在 volume 沒有擺對地方後，解決方法就換個目錄就搞定了。我把檔案擺在對的地方，也就是執行效率最好的地方 ( wsl 的 /opt/docker )，然後想辦法用 mount 的技巧，維持我習慣的存取方式，問題就解決了。Linux 下有 mount 跟 ln 可以自由的掛載目錄結構，我只要在 windows 下做同一件事，把 wsl 下的 /opt/docker 掛到 windows 下的 c:\codes\docker 就好了。
+知道問題原因在 volume 沒有擺對地方後，解決方法就換個目錄就搞定了。我把檔案擺在對的地方，也就是執行效率最好的地方 ( wsl 內的 /opt/docker )，然後想辦法用 symbolic link 的技巧，維持我習慣的存取方式，問題就解決了。我只要在 windows 下做同一件事，把 wsl 下的 /opt/docker 掛到 windows 下的 c:\codes\docker 就好了。
 
-有的, windows 也能這樣玩。大概在 windows 2000 那個年代的 ntfs 就開始支援的 reparse points 機制。對應的 windows command 是 [mklink.exe](https://learn.microsoft.com/zh-tw/windows-server/administration/windows-commands/mklink?source=docs&WT.mc_id=email&sharingId=AZ-MVP-5002155) 就可以做類似的操作。
-
-WSL 的檔案系統，在 windows 下可以透過 \\wsl$\ubuntu\.... 來存取 ( ubuntu 是 distro name )，所以你只需要用 mklink 指令，把 \\wsl$\ubuntu\opt\docker 掛在 c:\codes\docker 就好了。指令很簡單: 
+在 windows 下有個指令: [mklink.exe](https://learn.microsoft.com/zh-tw/windows-server/administration/windows-commands/mklink?source=docs&WT.mc_id=email&sharingId=AZ-MVP-5002155) 就是做這件事，你可以用下面的指令把這 symbolic link 建立起來:
 
 ```
 mklink /d \\wsl$\ubuntu\opt\docker c:\codes\docker
@@ -373,9 +358,12 @@ mklink /d \\wsl$\ubuntu\opt\docker c:\codes\docker
 
 這麼一來，你不論用檔案總管，或是 vscode，只要照原本的習慣操作就好了。唯一需要留意的是記得備份。因為它終究是個連結，實際檔案是存在 ext4.vhdx 虛擬硬碟內的。這 vhdx 檔案結構損毀的話，你的檔案就消失了.. 
 
-另一個要留意的是，換個地方擺 volume, 雖然直接避開了 qdrant 執行時大量跨 kernel 的 IO 效能問題, 但是問題仍然在... 只要你有跨系統存取同一份資料夾的話，終究會有一邊的效能較差的 (此例就是 windows 端存取會變慢)。如果你有需求從 windows 端對這目錄做大量 IO 操作的話，仍然會碰到這個問題..
+另一個要留意的是，換個地方擺 volume, 雖然直接避開了 qdrant 執行時大量跨 kernel 的 IO 效能問題 (走 case 2, wsl -> wsl, 36.28%), 但是問題仍然在... 如果你從另一端 (windows) 來存取檔案 (case 3, windows -> wsl, 2.86%)，則是效能最糟糕的安排。如果你有需求從 windows 端對這目錄做大量 IO 操作的話，仍然會碰到這個問題..
 
-這問題在後面的互通性再繼續聊，現在先跳過不談，用 mklink 重新掛載 WSL 的資料夾，這倒不失為一個好方法，既維持了我原本工作的習慣與方便性，也解決了硬碟效能問題 (你要買多高級的 SSD 才能有 20x 的效能提升? )
+這問題在後面的互通性再繼續聊，現在先跳過，用 mklink 重新掛載 WSL 的資料夾，這倒不失為一個好方法，既維持了我原本工作的習慣與方便性，也解決了硬碟效能問題 (你要買多高級的 SSD 才能有 20x 的效能提升? )
+
+
+
 
 
 ## 2-5, 其他 file system 議題
@@ -393,6 +381,9 @@ mklink /d \\wsl$\ubuntu\opt\docker c:\codes\docker
 這些機制，Linux 同樣不支援。因此，有些檔案你在 wsl 下來看，會多出一些莫名其妙的檔案名稱出來，就是這些 NTFS stream 在作怪。看到的時候請無視它就好。
 
 https://blog.miniasp.com/post/2008/07/23/Useful-tools-Streams-let-you-know-the-uncovered-secret-in-NTFS
+
+
+
 
 
 # 3, GitHub Pages with Visual Studio Code
