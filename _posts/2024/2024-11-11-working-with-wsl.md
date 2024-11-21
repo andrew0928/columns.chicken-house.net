@@ -12,6 +12,17 @@ redirect_from:
 logo: /wp-content/images/2024-11-11-working-with-wsl/logo.jpg
 ---
 
+<!--
+
+果然決定丟掉 docker desktop for windows 後就一路順暢... 雖然 disk i/o 效能糟其實是 WSL2 的鍋, 不過過度依賴 docker for windows 會讓人不想直接碰 WSL2, 就衍生了一堆問題..
+
+docker 還是繼續用，只是改成直接進 wsl 安裝 docker 來用, 也順便避開難搞的授權問題 (爽)。決定正式面對 wsl 內的 linux 工作環境之後, disk i/o 問題解掉了, docker 內跑 CUDA 問題也解掉了, 同時也體驗了 vscode remote sh 的威力, 操作介面完全是 windows 的體驗, 但是整個工作環境全都在 linux, 完全就是理想的後端開發環境啊..
+
+我算後知後覺，這些好東西出來了兩三年才發現，還沒用過的歡迎參考我的心得.. :D
+
+-->
+
+
 ![](/wp-content/images/2024-11-11-working-with-wsl/logo.jpg)
 > 圖: DALL-E, 我讓 ChatGPT 搜尋我自己然後畫出來的形象圖..
 
@@ -19,10 +30,14 @@ logo: /wp-content/images/2024-11-11-working-with-wsl/logo.jpg
 
 在這篇，我會交代我的作法，同時我也會整理一下我找到的參考資訊，以及背後架構與限制。我最想解決的問題 (也是我的動機) 是這幾個:
 
-1. 我想拋開 docker desktop for windows, 太多我不必要的東西了, 授權的限制也是原因之一。其實我用的功能不多，改成直接在 linux 下執行 docker 就好了
-1. 目前用法，在 windows 下執行 docker, 掛載 volumes 的 IO 效能很糟糕 (糟到用不下去)
-1. 目前在 windows 下跑 CUDA 困難重重，我只是想爽快地跑 ollama 啊... 我想要把 AI 應用都搬到 docker 環境下去執行, 支援 GPU 的 docker / linux 環境是必要條件
-1. 我想建立一個 linux 為主, 能長期使用的通用工作環境，並且能無縫的跟我慣用的 windows 環境整合在一起。常用的工具就那些，包含 visual studio code, git, dotnet 等，能高度整合 windows, 不需要花太多心思在兩套系統間的協作，認知負荷越低越好
+1. **我想拋開 docker desktop for windows**:  
+太多我不必要的東西了, 授權的限制也是原因之一。其實我用的功能不多，改成直接在 linux 下執行 docker 還更單純，少了一堆束縛，跑起來也更輕鬆愉快
+1. **我想避開 docker 掛載 volume 的 IO 效能低落問題**:  
+目前用法，在 windows 下執行 docker, 掛載 volumes 的 IO 效能很糟糕 (糟到用不下去)
+1. **我想在 docker 使用 GPU / CUDA 應用**:  
+目前在 windows 下跑 CUDA 困難重重，我只是想爽快地跑 ollama 啊... 我想要把 AI 應用都搬到 docker 環境下去執行, 支援 GPU 的 docker / linux 環境是必要條件
+1. **我想建立一個 linux 為主, 能長期使用的通用工作環境**:  
+並且能無縫的跟我慣用的 windows 環境整合在一起。常用的工具就那些，包含 visual studio code, git, dotnet 等，能高度整合 windows, 不需要花太多心思在兩套系統間的協作，認知負荷越低越好
 
 花了一個禮拜的下班時間，我總算把我的工作環境打造好了。過程中也發現不少 Microsoft 藏在 WSL 裡面的黑科技。自 WSL2 推出以來，這幾年相關的整合也都成熟了，我就野人獻曝，分享一下我的整理心得。
 
@@ -32,7 +47,7 @@ logo: /wp-content/images/2024-11-11-working-with-wsl/logo.jpg
 
 
 
-# 1. 換工作環境的動機
+# 1. 替換工作環境的動機
 
 動機前面帶過了，不過我決定這樣做的最後一根稻草，是我需要在 docker 上面跑 AI 相關的應用。2024/06 的時候，為了跑本地端的 LLM (我當時只有 CPU: AMD 3900X 跟 GPU: AMD RX570 而已)，算力完全不夠啊，買了張 NVIDIA RTX4060Ti 16GB，結果發現要搞定 CUDA 那堆相依性的套件與設定還真惱人...
 
@@ -76,10 +91,8 @@ OS: Microsoft Windows 11 Pro (24H2, 趁機重灌, 重建環境)
 
 # 2, 案例: 容器化的向量資料庫 - Qdrant
 
-第一個就先來面對我最痛的 Docker IO 效能問題，當時我心裡想，這題要是無解，我就直接放棄了 XDD。以前我認為這無解，就乾脆不在本機跑這些服務了 (我直接丟到 NAS / Cloud 用原生的 Linux 來跑，眼不見為淨)。首先，為了弄清楚在 Windows 上面跑 Docker 的 IO 到底有多慢? 我找了同時有 windows / linux 版本的 disk benchmark 工具: [fio](https://fio.readthedocs.io/en/latest/fio_doc.html) 來測試。
+第一個就先來面對我最痛的 Docker IO 效能問題，以前我認為這無解，就乾脆不在本機跑這些服務了 (我直接丟到 NAS / Cloud 用原生的 Linux 來跑，眼不見為淨)。
 
-
-我測試的方式很簡單，有兩組要被測試的資料夾，分別在 windows 下的 NTFS, 以及在 wsl (linux) 下的 ext4 ... 以這兩個磁碟空間為測試標的，個別測試從 windows 以及從 wsl 去存取這資料夾，看看這四種組合跑出來的 disk i/o benchmark 分數..
 
 在這邊先科普一下 WSL 的 file system 架構... 看底下這張圖:
 
@@ -94,11 +107,11 @@ OS: Microsoft Windows 11 Pro (24H2, 趁機重灌, 重建環境)
 1. 由 windows app 存取 windows file system:  
 NTFS, c:\benchmark_temp, 最直接的存取路徑, 沒有額外消耗的理想情境, 大部分單純的 windows 應用都是這類。  
 
-1. 由 windows app 存取 wsl file system:  
-EXT4, \\wsl$\ubuntu\home\andrew\benchmark_temp, 中間跨越 9p protocol 進到 linux kernel 就能存取到檔案。但是 wsl 畢竟是個 windows 下運作的 lightweight VM，他的磁碟是虛擬化而來的，多了一層 .vhdx 的轉換。   
-
 1. 由 wsl application 存取 wsl file system:  
 EXT4, ~/benchmark_temp, 在 linux kernel 內基本上軟體也是直接的路徑, 不過同上, 虛擬硬碟終究多了一層 .vhdx 轉換。  
+
+1. 由 windows app 存取 wsl file system:  
+EXT4, \\wsl$\ubuntu\home\andrew\benchmark_temp, 中間跨越 9p protocol 進到 linux kernel 就能存取到檔案。但是 wsl 畢竟是個 windows 下運作的 lightweight VM，他的磁碟是虛擬化而來的，多了一層 .vhdx 的轉換。   
 
 1. 由 wsl application 存取 windows file system:  
 NTFS, /mnt/c/benchmark_temp, 中間經過一層 drvfs 檔案系統的處理 (這是由 Microsoft 開發並且開源的 linux file system, 會負責將檔案系統的存取經由 9p protocol 轉接到 windows file system) 的轉換..
@@ -135,7 +148,7 @@ GPU: NVidia RTX 4060Ti - 16GB
 OS: Microsoft Windows 11 Pro (24H2)
 ```
 
-我用的 disk benchmark 測試工具是 fio, 安裝很容易, 在 wsl 下只要一行指令就能安裝:
+測試工具，我選擇同時有 windows / linux 版本的 [fio](https://fio.readthedocs.io/en/latest/fio_doc.html), 跨平台支援我可以用一樣的測試來比較結果。Fio 的安裝也很容易, 在 wsl 下只要一行指令就能安裝:
 
 ```
 sudo apt-get install fio
@@ -172,12 +185,12 @@ fio  --name=benchmark \
 
 ### 數據表格 (via ChatGPT)
 
-| 測試環境        | 檔案系統  | READ (MiB/s) | READ IO (GiB) | WRITE (MiB/s) | WRITE IO (GiB) | 測試時長 (秒) |
-|----------------|---------------|-------------------|------------------|--------------------|-------------------|---------------|
-| Windows    | Windows       | 576               | 169              | 576                | 169               | 300           |
-| WSL            | WSL           | 209               | 61.2             | 209                | 61.2              | 300           |
-| Windows    | WSL           | 16.5              | 4.951            | 16.5               | 4.958             | 300           |
-| WSL            | Windows       | 37.5              | 11.0             | 37.6               | 11.0              | 300           |
+|編號| 測試環境        | 檔案系統  | READ (MiB/s) | READ IO (GiB) | WRITE (MiB/s) | WRITE IO (GiB) | 測試時長 (秒) |
+|----|----------------|---------------|-------------------|------------------|--------------------|-------------------|---------------|
+|(1)| Windows    | Windows       | 576               | 169              | 576                | 169               | 300           |
+|(2)| WSL            | WSL           | 209               | 61.2             | 209                | 61.2              | 300           |
+|(3)| Windows    | WSL           | 16.5              | 4.951            | 16.5               | 4.958             | 300           |
+|(4)| WSL            | Windows       | 37.5              | 11.0             | 37.6               | 11.0              | 300           |
 
 ---
 
@@ -251,28 +264,32 @@ fio  --name=benchmark \
 我找了張仔細一點的架構圖:
 
 ![alt text](/wp-content/images/2024-11-11-working-with-wsl/image-2.png)
-> https://www.netadmin.com.tw/netadmin/zh-tw/technology/EDC6D4560B184F0D9E7A750862D3C9E4
+> 來源: [第2版視窗子系統Linux　二刀流無縫順暢運行](https://www.netadmin.com.tw/netadmin/zh-tw/technology/EDC6D4560B184F0D9E7A750862D3C9E4)
 
 每多一層轉換，IO 的效率就會 **很有感** 的下降一級... 按照這圖的說明，我把前面測試的四種案例經過的轉換，都整理成列表，並且做成表格:
 
-1. windows -> windows: 最短路徑, 當作理想毫無損耗的對照組
-1. windows -> wsl2, 經過 **9P protocol** 到 linux kernel, 再經過 **hpyervisor** 處理硬碟的虛擬化 (實體是 ext4.vhdx)
-1. wsl2 -> wsl2, 只有經過 **hypervisor** 虛擬化硬碟, 其餘都沒有經過額外的轉換
-1. wsl2 -> windows, 只有經過 **DrvFS** 轉譯 ( 背後也是有經過 9P protocol, 不過我就把它當作同一件事了) 來傳送檔案存取的要求
+1. **windows -> windows**:  
+最短路徑, 當作理想毫無損耗的對照組
+1. **windows -> wsl2**:  
+經過 **9P protocol** 到 linux kernel, 再經過 **hpyervisor** 處理硬碟的虛擬化 (實體是 ext4.vhdx)
+1. **wsl2 -> wsl2**:  
+只有經過 **hypervisor** 虛擬化硬碟, 其餘都沒有經過額外的轉換
+1. **wsl2 -> windows**:  
+只有經過 **DrvFS** 轉譯 ( 背後也是有經過 9P protocol, 不過我就把它當作同一件事了) 來傳送檔案存取的要求
 
 每層轉換，我都用黑體標示了。我把上面那張表格內容換一下，對照看就知道影響多大了:
 
-| 測試環境        | 檔案系統  | READ (MiB/s) | 轉換層 | 效能表現 |
-|---------------|------------|---------------|---------|----------|
-| Windows      | Windows  | 576               | --         | 100% (對照組)     |
-| WSL              | WSL         | 209               | Hyper-V | 36.28% |
-| Windows     | WSL          | 16.5              | 9P protocol + Hyper-V | 2.86% |
-| WSL            | Windows   | 37.5              | DrvFS | 6.51% |
+|編號| 測試環境        | 檔案系統  | READ (MiB/s) | 轉換層 | 效能表現 |
+|-----|---------------|------------|---------------|---------|----------|
+|(1)| Windows      | Windows  | 576               | --         | 100% (對照組)     |
+|(2)| WSL              | WSL         | 209               | Hyper-V | 36.28% |
+|(3)| Windows     | WSL          | 16.5              | 9P protocol + Hyper-V | 2.86% |
+|(4)| WSL            | Windows   | 37.5              | DrvFS | 6.51% |
 
 
-我用很不精準的估算，其實還算合理。從 (2) 大約可以推估經過 Hpyer-V 會只剩 36.28% 的效能；從 (4) 推估經過 9P protocol 剩 6.51% 的效能，那麼兩個都過一次就是 36.28% x 6.51% = 2.34%, 其實已經很接近 (3) 的測試結果了, 大致上可以驗證架構圖上的路徑。
+從 (2) 大約可以推估經過 Hpyer-V 會只剩 36.28% 的效能；從 (4) 推估經過 9P protocol 剩 6.51% 的效能，那麼兩個都過一次就是 36.28% x 6.51% = 2.34%, 其實已經很接近 (3) 的測試結果了, 大致上可以驗證架構圖上的路徑。
 
-而 WSL 層層轉譯的效能研究，也有網友做了比我還詳盡的測試: [Windows Subsystem for Linuxガイド 第5回 wsl$ファイルシステムとWSLファイルベンチマーク編](https://news.mynavi.jp/article/20220318-2296803/) (竟然是日文的)   
+而 WSL 層層轉譯的效能研究，也有網友做了比我還詳盡的測試: [Windows Subsystem for Linuxガイド 第5回 wsl$ファイルシステムとWSLファイルベンチマーク編](https://news.mynavi.jp/article/20220318-2296803/) (雖然是日文的，但是找了好幾篇就這篇最清楚)   
 
 其實，如果你認真要用 WSL，(2) 的情境是有機會調整到跟 (1) 差不多的，那就是直接掛實體硬碟 (disk) 或是分割區 (partition) 讓 WSL 專用，就可以免去 Hyper-V 處理 .vhdx 的效能折損 (只剩 36.28%)。Microsoft 官方文件就有說明作法: [Mount a Linux disk in WSL2](https://learn.microsoft.com/en-us/windows/wsl/wsl2-mount-disk?source=docs&WT.mc_id=email&sharingId=AZ-MVP-5002155)。雖然設置麻煩了一點，不過你可以得到最好的效能表現。等到哪天我 WSL 越用越兇，願意投資一顆專屬的 SSD 給 WSL 用的話，再來補這個測試..
 
@@ -356,6 +373,22 @@ qdrant-1  | 2024-11-11T15:17:28.399231Z  INFO storage::content_manager::toc: Loa
 mklink /d \\wsl$\ubuntu\opt\docker c:\codes\docker
 ```
 
+我貼一下我實際的工作環境, 在 windows terminal 下 dir 可以看到:
+
+```
+
+C:\CodeWork>dir
+ Volume in drive C is Windows
+ Volume Serial Number is 6A76-E5CC
+
+ Directory of C:\CodeWork
+
+10/14/2024  12:11 PM    <SYMLINKD>     docker [\\wsl$\ubuntu\opt\docker]
+
+# 以下略
+
+```
+
 這麼一來，你不論用檔案總管，或是 vscode，只要照原本的習慣操作就好了。唯一需要留意的是記得備份。因為它終究是個連結，實際檔案是存在 ext4.vhdx 虛擬硬碟內的。這 vhdx 檔案結構損毀的話，你的檔案就消失了.. 
 
 另一個要留意的是，換個地方擺 volume, 雖然直接避開了 qdrant 執行時大量跨 kernel 的 IO 效能問題 (走 case 2, wsl -> wsl, 36.28%), 但是問題仍然在... 如果你從另一端 (windows) 來存取檔案 (case 3, windows -> wsl, 2.86%)，則是效能最糟糕的安排。如果你有需求從 windows 端對這目錄做大量 IO 操作的話，仍然會碰到這個問題..
@@ -374,13 +407,14 @@ mklink /d \\wsl$\ubuntu\opt\docker c:\codes\docker
 1. windows / linux 對於檔案系統的權限管理機制不同
 1. windows NTFS 額外支援的特殊功能: NTFS stream
 
-科普一下，Windows 的權限設計較複雜，NTFS 導入了完整的 RBAC ( Role Based Access Control )，支援用 ACL ( Access Control List ) 的方式來管控檔案權限。而 Linux 則單純的多，只是按照當前的執行者身分跟群組，以及檔案的屬性 (chmod) 來決定能否存取。兩者管控的模式完全不同，DrvFS 是無法直接對應轉換的，因此這些設定，在跨系統存取的時候都會失效。
+科普一下，Windows 的權限設計是基於 RBAC ( Role Based Access Control )，支援用 ACL ( Access Control List ) 的方式來管控檔案權限。而 Linux 則單純的多，是按照當前的執行者身分跟群組，以及檔案的屬性 (chmod) 來決定能否授予存取權限。這兩者管控的模式完全不同，DrvFS 是無法直接對應轉換的，因此這些設定，在跨系統存取的時候都會失效。
 
 另一個 NTFS 的特異功能也是，就是 NTFS stream... 我想應該沒幾個人聽過 & 用過這東西吧? 基本上一般認知的檔案，就是一個唯一的檔名，對應到一組串流資料 ( stream )。而 NTFS，允許你一個檔案，有主要的串流資料之外，還可以有多個附掛的 stream.. 
 
 這些機制，Linux 同樣不支援。因此，有些檔案你在 wsl 下來看，會多出一些莫名其妙的檔案名稱出來，就是這些 NTFS stream 在作怪。看到的時候請無視它就好。
 
-https://blog.miniasp.com/post/2008/07/23/Useful-tools-Streams-let-you-know-the-uncovered-secret-in-NTFS
+想了解 NTFS stream, 保哥這篇介紹的蠻清楚的: [介紹好用工具：Streams 讓你瞭解神秘的 NTFS 檔案系統](
+https://blog.miniasp.com/post/2008/07/23/Useful-tools-Streams-let-you-know-the-uncovered-secret-in-NTFS)
 
 
 
@@ -388,24 +422,16 @@ https://blog.miniasp.com/post/2008/07/23/Useful-tools-Streams-let-you-know-the-u
 
 # 3, GitHub Pages with Visual Studio Code
 
-透過 mklink, 在 windows 掛載 wsl 的工作環境，雖然解決了使用習慣問題，但是終究是把效能問題換邊放而已啊，跨越 OS kernel 的存取效能終究不好。我只是把效能好的部分保留給 linux 端 ( wsl ) 而已。如果我在 windows 端有別的工具要處理檔案，還是會踩到效能糟的那個環節。
+前面的案例: Qdrant 把檔案移到 wsl rootfs 下，來避開效能問題時有提到，優化了 linux app 的 IO 效能，就代表 windows app 存取同一份資料的效能就會掉下來，因為終究有一方要面對跨 kernel 的問題，你只能權衡看哪邊比較重要而以，在 Qdrant 這案例，我選擇了顧好 container 的效能，而 windows 存取的效能就是堪用就好。
 
-舉例來說，前面的案例是 container 跑 database, 大量的 io 都是發生在 runtime, 因此把檔案丟到 wsl 為主的環境很正常，在 windows 端的操作大概就編輯 dockerfile, docker-compose.yaml 這類操作而已，慢一點不會有感。
+但是在開發的應用，這兩件事就沒辦法靠邊站了。開發時主要是靠 IDE, 通常需要在 windows 環境下不斷的做 git 的操作 ( git clone, pull, push, commit, ... ), 或是 code build 的操作 ( dotnet build, docker build, ... ), 而測試，除錯，執行等等則是另一個面向，需要在執行環境 (linux) 執行開發階段的產出 ( build output, run container .. ), 而為了讓程式順利執行, 也許也會有相依的東西要一起執行 (例如 database, 就會踩到前面 Qdrant 的案例)。
 
-不過複雜一點的情境，同一份檔案我可能 "同時" 需要透過 windows / linux application 存取，同時都對檔案的存取效能很敏感。例如 IDE, 我要面對的是 source code 編輯, 有大量的 css / html / 圖檔等等，IDE 運作會高頻次的存取這些檔案，而 code 在 build 或是 git pull / push / commit 也都會有大量小檔案的存取操作，如果同時又有需要在 container 下存取這些檔案，上面的作法就無法兼顧了。這時，所有的軟體，包含 IDE, git, build tool, runtime, container 等等都應該在同一個體系內 (白話: 這些工具通通都改用 linux 版，因為很多東西在 windows 上不堪用，或是沒有選擇) 才能解決... 這就回到這段的主題: 跨系統 (跨 OS Kernel) 操作的互通性了。
+這種情況就沒有選邊站的空間了。我就把腦筋動到工具的身上，如果我連工具都搬到 linux 上面執行呢? 如果我連 IDE 都可以在 linux 上執行呢? 這就回到這段的主題: 跨系統 (跨 OS Kernel) 操作的互通性了。
 
-不得不誇一下 Microsoft, WSL 在這部份真的是做得沒話講，先天上 Microsoft 居於劣勢 (無法拋棄 windows nt kernel)，但是跨兩個 os-kernel，居然能做到這般整合的程度，連我都覺得是外星黑科技了。就算是我也花了點功夫，才搞清楚 Microsoft 在背後做了哪些事情... 這段就來聊聊這部分神奇的機制
+不得不誇一下 Microsoft, WSL 在這部份真的是做得沒話講，先說結論，Visual Studio Code 的 Remote Shell 模式，已經可以完美的解決這問題了。Microsoft 同時在 WSL 的底層，Linux Executable 格式的支援，檔案系統的互通，硬體虛擬化的互通，以及軟體層的抽象化設計 ( vscode 支援 code-server ) 都要配合，才做得到的成就。這連我都覺得是外星黑科技了。就算是我也花了點功夫，才搞清楚 Microsoft 在背後做了哪些事情... 這段就來聊聊這部分神奇的機制
 
-(1) 跨 OS 的 file system 整合:  
-首先, 前面提到 Microsoft 在 WSL 已經把 file system 打通了。windows -> wsl 有 drvfs, 可以在 wsl 內 mount windows file system, 而 wsl -> windows 也支援 9p protocol, windows 內可以用 \\wsl$\ubuntu\ 來存取
+接下來，我就分兩個主題來聊聊這整合環境怎麼做到的，第一個先來看 WSL 怎麼執行 Windows 的執行檔 (沒錯，你可以在 Linux 跑 .exe )，第二個來看 Visual Studio Code 的 Remote Shell ..
 
-(2) 跨 OS 的 GUI 整合:  
-接下來是 UI, 某一版 windows 開始支援 WSLg, 意思是你可以把 Linux 的 UI 顯示到 Windows 上，就是 Xwindows 那套機制，可以運用到 GPU 資源。這背後其實打通了 device 這層 (後面會再度聊到 GPU，我這邊先點到為止)，UI 操作面也打通了。 (不過最終這個我覺得不大實用，我用不到)
-
-(3) 跨 OS 的 CLI / Executable File 整合:  
-第三個是 command 的整合。這個真的是黑科技，我可以在 linux 下啟動 windows application, 反過來也可以 ( ssh 很普及, windows 下 linux 指令反倒沒甚麼 ) 
-
-其中 (1) 前面介紹過了，(2) 其實我這次用不到，單純介紹就好。(3) 我覺得是關鍵的黑科技，花點篇幅聊一下..
 
 
 ## 3-1, 在 WSL 下執行 Windows CLI / Application
@@ -449,52 +475,58 @@ andrew@113N000081:~$ explorer.exe .
 
 // linux + windows pe
 
-如果這樣就嚇到你，那我再加碼一個:  這次我在 wsl 叫出 vscode, 然後這個 vscode 除了 UI 看起來都是 windows 原生地之外，其他看起來都像是 linux 的... 在這個 vscode 開啟檔案, 是 wsl 的 file system 結構；執行檔案 ( run / debug ) 都是跑 linux 版本的程式碼... 開起來的 terminal, 是 linux 的 shell ... 執行的 vscode extension, 都是 linux 下的 extension ( 這不是全部 ) ...
-
-沒錯，這已經不是 file system 整合，或是遠端呼叫那麼簡單了。這有兩個層級:
-
-1. 透過 wsl 啟動 windows 的 process (並且傳遞 environment 相關資訊)
-1. Visual Studio Code 其實有特別的設計: Remote Shell, 拆成 UI 跟 Code Server .. UI 在 windows 端執行，Code Server 在 Linux 端執行，中間靠 ssh 通訊..
-1. Visual Studio Code 準備了一組 shell script, 試圖欺騙你.. 其實你執行的 code 是 shell script, 背後做了一連串準備動作，最後才會去呼叫 code.exe 才是真正的啟用 windows 版本的 vscode ..
-
-// 貼 vscode remote shell 架構圖
-https://code.visualstudio.com/docs/remote/ssh
-
-到這裡，這真的是我認為的終極解法了。UI 完全就是 windows 的影子，但是骨子裡完全就是 linux 的東西... 彷彿就是 windows 的 kernel 完全替換成 linux 一樣...
 
 
-這真的解掉我一個大難題，就是我的部落格撰寫環境。
 
-還記得我 X 年前寫的這篇嗎? Blog as Code!, 我老早就用 vscode 在寫部落格了。我的標準環境就是 GitHub Pages, 我整個部落格就放在 GitHub 上..
+## 3-2, Visual Studio Code 的 Remote Shell 
 
-1. 要寫部落格, 就把 git repo 拉下來就可以開始編輯了
-1. 要發布內容, 就 git commit / git push 推回 github, 內建的 ci / cd 機制就會把我的部落格 build 成靜態檔案發佈出去了 ( github pages, jekyll )
+即使你已經能在 wsl 啟動 windows application, 終究還是 windows application 啊，嚴格的來說並沒有解決前面碰到的 IO 限制問題。
 
-我在本機，需要處理部落格上萬個檔案, 因此 vscode 要開起來不是件輕鬆的事情 (左側的 tree 要載入的項目不少)。不過本機環境，這樣的 loading 對我的電腦還不成問題
+理想的作法是，把 vscode 拆成兩半，前後端分離；一半處理 UI (留在 windows)，一半處理後端 (留在 linux)，前後端分離，中間有統一的傳輸通道 ( ssh ) 連結起來。
 
-不過預覽是很痛苦的一件事啊。我如果 push 上 github 要等三分鐘才看的到結果 (就算只改一個字也一樣)..
+結果還真的有這東西，其實 Microsoft 想得比我快好幾步，這些東西早就在那邊了，而且遠端的模式遠超出我預期: [VS Core Remote Development](https://code.visualstudio.com/docs/remote/remote-overview) 這官方的說明講得很詳細，你可以在你熟悉的 desktop environment 使用 vscode (windows, mac ..), 而工作環境則可以透過 remote development 的機制，連結到你的後端工作環境。支援的連接方式很完整，可以 SSH 或是建立 Tunnel 來連到你既有的 VM，也可以直接用 Container 啟動一個全新的獨立環境，或是直接連到本機的 WSL..
 
-於是我嘗試過，裝 windows 版本的 jekyll, 相依 ruby, 我直接放棄...
+我貼一段官網的簡介，所有的特色都在這裡了:
 
-接著我跑 docker 版本的 jekyll, 碰到 file system 的問題。windows 的 file system 掛載到 docker volume, 檔案異動的 event 過不去，只能用 pooling，效能已經夠糟了還雪上加霜... 改一個字要花 80 sec 才能 build 完...
+**Visual Studio Code Remote Development** allows you to use a container, remote machine, or the [Windows Subsystem for Linux](https://learn.microsoft.com/windows/wsl) (WSL) as a full-featured development environment. You can:
 
-後來我用了折衷方案, 就前面 file system 的互通作法，改善了 github pages 的效能，就得犧牲 vscode 的效能，無法兼顧。有一段時間我是真的放兩份檔案，要預覽的時候就用 robocopy.exe 同步 ( windows 下類似 rsync 的工具)。同步大約花 30s, build website 大約花 10s, 雖不滿意但是已經好很多了...
+- Develop on the **same operating system** you deploy to or use **larger or more specialized** hardware.
+- **Separate** your development environment to avoid impacting your local **machine configuration**.
+- Make it easy for new contributors to **get started** and keep everyone on a **consistent environment**.
+- Use tools or runtimes **not available** on your local OS or manage **multiple versions** of them.
+- Develop your Linux-deployed applications using the **Windows Subsystem for Linux**.
+- Access an **existing** development environment from **multiple machines or locations**.
+- Debug an **application running somewhere else** such as a customer site or in the cloud.
 
-最後，我用了 vscode + remote shell ... 完全不需要同步, jekyll watch 也運作正常。我只要 vscode 按下儲存, jekyll 馬上自動 build website, 5s 完成..., 而且這一切都在 vscode 內完成 ( 我直接開一個 vscode terminal 跑 github pages 的 docker container ...)
+**No source code** needs to be on your local machine to get these benefits. Each extension in the [Remote Development extension pack](https://aka.ms/vscode-remote/download/extension) can run commands and other extensions directly inside a container, in WSL, or on a remote machine so that everything feels like it does when you run locally.
 
-多追加一個，因為 code server 也能監控網路，所以我跑的 docker container 發佈了那些 tcp port 他也知道了，vscode 還會直接提是我要不要開 localhost:4000 來預覽我的網站?
-
-我選擇了直接在 vscode 內預覽，畫面就是你看到的這個樣子:
-
-// 貼圖, vscode 寫 blog + preview
-
-看到這邊，我沒有遺憾了 XDD
-所有開發環境的問題都解決了，整合度高，效率好，都能用 linux 原生環境，容器化，一行指令就跑起來，不用裝一大堆套件 (就搞定 vscode + docker 就夠了)
-
-所以，我在部落格 root 擺了一個 docker-compose.yaml, 以後只要 git clone, code ., 開 terminal 跑 docker compose up, 開 http://localhost:4000 就可以開始寫部落格了..
+![alt text](/wp-content/images/2024-11-11-working-with-wsl/image-3.png)
 
 
-我的案例剛好沒示範到 build code, 如果你不是寫部落格而是寫 code, 在 terminal 下直接跑 dotnet run 就可以在 wsl 跑你的 c# code 了，用法完全一樣，你不需要在 windows 測試完，在打包成 docker image 丟到 linux 再測一次。你可以很容易地從一開始開發，測試就通通都再以後要執行的 linux 環境下運行。
+不過，雖然功能這麼多，我只針對 WSL 環境的使用來介紹就好了。我前面多介紹 WSL 可以跑 windows .exe 這段，是因為這是最後一段串連我使用方式的關卡，我可以完全照我平常的習慣，在 terminal 啟動 vscode, 直接開啟工作目錄:
+
+// wsl -> code
+// init code server
+// launch code.exe
+// connect remote to wsl
+
+
+到這裡，這真的是我認為的理想解決方案了。UI 完全就是 windows 的影子，但是骨子裡完全就是 linux 的東西... 彷彿就是 windows 的 kernel 完全替換成 linux 一樣...
+
+這真的解掉我一個大難題，就是我的部落格撰寫環境。從現在開始，我想要在我本機環境寫部落格，只要這樣做:
+
+1. WSL: git clone
+1. WSL: launch vscode
+1. VSCODE: git pull, switch branch
+1. VSCODE: terminal, docker compose up
+1. Open preview page: http://localhost:4000 in browser or in vscode
+1. VSCODE: git commit & git push
+
+最後我的改變，只是在我部落格的 git repo 底下，加了一個 docker-compose.yaml ，設定了怎麼啟動 GitHub Pages 的預覽環境。這個 container 跑起來之後，只要我改完檔案存檔，5 sec 左右就可以預覽了。如果你不記得網址，VSCODE 也會提醒你 remote port ..
+
+寫到這邊，我沒有遺憾了 XDD
+所有開發環境的問題都解決了，整合度高，執行效率好，IO效率也好，都能用 linux 原生環境，容器化，一行指令就跑起來，不用裝一大堆套件 (就搞定 vscode + docker 就夠了)
+
 
 
 
