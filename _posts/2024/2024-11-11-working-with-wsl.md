@@ -24,7 +24,7 @@ docker 還是繼續用，只是改成直接進 wsl 安裝 docker 來用, 也順�
 
 
 ![](/wp-content/images/2024-11-11-working-with-wsl/logo.jpg)
-> 圖: DALL-E, 我讓 ChatGPT 搜尋我自己然後畫出來的形象圖..
+> 圖: DALL-E, 趕流行, 我讓 ChatGPT 搜尋我自己然後畫出來的形象圖..
 
 因為越來越多東西需要在原生的 linux 環境下執行, 趁著更新 24H2，重灌 windows 的機會, 就一起認真的重整我的開發環境了。在 windows 下要以 linux 為主要的工作環境，用 wsl (windows subsystem for linux) 是首選，不過畢竟是跨 OS 的使用，也有不少障礙要排除。趁這次花了點時間研究作法，同時也惡補了一下 wsl 的相關背景知識，這才發現 Microsoft 對 WSL 下了不少功夫啊，背後藏了很多不錯的巧思。
 
@@ -97,23 +97,23 @@ OS: Microsoft Windows 11 Pro (24H2, 趁機重灌, 重建環境)
 在這邊先科普一下 WSL 的 file system 架構... 看底下這張圖:
 
 ![](/wp-content/images/2024-11-11-working-with-wsl/image.png)
-> https://www.polarsparc.com/xhtml/IntroToWSL2.html
+> 來源: [Introduction to WSL 2](https://www.polarsparc.com/xhtml/IntroToWSL2.html)
 
 
-基本上存取路徑大致可以這樣分，應用程式都是在黃色的 user space 執行的 ( 有 windows / wsl 兩個 )，而 file system 也都是跟著 kernel 的 ( 一樣有 windows: NTFS, 也有 wsl: ext4 ), 而我用預設的 wsl, disk 多一層虛擬化 (對應到 NTFS 上的檔案: ext4.vhdx )
+基本上存取路徑大致可以這樣分，應用程式都是在黃色的 user space 執行的 ( 有 windows / wsl 兩個 )，而 file system 也都是跟著 kernel 的 ( 一樣有 windows: NTFS, 也有 wsl: ext4 ), 而我用預設的 wsl, disk 多一層虛擬化 (對應到 NTFS 上的檔案: ext4.vhdx, 預設路徑在: ```c:\Users\%USERNAME%\AppData\Local\Packages\CanonicalGroupLimited.Ubuntu_79rhkp1fndgsc\LocalState\ext4.vhdx``` )
 
 因此，我列出所有的 4 種組合情境:
 
-1. 由 windows app 存取 windows file system:  
+1. **由 windows app 存取 windows file system**:  
 NTFS, c:\benchmark_temp, 最直接的存取路徑, 沒有額外消耗的理想情境, 大部分單純的 windows 應用都是這類。  
 
-1. 由 wsl application 存取 wsl file system:  
+1. **由 wsl application 存取 wsl file system**:  
 EXT4, ~/benchmark_temp, 在 linux kernel 內基本上軟體也是直接的路徑, 不過同上, 虛擬硬碟終究多了一層 .vhdx 轉換。  
 
-1. 由 windows app 存取 wsl file system:  
+1. **由 windows app 存取 wsl file system**:  
 EXT4, \\wsl$\ubuntu\home\andrew\benchmark_temp, 中間跨越 9p protocol 進到 linux kernel 就能存取到檔案。但是 wsl 畢竟是個 windows 下運作的 lightweight VM，他的磁碟是虛擬化而來的，多了一層 .vhdx 的轉換。   
 
-1. 由 wsl application 存取 windows file system:  
+1. **由 wsl application 存取 windows file system**:  
 NTFS, /mnt/c/benchmark_temp, 中間經過一層 drvfs 檔案系統的處理 (這是由 Microsoft 開發並且開源的 linux file system, 會負責將檔案系統的存取經由 9p protocol 轉接到 windows file system) 的轉換..
 
 
@@ -123,7 +123,7 @@ NTFS, /mnt/c/benchmark_temp, 中間經過一層 drvfs 檔案系統的處理 (這
 docker run ......  -v c:\working-dir\:/mydir .....
 ```
 
-Docker 會啟動一個 container, 並且把 windows 下的 c:\working-dir\ 掛載到 container 內的 /mydir 路徑。這時 container 存取檔案的時候，就會走 (4) 的路徑了，磁碟效能會被扒一層皮 ( drvfs )。你會發現效能掉的很離譜，就是這種狀況。
+Docker 會啟動一個 container, 並且把 windows 下的 c:\working-dir\ 掛載到 container 內的 /mydir 路徑。這時 container 存取檔案的時候，就會走 (4) 的路徑了，磁碟效能會被扒一層皮 ( DrvFS )。你會發現效能掉的很離譜，就是這種狀況。
 
 這時，除了損失效能之外，DrvFS 對應兩種截然不同的 file system, 也會失去部分 NTFS 的特性。例如 NTFS 的檔案異動通知 [FileSystemWatcher](https://learn.microsoft.com/zh-tw/dotnet/api/system.io.filesystemwatcher?source=docs&WT.mc_id=email&sharingId=AZ-MVP-5002155) 就無法對應到 Linux 的檔案異動通知 [inotify](https://zh.wikipedia.org/zh-tw/Inotify)，因此 container 如果掛載了 windows 下的檔案目錄，這些功能就失效了。
 
@@ -459,21 +459,35 @@ UNC paths are not supported.  Defaulting to Windows directory.
 andrew@113N000081:~$
 ```
 
-看起來頂多只是像 ssh 那樣的感覺，好像沒有那麼了不起... 我再示範另一個 case, 直接在 wsl 下叫出檔案總管，並且開到目前 (wsl) 的工作目錄:
+看起來頂多只是像 ssh 那樣的感覺，好像沒有那麼了不起... 我再示範另一個 case, 直接在 wsl 下叫出檔案總管 (請注意，在 WSL 下不能省掉 .exe)，並且開到目前 (wsl) 的工作目錄:
 
 ```
 andrew@113N000081:~$ explorer.exe .
 ```
 
-開出來的檔案總管，作用中的路徑是這個
+開出來的檔案總管 (注意看檔案總管的資料夾開在這位置 ```\\wsl.localhost\Ubuntu\home\andrew``` ):
+
+![alt text](/wp-content/images/2024-11-11-working-with-wsl/image-1.png)
+
+
+
+
+這個就神奇了，開起來就是個貨真價實的 windows 版檔案總管 ( file explorer ), UI 也是 windows 原生的, Process 也是 windows 的。這黑科技怎麼做到的其實很有趣，Microsoft 動了點手腳，讓 linux 認得 PE 格式的擋頭，然後重新導向這個啟動的動作.. 細節我就不多說，有興趣可以看這篇文章: [Working across Windows and Linux file systems](https://learn.microsoft.com/en-us/windows/wsl/filesystems?source=docs&WT.mc_id=email&sharingId=AZ-MVP-5002155), 其中最後一段 Interoperability between windows and linux commands, 說明了不少這機制的使用方式。
+
+運作原理嘛，簡單的說 wsl 把 windows 執行檔的結構 PE format, 預先註冊到 Linux binfmt_misc 了，因此碰到這種格式 (就是 windows .exe file ), 就會啟動註冊的 handler, 背後一連串的安排, 就能啟動 host os 實際的 .exe 了。
+
+爬文爬到一些資訊，我就留個線索，有興趣的追看看吧:
 
 ```
-\\wsl.localhost\Ubuntu\home\andrew
+andrew@ANDREW-PC:~$ cat /proc/sys/fs/binfmt_misc/WSLInterop
+
+enabled
+interpreter /init
+flags: PF
+offset 0
+magic 4d5a
 ```
 
-這個就神奇了，開起來就是個貨真價實的 windows 版檔案總管 ( file explorer ), UI 也是 windows 原生的, Process 也是 windows 的。這黑科技怎麼做到的其實很有趣，Microsoft 動了點手腳，讓 linux 認得 PE 格式的擋頭，然後重新導向這個啟動的動作.. 細節我就不多說，有興趣可以看這篇文章:
-
-// linux + windows pe
 
 
 ## 3-2, Visual Studio Code: Remote Development
@@ -482,7 +496,7 @@ andrew@113N000081:~$ explorer.exe .
 
 結果查了一下，還真的有這東西，而且支援的遠端的模式遠超出我預期: [VS Core Remote Development](https://code.visualstudio.com/docs/remote/remote-overview) 這官方的說明講得很詳細，我直接貼簡介:
 
-**Visual Studio Code Remote Development** allows you to use a container, remote machine, or the [Windows Subsystem for Linux](https://learn.microsoft.com/windows/wsl) (WSL) as a full-featured development environment. You can:
+**Visual Studio Code Remote Development** allows you to use a container, remote machine, or the [Windows Subsystem for Linux](https://learn.microsoft.com/windows/wsl?source=docs&WT.mc_id=email&sharingId=AZ-MVP-5002155) (WSL) as a full-featured development environment. You can:
 
 - Develop on the **same operating system** you deploy to or use **larger or more specialized** hardware.
 - **Separate** your development environment to avoid impacting your local **machine configuration**.
@@ -518,21 +532,41 @@ andrew@113N000081:/opt/docker/columns.chicken-house.net$ code .
 andrew@113N000081:/opt/docker/columns.chicken-house.net$
 ```
 
-code 指令下完, 停頓 1 sec, vscode 視窗就開出來了，而且 workspace 就是這個 git repo 的內容。完全看不到背後做了甚麼事，也沒看到 WSL 啟動 code server... 怎麼一切就都準備好了?
+我下了 ``` code . ``` 指令, 就可以開啟 vs code, 並且將目前的工作目錄載入 workspace。這背後其實是幾個分解動作..
 
-於是我繼續往下挖，我發現我下的指令 code, 原來並不是 windows 的執行檔 code.exe, 而是個 shell script...
+首先，我本來一直以為 code 跟前面的 explorer.exe 一樣, 就是啟動 windows 執行檔而已，其實 code 只是個 linux 的 shell script... 這 script 的位置在 ```/mnt/c/Program Files/Microsoft VS Code/bin/code``` , 內容就不貼了, 基本上就是準備好 vscode-server, 並且正確的啟動 windows 端的 vscode ( 本尊是 code.exe 才對)。
 
-這 script 的位置在:
-/mnt/c/Program Files/Microsoft VS Code/bin/code, 內容我就不貼了，主要就是判斷 WSL distro 版本, 升級安裝 code server, 然後啟用 code.exe (這個才是真正的 vscode 執行檔)
+啟動後，左下角看的到 ```WSL - Ubuntu``` 的字樣，代表你現在的 vscode 已經是 remote development 狀態, 連線的工作環境就是 wsl - ubuntu.
 
-啟動後，仔細觀察左下角，已經是 WSL - Ubuntu 的字樣，代表已經跟 WSL 的 Ubuntu 遠端連線完成了，你現在的 vscode 已經是 remote development 狀態, 連線的工作環境就是 wsl - ubuntu.
+簡單幾個動作測試一下，證明 vscode 是 remote development mode..
 
 
-怎麼證明 vscode 是 remote development mode?
-1. 試試看 CTRL-O 開啟檔案, 你會發現能選的檔案，都是 linux 環境下的檔案...
-2. 用 CTRL-` 開啟 vscode 內建的 terminal, 開出來的是 linux 下的 bash, 工作目錄就是 git repo 的目錄。
-3. 你可以在裡面下指令啟動 container, 我預先準備好 docker-compose.yaml, 會直接啟動一個 GitHub Pages 的 container, 跑 Jekyll 來建置靜態網站
-4. (bonus) 意外的發現, vscode 會知道你啟動了 container, 並且有轉發 TCP ports, 還會提示你要不要開起瀏覽器來檢視預覽網頁
+試試看 CTRL-O 開啟檔案, 你會發現能選的檔案，都是 linux 環境下的檔案:
+![alt text](/wp-content/images/2024-11-11-working-with-wsl/image-4.png)
+
+
+用 CTRL-` 開啟 vscode 內建的 terminal, 開出來的是 linux 下的 bash, 工作目錄就是 git repo 的目錄:
+![alt text](/wp-content/images/2024-11-11-working-with-wsl/image-5.png)
+
+
+
+
+在 terminal 啟動 docker compose, 會直接起一個 GitHub Pages 的 container, 跑 Jekyll 來建置靜態網站:
+![alt text](/wp-content/images/2024-11-11-working-with-wsl/image-6.png)
+
+
+
+
+(bonus) 可以偵測這個 session 是否有轉發 ports, 可以列出來並且開瀏覽器預覽內容:
+![alt text](/wp-content/images/2024-11-11-working-with-wsl/image-7.png)
+
+
+
+如果你喜歡，可以在 vscode 預覽，不用另外開瀏覽器。左邊編輯，右邊預覽，下方看 Jekyll 的 Build 結果:
+![alt text](/wp-content/images/2024-11-11-working-with-wsl/image-9.png)
+
+
+
 
 
 寫到這邊，我沒有遺憾了 XDD
@@ -556,9 +590,9 @@ https://hub.docker.com/r/ollama/ollama
 2. wsl 安裝 NVIDIA container toolkit, 注意 wsl 不需要再裝 GPU driver 了..
 3. wsl 設定 docker runtime 要正確使用 nvidia-ctk
 
-其實, 第一步做完, wsl 本身就已經支援 GPU 了，後面的動作都是為了 docker 內可以使用 GPU 而準備的。
+其實, 第一步做完, wsl 本身就已經支援 GPU 了，後面的動作都是為了 docker 內可以使用 GPU 而準備的。沒想到這個需求意外的簡單，按照步驟做完一次就成功了
 
-你可以下這指令: nvidia-smi 就看的到顯卡的資訊了:
+你可以在 wsl 下這指令: nvidia-smi 就看的到顯卡的資訊了:
 
 ```
 andrew@ANDREW-PC:/opt/docker$ nvidia-smi
@@ -586,38 +620,28 @@ andrew@ANDREW-PC:/opt/docker$
 
 ```
 
-
 之後就可以快樂的讓你的 container 能直接使用到 GPU 運算資源了。你只需要在 docker run 啟動 container 時追加這參數 --gpus=all，指派可用的 GPU 給他就可以了。
 
 例如:
 
+```
 docker run -d --gpus=all -v ollama:/root/.ollama -p 11434:11434 --name ollama ollama/ollama
-
-試跑了一下 llama3.2, 問了幾個問題, 回應速度還挺快的, 比正常人說話的速度快多了:
-
+```
 
 
+試跑了一下 llama3.2, 問了幾個問題, 回應速度還挺快的, 底下這堆訊息大概一秒鐘就回應完成了, 比正常人說話的速度快多了:
+
+![alt text](/wp-content/images/2024-11-11-working-with-wsl/image-8.png)
 
 
-對應 windows 的 task manager, 果然看的到 GPU 有 loading :
+對應 windows 的 task manager, 果然看的到 GPU 有 loading... 多問了兩句，感覺對於 RTX4060Ti-16GB 來說不痛不癢的:
+![alt text](/wp-content/images/2024-11-11-working-with-wsl/image-10.png)
 
 
+大功告成! 看來我也可以無痛的在 wsl 下面執行需要 CUDA 的應用程式了，最後我弄了個 ollama + open-webui 的 docker-compose.yaml (可以參考黑大的範本: [傻瓜 LLM 架設 - Ollama + Open WebUI 之 Docker Compose 懶人包](https://blog.darkthread.net/blog/ollam-open-webui/))，無痛就起了一個私人 ChatGPT ...
 
-
-執行過程中，再次看一下 nvidia-smi 也一樣看的到有成試在使用 GPU:
-
-
-
-大功告成! 看來我也可以無痛的在 wsl 下面執行需要 CUDA 的應用程式了
+![alt text](/wp-content/images/2024-11-11-working-with-wsl/image-11.png)
 
 
 # 5, 心得
-
-
-
-
-
-因為工作環境重整之後，實在太好用，我決定把主要工作環境都轉移到 wsl 上了，用的就是上面示範的幾種應用方式。
-
-也因為這樣，投資了 GPU ( RTX 4060TI-16G ), 也添購了顆 2TB Gen4 SSD ..
 
