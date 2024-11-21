@@ -476,17 +476,11 @@ andrew@113N000081:~$ explorer.exe .
 // linux + windows pe
 
 
+## 3-2, Visual Studio Code: Remote Development
 
+回到 vscode, 在 wsl 就算能啟動 vscode, 它仍然是在 windows user mode 環境下執行的 application, 存取 wsl file system 的效能瓶頸沒有解決。理想的作法是: vscode 本身要有前後端分離的結構，分別處理 UI 操作 (這部分留在 windows)，跟實際處理檔案、編譯等等背景作業 (這部分留在 linux)，如果做得到，這些問題就算完美解決了。
 
-## 3-2, Visual Studio Code 的 Remote Shell 
-
-即使你已經能在 wsl 啟動 windows application, 終究還是 windows application 啊，嚴格的來說並沒有解決前面碰到的 IO 限制問題。
-
-理想的作法是，把 vscode 拆成兩半，前後端分離；一半處理 UI (留在 windows)，一半處理後端 (留在 linux)，前後端分離，中間有統一的傳輸通道 ( ssh ) 連結起來。
-
-結果還真的有這東西，其實 Microsoft 想得比我快好幾步，這些東西早就在那邊了，而且遠端的模式遠超出我預期: [VS Core Remote Development](https://code.visualstudio.com/docs/remote/remote-overview) 這官方的說明講得很詳細，你可以在你熟悉的 desktop environment 使用 vscode (windows, mac ..), 而工作環境則可以透過 remote development 的機制，連結到你的後端工作環境。支援的連接方式很完整，可以 SSH 或是建立 Tunnel 來連到你既有的 VM，也可以直接用 Container 啟動一個全新的獨立環境，或是直接連到本機的 WSL..
-
-我貼一段官網的簡介，所有的特色都在這裡了:
+結果查了一下，還真的有這東西，而且支援的遠端的模式遠超出我預期: [VS Core Remote Development](https://code.visualstudio.com/docs/remote/remote-overview) 這官方的說明講得很詳細，我直接貼簡介:
 
 **Visual Studio Code Remote Development** allows you to use a container, remote machine, or the [Windows Subsystem for Linux](https://learn.microsoft.com/windows/wsl) (WSL) as a full-featured development environment. You can:
 
@@ -502,27 +496,44 @@ andrew@113N000081:~$ explorer.exe .
 
 ![alt text](/wp-content/images/2024-11-11-working-with-wsl/image-3.png)
 
-
-不過，雖然功能這麼多，我只針對 WSL 環境的使用來介紹就好了。我前面多介紹 WSL 可以跑 windows .exe 這段，是因為這是最後一段串連我使用方式的關卡，我可以完全照我平常的習慣，在 terminal 啟動 vscode, 直接開啟工作目錄:
-
-// wsl -> code
-// init code server
-// launch code.exe
-// connect remote to wsl
+Remote Development 支援好幾種環境 ( SSH, WSL, DevContainer, Tunnel )，我只針對 WSL 環境的使用來介紹就好了。WSL 的整合，緊密到你幾乎可以把它當作單機版使用。一來無網路環境也可以正常執行，甚至你也能在 WSL 工作目錄下直接下指令叫出 vscode, 就像我可以在 powershell 下直接叫出 Notepad 來編輯文字檔一樣。這用起來真的很外星科技，我示範一下:
 
 
-到這裡，這真的是我認為的理想解決方案了。UI 完全就是 windows 的影子，但是骨子裡完全就是 linux 的東西... 彷彿就是 windows 的 kernel 完全替換成 linux 一樣...
 
-這真的解掉我一個大難題，就是我的部落格撰寫環境。從現在開始，我想要在我本機環境寫部落格，只要這樣做:
+操作 1: git clone / git pull 後, 叫出 vscode
 
-1. WSL: git clone
-1. WSL: launch vscode
-1. VSCODE: git pull, switch branch
-1. VSCODE: terminal, docker compose up
-1. Open preview page: http://localhost:4000 in browser or in vscode
-1. VSCODE: git commit & git push
+```
+andrew@113N000081:/opt/docker/columns.chicken-house.net$ git pull
+remote: Enumerating objects: 5, done.
+remote: Counting objects: 100% (5/5), done.
+remote: Total 5 (delta 4), reused 5 (delta 4), pack-reused 0 (from 0)
+Unpacking objects: 100% (5/5), 2.91 KiB | 496.00 KiB/s, done.
+From https://github.com/andrew0928/columns.chicken-house.net
+   b907c21..eaf0edc  draft      -> origin/draft
+Updating b907c21..eaf0edc
+Fast-forward
+ _posts/2024/2024-11-11-working-with-wsl.md | 91 ++++++++++++++++++++++++++++++++++++-------------------------------------------
+ 1 file changed, 41 insertions(+), 50 deletions(-)
+andrew@113N000081:/opt/docker/columns.chicken-house.net$ code .
+andrew@113N000081:/opt/docker/columns.chicken-house.net$
+```
 
-最後我的改變，只是在我部落格的 git repo 底下，加了一個 docker-compose.yaml ，設定了怎麼啟動 GitHub Pages 的預覽環境。這個 container 跑起來之後，只要我改完檔案存檔，5 sec 左右就可以預覽了。如果你不記得網址，VSCODE 也會提醒你 remote port ..
+code 指令下完, 停頓 1 sec, vscode 視窗就開出來了，而且 workspace 就是這個 git repo 的內容。完全看不到背後做了甚麼事，也沒看到 WSL 啟動 code server... 怎麼一切就都準備好了?
+
+於是我繼續往下挖，我發現我下的指令 code, 原來並不是 windows 的執行檔 code.exe, 而是個 shell script...
+
+這 script 的位置在:
+/mnt/c/Program Files/Microsoft VS Code/bin/code, 內容我就不貼了，主要就是判斷 WSL distro 版本, 升級安裝 code server, 然後啟用 code.exe (這個才是真正的 vscode 執行檔)
+
+啟動後，仔細觀察左下角，已經是 WSL - Ubuntu 的字樣，代表已經跟 WSL 的 Ubuntu 遠端連線完成了，你現在的 vscode 已經是 remote development 狀態, 連線的工作環境就是 wsl - ubuntu.
+
+
+怎麼證明 vscode 是 remote development mode?
+1. 試試看 CTRL-O 開啟檔案, 你會發現能選的檔案，都是 linux 環境下的檔案...
+2. 用 CTRL-` 開啟 vscode 內建的 terminal, 開出來的是 linux 下的 bash, 工作目錄就是 git repo 的目錄。
+3. 你可以在裡面下指令啟動 container, 我預先準備好 docker-compose.yaml, 會直接啟動一個 GitHub Pages 的 container, 跑 Jekyll 來建置靜態網站
+4. (bonus) 意外的發現, vscode 會知道你啟動了 container, 並且有轉發 TCP ports, 還會提示你要不要開起瀏覽器來檢視預覽網頁
+
 
 寫到這邊，我沒有遺憾了 XDD
 所有開發環境的問題都解決了，整合度高，執行效率好，IO效率也好，都能用 linux 原生環境，容器化，一行指令就跑起來，不用裝一大堆套件 (就搞定 vscode + docker 就夠了)
