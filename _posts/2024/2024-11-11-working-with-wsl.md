@@ -566,7 +566,13 @@ andrew@113N000081:/opt/docker/columns.chicken-house.net$
 ![alt text](/wp-content/images/2024-11-11-working-with-wsl/image-9.png)
 
 
-
+>
+> 補一段跟主題無關，單純推薦的用法: VSCode 從 [May 2023 (version 1.79)](https://code.visualstudio.com/updates/v1_79) 開始支援 markdown 編輯時，可以從剪貼簿直接貼上 image，會自動在指定目錄存圖檔，並且插入對應的 markdown image 標記。
+> 
+> 在這之前，我都是安裝額外的 extension 來做類似功能的，不過先前試過各種 "remote" 的方案，包括自己蓋了一個 [code-server](https://github.com/coder/code-server)( Run VS Code on any machine anywhere and access it in the browser )，但是都卡在這類功能無法啟用，一直跟我說 server side 缺乏 xclip 套件之類的，明明我裝了也沒有解決...
+> 
+> 現在改用 WSL remote, 加上 vscode 也內建這功能, 遠端編輯無法直接貼上圖檔的問題順便被解決掉了, 開始覺得這樣的編輯環境，已經遠遠的把各種 online editor ( 我當年用過 word press, 更早以前還用過 windows live writer, 有年輕人用過嗎 XDDD ) 甩在一旁了。現在有各種線上文件編輯需求，我一率推薦 Git + VSCode + [Static Site Builder](https://www.cloudflare.com/learning/performance/static-site-generator/) 這種組合。  
+>
 
 
 寫到這邊，我沒有遺憾了 XDD
@@ -575,12 +581,15 @@ andrew@113N000081:/opt/docker/columns.chicken-house.net$
 
 
 
-# 4, Ollama with CUDA support
+# 4, GPU (CUDA) Application
 
 終於來到最後一個，跑 LLM 需要用到 GPU , 需要相依 Python 套件, 也要相依很難搞的 CUDA ... ( CUDA 版本相容性很糟，裝錯版本可能就跑不起來了 )
 
 
 結果，這個問題真的是我庸人自擾，想太多了。Microsoft 早就幫我解決掉了... 在搞清楚黑科技怎麼做的之前，先來體驗一下效果。我直接看 ollama 的 docker hub 上的說明，他把步驟整理的很精簡:
+
+
+## 4-1, Ollama Docker 的設定步驟
 
 https://hub.docker.com/r/ollama/ollama
 
@@ -643,5 +652,82 @@ docker run -d --gpus=all -v ollama:/root/.ollama -p 11434:11434 --name ollama ol
 ![alt text](/wp-content/images/2024-11-11-working-with-wsl/image-11.png)
 
 
+這條路打通，開始很多需要靠 GPU 的應用就都隨手可得了。拿個 docker-compose.yaml，執行 docker compose up -d , 就能啟動完整的服務, 要跑 ollama, vllm, stable diffusion 以及各種好用的 UI 都不是問題了。
+
+
+
+## 4-2, WSL + GPU 的冷知識
+
+為了研究這些，其實我還翻了不少技術文件，我就不一一解釋了，這跟工作環境無關，但是搞清楚背後的原理其實還蠻有趣的，我就當作冷知識貼在下方，沒興趣的可以直接跳過這一段 XDD
+
+
+想了解全貌的，我推薦這篇: [DirectX is coming to the Windows Subsystem for Linux](https://devblogs.microsoft.com/directx/directx-heart-linux/), Microsoft 官方文件, //Build/2020 公開的內容，這麼大範圍的整合，如果不是在一家公司內應該很難做得到吧.. 從 windows driver, hyper-v, guest os ( linux driver ), runtime ( open cl, direct x , cuda ), container, application 等等都要顧到.. 還好在 windows 的世界, Microsoft 做到這一點了..
+
+雖說沒什麼人期待 Linux 上面能跑 DirectX (咦?)... 不過整個架構推動策略的脈絡很清楚，DirectX for Linux 只是剛剛好而已.. 我看完文章後我覺得脈絡式這樣:
+
+**GPU Virtualization**:  
+核心重點仍然是虛擬化, GPU Virtualization 是首要任務。要做到這件事，最重要的就是 Host OS ( windows ) 端的 driver 支援, WDDM 2.9 的 GPU driver 是必要條件。  
+
+**VM 內的 GPU: /dev/dxg**:  
+Guest OS 會有對應的虛擬化的硬體, 在 Linux 下就是 /dev/dxg 這個 device, Microsoft 直接為了這個虛擬 GPU 寫了 driver, 然後這路線就打通了
+
+![alt text](/wp-content/images/2024-11-11-working-with-wsl/image-12.png)
+
+
+**GPU 對應的涵式庫**:
+
+GPU 虛擬化打通之後，Microsoft 第一件事是拿 Direct X 的 source 在 linux 下重新編譯, 宣稱能在 Linux 下提供了 100% 相容的 DxCore / D3D12 API... 我猜沒有多少人有興趣在 Linux 下面用 D3D 啦... 不過除了宣示意味之外，我覺得跟 .NET 跨平台後，很多應用沒辦法跨平台的窘境會因為這些涵式庫一個一個打破，例如 WPF 這類應用。
+
+在 AI 的領域，DirectML 就是一例，上半年看到的 Windows Copilot Runtime, 提到了 OnnxRuntime 能在 DirectML 上面執行，對應的模型都能輕易的在 .NET 應用程式內啟動了。我當時看到這新聞，第一件事就是:
+
+> 那這樣的 .NET 程式還能在 container 執行嗎? 
+
+看來，四年前的 //Build 就給我答案了，Direct ML 也能被移植到 WSL.. 我相信這範圍的應用會比 D3D 來的吸引人。
+
+![alt text](/wp-content/images/2024-11-11-working-with-wsl/image-13.png)
+
+
+除了 DirectX 系列的移植，其他 AI 運算涵式庫，最大宗的就是 CUDA 了，其他還有 OpenGL, OpenCL 等等, 也都循同樣路徑, 從 DxCore 開始來轉換提供相容性。從架構圖來看, 轉換的架構略有不同，不過結果很簡單，就是 WSL 也能用到 GPU 資源了。看完這個架構，我才理解，為何我在處理 WSL 下跑 CUDA 應用的時候，好幾份文件都強調:
+
+> 要安裝正確的 GPU **windows** driver, 不要在 WSL 內安裝任何的 driver ...
+
+原來就是這個原因，因為關鍵都在啟動 GPU 虛擬化.. 這關打通後，後面的其實都一樣，WSL 直接內建了。
+
+最後捕兩張圖: OpenGL, OpenCL 等套件, 是透過 mesa library 來實作的:
+![alt text](/wp-content/images/2024-11-11-working-with-wsl/image-14.png)
+
+而 CUDA 的堆疊路徑有點差別, 直接從 DxCore 對應而來:
+![alt text](/wp-content/images/2024-11-11-working-with-wsl/image-15.png)
+
+
+**GUI 應用程式**:
+
+最後一個，直接在 WSL 上面執行有 GUI 的應用程式... 這件事 Microsoft 也打通了。之前看這相關主題時，關鍵字都是 WSLg, 現在看來都完整了，直接看這篇: [Run Linux GUI apps on the Windows Subsystem for Linux](https://learn.microsoft.com/en-us/windows/wsl/tutorials/gui-apps?source=docs&WT.mc_id=email&sharingId=AZ-MVP-5002155)
+
+我直接貼摘要，有興趣的自己看:
+
+Windows Subsystem for Linux (WSL) now supports running Linux GUI applications (X11 and Wayland) on Windows in a fully integrated desktop experience.
+
+WSL 2 enables Linux GUI applications to feel native and natural to use on Windows.
+
+- Launch Linux apps from the Windows Start menu
+- Pin Linux apps to the Windows task bar
+- Use alt-tab to switch between Linux and Windows apps
+- Cut + Paste across Windows and Linux apps
+
+You can now integrate both Windows and Linux applications into your workflow for a seamless desktop experience.
+
+![alt text](/wp-content/images/2024-11-11-working-with-wsl/image-16.png)
+
+
 # 5, 心得
 
+從 2014 Satya Nadella 接任 Microsoft CEO, 開始喊 "Microsoft Love Linux" 開始, 到現在 10 年了, 真心佩服他有辦法把 windows 生態系改造成現在這個樣子
+
+![alt text](/wp-content/images/2024-11-11-working-with-wsl/image-17.png)
+
+在 cloud 興起後, macos 越來越成為 developer 首選的開發環境, 原因無他, 就是 macos 跟 linux 的生態系最接近, 完全沒什麼隔閡 ( 反觀 windows ... )。不過雖然如此, Microsoft 終究有辦法把不同 kernel 的東西整合到今天這個樣子，我這篇文章其實就是在講這件事。
+
+當年寫的這篇: [[架構師觀點] .NET 開發人員該如何看待 Open Source Solutions?](/2016/05/05/archview-net-open-source/)，看起來預測的每件事情都逐步實現了。Visual Studio 已經可以直接開發 Linux APP 了，.NET 真的也擴展到 Linux 及 IoT 等領域, VS Code 已經是各平台的 IDE 首選, 而這篇講的，則是 windows 要成為所有平台的開發環境，這點也做到了，雖然有許多開發人員選擇了 MacOS，但是至少 windows 已經追上來了。
+
+整合度夠高，效能跟體驗夠好，足以變成我日常的工作環境，這樣就夠了。過了 10 年，我這個 windows 資深用戶都願意把開發環境轉移到 linux, 就當作 Microsoft 這策略真的成功了吧! 
