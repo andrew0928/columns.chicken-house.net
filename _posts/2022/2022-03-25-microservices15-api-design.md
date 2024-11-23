@@ -599,7 +599,7 @@ Scope 是什麼? 如果你用過第三方開發的服務，過程中需要你登
 
 public bool ValidateEmail()
 {
-	var check = this._state_machine.TryExecute(this.State, "Register");
+	var check = this._state_machine.TryExecute(this.State, "Activate");
 	if (check.result == false) return false;
 
 	// TODO: do domain actions here
