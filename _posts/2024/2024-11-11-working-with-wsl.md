@@ -1,13 +1,13 @@
 ---
 layout: post
-title: "關於我轉生成為 Linux  開發者的那件事"
+title: "用 WSL + VSCode 重新打造 Linux 開發環境"
 categories:
-- "系列文章: 架構師觀點"
-tags: ["架構師觀點","技術隨筆"]
-published: false
+- "技術隨筆"
+tags: ["技術隨筆", "VSCode", "Jekyll", "Docker", "WSL"]
+published: true
 comments_disqus: false
 comments_facebook: false
-comments_gitalk: false
+comments_gitalk: true
 redirect_from:
 logo: /wp-content/images/2024-11-11-working-with-wsl/logo.jpg
 ---
@@ -26,6 +26,10 @@ docker 還是繼續用，只是改成直接進 wsl 安裝 docker 來用, 也順�
 ![](/wp-content/images/2024-11-11-working-with-wsl/logo.jpg)
 > 圖: DALL-E, 趕流行, 我讓 ChatGPT 搜尋我自己然後畫出來的形象圖..
 
+TL;DR; 這篇只是心得文而已，記錄我把主要工作環境翻新成 WSL + VS code 的過程，跟背後追問題學到的冷知識..
+
+--
+
 因為越來越多東西需要在原生的 linux 環境下執行, 趁著更新 24H2，重灌 windows 的機會, 就一起認真的重整我的開發環境了。在 windows 下要以 linux 為主要的工作環境，用 wsl (windows subsystem for linux) 是首選，不過畢竟是跨 OS 的使用，也有不少障礙要排除。趁這次花了點時間研究作法，同時也惡補了一下 wsl 的相關背景知識，這才發現 Microsoft 對 WSL 下了不少功夫啊，背後藏了很多不錯的巧思。
 
 在這篇，我會交代我的作法，同時我也會整理一下我找到的參考資訊，以及背後架構與限制。我最想解決的問題 (也是我的動機) 是這幾個:
@@ -42,9 +46,6 @@ docker 還是繼續用，只是改成直接進 wsl 安裝 docker 來用, 也順�
 花了一個禮拜的下班時間，我總算把我的工作環境打造好了。過程中也發現不少 Microsoft 藏在 WSL 裡面的黑科技。自 WSL2 推出以來，這幾年相關的整合也都成熟了，我就野人獻曝，分享一下我的整理心得。
 
 <!--more-->
-
-
-
 
 
 # 1. 替換工作環境的動機
@@ -467,7 +468,7 @@ andrew@113N000081:~$ explorer.exe .
 
 開出來的檔案總管 (注意看檔案總管的資料夾開在這位置 ```\\wsl.localhost\Ubuntu\home\andrew``` ):
 
-![alt text](/wp-content/images/2024-11-11-working-with-wsl/image-1.png)
+![alt text](/wp-content/images/2024-11-11-working-with-wsl/wsl-launch-explorer.png)
 
 
 
@@ -542,11 +543,11 @@ andrew@113N000081:/opt/docker/columns.chicken-house.net$
 
 
 試試看 CTRL-O 開啟檔案, 你會發現能選的檔案，都是 linux 環境下的檔案:
-![alt text](/wp-content/images/2024-11-11-working-with-wsl/image-4.png)
+![alt text](/wp-content/images/2024-11-11-working-with-wsl/vscode-open-file-dialog.png)
 
 
 用 CTRL-` 開啟 vscode 內建的 terminal, 開出來的是 linux 下的 bash, 工作目錄就是 git repo 的目錄:
-![alt text](/wp-content/images/2024-11-11-working-with-wsl/image-5.png)
+![alt text](/wp-content/images/2024-11-11-working-with-wsl/vscode-terminal.png)
 
 
 
@@ -562,7 +563,7 @@ andrew@113N000081:/opt/docker/columns.chicken-house.net$
 
 
 
-如果你喜歡，可以在 vscode 預覽，不用另外開瀏覽器。左邊編輯，右邊預覽，下方看 Jekyll 的 Build 結果:
+如果你喜歡，可以在 vscode 預覽:
 ![alt text](/wp-content/images/2024-11-11-working-with-wsl/image-9.png)
 
 
@@ -722,12 +723,11 @@ You can now integrate both Windows and Linux applications into your workflow for
 
 # 5, 心得
 
-從 2014 Satya Nadella 接任 Microsoft CEO, 開始喊 "Microsoft Love Linux" 開始, 到現在 10 年了, 真心佩服他有辦法把 windows 生態系改造成現在這個樣子
+從 2014 Satya Nadella 接任 Microsoft CEO, 開始喊 "Microsoft Love Linux" 開始, 到現在 10 年了, 真心佩服他有辦法把 windows 生態系改造成現在這個樣子, windows 終究不是 linux, 但是兩個異質的作業系統, Microsoft 能 (願意) 整合到這種程度也是挺了不起的..
 
 ![alt text](/wp-content/images/2024-11-11-working-with-wsl/image-17.png)
+> 果然 Microsoft 要有愛才能做到這程度啊
 
-在 cloud 興起後, macos 越來越成為 developer 首選的開發環境, 原因無他, 就是 macos 跟 linux 的生態系最接近, 完全沒什麼隔閡 ( 反觀 windows ... )。不過雖然如此, Microsoft 終究有辦法把不同 kernel 的東西整合到今天這個樣子，我這篇文章其實就是在講這件事。
+當年寫的這篇: [[架構師觀點] .NET 開發人員該如何看待 Open Source Solutions?](/2016/05/05/archview-net-open-source/)，看起來預測的每件事情都逐步實現了。Visual Studio 已經可以直接編譯 & 測試 Linux APP 了，.NET 真的也擴展到 Linux 及 IoT 等領域, VS Code 已經是各平台的 IDE 首選了。而這篇講的工作環境整合，則是說明 windows 已經可以成為 linux 的開發環境了。
 
-當年寫的這篇: [[架構師觀點] .NET 開發人員該如何看待 Open Source Solutions?](/2016/05/05/archview-net-open-source/)，看起來預測的每件事情都逐步實現了。Visual Studio 已經可以直接開發 Linux APP 了，.NET 真的也擴展到 Linux 及 IoT 等領域, VS Code 已經是各平台的 IDE 首選, 而這篇講的，則是 windows 要成為所有平台的開發環境，這點也做到了，雖然有許多開發人員選擇了 MacOS，但是至少 windows 已經追上來了。
-
-整合度夠高，效能跟體驗夠好，足以變成我日常的工作環境，這樣就夠了。過了 10 年，我這個 windows 資深用戶都願意把開發環境轉移到 linux, 就當作 Microsoft 這策略真的成功了吧! 
+雖然還不及 MacOS 那樣的體驗，但是整合度夠高，效能跟體驗夠好，足以變成我日常的工作環境，這樣就夠了。
