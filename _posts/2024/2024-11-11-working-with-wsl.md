@@ -19,7 +19,7 @@ TL;DR; 這篇只是心得文而已，記錄我把主要工作環境翻新成 WSL
 
 --
 
-因為越來越多東西需要在原生的 linux 環境下執行, 趁著更新 24H2，重灌 windows 的機會, 就一起認真的重整我的開發環境了。在 windows 下要以 linux 為主要的工作環境，用 wsl (windows subsystem for linux) 是首選，不過畢竟是跨 OS 的使用，也有不少障礙要排除。趁這次花了點時間研究作法，同時也惡補了一下 wsl 的相關背景知識，這才發現 Microsoft 對 WSL 下了不少功夫啊，背後藏了很多不錯的巧思。
+因為越來越多東西需要在原生的 linux 環境下執行, 趁著更新 [24H2](https://learn.microsoft.com/en-us/windows/whats-new/whats-new-windows-11-version-24h2?source=docs&WT.mc_id=email&sharingId=AZ-MVP-5002155)，重灌 windows 的機會, 就一起認真的重整我的開發環境了。在 windows 下要以 linux 為主要的工作環境，用 [WSL](https://learn.microsoft.com/en-us/windows/wsl/setup/environment?source=docs&WT.mc_id=email&sharingId=AZ-MVP-5002155) (windows subsystem for linux) 是首選，不過畢竟是跨 OS 的使用，也有不少障礙要排除。趁這次花了點時間研究作法，同時也惡補了一下 wsl 的相關背景知識，這才發現 Microsoft 對 WSL 下了不少功夫啊，背後藏了很多不錯的巧思。
 
 在這篇，我會交代我的作法，同時我也會整理一下我找到的參考資訊，以及背後架構與限制。我最想解決的問題 (也是我的動機) 是這幾個:
 
@@ -56,15 +56,15 @@ SSD: Samsung 970Pro 512GB (MLC), PCIE 3.0, NVME
 OS: Microsoft Windows 11 Pro ( 當時跑的是 23H2 )
 ```
 
-我想起我多年前踩過的地雷 ( 2018 的文章: [使用 LCOW 掛載 Volume 的效能陷阱](/2018/07/28/labs-lcow-volume/) )，也碰過類似的狀況，這次我趁著有乾淨環境的狀況下，好好的測試一次，也重新調整過磁碟的使用方式，算是徹底解決掉了，這是第一個成果，我只要些微的改變磁碟目錄的安置方式，問題就搞定了。啟動 Qdrant 的時間只需要原本的 1/25, 部落格文章預覽需要的建置時間只要原本的 1/18 ...
+我想起我多年前踩過的地雷 ( 2018 的文章: [使用 LCOW 掛載 Volume 的效能陷阱](/2018/07/28/labs-lcow-volume/) )，也碰過類似的狀況，這次我趁著有乾淨環境的狀況下，好好的測試一次，也重新調整過磁碟的使用方式，算是徹底解決掉了，這是第一個成果，我只要些微的改變磁碟目錄的安置方式，問題就搞定了。啟動 [Qdrant](https://qdrant.tech/) 的時間只需要原本的 1/25, 部落格文章預覽需要的建置時間只要原本的 1/18 ...
 
 這麼戲劇化的改善，一定是原本的架構有問題 XDD，不然你要花多少錢才買的到 25 倍快的 SSD?
 
 細節後面會交代，我把我這過程碰到的案例，整理歸納成三種類型.. 每種題型我就各挑一個代表來展示就好。後面段落我就來說明這三個情境背後的關鍵原因，跟我解套的方式:
 
-1. 需要大量 IO 的 docker container - 示範案例: Qdrant
-1. 需要整合環境 Visual Studio Code - 示範案例: 我的部落格撰寫環境 GitHub Pages
-1. 需要 GPU 支援的 docker container - 示範案例: AI 模型推論的基本環境, Ollama + OpenWeb-UI
+1. 需要大量 IO 的 docker container - 示範案例: [Qdrant](https://qdrant.tech/)
+1. 需要整合環境 Visual Studio Code - 示範案例: 我的部落格撰寫環境 [GitHub Pages](https://pages.github.com/)
+1. 需要 GPU 支援的 docker container - 示範案例: AI 模型推論的基本環境, [Ollama](https://ollama.com/) + [Open-WebUI](https://github.com/open-webui/open-webui)
 
 最後，也因為這些調整跟研究，我也更清楚知道我未來的工作環境需要什麼了，就趁這次機會做個小幅的升級，小規模的敗家，升級了部分配備，現在，我的桌機的配備是:
 
@@ -90,21 +90,27 @@ OS: Microsoft Windows 11 Pro (24H2, 趁機重灌, 重建環境)
 > 來源: [Introduction to WSL 2](https://www.polarsparc.com/xhtml/IntroToWSL2.html)
 
 
-基本上存取路徑大致可以這樣分，應用程式都是在黃色的 user space 執行的 ( 有 windows / wsl 兩個 )，而 file system 也都是跟著 kernel 的 ( 一樣有 windows: NTFS, 也有 wsl: ext4 ), 而我用預設的 wsl, disk 多一層虛擬化 (對應到 NTFS 上的檔案: ext4.vhdx, 預設路徑在: ```c:\Users\%USERNAME%\AppData\Local\Packages\CanonicalGroupLimited.Ubuntu_79rhkp1fndgsc\LocalState\ext4.vhdx``` )
+基本上存取路徑大致可以這樣分，應用程式都是在黃色的 user space 執行的 ( 有 windows / wsl 兩個 )，而 file system 也都是跟著 kernel 的 ( 一樣有 windows: NTFS, 也有 wsl: ext4 ), 而我用預設的 wsl, disk 多一層虛擬化。
+
+WSL 磁碟對應到 NTFS 上的檔案: ext4.vhdx, 預設路徑在這裡: 
+
+```
+c:\Users\%USERNAME%\AppData\Local\Packages\CanonicalGroupLimited.Ubuntu_79rhkp1fndgsc\LocalState\ext4.vhdx
+```
 
 因此，我列出所有的 4 種組合情境:
 
 1. **由 windows app 存取 windows file system**:  
-NTFS, c:\benchmark_temp, 最直接的存取路徑, 沒有額外消耗的理想情境, 大部分單純的 windows 應用都是這類。  
+NTFS, ```c:\benchmark_temp```, 最直接的存取路徑, 沒有額外消耗的理想情境, 大部分單純的 windows 應用都是這類。  
 
 1. **由 wsl application 存取 wsl file system**:  
-EXT4, ~/benchmark_temp, 在 linux kernel 內基本上軟體也是直接的路徑。但是 wsl 畢竟是個 windows 下運作的 lightweight VM，他的磁碟是虛擬化而來的，多了一層 .vhdx 的轉換。   
+EXT4, ```~/benchmark_temp```, 在 linux kernel 內基本上軟體也是直接的路徑。但是 wsl 畢竟是個 windows 下運作的 Lightweight VM，他的磁碟是虛擬化而來的，多了一層 .vhdx 的轉換。   
 
 1. **由 windows app 存取 wsl file system**:  
-EXT4, \\wsl$\ubuntu\home\andrew\benchmark_temp, 中間跨越 9p protocol 進到 linux kernel 就能存取到檔案。不過同上, 虛擬硬碟終究多了一層 .vhdx 轉換。  
+EXT4, ```\\wsl$\ubuntu\home\andrew\benchmark_temp```, 中間跨越 9p protocol 進到 linux kernel 就能存取到檔案。不過同上, 虛擬硬碟終究多了一層 .vhdx 轉換。  
 
 1. **由 wsl application 存取 windows file system**:  
-NTFS, /mnt/c/benchmark_temp, 中間經過一層 drvfs 檔案系統的處理 (這是由 Microsoft 開發並且開源的 linux file system, 會負責將檔案系統的存取經由 9p protocol 轉接到 windows file system) 的轉換..
+NTFS, ```/mnt/c/benchmark_temp```, 中間經過一層 drvfs 檔案系統的處理 (這是由 Microsoft 開發並且開源的 linux file system, 會負責將檔案系統的存取經由 9p protocol 轉接到 windows file system) 的轉換..
 
 
 舉例來說，如果你在 windows 下執行 docker, 下了這個指令:
@@ -113,7 +119,7 @@ NTFS, /mnt/c/benchmark_temp, 中間經過一層 drvfs 檔案系統的處理 (這
 docker run ......  -v c:\working-dir\:/mydir .....
 ```
 
-Docker 會啟動一個 container, 並且把 windows 下的 c:\working-dir\ 掛載到 container 內的 /mydir 路徑。這時 container 存取檔案的時候，就會走 (4) 的路徑了，磁碟效能會被扒一層皮 ( DrvFS )。你會發現效能掉的很離譜，就是這種狀況。
+Docker 會啟動一個 container, 並且把 windows 下的 ```c:\working-dir\``` 掛載到 container 內的 ```/mydir``` 路徑。這時 container 存取檔案的時候，就會走 (4) 的路徑了，磁碟效能會被扒一層皮 ( DrvFS )。你會發現效能掉的很離譜，就是這種狀況。
 
 這時，除了損失效能之外，DrvFS 對應兩種截然不同的 file system, 也會失去部分 NTFS 的特性。例如 NTFS 的檔案異動通知 [FileSystemWatcher](https://learn.microsoft.com/zh-tw/dotnet/api/system.io.filesystemwatcher?source=docs&WT.mc_id=email&sharingId=AZ-MVP-5002155) 就無法對應到 Linux 的檔案異動通知 [inotify](https://zh.wikipedia.org/zh-tw/Inotify)，因此 container 如果掛載了 windows 下的檔案目錄，這些功能就失效了。
 
@@ -257,7 +263,7 @@ Number of I/O units to keep in flight against the file. Note that increasing iod
 1. **wsl2 -> wsl2**:  
 只有經過 **hypervisor** 虛擬化硬碟, 其餘都沒有經過額外的轉換
 1. **wsl2 -> windows**:  
-只有經過 **DrvFS** 轉譯 ( 背後也是有經過 9P protocol, 不過我就把它當作同一件事了) 來傳送檔案存取的要求
+只有經過 **DrvFS** 轉譯 ( 背後也是有經過 **9P protocol**, 不過我就把它當作同一件事了) 來傳送檔案存取的要求
 
 每層轉換，我都用黑體標示了。我把上面那張表格內容換一下，對照看就知道影響多大了:
 
@@ -269,11 +275,11 @@ Number of I/O units to keep in flight against the file. Note that increasing iod
 |(4)| WSL            | Windows   | 37.5              | DrvFS | 6.51% |
 
 
-從 (2) 大約可以推估經過 Hpyer-V 會只剩 36.28% 的效能；從 (4) 推估經過 9P protocol 剩 6.51% 的效能，那麼兩個都過一次就是 36.28% x 6.51% = 2.34%, 其實已經很接近 (3) 的測試結果了, 大致上可以驗證架構圖上的路徑。
+從 (2) 大約可以推估經過 **Hpyer-V** 會只剩 36.28% 的效能；從 (4) 推估經過 **9P protocol** 剩 6.51% 的效能，那麼兩個都過一次就是 36.28% x 6.51% = 2.34%, 其實已經很接近 (3) 的測試結果了, 大致上可以驗證架構圖上的路徑。
 
 而 WSL 層層轉譯的效能研究，也有網友做了比我還詳盡的測試: [Windows Subsystem for Linuxガイド 第5回 wsl$ファイルシステムとWSLファイルベンチマーク編](https://news.mynavi.jp/article/20220318-2296803/) (雖然是日文的，但是找了好幾篇就這篇最清楚)   
 
-其實，如果你認真要用 WSL，(2) 的情境是有機會調整到跟 (1) 差不多的，那就是直接掛實體硬碟 (disk) 或是分割區 (partition) 讓 WSL 專用，就可以免去 Hyper-V 處理 .vhdx 的效能折損 (只剩 36.28%)。Microsoft 官方文件就有說明作法: [Mount a Linux disk in WSL2](https://learn.microsoft.com/en-us/windows/wsl/wsl2-mount-disk?source=docs&WT.mc_id=email&sharingId=AZ-MVP-5002155)。雖然設置麻煩了一點，不過你可以得到最好的效能表現。等到哪天我 WSL 越用越兇，願意投資一顆專屬的 SSD 給 WSL 用的話，再來補這個測試..
+其實，如果你認真要用 WSL，(2) 的情境是有機會調整到跟 (1) 差不多的，那就是直接掛實體硬碟 (disk) 或是分割區 (partition) 讓 WSL 專用，就可以免去 **Hyper-V** 處理 .vhdx 的效能折損 (只剩 36.28%)。Microsoft 官方文件就有說明作法: [Mount a Linux disk in WSL2](https://learn.microsoft.com/en-us/windows/wsl/wsl2-mount-disk?source=docs&WT.mc_id=email&sharingId=AZ-MVP-5002155)。雖然設置麻煩了一點，不過你可以得到最好的效能表現。等到哪天我 WSL 越用越兇，願意投資一顆專屬的 SSD 給 WSL 用的話，再來補這個測試..
 
 看到這邊，大概心理的疑慮都有答案了。雖然數字不好看，但是知道原因，知道表現，我至少有能力閃開他，挑選我最適合的用法了。接下來繼續往下，看看我實際的配套措施。
 
@@ -332,7 +338,7 @@ qdrant-1  | 2024-11-11T15:18:35.962011Z  INFO qdrant::tonic: Qdrant gRPC listeni
 qdrant-1  | 2024-11-11T15:18:35.962079Z  INFO qdrant::tonic: TLS disabled for gRPC API
 ```
 
-第一組，是跑在 /mnt/c 底下的測試結果，也就是 wsl -> windows 的組態，啟動已有四萬筆資料的 qdrant container, 需要 38.376 sec ..
+第一組，是跑在 ```/mnt/c``` 底下的測試結果，也就是 wsl -> windows 的組態，啟動已有四萬筆資料的 qdrant container, 需要 38.376 sec ..
 
 仔細看看 docker logs, 你會發現, 時間都花費在載入 collection，例如光這行就花掉 6 sec, 才看的到下一行:
 
@@ -347,9 +353,10 @@ qdrant-1  | 2024-11-11T15:17:28.399231Z  INFO storage::content_manager::toc: Loa
 
 ## 2-4, 在 windows 下掛載 wsl 的資料夾
 
-知道問題原因在 volume 沒有擺對地方後，解決方法就換個目錄就搞定了。我把檔案擺在對的地方，也就是執行效率最好的地方 ( wsl 內的 /opt/docker )，然後想辦法用 symbolic link 的技巧，維持我習慣的存取方式，問題就解決了。我只要在 windows 下做同一件事，把 wsl 下的 /opt/docker 掛到 windows 下的 c:\codes\docker 就好了。
+知道問題原因在 volume 沒有擺對地方後，解決方法就換個目錄就搞定了。我把檔案擺在對的地方，也就是執行效率最好的地方 ( wsl 內的 ```/opt/docker``` )，然後想辦法用 symbolic link 的技巧，維持我習慣的存取方式，問題就解決了。我只要在 windows 下做同一件事，把 wsl 下的 ```/opt/docker``` 掛到 windows 下的 ```c:\codes\docker``` 就好了。
 
 在 windows 下有個指令: [mklink.exe](https://learn.microsoft.com/zh-tw/windows-server/administration/windows-commands/mklink?source=docs&WT.mc_id=email&sharingId=AZ-MVP-5002155) 就是做這件事，你可以用下面的指令把這 symbolic link 建立起來:
+
 
 ```
 mklink /d \\wsl$\ubuntu\opt\docker c:\codes\docker
@@ -371,11 +378,16 @@ C:\CodeWork>dir
 
 ```
 
+檔案總管下，也看的到類似的資訊:
+![alt text](/wp-content/images/2024-11-11-working-with-wsl/file-explorer-mklink.png)
+
+
+
 這麼一來，你不論用檔案總管，或是 vscode，只要照原本的習慣操作就好了。唯一需要留意的是記得備份。因為它終究是個連結，實際檔案是存在 ext4.vhdx 虛擬硬碟內的。這 vhdx 檔案結構損毀的話，你的檔案就消失了.. 
 
 另一個要留意的是，換個地方擺 volume, 雖然直接避開了 qdrant 執行時大量跨 kernel 的 IO 效能問題 (走 case 2, wsl -> wsl, 36.28%), 但是問題仍然在... 如果你從另一端 (windows) 來存取檔案 (case 3, windows -> wsl, 2.86%)，則是效能最糟糕的安排。如果你有需求從 windows 端對這目錄做大量 IO 操作的話，仍然會碰到這個問題..
 
-這問題在後面的互通性再繼續聊，現在先跳過，用 mklink 重新掛載 WSL 的資料夾，這倒不失為一個好方法，既維持了我原本工作的習慣與方便性，也解決了硬碟效能問題 (你要買多高級的 SSD 才能有 20x 的效能提升? )
+這問題在後面的互通性再繼續聊，現在先跳過，用 mklink 重新掛載 WSL 的資料夾，這倒不失為一個好方法，既維持了我原本工作的習慣與方便性，也解決了硬碟效能問題 (你要買多高級的 SSD 才能有 25x 的效能提升? )
 
 
 
@@ -384,7 +396,7 @@ C:\CodeWork>dir
 ## 2-5, 其他 file system 議題
 
 
-最後，補充兩項我在研究這議題翻到的資訊，但是我這篇決定不特別深談的議題
+最後，補充兩項我在研究這議題踩到的資訊，但是我這篇決定不特別討論的議題:
 
 1. windows / linux 對於檔案系統的權限管理機制不同
 1. windows NTFS 額外支援的特殊功能: NTFS stream
@@ -404,13 +416,13 @@ https://blog.miniasp.com/post/2008/07/23/Useful-tools-Streams-let-you-know-the-u
 
 # 3, GitHub Pages with Visual Studio Code
 
-前面的案例: Qdrant 把檔案移到 wsl rootfs 下，來避開效能問題時有提到，優化了 linux app 的 IO 效能，就代表 windows app 存取同一份資料的效能就會掉下來，因為終究有一方要面對跨 kernel 的問題，你只能權衡看哪邊比較重要而以，在 Qdrant 這案例，我選擇了顧好 container 的效能，而 windows 存取的效能就是堪用就好。
+前面的案例: Qdrant 把檔案移到 wsl rootfs 下，來避開效能問題時有提到，優化了 linux app 的 IO 效能，就代表 windows app 存取同一份資料的效能就會掉下來，因為終究有一方要面對跨 os-kernel 的問題，你只能權衡看哪邊比較重要而以，在 Qdrant 這案例，我選擇了顧好 linux 端 container 的效能，而 windows 存取的效能就是堪用就好。
 
 但是在開發的應用，這兩件事就沒辦法靠邊站了。開發時主要是靠 IDE, 通常需要在 windows 環境下不斷的做 git 的操作 ( git clone, pull, push, commit, ... ), 或是 code build 的操作 ( dotnet build, docker build, ... ), 而測試，除錯，執行等等則是另一個面向，需要在執行環境 (linux) 執行開發階段的產出 ( build output, run container .. ), 而為了讓程式順利執行, 也許也會有相依的東西要一起執行 (例如 database, 就會踩到前面 Qdrant 的案例)。
 
-這種情況就沒有選邊站的空間了。我就把腦筋動到工具的身上，如果我連工具都搬到 linux 上面執行呢? 如果我連 IDE 都可以在 linux 上執行呢? 這就回到這段的主題: 跨系統 (跨 OS Kernel) 操作的互通性了。
+這種情況就沒有選邊站的空間了。我把腦筋動到工具的身上，如果我可以連工具都搬到 linux 上面執行呢? 如果我連 IDE 都可以在 linux 上執行呢? 這就回到這段的主題: 跨系統 (跨 OS Kernel) 操作的互通性了。
 
-不得不誇一下 Microsoft, WSL 在這部份真的是做得沒話講，先說結論，Visual Studio Code 的 Remote Shell 模式，已經可以完美的解決這問題了。Microsoft 同時在 WSL 的底層，Linux Executable 格式的支援，檔案系統的互通，硬體虛擬化的互通，以及軟體層的抽象化設計 ( vscode 支援 code-server ) 都要配合，才做得到的成就。這連我都覺得是外星黑科技了。就算是我也花了點功夫，才搞清楚 Microsoft 在背後做了哪些事情... 這段就來聊聊這部分神奇的機制
+不得不誇一下 Microsoft, WSL 在這部份真的是做得沒話講，先說結論，Visual Studio Code 的 [Remote Development](https://code.visualstudio.com/docs/remote/remote-overview) 模式，已經可以完美的解決這問題了。Microsoft 同時在 WSL 的底層，Linux Executable 格式的支援，檔案系統的互通，硬體虛擬化的互通，以及軟體層的抽象化設計 ( vscode 支援 [code-server](https://code.visualstudio.com/docs/remote/vscode-server) ) 都要配合，才做得到的成就。這連我都覺得是外星黑科技了。就算是我也花了點功夫，才搞清楚 Microsoft 在背後做了哪些事情... 這段就來聊聊這部分神奇的機制
 
 接下來，我就分兩個主題來聊聊這整合環境怎麼做到的，第一個先來看 WSL 怎麼執行 Windows 的執行檔 (沒錯，你可以在 Linux 跑 .exe )，第二個來看 Visual Studio Code 的 Remote Shell ..
 
@@ -492,8 +504,38 @@ magic 4d5a
 
 ![alt text](/wp-content/images/2024-11-11-working-with-wsl/image-3.png)
 
-Remote Development 支援好幾種環境 ( SSH, WSL, DevContainer, Tunnel )，我只針對 WSL 環境的使用來介紹就好了。WSL 的整合，緊密到你幾乎可以把它當作單機版使用。一來無網路環境也可以正常執行，甚至你也能在 WSL 工作目錄下直接下指令叫出 vscode, 就像我可以在 powershell 下直接叫出 Notepad 來編輯文字檔一樣。這用起來真的很外星科技，我示範一下:
+Remote Development 支援好幾種環境 ( SSH, WSL, DevContainer, Tunnel )，我只針對 WSL 環境的使用來介紹就好了。官方的說明我貼兩個，一個是 vscode server 的架構說明，另一個是 WSL 的部署方式。
 
+先看第一個 - [Visual Studio Code Server](https://code.visualstudio.com/docs/remote/vscode-server):
+
+**What is the VS Code Server?**
+
+In VS Code, we want users to seamlessly leverage the environments that make them the most productive. The VS Code Remote Development extensions allow you to work in the Windows Subsystem for Linux (WSL), remote machines via SSH, and dev containers directly from VS Code. These extensions install a server on the remote environment, allowing local VS Code to smoothly interact with remote source code and runtimes.
+
+We now provide a standalone "VS Code Server," which is a service built off the same underlying server used by the remote extensions, plus some additional functionality, like an interactive CLI and facilitating secure connections to vscode.dev.
+
+從架構圖來看, vscode 就是負責 ui 操作, 而 source code 的存取 ( file system ), terminal, run / debug application 等等都是在 vscode server 這端進行的, 中間只透過 vscod remote - tunnel extension 來溝通
+
+![alt text](/wp-content/images/2024-11-11-working-with-wsl/image-4.png)
+
+
+
+因此，各種不同的 remote development 模式, 其實就是不同的部署方式與不同的 protocol 而已。我採用的 WSL 實際部署方式，參考這篇: [Developing in WSL](https://code.visualstudio.com/docs/remote/wsl)
+
+**Developing in WSL**
+
+The Visual Studio Code WSL extension lets you use the Windows Subsystem for Linux (WSL) as your full-time development environment right from VS Code. You can develop in a Linux-based environment, use Linux-specific toolchains and utilities, and run and debug your Linux-based applications all from the comfort of Windows.
+
+The extension runs commands and other extensions directly in WSL so you can edit files located in WSL or the mounted Windows filesystem (for example /mnt/c) without worrying about pathing issues, binary compatibility, or other cross-OS challenges.
+
+![alt text](/wp-content/images/2024-11-11-working-with-wsl/image-1.png)
+
+This lets VS Code provide a local-quality development experience — including full IntelliSense (completions), code navigation, and debugging — regardless of where your code is hosted.
+
+
+--
+
+我選擇 WSL 的整合的原因，因為它緊密到你幾乎可以把它當作單機版使用。一來無網路環境也可以正常執行，甚至你也能在 WSL 工作目錄下直接下指令叫出 vscode, 就像我可以在 powershell 下直接叫出 Notepad 來編輯文字檔一樣。這用起來真的很外星科技，我示範一下:
 
 
 操作 1: git clone / git pull 後, 叫出 vscode
@@ -516,36 +558,27 @@ andrew@113N000081:/opt/docker/columns.chicken-house.net$
 
 我下了 ``` code . ``` 指令, 就可以開啟 vs code, 並且將目前的工作目錄載入 workspace。這背後其實是幾個分解動作..
 
-首先，我本來一直以為 code 跟前面的 explorer.exe 一樣, 就是啟動 windows 執行檔而已，其實 code 只是個 linux 的 shell script... 這 script 的位置在 ```/mnt/c/Program Files/Microsoft VS Code/bin/code``` , 內容就不貼了, 基本上就是準備好 vscode-server, 並且正確的啟動 windows 端的 vscode ( 本尊是 code.exe 才對)。
+首先，我本來一直以為 code 跟前面的 explorer.exe 一樣, 就是啟動 windows 執行檔而已，其實 code 只是個 linux 的 shell script... 這 script 的位置在 ```/mnt/c/Program Files/Microsoft VS Code/bin/code``` , 內容就不貼了, 最重要的目的，就是在你下指令的同時，一起把 vscode-server 安裝 / 更新 / 啟動 都先處理好，, 再啟動 windows 端的 vscode ( 本尊是 code.exe 才對) 而已。
 
-啟動後，左下角看的到 ```WSL - Ubuntu``` 的字樣，代表你現在的 vscode 已經是 remote development 狀態, 連線的工作環境就是 wsl - ubuntu.
+如果你是第一次使用 (或是有更新 vscode), 你應該會自這瞬間看到一段文字說明，說他在更新 vscode-server 的字樣 (我錯過這機會，沒截到圖)。成功啟動 vs code 後，左下角看的到 ```WSL - Ubuntu``` 的字樣，代表你現在的 vscode 已經是 remote development 狀態, 連線的工作環境就是 ```wsl - ubuntu```.
 
 簡單幾個動作測試一下，證明 vscode 是 remote development mode..
 
 
-試試看 CTRL-O 開啟檔案, 你會發現能選的檔案，都是 linux 環境下的檔案:
-![alt text](/wp-content/images/2024-11-11-working-with-wsl/vscode-open-file-dialog.png)
+1. 試試看 CTRL-O 開啟檔案, 你會發現能選的檔案，都是 linux 環境下的檔案:  
+![alt text](/wp-content/images/2024-11-11-working-with-wsl/vscode-open-file-dialog.png)  
 
+1. 用 CTRL-` 開啟 vscode 內建的 terminal, 開出來的是 linux 下的 bash, 工作目錄就是 git repo 的目錄:  
+![alt text](/wp-content/images/2024-11-11-working-with-wsl/vscode-terminal.png)  
 
-用 CTRL-` 開啟 vscode 內建的 terminal, 開出來的是 linux 下的 bash, 工作目錄就是 git repo 的目錄:
-![alt text](/wp-content/images/2024-11-11-working-with-wsl/vscode-terminal.png)
+1. 在 terminal 啟動 docker compose, 會直接起一個 GitHub Pages 的 container, 跑 Jekyll 來建置靜態網站:  
+![alt text](/wp-content/images/2024-11-11-working-with-wsl/image-6.png)  
 
-
-
-
-在 terminal 啟動 docker compose, 會直接起一個 GitHub Pages 的 container, 跑 Jekyll 來建置靜態網站:
-![alt text](/wp-content/images/2024-11-11-working-with-wsl/image-6.png)
-
-
-
-
-(bonus) 可以偵測這個 session 是否有轉發 ports, 可以列出來並且開瀏覽器預覽內容:
+1. (bonus) 可以偵測這個 session 是否有轉發 ports, 可以列出來並且開瀏覽器預覽內容:  
 ![alt text](/wp-content/images/2024-11-11-working-with-wsl/image-7.png)
-
-
-
-如果你喜歡，可以在 vscode 預覽:
-![alt text](/wp-content/images/2024-11-11-working-with-wsl/image-9.png)
+  
+1. 如果你喜歡，可以在 vscode 預覽:  
+![alt text](/wp-content/images/2024-11-11-working-with-wsl/image-9.png)  
 
 
 >
@@ -565,7 +598,7 @@ andrew@113N000081:/opt/docker/columns.chicken-house.net$
 
 # 4, GPU (CUDA) Application
 
-終於來到最後一個，跑 LLM 需要用到 GPU , 需要相依 Python 套件, 也要相依很難搞的 CUDA ... ( CUDA 版本相容性很糟，裝錯版本可能就跑不起來了 )
+終於來到最後一個，跑 LLM 需要用到 GPU , 需要相依 Python 套件, 也要相依很難搞的 CUDA ... ( CUDA 版本相容性很難纏，裝錯版本可能就跑不起來了 )
 
 
 結果，這個問題真的是我庸人自擾，想太多了。Microsoft 早就幫我解決掉了... 在搞清楚黑科技怎麼做的之前，先來體驗一下效果。我直接看 ollama 的 docker hub 上的說明，他把步驟整理的很精簡:
@@ -578,12 +611,12 @@ https://hub.docker.com/r/ollama/ollama
 摘要步驟，大致是這樣:
 
 1. windows 上面要裝 NVIDIA GPU driver (版本夠新就可以，沒有特別的軟體要安裝或設定)
-2. wsl 安裝 NVIDIA container toolkit, 注意 wsl 不需要再裝 GPU driver 了..
-3. wsl 設定 docker runtime 要正確使用 nvidia-ctk
+2. wsl 安裝 NVIDIA container toolkit, 注意 wsl 不需要再裝 linux 環境的 GPU driver 了..
+3. wsl 設定 docker runtime 要正確使用 ```nvidia-ctk``` (NVIDIA container toolkit)
 
 其實, 第一步做完, wsl 本身就已經支援 GPU 了，後面的動作都是為了 docker 內可以使用 GPU 而準備的。沒想到這個需求意外的簡單，按照步驟做完一次就成功了
 
-你可以在 wsl 下這指令: nvidia-smi 就看的到顯卡的資訊了:
+你可以在 wsl 下這指令: ```nvidia-smi``` 就看的到顯卡的資訊了:
 
 ```
 andrew@ANDREW-PC:/opt/docker$ nvidia-smi
@@ -611,7 +644,7 @@ andrew@ANDREW-PC:/opt/docker$
 
 ```
 
-之後就可以快樂的讓你的 container 能直接使用到 GPU 運算資源了。你只需要在 docker run 啟動 container 時追加這參數 --gpus=all，指派可用的 GPU 給他就可以了。
+之後就可以快樂的讓你的 container 能直接使用到 GPU 運算資源了。你只需要在 docker run 啟動 container 時追加這參數 ```--gpus=all```，指派可用的 GPU 給他就可以了。
 
 例如:
 
@@ -620,7 +653,7 @@ docker run -d --gpus=all -v ollama:/root/.ollama -p 11434:11434 --name ollama ol
 ```
 
 
-試跑了一下 llama3.2, 問了幾個問題, 回應速度還挺快的, 底下這堆訊息大概一秒鐘就回應完成了, 比正常人說話的速度快多了:
+試跑了一下 ```llama3.2```, 問了幾個問題, 回應速度還挺快的, 底下這堆訊息大概一秒鐘就回應完成了, 比正常人說話的速度快多了:
 
 ![alt text](/wp-content/images/2024-11-11-working-with-wsl/image-8.png)
 
@@ -629,12 +662,12 @@ docker run -d --gpus=all -v ollama:/root/.ollama -p 11434:11434 --name ollama ol
 ![alt text](/wp-content/images/2024-11-11-working-with-wsl/image-10.png)
 
 
-大功告成! 看來我也可以無痛的在 wsl 下面執行需要 CUDA 的應用程式了，最後我弄了個 ollama + open-webui 的 docker-compose.yaml (可以參考黑大的範本: [傻瓜 LLM 架設 - Ollama + Open WebUI 之 Docker Compose 懶人包](https://blog.darkthread.net/blog/ollam-open-webui/))，無痛就起了一個私人 ChatGPT ...
+大功告成! 看來我也可以無痛的在 wsl 下面執行需要 CUDA 的應用程式了，最後我弄了個 ollama + open-webui 的 ```docker-compose.yaml``` (可以參考黑大的範本: [傻瓜 LLM 架設 - Ollama + Open WebUI 之 Docker Compose 懶人包](https://blog.darkthread.net/blog/ollam-open-webui/))，無痛就起了一個私人的類 ChatGPT UI...
 
 ![alt text](/wp-content/images/2024-11-11-working-with-wsl/image-11.png)
 
 
-這條路打通，開始很多需要靠 GPU 的應用就都隨手可得了。拿個 docker-compose.yaml，執行 docker compose up -d , 就能啟動完整的服務, 要跑 ollama, vllm, stable diffusion 以及各種好用的 UI 都不是問題了。
+這條路打通，開始很多需要靠 GPU 的應用就都隨手可得了。拿個 ```docker-compose.yaml```，執行 ```docker compose up -d``` , 就能啟動完整的服務, 要跑 ollama, vllm, stable diffusion 以及各種好用的 UI 都不是問題了。
 
 
 
@@ -648,10 +681,10 @@ docker run -d --gpus=all -v ollama:/root/.ollama -p 11434:11434 --name ollama ol
 雖說沒什麼人期待 Linux 上面能跑 DirectX (咦?)... 不過整個架構推動策略的脈絡很清楚，DirectX for Linux 只是剛剛好而已.. 我看完文章後我覺得脈絡式這樣:
 
 **GPU Virtualization**:  
-核心重點仍然是虛擬化, GPU Virtualization 是首要任務。要做到這件事，最重要的就是 Host OS ( windows ) 端的 driver 支援, WDDM 2.9 的 GPU driver 是必要條件。  
+核心重點仍然是虛擬化, GPU Virtualization 是首要任務。要做到這件事，最重要的就是 Host OS ( windows ) 端的 driver 支援, WDDM 2.9+ 的 GPU driver 是必要條件。  
 
 **VM 內的 GPU: /dev/dxg**:  
-Guest OS 會有對應的虛擬化的硬體, 在 Linux 下就是 /dev/dxg 這個 device, Microsoft 直接為了這個虛擬 GPU 寫了 driver, 然後這路線就打通了
+Guest OS 會有對應的虛擬化的硬體, 在 Linux 下就是 ```/dev/dxg``` (我猜 dxg 是指: DirectX Graphics, 因為 Microsoft 在多個地方都用到這名詞，例如 [DXGI](https://learn.microsoft.com/en-us/windows/win32/direct3ddxgi/d3d10-graphics-programming-guide-dxgi?source=docs&WT.mc_id=email&sharingId=AZ-MVP-5002155) - DirectX Graphics Infrastructure, [DXGKNL](https://learn.microsoft.com/en-us/windows-hardware/drivers/display/directx-graphics-kernel-subsystem?source=docs&WT.mc_id=email&sharingId=AZ-MVP-5002155) - DirectX Graphics Kernel Subsystem) 這個 device, Microsoft 直接為了這個虛擬 GPU 寫了 driver, 然後這路線就打通了
 
 ![alt text](/wp-content/images/2024-11-11-working-with-wsl/image-12.png)
 
@@ -660,7 +693,7 @@ Guest OS 會有對應的虛擬化的硬體, 在 Linux 下就是 /dev/dxg 這個 
 
 GPU 虛擬化打通之後，Microsoft 第一件事是拿 Direct X 的 source 在 linux 下重新編譯, 宣稱能在 Linux 下提供了 100% 相容的 DxCore / D3D12 API... 我猜沒有多少人有興趣在 Linux 下面用 D3D 啦... 不過除了宣示意味之外，我覺得跟 .NET 跨平台後，很多應用沒辦法跨平台的窘境會因為這些涵式庫一個一個打破，例如 WPF 這類應用。
 
-在 AI 的領域，DirectML 就是一例，上半年看到的 Windows Copilot Runtime, 提到了 OnnxRuntime 能在 DirectML 上面執行，對應的模型都能輕易的在 .NET 應用程式內啟動了。我當時看到這新聞，第一件事就是:
+在 AI 的領域，DirectML 就是一例，上半年看到的 [Windows Copilot Runtime](https://learn.microsoft.com/en-us/windows/ai/overview?source=docs&WT.mc_id=email&sharingId=AZ-MVP-5002155), 提到了 OnnxRuntime 能在 DirectML 上面執行，對應的模型都能輕易的在 .NET 應用程式內啟動了。我當時看到這新聞，第一件事就是:
 
 > 那這樣的 .NET 程式還能在 container 執行嗎? 
 
@@ -671,9 +704,9 @@ GPU 虛擬化打通之後，Microsoft 第一件事是拿 Direct X 的 source 在
 
 除了 DirectX 系列的移植，其他 AI 運算涵式庫，最大宗的就是 CUDA 了，其他還有 OpenGL, OpenCL 等等, 也都循同樣路徑, 從 DxCore 開始來轉換提供相容性。從架構圖來看, 轉換的架構略有不同，不過結果很簡單，就是 WSL 也能用到 GPU 資源了。看完這個架構，我才理解，為何我在處理 WSL 下跑 CUDA 應用的時候，好幾份文件都強調:
 
-> 要安裝正確的 GPU **windows** driver, 不要在 WSL 內安裝任何的 driver ...
+> 要安裝正確的 GPU **windows** driver, 不要在 WSL 內安裝任何的 linux graphic driver ...
 
-原來就是這個原因，因為關鍵都在啟動 GPU 虛擬化.. 這關打通後，後面的其實都一樣，WSL 直接內建了。
+原來就是這個原因，因為關鍵都在啟動 GPU 虛擬化.. 這關打通後，後面的其實都一樣，WSL 直接內建了。真正要裝在 WSL 內的應該是 Microsoft 替 ```/dev/dxg``` 寫的 driver, 而不是 GPU 原廠寫的 driver 啊
 
 最後捕兩張圖: OpenGL, OpenCL 等套件, 是透過 mesa library 來實作的:
 ![alt text](/wp-content/images/2024-11-11-working-with-wsl/image-14.png)
@@ -684,9 +717,10 @@ GPU 虛擬化打通之後，Microsoft 第一件事是拿 Direct X 的 source 在
 
 **GUI 應用程式**:
 
-最後一個，直接在 WSL 上面執行有 GUI 的應用程式... 這件事 Microsoft 也打通了。之前看這相關主題時，關鍵字都是 WSLg, 現在看來都完整了，直接看這篇: [Run Linux GUI apps on the Windows Subsystem for Linux](https://learn.microsoft.com/en-us/windows/wsl/tutorials/gui-apps?source=docs&WT.mc_id=email&sharingId=AZ-MVP-5002155)
+最後一個，直接在 WSL 上面執行有 GUI 的應用程式... 這件事 Microsoft 也打通了，只是我這次沒用到，不過為了主題完整，我依樣把我研究過相關的題目列一下吧，有興趣的自己在往下挖。這關卡打通了後，你可以直接在 WSL 內執行有 GUI 的相關應用程式，而 GUI 的部分，則會無縫的直接在 windows 下顯示出來。當年我還在念書的年代，用的是 x11, 你可以指定 x11-display, 決定你開啟的 x-windows 要顯示在哪個終端機 (那個終端機會看到畫面，也可以用那台終端機的鍵盤滑鼠)。基本上 WSLg 也是把這件事跟 windows 整合完成了。
 
-我直接貼摘要，有興趣的自己看:
+之前看這相關主題時，關鍵字都是 WSLg, 現在好像沒特別再提 WSLg 這關鍵字了。直接看這篇: [Run Linux GUI apps on the Windows Subsystem for Linux](https://learn.microsoft.com/en-us/windows/wsl/tutorials/gui-apps?source=docs&WT.mc_id=email&sharingId=AZ-MVP-5002155)
+
 
 Windows Subsystem for Linux (WSL) now supports running Linux GUI applications (X11 and Wayland) on Windows in a fully integrated desktop experience.
 

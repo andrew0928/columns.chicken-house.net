@@ -3,11 +3,7 @@ services:
   github-pages:
     image: starefossen/github-pages
 #    entrypoint: jekyll serve --watch --drafts --future --unpublished --incremental 
-<<<<<<< HEAD
-    command: jekyll serve -d /_site --watch -H 0.0.0.0 -P 4000  --drafts --future --unpublished --incremental 
-=======
     command: jekyll serve -d /_site --watch -H 0.0.0.0 -P 4000  --drafts --future --unpublished
->>>>>>> draft
     ports:
       - 4000:4000
     volumes:
