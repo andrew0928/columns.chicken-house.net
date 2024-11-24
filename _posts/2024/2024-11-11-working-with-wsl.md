@@ -12,17 +12,6 @@ redirect_from:
 logo: /wp-content/images/2024-11-11-working-with-wsl/logo.jpg
 ---
 
-<!--
-
-果然決定丟掉 docker desktop for windows 後就一路順暢... 雖然 disk i/o 效能糟其實是 WSL2 的鍋, 不過過度依賴 docker for windows 會讓人不想直接碰 WSL2, 就衍生了一堆問題..
-
-docker 還是繼續用，只是改成直接進 wsl 安裝 docker 來用, 也順便避開難搞的授權問題 (爽)。決定正式面對 wsl 內的 linux 工作環境之後, disk i/o 問題解掉了, docker 內跑 CUDA 問題也解掉了, 同時也體驗了 vscode remote sh 的威力, 操作介面完全是 windows 的體驗, 但是整個工作環境全都在 linux, 完全就是理想的後端開發環境啊..
-
-我算後知後覺，這些好東西出來了兩三年才發現，還沒用過的歡迎參考我的心得.. :D
-
--->
-
-
 ![](/wp-content/images/2024-11-11-working-with-wsl/logo.jpg)
 > 圖: DALL-E, 趕流行, 我讓 ChatGPT 搜尋我自己然後畫出來的形象圖..
 
@@ -109,10 +98,10 @@ OS: Microsoft Windows 11 Pro (24H2, 趁機重灌, 重建環境)
 NTFS, c:\benchmark_temp, 最直接的存取路徑, 沒有額外消耗的理想情境, 大部分單純的 windows 應用都是這類。  
 
 1. **由 wsl application 存取 wsl file system**:  
-EXT4, ~/benchmark_temp, 在 linux kernel 內基本上軟體也是直接的路徑, 不過同上, 虛擬硬碟終究多了一層 .vhdx 轉換。  
+EXT4, ~/benchmark_temp, 在 linux kernel 內基本上軟體也是直接的路徑。但是 wsl 畢竟是個 windows 下運作的 lightweight VM，他的磁碟是虛擬化而來的，多了一層 .vhdx 的轉換。   
 
 1. **由 windows app 存取 wsl file system**:  
-EXT4, \\wsl$\ubuntu\home\andrew\benchmark_temp, 中間跨越 9p protocol 進到 linux kernel 就能存取到檔案。但是 wsl 畢竟是個 windows 下運作的 lightweight VM，他的磁碟是虛擬化而來的，多了一層 .vhdx 的轉換。   
+EXT4, \\wsl$\ubuntu\home\andrew\benchmark_temp, 中間跨越 9p protocol 進到 linux kernel 就能存取到檔案。不過同上, 虛擬硬碟終究多了一層 .vhdx 轉換。  
 
 1. **由 wsl application 存取 windows file system**:  
 NTFS, /mnt/c/benchmark_temp, 中間經過一層 drvfs 檔案系統的處理 (這是由 Microsoft 開發並且開源的 linux file system, 會負責將檔案系統的存取經由 9p protocol 轉接到 windows file system) 的轉換..
@@ -149,20 +138,7 @@ GPU: NVidia RTX 4060Ti - 16GB
 OS: Microsoft Windows 11 Pro (24H2)
 ```
 
-測試工具，我選擇同時有 windows / linux 版本的 [fio](https://fio.readthedocs.io/en/latest/fio_doc.html), 跨平台支援我可以用一樣的測試來比較結果。Fio 的安裝也很容易, 在 wsl 下只要一行指令就能安裝:
-
-```
-sudo apt-get install fio
-```
-
-在 windows 下也差不多:
-
-```
-winget install --id fio.fio
-```
-
-
-我測試的參數統一如下 (除了不同環境，會換掉 path, 也會換掉 io engine 之外, 其餘都相同)，測試的都是同一顆硬碟:
+測試工具，我選擇同時有 windows / linux 版本的 [fio](https://fio.readthedocs.io/en/latest/fio_doc.html), 跨平台支援我可以用一樣的測試來比較結果。我測試的參數統一如下 (除了不同環境，會換掉 path, 也會換掉 io engine 之外, 其餘都相同)，測試的都是同一顆硬碟:
 
 ```
 fio  --name=benchmark \
@@ -178,7 +154,12 @@ fio  --name=benchmark \
       --runtime=300
 ```
 
-測試檔案大小 16GB, 隨機讀寫, 4k block, 8 jobs, disable cache, 連續測試 300 sec
+測試檔案大小 16GB, 隨機讀寫, 4k block, 8 jobs, disable cache, 連續測試 300 sec。為了驗證高附載的表現，io-depth 我調到 64.. 這參數的意義我貼一下[官方文件](https://fio.readthedocs.io/en/latest/fio_doc.html#i-o-depth)的說明:
+
+**iodepth=int**
+
+Number of I/O units to keep in flight against the file. Note that increasing iodepth beyond 1 will not affect synchronous ioengines (except for small degrees when verify_async is in use). Even async engines may impose OS restrictions causing the desired depth not to be achieved. This may happen on Linux when using libaio and not setting direct=1, since buffered I/O is not async on that OS. Keep an eye on the I/O depth distribution in the fio output to verify that the achieved depth is as expected. Default: 1.
+
 
 這四組測試的結果，我直接都貼給 ChatGPT 幫我彙整了，我就不另外整理數據了，請看 AI 幫我整理的分析報告:
 
