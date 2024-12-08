@@ -560,6 +560,7 @@ https://blog.miniasp.com/post/2008/07/23/Useful-tools-Streams-let-you-know-the-u
 1. 最後，跨系統的 disk mount ( 透過 DevFS 或是 9P protocol ), 一樣就當作方便的檔案搬運管道就好, 基本上你要把它當作網路磁碟看待，而不是本機磁碟。
 
 
+操作方式我就附上官方的說明了，其實很多小細節要留意，需要的人自己研究: [Mount a Linux disk in WSL 2](https://learn.microsoft.com/en-us/windows/wsl/wsl2-mount-disk?source=docs&WT.mc_id=email&sharingId=AZ-MVP-5002155)
 
 
 
