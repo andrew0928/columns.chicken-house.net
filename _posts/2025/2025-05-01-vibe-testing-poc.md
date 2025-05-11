@@ -27,15 +27,15 @@ logo: /wp-content/images/2025-05-01-vibe-testing-poc/logo.jpg
 > 最近起了一個 side project, 我在嘗試透過 AI 能否簡化 / 自動化 API 測試的需求?
 結果可行，雖然只是個 PoC 的 side project, 還是挺令人興奮的 😃
 > 
-> 我拿我之前為了 "安德魯小舖" 寫的購物車 API 當範例，用 ChatGPT 產了主要情境的正反測試案例 (共 15 個，只描述商業情境，沒有指定精確的 API 參數) 當作腳本，丟給我寫的 test runner, 結果不負眾望, test runner 順利地按照腳本呼叫了 API，也給了我完整的測試結果報告..
+> 我拿我之前為了 "安德魯小舖" 寫的購物車 API 當範例，用 ChatGPT 產了主要情境的正反測試案例 (共 15 個，只描述商業情境，沒有指定精確的 API 參數) 當作腳本，丟給我寫的 Test Runner, 結果不負眾望, Test Runner 順利地按照腳本呼叫了 API，也給了我完整的測試結果報告..
 > 
 > 突然覺得好虛榮啊，出一張嘴就有人幫我把測試跑完 (包含從情境自己決定該打哪個 API，該生成什麼參數) + 雙手遞上報告... XD, 雖然還有很多外圍的問題待解決, 離正式上場還有好一段距離, 不過主要環節打通了還是挺開心的。接下來分享一下過程跟心得..
 > 
 > 最初有這想法，來自於當今 LLM 都有很好的 Function Calling 的能力, 為何不拿這能力來面對自動化 API 測試呢? 複雜如 Agent 的應用都能面對了，API 自動化測試相對來說是小事吧~ 果不其然，順利完成。其實這一切都如預期啊，本質來說，讓 LLM 按照測試案例執行 API，其實就跟我當時開發 "安德魯小舖" 按照對話完成購物 (也是呼叫 API) 完全是同一件事情，只是敘事角度換了個方式而已..  觀念一轉，反倒有這結果是理所當然的…
 > 
-> 只是，API 要做到 AI Ready，本身還是有一點門檻的 (都在設計，不在技術方面)。真正有挑戰的，會在這些還沒滿足 AI Ready 的 API 該怎麼自動化執行測試吧… (這些議題，其實都在我去年分享的 “從 API First 到 AI First"，以及前年的 “API First Workshop”，”API First 的開發策略” 這幾場演講)
+> 只是，API 要做到 AI Ready，本身還是有一點門檻的 (都在設計，不在技術方面)。真正有挑戰的，會在這些還沒滿足 AI Ready 的 API 該怎麼自動化執行測試吧… (這些議題，其實都在我去年分享的 "[從 API First 到 AI First](/2024/07/20/devopsdays-keynote/)"，以及前年的 “[API First Workshop](/2023/01/01/api-design-workshop/)”，”[API First 的開發策略](/2022/10/26/apifirst/)” 這幾場演講)
 > 
-> 最後，貼個執行結果給大家體會一下，實作方式我整理一下再分享開發過程... Test Runner 是用 Microsoft Semantic Kernel 開發的，就是拿 Plugins 來簡化 function calling 操作而已。關鍵的部分大概 50 行以內就搞定了，敬請期待 😀
+> 最後，貼個執行結果給大家體會一下，實作方式我整理一下再分享開發過程... Test Runner 是用 Microsoft Semantic Kernel 開發的，就是拿 Plugins 來簡化 Function Calling 操作而已。關鍵的部分大概 50 行以內就搞定了，敬請期待 😀
 > 
 > ![alt text](/wp-content/images/2025-05-01-vibe-testing-poc/image.jpg)
 > 
@@ -62,7 +62,7 @@ logo: /wp-content/images/2025-05-01-vibe-testing-poc/logo.jpg
 
 然而在過去，只靠 "意圖" 是沒辦法直接執行的。過去電腦很笨，你必須給他很明確的指令，例如在哪個地方按按鈕，哪個地方會出現 "OK" 的字樣才代表成功... blah blah, 這一連串翻譯的過程，都是人工在處理，講白話就是人工寫測試文件，跟人工來執行測試...。經過這一連串的高度人力密集作業之後，你會得到一份測試報告，告訴你測試結果是否符合預期。
 
-思考了 "人" 怎麼靠 "意圖" 就能執行測試? 人的腦袋裡勢必事先已經知道 UI 怎麼操作，或是有哪些 API 可以使用，有了這些資訊之後，人腦就有能力把 "意圖" 翻譯成 "行動"，接著就能逐步操作完成目的了。這一連串的處理，其實就是 LLM 的 function calling / tool use 能力。我的想法很單純，既然這兩年技術的發展已經成熟了 (我指 function calling)，那我是否有機會用這能力解決從 "Intent" 到 "Assertion" 這段過程?
+思考了 "人" 怎麼靠 "意圖" 就能執行測試? 人的腦袋裡勢必事先已經知道 UI 怎麼操作，或是有哪些 API 可以使用，有了這些資訊之後，人腦就有能力把 "意圖" 翻譯成 "行動"，接著就能逐步操作完成目的了。這一連串的處理，其實就是 LLM 的 Function Calling / Tool Use 能力。我的想法很單純，既然這兩年技術的發展已經成熟了 (我指 Function Calling)，那我是否有機會用這能力解決從 "Intent" 到 "Assertion" 這段過程?
 
 我的企圖其實不只是 "自動化" 這段過程而已，而是這些推論能力，能否釋放過去這些需要大量人力投入的文書處理任務? 就如同 vibe coding 解放了很多工程師寫著無聊的 code 一樣，這次我想解放的是撰寫詳細測試文件 + 按照文件執行測試的苦差事。架構師的角色，是告訴大家這件事可不可行? 關鍵突破後，就能將之標準化 + 規模化，擴大推廣。所以我現在在做的就是驗證可行性，我目標擺在 PoC，而不是開發實際上線使用的工具 (因此一些非關鍵的細節我會直接略過)。
 
@@ -84,7 +84,7 @@ logo: /wp-content/images/2025-05-01-vibe-testing-poc/logo.jpg
 
 因此, 輸入就是展開過的測試案例 (不直接是 AC)，而我期待的結果輸出就是測試報告。
 
-這圖的結構，請好好思考，因為我整個想法 (包括後面想寫的幾篇)，都會從這張圖延伸出去..。能有限在這篇，受惠於目前 AI 已經有夠好的 Function Calling 能力了。如果 AI 的 UI 操作能力也能跟上 (例如 Browser Use, Computer Use 等等技術) 變得更精準，成本更低的話，這樣的方法跟測試案例，搭配不同的規格 ( UI 規格我不確定有哪些標準規範 )，但是原理相同，你能提供對等的規格跟 Test Runner，你就有機會用同樣的測試案例，分別執行 API / UI ( 可能還能分 Web, Android, iOS ) 的自動化測試...
+這圖的結構，請好好思考，因為我整個想法 (包括後面想寫的幾篇)，都會從這張圖延伸出去..。能有限在這篇，受惠於目前 AI 已經有夠好的 Function Calling 能力了。如果 AI 的 UI 操作能力也能跟上 (例如 [Browser Use](https://docs.browser-use.com/introduction#overview), [Computer Use](https://docs.anthropic.com/en/docs/agents-and-tools/computer-use) 等等技術) 變得更精準，成本更低的話，這樣的方法跟測試案例，搭配不同的規格 ( UI 規格我不確定有哪些標準規範 )，但是原理相同，你能提供對等的規格跟 Test Runner，你就有機會用同樣的測試案例，分別執行 API / UI ( 可能還能分 Web, Android, iOS ) 的自動化測試...
 
 試著幻想一下未來的可能性，一份合理的 domain 層級測試案例, 經過不同的介面規格 + (AI) Test Runner 擴展，能夠對不同介面進行相同商業規則的驗證 (我目前的能力只能實現 API 的範圍):
 
@@ -115,9 +115,9 @@ logo: /wp-content/images/2025-05-01-vibe-testing-poc/logo.jpg
 
 以零售業來說，像這樣內容的情境，就是我所謂 domain 層級的測試案例。通常都不會太複雜，也不會有太多操作或技術細節，主要就是敘述什麼樣的抽象流程，會得到甚麼結果而已。
 
-我在寫這案例有個前提，就是購物車的設計應該要有指定商品上限 10 件的限制 (我自己掰的)。我期待的結果是，不管你怎麼操作，過程中都要隨時遵守這個約束限制。而測試案例就該在這層級上描述各種可能的行為，驗證過程中是否真的符合約束限制。
+我在寫這案例有個前提，就是購物車的設計應該要有指定商品上限 10 件的限制 (我自己臨時加的要求，線上執行的 API 並不支援這約束，我預期這測試應該不會通過)。我期待的結果是，不管你怎麼操作，過程中都要隨時遵守這個約束限制。而測試案例就該在這層級上描述各種可能的行為，驗證過程中是否真的符合約束限制。
 
-這個案例是多個案例中的一個，我嘗試在一個空的購物車 (起始條件) 加入 11 件指定商品，我預期結果是這步驟會踩到限制，而被系統拒絕，並且整批 11 件商品不該加入購物車。
+這個案例是多個案例中的一個，我嘗試在一個空的購物車 (起始條件) 加入 11 件指定商品，測試案例預期 API 在這步驟會踩到限制，而被系統拒絕，並且整批 11 件商品不該加入購物車。
 
 要寫出好的案例，你需要的是 "知道該測試什麼"。妳可以讓 AI 幫你列舉所有案例，這完全沒問題，但是你要有能力 Review 這些列舉結果對不對。我在這邊刻意排除跟特定設計規格相關的資訊，就是希望未來 UI / API 的規格異動時，盡量不要影響到這段 (除非你顛覆了購物車的 "概念")。這樣明確的區隔，有助於簡化案例的撰寫跟 Review，同時也跟實作規格無關，讓 Test Runner 在執行前再來合併規格跟案例。
 
@@ -153,9 +153,9 @@ logo: /wp-content/images/2025-05-01-vibe-testing-poc/logo.jpg
 >  - 測試前請清空購物車
 >  - 指定測試商品: 可口可樂
 
-我會用 "建立新購物車" 來替代 "清空購物車"。因為 API 沒有直接提供 "EmptyCart" 這樣的 API，不這樣做的話，我恴列舉目前購物車內容，並且逐一清除。
+我會用 "建立新購物車" 來替代 "清空購物車"。因為 API 沒有直接提供 ```EmptyCart()``` 這樣的 API，不這樣做的話，我恴列舉目前購物車內容，並且逐一清除。
 
-另外有指定以下的案例，都用 "可口可樂" 來當作指定商品，因此看完 API Spec 後，我會用 "取得商品清單" 列舉所有商品後，從裡面挑出 "可口可樂"，並記下他的 ProductId 供後面 API 使用。因為我的 API 規格很陽春，並沒有 "搜尋" 的功能，唯一找到指定商品的管道就是這個..
+另外有指定以下的案例，都用 "可口可樂" 來當作指定商品，因此看完 API Spec 後，我會用 "取得商品清單" 列舉所有商品後，從裡面挑出 "可口可樂"，並記下他的 ```ProductId``` 供後面 API 使用。因為我的 API 規格很陽春，並沒有 "搜尋" 的功能，唯一找到指定商品的管道就是這個..
 
 因此，這步驟至少該呼叫這兩個 API:
 
@@ -184,9 +184,9 @@ GET /api/carts/123
 
 接下來，就要開始把這些東西湊在一起做成 ~~牛丸~~ Test Runner 了... 
 
-我選擇做成 .NET Console Apps , 這樣最容易驗證, 很多人問我為何不做成 MCP ? 後面會提, 目的跟用法都不同, 而且還有技術障礙要克服，那些都是 "大規模推廣" 才會碰到的問題，我在 POC 階段選擇先掠過，先驗證我最在意的核心問題。
+我選擇做成 .NET Console Apps , 這樣最容易驗證, 很多人問我為何不做成 MCP ? 後面會提, 目的跟用法都不同, 而且還有技術障礙要克服，那些都是 "大規模推廣" 才會碰到的問題，我在 PoC 階段選擇先掠過，先驗證我最在意的核心問題。
 
-因此，我會用先前直播示範過的 Microsoft Semantic Kernel + Plugins 來實作 OpenAI Function Calling 機制的範例，來做這個 Test Runner. 如果你還不熟 Function Calling 的運作原理，也還不清楚 SK Plugins 是怎麼一回事，建議先去看一下三月份我跟保哥合辦的直播錄影:
+因此，我會用先前直播示範過的 Microsoft Semantic Kernel + Plugins 來實作 OpenAI Function Calling 機制的範例，來做這個 Test Runner. 如果你還不熟 Function Calling 的運作原理，也還不清楚 Semantic Kernel Plugins 是怎麼一回事，建議先去看一下三月份我跟保哥合辦的直播錄影:
 
 - 簡介 [Day2](https://www.facebook.com/share/p/1BtbFxTQE7/), LLM - Function Calling (Basic)
 - 簡介 [Day3](https://www.facebook.com/share/p/19MqVhHtV1/), LLM - Function Calling (Case Study)
@@ -232,7 +232,7 @@ await kernel.ImportPluginFromOpenApiAsync(
 
 ```
 
-就是這段 Kernel.ImportPluginFromOpenApiAsync( ... ), 瞬間讓我省下額外把 16 個 API 重新轉成 KernelFunction 的苦工... 。Kernel 跟 Plugins 準備好之後，接著就是丟 Prompt 給 LLM 執行了。Kernel 為了順利回應 Prompt 的要求，會自己跟 LLM 溝通，判定何時該使用 Plugins 來完成任務。
+就是這段 ```Kernel.ImportPluginFromOpenApiAsync( ... )```, 瞬間讓我省下額外把 16 個 API 重新轉成 ```KernelFunction``` 的苦工... 。Kernel 跟 Plugins 準備好之後，接著就是丟 Prompt 給 LLM 執行了。Kernel 為了順利回應 Prompt 的要求，會自己跟 LLM 溝通，判定何時該使用 Plugins 來完成任務。
 
 
 ## 4-2, 準備 Prompts
@@ -310,9 +310,9 @@ await kernel.ImportPluginFromOpenApiAsync(
 **測試結果**: 無法執行(start_fail) | 執行失敗(exec_fail) | 測試不過(test_fail) | 測試通過(test_pass)
 ```
 
-這些 Prompt(s) 準備好之後，其實程式碼沒什麼特別的，就是交給 Kernel.InvokePromptAsync( ... ) 執行而已。我懶得用 ChatCompletion 方式逐一整理 ChatHistory 物件，因此我直接用 Semantic Kernel 支援的 Prompt Template 格式，一次寫完上面的每一段 message, 要插入的 testcase 我直接當作 KernelArguments 當作變數插入 PromptTemplate .. 
+這些 Prompt(s) 準備好之後，其實程式碼沒什麼特別的，就是交給 ```Kernel.InvokePromptAsync( ... )``` 執行而已。我懶得用 ```ChatComplet``` 方式逐一整理 ```ChatHistory``` 物件，因此我直接用 Semantic Kernel 支援的 Prompt Template 格式，一次寫完上面的每一段 message, 要插入的 testcase 我直接當作 ```KernelArguments``` 當作變數插入 PromptTemplate .. 
 
-唯一要注意的，就是要先在 PromptExecutionSettings 指定 FunctionChoiceBehavior = Auto, 這樣 Kernel 才會替你處理掉一堆 function calling 過程的雜事 (有興趣可以看我三月的直播錄影, 我有把處理過程的 openai chatcompletion api 往返過程逐一列出, 你看完後你不會想自己搞那些的...):
+唯一要注意的，就是要先在 ```PromptExecutionSettings``` 指定 ```FunctionChoiceBehavior = Auto```, 這樣 Kernel 才會替你處理掉一堆 Function Calling 過程的雜事 (有興趣可以看我三月的直播錄影, 我有把處理過程的 openai chatcompletion api 往返過程逐一列出, 你看完後你不會想自己搞那些的...):
 
 ```csharp
 
@@ -323,7 +323,7 @@ var settings = new PromptExecutionSettings()
 
 ```
 
-Message 內容前面我都解釋過了，這邊我只貼一行，多餘的訊息我會省略掉。InvokePrompt 時記得帶上前面準備好的 settings 以及你要代入 Prompt 的參數 (這邊是 testcase)，接下來就等結果就好了。以我的案例，大概要跑一分鐘左右... 
+Message 內容前面我都解釋過了，這邊我只貼一行，多餘的訊息我會省略掉。InvokePrompt 時記得帶上前面準備好的 settings 以及你要代入 Prompt 的參數 (這邊是 testcase)，接下來就等結果就好了。以我的案例，我使用 o4-mini 這模型，大概要跑一分鐘左右... 
 
 程式碼如下:
 
