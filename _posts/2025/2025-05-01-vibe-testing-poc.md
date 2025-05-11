@@ -4,10 +4,10 @@ title: "從 Intent 到 Assertion #1, 聊聊 Vibe Testing 實驗心得"
 categories:
 - "系列文章: 架構師觀點"
 tags: ["架構師觀點","技術隨筆"]
-published: false
+published: true
 comments_disqus: false
 comments_facebook: false
-comments_gitalk: false
+comments_gitalk: true
 redirect_from:
 logo: /wp-content/images/2025-05-01-vibe-testing-poc/logo.jpg
 ---
