@@ -9,10 +9,10 @@ comments_disqus: false
 comments_facebook: false
 comments_gitalk: true
 redirect_from:
-logo: /wp-content/images/2025-06-05-devopsdays/logo.jpg
+logo: /wp-content/images/2025-06-03-devopsdays/logo.jpg
 ---
 
-![alt text](/wp-content/images/2025-06-05-devopsdays/logo.jpg)
+![alt text](/wp-content/images/2025-06-03-devopsdays/logo.jpg)
 
 <!--more-->
 
