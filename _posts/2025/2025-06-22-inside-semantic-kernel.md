@@ -9,12 +9,12 @@ comments_disqus: false
 comments_facebook: false
 comments_gitalk: true
 redirect_from:
-logo: /wp-content/images/2025-06-25-inside-semantic-kernel/livecast-logo.png
+logo: /wp-content/images/2025-06-22-inside-semantic-kernel/livecast-logo.png
 ---
 
 今年三月, 跟保哥開了一場直播, 從 LLM 的基礎 ( OpenAI ChatCompletion API 開始 ), 談基本的 API 操作。使用方式從 HttpClient, 到 OpenAI .NET SDK, 再到 Microsoft Semantic Kernel, 示範了 Chat, Json Mode, 到 Function Calling 的操作, 最後示範了用 Microsoft Kernel Memory 這套服務來實作 RAG ...
 
-![alt text](/wp-content/images/2025-06-25-inside-semantic-kernel/livecast-logo.png)
+![alt text](/wp-content/images/2025-06-22-inside-semantic-kernel/livecast-logo.png)
 
 這次直播，我決定調整一下過去的做法: 先持續釋出片段資訊, 之後再整理成文章。對比過去我先整理文章再發表的習慣, 每次就要花上幾個禮拜... 現在的資訊更新速度實在太快了, 過去的步調已經跟不上變化了 (我有好幾篇文章躺在 draft branch, 結果寫一半就... 就不用寫了 XDD)。所以這次我在直播前一週, 每天在 Facebook PO 文介紹直播的八個主題... 而現在，這篇就是事後收整內容的文章。想要回顧或是查詢資料的就來這邊吧!
 
@@ -155,7 +155,7 @@ Link: [FB POST](https://www.facebook.com/share/p/1DcJTse4C6/)
 
 這是我在 .NET Conf 2024 的其中一張簡報, 今天想聊一下這題..
 
-![alt text](/wp-content/images/2025-06-25-inside-semantic-kernel/image.png)
+![alt text](/wp-content/images/2025-06-22-inside-semantic-kernel/image.png)
 
 **Developer 應該怎樣善用 AI?**
 
@@ -234,7 +234,7 @@ Link: [FB POST](https://www.facebook.com/share/p/1BozfZzzov/)
 
 昨天聊完 Json Mode, 今天繼續來聊聊 Function Calling... 同樣是我在 .NET Conf 2024 的簡報:
 
-![alt text](/wp-content/images/2025-06-25-inside-semantic-kernel/image-1.png)
+![alt text](/wp-content/images/2025-06-22-inside-semantic-kernel/image-1.png)
 
 Function Calling (或稱為 Tool Use), 我覺得這是 LLM 普及以來, 威力最大的功能了。就因為 LLM 有了這能力，才開啟了各種 Agent 以及透過 AI 來主控各個週邊系統的能力。所有想要在你的 App 內應用 LLM 的 Developer, 請務必要搞清楚 Function Calling 是怎麼回事, 這我認為是下個世代最重要的基礎知識了。
 
@@ -329,7 +329,7 @@ Link: [FB POST](https://www.facebook.com/share/p/12GFiqp8MnL/)
 
 於是，來看看這頁簡報 (同樣是來自 .NET Conf 2024 我那場的簡報) 吧:
 
-![alt text](/wp-content/images/2025-06-25-inside-semantic-kernel/image-2.png)
+![alt text](/wp-content/images/2025-06-22-inside-semantic-kernel/image-2.png)
 
 
 這情境是:
@@ -399,7 +399,7 @@ Link: [FB POST](https://www.facebook.com/share/p/16HVPbinAY/)
 
 講完 Json Mode, Function Calling 之後, 今天的主題是: RAG
 
-![alt text](/wp-content/images/2025-06-25-inside-semantic-kernel/image-3.png)
+![alt text](/wp-content/images/2025-06-22-inside-semantic-kernel/image-3.png)
 
 同樣截了張我在 .NET Conf 2024 的一頁簡報, RAG ( 檢索增強生成, Retrieval Augmented Generation ), 其實就是用檢索的技術, 讓 LLM 依據這些檢索的結果來生成內容 (回答) 給使用者的技巧。若沒有 RAG, LLM 則會用他被訓練得那些知識來回答。這些來源通常會有幾個月以上的時間差，而且會因為訓練內容的不同而有所偏差...
 
@@ -461,7 +461,7 @@ Microsoft Kernel Memory ( 以下簡稱 MSKM ), 背後的開發團隊跟 Semantic
 
 這次我截了兩頁簡報，分別代表了 MSKM 的兩種應用方式。第一個是 as web service, 你可以透過 http api 來存取 MSKM, 或是你也可以用 serverless 的模式, 直接把整套 MSKM 核心機制直接內嵌在你的應用內 (不是跑個 localhost 再用 http api 的做法喔)，基本上已經顧及到各種規模跟應用的方式了。
 
-![alt text](/wp-content/images/2025-06-25-inside-semantic-kernel/image-4.png)
+![alt text](/wp-content/images/2025-06-22-inside-semantic-kernel/image-4.png)
 
 
 回到 MSKM 這專案本身，他要解決的環節，主要就是 AI APP 最棘手的 " long term memory " 的管理問題。在 SK 內，短期記憶是用 Chat History 來處理的，而長期記憶只是定義了 Memory ( Vector Store ) 來處理。不過，仔細看他的說明，你會發現 Memory 其實比較像是抽象化的向量資料庫，有點像 EF (Entity Framework) 之於關聯式資料庫，Vector Store 就是讓你定義你的 Vector Store 結構，方便你 CRUD，並且直接定義好相似性檢索的 interface ..
@@ -469,7 +469,7 @@ Microsoft Kernel Memory ( 以下簡稱 MSKM ), 背後的開發團隊跟 Semantic
 
 但是如果你理解 RAG ( 尤其是 document ingestion ) 怎樣匯入文件內容的話，你會發現，從內容的文字化，內容的分段，合成，貼標籤，向量化，寫入，查詢... 這一大段的流程，SK Memory 只處理了最後一小段而已。所以，MSKM 這專案就因為這樣，被獨立出來了。由於你要做大量文字的處理，通常也很吃你的長時間任務處理的機制是否成熟 (大概就式分散式任務處理那類的問題)，因此與其像是 SK 那樣用 Framework 的方式發行，MSKM 則選擇用了 "獨立服務" + SDK 的方式來發行。
 
-![alt text](/wp-content/images/2025-06-25-inside-semantic-kernel/image-5.png)
+![alt text](/wp-content/images/2025-06-22-inside-semantic-kernel/image-5.png)
 
 你可以直接拿 source code ( 從 github clone ) 來使用，你也可以直接從 docker hub 拉 image 回來直接部署 ( 不用寫 code )，在呼叫端你可以直接用他的 NuGet Package ... 都是為了這個目的而設計的而被當成獨立服務來看待，那 MSKM 跟 SK 就算是同一個團隊開發的，好像也沒有什麼特別的關聯... 這樣想你就錯了，我在這邊特別提兩個地方，特別適合兩者搭配使用的情境:
 
@@ -497,10 +497,10 @@ Link: [FB POST](https://www.facebook.com/share/p/1AUSLJBR6Q/)
 有了 SK ( Semantic Kernel ) 跟 MSKM ( Microsoft Kernel Memory ), 對於 RAG 這樣的應用, 我們開始有了高一層的控制能力了。今天就來聊聊面對 RAG 的應用時, 有哪些在設計之初就能改善檢索效果的技巧吧
 
 
-![alt text](/wp-content/images/2025-06-25-inside-semantic-kernel/image-6.png)
-![alt text](/wp-content/images/2025-06-25-inside-semantic-kernel/image-7.png)
-![alt text](/wp-content/images/2025-06-25-inside-semantic-kernel/image-8.png)
-![alt text](/wp-content/images/2025-06-25-inside-semantic-kernel/image-9.png)
+![alt text](/wp-content/images/2025-06-22-inside-semantic-kernel/image-6.png)
+![alt text](/wp-content/images/2025-06-22-inside-semantic-kernel/image-7.png)
+![alt text](/wp-content/images/2025-06-22-inside-semantic-kernel/image-8.png)
+![alt text](/wp-content/images/2025-06-22-inside-semantic-kernel/image-9.png)
 
 
 大部分教科書, 都是教你要把內容分段 (分段有很多策略, 長度, 分段符號, 重疊範圍等等)，不過我實際拿我自己部落格文章來測試，老實說效果並沒有很好.. 拿最基本的 MSKM 預設設定 ( pipeline )，流程大致上是這樣:
@@ -589,10 +589,10 @@ Link: [FB POST](https://www.facebook.com/share/p/1CQRyJskYC/)
 
 完整的 demo 請直接看影片，我這邊放截圖給大家搶鮮看:
 
-![alt text](/wp-content/images/2025-06-25-inside-semantic-kernel/image-13.png)
+![alt text](/wp-content/images/2025-06-22-inside-semantic-kernel/image-13.png)
 MSKM MCPServer 直接掛上 Claude Desktop, 讓 LLM 直接搜尋我的部落格資訊的示範
 
-![alt text](/wp-content/images/2025-06-25-inside-semantic-kernel/image-14.png)
+![alt text](/wp-content/images/2025-06-22-inside-semantic-kernel/image-14.png)
 點開 Claude Desktop 呼叫 MCPServer 的過程，可以看到 MCPServer 從 MSKM 抓了哪些資訊餵給 LLM
 
 
@@ -662,16 +662,16 @@ Link: [FB POST](https://www.facebook.com/share/p/1AjdWvFDsJ/)
 而 Chat Completion API, 則只是把這三個要點，精確的定義成 API / Message 的格式定義而已。想像成你是老闆 (role: user)，旁邊有幫他辦事的秘書 (role: tool)，老闆的行事曆控制全掌握在秘書手上，因此管家 (role: assistant) 要替老闆安排活動的話，應該聽完老闆要求，私下跟祕書協調後，最後回報老闆任務完成。
 
 
-![alt text](/wp-content/images/2025-06-25-inside-semantic-kernel/image-10.png)
+![alt text](/wp-content/images/2025-06-22-inside-semantic-kernel/image-10.png)
 
 上圖 (圖1) 是案例，直播時候已經說明過了。
 
 
-![alt text](/wp-content/images/2025-06-25-inside-semantic-kernel/image-11.png)
+![alt text](/wp-content/images/2025-06-22-inside-semantic-kernel/image-11.png)
 
 圖二則是土炮的 system prompt, 我用白話文, 自己定義了兩個角色，要 LLM 用不同的前置詞來區別 LLM 是要跟誰對話。如果訊息最前面是 "安德魯大人您好" ，就代表這句話是給我看的。如果訊息最前面是 "請執行指令"，則代表這是給秘書看的訊息。
 
-![alt text](/wp-content/images/2025-06-25-inside-semantic-kernel/image-12.png)
+![alt text](/wp-content/images/2025-06-22-inside-semantic-kernel/image-12.png)
 
 對話原則 setup 好了之後，對話過程就是圖三 了。你只要眼不見為淨，忽略掉中間灰色不是跟我對話的區段，其實整個過程就通了。如果你要在不支援 Function Calling 的 LLM 土炮 Function Calling 功能，只要用 Chat Completion API 照順序呼叫，並且由你的 Application 攔截這些 "請執行指令" 開頭的訊息就夠了。
 
@@ -691,17 +691,17 @@ Link: [FB POST](https://www.facebook.com/share/p/1AjdWvFDsJ/)
 
 ## 統計: 哪個主題對你工作幫助最大?
 
-![alt text](/wp-content/images/2025-06-25-inside-semantic-kernel/image-15.png)
+![alt text](/wp-content/images/2025-06-22-inside-semantic-kernel/image-15.png)
 
 
 
 ## 統計: 會用哪種方式存取 LLM?
 
-![alt text](/wp-content/images/2025-06-25-inside-semantic-kernel/image-16.png)
+![alt text](/wp-content/images/2025-06-22-inside-semantic-kernel/image-16.png)
 
 ## 統計: 內容安排時間是否太冗長?
 
-![alt text](/wp-content/images/2025-06-25-inside-semantic-kernel/image-17.png)
+![alt text](/wp-content/images/2025-06-22-inside-semantic-kernel/image-17.png)
 
 
 ## 統計: 你覺得最有收穫的部分
@@ -928,4 +928,4 @@ RAG 神器
 
 ## 統計: 整體評分
 
-![alt text](/wp-content/images/2025-06-25-inside-semantic-kernel/image-18.png)
+![alt text](/wp-content/images/2025-06-22-inside-semantic-kernel/image-18.png)
