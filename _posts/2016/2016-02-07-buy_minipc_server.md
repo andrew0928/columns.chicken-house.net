@@ -19,7 +19,7 @@ wordpress_postid: 790
 
 ## 需求規格:
 
-[![DC3217IYE-2[1]](/wp-content/uploads/2016/02/DC3217IYE-21.jpg)](/wp-content/uploads/2016/02/DC3217IYE-21.jpg)
+[![DC3217IYE-2[1]](/wp-content/images/2016-02-07-buy_minipc_server/DC3217IYE-21.jpg)](/wp-content/images/2016-02-07-buy_minipc_server/DC3217IYE-21.jpg)
 
 在規格上，因為我的目的是當 server, 因此對於 GPU 或是 USB 的數量並不是很在意，WiFi 的規格也是可有可無。這部分頂多加一點分數，要是我後悔還可以拿來當桌機用而已。我在意的規格有這幾個:
 
@@ -42,7 +42,7 @@ wordpress_postid: 790
 
 Bingo, 這就是我要的規格啊... 不過我不是很想替這產品代言，只是單純分享心得，加上實際購物的體驗不是很好，我就不附連結了，用貼圖代替。老實說對岸對於 cost down 這件事真的很猛，真的是極盡所能的壓低價格... 大概就只有這台能在我期望的價格帶內符合我的需求了
 
-![](/wp-content/uploads/2016/02/img_56b6c863756d6.png)
+![](/wp-content/images/2016-02-07-buy_minipc_server/img_56b6c863756d6.png)
 
 以下是我買的這台 mini PC 內部規格:
 
@@ -55,7 +55,7 @@ Bingo, 這就是我要的規格啊... 不過我不是很想替這產品代言，
 - WIFI 天線 x 2
 - 包含一張 DELL 1703 (wifi + bluetooth) mini-pcie 卡
 
-![](/wp-content/uploads/2016/02/img_56b6c83098513.png)
+![](/wp-content/images/2016-02-07-buy_minipc_server/img_56b6c83098513.png)
 
 外部的接頭也很豐富，真的是你想的到的都有了:
 
@@ -81,15 +81,15 @@ BIOS 是 AMI 的系統，跟一般常看到的沒啥不同。不過跟 ASUS 等�
 
 裝好後一切正常，至於驅動程式就各憑本事了... (到現在我還是不知道這板子用哪一個晶片組? @@)，這部分我就直接跳過，我相信我這篇有耐性看到這裡的讀者們，應該都搞的定 driver 問題才對 XD
 
-![裝置管理員的資訊，主機的關鍵元件應該都列在上面了吧~](/wp-content/uploads/2016/02/img_56b6cb8da6695.png)
+![裝置管理員的資訊，主機的關鍵元件應該都列在上面了吧~](/wp-content/images/2016-02-07-buy_minipc_server/img_56b6cb8da6695.png)
 *裝置管理員的資訊，主機的關鍵元件應該都列在上面了吧~*
 
 比較特別的是，這機器用的是中階的 i5-5250U CPU, 而設計上則是完全無風扇的設計，只靠全鋁的機殼散熱，因此我就特別測試了一下... 我找了現成的工具 (CPU-Z Stress CPU 功能) 讓 CPU 長時間 (2hr) 維持 100% 滿載, CPU 溫度則是維持在 58 度左右就不會在上升了。看對岸網友的評語，有人竟然可以用到 85 度然後強迫斷電 @@，大概是我只操到 CPU 沒操到 GPU 的關係吧? 這狀況當 SERVER 用大概碰不到，大概只有當桌機拿去玩 3D Game 才有機會.. 有人自己土炮 DIY，在全鋁的機殼外掛一個 USB 的風扇，據說效果非常好... 這個參考就好..
 
-![剛開機的運作溫度](/wp-content/uploads/2016/02/img_56b6c9a525243.png)
+![剛開機的運作溫度](/wp-content/images/2016-02-07-buy_minipc_server/img_56b6c9a525243.png)
 *剛開機的運作溫度*
 
-![CPU-Z 壓測 2 小時候的運作狀況](/wp-content/uploads/2016/02/img_56b6c9ee79426.png)
+![CPU-Z 壓測 2 小時候的運作狀況](/wp-content/images/2016-02-07-buy_minipc_server/img_56b6c9ee79426.png)
 *CPU-Z 壓測 2 小時候的運作狀況*
 
 其他也沒什麼好測的，HDMI 輸出正常，不過兩個 HDMI 只有一個會輸出聲音，另一個沒有。LAN 是螃蟹卡 (Realtek) ，雖然不是我期望的 Intel LAN, 不過這價格的東西就不挑剔了。網卡在 OS 裝完就可以驅動了，省了不少麻煩。隨機搭售的 WIFI / BT 也是一樣，OS 本身就可以驅動... 其他的使用上中規中矩，我只是裝個 windows 10 enterprise 來測看看，畢竟 desktop OS 的 driver 支援是最齊全的，我的目的也只在這裡而已，測完後就可以砍了。
@@ -104,10 +104,10 @@ BIOS 是 AMI 的系統，跟一般常看到的沒啥不同。不過跟 ASUS 等�
 
 主機板上有內建一個 SATA port, 想當然爾，當然是拿來接 2.5" HDD，不過怎麼測都偵測不到.. 我想的到的方法都測了，就是沒用... 爬了文發現有網友也碰到一樣問題，賣家是附了張 msata > sata 的轉卡給他才解決... Orz, 我最後是自己花了 NTD $100 買了張轉卡回來，解決這問題.... 在 mobile01 上爬文，發現有這種狀況的網友還真不少，這命中率已經高到看來像是通例，而不是特例了。還好我挑的是擴充性高的板子，還有剩下兩個 mSATA 都能正常使用，將來還夠我用 HDD + SSD 的組合...
 
-![另外花了 NTD $100 買來的 mSATA 轉 SATA 轉卡](/wp-content/uploads/2016/02/img_56b75082a9db7.png)
+![另外花了 NTD $100 買來的 mSATA 轉 SATA 轉卡](/wp-content/images/2016-02-07-buy_minipc_server/img_56b75082a9db7.png)
 *另外花了 NTD $100 買來的 mSATA 轉 SATA 轉卡*
 
-![完成圖... 自己土炮的 SATA Power, 加上 mSATA > SATA 轉卡, 終於搞定把 2.5" HDD 接上線啟動的任務..](/wp-content/uploads/2016/02/img_56b751361543d.png)
+![完成圖... 自己土炮的 SATA Power, 加上 mSATA > SATA 轉卡, 終於搞定把 2.5" HDD 接上線啟動的任務..](/wp-content/images/2016-02-07-buy_minipc_server/img_56b751361543d.png)
 *完成圖... 自己土炮的 SATA Power, 加上 mSATA > SATA 轉卡, 終於搞定把 2.5" HDD 接上線啟動的任務..*
 
 合理推斷這應該是生產線 QC 不過，被打下來的料件，便宜出清才能壓到這麼低的價格吧! 一來這是新品，不是拆機用過的二手零件，能累積這麼多 QC 不過的產品也不是件容易的事 XD，CPU 都焊在板子上，也不能拆下來更換了，看來除了便宜出清也沒別的選擇了...
@@ -142,7 +142,7 @@ BIOS 是 AMI 的系統，跟一般常看到的沒啥不同。不過跟 ASUS 等�
 
 這純粹是個人喜好問題 XD，淘寶整個購物流程，從逛商城，到訂購後的物流追蹤，及跟賣家的 Instance Messenger 等等，都有 APP 可以用，而且還支援我冷門的 Windows Phone 8.1 ... 連同 windows 10 的 UWP 也有..
 
-![淘寶 Windows Phone / Windows 10 APP ~](/wp-content/uploads/2016/02/img_56b7550d10cbe.png)
+![淘寶 Windows Phone / Windows 10 APP ~](/wp-content/images/2016-02-07-buy_minipc_server/img_56b7550d10cbe.png)
 *淘寶 Windows Phone / Windows 10 APP ~*
 
 最後，這篇就是勸敗文 + 敗家心得而已，沒什麼技術探討 XD，特此紀錄我的經驗給大家參考~
@@ -153,4 +153,4 @@ BIOS 是 AMI 的系統，跟一般常看到的沒啥不同。不過跟 ASUS 等�
 
 另外意外發現一款比較特別的 mini-pc, 有內建 Intel 82583v LAN x 4, 適合拿來跑 router / nat 之類的應用:
 
-[![](/wp-content/uploads/2016/02/img_56b7ec0d66a42.png)](http://tw.taobao.com/item/525443552349.htm?spm=a1z3o.7406521.101.31.wTCcoi&abtest=_AB-LR492-LR501-LR517-LR895-PR492-PR501-PV517_2373-PV895_2462&tracelog=sns_share_urlshare)
+[![](/wp-content/images/2016-02-07-buy_minipc_server/img_56b7ec0d66a42.png)](http://tw.taobao.com/item/525443552349.htm?spm=a1z3o.7406521.101.31.wTCcoi&abtest=_AB-LR492-LR501-LR517-LR895-PR492-PR501-PV517_2373-PV895_2462&tracelog=sns_share_urlshare)
