@@ -535,7 +535,9 @@ int total_area = 0;
 
 # 後記
 
-[![csharp[1]](http://columns.chicken-house.net/wp-content/uploads/2016/04/csharp1.jpg)](http://columns.chicken-house.net/wp-content/uploads/2016/04/csharp1.jpg)中文的技術部落格，大多都是講 How To, 很少碰到跟我一樣對語法有高度潔癖的探討文章 @@，所以這次我就野人獻曝的整理這一篇，希望能幫助到有需要的人!
+[![csharp[1]](http://columns.chicken-house.net/wp-content/uploads/2016/04/csharp1.jpg)](http://columns.chicken-house.net/wp-content/uploads/2016/04/csharp1.jpg)
+
+中文的技術部落格，大多都是講 How To, 很少碰到跟我一樣對語法有高度潔癖的探討文章 @@，所以這次我就野人獻曝的整理這一篇，希望能幫助到有需要的人!
 
 最後，不知看過這段 channel 9 video 的人有沒有發現? 兩位講者身上的 T 恤上有印著超人圖案，不過裡面寫的不是 S，而是 C# ... 哈哈! 這件衣服太讚了，不知有沒有機會買到? 真想去弄一件.. :D
 
