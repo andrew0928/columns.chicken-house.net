@@ -46,4 +46,6 @@ After conversion, verify each image:
 ## Step 6: Confirmation and Commit
 
 - Confirm the conversion is successful, remove origin HTML file.
+- Add the new Markdown file to the Git staging area.
+- Add the removed HTML file to the Git staging area.
 - Commit the changes to the repository with a message , include convert post_id, and the Validation Checklist.
