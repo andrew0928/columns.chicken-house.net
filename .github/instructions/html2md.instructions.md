@@ -1,6 +1,7 @@
 ---
 applyTo: '_posts/*/*.html'
 ---
+
 # Convert HTML to Markdown
 
 ## Step 1: Define Variables
@@ -22,8 +23,10 @@ Define `post_id` as the file name without extension and `year` from the file pat
    - Convert HTML lists `<ul>`, `<ol>`, `<li>` to Markdown lists
 
 ## Step 3: Handle Images and Links
-3. **Skip Local Images**: Do NOT download images already hosted on `columns.chicken-house.net`, 
-4. change the image or link path to local path ( just left the path and query part of the URL, e.g. `/wp-content/uploads/2016/04/img_57000bc9912e2.png` )
+
+1. **Skip Local Images**: Do NOT download images already hosted on `columns.chicken-house.net`, 
+2. change the image or link path to local path ( just left the path and query part of the URL, e.g. `/wp-content/uploads/2016/04/img_57000bc9912e2.png` )
+3. do not allow local relative path, all images should be absolute path, start with `/wp-content/`.
 
 
 ## Step 4: Output
