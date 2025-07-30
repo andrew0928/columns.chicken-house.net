@@ -21,8 +21,9 @@ Define `post_id` as the file name without extension and `year` from the file pat
    - Convert HTML headings `<h1>`, `<h2>`, etc. to `#`, `##`, etc.
    - Convert HTML lists `<ul>`, `<ol>`, `<li>` to Markdown lists
 
-## Step 3: Handle Images
-3. **Skip Local Images**: Do NOT download images already hosted on `columns.chicken-house.net`, change the image path to local path ( just left the path and query part of the URL, e.g. `/wp-content/uploads/2016/04/img_57000bc9912e2.png` )
+## Step 3: Handle Images and Links
+3. **Skip Local Images**: Do NOT download images already hosted on `columns.chicken-house.net`, 
+4. change the image or link path to local path ( just left the path and query part of the URL, e.g. `/wp-content/uploads/2016/04/img_57000bc9912e2.png` )
 
 
 ## Step 4: Output
@@ -40,3 +41,9 @@ After conversion, verify each image:
 ## Error Handling
 - If external image download fails, report the URL and continue processing
 - If conversion encounters malformed HTML, report the issue but continue processing
+
+
+## Step 6: Confirmation and Commit
+
+- Confirm the conversion is successful, remove origin HTML file.
+- Commit the changes to the repository with a message , include convert post_id, and the Validation Checklist.

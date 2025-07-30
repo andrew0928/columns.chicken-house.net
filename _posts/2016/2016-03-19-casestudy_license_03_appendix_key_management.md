@@ -1,8 +1,8 @@
 ---
 layout: post
-title: "[設計案例] "授權碼" 如何實作? #3 (補) - 金鑰的保護"
+title: "[設計案例] 授權碼 如何實作? #3 (補) - 金鑰的保護"
 categories:
-- "設計案例: "授權碼" 如何實作?"
+- "設計案例: 授權碼 如何實作?"
 tags: [".NET","C#","專欄","技術隨筆"]
 published: true
 comments: true
@@ -11,7 +11,6 @@ redirect_from:
 wordpress_postid: 915
 ---
 
-![](http://traka.fr/img/headers/gestion-des-clefs-traka.jpg)
 
 前一篇 #3 介紹了[如何利用 "數位簽章" 簡單又可靠的做好 "授權碼" 的驗證](/2016/02/24/casestudy_license_03_digital_signature/)，主要都在說明程式架構的實作，沒有對實際運作的情況做太多補充，這篇就來補足這些遺漏的部分。運用這些公開的加密演算法，既安全又可靠，不過這些東西大家都拿的到啊，因此安全與否，完全取決於你的金鑰是否有妥善的被管理。
 

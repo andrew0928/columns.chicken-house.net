@@ -1,8 +1,8 @@
 ---
 layout: post
-title: "[設計案例] \"授權碼\" 如何實作?  #3, 數位簽章"
+title: "[設計案例]  授權碼 如何實作?  #3, 數位簽章"
 categories:
-- "設計案例: "授權碼" 如何實作?"
+- "設計案例: 授權碼 如何實作?"
 tags: [".NET","ASP.NET","C#","專欄","技術隨筆","物件導向"]
 published: true
 comments: true
