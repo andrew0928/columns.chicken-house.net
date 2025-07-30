@@ -11,8 +11,6 @@ redirect_from:
 wordpress_postid: 790
 ---
 
-[![圖片來源: 敗家鬼附身~~](http://blog.roodo.com/farfang/9a14d796.jpg)](http://reader.roodo.com/farfang/archives/7965199.html)
-
 說到個人用的 server, 我是相當有經驗的 XD，從當年念大學開始，就開始把 PC 開著放宿舍連回去或是給同學用，這習慣一直到現在都有，只是設備從自己用的 PC，換到[準備專用的 PC SERVER](/2008/05/12/next-ten-years/)，再到 NAS .. 不過自從開始認真研究 docker, 加上想用 docker 認真的執行一些服務後 (例如這個 BLOG 用的 wordpress), NAS 貧弱的效能問題就被凸顯出來，所以前幾個月才[弄了台要被報廢的 NoteBook 當作 Linux Server](/2015/10/24/終於搞定-ubuntu-server-15-10/).. NB 當 server 有很多好處，但是畢竟不是長久之計，而這台 NB 的 CPU 也不怎麼樣，將來也是個瓶頸，於是就一直有在物色其他適合的替代方案，反正沒有立即的需求，就騎驢找馬有空就看看，直到....
 
 <!--more-->
