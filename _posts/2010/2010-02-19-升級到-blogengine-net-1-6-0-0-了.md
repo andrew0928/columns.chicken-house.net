@@ -1,0 +1,25 @@
+---
+layout: post
+title: "升級到 BlogEngine.NET 1.6.0.0 了!"
+categories:
+
+tags: ["BlogEngine.NET","有的沒的"]
+published: true
+comments: true
+permalink: "/2010/02/19/升級到-blogengine-net-1-6-0-0-了/"
+redirect_from:
+  - /columns/post/2010/02/19/e58d87e7b49ae588b0-BlogEngineNET-1600-e4ba86!.aspx/
+  - /post/2010/02/19/e58d87e7b49ae588b0-BlogEngineNET-1600-e4ba86!.aspx/
+  - /post/e58d87e7b49ae588b0-BlogEngineNET-1600-e4ba86!.aspx/
+  - /columns/2010/02/19/e58d87e7b49ae588b0-BlogEngineNET-1600-e4ba86!.aspx/
+  - /columns/e58d87e7b49ae588b0-BlogEngineNET-1600-e4ba86!.aspx/
+wordpress_postid: 21
+---
+
+1.6.0.0 出來一陣子了，不過到過年才有空升級... 主要的原因只有一個，就是最近 spam comments 實在太多了 =_=，新版對於這類問題的處理比較像樣一點..
+
+其它改進還有 nested comments 跟其它一堆改進，就不一一列出來了，有興趣的人可到[官方網站](http://www.codeplex.com/blogengine)去看看。
+
+試了一下，升級後沒啥大問題，除了 CSS 有點走樣之外... 如果各位有發現什麼地方漏掉了，請再通知我 :D
+
+祝大家新年快樂 :D
