@@ -3,24 +3,40 @@ applyTo: '_posts/*/*.html'
 ---
 # Convert HTML to Markdown
 
-define post_id, it is the file name without extension.
-ex: /_posts/2016/2016-04-29-rancher-on-azure-lab.html, the post id is ```2016-04-29-rancher-on-azure-lab```, and the publish date is ```2016-04-29```
+## Step 1: Define Variables
+Define `post_id` as the file name without extension and `year` from the file path.
+
+**Example:** 
+- Input: `/_posts/2016/2016-04-29-rancher-on-azure-lab.html`
+- `post_id` = `2016-04-29-rancher-on-azure-lab`
+- `year` = `2016`
+- `publish_date` = `2016-04-29`
+
+## Step 2: Convert Content
+1. **Preserve YAML frontmatter** - Keep the YAML header unchanged (between `---` markers)
+2. **Convert HTML to Markdown**:
+   - Remove all HTML tags (`<p>`, `<div>`, `<span>`, etc.)
+   - Convert `<code>` blocks to Markdown code blocks (` ```language `)
+   - Convert HTML links `<a href="...">text</a>` to `[text](...)`
+   - Convert HTML headings `<h1>`, `<h2>`, etc. to `#`, `##`, etc.
+   - Convert HTML lists `<ul>`, `<ol>`, `<li>` to Markdown lists
+
+## Step 3: Handle Images
+3. **Skip Local Images**: Do NOT download images already hosted on `columns.chicken-house.net`, change the image path to local path ( just left the path and query part of the URL, e.g. `/wp-content/uploads/2016/04/img_57000bc9912e2.png` )
 
 
+## Step 4: Output
+Create the converted file at the same path as the original HTML file, but with a `.md` extension.
 
-convert html content to markdown format
-keep yaml part, do not change it ( requirement: frontmatter format)
+**Example:**
+- Input: `/_posts/2016/2016-04-29-rancher-on-azure-lab.html`
+- Output: `/_posts/2016/2016-04-29-rancher-on-azure-lab.md`
 
-download external images to /wp-content/images/{post_id}/* and update images path to /wp-content/images/{post_id}/*
-exclude myself hosted images, do not download them ( *.chicken-house.net)
+## Step 5: Validation Checklist
+After conversion, verify each image:
+- [ ] Alert if any referenced image file is missing from the local directory
+- [ ] Report any download failures for external images
 
-remove all html tags
-
-convert code blocks ( <code> ) to markdown code blocks ( ```language )
-
-output markdown file to _posts/{year}/{post_id}.md
-
-
---
-check list:
-- [ ] check each image tag, confirm the image is a local file and is in the right folder. if not exist, please alert me.
+## Error Handling
+- If external image download fails, report the URL and continue processing
+- If conversion encounters malformed HTML, report the issue but continue processing
