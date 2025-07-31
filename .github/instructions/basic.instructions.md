@@ -94,9 +94,17 @@ wordpress_postid: 數字ID（如適用）
    mv "舊檔名.md" "新檔名.md"
    ```
 
-5. **準備 disqus 轉移網址對應** (未決定怎麼做)
-   - 參考資訊: [Disqus URL Mapping](https://help.disqus.com/en/articles/1717101-using-url-mapping-to-redirect-comments)
-   - 需要在 Disqus 後台設定新的 URL 對應: https://andrew0928.disqus.com/admin/discussions/migrate/
+5. **準備 disqus 轉移網址對應**
+   輸出 /url-mapping.txt 檔案，附加新舊網址對應, 附加一行, 用逗號分隔, 格式為: {舊網址},{新網址}
+   新網址從檔名解析, 例如 2024-07-11-llm-app-development-experience-sharing.md 對應的網址是 /2024/07/11/llm-app-development-experience-sharing/
+
+   範例如下:
+   ```txt
+   /2024/07/11/llm-app-開發經驗分享/,/2024/07/11/llm-app-development-experience-sharing/
+   ```
+   
+   <!-- - 參考資訊: [Disqus URL Mapping](https://help.disqus.com/en/articles/1717101-using-url-mapping-to-redirect-comments)
+   - 需要在 Disqus 後台設定新的 URL 對應: https://andrew0928.disqus.com/admin/discussions/migrate/ -->
 
 ### 2.2 HTML 轉換為 Markdown 格式
 
