@@ -95,7 +95,7 @@ wordpress_postid: 數字ID（如適用）
    ```
 
 5. **準備 disqus 轉移網址對應**
-   輸出 /url-mapping.txt 檔案，附加新舊網址對應, 附加一行, 用逗號分隔, 格式為: {舊網址},{新網址}
+   輸出 /_migration/url-mapping.txt 檔案，附加新舊網址對應, 附加一行, 用逗號分隔, 格式為: {舊網址},{新網址}
    新網址從檔名解析, 例如 2024-07-11-llm-app-development-experience-sharing.md 對應的網址是 /2024/07/11/llm-app-development-experience-sharing/
 
    範例如下:
@@ -103,9 +103,6 @@ wordpress_postid: 數字ID（如適用）
    /2024/07/11/llm-app-開發經驗分享/,/2024/07/11/llm-app-development-experience-sharing/
    ```
    
-   <!-- - 參考資訊: [Disqus URL Mapping](https://help.disqus.com/en/articles/1717101-using-url-mapping-to-redirect-comments)
-   - 需要在 Disqus 後台設定新的 URL 對應: https://andrew0928.disqus.com/admin/discussions/migrate/ -->
-
 ### 2.2 HTML 轉換為 Markdown 格式
 
 #### 變數定義
@@ -128,28 +125,6 @@ publish_date = yyyy-mm-dd 格式
    - 輸入: `/_posts/2016/2016-04-29-example.html`
    - 輸出: `/_posts/2016/2016-04-29-example.md`
 
-### 2.3 圖檔路徑正規化
-
-#### 路徑處理規則
-1. **跳過本地圖片**: 不下載已在 `columns.chicken-house.net` 的圖片
-2. **轉換為本地路徑**: 只保留路徑和查詢參數部分
-   ```
-   原始: http://columns.chicken-house.net/wp-content/uploads/2016/04/img.png
-   轉換: /wp-content/uploads/2016/04/img.png
-   ```
-3. **絕對路徑規範**: 所有圖片路徑必須以 `/wp-content/` 開頭
-4. **禁用相對路徑**: 不允許 `../` 或 `./` 相對路徑
-
-#### 驗證檢查清單
-- [ ] 檢查引用的圖片檔案是否存在於本地目錄
-- [ ] 報告任何外部圖片下載失敗的 URL
-- [ ] 確認所有圖片路徑都是絕對路徑格式
-
-#### 錯誤處理
-- 外部圖片下載失敗時，記錄 URL 並繼續處理
-- 遇到格式錯誤的 HTML 時，報告問題但繼續轉換
-- 缺失的本地圖片檔案需要發出警告
-
 ### 2.4 Git 版本控制
 
 完成轉換後的提交流程：
@@ -163,6 +138,5 @@ git add 原檔案.html
 # 提交變更，包含轉換資訊和驗證清單
 git commit -m "convert post_id: 檔案名稱
 - 轉換 HTML 到 Markdown
-- 驗證圖片路徑
 - 更新轉導設定"
 ```
