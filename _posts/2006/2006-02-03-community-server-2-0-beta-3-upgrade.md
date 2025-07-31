@@ -19,6 +19,8 @@ wordpress_postid: 234
 
 雖然平常啥軟體有新版, 我都會手癢的想換來看看, 不過這套 BLOG ( CommunityServer ) 倒是特例, 從 1.0 release 後就再也沒動過了, 為的當然就是我自己加的那堆功能...
 
+<!--more-->
+
 [.TEXT 的編輯介面補強 (自己爽一下)..](/post/TEXT-e79a84e7b7a8e8bcafe4bb8be99da2e8a39ce5bcb7-(e887aae5b7b1e788bde4b880e4b88b).aspx)
 
 [修改 Community Server 的 blog editor](/post/e4bfaee694b9-Community-Server-e79a84-blog-editor.aspx)

@@ -1,6 +1,11 @@
 # 批次作業流水帳記錄
 
-## 2025-01-31 - 處理 _posts/2006/* 檔案正規化
+## 2025-01-31 - 處理 _posts/2006/* 檔案正規Thu Jul 31 22:00:29 CST 2025: 2006-11-11-沒網路.html - 轉換為 2006-11-11-no-internet-connection.md，HTML轉Markdown，更新url-mapping.txt
+Thu Jul 31 22:00:30 CST 2025: 開始處理: 2006-11-12-ie6-縮放網頁-using-css-htc.html
+Thu Jul 31 22:00:33 CST 2025: 2006-11-12-ie6-縮放網頁-using-css-htc.html - 轉換為 2006-11-12-ie6-zoom-webpage-using-css-htc.md，HTML轉Markdown，更新url-mapping.txt
+Thu Jul 31 22:00:34 CST 2025: 開始處理: 2006-11-17-canon-digital-camera-記憶卡歸檔工具-release-notes.html
+Thu Jul 31 22:00:37 CST 2025: 2006-11-17-canon-digital-camera-記憶卡歸檔工具-release-notes.html - 轉換為 2006-11-17-canon-digital-camera-organizer-release-notes.md，HTML轉Markdown，更新url-mapping.txt
+Thu Jul 31 22:00:38 CST 2025: 開始處理: 2006-11-19-ya-community-chicken-house-net-滿兩週年了-d.html
 
 [2025-01-31 08:00] 開始批次作業任務
 [2025-01-31 08:00] 建立 _tasks.md 檔案，共 36 個檔案需要處理
@@ -32,3 +37,25 @@ Thu Jul 31 21:16:29 CST 2025: 2006-10-26-泛型-singleton-patterns.html - 轉換
 Thu Jul 31 21:21:19 CST 2025: 2006-10-27-泛型-singleton-patterns-ii.html - 轉換為 2006-10-27-generic-singleton-patterns-ii.md，HTML轉Markdown，更新url-mapping.txt
 Thu Jul 31 21:23:12 CST 2025: 2006-10-28-asp-net-tips-launch-asp-net-web-sites-without-iis-vs2005.html - HTML轉Markdown完成
 Thu Jul 31 21:27:56 CST 2025: 2006-10-29-利用-nunitlite-在-app_code-下寫單元測試.html - 轉換為 2006-10-29-using-nunitlite-in-app-code-for-unit-testing.md，HTML轉Markdown，更新url-mapping.txt
+
+## 2025-07-31 繼續處理剩餘 2006 HTML 檔案
+
+Thu Jul 31 22:00:00 CST 2025: 開始新的批次作業任務 - 處理剩餘的中文檔名 HTML 檔案
+Thu Jul 31 22:00:01 CST 2025: 更新 _tasks.md，新增任務清單 - 共 14 個檔案待處理
+Thu Jul 31 22:00:02 CST 2025: 開始處理: 2006-10-29-替-app_code-目錄下的-code-寫單元測試.html
+Thu Jul 31 22:00:05 CST 2025: 2006-10-29-替-app_code-目錄下的-code-寫單元測試.html - 轉換為 2006-10-29-writing-unit-tests-for-app-code-directory.md，HTML轉Markdown，更新url-mapping.txt
+Thu Jul 31 22:00:06 CST 2025: 開始處理: 2006-10-31-新硬碟-hitachi-travelstar-5k160.html
+Thu Jul 31 22:00:09 CST 2025: 2006-10-31-新硬碟-hitachi-travelstar-5k160.html - 轉換為 2006-10-31-new-hard-drive-hitachi-travelstar-5k160.md，HTML轉Markdown，更新url-mapping.txt
+Thu Jul 31 22:00:10 CST 2025: 開始處理: 2006-11-03-canon-digital-camera-相機獨享-記憶卡歸檔工具.html
+Thu Jul 31 22:00:13 CST 2025: 2006-11-03-canon-digital-camera-相機獨享-記憶卡歸檔工具.html - 轉換為 2006-11-03-canon-digital-camera-memory-card-organizer-tool.md，HTML轉Markdown，更新url-mapping.txt
+Thu Jul 31 22:00:14 CST 2025: 開始處理: 2006-11-04-canon-digital-camera-記憶卡歸檔工具-raw-support-update.html
+Thu Jul 31 22:00:17 CST 2025: 2006-11-04-canon-digital-camera-記憶卡歸檔工具-raw-support-update.html - 轉換為 2006-11-04-canon-digital-camera-organizer-raw-support-update.md，HTML轉Markdown，更新url-mapping.txt
+Thu Jul 31 22:00:18 CST 2025: 開始處理: 2006-11-04-小紅點缺料-lenovo-sucks.html
+Thu Jul 31 22:00:21 CST 2025: 2006-11-04-小紅點缺料-lenovo-sucks.html - 轉換為 2006-11-04-trackpoint-out-of-stock-lenovo-sucks.md，HTML轉Markdown，更新url-mapping.txt
+Thu Jul 31 22:00:22 CST 2025: 開始處理: 2006-11-11-css-擋右鍵.html
+Thu Jul 31 22:00:25 CST 2025: 2006-11-11-css-擋右鍵.html - 轉換為 2006-11-11-css-disable-right-click.md，HTML轉Markdown，更新url-mapping.txt
+Thu Jul 31 22:00:26 CST 2025: 開始處理: 2006-11-11-沒網路.html
+Thu Jul 31 22:00:29 CST 2025: 2006-11-11-沒網路.html - 轉換為 2006-11-11-no-internet-connection.md，HTML轉Markdown，更新url-mapping.txt
+2025-01-17 12:50:30 - Successfully converted to 2006-11-19-community-chicken-house-net-two-year-anniversary.md
+2025-01-17 23:17:52 - Successfully converted to 2006-11-19-community-chicken-house-net-two-year-anniversary.md
+2025-07-31 23:18:55 - Successfully converted to 2006-11-19-community-chicken-house-net-two-year-anniversary.md

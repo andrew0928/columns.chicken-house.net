@@ -104,6 +104,8 @@ Step 5. Deploy Web, 調整好各項 configuration, 啟用前先點一下 NUnitLi
 
 如果你剛好也碰到, 就直接按右鍵選 view source 就好...
 
+<!--more-->
+
 ---
 ```
 NUnitLite version 0.1.0

@@ -21,6 +21,8 @@ wordpress_postid: 219
 
 只有單一 class 要實作 singleton 很簡單, 只要寫這樣的 code 就可以:
 
+<!--more-->
+
 ```csharp
 public class SampleSingletonClass
 {

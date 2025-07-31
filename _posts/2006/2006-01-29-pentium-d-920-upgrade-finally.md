@@ -23,6 +23,8 @@ wordpress_postid: 235
 
 其實換機的動機不只雙核啦, 本來 820 在那邊龜半天, 後來看到 920 才毫不考慮的敗下去, 因為下列幾個功能都是我需要的:
 
+<!--more-->
+
 1. Dual Core 
 2. VT ( Intel virtualization technology ) 
 3. EM64T 

@@ -19,6 +19,8 @@ wordpress_postid: 316
 
 花了幾個晚上寫了這幾個 ASP.NET HttpHandler, 貼上來現一下... 寫這些東西的起因都只有一個字, 就是"懶"!! 科技果然都是來自惰性...
 
+<!--more-->
+
 1. ChickenHouse.Web.HttpHandlers.MediaServiceHttpHandler
 
 > video / audio file 直接放網頁, 很吃頻寬, 尤其我這種用ADSL架的小站沒有頻寬可以揮豁, 只好把這種大檔案放在 windows media service. 不過老實說挺麻煩的, 我自己都嫌麻煩了, 還要教會老婆大人什麼時後要用 http://www.chicken-house.net, 什麼時後要用 mms://www.chicken-house.net, ... !@#%@^&

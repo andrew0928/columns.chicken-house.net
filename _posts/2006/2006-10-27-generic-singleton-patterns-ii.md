@@ -30,6 +30,8 @@ public class GenericSingletonBase<T>
 }
 ```
 
+<!--more-->
+
 沒看錯, 就是只有這幾行... 接下來貼的 code 是, 如果我自己要實作 singleton pattern 的 class 時, 該如何來用這個 lib:
 
 ```csharp

@@ -21,6 +21,8 @@ wordpress_postid: 243
 
 S2 IS 跟 G2 比, 優點有:
 
+<!--more-->
+
 1. DIGIC II 晶片, 拍 video 的效果很好, 開機對焦都很快... ![emotion-21](/Emoticons/emotion-21.gif)![emotion-21](/Emoticons/emotion-21.gif)![emotion-21](/Emoticons/emotion-21.gif)![emotion-21](/Emoticons/emotion-21.gif)![emotion-21](/Emoticons/emotion-21.gif)
 2. 有防手震... ![emotion-21](/Emoticons/emotion-21.gif)![emotion-21](/Emoticons/emotion-21.gif)![emotion-21](/Emoticons/emotion-21.gif)
 3. 用三號電池, 省錢 ![emotion-21](/Emoticons/emotion-21.gif)![emotion-21](/Emoticons/emotion-21.gif)![emotion-21](/Emoticons/emotion-21.gif)

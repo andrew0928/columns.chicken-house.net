@@ -21,6 +21,8 @@ wordpress_postid: 228
 
 因為這一點被卡了很久, 加上 2.0 新的 Theme Model, Orz, 想要在畫面加一段字, 要找到在那裡加是最麻煩的地方, 找到之後一切就簡單多了... 研究了半天加上官方網站的討論, 總算研究出來該如何下手...
 
+<!--more-->
+
 最後的方法大致是這樣, CS 的 "Post" 物件, 代表了 CS 裡主要的幾種資料型態, 包括 blog 文章, blog comment, forum 的討論串, album 裡的相片... etc, 所以透過 DataProvider可以拿出原始資料, 會用 WeblogPost 型態的物件傳回.
 
 另外 Theme 則沒那麼簡單... 每個 Theme Control 都會對應到同名的 Skin-#####.ascx, 因此在每套 theme file 裡會去引用到這些 user control, 同時 user control 裡必需再定義 child control, 剩下的動作你得自己在 dll 裡處理好..

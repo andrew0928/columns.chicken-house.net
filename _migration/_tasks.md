@@ -49,3 +49,30 @@
 - [ ] 2006-12-23-歸檔工具更新-cr2-supported.html
 - [ ] 2006-12-25-background-thread-in-asp-net.html
 - [ ] 2006-12-30-background-thread-in-asp-net-ii.html
+
+## Convert Remaining 2006 HTML Posts to Markdown - 2025-07-31
+
+### Original Requirement
+Convert remaining /_posts/2006/*.html files that need Chinese filename conversion and HTML to Markdown conversion.
+
+### Instructions Applied
+- File: batch.instructions.md - Batch processing workflow
+- File: basic.instructions.md - File structure and conversion rules
+
+### Remaining Task Checklist for files with Chinese filenames
+
+- [x] 2006-10-29-替-app_code-目錄下的-code-寫單元測試.html (success)
+- [x] 2006-10-31-新硬碟-hitachi-travelstar-5k160.html (success)
+- [x] 2006-11-03-canon-digital-camera-相機獨享-記憶卡歸檔工具.html (success)
+- [x] 2006-11-04-canon-digital-camera-記憶卡歸檔工具-raw-support-update.html (success)
+- [x] 2006-11-04-小紅點缺料-lenovo-sucks.html (success)
+- [x] 2006-11-11-css-擋右鍵.html (success)
+- [x] 2006-11-11-沒網路.html (success)
+- [x] 2006-11-12-ie6-縮放網頁-using-css-htc.html (success)
+- [x] 2006-11-17-canon-digital-camera-記憶卡歸檔工具-release-notes.html (success)
+- [x] 2006-11-19-ya-community-chicken-house-net-滿兩週年了-d.html (success)
+- [x] 2006-12-10-又來了.html (success)
+- [x] 2006-12-10-升級失敗-orz.html (success)
+- [x] 2006-12-10-終於升級上來了.html (success)
+- [x] 2006-12-23-歸檔工具更新-cr2-supported.html (success)
+- [x] 2006-12-30-background-thread-in-asp-net-ii.html (success)

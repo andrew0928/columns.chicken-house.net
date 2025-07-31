@@ -25,6 +25,8 @@ wordpress_postid: 317
 
 "再不處理不行了!!"
 
+<!--more-->
+
 過去兩個禮拜, 我的 server 就一直忙著在處理這堆檔案, 晚上下班回家, 我的 X31 也湊一腳幫忙壓檔案, 每壓完一個檔, 就要用滑鼠去點一下, 做久了也是很麻煩.. 沒兩天就受不了了. 果然懶惰才是科技進步的原動力, 花了點時間研究 [Microsoft Media Encoder 9.0](http://www.microsoft.com/windows/windowsmedia/tw/default.aspx), 寫了簡單的批次檔, 只要檔案 copy 到固定的目錄, 批次檔就會自動處理這堆巨大的 DV-AVI , 同樣的檔案會分別壓成五種不同用途的 wmv 檔:
 
 1. 720x480, 2.1MBps, 保留最好的 DVD 畫質, 燒起來備份
