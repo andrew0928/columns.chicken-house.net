@@ -17,10 +17,9 @@ redirect_from:
   - /blogs/chicken/archive/2004/12/26/226.aspx/
 wordpress_postid: 295
 ---
-<p>
-<img src="/wp-content/be-files/artefact/LIGHT-160x120.gif" alt="" width="160" height="120" /><br />
-這是大四去修資科系的&ldquo;電腦圖學&rdquo;的作業... 
-</p>
-<p>
-<a href="/wp-content/be-files/articles/195.aspx">全文網址</a> 
-</p>
+
+![跳動的檯燈](/wp-content/be-files/artefact/LIGHT-160x120.gif)
+
+這是大四去修資科系的"電腦圖學"的作業... 
+
+[全文網址](/wp-content/be-files/articles/195.aspx)
