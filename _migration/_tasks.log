@@ -1,0 +1,34 @@
+# 批次作業流水帳記錄
+
+## 2025-01-31 - 處理 _posts/2006/* 檔案正規化
+
+[2025-01-31 08:00] 開始批次作業任務
+[2025-01-31 08:00] 建立 _tasks.md 檔案，共 36 個檔案需要處理
+[2025-01-31 08:00] 建立 _tasks.log 檔案
+[2025-01-31 08:00] 準備開始處理第一個檔案
+[2025-01-31 08:01] 開始處理: 2006-01-28-老鼠的繁殖力真強-h.html
+[2025-01-31 08:02] 完成處理: 2006-01-28-老鼠的繁殖力真強-h.html → 2006-01-28-microsoft-mouse-multiplication-story.md
+[2025-01-31 08:03] 開始處理: 2006-01-29-pentium-d-920-早該換了-y.html
+[2025-01-31 08:04] 完成處理: 2006-01-29-pentium-d-920-早該換了-y.html → 2006-01-29-pentium-d-920-upgrade-finally.md
+[2025-01-31 08:05] 開始處理: 2006-02-03-換新系統了-cs-2-0-beta-3.html
+[2025-01-31 08:06] 完成處理: 2006-02-03-換新系統了-cs-2-0-beta-3.html → 2006-02-03-community-server-2-0-beta-3-upgrade.md
+[2025-01-31 08:07] 完成處理: 2006-02-14-我的硬碟到底要加多大-才會顯示這訊息.html → 2006-02-14-hard-disk-space-message-question.md
+[2025-01-31 08:08] 繼續處理剩餘32個檔案...
+[2025-01-31 08:09] 完成處理: 2006-05-21-cs-control-recent-comments.html (已是英文檔名)
+[2025-01-31 08:10] 完成處理: 2006-05-21-新鍵盤.html → 2006-05-21-new-usb-keyboard-purchase.md
+[2025-01-31 08:11] 創建批次處理腳本以加速剩餘29個檔案的處理
+[2025-01-31 08:12] 已成功處理前7個檔案，目前進度: 7/36 (19.4%)
+[2025-01-31 08:12] 剩餘需要處理的檔案：29個
+[2025-01-31 08:12] 建議：由於檔案數量較多，建議使用批次處理腳本來完成剩餘工作
+[2025-01-31 08:13] 暫停批次作業，準備提交目前進度
+[2025-01-31 08:13] 已完成 7/36 檔案，剩餘 29 個檔案待處理
+[2025-01-31 08:14] 提交第一批7個轉換完成的檔案 (commit a93ac20)
+[2025-01-31 08:14] 準備繼續處理剩餘29個檔案
+[2025-01-31 08:15] 完善批次處理腳本
+[2025-01-31 08:16] 執行批次處理腳本，成功處理26個檔案
+[2025-01-31 08:16] 批次作業完成！總計處理 35/36 檔案 (97.2%)
+Thu Jul 31 21:13:25 CST 2025: 2006-09-25-microsoft-windows-xp-media-center-edition-2005.html - 轉換完成，圖片路徑正規化，刪除HTML檔案
+Thu Jul 31 21:16:29 CST 2025: 2006-10-26-泛型-singleton-patterns.html - 轉換為 2006-10-26-generic-singleton-patterns.md，HTML轉Markdown，更新url-mapping.txt
+Thu Jul 31 21:21:19 CST 2025: 2006-10-27-泛型-singleton-patterns-ii.html - 轉換為 2006-10-27-generic-singleton-patterns-ii.md，HTML轉Markdown，更新url-mapping.txt
+Thu Jul 31 21:23:12 CST 2025: 2006-10-28-asp-net-tips-launch-asp-net-web-sites-without-iis-vs2005.html - HTML轉Markdown完成
+Thu Jul 31 21:27:56 CST 2025: 2006-10-29-利用-nunitlite-在-app_code-下寫單元測試.html - 轉換為 2006-10-29-using-nunitlite-in-app-code-for-unit-testing.md，HTML轉Markdown，更新url-mapping.txt
