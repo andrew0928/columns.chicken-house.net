@@ -6,8 +6,8 @@ categories:
 tags: ["有的沒的"]
 published: true
 comments: true
-permalink: "/2005/04/08/真可惡-不想用-skype-了/"
 redirect_from:
+  - /2005/04/08/真可惡-不想用-skype-了/
   - /columns/post/2005/04/08/e79c9fe58fafe683a12c-e4b88de683b3e794a8-skype-e4ba86-.aspx/
   - /post/2005/04/08/e79c9fe58fafe683a12c-e4b88de683b3e794a8-skype-e4ba86-.aspx/
   - /post/e79c9fe58fafe683a12c-e4b88de683b3e794a8-skype-e4ba86-.aspx/
@@ -17,8 +17,8 @@ redirect_from:
 wordpress_postid: 260
 ---
 
-		<p>嘖....</p>
-		<p>URL: <a href="http://www.skype.com/intl/">http://www.skype.com/intl/</a></p>
-		<p>
-				<img height="741" alt="skype-international.gif" src="/wp-content/be-files/skype-international.gif" width="993" border="0" />
-		</p>
+嘖....
+
+URL: [http://www.skype.com/intl/](http://www.skype.com/intl/)
+
+![Skype International](/wp-content/be-files/skype-international.gif)
