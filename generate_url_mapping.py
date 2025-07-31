@@ -87,7 +87,7 @@ def process_markdown_files(base_path, years):
 
 def main():
     base_path = Path(__file__).parent
-    years = [2004, 2005]
+    years = [2004, 2005, 2006]
     
     print("Generating URL mapping from redirect_from data...")
     print("=" * 60)
