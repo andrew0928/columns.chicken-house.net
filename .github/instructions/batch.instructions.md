@@ -24,4 +24,18 @@ _tasks.md, _tasks.log, 這兩個檔案統一放置於 /_migration 目錄下。
    - 當處理成功時, 將 checklist 改為 `- [x] {filename} (success)`
 5. 處理過程, 請記錄流水帳至 _tasks.log, 標記時間跟 filename
 
-若下次不明原因重新處理, 請沿用同樣的 instructions, 及同樣的檔案清單, 從第一個非 success 的檔案開始處理。
+# 整體任務處理原則
+
+請先判定 terminal 環境是 Linux 還是 Windows, 並且依照以下原則處理。
+我觀察到你的習性常常會在 wsl 下嘗試使用 \\wsl.local\Ubuntu\home\{username} 的路徑, 這是錯誤的, 請不要這樣做。
+
+在 Linux 環境下, 請使用 /home/{username} 的路徑。
+在 Windows 環境下, 請使用 C:\Users\{username} 的路徑。
+
+若下次不明原因重新處理, 請沿用同樣的 instructions, 及同樣的檔案清單, 從第一個非 success 的檔案開始處理。若碰到 processing 的項目, 請先將其改為 failed 後再重新處理。
+
+你可以把 _tasks.md 當作任務筆記, 如果你處理過程中除了 checklist 外還有其他需要記錄的事項, 請在 _tasks.md 中新增段落 (##) 記錄。
+
+若批次作業順利全部完成, 或是決定放棄重新建立新的批次作業, 請用 requirement 的意圖 (縮減至 3 個英文單字內) 當作 title 將 _tasks.md 重新命名為 _tasks_{title}_{date}.md, 重新啟動新的批次作業。
+
+我知道要處理的檔案很多，這些內容我都確認過無法用自動化工具處理 (或是產生 python code 處理也一樣)，請務必依照這些步驟手動處理。
