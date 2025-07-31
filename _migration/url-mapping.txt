@@ -76,7 +76,18 @@ https://columns.chicken-house.net/2006/02/26/ipod-領帶/, https://columns.chick
 /2006/12/10/終於升級上來了/,/2006/12/10/finally-upgraded-successfully/
 /2006/12/23/歸檔工具更新-cr2-supported/,/2006/12/23/digital-camera-organizer-cr2-support-update/
 /2006/12/29/background-thread-in-asp-net-ii/,/2006/12/30/background-thread-in-asp-net-ii/
-/2007/01/01/敗家新目標-dopod-c720w/,/2007/01/01/new-gadget-target-dopod-c720w/
+https://columns.chicken-house.net/2007/01/01/敗家新目標-dopod-c720w/, https://columns.chicken-house.net/2007/01/01/new-gadget-target-dopod-c720w/
+https://columns.chicken-house.net/2007/02/03/新手機真是讚-y-ii/, https://columns.chicken-house.net/2007/02/03/new-phone-awesome-part-ii/
+https://columns.chicken-house.net/2007/02/07/windows-live-writer-plugin-處女作/, https://columns.chicken-house.net/2007/02/07/windows-live-writer-plugin-first-work/
+https://columns.chicken-house.net/2007/02/12/generic-type-的繼承/, https://columns.chicken-house.net/2007/02/12/generic-type-inheritance/
+https://columns.chicken-house.net/2007/02/13/好樣的多普達/, https://columns.chicken-house.net/2007/02/14/good-job-dopod/
+https://columns.chicken-house.net/2007/02/16/web-site-application-sandcastle/, https://columns.chicken-house.net/2007/02/16/web-site-application-sandcastle/
+https://columns.chicken-house.net/2007/02/17/community-server-2007-beta-1-available-now/, https://columns.chicken-house.net/2007/02/18/community-server-2007-beta-1-available-now/
+https://columns.chicken-house.net/2007/02/18/ie7-終於升級成功了/, https://columns.chicken-house.net/2007/02/19/ie7-finally-upgraded-successfully/
+https://columns.chicken-house.net/2007/02/22/network-bridge-in-windows-2003/, https://columns.chicken-house.net/2007/02/22/network-bridge-in-windows-2003/
+https://columns.chicken-house.net/2007/02/25/電腦也要過年/, https://columns.chicken-house.net/2007/02/25/computers-also-celebrate-new-year/
+https://columns.chicken-house.net/2007/02/28/如何在執行檔-net-裡附加額外的資料/, https://columns.chicken-house.net/2007/02/28/how-to-attach-additional-data-in-dotnet-executable/
+https://columns.chicken-house.net/2007/02/28/新手機真是讚-y-iii/, https://columns.chicken-house.net/2007/02/28/new-phone-awesome-part-iii/
 /2007/01/18/皮哥皮妹的年齡-user-control/,/2007/01/18/children-age-user-control/
 /2007/02/02/新手機真是讚-y/,/2007/02/02/new-phone-is-awesome/
 /2007/02/02/總算搬完了/,/2007/02/02/finally-moved-everything/
@@ -84,3 +95,9 @@ https://columns.chicken-house.net/2006/02/26/ipod-領帶/, https://columns.chick
 https://columns.chicken-house.net/2006/12/24/background-thread-in-asp-net/, https://columns.chicken-house.net/2006/12/25/background-thread-in-asp-net/
 https://columns.chicken-house.net/2006/12/06/volume-shadow-copy-service/, https://columns.chicken-house.net/2006/12/06/volume-shadow-copy-service/
 https://columns.chicken-house.net/2006/12/10/cs-2-1-sp2-metaweblog-api-newmediaobject-method-support/, https://columns.chicken-house.net/2006/12/10/cs-2-1-sp2-metaweblog-api-newmediaobject-method-support/
+/post/2007/04/23/Fiddler-e8b79f-TFS-e79bb8e8a19de79a84e5958fe9a18ce8a7a3e6b1ba-I.aspx/,/2007/04/23/fiddler-tfs-conflict-solution-part-1/
+/post/2007/04/24/Fiddler-e8b79f-TFS-e79bb8e8a19de79a84e5958fe9a18ce8a7a3e6b1ba-II.aspx/,/2007/04/24/fiddler-tfs-conflict-solution-part-2/
+/post/2007/05/05/e581b7e581b7e58d87e7b49ae588b0-CS2007-.aspx/,/2007/05/05/secretly-upgraded-to-cs2007/
+/post/2007/05/10/Canon-PowerShot-S5-IS-e587bae4be86e4ba86.aspx/,/2007/05/10/canon-powershot-s5-is-released/
+/post/2007/05/19/Ouch2c-e782bae4bb80e9babce6b292e69c89-c720w-.aspx/,/2007/05/19/ouch-why-no-c720w/
+/post/2007/05/19/e4b880e5808be4b880e890ace5a49ae79a84e7b0a1e5a0b1e599a8-Orz.aspx/,/2007/05/19/expensive-presentation-remote-controller-orz/

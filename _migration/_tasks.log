@@ -63,3 +63,38 @@ Thu Jul 31 22:00:29 CST 2025: 2006-11-11-沒網路.html - 轉換為 2006-11-11-n
 2025-07-31 23:18:55 - Successfully converted to 2006-11-19-community-chicken-house-net-two-year-anniversary.md
 Thu Jul 31 23:39:59 CST 2025: Starting processing 2007-01-01-敗家新目標-dopod-c720w.html
 Thu Jul 31 23:41:28 CST 2025: Completed processing 2007-01-01-敗家新目標-dopod-c720w.html -> 2007-01-01-new-gadget-target-dopod-c720w.md
+
+## 2025-08-01 - Convert 2007 HTML Files to Markdown
+
+[2025-08-01 08:00] 開始批次作業任務 - 轉換 _posts/2007/*.html 檔案
+[2025-08-01 08:01] 建立 _tasks.md 檔案，共 48 個檔案需要處理
+[2025-08-01 08:01] 準備開始處理第一個檔案
+[2025-08-01 08:02] 開始處理: 2007-02-03-新手機真是讚-y-ii.html
+[2025-08-01 08:03] 完成處理: 2007-02-03-新手機真是讚-y-ii.html → 2007-02-03-new-phone-awesome-part-ii.md
+[2025-08-01 08:04] 開始處理: 2007-02-07-windows-live-writer-plugin-處女作.html
+[2025-08-01 08:05] 完成處理: 2007-02-07-windows-live-writer-plugin-處女作.html → 2007-02-07-windows-live-writer-plugin-first-work.md
+[2025-08-01 08:06] 開始處理: 2007-02-12-generic-type-的繼承.html
+[2025-08-01 08:07] 完成處理: 2007-02-12-generic-type-的繼承.html → 2007-02-12-generic-type-inheritance.md
+[2025-08-01 08:08] 開始處理: 2007-02-14-好樣的多普達.html
+[2025-08-01 08:09] 完成處理: 2007-02-14-好樣的多普達.html → 2007-02-14-good-job-dopod.md
+[2025-08-01 08:10] 開始處理: 2007-02-16-web-site-application-sandcastle.html
+[2025-08-01 08:11] 完成處理: 2007-02-16-web-site-application-sandcastle.html → 2007-02-16-web-site-application-sandcastle.md
+[2025-08-01 08:12] 開始處理: 2007-02-18-community-server-2007-beta-1-available-now.html
+[2025-08-01 08:13] 完成處理: 2007-02-18-community-server-2007-beta-1-available-now.html → 2007-02-18-community-server-2007-beta-1-available-now.md
+[2025-08-01 08:14] 開始處理: 2007-02-19-ie7-終於升級成功了.html
+[2025-08-01 08:15] 完成處理: 2007-02-19-ie7-終於升級成功了.html → 2007-02-19-ie7-finally-upgraded-successfully.md
+[2025-08-01 08:16] 開始處理: 2007-02-22-network-bridge-in-windows-2003.html
+[2025-08-01 08:17] 完成處理: 2007-02-22-network-bridge-in-windows-2003.html → 2007-02-22-network-bridge-in-windows-2003.md
+[2025-08-01 08:18] 開始處理: 2007-02-25-電腦也要過年.html
+[2025-08-01 08:19] 完成處理: 2007-02-25-電腦也要過年.html → 2007-02-25-computers-also-celebrate-new-year.md
+[2025-08-01 08:20] 開始處理: 2007-02-28-如何在執行檔-net-裡附加額外的資料.html
+[2025-08-01 08:21] 完成處理: 2007-02-28-如何在執行檔-net-裡附加額外的資料.html → 2007-02-28-how-to-attach-additional-data-in-dotnet-executable.md
+[2025-08-01 08:22] 開始處理: 2007-02-28-新手機真是讚-y-iii.html
+[2025-08-01 08:23] 完成處理: 2007-02-28-新手機真是讚-y-iii.html → 2007-02-28-new-phone-awesome-part-iii.md
+2024-12-19 12:00:23 - SUCCESS: 2007-04-16-wmcmd-vbs-在-vista-下執行會導至-cscript-exe-發生錯誤.html → 2007-04-16-wmcmd-vbs-vista-cscript-error-fix.md (Chinese: wmcmd-vbs-在-vista-下執行會導至-cscript-exe-發生錯誤 → wmcmd-vbs-vista-cscript-error-fix)
+2024-12-19 12:00:24 - SUCCESS: 2007-04-23-fiddler-跟-tfs-相衝的問題解決-i.html → 2007-04-23-fiddler-tfs-conflict-solution-part-1.md (Chinese: fiddler-跟-tfs-相衝的問題解決-i → fiddler-tfs-conflict-solution-part-1)
+2024-12-19 12:00:25 - SUCCESS: 2007-04-24-fiddler-跟-tfs-相衝的問題解決-ii.html → 2007-04-24-fiddler-tfs-conflict-solution-part-2.md (Chinese: fiddler-跟-tfs-相衝的問題解決-ii → fiddler-tfs-conflict-solution-part-2)
+Fri Aug  1 01:29:15 CST 2025: Successfully converted 2007-05-05-偷偷升級到-cs2007.html → 2007-05-05-secretly-upgraded-to-cs2007.md (Chinese: '偷偷升級到-cs2007' = 'secretly-upgraded-to-cs2007')
+Fri Aug  1 01:32:51 CST 2025: Successfully converted 2007-05-10-canon-powershot-s5-is-出來了.html → 2007-05-10-canon-powershot-s5-is-released.md (Chinese: '出來了' = 'released')
+Fri Aug  1 01:35:14 CST 2025: Successfully converted 2007-05-19-ouch-為什麼沒有-c720w.html → 2007-05-19-ouch-why-no-c720w.md (Chinese: '為什麼沒有' = 'why-no')
+Fri Aug  1 01:38:11 CST 2025: Successfully converted 2007-05-19-一個一萬多的簡報器-orz.html → 2007-05-19-expensive-presentation-remote-controller-orz.md (Chinese: '一個一萬多的簡報器' = 'expensive-presentation-remote-controller')

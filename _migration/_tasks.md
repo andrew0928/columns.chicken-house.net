@@ -1,0 +1,64 @@
+## Convert 2007 HTML File  - [x] 2007-03-02-spam-comments-and-captcha.html (success) to Markdown - 2025-08-01
+
+### Original Requirement
+Convert /_posts/2007/*.html files:
+1. Convert Chinese filenames to English following basic.instructions.md naming conventions
+2. Convert HTML content to markdown format
+3. Follow file structure and YAML frontmatter rules from basic.instructions.md
+
+### Instructions Applied
+- basic.instructions.md: File naming conventions, YAML frontmatter format, redirect_from handling
+- batch.instructions.md: Task tracking and progress management
+
+### Files to Process (48 HTML files)
+
+- [x] 2007-02-03-新手機真是讚-y-ii.html (success)
+- [x] 2007-02-07-windows-live-writer-plugin-處女作.html (success)
+- [x] 2007-02-12-generic-type-的繼承.html (success)
+- [x] 2007-02-14-好樣的多普達.html (success)
+- [x] 2007-02-16-web-site-application-sandcastle.html (success)
+- [x] 2007-02-18-community-server-2007-beta-1-available-now.html (success)
+- [x] 2007-02-19-ie7-終於升級成功了.html (success)
+- [x] 2007-02-22-network-bridge-in-windows-2003.html (success)
+- [x] 2007-02-25-電腦也要過年.html (success)
+- [x] 2007-02-28-如何在執行檔-net-裡附加額外的資料.html (success)
+- [x] 2007-02-28-新手機真是讚-y-iii.html (success)
+- [x] 2007-03-02-spam-comments-and-captcha.html (success)
+- [x] 2007-03-02-換新版面了-d.html → 2007-03-02-new-layout-design.md (success)
+- [x] 2007-03-13-如何透過命令列-從手機搬檔案到電腦.html → 2007-03-13-how-to-transfer-files-from-phone-via-command-line.md (success)
+- [x] 2007-03-27-升級-vista.html → 2007-03-27-upgrading-to-vista.md (success)
+- [x] 2007-03-28-vista-初體驗-disk篇.html → 2007-03-28-vista-first-experience-disk-edition.md (success)
+- [x] 2007-03-30-便宜的-sata-光碟機.html → 2007-03-30-cheap-sata-optical-drive.md (success)
+- [x] 2007-04-03-vista-day-4.html → 2007-04-03-vista-day-4.md (success)
+- [x] 2007-04-04-canon-raw-codec-for-vista-出來了.html → 2007-04-04-canon-raw-codec-for-vista-released.md (success)
+- [x] 2007-04-06-原來-system-net-mail-也會有-bug.html → 2007-04-06-system-net-mail-bug-discovered.md (success)
+- [x] 2007-04-10-手癢亂裝-myatm.html → 2007-04-10-accidentally-installed-myatm.md (success)
+- [x] 2007-04-16-wmcmd-vbs-在-vista-下執行會導至-cscript-exe-發生錯誤.html → 2007-04-16-wmcmd-vbs-vista-cscript-error-fix.md (success)
+- [x] 2007-04-23-fiddler-跟-tfs-相衝的問題解決-i.html → 2007-04-23-fiddler-tfs-conflict-solution-part-1.md (success)
+- [x] 2007-04-24-fiddler-跟-tfs-相衝的問題解決-ii.html → 2007-04-24-fiddler-tfs-conflict-solution-part-2.md (success)
+- [x] 2007-05-05-偷偷升級到-cs2007.html → 2007-05-05-secretly-upgraded-to-cs2007.md (success)
+- [x] 2007-05-10-canon-powershot-s5-is-出來了.html → 2007-05-10-canon-powershot-s5-is-released.md (success)
+- [x] 2007-05-19-ouch-為什麼沒有-c720w.html → 2007-05-19-ouch-why-no-c720w.md (success)
+- [x] 2007-05-19-一個一萬多的簡報器-orz.html → 2007-05-19-expensive-presentation-remote-controller-orz.md (success)
+- [ ] 2007-06-20-還是換回-xp-了.html (processing)
+- [ ] 2007-06-23-using-vhdmount-with-virtual-pc.html
+- [ ] 2007-07-25-推.html
+- [ ] 2007-08-15-停機公告-2.html
+- [ ] 2007-08-18-又變成水電工了.html
+- [ ] 2007-08-22-不用再龜了-canon-powershot-g9-現身.html
+- [ ] 2007-08-29-windows-live-writer-beta2-新版.html
+- [ ] 2007-09-07-停機搬家了-d.html
+- [ ] 2007-09-11-finally.html
+- [ ] 2007-09-12-水電工日誌-1-cable-tv-面板.html
+- [ ] 2007-09-14-水電工日誌-2-資訊插座-面板.html
+- [ ] 2007-09-19-水電工日誌-3-查線-標線.html
+- [ ] 2007-09-26-水電工日誌-4-配接電話線-網路線.html
+- [ ] 2007-10-03-水電工日誌-5-配接-cable-線.html
+- [ ] 2007-10-05-水電工日誌-6-機櫃設備展示.html
+- [ ] 2007-11-05-canon-g9-入手-不過.html
+- [ ] 2007-11-12-網站升級-communityserver-2007-1.html
+- [ ] 2007-11-26-前言-canon-raw-codec-1-2-net-framework-3-0-wpf.html
+- [ ] 2007-12-12-canon-raw-codec-wpf-1-wpf-image-codec-metadata.html
+- [ ] 2007-12-12-canon-raw-codec-wpf-2-threadpool.html
+- [ ] 2007-12-12-平行處理的技術演進.html
+- [ ] 2007-12-21-可惡-竟然偷貼我的文章.html
