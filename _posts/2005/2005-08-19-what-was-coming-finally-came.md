@@ -6,8 +6,8 @@ categories:
 tags: ["有的沒的"]
 published: true
 comments: true
-permalink: "/2005/08/19/該來的終於來了/"
 redirect_from:
+  - /2005/08/19/該來的終於來了/
   - /columns/post/2005/08/19/e8a9b2e4be86e79a84e7b582e696bce4be86e4ba86-7e7e7e.aspx/
   - /post/2005/08/19/e8a9b2e4be86e79a84e7b582e696bce4be86e4ba86-7e7e7e.aspx/
   - /post/e8a9b2e4be86e79a84e7b582e696bce4be86e4ba86-7e7e7e.aspx/
@@ -16,7 +16,7 @@ redirect_from:
   - /blogs/chicken/archive/2005/08/19/973.aspx/
 wordpress_postid: 242
 ---
-<p>我的 notebook 正式變成匪貨了 <img src="/Emoticons/emotion-9.gif" /></p>
-		<p>
-				<img height="228" alt="LenovoThinkPad.jpg" src="/wp-content/be-files/LenovoThinkPad.jpg" width="568" border="0" />
-		</p>
+
+我的 notebook 正式變成匪貨了 ![emotion-9](/Emoticons/emotion-9.gif)
+
+![LenovoThinkPad.jpg](/wp-content/be-files/LenovoThinkPad.jpg)

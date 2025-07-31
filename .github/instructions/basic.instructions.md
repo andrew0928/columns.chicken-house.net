@@ -2,14 +2,159 @@
 applyTo: '_posts/*/*.md'
 ---
 
+# 部落格檔案結構規範
 
-# Convert HTML to Markdown
+## 1. 檔案結構規範說明
 
-## Step 1: Define Variables
-Define `post_id` as the file name without extension and `year` from the file path.
+### 檔名格式
+所有部落格文章檔案必須遵循以下格式：
+```
+{yyyy}-{MM}-{dd}-{title}.{md|html}
+```
 
-**Example:** 
-- Input: `/_posts/2016/2016-04-29-rancher-on-azure-lab.md`
-- `post_id` = `2016-04-29-rancher-on-azure-lab`
-- `year` = `2016`
-- `publish_date` = `2016-04-29`
+- `{yyyy}`: 四位數年份 (例: 2004, 2016, 2024)
+- `{MM}`: 兩位數月份 (例: 01, 05, 12)
+- `{dd}`: 兩位數日期 (例: 01, 15, 28)
+- `{title}`: 英文標題，多個單字之間用 `-` 連接
+- 副檔名: `.md` (推薦) 或 `.html` (舊格式)
+
+### 標題規範
+- **必須使用英文**: 避免中英文混雜
+- **小寫字母**: 全部使用小寫
+- **連字符分隔**: 多個單字用 `-` 連接
+- **簡潔明確**: 能清楚表達文章主題
+
+### 範例對照表
+
+| ❌ 錯誤格式 | ✅ 正確格式 | 說明 |
+|------------|------------|------|
+| `2004-12-14-thinkpad-聯想墊子-my-god.html` | `2004-12-14-thinkpad-lenovo-acquisition-shock.html` | 移除中文，使用描述性英文 |
+| `2004-12-15-三個好用的-asp-net-httphandler.html` | `2004-12-15-three-useful-asp-net-httphandlers.html` | 完全英文化，保持技術術語 |
+| `2004-12-17-任意放大縮小網頁的內容.html` | `2004-12-17-zoom-webpage-content-with-css.html` | 技術功能描述性命名 |
+| `2024-07-11-LLM_APP_開發經驗分享.md` | `2024-07-11-llm-app-development-experience-sharing.md` | 移除底線，全小寫，英文化 |
+
+### 目錄結構
+```
+_posts/
+├── 2004/
+│   ├── 2004-12-14-thinkpad-lenovo-acquisition-shock.html
+│   ├── 2004-12-15-three-useful-asp-net-httphandlers.html
+│   └── ...
+├── 2016/
+│   ├── 2016-04-29-rancher-on-azure-lab.md
+│   └── ...
+└── 2024/
+    ├── 2024-07-11-llm-app-development-experience-sharing.md
+    └── ...
+```
+
+### YAML Frontmatter 規範
+```yaml
+---
+layout: post
+title: "文章標題（可包含中文）"
+categories: 
+tags: ["標籤1", "標籤2"]
+published: true
+comments: true
+redirect_from:
+  - /原始路徑1/
+  - /原始路徑2/
+wordpress_postid: 數字ID（如適用）
+---
+```
+
+## 2. 異動時需要連帶變更的動作
+
+### 2.1 異動 MD 檔名流程
+
+當需要變更檔案名稱時，必須按照以下順序執行：
+
+1. **加入舊檔名轉導**
+   ```yaml
+   redirect_from:
+     - /yyyy/mm/dd/舊標題/
+   ```
+
+2. **加入原 permalink 轉導**
+   ```yaml
+   redirect_from:
+     - /yyyy/mm/dd/舊標題/
+     - /原有permalink路徑/
+   ```
+
+3. **移除 permalink 行**
+   ```yaml
+   # 刪除這行
+   permalink: "/原有路徑/"
+   ```
+
+4. **儲存並重新命名檔案**
+   ```bash
+   mv "舊檔名.md" "新檔名.md"
+   ```
+
+5. **準備 disqus 轉移網址對應** (未決定怎麼做)
+   - 參考資訊: [Disqus URL Mapping](https://help.disqus.com/en/articles/1717101-using-url-mapping-to-redirect-comments)
+   - 需要在 Disqus 後台設定新的 URL 對應: https://andrew0928.disqus.com/admin/discussions/migrate/
+
+### 2.2 HTML 轉換為 Markdown 格式
+
+#### 變數定義
+```
+post_id = 檔案名稱（不含副檔名）
+year = 從路徑取得的年份
+publish_date = yyyy-mm-dd 格式
+```
+
+#### 轉換規則
+1. **保留 YAML frontmatter** - 維持 `---` 之間的內容不變
+2. **HTML 標籤轉換**:
+   - 移除所有 HTML 標籤 (`<p>`, `<div>`, `<span>` 等)
+   - 程式碼區塊: `<code>` → Markdown ` ```language `
+   - 連結轉換: HTML `<a>` 標籤 → Markdown 連結格式
+   - 標題轉換: `<h1>`, `<h2>` 等 → `#`, `##` 等
+   - 列表轉換: `<ul>`, `<ol>`, `<li>` → Markdown 列表格式
+
+3. **輸出格式**:
+   - 輸入: `/_posts/2016/2016-04-29-example.html`
+   - 輸出: `/_posts/2016/2016-04-29-example.md`
+
+### 2.3 圖檔路徑正規化
+
+#### 路徑處理規則
+1. **跳過本地圖片**: 不下載已在 `columns.chicken-house.net` 的圖片
+2. **轉換為本地路徑**: 只保留路徑和查詢參數部分
+   ```
+   原始: http://columns.chicken-house.net/wp-content/uploads/2016/04/img.png
+   轉換: /wp-content/uploads/2016/04/img.png
+   ```
+3. **絕對路徑規範**: 所有圖片路徑必須以 `/wp-content/` 開頭
+4. **禁用相對路徑**: 不允許 `../` 或 `./` 相對路徑
+
+#### 驗證檢查清單
+- [ ] 檢查引用的圖片檔案是否存在於本地目錄
+- [ ] 報告任何外部圖片下載失敗的 URL
+- [ ] 確認所有圖片路徑都是絕對路徑格式
+
+#### 錯誤處理
+- 外部圖片下載失敗時，記錄 URL 並繼續處理
+- 遇到格式錯誤的 HTML 時，報告問題但繼續轉換
+- 缺失的本地圖片檔案需要發出警告
+
+### 2.4 Git 版本控制
+
+完成轉換後的提交流程：
+```bash
+# 加入新的 Markdown 檔案
+git add 新檔案.md
+
+# 加入已移除的 HTML 檔案
+git add 原檔案.html
+
+# 提交變更，包含轉換資訊和驗證清單
+git commit -m "convert post_id: 檔案名稱
+- 轉換 HTML 到 Markdown
+- 驗證圖片路徑
+- 更新轉導設定"
+```
