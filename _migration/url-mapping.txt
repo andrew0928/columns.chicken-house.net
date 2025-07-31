@@ -101,3 +101,12 @@ https://columns.chicken-house.net/2006/12/10/cs-2-1-sp2-metaweblog-api-newmediao
 /post/2007/05/10/Canon-PowerShot-S5-IS-e587bae4be86e4ba86.aspx/,/2007/05/10/canon-powershot-s5-is-released/
 /post/2007/05/19/Ouch2c-e782bae4bb80e9babce6b292e69c89-c720w-.aspx/,/2007/05/19/ouch-why-no-c720w/
 /post/2007/05/19/e4b880e5808be4b880e890ace5a49ae79a84e7b0a1e5a0b1e599a8-Orz.aspx/,/2007/05/19/expensive-presentation-remote-controller-orz/
+/2007/06/20/還是換回-xp-了/,/2007/06/20/switched-back-to-xp/
+/2007/07/24/推/,/2007/07/25/adding-push-button/
+/2007/08/15/停機公告-2/,/2007/08/15/shutdown-announcement-2/
+/2007/08/18/又變成水電工了/,/2007/08/18/becoming-electrician-again/
+/2007/08/22/不用再龜了-canon-powershot-g9-現身/,/2007/08/22/canon-powershot-g9-finally-released/
+/2007/08/29/windows-live-writer-beta2-新版/,/2007/08/29/windows-live-writer-beta2-new-version/
+/2007/09/06/停機搬家了-d/,/2007/09/07/shutdown-moving-announcement/
+/2007/09/12/水電工日誌-1-cable-tv-面板/,/2007/09/12/electrician-diary-1-cable-tv-panel/
+/2007/09/14/水電工日誌-2-資訊插座-面板/,/2007/09/14/electrician-diary-2-info-socket-panel/

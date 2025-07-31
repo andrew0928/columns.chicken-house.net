@@ -40,17 +40,17 @@ Convert /_posts/2007/*.html files:
 - [x] 2007-05-10-canon-powershot-s5-is-出來了.html → 2007-05-10-canon-powershot-s5-is-released.md (success)
 - [x] 2007-05-19-ouch-為什麼沒有-c720w.html → 2007-05-19-ouch-why-no-c720w.md (success)
 - [x] 2007-05-19-一個一萬多的簡報器-orz.html → 2007-05-19-expensive-presentation-remote-controller-orz.md (success)
-- [ ] 2007-06-20-還是換回-xp-了.html (processing)
-- [ ] 2007-06-23-using-vhdmount-with-virtual-pc.html
-- [ ] 2007-07-25-推.html
-- [ ] 2007-08-15-停機公告-2.html
-- [ ] 2007-08-18-又變成水電工了.html
-- [ ] 2007-08-22-不用再龜了-canon-powershot-g9-現身.html
-- [ ] 2007-08-29-windows-live-writer-beta2-新版.html
-- [ ] 2007-09-07-停機搬家了-d.html
-- [ ] 2007-09-11-finally.html
-- [ ] 2007-09-12-水電工日誌-1-cable-tv-面板.html
-- [ ] 2007-09-14-水電工日誌-2-資訊插座-面板.html
+- [x] 2007-06-20-還是換回-xp-了.html → 2007-06-20-switched-back-to-xp.md (success)
+- [x] 2007-06-23-using-vhdmount-with-virtual-pc.html (success)
+- [x] 2007-07-25-推.html → 2007-07-25-adding-push-button.md (success)
+- [x] 2007-08-15-停機公告-2.html → 2007-08-15-shutdown-announcement-2.md (success)
+- [x] 2007-08-18-又變成水電工了.html → 2007-08-18-becoming-electrician-again.md (success)
+- [x] 2007-08-22-不用再龜了-canon-powershot-g9-現身.html → 2007-08-22-canon-powershot-g9-finally-released.md (success)
+- [x] 2007-08-29-windows-live-writer-beta2-新版.html → 2007-08-29-windows-live-writer-beta2-new-version.md (success)
+- [x] 2007-09-07-停機搬家了-d.html → 2007-09-07-shutdown-moving-announcement.md (success)
+- [x] 2007-09-11-finally.html (success)
+- [x] 2007-09-12-水電工日誌-1-cable-tv-面板.html → 2007-09-12-electrician-diary-1-cable-tv-panel.md (success)
+- [x] 2007-09-14-水電工日誌-2-資訊插座-面板.html → 2007-09-14-electrician-diary-2-info-socket-panel.md (success)
 - [ ] 2007-09-19-水電工日誌-3-查線-標線.html
 - [ ] 2007-09-26-水電工日誌-4-配接電話線-網路線.html
 - [ ] 2007-10-03-水電工日誌-5-配接-cable-線.html
