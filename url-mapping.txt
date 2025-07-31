@@ -50,3 +50,6 @@
 /2005/12/01/又敗家了-sony-hrem4/, /2005/12/02/another-purchase-sony-hrem4/
 /2005/01/25/古董-12x-cdrw-終於壽終正寢/, /2005/01/25/vintage-12x-cdrw-died/
 /2005/01/09/text-的編輯介面補強-自己爽一下/, /2005/01/09/text-editor-interface-enhancement/
+/2006/09/25/canon-powershot-g7-出現了/, /2006/09/25/canon-powershot-g7-released/
+/2006/10/26/泛型-singleton-patterns/, /2006/10/26/generic-singleton-patterns/
+/2006/10/27/泛型-singleton-patterns-ii/, /2006/10/27/generic-singleton-patterns-ii//2006/10/29/利用-nunitlite-在-app_code-下寫單元測試/, /2006/10/29/using-nunitlite-in-app-code-for-unit-testing/
