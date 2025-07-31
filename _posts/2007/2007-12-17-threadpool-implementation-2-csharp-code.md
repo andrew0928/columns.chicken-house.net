@@ -6,8 +6,8 @@ categories:
 tags: [".NET","作業系統","多執行緒","技術隨筆"]
 published: true
 comments: true
-permalink: "/2007/12/17/threadpool-實作-2-程式碼-c/"
 redirect_from:
+  - /2007/12/17/threadpool-實作-2-程式碼-c/
   - /columns/post/2007/12/17/ThreadPool-e5afa6e4bd9c-2-e7a88be5bc8fe7a2bc-(C).aspx/
   - /post/2007/12/17/ThreadPool-e5afa6e4bd9c-2-e7a88be5bc8fe7a2bc-(C).aspx/
   - /post/ThreadPool-e5afa6e4bd9c-2-e7a88be5bc8fe7a2bc-(C).aspx/

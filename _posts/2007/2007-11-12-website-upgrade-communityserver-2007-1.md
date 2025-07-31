@@ -1,0 +1,168 @@
+---
+layout: post
+title: "網站升級: CommunityServer 2007.1"
+categories:
+
+tags: ["Community Server","技術隨筆","有的沒的","水電工"]
+published: true
+comments: true
+redirect_from:
+  - /2007/11/12/網站升級-communityserver-2007-1/
+  - /columns/post/2007/11/12/e7b6b2e7ab99e58d87e7b49a-CommunityServer-20071.aspx/
+  - /post/2007/11/12/e7b6b2e7ab99e58d87e7b49a-CommunityServer-20071.aspx/
+  - /post/e7b6b2e7ab99e58d87e7b49a-CommunityServer-20071.aspx/
+  - /columns/2007/11/12/e7b6b2e7ab99e58d87e7b49a-CommunityServer-20071.aspx/
+  - /columns/e7b6b2e7ab99e58d87e7b49a-CommunityServer-20071.aspx/
+  - /blogs/chicken/archive/2007/11/12/2806.aspx/
+wordpress_postid: 135
+---
+
+周日下午趁小孩都回外婆家, 花了點時間把家裡該裝的裝一裝, 該接的接一接, 還有一點空檔, 就把拖了很久的網站升級處理一下... 原本的版本是 CS 2007 (3.0), 中間推出了 3.0 SP1, SP2, SP3 beta 都跳過去沒理它, 這次 2007.1 (3.1) 出來手又癢了起來...
+
+過程就沒啥好說了, 失敗了好幾次, 最後決定整個重裝... 抓了 2007.1 的官方版本, 把舊的 db 配上它的 upgrade script 執行完後掛上去, 基本功能就會動了, 最後再把 ~/blogs, ~/photos, ~/forums 等有 storage 的目錄搬過去, 再把我自己客制過的 themes 重改一次 ( my god, themes 裡的檔案全都調過, 原本的 themes 蓋過來可以跑, 不過心裡毛毛的 )... 總算大功告成. 事後順手也把同一台 server 另外兩套 CS 也順便升級了一下.
+
+老實說我也沒很注意 2007.1 到底改了啥, 就貼一下吧, 搞不好大家之前碰到的鳥問題已經被解決掉了... 正好鴕鳥混過去, 哈哈 [H]
+
+以下是 CS2007.1 release notes:
+
+Below are changes available in Community Server 2007.1  
+-------------------------------------------------------------------
+
+**Enhancements**
+- Updated caching framework, performance updates, added locking support for several of the application-wide collections
+- SQL performance updates and best-practices updates
+- Added CreateEditWeblogPostForm, DeleteWeblogPostForm, and associated sub-form controls from CS2008 to support creating/editing/deleting blog posts in the front UI using Chameleon.
+- Updated styles on the TinyMCE wrapper's content to provide some default spacing and use a larger default font size.
+- Updated TagCloud controls to support disabling the "no tags" message and "no related tags" messages. Updated all existing themes (except for tag browsing pages) to not render the "no tags" message.
+- Updated SqlProviders to resolve LINQ SortOrder namespace ambiguity
+- Added support for sorting and paging LinkCategory and Link objects in the API and via Chameleon.
+- Added toggle button for enabling/disable application tokens
+- Tweaked app tokens list a little bit to show the time for the last used column
+- Added a new AdPlacementOptions to WrappedRepeater, AlternatingSeperator - places an ad after every other item starting after the first.
+- Updated TinyMCE to use the latest wrapper.
+- Updated the email job only retrieves as many messages as it will send from the email queue (prevent large queues from causing timeouts)
+- Updated notifications and mass emails to enforce the check on a user's "Enable Email" global setting and "Allow Site to contact me" setting
+- Updated email notifications to check the enable thread tracking for post replies
+- Updated mass emailing to take place on a background thread
+- Updated Telligent.Registration.dll to address an issue where the add-ons could get stuck if they start before SQL on a reboot/startup
+- Updated Telligent.MailGateway.Common.dll to address issues with XML cleaning in the core library and downloading only as many messages as needed from the email queue
+- Updated user date formats so that month-day-year is 6-1-2007 instead of 06-01-2007
+- Updated Windows Live Writer support by implementing keywords for custom tags and removing excerpt support since it gets confused with text-mode.
+- The error messages were updated so that the actual error message is displayed more prominently.
+- Removed the AutoDeleteThreshold setting from the forum control panel since it is not implemented.
+- Updated stylesheet to not underline the group expand/collapse toggle button.
+- Updated version of CookComputing XML-RPC.NET library to use new .NET 2.0 optimized verison
+- Updated list of default Weblog Ping URLS (removed Blo.gs and PubSub.com, added PingOMatic.com)
+- Implemented TruncationEllipsisTemplate on the ObjectDataBase control to support custom markup/controls being used in the TruncationEllipsis
+- Enabled adding new categories inline through Windows Live Writer
+- Added rsd.ashx and wlwmanifest.ashx in web project, and added namespaces (Added support for RSD and WLWManifest).
+- Updated MetaBlog to support excerpts, read-more, and post names
+- Updated blog truncation to use readmore links
+- Updated Metablog to default to the users current blog
+- Added auto discovery for the current blogs metablog path
+- Added basic site and blog theme
+- Updated email templates for forum and forum thread emails to remove the background grey color.
+- CSContext.User is only overridden with TokenUser when told via AllowTokenRequests(bool requirePrivateToken)
+- Added rendering of news to the "Traveler" blog theme's sidebar.
+- Added support for TemporaryUserTokens that expire after 3 hours
+- Change password now uses a temporary user token
+- Added support for disabling exception logging. It is disabled by default.
+- Moved keep-alive code from global.js into the KeepAlive control. Updated Editor control to *always* render a KeepAlive control. Deleted web/utility/keepalive.aspx
+- Added a few performance improvements to ThreadQueryBuilder classes: Only joining to cs_threads if we really have to, Adding a cs_Sections.ApplicationType filter back in
+- Changed the expiration date from 30 days to 7
+- Exception logging now occurs in background cache tasks
+
+**Bug Fixes:**
+- FileSystemWatcher pathing fix
+- Request/Response encoding fix
+- You can now resize the editor horizontally in the content editor modals
+- You can now override an editor option without specifying type on the control
+- You are no longer redirected to login when browsing a site that has forums at root while you are anonymous.
+- Updated inline text editor to not overlap its popup container
+- Updated Telligent.Glow.Modal to use frameborder='0' instead of frameborder='no'
+- Create/Edit Blog Page Validation fixed so that appkey cannot be blank
+- Added code and note bbcode and updated existing processing order of scrubbing modules
+- Enabled checking of the user's Enable Email setting on a wide variety of message types
+- Corrected all references in Chameleon controls to OpenWindow function in global.js to use a direct call to window.open.
+- Updated Forum BreadCrumb control to use the current rewritten URL name instead of the rendered URL to determine the current page
+- Updated EntryThumbnail control to render the file extension in the alt attribute.
+- Updated EntryThumbnail control to render with an Image control and default to 0 border width and no alignment.
+- The parent post cache is now expired properly when creating a new post in a thread. This allows a reply to post to always display in a thread after it is created.
+- Create edit blog post now maintains state better
+- Added validation for the user's email address to Users.Create
+- Fix for Gallery search results from searchbarrel linking to image not to gallery page
+- Removed the ability to rename or delete the anonymous user
+- Fixed issue where GalleryService.Update failed to set the PostID, which caused it to always fail.
+- Updated cs_User_Delete sproc to update author/post ID's as well as names
+- Disabled subforums no longer require user to login in parent forum
+- Fixed theme cache name so that the cache key is correct. Previously theme configuration were never getting retrieved from cache correctly.
+- Changed create user page so that validation occurs when fields change as oppose to whenever a key was pressed.
+- Group RSS Feed no longer causes Exception
+- Pager added to the default aggregateentrylist control for the file gallery
+- Clicking the Advanced Search link from a search results page now populates the advanced search options form for the lean and green theme as well as default
+- Corrected QuickReply link to only refresh the page if false (and not undefined OR false) is passed as the callback parameter.
+- Fixed EXIF page to show the full list of tags.
+- Fixed photo post edit so it decodes the subject before populating the text box in the CP (to prevent double encoding)
+- Fixed all auto-syndication registration to not re-html-encode section names.
+- Fixed issue with users in the Member Administrators role not being able to change user passwords
+- Fixed spelling error in the API... renamed User.EnableAvtar to User.EnableAvatar
+- Updated default and leanandgreen themes to hide "view all users" link when "Display Member List" is set to "No" in the Control Panel.
+- The SaveExtendedUserData call was moved into the event handler for the submit button, before the first call to sub-forms.
+- You can now delete a tag that is disabled.
+- User Points can now display without Post Points.
+- Fixed issue with order of permissions not being handled properly
+- Control Panel Report page title now shows correct text
+- Fix for linking over to Shutterfly showing 0x0 as the picture's size.
+- Fix for null reference on private messages from CS 2.x that were to users that were later deleted
+- Fixed ForumSqlProvider to save sticky info on edited posts
+- Corrected issue resulting in multiple encoding of the AvatarUrl property.
+- Updated edit user form in the control panel to always show the user's Username in the "Alias" field.
+- Updated blog admin control panel to properly decode the blog name.
+- Corrected FireFox rendering issue on user+avatar lists in the default and lean and green themes.
+- Fixed issue where Weblog XML-RPC pings do not get sent in some scenarios.
+- Corrected misplaced `</div>` tag issue in PoisonIvy, Gertrude, Luxinterior, and Photos blog themes causing nested comments.
+- Changed Roller Blog add-feed sproc to set Last Modified to current time - interval, so that the feed gets pulled the next time the job runs after the feed is added.
+- Corrected rendering issue in the Control Panel in FireFox prior to JavaScript loading
+- Updated the HTMLScrubber regex to use slightly different syntax which prevents infinite loop issue in FireFox.
+- Corrected invalid anchor tag in blog themes.
+- Added check for cs_Posts.IsIndexed in all SearchBarrel-generated queries.
+- Fixed failed check to see if the user was anonymous within MailGateway
+- Fixed how SPAM blocker counts links
+- Fixed an issue with a missing resource label
+- Updated CallbackPager to always render the PagedContent contents.
+- Fixed issue with deserialization returning as successful when the output object is null
+- Blog pages now show up in the tag post list if set to be aggregated, and the aggregate options are visible when creating a new page.
+- Corrected thread view count to register one view per thread per rendered page regardless of the number of posts displayed on the page.
+- Removed script to enable/disable "Join" button on the registration form in the default and lean-and-green themes to prevent issues with auto-complete.
+- Updated TinyMCE wrapper to set the document_base_url TinyMCE option to the parent window's URL when the editor is opened in a Modal.
+- Fixed notifications of message being flagged for moderation by MailGateway being queued with SettingsID of 0
+- License usage colors are now cleared after uploading a license.
+- Updated truncation ellipsis markup to render within the content wrapper (link) on ObjectDataBase control.
+- Corrected next/previous thread links to direct to the thread's URL.
+- Updated UserAvatarSubForm to set the remote avatar URL (if available) when an avatar is uploaded.
+- cs_system_GenerateWeblogYearMonthDayList and cs_vw_weblog_PostByYearMonth now has some sql included to attempt to build the roll-up tables.
+- Fixed regression from Bug Fix #1391 with AppKey being a required field on the blog creation page
+- Selecting 'Hide Topics I've Read' in the forum filtered thread control now keeps the unread announcements visible on the first page
+- You can now delete a forum post without it sending email
+- Tweaks to cs_weblog_Post_Create and cs_weblog_Post_Update to ensure that UserTime was never NULL.
+- Corrected potential XSS issue in User RSS Feeds
+- Added EnsureHtmlEncoded calls to loaded TemporaryRssFeeds and TemporaryRssFeedItems content.
+- Updated UserSearchForm to redirect to the rewritable URL instead of directly into the current theme.
+- Pager fixed in the manage photo comments page so that you can page past the first 2 pages.
+- Membership.GetRoles result set creation updated to ensure roles and role icons are re-populated after cache expiration
+- Updated default Regex validation patterns for user names and passwords and ensured that these patterns always match the entire string when set.
+- Updated sql to only change the regex pattern if the pattern [a-zA-Z]+[^\<\>]* was in the UsernameRegex before
+- Added tabindex="-1" to all TinyMCE buttons to prevent tab-stops when navigating into the editor using the keyboard.
+- Added validation of RSS feed URLs and external avatar URLs to ensure they are HTTP-based.
+- Updated SearchBarrel to require Read access from applications supporting Read permissions.
+- Adding ']' to a post no longer causes the post to pass the duplicate post check.
+- Disabling post emoticons now hides the emoticon radio button list from the Forum options tab
+- File Gallery comment URL's now work correctly, displaying the entry they belong to
+- Corrected issue preventing section filters from being saved.
+- Updated the form adapter to only update the form's action attribute when the page's URL has been rewritten by CS to ensure compatibility with external, non-rewritten pages within CS.
+- Updated the thread queries used by blog and file gallery search indexing to specify IgnorePermissions=true so that all blogs and file gallery posts are indexed.
+- Corrected infinite redirect issue when an invalid character exists in the URL.
+- Changed const string cacheKey = "UserLookupTable" to include SettingsID
+- Photo Gallery now supports HTMLEncoding a submitted user name field
+- Added ApplicationName to the UserRoleNames cache key
+- Corrected page height issue in IE when using tabbed panes.

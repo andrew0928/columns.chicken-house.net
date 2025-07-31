@@ -6,8 +6,8 @@ categories:
 tags: [".NET","多執行緒","技術隨筆"]
 published: true
 comments: true
-permalink: "/2007/12/14/threadpool-實作-1-基本概念/"
 redirect_from:
+  - /2007/12/14/threadpool-實作-1-基本概念/
   - /columns/post/2007/12/14/ThreadPool-e5afa6e4bd9c-1-e59fbae69cace6a682e5bfb5.aspx/
   - /post/2007/12/14/ThreadPool-e5afa6e4bd9c-1-e59fbae69cace6a682e5bfb5.aspx/
   - /post/ThreadPool-e5afa6e4bd9c-1-e59fbae69cace6a682e5bfb5.aspx/

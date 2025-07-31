@@ -6,8 +6,8 @@ categories:
 tags: [".NET","作業系統","多執行緒","技術隨筆"]
 published: true
 comments: true
-permalink: "/2007/12/17/threadpool-實作-3-autoresetevent-manualresetevent/"
 redirect_from:
+  - /2007/12/17/threadpool-實作-3-autoresetevent-manualresetevent/
   - /columns/post/2007/12/17/ThreadPool-e5afa6e4bd9c-3-AutoResetEvent-ManualResetEvent.aspx/
   - /post/2007/12/17/ThreadPool-e5afa6e4bd9c-3-AutoResetEvent-ManualResetEvent.aspx/
   - /post/ThreadPool-e5afa6e4bd9c-3-AutoResetEvent-ManualResetEvent.aspx/

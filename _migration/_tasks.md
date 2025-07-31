@@ -51,14 +51,14 @@ Convert /_posts/2007/*.html files:
 - [x] 2007-09-11-finally.html (success)
 - [x] 2007-09-12-水電工日誌-1-cable-tv-面板.html → 2007-09-12-electrician-diary-1-cable-tv-panel.md (success)
 - [x] 2007-09-14-水電工日誌-2-資訊插座-面板.html → 2007-09-14-electrician-diary-2-info-socket-panel.md (success)
-- [ ] 2007-09-19-水電工日誌-3-查線-標線.html
-- [ ] 2007-09-26-水電工日誌-4-配接電話線-網路線.html
-- [ ] 2007-10-03-水電工日誌-5-配接-cable-線.html
-- [ ] 2007-10-05-水電工日誌-6-機櫃設備展示.html
-- [ ] 2007-11-05-canon-g9-入手-不過.html
-- [ ] 2007-11-12-網站升級-communityserver-2007-1.html
-- [ ] 2007-11-26-前言-canon-raw-codec-1-2-net-framework-3-0-wpf.html
-- [ ] 2007-12-12-canon-raw-codec-wpf-1-wpf-image-codec-metadata.html
-- [ ] 2007-12-12-canon-raw-codec-wpf-2-threadpool.html
-- [ ] 2007-12-12-平行處理的技術演進.html
-- [ ] 2007-12-21-可惡-竟然偷貼我的文章.html
+- [x] 2007-09-19-水電工日誌-3-查線-標線.html → 2007-09-19-electrician-diary-3-wire-tracing-labeling.md (success)
+- [x] 2007-09-26-水電工日誌-4-配接電話線-網路線.html → 2007-09-26-electrician-diary-4-phone-network-wiring.md (success)
+- [x] 2007-10-03-水電工日誌-5-配接-cable-線.html → 2007-10-03-electrician-diary-5-cable-wiring.md (success)
+- [x] 2007-10-05-水電工日誌-6-機櫃設備展示.html → 2007-10-05-electrician-diary-6-rack-equipment-showcase.md (success)
+- [x] 2007-11-05-canon-g9-入手-不過.html → 2007-11-05-canon-g9-purchased-however.md (success)
+- [x] 2007-11-12-網站升級-communityserver-2007-1.html → 2007-11-12-website-upgrade-communityserver-2007-1.md (success)
+- [x] 2007-11-26-前言-canon-raw-codec-1-2-net-framework-3-0-wpf.html → 2007-11-26-introduction-canon-raw-codec-1-2-net-framework-3-0-wpf.md (success)
+- [x] 2007-12-12-canon-raw-codec-wpf-1-wpf-image-codec-metadata.html → 2007-12-12-canon-raw-codec-wpf-1-wpf-image-codec-metadata.md (success)
+- [x] 2007-12-12-canon-raw-codec-wpf-2-threadpool.html → 2007-12-12-canon-raw-codec-wpf-2-threadpool.md (success)
+- [x] 2007-12-12-平行處理的技術演進.html → 2007-12-12-parallel-processing-technology-evolution.md (success)
+- [x] 2007-12-21-可惡-竟然偷貼我的文章.html → 2007-12-21-damn-someone-stole-my-article.md (success)

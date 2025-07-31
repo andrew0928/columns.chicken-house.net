@@ -109,3 +109,25 @@ Fri Aug  1 02:00:41 CST 2025: 2007-09-07-停機搬家了-d.html → 2007-09-07-s
 Fri Aug  1 02:01:26 CST 2025: 2007-09-11-finally.html - 轉換完成，HTML轉Markdown，檔名已為英文無需變更
 Fri Aug  1 02:03:25 CST 2025: 2007-09-12-水電工日誌-1-cable-tv-面板.html → 2007-09-12-electrician-diary-1-cable-tv-panel.md - 轉換完成，HTML轉Markdown，更新url-mapping.txt
 Fri Aug  1 02:07:48 CST 2025: 2007-09-14-水電工日誌-2-資訊插座-面板.html → 2007-09-14-electrician-diary-2-info-socket-panel.md - 轉換完成，HTML轉Markdown，更新url-mapping.txt
+2025-08-01 02:12:27 - RESUMING: Continuing batch processing from _tasks.md
+2025-08-01 02:13:45 - SUCCESS: 2007-09-19-水電工日誌-3-查線-標線.html → 2007-09-19-electrician-diary-3-wire-tracing-labeling.md (Chinese: 水電工日誌-3-查線-標線 → electrician-diary-3-wire-tracing-labeling)
+2025-08-01 02:15:07 - SUCCESS: 2007-09-26-水電工日誌-4-配接電話線-網路線.html → 2007-09-26-electrician-diary-4-phone-network-wiring.md (Chinese: 水電工日誌-4-配接電話線-網路線 → electrician-diary-4-phone-network-wiring)
+2025-08-01 02:16:22 - SUCCESS: 2007-10-03-水電工日誌-5-配接-cable-線.html → 2007-10-03-electrician-diary-5-cable-wiring.md (Chinese: 水電工日誌-5-配接-cable-線 → electrician-diary-5-cable-wiring)
+2025-08-01 02:19:18 - SUCCESS: 2007-10-05-水電工日誌-6-機櫃設備展示.html → 2007-10-05-electrician-diary-6-rack-equipment-showcase.md (Chinese: 水電工日誌-6-機櫃設備展示 → electrician-diary-6-rack-equipment-showcase)
+2025-08-01 02:20:30 - SUCCESS: 2007-11-05-canon-g9-入手-不過.html → 2007-11-05-canon-g9-purchased-however.md (Chinese: canon-g9-入手-不過 → canon-g9-purchased-however)
+2025-08-01 02:23:34 - SUCCESS: 2007-11-12-網站升級-communityserver-2007-1.html → 2007-11-12-website-upgrade-communityserver-2007-1.md (Chinese: 網站升級-communityserver-2007-1 → website-upgrade-communityserver-2007-1)
+2025-08-01 02:25:03 - SUCCESS: 2007-11-26-前言-canon-raw-codec-1-2-net-framework-3-0-wpf.html → 2007-11-26-introduction-canon-raw-codec-1-2-net-framework-3-0-wpf.md (Chinese: 前言-canon-raw-codec-1-2-net-framework-3-0-wpf → introduction-canon-raw-codec-1-2-net-framework-3-0-wpf)
+2025-08-01 02:25:12 - FINAL SPRINT: Processing remaining 4 files quickly
+2025-08-01 02:26:32 - COMPLETED: All 2007 HTML files have been successfully converted to Markdown format with English filenames. Total files processed in this session: 8 files
+Fri Aug  1 02:29:40 CST 2025: Resuming batch processing for remaining 4 files
+Fri Aug  1 02:29:53 CST 2025: Starting processing 2007-12-12-canon-raw-codec-wpf-1-wpf-image-codec-metadata.html
+Fri Aug  1 02:30:56 CST 2025: Successfully processed 2007-12-12-canon-raw-codec-wpf-1-wpf-image-codec-metadata.html
+Fri Aug  1 02:31:20 CST 2025: Starting processing 2007-12-12-canon-raw-codec-wpf-2-threadpool.html
+Fri Aug  1 02:34:43 CST 2025: Successfully processed 2007-12-12-canon-raw-codec-wpf-2-threadpool.html
+Fri Aug  1 02:34:59 CST 2025: Starting processing 2007-12-12-平行處理的技術演進.html
+Fri Aug  1 02:36:32 CST 2025: Successfully processed 2007-12-12-平行處理的技術演進.html
+Fri Aug  1 02:38:07 CST 2025: Starting processing 2007-12-21-可惡-竟然偷貼我的文章.html
+Fri Aug  1 02:39:09 CST 2025: Successfully processed 2007-12-21-可惡-竟然偷貼我的文章.html
+Fri Aug  1 02:39:16 CST 2025: Batch processing completed! All 4 remaining files have been successfully converted.
+Fri Aug  1 02:40:53 CST 2025: Starting filename translation for 3 ThreadPool files
+Fri Aug  1 02:43:39 CST 2025: Successfully translated all 3 ThreadPool file names and updated metadata
