@@ -163,3 +163,14 @@ https://columns.chicken-house.net/2006/12/10/cs-2-1-sp2-metaweblog-api-newmediao
 /2008/08/12/原來是-ipv6-搞的鬼/,/2008/08/13/so-ipv6-was-the-culprit/
 /2008/08/14/thread-sync-1-概念篇-如何化被動為主動/,/2008/08/14/thread-sync-1-concept-how-to-turn-passive-into-active/
 /2008/08/14/話題人物/,/2008/08/14/trending-figure/
+/2008/08/15/thread-sync-2-實作篇-互相等待的兩個執行緒/,/2008/08/15/thread-sync-2-implementation-two-threads-waiting-for-each-other/
+/2008/08/23/tips-踢掉遠端桌面連線的使用者/,/2008/08/23/tips-disconnecting-remote-desktop-users/
+/2008/08/23/世紀末軟體革命復刻版/,/2008/08/23/end-of-century-software-revolution-reprint/
+/2008/08/25/敗家-htpc/,/2008/08/25/shopping-spree-htpc/
+/2008/08/28/canon-g9-害我沒睡好-相片自動轉正的問題/,/2008/08/28/canon-g9-kept-me-awake-photo-auto-rotation-problem/
+/2008/08/29/升級到-blogengine-net-1-4-5-0-了/,/2008/08/29/upgraded-to-blogengine-net-1-4-5-0/
+/2008/09/01/請正確的引用文章內容/,/2008/09/01/please-cite-article-content-correctly/
+/2008/09/02/好酷的漆彈陣列/,/2008/09/02/cool-paintball-array/
+/2008/09/03/run-pc-2008-九月號/,/2008/09/03/run-pc-2008-september-issue/
+/2008/09/06/blogengine-extension-secure-post-v1-0/,/2008/09/06/blogengine-extension-secure-post-v1-0/
+/2008/09/10/莫明奇妙的錯誤訊息-找不到-vjsharpcodeprovider/,/2008/09/10/莫明奇妙的錯誤訊息-找不到-vjsharpcodeprovider/

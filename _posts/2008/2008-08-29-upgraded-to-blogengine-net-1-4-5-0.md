@@ -6,8 +6,8 @@ categories:
 tags: ["BlogEngine.NET","有的沒的"]
 published: true
 comments: true
-permalink: "/2008/08/29/升級到-blogengine-net-1-4-5-0-了/"
 redirect_from:
+  - /2008/08/29/升級到-blogengine-net-1-4-5-0-了/
   - /columns/post/2008/08/29/upgrade-to-be1450.aspx/
   - /post/2008/08/29/upgrade-to-be1450.aspx/
   - /post/upgrade-to-be1450.aspx/
@@ -15,15 +15,9 @@ redirect_from:
   - /columns/upgrade-to-be1450.aspx/
 wordpress_postid: 74
 ---
-<p>
+
 哈，升級還蠻簡單的，一下子就搞定了... 特此留念 :D
-</p>
-<p>
-&nbsp;
-</p>
-<p>
+
 枉我還大陣仗的對付它，VSS (Visual Source Safe), VSS (Volume Shadow copy Service) 都搬出來用了，結果只是目錄搬一搬就好... 咳咳。
-</p>
-<p>
+
 除了 Bot Checker 沒有搬過來之外，其它應該都搞定了吧? 如果有發現我的網站有那裡沒弄好，記得留言跟我講一下 :D
-</p>

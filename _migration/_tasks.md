@@ -56,17 +56,19 @@ Process all the posts in /_posts/2008/* according to process-exist-posts.prompt.
 - [x] 2008-08-13-原來是-ipv6-搞的鬼.html → 2008-08-13-so-ipv6-was-the-culprit.md (success)
 - [x] 2008-08-14-thread-sync-1-概念篇-如何化被動為主動.html → 2008-08-14-thread-sync-1-concept-how-to-turn-passive-into-active.md (success)
 - [x] 2008-08-14-話題人物.html → 2008-08-14-trending-figure.md (success)
-- [ ] 2008-08-15-thread-sync-2-實作篇-互相等待的兩個執行緒.html (processing)
-- [ ] 2008-08-23-tips-踢掉遠端桌面連線的使用者.html
-- [ ] 2008-08-23-世紀末軟體革命復刻版.html
-- [ ] 2008-08-25-敗家-htpc.html
-- [ ] 2008-08-28-canon-g9-害我沒睡好-相片自動轉正的問題.html
-- [ ] 2008-08-29-升級到-blogengine-net-1-4-5-0-了.html
-- [ ] 2008-09-01-請正確的引用文章內容.html
-- [ ] 2008-09-02-好酷的漆彈陣列.html
-- [ ] 2008-09-03-run-pc-2008-九月號.html
-- [ ] 2008-09-06-blogengine-extension-secure-post-v1-0.html
-- [ ] 2008-09-10-莫明奇妙的錯誤訊息-找不到-vjsharpcodeprovider.html
+- [x] 2008-08-15-thread-sync-2-實作篇-互相等待的兩個執行緒.html → 2008-08-15-thread-sync-2-implementation-two-threads-waiting-for-each-other.md (success)
+- [x] 2008-08-23-tips-踢掉遠端桌面連線的使用者.html → 2008-08-23-tips-disconnecting-remote-desktop-users.md (success)
+- [x] 2008-08-23-世紀末軟體革命復刻版.html → 2008-08-23-end-of-century-software-revolution-reprint.md (success)
+- [x] 2008-08-25-敗家-htpc.html → 2008-08-25-shopping-spree-htpc.md (success)
+- [x] 2008-08-28-canon-g9-害我沒睡好-相片自動轉正的問題.html → 2008-08-28-canon-g9-kept-me-awake-photo-auto-rotation-problem.md (success)
+- [x] 2008-08-29-升級到-blogengine-net-1-4-5-0-了.html → 2008-08-29-upgraded-to-blogengine-net-1-4-5-0.md (success)
+- [x] 2008-09-01-請正確的引用文章內容.html → 2008-09-01-please-cite-article-content-correctly.md (success)
+- [x] 2008-09-02-好酷的漆彈陣列.html → 2008-09-02-cool-paintball-array.md (success)
+- [x] 2008-09-03-run-pc-2008-九月號.html → 2008-09-03-run-pc-2008-september-issue.md (success)
+- [x] 2008-09-06-blogengine-extension-secure-post-v1-0.html → 2008-09-06-blogengine-extension-secure-post-v1-0.md (success)
+- [x] 2008-09-06-blogengine-extension-secure-post-v1-0.html → 2008-09-06-blogengine-extension-secure-post-v1-0.md (success)
+- [x] 2008-09-10-莫明奇妙的錯誤訊息-找不到-vjsharpcodeprovider.html → 2008-09-10-莫明奇妙的錯誤訊息-找不到-vjsharpcodeprovider.md (success)
+- [ ] 2008-09-12-visual-studio-2008-sp1-released.html
 - [ ] 2008-09-18-c-yield-return-1-how-it-work.md
 - [ ] 2008-09-22-c-yield-return-2-另類的應用-thread-sync-替代方案.html
 - [ ] 2008-09-27-令人火大的-sql-字元編碼.html
