@@ -6,8 +6,8 @@ categories:
 tags: [".NET","WPF","技術隨筆","有的沒的"]
 published: true
 comments: true
-permalink: "/2008/06/23/利用-wpf-讀取-canon-cr2-的-exif-及縮圖-c-範例程式說明/"
 redirect_from:
+  - /2008/06/23/利用-wpf-讀取-canon-cr2-的-exif-及縮圖-c-範例程式說明/
   - /columns/post/2008/06/23/e588a9e794a8-WPF-e8ae80e58f96-EXIF-e58f8ae7b8aee59c96.aspx/
   - /post/2008/06/23/e588a9e794a8-WPF-e8ae80e58f96-EXIF-e58f8ae7b8aee59c96.aspx/
   - /post/e588a9e794a8-WPF-e8ae80e58f96-EXIF-e58f8ae7b8aee59c96.aspx/

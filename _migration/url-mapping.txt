@@ -148,3 +148,18 @@ https://columns.chicken-house.net/2006/12/10/cs-2-1-sp2-metaweblog-api-newmediao
 /2008/06/19/從-communityserver-2007-到-blogengine-net/ -> /2008/06/19/from-communityserver-2007-to-blogengine-net/
 /2008/06/18/換訂閱的網址了/ -> /2008/06/19/changed-subscription-url/
 /2008/06/21/blogengine-net-改造工程-cs2007-資料匯入/ -> /2008/06/21/blogengine-net-transformation-project-cs2007-data-import/
+/2008/06/23/利用-wpf-讀取-canon-cr2-的-exif-及縮圖-c-範例程式說明/,/2008/06/23/using-wpf-to-read-canon-cr2-exif-and-thumbnails-csharp-example/
+/2008/06/23/又被盗文了/,/2008/06/23/plagiarized-again/
+/2008/06/25/bot-checker-回來了/,/2008/06/25/bot-checker-is-back/
+/2008/06/28/很抱歉，本站不歡迎來自-百度-baidu-com-的訪客/,/2008/06/28/sorry-baidu-visitors-not-welcome/
+/2008/06/30/blogengine-net-改造工程-整合-funp-推推王/,/2008/06/30/blogengine-net-transformation-project-integrating-funp-social-bookmarking/
+/2008/07/02/blogengine-net-widgets/ -> /2008/07/02/blogengine-net-widgets/
+/2008/07/06/blogengine-extension-postviewcount-1-0/ -> /2008/07/06/blogengine-extension-postviewcount-1-0/ (redirect_from: /columns/post/2008/07/06/BlogEngine-Extension-PostViewCount-10.aspx/, /post/2008/07/06/BlogEngine-Extension-PostViewCount-10.aspx/, /post/BlogEngine-Extension-PostViewCount-10.aspx/, /columns/2008/07/06/BlogEngine-Extension-PostViewCount-10.aspx/, /columns/BlogEngine-Extension-PostViewCount-10.aspx/)
+/2008/07/07/為什麼一堆推文的按鈕都不見了/ -> /2008/07/07/why-are-all-social-bookmark-buttons-missing/ (redirect_from: /columns/post/2008/07/07/e782bae4bb80e9babce4b880e5a086e68ea8e69687e79a84e68c89e98895e983bde4b88de8a68be4ba86.aspx/, /post/2008/07/07/e782bae4bb80e9babce4b880e5a086e68ea8e69687e79a84e68c89e98895e983bde4b88de8a68be4ba86.aspx/, /post/e782bae4bb80e9babce4b880e5a086e68ea8e69687e79a84e68c89e98895e983bde4b88de8a68be4ba86.aspx/, /columns/2008/07/07/e782bae4bb80e9babce4b880e5a086e68ea8e69687e79a84e68c89e98895e983bde4b88de8a68be4ba86.aspx/, /columns/e782bae4bb80e9babce4b880e5a086e68ea8e69687e79a84e68c89e98895e983bde4b88de8a68be4ba86.aspx/)
+/2008/07/07/為什麼一堆推文的按鈕都不見了/,/2008/07/07/why-are-all-social-bookmark-buttons-missing/
+/2008/07/10/canon-raw-codec-1-3-released/,/2008/07/10/canon-raw-codec-1-3-released/
+/2008/07/23/x86-x64-傻傻分不清楚/,/2008/07/23/x86-x64-confused-or-mixed-up/
+/2008/07/25/x64-programming-1-環境變數及特殊目錄/,/2008/07/25/x64-programming-1-environment-variables-and-special-directories/
+/2008/08/12/原來是-ipv6-搞的鬼/,/2008/08/13/so-ipv6-was-the-culprit/
+/2008/08/14/thread-sync-1-概念篇-如何化被動為主動/,/2008/08/14/thread-sync-1-concept-how-to-turn-passive-into-active/
+/2008/08/14/話題人物/,/2008/08/14/trending-figure/

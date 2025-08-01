@@ -167,3 +167,34 @@ Processing: 2008-05-06-停機公告.html
 - Content: Converted HTML to markdown format, preserved original Chinese text
 - Updated frontmatter: Added redirect_from, removed old permalink
 - Status: SUCCESS (CORRECTED)
+Fri Aug  1 13:26:08 CST 2025: Starting processing 2008-06-23-利用-wpf-讀取-canon-cr2-的-exif-及縮圖-c-範例程式說明.md
+Fri Aug  1 13:35:34 CST 2025: Completed processing 2008-06-23-利用-wpf-讀取-canon-cr2-的-exif-及縮圖-c-範例程式說明.md -> 2008-06-23-using-wpf-to-read-canon-cr2-exif-and-thumbnails-csharp-example.md
+Fri Aug  1 13:39:48 CST 2025: Starting processing 2008-06-23-又被盜文了.html
+Fri Aug  1 13:45:29 CST 2025: Completed processing 2008-06-23-又被盜文了.html -> 2008-06-23-plagiarized-again.md
+Fri Aug  1 13:46:05 CST 2025: Starting processing 2008-06-25-bot-checker-回來了.html
+Fri Aug  1 13:47:52 CST 2025: Completed processing 2008-06-25-bot-checker-回來了.html -> 2008-06-25-bot-checker-is-back.md
+Fri Aug  1 13:49:25 CST 2025: Starting processing 2008-06-28-很抱歉，本站不歡迎來自-百度-baidu-com-的訪客.html
+Fri Aug  1 13:53:00 CST 2025: Completed processing 2008-06-28-很抱歉，本站不歡迎來自-百度-baidu-com-的訪客.html -> 2008-06-28-sorry-baidu-visitors-not-welcome.md
+Fri Aug  1 14:09:50 CST 2025: Starting processing 2008-06-30-blogengine-net-改造工程-整合-funp-推推王.html
+Fri Aug  1 14:13:24 CST 2025: Completed processing 2008-06-30-blogengine-net-改造工程-整合-funp-推推王.html -> 2008-06-30-blogengine-net-transformation-project-integrating-funp-social-bookmarking.md
+Fri Aug  1 14:22:29 CST 2025: Note - 2008-06-30-blogengine-net-transformation-project-integrating-funp-social-bookmarking.md HTML to Markdown conversion partially completed, file structure is complex and needs manual review
+Fri Aug  1 14:23:04 CST 2025: Starting processing 2008-07-02-blogengine-net-widgets.html
+2025-08-01 14:32:59 - Processing: 2008-07-02-blogengine-net-widgets.html
+2025-08-01 14:40:52 - Started processing: 2008-07-06-blogengine-extension-postviewcount-1-0.html
+2025-08-01 15:35:36 - Completed processing: 2008-07-06-blogengine-extension-postviewcount-1-0.html -> 2008-07-06-blogengine-extension-postviewcount-1-0.md
+2025-08-01 15:35:54 - Started processing: 2008-07-07-為什麼一堆推文的按鈕都不見了.html
+2025-08-01 15:42:46 - Completed processing: 2008-07-07-為什麼一堆推文的按鈕都不見了.html -> 2008-07-07-why-are-all-social-bookmark-buttons-missing.md
+2025-08-01 15:46:55 - Started processing: 2008-07-10-canon-raw-codec-1-3-released.html
+2025-08-01 15:48:40 - Completed processing: 2008-07-10-canon-raw-codec-1-3-released.html -> 2008-07-10-canon-raw-codec-1-3-released.md
+2025-08-01 15:49:01 - Started processing: 2008-07-23-x86-x64-傻傻分不清楚.html
+2025-08-01 15:51:20 - Completed processing: 2008-07-23-x86-x64-傻傻分不清楚.html -> 2008-07-23-x86-x64-confused-or-mixed-up.md
+2025-08-01 15:53:03 - Started processing: 2008-07-25-x64-programming-1-環境變數及特殊目錄.html
+2025-08-01 15:55:06 - Completed processing: 2008-07-25-x64-programming-1-環境變數及特殊目錄.html -> 2008-07-25-x64-programming-1-environment-variables-and-special-directories.md
+2025-08-01 15:55:50 - Started processing: 2008-07-26-x64-programming-2-asp-net-odbc-讀取-csv.html
+Fri Aug  1 16:05:25 CST 2025: Processing 2008-08-13-原來是-ipv6-搞的鬼.html
+2025-08-01 16:22:49 - Completed processing: 2008-08-13-原來是-ipv6-搞的鬼.html -> 2008-08-13-so-ipv6-was-the-culprit.md (corrected - content not translated)
+Fri Aug  1 16:27:17 CST 2025: Processing 2008-08-14-thread-sync-1-概念篇-如何化被動為主動.html
+2025-08-01 16:32:29 - Completed processing: 2008-08-14-thread-sync-1-概念篇-如何化被動為主動.html -> 2008-08-14-thread-sync-1-concept-how-to-turn-passive-into-active.md
+Fri Aug  1 16:33:17 CST 2025: Processing 2008-08-14-話題人物.html
+2025-08-01 16:35:57 - Completed processing: 2008-08-14-話題人物.html -> 2008-08-14-trending-figure.md
+Fri Aug  1 16:36:56 CST 2025: Processing 2008-08-15-thread-sync-2-實作篇-互相等待的兩個執行緒.html

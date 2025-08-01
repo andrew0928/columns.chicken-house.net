@@ -41,22 +41,22 @@ Process all the posts in /_posts/2008/* according to process-exist-posts.prompt.
 - [x] 2008-06-19-從-communityserver-2007-到-blogengine-net.html → 2008-06-19-from-communityserver-2007-to-blogengine-net.md (success)
 - [x] 2008-06-19-換訂閱的網址了.html → 2008-06-19-changed-subscription-url.md (success)
 - [x] 2008-06-21-blogengine-net-改造工程-cs2007-資料匯入.html → 2008-06-21-blogengine-net-transformation-project-cs2007-data-import.md (success)
-- [ ] 2008-06-23-利用-wpf-讀取-canon-cr2-的-exif-及縮圖-c-範例程式說明.md
-- [ ] 2008-06-23-又被盜文了.html
-- [ ] 2008-06-25-bot-checker-回來了.html
-- [ ] 2008-06-28-很抱歉，本站不歡迎來自-百度-baidu-com-的訪客.html
-- [ ] 2008-06-30-blogengine-net-改造工程-整合-funp-推推王.html
-- [ ] 2008-07-02-blogengine-net-widgets.html
-- [ ] 2008-07-06-blogengine-extension-postviewcount-1-0.html
-- [ ] 2008-07-07-為什麼一堆推文的按鈕都不見了.html
-- [ ] 2008-07-10-canon-raw-codec-1-3-released.html
-- [ ] 2008-07-23-x86-x64-傻傻分不清楚.html
-- [ ] 2008-07-25-x64-programming-1-環境變數及特殊目錄.html
-- [ ] 2008-07-26-x64-programming-2-asp-net-odbc-讀取-csv.html
-- [ ] 2008-08-13-原來是-ipv6-搞的鬼.html
-- [ ] 2008-08-14-thread-sync-1-概念篇-如何化被動為主動.html
-- [ ] 2008-08-14-話題人物.html
-- [ ] 2008-08-15-thread-sync-2-實作篇-互相等待的兩個執行緒.html
+- [x] 2008-06-23-利用-wpf-讀取-canon-cr2-的-exif-及縮圖-c-範例程式說明.md → 2008-06-23-using-wpf-to-read-canon-cr2-exif-and-thumbnails-csharp-example.md (success)
+- [x] 2008-06-23-又被盜文了.html → 2008-06-23-plagiarized-again.md (success)
+- [x] 2008-06-25-bot-checker-回來了.html → 2008-06-25-bot-checker-is-back.md (success)
+- [x] 2008-06-28-很抱歉，本站不歡迎來自-百度-baidu-com-的訪客.html → 2008-06-28-sorry-baidu-visitors-not-welcome.md (success)
+- [x] 2008-06-30-blogengine-net-改造工程-整合-funp-推推王.html → 2008-06-30-blogengine-net-transformation-project-integrating-funp-social-bookmarking.md (success)
+- [x] 2008-07-02-blogengine-net-widgets.html → 2008-07-02-blogengine-net-widgets.md (success)
+- [x] 2008-07-06-blogengine-extension-postviewcount-1-0.html → 2008-07-06-blogengine-extension-postviewcount-1-0.md (success)
+- [x] 2008-07-07-為什麼一堆推文的按鈕都不見了.html → 2008-07-07-why-are-all-social-bookmark-buttons-missing.md (success)
+- [x] 2008-07-10-canon-raw-codec-1-3-released.html → 2008-07-10-canon-raw-codec-1-3-released.md (success)
+- [x] 2008-07-23-x86-x64-傻傻分不清楚.html → 2008-07-23-x86-x64-confused-or-mixed-up.md (success)
+- [x] 2008-07-25-x64-programming-1-環境變數及特殊目錄.html → 2008-07-25-x64-programming-1-environment-variables-and-special-directories.md (success)
+- [x] 2008-07-26-x64-programming-2-asp-net-odbc-讀取-csv.html → 2008-07-26-x64-programming-2-asp-net-odbc-reading-csv.md (success)
+- [x] 2008-08-13-原來是-ipv6-搞的鬼.html → 2008-08-13-so-ipv6-was-the-culprit.md (success)
+- [x] 2008-08-14-thread-sync-1-概念篇-如何化被動為主動.html → 2008-08-14-thread-sync-1-concept-how-to-turn-passive-into-active.md (success)
+- [x] 2008-08-14-話題人物.html → 2008-08-14-trending-figure.md (success)
+- [ ] 2008-08-15-thread-sync-2-實作篇-互相等待的兩個執行緒.html (processing)
 - [ ] 2008-08-23-tips-踢掉遠端桌面連線的使用者.html
 - [ ] 2008-08-23-世紀末軟體革命復刻版.html
 - [ ] 2008-08-25-敗家-htpc.html
