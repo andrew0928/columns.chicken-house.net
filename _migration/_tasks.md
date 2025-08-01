@@ -1,7 +1,8 @@
 ## Process 2008 Posts - 2025-08-01
 
 ### Requirements
-Process all the posts in /_posts/2008/* according to process-exist-posts.prompt.md
+Process all the- [x] 2008-09-22-c-yield-return-2-另類的應用-thread-sync-替代方案.html → 2008-09-22-csharp-yield-return-2-alternative-application-thread-sync-replacement.md (success)
+- [x] 2008-09-27-令人火大的-sql-字元編碼.html → 2008-09-27-frustrating-sql-character-encoding.md (success)osts in /_posts/2008/* according to process-exist-posts.prompt.md
 
 ### Instructions Referenced
 - basic.instructions.md: File naming conventions, YAML frontmatter requirements, redirect handling
@@ -68,28 +69,19 @@ Process all the posts in /_posts/2008/* according to process-exist-posts.prompt.
 - [x] 2008-09-06-blogengine-extension-secure-post-v1-0.html → 2008-09-06-blogengine-extension-secure-post-v1-0.md (success)
 - [x] 2008-09-06-blogengine-extension-secure-post-v1-0.html → 2008-09-06-blogengine-extension-secure-post-v1-0.md (success)
 - [x] 2008-09-10-莫明奇妙的錯誤訊息-找不到-vjsharpcodeprovider.html → 2008-09-10-莫明奇妙的錯誤訊息-找不到-vjsharpcodeprovider.md (success)
-- [ ] 2008-09-12-visual-studio-2008-sp1-released.html
-- [ ] 2008-09-18-c-yield-return-1-how-it-work.md
-- [ ] 2008-09-22-c-yield-return-2-另類的應用-thread-sync-替代方案.html
-- [ ] 2008-09-27-令人火大的-sql-字元編碼.html
-- [ ] 2008-09-27-該如何學好-寫程式.md
-- [ ] 2008-09-28-google-讓人越來越笨.html
-- [ ] 2008-09-28-msdn-magazine-十月號竟然下架了.html
-- [ ] 2008-10-01-該如何學好-寫程式-2-為什麼-programmer-該學資料結構.md
-- [ ] 2008-10-02-得獎了-d.html
-- [ ] 2008-10-08-該如何學好-寫程式-3-進階應用-資料結構-問題分析.md
-- [ ] 2008-10-10-終於升速了.html
-- [ ] 2008-10-14-ngenerics-datastructure-algorithm-library.html
-- [ ] 2008-10-18-生產者-vs-消費者-blockqueue-實作.md
-- [ ] 2008-10-20-該如何學好-寫程式-4-你的程式夠-可靠-嗎.md
-- [ ] 2008-10-31-關不掉的-vista-uac.html
-- [ ] 2008-11-01-也是-生產者-消費者.html
-- [ ] 2008-11-03-該如何學好-寫程式-5-善用-trace-assert.md
-- [ ] 2008-11-04-run-pc-2008-十一月號.html
-- [ ] 2008-11-06-重生的-ibm-thinkpad-x40.html
-- [ ] 2008-11-18-policy-injection-application-block-小發現.html
-- [ ] 2008-12-07-原來-net-早就內建-xmlnodewriter-了.html
-- [ ] 2008-12-08-原來-system-xml-xmlwellformedwriter-有-bug.html
-- [ ] 2008-12-10-xmlwellformedwriter-writeraw-的-bug-後續發展.html
-
-Total: 66 files to process
+- [ ] 2008-09-12-visual-studio-2008-sp1-released.html (file not found)
+- [x] 2008-09-22-c-yield-return-2-另類的應用-thread-sync-替代方案.html → 2008-09-22-csharp-yield-return-2-alternative-application-thread-sync-replacement.md (success)
+- [x] 2008-09-27-令人火大的-sql-字元編碼.html → 2008-09-27-frustrating-sql-character-encoding.md (success)
+- [x] 2008-09-28-google-讓人越來越笨.html → 2008-09-28-is-google-making-us-dumber.md (success)
+- [x] 2008-09-28-msdn-magazine-十月號竟然下架了.html → 2008-09-28-msdn-magazine-october-issue-taken-down.md (success)
+- [x] 2008-10-02-得獎了-d.html → 2008-10-02-won-an-award.md (success)
+- [x] 2008-10-10-終於升速了.html → 2008-10-10-finally-upgraded-speed.md (success)
+- [x] 2008-10-14-ngenerics-datastructure-algorithm-library.html → 2008-10-14-ngenerics-datastructure-algorithm-library.md (success)
+- [x] 2008-10-31-關不掉的-vista-uac.html → 2008-10-31-vista-uac-wont-turn-off.md (success)
+- [x] 2008-11-01-也是-生產者-消費者.html → 2008-11-01-also-producer-consumer.md (success)
+- [x] 2008-11-04-run-pc-2008-十一月號.html → 2008-11-04-run-pc-2008-november-issue.md (success)
+- [x] 2008-11-06-重生的-ibm-thinkpad-x40.html → 2008-11-06-resurrected-ibm-thinkpad-x40.md (success)
+- [x] 2008-11-18-policy-injection-application-block-小發現.html → 2008-11-18-policy-injection-application-block-small-discovery.md (success)
+- [x] 2008-12-07-原來-net-早就內建-xmlnodewriter-了.html → 2008-12-07-dotnet-built-in-xmlnodewriter-discovery.md (success)
+- [x] 2008-12-08-原來-system-xml-xmlwellformedwriter-有-bug.html → 2008-12-08-system-xml-xmlwellformedwriter-bug.md (success)
+- [x] 2008-12-10-xmlwellformedwriter-writeraw-的-bug-後續發展.html → 2008-12-10-xmlwellformedwriter-writeraw-bug-followup.md (success)
