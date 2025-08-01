@@ -68,40 +68,51 @@ wordpress_postid: 數字ID（如適用）
 
 ### 2.1 異動 MD 檔名流程
 
-當需要變更檔案名稱時，必須按照以下順序執行：
+當需要變更檔案名稱時，必須按照以下順序執行。共六個步驟，請勿忽略任何一個步驟。
+項目如下:
 
-0. **確認新檔名**:  
+```yaml
+- 確認新檔名
+- 加入舊檔名轉導
+- 加入原 permalink 轉導
+- 移除 permalink 行
+- 儲存並重新命名檔案
+- 準備 disqus 轉移網址對應
+```
+
+
+1. **確認新檔名**:  
 確認新的檔名符合上述規範。
 若需要將中文檔名翻譯成英文，你可能需要內文當作 context.
 請最多只讀取內文的第一段，前 50 行，或是前 1000 字的內文來判定就好。
 這些範圍不包括 yaml frontmatter 的內容，請從 HTML / MD 的部分開始。
 
 
-1. **加入舊檔名轉導**
+2. **加入舊檔名轉導**
    ```yaml
    redirect_from:
      - /yyyy/mm/dd/舊標題/
    ```
 
-2. **加入原 permalink 轉導**
+3. **加入原 permalink 轉導**
    ```yaml
    redirect_from:
      - /yyyy/mm/dd/舊標題/
      - /原有permalink路徑/
    ```
 
-3. **移除 permalink 行**
+4. **移除 permalink 行**
    ```yaml
    # 刪除這行
    permalink: "/原有路徑/"
    ```
 
-4. **儲存並重新命名檔案**
+5. **儲存並重新命名檔案**
    ```bash
    mv "舊檔名.md" "新檔名.md"
    ```
 
-5. **準備 disqus 轉移網址對應**
+6. **準備 disqus 轉移網址對應**
    輸出 /_migration/url-mapping.txt 檔案，附加新舊網址對應, 附加一行, 用逗號分隔, 格式為: {舊網址},{新網址}
    新網址從檔名解析, 例如 2024-07-11-llm-app-development-experience-sharing.md 對應的網址是 /2024/07/11/llm-app-development-experience-sharing/
 
