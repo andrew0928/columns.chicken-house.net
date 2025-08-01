@@ -6,8 +6,9 @@ categories:
 tags: [".NET","C#","作品集","專欄","技術隨筆","有的沒的","物件導向"]
 published: true
 comments: true
-permalink: "/2008/11/03/該如何學好-寫程式-5-善用-trace-assert/"
 redirect_from:
+  - /2008/11/03/該如何學好-寫程式-5-善用-trace-assert/
+  - /2008/11/03/該如何學好-寫程式-5-善用-trace-assert/
   - /columns/post/2008/11/03/e8a9b2e5a682e4bd95e5adb8e5a5bd-e5afabe7a88be5bc8f-5-e59684e794a8-debug-mode.aspx/
   - /post/2008/11/03/e8a9b2e5a682e4bd95e5adb8e5a5bd-e5afabe7a88be5bc8f-5-e59684e794a8-debug-mode.aspx/
   - /post/e8a9b2e5a682e4bd95e5adb8e5a5bd-e5afabe7a88be5bc8f-5-e59684e794a8-debug-mode.aspx/

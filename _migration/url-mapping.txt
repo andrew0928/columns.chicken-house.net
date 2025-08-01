@@ -48,6 +48,7 @@ https://columns.chicken-house.net/2006/01/28/老鼠的繁殖力真強-h/, https:
 https://columns.chicken-house.net/2006/10/27/asp-net-tips-launch-asp-net-web-sites-without-iis-vs2005/, https://columns.chicken-house.net/2006/10/28/asp-net-tips-launch-asp-net-web-sites-without-iis-vs2005/
 https://columns.chicken-house.net/2006/02/03/換新系統了-cs-2-0-beta-3/, https://columns.chicken-house.net/2006/02/03/community-server-2-0-beta-3-upgrade/
 https://columns.chicken-house.net/2006/10/26/泛型-singleton-patterns/, https://columns.chicken-house.net/2006/10/26/generic-singleton-patterns/
+/2008/11/03/該如何學好-寫程式-5-善用-trace-assert/,/2008/11/03/how-to-learn-programming-well-5-using-trace-assert/
 https://columns.chicken-house.net/2006/09/25/canon-powershot-g7-出現了/, https://columns.chicken-house.net/2006/09/25/canon-powershot-g7-released/
 https://columns.chicken-house.net/2006/08/16/windows-live-writer/, https://columns.chicken-house.net/2006/08/16/windows-live-writer/
 https://columns.chicken-house.net/2006/02/13/我的硬碟到底要加多大-才會顯示這訊息/, https://columns.chicken-house.net/2006/02/14/hard-disk-space-message-question/
