@@ -27,20 +27,20 @@ Process all the posts in /_posts/2008/* according to process-exist-posts.prompt.
 - [x] 2008-04-04-run-pc-2008-四月號.html → 2008-04-04-run-pc-2008-april-issue.md (success)
 - [x] 2008-04-04-搭配-codeformatter，網站須要配合的設定.html → 2008-04-04-configuring-website-settings-for-codeformatter-compatibility.md (success)
 - [x] 2008-04-10-canon-cr2-jpeg-速度加倍-該換-core2-quad-了嘛.html → 2008-04-10-canon-cr2-jpeg-speed-doubled-time-for-core2-quad.md (success - corrected)
-- [ ] 2008-05-06-停機公告.html
-- [ ] 2008-05-12-next-ten-years.html
-- [ ] 2008-05-16-flickrproxy-1-overview.html
-- [ ] 2008-05-19-flickrproxy-2-實作.html
-- [ ] 2008-05-21-flickrproxy-3-終於搞定大圖網址錯誤的問題.html
-- [ ] 2008-06-03-flickrproxy-4-修正同步上傳的問題.html
-- [ ] 2008-06-04-run-pc-2008-六月號.html
-- [ ] 2008-06-09-換了四核心，mce就掛了.html
-- [ ] 2008-06-11-canon-raw-codec-for-vista-xp-x64.html
-- [ ] 2008-06-17-換到-blogengine-net-了.html
-- [ ] 2008-06-18-ff3-download-day.html
-- [ ] 2008-06-19-從-communityserver-2007-到-blogengine-net.html
-- [ ] 2008-06-19-換訂閱的網址了.html
-- [ ] 2008-06-21-blogengine-net-改造工程-cs2007-資料匯入.html
+- [x] 2008-05-06-停機公告.html → 2008-05-06-server-downtime-announcement.md (success)
+- [x] 2008-05-12-next-ten-years.html → 2008-05-12-next-ten-years.md (success)
+- [x] 2008-05-16-flickrproxy-1-overview.html → 2008-05-16-flickrproxy-1-overview.md (success)
+- [x] 2008-05-19-flickrproxy-2-實作.html → 2008-05-19-flickrproxy-2-implementation.md (success)
+- [x] 2008-05-21-flickrproxy-3-終於搞定大圖網址錯誤的問題.html → 2008-05-21-flickrproxy-3-finally-fixed-large-image-url-error-issue.md (success)
+- [x] 2008-06-03-flickrproxy-4-修正同步上傳的問題.html → 2008-06-03-flickrproxy-4-fixed-synchronous-upload-issues.md (success)
+- [x] 2008-06-04-run-pc-2008-六月號.html → 2008-06-04-run-pc-2008-june-issue.md (success)
+- [x] 2008-06-09-換了四核心，mce就掛了.html → 2008-06-09-switched-to-quad-core-mce-broke.md (success)
+- [x] 2008-06-11-canon-raw-codec-for-vista-xp-x64.html → 2008-06-11-canon-raw-codec-for-vista-xp-x64.md (success)
+- [x] 2008-06-17-換到-blogengine-net-了.html → 2008-06-17-switched-to-blogengine-net.md (success)
+- [x] 2008-06-18-ff3-download-day.html → 2008-06-18-ff3-download-day.md (success)
+- [x] 2008-06-19-從-communityserver-2007-到-blogengine-net.html → 2008-06-19-from-communityserver-2007-to-blogengine-net.md (success)
+- [x] 2008-06-19-換訂閱的網址了.html → 2008-06-19-changed-subscription-url.md (success)
+- [x] 2008-06-21-blogengine-net-改造工程-cs2007-資料匯入.html → 2008-06-21-blogengine-net-transformation-project-cs2007-data-import.md (success)
 - [ ] 2008-06-23-利用-wpf-讀取-canon-cr2-的-exif-及縮圖-c-範例程式說明.md
 - [ ] 2008-06-23-又被盜文了.html
 - [ ] 2008-06-25-bot-checker-回來了.html
