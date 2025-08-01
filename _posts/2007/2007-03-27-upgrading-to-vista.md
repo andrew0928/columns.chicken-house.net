@@ -6,7 +6,6 @@ categories:
 tags: ["技術隨筆","有的沒的"]
 published: true
 comments: true
-permalink: ""
 redirect_from:
   - /2007/03/27/upgrading-to-vista/
   - /columns/post/2007/03/27/e58d87e7b49a-Vista-.aspx/
