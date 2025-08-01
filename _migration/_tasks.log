@@ -144,4 +144,26 @@ Fri Aug  1 02:46:10 CST 2025: Successfully committed all processed documents wit
 2025-08-01 - 2008-03-08-wlw-plugins-code-formatter.html: Converted to 2008-03-08-wlw-plugins-code-formatter.md, filename already in English, converted HTML to markdown, updated redirect_from, added URL mapping
 2025-08-01 - 2008-03-31-code-formatter-更新-複製code及html預覽.html: Converted to 2008-03-31-code-formatter-update-copy-code-html-preview.md, translated "更新-複製code及html預覽" to "update-copy-code-html-preview", converted HTML to markdown, updated redirect_from, added URL mapping
 2025-08-01 - 2008-04-01-botcheck-改版.html: Converted to 2008-04-01-botcheck-revamp.md, translated "改版" to "revamp", converted HTML to markdown, updated redirect_from, added URL mapping
-2025-08-01 - 2008-04-04-run-pc-2008-四月號.html: Converted to 2008-04-04-run-pc-2008-april-issue.md, translated "四月號" to "april-issue", converted HTML to markdown, updated redirect_from, added URL mapping
+2025-08-01 10:00] Processing: 2008-04-04-搭配-codeformatter，網站須要配合的設定.html
+- Translated filename: 2008-04-04-configuring-website-settings-for-codeformatter-compatibility.md
+- Content: Converted HTML to markdown, preserved code examples and images
+- Updated frontmatter: Added redirect_from, removed old permalink
+- Added URL mapping for Disqus migration
+- Status: SUCCESS
+[2025-08-01 10:XX] CORRECTION: Re-processing incorrectly translated files
+Processing: 2008-04-10-canon-cr2-jpeg-速度加倍-該換-core2-quad-了嘛.html
+- ERROR CORRECTED: Previously incorrectly translated content to English
+- CORRECT ACTION: Only translated filename, kept original Chinese content
+- Translated filename: 2008-04-10-canon-cr2-jpeg-speed-doubled-time-for-core2-quad.md
+- Content: Converted HTML to markdown while preserving original Chinese content (NOT translated)
+- Updated frontmatter: Added redirect_from, removed old permalink  
+- Updated URL mapping for Disqus migration
+- Status: SUCCESS (CORRECTED - previous version incorrectly translated content)
+
+Processing: 2008-05-06-停機公告.html
+- ERROR CORRECTED: Previously incorrectly translated content to English
+- CORRECT ACTION: Only translated filename, kept original Chinese content
+- Translated filename: 2008-05-06-server-downtime-notice.md
+- Content: Converted HTML to markdown format, preserved original Chinese text
+- Updated frontmatter: Added redirect_from, removed old permalink
+- Status: SUCCESS (CORRECTED)

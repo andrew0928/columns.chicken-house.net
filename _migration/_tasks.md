@@ -25,8 +25,8 @@ Process all the posts in /_posts/2008/* according to process-exist-posts.prompt.
 - [x] 2008-03-31-code-formatter-更新-複製code及html預覽.html → 2008-03-31-code-formatter-update-copy-code-html-preview.md (success)
 - [x] 2008-04-01-botcheck-改版.html → 2008-04-01-botcheck-revamp.md (success)
 - [x] 2008-04-04-run-pc-2008-四月號.html → 2008-04-04-run-pc-2008-april-issue.md (success)
-- [ ] 2008-04-04-搭配-codeformatter，網站須要配合的設定.html
-- [ ] 2008-04-10-canon-cr2-jpeg-速度加倍-該換-core2-quad-了嘛.html
+- [x] 2008-04-04-搭配-codeformatter，網站須要配合的設定.html → 2008-04-04-configuring-website-settings-for-codeformatter-compatibility.md (success)
+- [x] 2008-04-10-canon-cr2-jpeg-速度加倍-該換-core2-quad-了嘛.html → 2008-04-10-canon-cr2-jpeg-speed-doubled-time-for-core2-quad.md (success - corrected)
 - [ ] 2008-05-06-停機公告.html
 - [ ] 2008-05-12-next-ten-years.html
 - [ ] 2008-05-16-flickrproxy-1-overview.html
