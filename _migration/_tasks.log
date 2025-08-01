@@ -132,3 +132,16 @@ Fri Aug  1 02:39:16 CST 2025: Batch processing completed! All 4 remaining files 
 Fri Aug  1 02:40:53 CST 2025: Starting filename translation for 3 ThreadPool files
 Fri Aug  1 02:43:39 CST 2025: Successfully translated all 3 ThreadPool file names and updated metadata
 Fri Aug  1 02:46:10 CST 2025: Successfully committed all processed documents with commit hash: 9237724
+2025-08-01 - 2008-01-14-遲來的正義.html: Converted to 2008-01-14-belated-justice.md, translated filename "遲來的正義" to "belated-justice", converted HTML to markdown, updated redirect_from, added URL mapping
+2025-08-01 - 2008-01-19-msdn-magazine-閱讀心得-stream-pipeline.html: Converted to 2008-01-19-msdn-magazine-reading-notes-stream-pipeline.md, translated "閱讀心得" to "reading-notes", converted HTML to markdown, updated redirect_from, added URL mapping
+2025-08-01 - 2008-02-12-再度換裝-vista-vista-ultimate-x64.html: Converted to 2008-02-12-switching-to-vista-ultimate-x64-again.md, translated "再度換裝" to "switching-again", converted HTML to markdown, updated redirect_from, added URL mapping
+2025-08-01 - 2008-02-13-爽一下-6gb-ram.html: Converted to 2008-02-13-enjoying-6gb-ram.md, translated "爽一下" to "enjoying", converted HTML to markdown, updated redirect_from, added URL mapping
+2025-08-01 - 2008-02-26-困難重重的-x64.html: Converted to 2008-02-26-challenging-x64-issues.md, translated "困難重重" to "challenging-issues", converted HTML to markdown, updated redirect_from, added URL mapping
+2025-08-01 - 2008-02-27-memory-management-i-fragment.md: Already compliant - English filename, markdown format, proper structure
+2025-08-01 - 2008-03-03-memory-management-ii-test-result.md: Already compliant - English filename, markdown format, proper structure
+2025-08-01 - 2008-03-03-memory-management-iii-net-clr.md: Already compliant - English filename, markdown format, proper structure
+2025-08-01 - 2008-03-06-tips-遠端桌面連線的小技巧.html: Converted to 2008-03-06-tips-remote-desktop-connection-tricks.md, translated "遠端桌面連線的小技巧" to "remote-desktop-connection-tricks", converted HTML to markdown, updated redirect_from, added URL mapping
+2025-08-01 - 2008-03-08-wlw-plugins-code-formatter.html: Converted to 2008-03-08-wlw-plugins-code-formatter.md, filename already in English, converted HTML to markdown, updated redirect_from, added URL mapping
+2025-08-01 - 2008-03-31-code-formatter-更新-複製code及html預覽.html: Converted to 2008-03-31-code-formatter-update-copy-code-html-preview.md, translated "更新-複製code及html預覽" to "update-copy-code-html-preview", converted HTML to markdown, updated redirect_from, added URL mapping
+2025-08-01 - 2008-04-01-botcheck-改版.html: Converted to 2008-04-01-botcheck-revamp.md, translated "改版" to "revamp", converted HTML to markdown, updated redirect_from, added URL mapping
+2025-08-01 - 2008-04-04-run-pc-2008-四月號.html: Converted to 2008-04-04-run-pc-2008-april-issue.md, translated "四月號" to "april-issue", converted HTML to markdown, updated redirect_from, added URL mapping

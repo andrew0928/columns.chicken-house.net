@@ -6,8 +6,8 @@ categories:
 tags: [".NET","ASP.NET","作品集","有的沒的"]
 published: true
 comments: true
-permalink: "/2008/04/01/botcheck-改版/"
 redirect_from:
+  - /2008/04/01/botcheck-改版/
   - /columns/post/2008/04/01/BotCheck-e694b9e78988.aspx/
   - /post/2008/04/01/BotCheck-e694b9e78988.aspx/
   - /post/BotCheck-e694b9e78988.aspx/
@@ -16,12 +16,9 @@ redirect_from:
   - /blogs/chicken/archive/2008/04/01/3139.aspx/
 wordpress_postid: 113
 ---
-<p>
+
 有鑑於好奇心強的網友，回應時老愛研究 BotCheck 跟內容的關聯性... (Honga 就是你...)，一時興起把 BotCheck 的 ASCX 改寫了一下，會在驗証通過時，把 BotCheck 的題目及答案附加在 comment 的後面，就像這樣: 
-</p>
-<p>
-<img style="border: 0px" src="/wp-content/be-files/WindowsLiveWriter/BotCheck_1ADE/image_3.png" border="0" alt="image" width="433" height="143" /> 
-</p>
-<p>
-免的每次都在那邊貼這次的 BotCheck 是啥.. 哈! 特此留念! 
-</p>
+
+![image](/wp-content/be-files/WindowsLiveWriter/BotCheck_1ADE/image_3.png)
+
+免的每次都在那邊貼這次的 BotCheck 是啥.. 哈! 特此留念!

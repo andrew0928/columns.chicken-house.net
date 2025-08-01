@@ -124,3 +124,13 @@ https://columns.chicken-house.net/2006/12/10/cs-2-1-sp2-metaweblog-api-newmediao
 /2007/12/14/threadpool-實作-1-基本概念/,/2007/12/14/threadpool-implementation-1-basic-concepts/
 /2007/12/17/threadpool-實作-2-程式碼-c/,/2007/12/17/threadpool-implementation-2-csharp-code/
 /2007/12/17/threadpool-實作-3-autoresetevent-manualresetevent/,/2007/12/17/threadpool-implementation-3-autoresetevent-manualresetevent/
+/2008/01/14/遲來的正義/,/2008/01/14/belated-justice/
+/2008/01/19/msdn-magazine-閱讀心得-stream-pipeline/,/2008/01/19/msdn-magazine-reading-notes-stream-pipeline/
+/2008/02/12/再度換裝-vista-vista-ultimate-x64/,/2008/02/12/switching-to-vista-ultimate-x64-again/
+/2008/02/13/爽一下-6gb-ram/,/2008/02/13/enjoying-6gb-ram/
+/2008/02/26/困難重重的-x64/,/2008/02/26/challenging-x64-issues/
+/2008/03/05/tips-遠端桌面連線的小技巧/,/2008/03/06/tips-remote-desktop-connection-tricks/
+/2008/03/07/wlw-plugins-code-formatter/,/2008/03/08/wlw-plugins-code-formatter/
+/2008/03/31/code-formatter-更新-複製code及html預覽/,/2008/03/31/code-formatter-update-copy-code-html-preview/
+/2008/04/01/botcheck-改版/,/2008/04/01/botcheck-revamp/
+/2008/04/03/run-pc-2008-四月號/,/2008/04/04/run-pc-2008-april-issue/
