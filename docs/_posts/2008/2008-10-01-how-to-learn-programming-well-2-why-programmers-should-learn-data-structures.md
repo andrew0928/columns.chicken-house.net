@@ -6,8 +6,8 @@ categories:
 tags: [".NET","C#","MSDN","Tips","作品集","專欄","技術隨筆","有的沒的","當年勇"]
 published: true
 comments: true
-permalink: "/2008/10/01/該如何學好-寫程式-2-為什麼-programmer-該學資料結構/"
 redirect_from:
+  - /2008/10/01/該如何學好-寫程式-2-為什麼-programmer-該學資料結構/
   - /columns/post/2008/10/01/e8a9b2e5a682e4bd95e5adb8e5a5bd-e5afabe7a88be5bc8f-2-e782bae4bb80e9babc-programmer-e8a9b2e5adb8e8b387e69699e7b590e6a78b-.aspx/
   - /post/2008/10/01/e8a9b2e5a682e4bd95e5adb8e5a5bd-e5afabe7a88be5bc8f-2-e782bae4bb80e9babc-programmer-e8a9b2e5adb8e8b387e69699e7b590e6a78b-.aspx/
   - /post/e8a9b2e5a682e4bd95e5adb8e5a5bd-e5afabe7a88be5bc8f-2-e782bae4bb80e9babc-programmer-e8a9b2e5adb8e8b387e69699e7b590e6a78b-.aspx/

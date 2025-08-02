@@ -53,16 +53,7 @@ applyTo: 'docs/_posts/*/*.md'
    mv "舊檔名.md" "新檔名.md"
    ```
 
-6. **準備 disqus 轉移網址對應** 範例:
-   輸出 /_migration/url-mapping.txt 檔案，附加新舊網址對應, 附加一行, 用逗號分隔, 格式為: {舊網址},{新網址}
-   新網址從檔名解析, 例如 2024-07-11-llm-app-development-experience-sharing.md 對應的網址是 /2024/07/11/llm-app-development-experience-sharing/
-
-   範例如下:
-   ```txt
-   /2024/07/11/llm-app-開發經驗分享/,/2024/07/11/llm-app-development-experience-sharing/
-   ```
-
-7. 提交變更內容:
+6. 提交變更內容:
    ```bash
    git add {舊檔名}.md
    git add {新檔名}.md

@@ -6,8 +6,8 @@ categories:
 tags: [".NET","C#","作品集","作業系統","多執行緒","專欄","技術隨筆","有的沒的","物件導向"]
 published: true
 comments: true
-permalink: "/2008/10/18/生產者-vs-消費者-blockqueue-實作/"
 redirect_from:
+  - /2008/10/18/生產者-vs-消費者-blockqueue-實作/
   - /columns/post/2008/10/18/e7949fe794a2e88085-vs-e6b688e8b2bbe88085-BlockQueue-e5afa6e4bd9c.aspx/
   - /post/2008/10/18/e7949fe794a2e88085-vs-e6b688e8b2bbe88085-BlockQueue-e5afa6e4bd9c.aspx/
   - /post/e7949fe794a2e88085-vs-e6b688e8b2bbe88085-BlockQueue-e5afa6e4bd9c.aspx/

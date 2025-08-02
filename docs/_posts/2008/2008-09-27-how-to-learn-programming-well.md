@@ -6,8 +6,8 @@ categories:
 tags: ["專欄","技術隨筆","有的沒的"]
 published: true
 comments: true
-permalink: "/2008/09/27/該如何學好-寫程式/"
 redirect_from:
+  - /2008/09/27/該如何學好-寫程式/
   - /columns/post/2008/09/27/GoodProgrammer1.aspx/
   - /post/2008/09/27/GoodProgrammer1.aspx/
   - /post/GoodProgrammer1.aspx/

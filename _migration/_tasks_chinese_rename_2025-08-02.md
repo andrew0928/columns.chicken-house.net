@@ -85,3 +85,56 @@ Process all the- [x] 2008-09-22-c-yield-return-2-另類的應用-thread-sync-替
 - [x] 2008-12-07-原來-net-早就內建-xmlnodewriter-了.html → 2008-12-07-dotnet-built-in-xmlnodewriter-discovery.md (success)
 - [x] 2008-12-08-原來-system-xml-xmlwellformedwriter-有-bug.html → 2008-12-08-system-xml-xmlwellformedwriter-bug.md (success)
 - [x] 2008-12-10-xmlwellformedwriter-writeraw-的-bug-後續發展.html → 2008-12-10-xmlwellformedwriter-writeraw-bug-followup.md (success)
+
+## Chinese Filename Translation - Remaining 2008 .md Files (2025-08-02)
+
+### Original Requirements
+Process all the files in /_posts/2008/*.md, contains chinese filename, convert them to english
+
+Use ls to get all file list, and use LLM to detect chinese filename directly, do not use script.
+
+### Instructions Applied
+- content-rename.instructions.md
+- batch.instructions.md
+
+### Files with Chinese Characters Identified (Current .md files)
+Total files to process: 6
+
+### Task Checklist
+- [x] 2008-09-10-莫明奇妙的錯誤訊息-找不到-vjsharpcodeprovider.md (success)
+- [x] 2008-09-27-該如何學好-寫程式.md (success)
+- [x] 2008-10-01-該如何學好-寫程式-2-為什麼-programmer-該學資料結構.md (success)
+- [x] 2008-10-08-該如何學好-寫程式-3-進階應用-資料結構-問題分析.md (success)
+- [x] 2008-10-18-生產者-vs-消費者-blockqueue-實作.md (success)
+- [x] 2008-10-20-該如何學好-寫程式-4-你的程式夠-可靠-嗎.md (success)
+
+### Task Completion Summary
+All 6 files with Chinese characters in filenames have been successfully processed:
+
+1. ✅ `2008-09-10-莫明奇妙的錯誤訊息-找不到-vjsharpcodeprovider.md` → `2008-09-10-mysterious-error-message-vjsharpcodeprovider-not-found.md`
+2. ✅ `2008-09-27-該如何學好-寫程式.md` → `2008-09-27-how-to-learn-programming-well.md`
+3. ✅ `2008-10-01-該如何學好-寫程式-2-為什麼-programmer-該學資料結構.md` → `2008-10-01-how-to-learn-programming-well-2-why-programmers-should-learn-data-structures.md`
+4. ✅ `2008-10-08-該如何學好-寫程式-3-進階應用-資料結構-問題分析.md` → `2008-10-08-how-to-learn-programming-well-3-advanced-application-data-structures-problem-analysis.md`
+5. ✅ `2008-10-18-生產者-vs-消費者-blockqueue-實作.md` → `2008-10-18-producer-vs-consumer-blockqueue-implementation.md`
+6. ✅ `2008-10-20-該如何學好-寫程式-4-你的程式夠-可靠-嗎.md` → `2008-10-20-how-to-learn-programming-well-4-is-your-program-reliable-enough.md`
+
+### Actions Completed
+- ✅ Added old filename redirects to `redirect_from` sections
+- ✅ Removed `permalink` entries where present
+- ✅ Renamed all files to English equivalents
+- ✅ Updated URL mappings in `/_migration/url-mapping.txt`
+- ✅ Maintained full content integrity
+
+### Status: COMPLETED ✅
+Date: 2025-08-02
+Total files processed: 6/6
+
+### Processing Steps per File
+1. Read file content (first 30 lines/500 chars) to understand context
+2. Determine appropriate English filename
+3. Add old filename redirect to redirect_from
+4. Add original permalink redirect (if exists)
+5. Remove permalink line (if exists)  
+6. Save and rename file
+7. Update URL mapping in /_migration/url-mapping.txt
+8. Commit changes

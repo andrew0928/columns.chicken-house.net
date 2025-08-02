@@ -190,3 +190,9 @@ https://columns.chicken-house.net/2006/12/10/cs-2-1-sp2-metaweblog-api-newmediao
 /2008/12/07/原來-net-早就內建-xmlnodewriter-了/,/2008/12/07/dotnet-built-in-xmlnodewriter-discovery/
 /2008/12/08/原來-system-xml-xmlwellformedwriter-有-bug/,/2008/12/08/system-xml-xmlwellformedwriter-bug/
 /2008/12/10/xmlwellformedwriter-writeraw-的-bug-後續發展/,/2008/12/10/xmlwellformedwriter-writeraw-bug-followup/
+/2008/09/10/莫明奇妙的錯誤訊息-找不到-vjsharpcodeprovider/,/2008/09/10/mysterious-error-message-vjsharpcodeprovider-not-found/
+/2008/09/27/該如何學好-寫程式/,/2008/09/27/how-to-learn-programming-well/
+/2008/10/01/該如何學好-寫程式-2-為什麼-programmer-該學資料結構/,/2008/10/01/how-to-learn-programming-well-2-why-programmers-should-learn-data-structures/
+/2008/10/08/該如何學好-寫程式-3-進階應用-資料結構-問題分析/,/2008/10/08/how-to-learn-programming-well-3-advanced-application-data-structures-problem-analysis/
+/2008/10/18/生產者-vs-消費者-blockqueue-實作/,/2008/10/18/producer-vs-consumer-blockqueue-implementation/
+/2008/10/20/該如何學好-寫程式-4-你的程式夠-可靠-嗎/,/2008/10/20/how-to-learn-programming-well-4-is-your-program-reliable-enough/

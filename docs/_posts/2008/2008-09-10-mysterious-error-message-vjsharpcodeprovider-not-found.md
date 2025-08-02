@@ -12,6 +12,8 @@ redirect_from:
   - /post/2008/09/10/e88eabe6988ee5a587e5a699e79a84e98cafe8aaa4e8a88ae681af-e689bee4b88de588b0-VJSharpCodeProvider-.aspx/
   - /post/e88eabe6988ee5a587e5a699e79a84e98cafe8aaa4e8a88ae681af-e689bee4b88de588b0-VJSharpCodeProvider-.aspx/
   - /columns/2008/09/10/e88eabe6988ee5a587e5a699e79a84e98cafe8aaa4e8a88ae681af-e689bee4b88de588b0-VJSharpCodeProvider-.aspx/
+  - /columns/e88eabe6988ee5a587e5a699e79a84e98cafe8aaa4e8a88ae681af-e689bee4b88de588b0-VJSharpCodeProvider-.aspx/Provider-.aspx/
+  - /columns/2008/09/10/e88eabe6988ee5a587e5a699e79a84e98cafe8aaa4e8a88ae681af-e689bee4b88de588b0-VJSharpCodeProvider-.aspx/
   - /columns/e88eabe6988ee5a587e5a699e79a84e98cafe8aaa4e8a88ae681af-e689bee4b88de588b0-VJSharpCodeProvider-.aspx/
 wordpress_postid: 69
 ---

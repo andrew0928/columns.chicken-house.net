@@ -6,8 +6,8 @@ categories:
 tags: [".NET","C#","Tips","作品集","專欄","技術隨筆","有的沒的"]
 published: true
 comments: true
-permalink: "/2008/10/08/該如何學好-寫程式-3-進階應用-資料結構-問題分析/"
 redirect_from:
+  - /2008/10/08/該如何學好-寫程式-3-進階應用-資料結構-問題分析/
   - /columns/post/2008/10/08/e8a9b2e5a682e4bd95e5adb8e5a5bd-e5afabe7a88be5bc8f-3-e980b2e99a8ee68789e794a8-e8b387e69699e7b590e6a78b-2b-e5958fe9a18ce58886e69e90.aspx/
   - /post/2008/10/08/e8a9b2e5a682e4bd95e5adb8e5a5bd-e5afabe7a88be5bc8f-3-e980b2e99a8ee68789e794a8-e8b387e69699e7b590e6a78b-2b-e5958fe9a18ce58886e69e90.aspx/
   - /post/e8a9b2e5a682e4bd95e5adb8e5a5bd-e5afabe7a88be5bc8f-3-e980b2e99a8ee68789e794a8-e8b387e69699e7b590e6a78b-2b-e5958fe9a18ce58886e69e90.aspx/

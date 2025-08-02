@@ -6,8 +6,8 @@ categories:
 tags: [".NET","C#","Tips","作品集","專欄","技術隨筆","有的沒的"]
 published: true
 comments: true
-permalink: "/2008/10/20/該如何學好-寫程式-4-你的程式夠-可靠-嗎/"
 redirect_from:
+  - /2008/10/20/該如何學好-寫程式-4-你的程式夠-可靠-嗎/
   - /columns/post/2008/10/20/e8a9b2e5a682e4bd95e5adb8e5a5bd-e5afabe7a88be5bc8f-4-e4bda0e79a84e7a88be5bc8fe5a4a0-e58fafe99da0-e5978e.aspx/
   - /post/2008/10/20/e8a9b2e5a682e4bd95e5adb8e5a5bd-e5afabe7a88be5bc8f-4-e4bda0e79a84e7a88be5bc8fe5a4a0-e58fafe99da0-e5978e.aspx/
   - /post/e8a9b2e5a682e4bd95e5adb8e5a5bd-e5afabe7a88be5bc8f-4-e4bda0e79a84e7a88be5bc8fe5a4a0-e58fafe99da0-e5978e.aspx/
