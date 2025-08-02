@@ -1,6 +1,0 @@
-/post/2007/03/30/e4bebfe5ae9ce79a84-SATA-e58589e7a29fe6a99f.aspx/,/2007/03/30/cheap-sata-optical-drive/
-/post/2007/04/03/Vista-Day-4.aspx/,/2007/04/03/vista-day-4/
-/post/2007/04/04/Canon-RAW-Codec-for-Vista-e587bae4be86e4ba86.aspx/,/2007/04/03/canon-raw-codec-for-vista-released/
-/post/2007/04/06/e58e9fe4be86-SystemNetMail-e4b99fe69c83e69c89-Bug-.aspx/,/2007/04/06/system-net-mail-bug-discovered/
-/post/2007/04/10/e6898be799a2e4ba82e8a39d-MyATM.aspx/,/2007/04/09/accidentally-installed-myatm/
-/post/2007/04/16/WMCmdvbs-e59ca8-VISTA-e4b88be59fb7e8a18ce69c83e5b08ee887b3-cscriptexe-e799bce7949fe98cafe8aaa4.aspx/,/2007/04/15/wmcmd-vbs-vista-cscript-error-fix/
