@@ -15,27 +15,27 @@ applyTo: 'docs/_posts/*/*.md'
 項目如下:
 
 ```yaml
-- 確認新檔名
-- 加入舊檔名轉導 -> redirect_from
-- 加入原 permalink 轉導 -> redirect_from
-- 移除 permalink 行
-- 儲存並重新命名檔案
+1. 從文章內容確認新檔名
+2. 加入舊檔名轉導 -> redirect_from
+3. 加入原 permalink 轉導 -> redirect_from (若已存在同路徑則可略過)
+4. 移除 permalink 行
+5. 儲存並重新命名檔案
 ```
 
 
 1. **確認新檔名**:  
 確認新的檔名符合上述規範。
 若需要將中文檔名翻譯成英文，你可能需要內文當作 context.
-請最多只讀取內文的第一段, 前 50 行, 或是前 1000 字的內文來判定。
+請最多只讀取內文的第一段, 前 30 行, 或是前 500 字的內文來判定。
 
 
-2. **加入舊檔名轉導** 範例:
+2. **加入舊檔名轉導** 範例 (若已存在同路徑則可略過):
    ```yaml
    redirect_from:
      - /yyyy/mm/dd/舊標題/
    ```
 
-3. **加入原 permalink 轉導** 範例:
+3. **加入原 permalink 轉導** 範例 (若已存在同路徑則可略過):
    ```yaml
    redirect_from:
      - /yyyy/mm/dd/舊標題/

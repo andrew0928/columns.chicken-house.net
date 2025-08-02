@@ -2,7 +2,10 @@
 mode: agent
 ---
 
-reference 2 instructions: #file:basic.instructions.md #file:batch.instructions.md 
+reference 2 instructions: 
+- #file: .github/instructions/basic.instructions.md
+- #file: .github/instructions/batch.instructions.md
+
 process all the posts in /_posts/{year}/*
 
 process requirements:

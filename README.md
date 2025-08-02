@@ -45,8 +45,6 @@ columns.chicken-house.net/
 - **instructions/**: GitHub Copilot 智能提示規範
 - **prompts/**: AI 內容生成提示詞模板
 
-樣板來源: http://mazhuang.org/
-
 
 
 # Branch Notes
@@ -66,31 +64,21 @@ Branch **draft**:
 
 # 本機預覽環境
 
-* 啟動 (build 時會將目前的 . 部落格內容都複製到 container 的 /home/source, 用以加速 jekyll build)
+* 啟動 (build 時會將目前的 ./docs 部落格內容掛載到 container 的 /usr/src/app)
 ```
-docker-compose build
-docker-compose up -d jekyll --force-recreate
+docker-compose up -d --force-recreate
 ```
 
-或是將上述兩道指令合併:
-```
-docker-compose up -d jekyll --build --force-recreate
-```
 
 成功後即可從 http://localhost:4000 看到 github pages 預覽結果
 
 
 * 開啟 console:
 ```
-docker-compose exec -w /home jekyll bash
-```
-
-* 更新檔案:
-```
-cp -Ru columns/* source
+docker-compose exec -w /usr/src/app github-pages bash
 ```
 
 * 觀察 jekyll build logs:
 ```
-docker-compose logs -t --tail 300 -f --no-log-prefix jekyll
+docker-compose logs -t --tail 300 -f --no-log-prefix github-pages
 ```
