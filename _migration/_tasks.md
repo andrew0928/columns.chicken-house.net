@@ -69,3 +69,64 @@ All 9 files from 2010 directory have been successfully processed:
 4. Files renamed following the 6-step process from content-rename.instructions.md
 
 Task completed successfully on 2025-08-02.
+
+## Chinese Filename Conversion for 2011 Posts - 2025-08-02
+
+### Original Requirement
+Following the instructions, process all the files in /_posts/2011/*.md, contains chinese filename, convert them to english. Use ls to get all file list, and use LLM to detect chinese filename directly, do not use script, useless and not work.
+
+### Instructions Applied
+- content-rename.instructions.md
+- batch.instructions.md
+
+### Task Checklist
+
+Files with Chinese characters detected in 2011 directory:
+
+- [x] 2011-01-03-code-可以輸出到-textbox-的-textwriter-textboxwriter.md (success)
+- [x] 2011-10-25-code-linq-to-object-替物件加上索引.md (success)
+
+Files without Chinese characters (will be skipped):
+- 2011-10-30-linq-to-object-2-indexes-for-objects.md
+
+Total files to process: 2
+
+### Summary
+All 2 files from 2011 directory have been successfully processed:
+1. `2011-01-03-code-可以輸出到-textbox-的-textwriter-textboxwriter.md` → `2011-01-03-code-textwriter-that-outputs-to-textbox-textboxwriter.md`
+2. `2011-10-25-code-linq-to-object-替物件加上索引.md` → `2011-10-25-code-linq-to-object-adding-indexes-to-objects.md`
+
+Each file was processed following the 6-step process from content-rename.instructions.md:
+1. Confirmed new filename based on content
+2. Added old filename redirect_from entry
+3. Original permalink redirects already existed
+4. Removed permalink entries
+5. Files renamed successfully
+
+Task completed successfully on 2025-08-02.
+
+## Chinese Filename Conversion for 2013 & 2015 Posts - 2025-08-02
+
+### Original Requirement
+Process all files in /_posts/2013/*.md and /_posts/2015/*.md that contain Chinese filenames and convert them to English following the content-rename.instructions.md guidelines.
+
+### Instructions Applied
+- content-rename.instructions.md
+- batch.instructions.md
+
+### Task Checklist
+
+#### 2013 Files
+- [x] 2013-03-12-azure-multi-tenancy-application-1-設計概念.md (success)
+- [x] 2013-03-17-azure-multi-tenancy-application-2-資料層的選擇.md (success)
+- [ ] 2013-03-21-azure-multi-tenancy-application-3-資料層實作案例.md (processing)
+- [ ] 2013-04-15-處理大型資料的技巧-async-await.md
+
+#### 2015 Files
+- [ ] 2015-10-13-docker-初體驗-synology-dsm-上面架設-wordpress-redmine-reverse-proxy.md
+- [ ] 2015-10-24-終於搞定-ubuntu-server-15-10.md
+
+Total files to process: 6
+
+### Process Status
+Ready to start processing files.
