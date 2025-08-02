@@ -1,5 +1,5 @@
 ---
-applyTo: '_posts/*/*.md'
+applyTo: 'docs/_posts/*/*.md'
 ---
 
 # 部落格檔案結構規範

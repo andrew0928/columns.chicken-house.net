@@ -1,5 +1,5 @@
 ---
-applyTo: '_posts/*/*.md'
+applyTo: 'docs/_posts/*/*.md'
 ---
 
 收到批次作業需求，請按這步驟建立任務清單並隨時更新進度。

@@ -109,7 +109,7 @@ version: "1.0"
 
 ## 範例輸入/輸出
 
-**輸入**: `/home/andrew/code-work/columns.chicken-house.net/_posts/2024/2024-07-15-docker-setup.md`
+**輸入**: `/home/andrew/code-work/columns.chicken-house.net/docs/_posts/2024/2024-07-15-docker-setup.md`
 **輸出**: `/home/andrew/code-work/columns.chicken-house.net/_embedding/2024/2024-07-15-docker-setup.md`
 
 請開始處理指定的文章檔案。

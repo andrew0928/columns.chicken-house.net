@@ -290,7 +290,151 @@ columns.chicken-house.net/
 │   ├── _posts/
 │   ├── _data/
 │   ├── _includes/
-│   ├── _
+│   ├── _layouts/
+│   ├── assets/
+│   ├── pages/
+│   └── index.html
+├── _embedding/              # AI 生成內容
+├── _migration/              # 遷移工作區
+├── .github/
+│   ├── instructions/
+│   └── prompts/
+├── README.md
+└── 其他專案檔案
+```
+
+## 3. 變更程序 (Repo)
+
+### 步驟 1：建立新結構 ### 步驟 2：移動 Jekyll 相關檔案 ### 步驟 3：調整 _config.yml 設定 我需要檢查是否有路徑相關的設定需要調整： ### 步驟 4：更新 Instructions 中的路徑 
+```
+
+```
+
+```
+
+```
+繼續更新其他相關檔案： 
+```
+
+```
+
+```
+
+```
+
+```
+
+```
+
+```
+
+```
+
+```
+
+```
+
+```
+
+```
+
+```
+
+```
+### 步驟 5：更新 batch instructions 中的路徑 
+```
+
+```
+### 步驟 6：建立根目錄的 README 
+```
+
+```
+## 4. GitHub Pages 設定變更程序
+
+### 網頁端設定步驟：
+
+1. **進入 Repository Settings**
+   - 前往 GitHub repo: `https://github.com/andrew0928/columns.chicken-house.net`
+   - 點選 **Settings** 標籤
+
+2. **更改 Pages 設定**
+   - 在左側選單找到 **Pages**
+   - 在 **Source** 部分：
+     - 改選 **Deploy from a branch**
+     - **Branch**: 選擇 `master`
+     - **Folder**: 改選 **``** (而非 `/ (root)`)
+   - 點選 **Save**
+
+3. **驗證設定**
+   - GitHub 會顯示網站將從 `master` 分支的 `` 目錄發布
+   - 等待幾分鐘讓 GitHub Pages 重新建置
+
+## 5. 完整變更清單摘要
+
+### 已完成的變更：
+
+1. **目錄結構重組**：
+   ```
+   ✅ 將 Jekyll 檔案移動到 /docs/
+   ✅ 保留 _embedding/ 和 _migration/ 在根目錄
+   ✅ 更新所有 instructions 中的路徑引用
+   ```
+
+2. **規範檔案更新**：
+   ```
+   ✅ content-format.instructions.md 
+   ✅ content-rename.instructions.md
+   ✅ jekyll-metadata.instructions.md
+   ✅ content-writing.instructions.md  
+   ✅ automation-workflow.instructions.md
+   ✅ batch.instructions.md
+   ✅ generate-embedding.prompt.md
+   ```
+
+3. **文件更新**：
+   ```
+   ✅ README.md 更新專案說明
+   ```
+
+### 待完成：
+
+```
+⏳ GitHub Pages 設定改為從 /docs 發布
+⏳ 測試網站是否正常運作
+⏳ 檢查內部連結是否需要調整
+```
+
+### 建議測試項目：
+
+1. **網站功能測試**：
+   - 首頁是否正常顯示
+   - 文章頁面是否能正常載入
+   - RSS feed 是否正常
+   - 靜態資源 (CSS, JS, 圖片) 是否正常載入
+
+2. **GitHub Copilot 智能提示測試**：
+   - 在 `` 目錄編輯文章時是否能正確應用規範
+   - 建立新文章時是否提供適當的模板建議
+
+這個重構方案能夠：
+- ✅ 清楚分離內容和工具
+- ✅ 最大化 GitHub Copilot 效果  
+- ✅ 支援未來的 AI 輔助功能擴展
+- ✅ 保持 GitHub Pages 的原生支援
+
+---
+
+_**User**_
+
+commit all,
+你給我的資訊寫入 message 內
+我手動追加了一項, 調整 /docker-compose.yaml 內的路徑, 我能在本地啟動 jekyll 做驗證
+
+---
+
+_**Assistant**_
+
+我先檢查一下目前的 git 狀態，然後查看您對 `docker-compose.yml` 的調整： 讓我查看您對 `docker-compose.yml` 的調整： 
 
 ---
 

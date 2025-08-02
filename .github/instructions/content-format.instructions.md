@@ -1,5 +1,5 @@
 ---
-applyTo: '_posts/*/*.md'
+applyTo: 'docs/_posts/*/*.md'
 ---
 
 # 部落格檔案結構規範
@@ -35,7 +35,7 @@ applyTo: '_posts/*/*.md'
 
 ### 目錄結構
 ```
-_posts/
+docs/_posts/
 ├── 2004/
 │   ├── 2004-12-14-thinkpad-lenovo-acquisition-shock.html
 │   ├── 2004-12-15-three-useful-asp-net-httphandlers.html

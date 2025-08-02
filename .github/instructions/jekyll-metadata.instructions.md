@@ -1,5 +1,5 @@
 ---
-applyTo: '_posts/*/*.md'
+applyTo: 'docs/_posts/*/*.md'
 ---
 
 # Jekyll Metadata 規範

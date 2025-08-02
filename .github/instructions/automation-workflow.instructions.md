@@ -1,5 +1,5 @@
 ---
-applyTo: '_posts/*/*.md'
+applyTo: 'docs/_posts/*/*.md'
 ---
 
 # 自動化 Embedding 生成工作流程
@@ -14,14 +14,14 @@ applyTo: '_posts/*/*.md'
 - 更新現有 embedding 內容
 
 ### 自動觸發（未來規劃）
-- 當 `_posts/` 目錄有新文章時
+- 當 `docs/_posts/` 目錄有新文章時
 - 當現有文章被修改時
 - 定期批次更新所有 embedding 內容
 
 ## 工作流程步驟
 
 ### 步驟 1：檔案掃描和驗證
-1. 掃描 `_posts/{year}/` 目錄找出待處理文章
+1. 掃描 `docs/_posts/{year}/` 目錄找出待處理文章
 2. 檢查對應的 `_embedding/{year}/` 是否已存在
 3. 比較原始檔案和 embedding 檔案的修改時間
 4. 建立處理清單
