@@ -6,8 +6,8 @@ categories:
 tags: ["Docker","Tips","技術隨筆","有的沒的"]
 published: true
 comments: true
-permalink: "/2015/10/13/docker-初體驗-synology-dsm-上面架設-wordpress-redmine-reverse-proxy/"
 redirect_from:
+  - /2015/10/13/docker-初體驗-synology-dsm-上面架設-wordpress-redmine-reverse-proxy/
 wordpress_postid: 339
 ---
 
