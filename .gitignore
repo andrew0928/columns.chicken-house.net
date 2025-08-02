@@ -7,12 +7,6 @@ _site/
 Gemfile.lock
 .jekyll-metadata
 ~$*.pptx
-.specstory/.what-is-this.md
-.specstory/history/2025-07-31_18-09Z-#file-basic-instructions-md-#file-batch-instructio.md
-.specstory/history/2025-07-31_18-28Z-#file-basic-instructions-md-#file-batch-instructio.md
-.specstory/history/2025-08-01_13-51Z-#file-basic-instructions-md-#file-batch-instructio.md
-.specstory/history/2025-08-01_14-40Z-#file-basic-instructions-md-#file-batch-instructio.md
-.specstory/history/2025-08-01_15-05Z-#file-basic-instructions-md-#file-batch-instructio.md
-.specstory/history/2025-08-01_16-06Z-#file-content-rename-instructions-md-follow-the-in.md
-.specstory/history/2025-08-02_01-37Z-這是嘗試的操作,只列出我要的答案就好,請勿更新任何檔案內容。.md
-.specstory/history/2025-08-02_01-53Z-這個-repo-專門是發行內容用的-repo,-而非-source-code.md
+
+# SpecStory artifacts - keep locally but don't commit
+.specstory/
