@@ -8,6 +8,7 @@ published: true
 comments: true
 redirect_from:
   - /2007/09/19/水電工日誌-3-查線-標線/
+  - /2007/09/18/水電工日誌-3-查線-標線/
   - /columns/post/2007/09/19/e6b0b4e99bbbe5b7a5e697a5e8aa8c-3-e69fa5e7b79a-amp3b-e6a899e7b79a.aspx/
   - /post/2007/09/19/e6b0b4e99bbbe5b7a5e697a5e8aa8c-3-e69fa5e7b79a-amp3b-e6a899e7b79a.aspx/
   - /post/e6b0b4e99bbbe5b7a5e697a5e8aa8c-3-e69fa5e7b79a-amp3b-e6a899e7b79a.aspx/

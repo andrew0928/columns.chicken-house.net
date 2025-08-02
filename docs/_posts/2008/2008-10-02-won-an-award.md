@@ -7,6 +7,7 @@ published: true
 comments: true
 redirect_from:
   - /2008/10/02/得獎了-d/
+  - /2008/10/01/得獎了-d/
   - /columns/post/2008/10/02/e5be97e78d8ee4ba86-D7e7e7e.aspx/
   - /post/2008/10/02/e5be97e78d8ee4ba86-D7e7e7e.aspx/
   - /post/e5be97e78d8ee4ba86-D7e7e7e.aspx/

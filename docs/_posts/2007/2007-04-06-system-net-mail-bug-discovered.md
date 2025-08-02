@@ -7,6 +7,7 @@ tags: [".NET","Tips","技術隨筆"]
 published: true
 comments: true
 redirect_from:
+  - /2007/04/06/原來-system-net-mail-也會有-bug/
   - /2007/04/06/system-net-mail-bug-discovered/
   - /columns/post/2007/04/06/e58e9fe4be86-SystemNetMail-e4b99fe69c83e69c89-Bug-.aspx/
   - /post/2007/04/06/e58e9fe4be86-SystemNetMail-e4b99fe69c83e69c89-Bug-.aspx/

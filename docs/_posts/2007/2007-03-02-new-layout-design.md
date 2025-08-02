@@ -7,6 +7,7 @@ tags: ["有的沒的"]
 published: true
 comments: true
 redirect_from:
+  - /2007/03/01/換新版面了-d/
   - /2007/03/01/new-layout-design/
   - /columns/post/2007/03/02/e68f9be696b0e78988e99da2e4ba86-D.aspx/
   - /post/2007/03/02/e68f9be696b0e78988e99da2e4ba86-D.aspx/
