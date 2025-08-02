@@ -6,8 +6,8 @@ categories:
 tags: [".NET","ASP.NET","C#","多執行緒","技術隨筆"]
 published: true
 comments: true
-permalink: "/2011/01/03/code-可以輸出到-textbox-的-textwriter-textboxwriter/"
 redirect_from:
+  - /2011/01/03/code-可以輸出到-textbox-的-textwriter-textboxwriter/
   - /columns/post/2011/01/03/CODE-e58fafe4bba5e8bcb8e587bae588b0-TextBox-e79a84-TextWriter-TextBoxWriter!.aspx/
   - /post/2011/01/03/CODE-e58fafe4bba5e8bcb8e587bae588b0-TextBox-e79a84-TextWriter-TextBoxWriter!.aspx/
   - /post/CODE-e58fafe4bba5e8bcb8e587bae588b0-TextBox-e79a84-TextWriter-TextBoxWriter!.aspx/
