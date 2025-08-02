@@ -6,8 +6,8 @@ categories:
 tags: ["Docker","技術隨筆","有的沒的"]
 published: true
 comments: true
-permalink: "/2015/10/24/終於搞定-ubuntu-server-15-10/"
 redirect_from:
+  - /2015/10/24/終於搞定-ubuntu-server-15-10/
 wordpress_postid: 375
 ---
 
