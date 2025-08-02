@@ -119,12 +119,12 @@ Process all files in /_posts/2013/*.md and /_posts/2015/*.md that contain Chines
 #### 2013 Files
 - [x] 2013-03-12-azure-multi-tenancy-application-1-設計概念.md (success)
 - [x] 2013-03-17-azure-multi-tenancy-application-2-資料層的選擇.md (success)
-- [ ] 2013-03-21-azure-multi-tenancy-application-3-資料層實作案例.md (processing)
-- [ ] 2013-04-15-處理大型資料的技巧-async-await.md
+- [x] 2013-03-21-azure-multi-tenancy-application-3-資料層實作案例.md (success)
+- [x] 2013-04-15-處理大型資料的技巧-async-await.md (success)
 
 #### 2015 Files
-- [ ] 2015-10-13-docker-初體驗-synology-dsm-上面架設-wordpress-redmine-reverse-proxy.md
-- [ ] 2015-10-24-終於搞定-ubuntu-server-15-10.md
+- [x] 2015-10-13-docker-初體驗-synology-dsm-上面架設-wordpress-redmine-reverse-proxy.md (success)
+- [ ] 2015-10-24-終於搞定-ubuntu-server-15-10.md (processing)
 
 Total files to process: 6
 
