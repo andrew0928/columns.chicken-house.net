@@ -6,8 +6,8 @@ categories:
 tags: ["AZURE","MSDN","SQL","技術隨筆"]
 published: true
 comments: true
-permalink: "/2013/03/12/azure-multi-tenancy-application-1-設計概念/"
 redirect_from:
+  - /2013/03/12/azure-multi-tenancy-application-1-設計概念/
   - /columns/post/2013/03/12/Azure-Multi-Tenancy-Application-1-e8a8ade8a888e6a682e5bfb5.aspx/
   - /post/2013/03/12/Azure-Multi-Tenancy-Application-1-e8a8ade8a888e6a682e5bfb5.aspx/
   - /post/Azure-Multi-Tenancy-Application-1-e8a8ade8a888e6a682e5bfb5.aspx/
