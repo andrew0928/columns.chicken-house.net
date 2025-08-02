@@ -6,8 +6,8 @@ categories:
 tags: ["AZURE","MSDN","SQL","技術隨筆"]
 published: true
 comments: true
-permalink: "/2013/03/17/azure-multi-tenancy-application-2-資料層的選擇/"
 redirect_from:
+  - /2013/03/17/azure-multi-tenancy-application-2-資料層的選擇/
   - /columns/post/2013/03/17/Azure-Multi-Tenancy-Application-2-e8b387e69699e5b1a4e79a84e981b8e69387.aspx/
   - /post/2013/03/17/Azure-Multi-Tenancy-Application-2-e8b387e69699e5b1a4e79a84e981b8e69387.aspx/
   - /post/Azure-Multi-Tenancy-Application-2-e8b387e69699e5b1a4e79a84e981b8e69387.aspx/
