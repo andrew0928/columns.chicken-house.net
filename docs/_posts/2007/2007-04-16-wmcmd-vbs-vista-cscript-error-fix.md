@@ -8,6 +8,7 @@ published: true
 comments: true
 redirect_from:
   - /2007/04/15/wmcmd-vbs-vista-cscript-error-fix/
+  - /2007/04/15/wmcmd-vbs-在-vista-下執行會導至-cscript-exe-發生錯誤/
   - /columns/post/2007/04/16/WMCmdvbs-e59ca8-VISTA-e4b88be59fb7e8a18ce69c83e5b08ee887b3-cscriptexe-e799bce7949fe98cafe8aaa4.aspx/
   - /post/2007/04/16/WMCmdvbs-e59ca8-VISTA-e4b88be59fb7e8a18ce69c83e5b08ee887b3-cscriptexe-e799bce7949fe98cafe8aaa4.aspx/
   - /post/WMCmdvbs-e59ca8-VISTA-e4b88be59fb7e8a18ce69c83e5b08ee887b3-cscriptexe-e799bce7949fe98cafe8aaa4.aspx/

@@ -8,6 +8,7 @@ published: true
 comments: true
 redirect_from:
   - /2007/10/03/水電工日誌-5-配接-cable-線/
+  - /2007/10/02/水電工日誌-5-配接-cable-線/
   - /columns/post/2007/10/03/e6b0b4e99bbbe5b7a5e697a5e8aa8c-5-e9858de68ea5-cable-e7b79a.aspx/
   - /post/2007/10/03/e6b0b4e99bbbe5b7a5e697a5e8aa8c-5-e9858de68ea5-cable-e7b79a.aspx/
   - /post/e6b0b4e99bbbe5b7a5e697a5e8aa8c-5-e9858de68ea5-cable-e7b79a.aspx/

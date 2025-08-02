@@ -8,6 +8,7 @@ published: true
 comments: true
 redirect_from:
   - /2007/04/03/canon-raw-codec-for-vista-released/
+  - /2007/04/03/canon-raw-codec-for-vista-出來了/
   - /columns/post/2007/04/04/Canon-RAW-Codec-for-Vista-e587bae4be86e4ba86.aspx/
   - /post/2007/04/04/Canon-RAW-Codec-for-Vista-e587bae4be86e4ba86.aspx/
   - /post/Canon-RAW-Codec-for-Vista-e587bae4be86e4ba86.aspx/

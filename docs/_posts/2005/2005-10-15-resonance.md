@@ -4,7 +4,7 @@ title: "共振..."
 categories:
 
 tags: ["有的沒的"]
-published: false
+published: true
 comments: true
 redirect_from:
   - /2005/10/15/共振/

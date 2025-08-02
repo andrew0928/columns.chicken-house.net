@@ -8,6 +8,7 @@ published: true
 comments: true
 redirect_from:
   - /2008/06/09/換了四核心，mce就掛了/
+  - /2008/06/08/換了四核心，mce就掛了/
   - /columns/post/2008/06/09/e68f9be4ba86e59b9be6a0b8e5bf83efbc8cMCEe5b0b1e68e9be4ba86.aspx/
   - /post/2008/06/09/e68f9be4ba86e59b9be6a0b8e5bf83efbc8cMCEe5b0b1e68e9be4ba86.aspx/
   - /post/e68f9be4ba86e59b9be6a0b8e5bf83efbc8cMCEe5b0b1e68e9be4ba86.aspx/

@@ -8,6 +8,7 @@ published: true
 comments: true
 redirect_from:
   - /2008/06/23/又被盗文了/
+  - /2008/06/22/又被盜文了/
   - /columns/post/2008/06/23/e58f88e8a2abe79b9ce69687e4ba86-.aspx/
   - /post/2008/06/23/e58f88e8a2abe79b9ce69687e4ba86-.aspx/
   - /post/e58f88e8a2abe79b9ce69687e4ba86-.aspx/

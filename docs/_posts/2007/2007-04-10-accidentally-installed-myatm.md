@@ -8,6 +8,7 @@ published: true
 comments: true
 redirect_from:
   - /2007/04/09/accidentally-installed-myatm/
+  - /2007/04/09/手癢亂裝-myatm/
   - /columns/post/2007/04/10/e6898be799a2e4ba82e8a39d-MyATM.aspx/
   - /post/2007/04/10/e6898be799a2e4ba82e8a39d-MyATM.aspx/
   - /post/e6898be799a2e4ba82e8a39d-MyATM.aspx/

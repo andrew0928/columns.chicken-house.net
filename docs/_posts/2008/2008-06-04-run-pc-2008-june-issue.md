@@ -8,6 +8,7 @@ published: true
 comments: true
 redirect_from:
   - /2008/06/04/run-pc-2008-六月號/
+  - /2008/06/03/run-pc-2008-六月號/
   - /columns/post/2008/06/04/RUNPC-2008-06.aspx/
   - /post/2008/06/04/RUNPC-2008-06.aspx/
   - /post/RUNPC-2008-06.aspx/

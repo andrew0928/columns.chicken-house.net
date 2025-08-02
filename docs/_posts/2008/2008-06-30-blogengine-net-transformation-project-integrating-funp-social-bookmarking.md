@@ -8,6 +8,7 @@ published: true
 comments: true
 redirect_from:
   - /2008/06/30/blogengine-net-改造工程-整合-funp-推推王/
+  - /2008/06/29/blogengine-net-改造工程-整合-funp-推推王/
   - /columns/post/2008/06/30/CustomizeBlogEngineNET-FunP.aspx/
   - /post/2008/06/30/CustomizeBlogEngineNET-FunP.aspx/
   - /post/CustomizeBlogEngineNET-FunP.aspx/
