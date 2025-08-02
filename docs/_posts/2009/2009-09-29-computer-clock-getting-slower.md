@@ -6,8 +6,8 @@ categories:
 tags: ["Tips","技術隨筆"]
 published: true
 comments: true
-permalink: "/2009/09/29/電腦時鐘越來越慢/"
 redirect_from:
+  - /2009/09/29/電腦時鐘越來越慢/
   - /columns/post/2009/09/29/e99bbbe885a6e69982e99098e8b68ae4be86e8b68ae685a2.aspx/
   - /post/2009/09/29/e99bbbe885a6e69982e99098e8b68ae4be86e8b68ae685a2.aspx/
   - /post/e99bbbe885a6e69982e99098e8b68ae4be86e8b68ae685a2.aspx/

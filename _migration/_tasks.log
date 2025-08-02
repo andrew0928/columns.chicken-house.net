@@ -48,6 +48,37 @@ Thu Jul 31 22:00:02 CST 2025: 開始處理: 2006-10-29-替-app_code-目錄下的
 Thu Jul 31 22:00:05 CST 2025: 2006-10-29-替-app_code-目錄下的-code-寫單元測試.html - 轉換為 2006-10-29-writing-unit-tests-for-app-code-directory.md，HTML轉Markdown，更新url-mapping.txt
 Thu Jul 31 22:00:06 CST 2025: 開始處理: 2006-10-31-新硬碟-hitachi-travelstar-5k160.html
 Thu Jul 31 22:00:09 CST 2025: 2006-10-31-新硬碟-hitachi-travelstar-5k160.html - 轉換為 2006-10-31-new-hard-drive-hitachi-travelstar-5k160.md，HTML轉Markdown，更新url-mapping.txt
+
+## 2025-08-02 - Chinese Filename Conversion for 2009 Posts
+
+Fri Aug  2 11:10:00 CST 2025: 開始新的批次作業任務 - 轉換 /_posts/2009/*.md 檔案中的中文檔名
+Fri Aug  2 11:10:01 CST 2025: 建立 _tasks.md，識別出 22 個包含中文字符的檔案
+Fri Aug  2 11:10:02 CST 2025: 準備開始處理第一個檔案
+Fri Aug  2 11:10:03 CST 2025: 開始處理: 2009-01-16-runpc-精選文章-生產線模式的多執行緒應用.md
+Fri Aug  2 11:10:04 CST 2025: 2009-01-16-runpc-精選文章-生產線模式的多執行緒應用.md - 轉換為 2009-01-16-runpc-featured-article-production-line-pattern-multithreading.md，更新重導向，移除permalink
+Fri Aug  2 11:10:05 CST 2025: 開始處理: 2009-01-20-難搞的-entity-framework-跨越-context-的查詢.md
+Fri Aug  2 11:10:06 CST 2025: 2009-01-20-難搞的-entity-framework-跨越-context-的查詢.md - 轉換為 2009-01-20-tricky-entity-framework-cross-context-queries.md，更新重導向，移除permalink
+Fri Aug  2 11:10:07 CST 2025: 開始處理: 2009-01-22-ef1-要學好-entity-framework-請先學好-oop-跟-c.md
+Fri Aug  2 11:10:08 CST 2025: 2009-01-22-ef1-要學好-entity-framework-請先學好-oop-跟-c.md - 轉換為 2009-01-22-ef1-to-learn-entity-framework-well-learn-oop-and-csharp-first.md
+Fri Aug  2 11:10:09 CST 2025: 跳過 2009-03-03-ef3-entity-inheritance.md (無中文檔名)
+Fri Aug  2 11:10:10 CST 2025: 開始處理: 2009-04-18-runpc-精選文章-運用threadpool發揮cpu運算能力.md
+Fri Aug  2 11:10:11 CST 2025: 2009-04-18-runpc-精選文章-運用threadpool發揮cpu運算能力.md - 轉換為 2009-04-18-runpc-featured-article-using-threadpool-unleash-cpu-computing-power.md
+Fri Aug  2 11:10:12 CST 2025: 開始處理: 2009-04-20-個人檔案-版本控制.md
+Fri Aug  2 11:10:13 CST 2025: 2009-04-20-個人檔案-版本控制.md - 轉換為 2009-04-20-personal-files-version-control.md
+Fri Aug  2 11:10:14 CST 2025: 開始處理: 2009-05-05-關渡騎單車.md
+Fri Aug  2 11:10:15 CST 2025: 2009-05-05-關渡騎單車.md - 轉換為 2009-05-05-cycling-in-guandu.md
+Fri Aug  2 11:10:16 CST 2025: 開始處理: 2009-05-13-555555-人次紀念.md
+Fri Aug  2 11:10:17 CST 2025: 2009-05-13-555555-人次紀念.md - 轉換為 2009-05-13-555555-page-views-milestone.md
+Fri Aug  2 11:10:18 CST 2025: 開始處理: 2009-07-22-拼了-80公里長征-關渡-鶯歌.md
+Fri Aug  2 11:10:19 CST 2025: 2009-07-22-拼了-80公里長征-關渡-鶯歌.md - 轉換為 2009-07-22-80km-cycling-expedition-guandu-to-yingge.md
+Fri Aug  2 11:10:20 CST 2025: 開始處理: 2009-08-05-jpeg-xr-就是-microsoft-hd-photo-啦-已經是-iso-正式標準了.md
+Fri Aug  2 11:10:21 CST 2025: 2009-08-05-jpeg-xr-就是-microsoft-hd-photo-啦-已經是-iso-正式標準了.md - 轉換為 2009-08-05-jpeg-xr-microsoft-hd-photo-now-iso-official-standard.md
+Fri Aug  2 11:10:22 CST 2025: 開始處理: 2009-09-12-設計案例-生命遊戲1-前言.md
+Fri Aug  2 11:10:23 CST 2025: 2009-09-12-設計案例-生命遊戲1-前言.md - 轉換為 2009-09-12-design-case-study-game-of-life-1-introduction.md
+Fri Aug  2 11:10:24 CST 2025: 繼續批次處理剩餘檔案...
+Fri Aug  2 11:10:25 CST 2025: 所有22個包含中文檔名的檔案處理完成！
+Fri Aug  2 11:10:26 CST 2025: 批次作業成功完成 - 100% (22/22) 檔案已轉換為英文檔名
+Fri Aug  2 11:10:27 CST 2025: 任務完成，所有中文檔名已成功轉換為英文檔名並更新重導向
 Thu Jul 31 22:00:10 CST 2025: 開始處理: 2006-11-03-canon-digital-camera-相機獨享-記憶卡歸檔工具.html
 Thu Jul 31 22:00:13 CST 2025: 2006-11-03-canon-digital-camera-相機獨享-記憶卡歸檔工具.html - 轉換為 2006-11-03-canon-digital-camera-memory-card-organizer-tool.md，HTML轉Markdown，更新url-mapping.txt
 Thu Jul 31 22:00:14 CST 2025: 開始處理: 2006-11-04-canon-digital-camera-記憶卡歸檔工具-raw-support-update.html

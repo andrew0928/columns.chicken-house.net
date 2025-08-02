@@ -6,8 +6,8 @@ categories:
 tags: [".NET","C#","作品集","技術隨筆","物件導向","系列文章: 生命遊戲"]
 published: true
 comments: true
-permalink: "/2009/09/14/設計案例-生命遊戲2-oop版的範例程式/"
 redirect_from:
+  - /2009/09/14/設計案例-生命遊戲2-oop版的範例程式/
   - /columns/post/2009/09/14/e8a8ade8a888e6a188e4be8b-e7949fe591bde9818ae688b22-OOPe78988e79a84e7af84e4be8be7a88be5bc8f.aspx/
   - /post/2009/09/14/e8a8ade8a888e6a188e4be8b-e7949fe591bde9818ae688b22-OOPe78988e79a84e7af84e4be8be7a88be5bc8f.aspx/
   - /post/e8a8ade8a888e6a188e4be8b-e7949fe591bde9818ae688b22-OOPe78988e79a84e7af84e4be8be7a88be5bc8f.aspx/

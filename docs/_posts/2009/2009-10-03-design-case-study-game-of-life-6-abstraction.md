@@ -6,8 +6,8 @@ categories:
 tags: ["C#","Tips","技術隨筆","物件導向","系列文章: 生命遊戲"]
 published: true
 comments: true
-permalink: "/2009/10/03/設計案例-生命遊戲-6-抽像化-abstraction/"
 redirect_from:
+  - /2009/10/03/設計案例-生命遊戲-6-抽像化-abstraction/
   - /columns/post/2009/10/03/e8a8ade8a888e6a188e4be8b-6-e68abde5838fe58c96.aspx/
   - /post/2009/10/03/e8a8ade8a888e6a188e4be8b-6-e68abde5838fe58c96.aspx/
   - /post/e8a8ade8a888e6a188e4be8b-6-e68abde5838fe58c96.aspx/
