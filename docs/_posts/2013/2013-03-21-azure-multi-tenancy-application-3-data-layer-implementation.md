@@ -6,8 +6,8 @@ categories:
 tags: ["ASP.NET","AZURE","C#","作品集","技術隨筆"]
 published: true
 comments: true
-permalink: "/2013/03/21/azure-multi-tenancy-application-3-資料層實作案例/"
 redirect_from:
+  - /2013/03/21/azure-multi-tenancy-application-3-資料層實作案例/
   - /columns/post/2013/03/21/Azure-Multi-Tenancy-Application-3-e5afa6e4bd9ce6a188e4be8b.aspx/
   - /post/2013/03/21/Azure-Multi-Tenancy-Application-3-e5afa6e4bd9ce6a188e4be8b.aspx/
   - /post/Azure-Multi-Tenancy-Application-3-e5afa6e4bd9ce6a188e4be8b.aspx/
