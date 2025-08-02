@@ -6,8 +6,8 @@ categories:
 tags: [".NET","RUN! PC","作品集","多執行緒","技術隨筆","物件導向"]
 published: true
 comments: true
-permalink: "/2010/04/05/run-pc-2010-四月號-生產者vs消費者-執行緒的供需問題/"
 redirect_from:
+  - /2010/04/05/run-pc-2010-四月號-生產者vs消費者-執行緒的供需問題/
   - /columns/post/2010/04/05/RUNPC-2010-04.aspx/
   - /post/2010/04/05/RUNPC-2010-04.aspx/
   - /post/RUNPC-2010-04.aspx/

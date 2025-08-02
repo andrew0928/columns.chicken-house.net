@@ -6,8 +6,8 @@ categories:
 tags: [".NET","C#","MSDN","SQL","Transactional NTFS","作業系統"]
 published: true
 comments: true
-permalink: "/2010/03/18/txf-1-初探-transactional-ntfs/"
 redirect_from:
+  - /2010/03/18/txf-1-初探-transactional-ntfs/
   - /columns/post/2010/03/18/TxF-1-Transactional-NTFS-e5889de9ab94e9a997.aspx/
   - /post/2010/03/18/TxF-1-Transactional-NTFS-e5889de9ab94e9a997.aspx/
   - /post/TxF-1-Transactional-NTFS-e5889de9ab94e9a997.aspx/

@@ -6,8 +6,8 @@ categories:
 tags: [".NET","C#","MSDN","Tips","有的沒的","技術隨筆"]
 published: true
 comments: true
-permalink: "/2010/11/06/extension-methods-的應用-save-dataset-as-excel-file/"
 redirect_from:
+  - /2010/11/06/extension-methods-的應用-save-dataset-as-excel-file/
   - /columns/post/2010/11/06/SaveDataSetAsExcelFile.aspx/
   - /post/2010/11/06/SaveDataSetAsExcelFile.aspx/
   - /post/SaveDataSetAsExcelFile.aspx/

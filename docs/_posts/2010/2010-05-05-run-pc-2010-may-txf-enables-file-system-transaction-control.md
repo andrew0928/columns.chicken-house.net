@@ -6,8 +6,8 @@ categories:
 tags: [".NET","RUN! PC","Transactional NTFS","作品集","作業系統","技術隨筆","物件導向"]
 published: true
 comments: true
-permalink: "/2010/05/05/run-pc-2010-五月號-txf讓檔案系統也能達到交易控制/"
 redirect_from:
+  - /2010/05/05/run-pc-2010-五月號-txf讓檔案系統也能達到交易控制/
   - /columns/post/2010/05/05/RUNPC-2010-05.aspx/
   - /post/2010/05/05/RUNPC-2010-05.aspx/
   - /post/RUNPC-2010-05.aspx/

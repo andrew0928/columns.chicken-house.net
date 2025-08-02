@@ -6,8 +6,8 @@ categories:
 tags: ["BlogEngine.NET","有的沒的"]
 published: true
 comments: true
-permalink: "/2010/02/19/升級到-blogengine-net-1-6-0-0-了/"
 redirect_from:
+  - /2010/02/19/升級到-blogengine-net-1-6-0-0-了/
   - /columns/post/2010/02/19/e58d87e7b49ae588b0-BlogEngineNET-1600-e4ba86!.aspx/
   - /post/2010/02/19/e58d87e7b49ae588b0-BlogEngineNET-1600-e4ba86!.aspx/
   - /post/e58d87e7b49ae588b0-BlogEngineNET-1600-e4ba86!.aspx/

@@ -6,8 +6,8 @@ categories:
 tags: [".NET","RUN! PC","Transactional NTFS","作品集","作業系統","技術隨筆","物件導向"]
 published: true
 comments: true
-permalink: "/2010/07/09/run-pc-2010-七月號-結合檔案及資料庫的交易處理/"
 redirect_from:
+  - /2010/07/09/run-pc-2010-七月號-結合檔案及資料庫的交易處理/
   - /columns/post/2010/07/09/RUN!-PC-2010-e4b883e69c88e8999f-e7b590e59088e6aa94e6a188e58f8ae8b387e69699e5baabe79a84e4baa4e69893e89995e79086.aspx/
   - /post/2010/07/09/RUN!-PC-2010-e4b883e69c88e8999f-e7b590e59088e6aa94e6a188e58f8ae8b387e69699e5baabe79a84e4baa4e69893e89995e79086.aspx/
   - /post/RUN!-PC-2010-e4b883e69c88e8999f-e7b590e59088e6aa94e6a188e58f8ae8b387e69699e5baabe79a84e4baa4e69893e89995e79086.aspx/

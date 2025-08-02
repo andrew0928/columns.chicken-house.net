@@ -6,8 +6,8 @@ categories:
 tags: ["Tips","技術隨筆","有的沒的"]
 published: true
 comments: true
-permalink: "/2010/03/11/tips-用-磁碟鏡像-更換硬碟-2-windows-2003-的跨距磁區/"
 redirect_from:
+  - /2010/03/11/tips-用-磁碟鏡像-更換硬碟-2-windows-2003-的跨距磁區/
   - /columns/post/2010/03/11/Tips-e794a8-e2809ce7a381e7a29fe98fa1e5838f-e69bb4e68f9be7a1ace7a29f-2-Windows-2003-e79a84e8b7a8e8b79de7a381e58d80.aspx/
   - /post/2010/03/11/Tips-e794a8-e2809ce7a381e7a29fe98fa1e5838f-e69bb4e68f9be7a1ace7a29f-2-Windows-2003-e79a84e8b7a8e8b79de7a381e58d80.aspx/
   - /post/Tips-e794a8-e2809ce7a381e7a29fe98fa1e5838f-e69bb4e68f9be7a1ace7a29f-2-Windows-2003-e79a84e8b7a8e8b79de7a381e58d80.aspx/

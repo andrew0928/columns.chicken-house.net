@@ -6,8 +6,8 @@ categories:
 tags: ["Tips","技術隨筆","敗家","有的沒的"]
 published: true
 comments: true
-permalink: "/2010/03/06/tips-用-磁碟鏡像-無痛更換硬碟/"
 redirect_from:
+  - /2010/03/06/tips-用-磁碟鏡像-無痛更換硬碟/
   - /columns/post/2010/03/06/Tips-e794a8-e2809ce7a381e7a29fe98fa1e5838f-e784a1e7979be69bb4e68f9be7a1ace7a29f.aspx/
   - /post/2010/03/06/Tips-e794a8-e2809ce7a381e7a29fe98fa1e5838f-e784a1e7979be69bb4e68f9be7a1ace7a29f.aspx/
   - /post/Tips-e794a8-e2809ce7a381e7a29fe98fa1e5838f-e784a1e7979be69bb4e68f9be7a1ace7a29f.aspx/

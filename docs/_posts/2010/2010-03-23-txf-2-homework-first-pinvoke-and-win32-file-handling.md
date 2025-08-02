@@ -6,8 +6,8 @@ categories:
 tags: [".NET","C#","MSDN","Transactional NTFS"]
 published: true
 comments: true
-permalink: "/2010/03/23/txf-2-先作功課-熟悉-pinvoke-及-win32-檔案處理/"
 redirect_from:
+  - /2010/03/23/txf-2-先作功課-熟悉-pinvoke-及-win32-檔案處理/
   - /columns/post/2010/03/23/TxF-2-e58588e4bd9ce58a9fe8aab2-e7869fe68289-PInvoke-e58f8a-Win32-e6aa94e6a188e89995e79086.aspx/
   - /post/2010/03/23/TxF-2-e58588e4bd9ce58a9fe8aab2-e7869fe68289-PInvoke-e58f8a-Win32-e6aa94e6a188e89995e79086.aspx/
   - /post/TxF-2-e58588e4bd9ce58a9fe8aab2-e7869fe68289-PInvoke-e58f8a-Win32-e6aa94e6a188e89995e79086.aspx/
