@@ -6,8 +6,8 @@ categories:
 tags: [".NET","ASP.NET","AZURE","C#","MSDN","Tips","多執行緒","技術隨筆"]
 published: true
 comments: true
-permalink: "/2013/04/14/處理大型資料的技巧-async-await/"
 redirect_from:
+  - /2013/04/14/處理大型資料的技巧-async-await/
   - /columns/post/2013/04/15/e89995e79086e5a4a7e59e8be8b387e69699e79a84e68a80e5b7a7-e28093-Async-Await.aspx/
   - /post/2013/04/15/e89995e79086e5a4a7e59e8be8b387e69699e79a84e68a80e5b7a7-e28093-Async-Await.aspx/
   - /post/e89995e79086e5a4a7e59e8be8b387e69699e79a84e68a80e5b7a7-e28093-Async-Await.aspx/
