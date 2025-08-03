@@ -1,0 +1,16 @@
+[
+  { "name": "文章分類", "values": ["系列文章: 架構師觀點"] },
+  { "name": "原始標籤", "values": ["架構師觀點", "技術隨筆", "AI", "Semantic Kernel"] },
+  { "name": "主要關鍵字", "values": ["LLM", "Semantic Kernel", "AI 應用程式開發", "智慧化", "架構師觀點", "Function Calling", "Copilot"] },
+  { "name": "次要關鍵字", "values": ["Azure OpenAI", "RAG", "Prompt Engineering", "Vector Database", "系統架構", "API 設計", "軟體框架", "自然語言處理", "Agent", "Memory"] },
+  { "name": "技術術語", "values": ["Large Language Model", "Retrieval Augmented Generation", "Function Calling", "Vector Storage", "Text Embedding", "Prompt Engineering", "AI Agent", "Natural Language Processing"] },
+  { "name": "框架技術", "values": [".NET 8", "Semantic Kernel", "ASP.NET Core", "Azure OpenAI", "GPT4", "LangChain"] },
+  { "name": "工具平台", "values": ["Azure OpenAI", "Visual Studio", "Chat GPT", "Azure", "Console Application"] },
+  { "name": "程式語言", "values": ["C#"] },
+  { "name": "文章類型", "values": ["技術實作", "架構設計"] },
+  { "name": "難度等級", "values": ["高級"] },
+  { "name": "包含內容", "values": ["實作範例", "架構設計", "開發框架", "最佳實務", "技術演進"] },
+  { "name": "應用場景", "values": ["AI 整合", "智慧應用", "對話系統", "自動化", "使用者體驗"] },
+  { "name": "目標讀者", "values": ["架構師", "AI 開發者", "資深工程師", "技術主管"] },
+  { "name": "開發階段", "values": ["智慧化改造", "AI 整合", "系統升級", "新技術導入"] }
+]

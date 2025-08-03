@@ -1,0 +1,327 @@
+---
+source_file: "docs/_posts/2022/2022-03-25-microservices15-api-design.md"
+generated_date: "2025-08-03 17:00:00 +0800"
+version: "1.1"
+tools:
+  - github_copilot
+  - claude_sonnet_3_5
+model: "claude-3-5-sonnet-20241022"
+---
+
+# 微服務架構 - 從狀態圖來驅動 API 的設計 - 生成內容
+
+## Metadata
+
+### 原始 Metadata
+```yaml
+layout: post
+title: "微服務架構 - 從狀態圖來驅動 API 的設計"
+categories:
+- "系列文章: 微服務架構"
+tags: ["系列文章", "架構師的修練", "microservices"]
+published: true
+comments_disqus: false
+comments_facebook: false
+comments_gitalk: true
+redirect_from:
+logo: /wp-content/images/2022-03-25-microservices15-api-design/2022-03-27-15-03-23.png
+```
+
+### 自動識別關鍵字
+keywords:
+  primary:
+    - API 設計
+    - 有限狀態機 (FSM)
+    - 微服務架構
+    - 狀態圖設計
+    - Domain Driven Design
+    - 充血模型
+    - 貧血模型
+    - 事件驅動架構
+    - RBAC 權限控制
+    - 系統設計
+  secondary:
+    - State Machine
+    - API 一致性
+    - 狀態轉移
+    - 動作定義
+    - 事件設計
+    - OAuth2
+    - ASP.NET Core
+    - AOP 程式設計
+    - 併發控制
+    - 授權管理
+
+### 技術堆疊分析
+tech_stack:
+  languages:
+    - C#
+    - .NET Core
+    - ASP.NET Core
+  frameworks:
+    - .NET Framework
+    - ASP.NET Core
+    - Entity Framework
+  tools:
+    - Azure API Management
+    - AWS API Gateway
+    - JWT
+    - OAuth2
+    - Stateless Library
+  platforms:
+    - Microsoft Azure
+    - Amazon Web Services
+    - Windows
+  concepts:
+    - 有限狀態機 (Finite State Machine)
+    - Domain Driven Design (DDD)
+    - 面向切面程式設計 (AOP)
+    - Role-Based Access Control (RBAC)
+    - RESTful API
+    - 事件驅動架構
+    - 併發控制
+    - 分散式鎖定
+
+### 參考資源
+references:
+  internal_links:
+    - /2018/03/25/interview01-transaction/
+  external_links:
+    - https://zh.wikipedia.org/wiki/%E6%9C%89%E9%99%90%E7%8A%B6%E6%80%81%E6%9C%BA
+    - https://martinfowler.com/bliki/AnemicDomainModel.html
+    - https://zh.wikipedia.org/wiki/%E9%9D%A2%E5%90%91%E5%88%87%E9%9D%A2%E7%9A%84%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1
+    - https://en.wikipedia.org/wiki/Role-based_access_control
+    - https://docs.microsoft.com/zh-tw/aspnet/core/security/authorization/roles
+    - https://docs.microsoft.com/en-us/azure/api-management/api-management-subscriptions
+    - https://github.com/dotnet-state-machine/stateless
+    - https://github.com/andrew0928/AndrewDemo.MemberServiceDesign
+  mentioned_tools:
+    - Martin Fowler
+    - DDD (Domain Driven Development)
+    - Microsoft Account
+    - GitHub Account
+    - Facebook Account
+
+### 內容特性
+content_metrics:
+  word_count: 12000
+  reading_time: "50 分鐘"
+  difficulty_level: "高級"
+  content_type: "架構設計教學"
+
+## 摘要 (Summaries)
+
+### 文章摘要 (Article Summary)
+作者提出了一套以有限狀態機 (FSM) 為核心的 API 設計方法論，用於解決微服務架構中 API 設計一致性的問題。文章以會員生命週期管理為實際案例，詳細說明了如何從業務需求出發，透過狀態圖驅動整個服務介面的設計過程。作者強調了結構設計的重要性，認為良好的 API 設計應該具備明確清晰的狀態、領域知識和設計一致性。文章介紹了充血模型與貧血模型的差異，說明了為什麼基於動作而非 CRUD 的 API 設計能提供更好的封裝性和一致性。通過五個步驟的設計流程：找出狀態、對應程式碼結構、定義事件、標記角色權限、補充其他動作，作者展示了如何系統性地設計出高品質的微服務 API。文章特別強調了設計與實作的分離，以及如何將 FSM 設計與 ASP.NET Core、RBAC、OAuth2 等現代技術標準無縫整合，為架構師提供了完整的 API 設計實務指南。
+
+### 關鍵要點 (Key Points)
+- 使用有限狀態機 (FSM) 作為 API 設計的核心驅動力，確保設計一致性
+- 採用充血模型而非貧血模型，基於業務動作而非單純 CRUD 來設計 API
+- 將狀態、動作、事件、授權四個關鍵要素統一在 FSM 圖上思考
+- 通過明確的狀態轉移控制，避免不合理的 API 呼叫情境
+- 設計與實作分離，確保理想的設計能夠無痛對應到程式碼實作
+
+### 段落摘要 (Section Summaries)
+
+1. **何謂 "理想" 的 API 設計?**：作者開宗明義指出 API 設計沒有標準答案，強調設計品質的三個層次：結構設計的明確清晰、API 規格符合業界慣例、服務的穩定可靠。以結構設計為最重要的考量，因為這關係到整個服務的封裝性和一致性。作者比較了貧血模型和充血模型的差異，說明為什麼基於業務動作的 API 設計優於單純的 CRUD 操作，並以會員註冊為例說明如何透過明確的狀態和動作定義來避免邏輯混亂。
+
+2. **第一步，找出所有的狀態**：作者以會員生命週期為案例，示範如何從業務需求中識別關鍵狀態。初步列出了 START、REGISTERED、VERIFIED、LOCKING、ARCHIVED、END 等狀態，並強調要區分 "狀態" 與 "屬性" 的差異。說明了狀態選擇的原則：必須抓出核心業務邏輯相關的狀態，避免非關鍵資訊的干擾。作者刻意保留了一些設計缺失，準備在後續步驟中示範修正過程，體現了迭代設計的重要性。
+
+3. **第二步，FSM 對應到程式碼的結構**：詳細說明了兩種將 FSM 轉換為程式碼的方法：查表法和轉移清單檢查法。查表法效率高但維護困難，轉移清單檢查法較靈活但效率稍低。作者特別強調了併發控制的重要性，說明如何透過鎖定機制確保狀態轉移的原子性操作。介紹了 AOP (面向切面程式設計) 的概念，說明如何在統一的層次控制 FSM 相關的約束，避免在每個業務邏輯中重複檢查代碼。
+
+4. **第三步，事件驅動的設計**：作者解釋了微服務架構中事件驅動的重要性，說明了 API (被動呼叫) 和 Event/WebHook (主動回呼) 的差異。從狀態圖中導出了會員生命週期的相關事件，如 MemberRegistered、EmailVerified 等。在分析過程中發現了原始設計的問題，進而對狀態名稱進行了修正，將 REGISTERED 改為 CREATED，VERIFIED 改為 ACTIVATED，體現了設計過程中的迭代改善。同時區分了狀態轉移事件和動作完成 Hook 的差異。
+
+5. **第四步，標記角色的權限**：將權限管理整合到 FSM 設計中，為每個動作標記可執行的角色 (USER、STAFF)。說明了如何將這種設計與 RBAC (Role-Based Access Control) 標準對應，並展示了與 ASP.NET Core 的 Authorize 屬性、Azure API Management、OAuth2 Scopes 等技術的整合方式。強調了設計與實作分離的重要性，合理的設計能夠無痛地與業界標準整合。
+
+6. **第五步，補上其他動作、事件與角色**：最後一步處理不會改變狀態的動作和非狀態改變的事件，如密碼驗證等輔助功能。這些功能雖然不影響主要的狀態轉移，但仍需要進行狀態和權限檢查。作者提供了完整的程式碼範例，展示了如何將 FSM 設計轉換為實際可執行的 C# 代碼，並通過測試案例驗證設計的正確性。
+
+## 問答集 (Q&A Pairs)
+
+### Q1: 為什麼要使用有限狀態機 (FSM) 來設計 API？
+Q: 使用有限狀態機設計 API 有什麼優勢？與傳統的 CRUD 設計有何不同？
+A: FSM 能夠提供更好的設計一致性和封裝性。傳統 CRUD 屬於貧血模型，只管資料操作，容易造成業務邏輯分散和狀態管理混亂。FSM 採用充血模型，基於業務動作設計 API，能明確定義在什麼狀態下可以執行什麼動作，避免不合理的操作組合。同時 FSM 能統一管理狀態、動作、事件、授權四個關鍵要素，確保整體設計的一致性。
+
+### Q2: 如何區分哪些應該作為 "狀態"，哪些應該作為 "屬性"？
+Q: 在設計 FSM 時，如何判斷某個資訊應該是狀態還是屬性？
+A: 關鍵在於判斷該資訊是否為核心業務邏輯的主軸。狀態應該反映實體在生命週期中的關鍵階段，而屬性只是描述性資訊。例如會員等級 (VIP、VVIP) 如果只是描述會員身分，就應該是屬性；但如果等級升降是核心業務邏輯，就應該是狀態。判斷原則是：如果該資訊的變化會影響可執行的動作集合，就應該作為狀態；否則作為屬性即可。
+
+### Q3: FSM 設計如何處理併發控制問題？
+Q: 在多用戶同時操作的情況下，如何確保狀態轉移的正確性？
+A: 需要使用鎖定機制確保狀態轉移的原子性。基本流程是：先檢查當前狀態和動作的合法性，獲得鎖定後再次確認狀態未被其他操作改變，執行業務邏輯，更新狀態，釋放鎖定，最後觸發事件。可以使用本機的 lock 機制或分散式鎖定 (distributed lock) 來實現。配合 AOP 技術，可以在 Middleware 層統一處理這些併發控制邏輯。
+
+### Q4: 如何將 FSM 設計與現有的授權機制整合？
+Q: FSM 中標記的角色權限如何與 RBAC、OAuth2 等標準整合？
+A: FSM 中為每個動作標記的可執行角色，可以直接對應到各種授權機制。與 ASP.NET Core 整合時，使用 [Authorize(Roles = "USER,STAFF")] 屬性；與 OAuth2 整合時，將角色對應到 Scopes；與 Azure API Management 整合時，按角色建立不同的 Products 和 Subscriptions。這種設計與實作分離的方式，讓同一套 FSM 設計能夠適用於不同的技術實作。
+
+### Q5: 什麼是充血模型和貧血模型？它們的差異在哪裡？
+Q: 充血模型和貧血模型在 API 設計上有什麼不同的影響？
+A: 貧血模型只提供 CRUD 操作，業務邏輯由外部控制，容易造成邏輯分散和不一致。充血模型基於業務動作設計 API，將業務邏輯封裝在服務內部。例如會員註冊，貧血模型需要外部先創建記錄再設定狀態，充血模型直接提供 Register() 動作。充血模型能確保業務邏輯的完整性，每個動作執行時會自動處理狀態轉移和事件觸發，避免遺漏或重複執行。
+
+### Q6: 如何在 FSM 中處理不改變狀態的動作？
+Q: 有些業務動作不會改變主要狀態，應該如何在 FSM 設計中處理？
+A: 這些動作仍需要進行狀態檢查和權限驗證，但不需要鎖定機制。例如密碼驗證功能，需要確認會員處於 ACTIVATED 狀態才能執行，但執行後不會改變會員的主要狀態。這類動作可以在第五步補充定義，標明需要檢查的前置狀態和執行權限，但不涉及狀態轉移邏輯。
+
+### Q7: FSM 設計過程中如何進行驗證和修正？
+Q: 如何確保設計的 FSM 是正確和完整的？
+A: 可以通過業務場景回推驗證。將實際的業務流程在 FSM 圖上走一遍，檢查是否所有合理的路徑都存在，不合理的路徑都被阻擋。作者在文章中示範了發現 Verified 和 Activated 概念混淆後的修正過程，體現了設計的迭代改善。同時可以編寫測試案例，驗證各種狀態轉移的正確性。
+
+### Q8: 事件驅動設計與狀態轉移有什麼關係？
+Q: 在 FSM 中如何設計和管理事件？
+A: 事件通常對應狀態轉移，當狀態發生改變時觸發相應事件。但需要區分狀態轉移事件和動作完成 Hook。狀態轉移事件在任何導致該狀態變化的動作完成後都會觸發；動作 Hook 只在特定動作完成後觸發。例如會員激活事件會在任何導致狀態變為 ACTIVATED 的動作後觸發，但註冊完成 Hook 只在 Register() 動作完成後觸發。
+
+### Q9: 如何將 FSM 設計應用到實際的微服務開發中？
+Q: 在團隊開發中如何推廣和應用這套 FSM 設計方法？
+A: 建議先在設計階段完成 FSM 圖的繪製和驗證，然後將其作為開發的 template。可以利用 AOP 技術在 Middleware 層統一實現 FSM 約束，讓開發人員專注於業務邏輯實作。同時要建立 FSM 與程式碼的對應規範，確保實作與設計保持一致。對於複雜的系統，可以考慮使用現成的狀態機庫如 Stateless 來簡化實作。
+
+### Q10: 這套方法適用於哪些類型的系統設計？
+Q: FSM 驅動的 API 設計方法有什麼適用場景和限制？
+A: 特別適合有明確生命週期的業務實體，如訂單處理、審批流程、設備管理等。對於單純的資料查詢或計算型服務，可能過於複雜。限制在於需要團隊具備一定的設計能力，初期學習成本較高。但一旦掌握，能顯著提升 API 設計的品質和一致性，特別適合需要長期維護和擴展的企業級系統。
+
+## 解決方案 (Solutions)
+
+### P1: API 設計缺乏一致性
+Problem: 不同 API 之間缺乏統一的設計風格，導致使用者難以預測 API 行為
+Root Cause: 缺乏統一的設計方法論，每個 API 都是獨立設計，沒有考慮整體一致性
+Solution:
+- 採用 FSM 作為統一的設計驅動力，確保所有 API 都基於相同的設計思路
+- 在同一張狀態圖上標示狀態、動作、事件、授權四個要素，確保各面向的一致性
+- 建立從狀態圖到程式碼的標準對應規則
+- 通過狀態圖驗證所有業務場景的合理性
+
+Example:
+```csharp
+// 統一的動作定義模式
+[Authorize(Roles = "USER")]
+public bool Register() 
+{
+    var check = _stateMachine.TryExecute(State, "Register");
+    if (!check.result) return false;
+    // 執行業務邏輯
+    State = check.finalState;
+    OnMemberRegistered?.Invoke(this, null);
+    return true;
+}
+```
+
+### P2: 貧血模型導致的業務邏輯分散
+Problem: 使用 CRUD 式的 API 設計，業務邏輯分散在各處，難以維護和控制
+Root Cause: 採用貧血模型，只提供資料操作介面，業務邏輯由外部系統控制
+Solution:
+- 轉向充血模型，基於業務動作而非資料操作來設計 API
+- 將業務邏輯封裝在服務內部，確保完整性和一致性
+- 通過 FSM 明確定義每個動作的前置條件和後續效果
+- 自動處理狀態轉移和事件觸發，避免遺漏或重複
+
+Example:
+```csharp
+// 充血模型：基於業務動作
+public bool Register(UserInfo userInfo)
+{
+    // 內部處理完整的註冊邏輯
+    // 包括驗證、狀態設定、事件觸發
+}
+
+// 而非貧血模型：
+// CreateUser() + SetStatus() + SendEmail()
+```
+
+### P3: 併發操作導致的狀態不一致
+Problem: 多用戶同時操作時，可能導致狀態轉移錯誤或不一致
+Root Cause: 缺乏原子性的狀態轉移機制，沒有適當的併發控制
+Solution:
+- 實施原子性的狀態轉移操作，使用鎖定機制確保一致性
+- 在獲得鎖定後重新驗證狀態，確保沒有競爭條件
+- 將狀態檢查、業務邏輯執行、狀態更新包在同一個關鍵區段
+- 考慮使用分散式鎖定處理多節點部署的情況
+
+Example:
+```csharp
+public bool ExecuteAction(string action)
+{
+    var check = _stateMachine.TryExecute(State, action);
+    if (!check.result) return false;
+    
+    lock(_syncRoot)
+    {
+        if (State != check.initState) return false; // 重新檢查
+        // 執行業務邏輯
+        State = check.finalState;
+    }
+    // 觸發事件
+    return true;
+}
+```
+
+### P4: 權限控制與業務邏輯混雜
+Problem: 權限檢查散佈在各個業務方法中，難以統一管理和維護
+Root Cause: 沒有將權限控制與業務邏輯分離，缺乏統一的授權機制
+Solution:
+- 在 FSM 圖上統一標記每個動作的可執行角色
+- 使用 AOP 技術在 Middleware 層統一處理權限檢查
+- 與標準的授權機制 (RBAC、OAuth2) 整合
+- 將權限定義與實作分離，便於不同技術棧的適配
+
+Example:
+```csharp
+// 宣告式權限控制
+[Authorize(Roles = "USER,STAFF")]
+public bool UnLock() { ... }
+
+// 或在 FSM 中統一定義
+var permissions = new Dictionary<string, string[]>
+{
+    ["Register"] = new[] { "USER" },
+    ["UnLock"] = new[] { "USER", "STAFF" }
+};
+```
+
+### P5: 事件觸發的不確定性
+Problem: 不清楚何時應該觸發什麼事件，容易遺漏或重複觸發
+Root Cause: 事件定義不明確，沒有與狀態轉移建立清楚的對應關係
+Solution:
+- 區分狀態轉移事件和動作完成 Hook
+- 狀態轉移事件自動觸發，動作 Hook 需明確定義
+- 在 FSM 圖上清楚標示事件觸發時機
+- 建立事件觸發的標準模式，確保一致性
+
+Example:
+```csharp
+// 狀態轉移事件：任何導致 ACTIVATED 的動作都觸發
+public event EventHandler OnMemberActivated;
+
+// 動作 Hook：只有 Register 動作完成才觸發
+public event EventHandler OnMemberRegisterCompleted;
+```
+
+### P6: 設計與實作的脫節
+Problem: 設計文件與實際程式碼不一致，難以維護設計的完整性
+Root Cause: 設計與實作之間缺乏直接的對應關係，實作過程中容易偏離設計
+Solution:
+- 建立 FSM 圖與程式碼的標準對應規則
+- 使用程式碼生成或反射機制自動維持一致性
+- 定期檢查實作是否符合 FSM 定義
+- 將 FSM 作為程式碼重構的指導原則
+
+Example:
+```csharp
+// 標準的狀態機實作模式
+public class StateMachine
+{
+    private List<Transition> _transitions = new()
+    {
+        new Transition("START", "Register", "CREATED"),
+        new Transition("CREATED", "Activate", "ACTIVATED"),
+        // ... 直接對應 FSM 圖的定義
+    };
+}
+```
+
+## 版本異動紀錄
+
+### v1.1 (2025-08-03)
+- 依據 embedding-structure.instructions.md v1.1 規範建立
+- 採用第三人稱敘述方式撰寫摘要
+- 加入生成工具和模型資訊
+
+### v1.0 (2025-08-03)
+- 初始版本
