@@ -21,14 +21,25 @@ model: "claude-3-5-sonnet-20241022"
 
 # {原始文章標題} - 生成內容
 
-## 原始 Metadata
+## Metadata
+
+### 原始 Metadata
 [從原始文章的 front matter 複製]
 
-## 擴增 Metadata
-[自動分析生成的額外資訊]
+### 自動識別關鍵字
+
+### 技術堆疊分析
+
+### 參考資源
+
+### 內容特性
+
 
 ## 摘要 (Summaries)
-[文章和段落層級摘要]
+
+### 文章摘要 (Article Summary)
+
+### 關鍵要點 (Key Points)
 
 ### 段落摘要1 (Section Summaries)
 [每個段落的核心內容摘要]
@@ -56,7 +67,7 @@ A: [回答內容]
 
 
 ## 解決方案 (Solutions)
-[從內容整理的問題解決方案]
+
 
 ### P1, [問題標題]
 Problem: [問題描述]
@@ -77,6 +88,14 @@ Solution: [解決方案描述]
 Example: [相關指令或程式碼片段]
 
 
+
+## 版本異動紀錄
+
+### v1.1 (YYYY-MM-DD)
+- 修正摘要格式，改用第三人稱敘述，加入生成工具資訊
+
+### v1.0 (YYYY-MM-DD)
+- 初始版本
 
 ```
 
