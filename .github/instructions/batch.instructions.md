@@ -13,7 +13,7 @@ _tasks.md, _tasks.log, 這兩個檔案統一放置於 /_migration 目錄下。
 若單一步驟做到一半就不明原因中斷，請重新執行該步驟。確認已完成的不用重作。
 任何要求的批次作業，在 _tasks.md 建立完成, 開始處理第一筆之前請先跟我確認無誤後再開始。
 
-步驟以單一部落格文章檔案的處理為單位。用檔名當作 id，請勿加上其他我沒有提及的 todo items.
+步驟以單一部落格文章檔案的處理為單位。用檔名當作 id，請勿加上其他我沒有提及的 todo items. 優先處理已發行的文章 (published: true)，未發行的文章 (published: false) 先標為 paused 暫停處理，等到所有已發行的文章處理完畢後再回頭處理未發行的文章。
 
 1. 建立 _tasks.md, 每次批次作業任務都用一個新的段落 ( ## ) 開始，摘要這次任務當作 title, 並且標上目前時間
 2. 紀錄原始 requirement / instructions / prompt
@@ -22,6 +22,7 @@ _tasks.md, _tasks.log, 這兩個檔案統一放置於 /_migration 目錄下。
    - 當開始處理時, 將 checklist 改為 `- [ ] {filename}` (processing )
    - 當處理失敗時, 將 checklist 改為 `- [ ] {filename} (failed)`
    - 當處理成功時, 將 checklist 改為 `- [x] {filename} (success)`
+   - 當暫停處理時, 將 checklist 改為 `- [ ] {filename} (paused)`
 5. 處理過程, 請記錄流水帳至 _tasks.log, 標記時間跟 filename
 6. 處理下一個 task 時，請重新再入相關的 instructions, prompts, 避免對話中有限的 context window 導致作業的要求已經被遺忘。
 7. 當所有檔案處理完成後, 將 _tasks.md 重新命名為 `_tasks_{title}_{date}.md`，並且建立新的批次作業任務。
