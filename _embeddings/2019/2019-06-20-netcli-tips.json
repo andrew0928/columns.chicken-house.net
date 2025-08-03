@@ -1,0 +1,35 @@
+{
+  "source_file": "_posts/2019/2019-06-20-netcli-tips.md",
+  "generated_date": "2025-08-03 14:45:00 +0800",
+  "tags": {
+    "primary_tags": [
+      "CLI",
+      "Pipeline",
+      "Json序列化",
+      "BinaryFormatter",
+      "GZip壓縮",
+      "LINQ",
+      "IEnumerable",
+      "yield return"
+    ],
+    "secondary_tags": [
+      "STDIN",
+      "STDOUT",
+      "物件傳遞",
+      "串流處理",
+      "資料過濾",
+      "壓縮",
+      "JsonSerializer"
+    ],
+    "technology_stack": {
+      "languages": ["C#", ".NET"],
+      "frameworks": ["JsonSerializer", "BinaryFormatter", "LINQ", "IEnumerable<T>"],
+      "tools": ["dotnet CLI", "gzip", "clip.exe", "shell command"],
+      "concepts": ["CLI開發", "物件序列化", "資料流處理"]
+    },
+    "categories": [],
+    "difficulty_level": "中級",
+    "article_type": ["技術技巧分享", "實用教學"],
+    "estimated_reading_time": "10-15分鐘"
+  }
+}

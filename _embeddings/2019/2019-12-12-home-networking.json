@@ -1,0 +1,58 @@
+{
+  "source_file": "_posts/2019/2019-12-12-home-networking.md",
+  "generated_date": "2025-08-03 15:00:00 +0800",
+  "version": "1.0",
+  "tags": {
+    "primary_keywords": [
+      "家用網路",
+      "VLAN",
+      "網路架構",
+      "WiFi",
+      "Router",
+      "Switch",
+      "UniFi AP",
+      "EdgeRouter",
+      "PoE",
+      "網路設備"
+    ],
+    "secondary_keywords": [
+      "ASUS RT-N16",
+      "Ubiquiti",
+      "NETGEAR",
+      "Intel i350-T4",
+      "hardware offloading",
+      "LACP",
+      "PPPoE",
+      "雙十一"
+    ],
+    "technology_stack": {
+      "languages": ["無特定程式語言"],
+      "frameworks": ["UniFi Controller", "Docker"],
+      "tools": ["EdgeRouter-X SFP", "UniFi AP AC Lite", "NETGEAR GS116Ev2", "Intel i350-T4", "NAS"],
+      "patterns": ["網路架構設計", "VLAN規劃", "設備整合", "家庭網路管理"]
+    },
+    "content_characteristics": {
+      "article_type": "開箱文",
+      "difficulty_level": "中級",
+      "reading_time": "約15-20分鐘",
+      "implementation_level": "包含詳細的設備選擇和網路規劃過程"
+    },
+    "references": {
+      "internal_links": [
+        "水電工日誌系列文章",
+        ".NET Conf 2019演講"
+      ],
+      "external_links": [
+        "UniFi產品頁面",
+        "VLAN教學文章",
+        "Mobile01討論串"
+      ],
+      "mentioned_tools": [
+        "UniFi Controller",
+        "Docker",
+        "NAS",
+        "HiNET測速軟體"
+      ]
+    }
+  }
+}

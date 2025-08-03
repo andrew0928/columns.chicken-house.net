@@ -1,0 +1,118 @@
+[
+  {
+    "name": "文章分類",
+    "values": [
+      "系列文章: .NET + Windows Container, 微服務架構設計",
+      "系列文章: 架構師觀點"
+    ]
+  },
+  {
+    "name": "原始標籤",
+    "values": [
+      "ASYNC",
+      "DevOps",
+      "MessageQueue",
+      "POC",
+      "RPC",
+      "microservice",
+      "架構師",
+      "系列文章"
+    ]
+  },
+  {
+    "name": "主要關鍵字",
+    "values": [
+      "Message Queue",
+      "RabbitMQ",
+      "RPC",
+      "async/await",
+      "微服務通訊",
+      "技術整合",
+      "架構師",
+      "封裝設計"
+    ]
+  },
+  {
+    "name": "次要關鍵字",
+    "values": [
+      "CloudAMQP",
+      "MessageClient",
+      "MessageWorker",
+      "auto scaling",
+      "container orchestration",
+      "dependency injection",
+      "graceful shutdown",
+      "thread pool"
+    ]
+  },
+  {
+    "name": "技術術語",
+    "values": [
+      "BackgroundService",
+      "CQRS",
+      "IHostedService",
+      "channel/connection",
+      "consumer/producer",
+      "correlation id",
+      "event driven",
+      "exchange/queue",
+      "publish/subscribe"
+    ]
+  },
+  {
+    "name": "程式語言",
+    "values": [
+      ".NET",
+      "C#"
+    ]
+  },
+  {
+    "name": "框架技術",
+    "values": [
+      ".NET Core 2.x",
+      "ASP.NET Core",
+      "RabbitMQ .NET Client"
+    ]
+  },
+  {
+    "name": "工具平台",
+    "values": [
+      "CloudAMQP",
+      "Docker",
+      "Docker Compose",
+      "RabbitMQ",
+      "Visual Studio"
+    ]
+  },
+  {
+    "name": "平台環境",
+    "values": [
+      "Azure",
+      "Linux Container",
+      "Windows Container"
+    ]
+  },
+  {
+    "name": "文章類型",
+    "values": [
+      "技術實作指南"
+    ]
+  },
+  {
+    "name": "難度等級",
+    "values": [
+      "進階"
+    ]
+  },
+  {
+    "name": "包含內容",
+    "values": [
+      "程式碼範例",
+      "架構設計",
+      "實作細節",
+      "影片展示",
+      "效能優化",
+      "最佳實務"
+    ]
+  }
+]

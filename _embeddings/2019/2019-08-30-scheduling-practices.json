@@ -1,0 +1,54 @@
+{
+  "source_file": "_posts/2019/2019-08-30-scheduling-practices.md",
+  "generated_date": "2025-08-03 14:55:00 +0800",
+  "version": "1.0",
+  "tags": {
+    "primary_keywords": [
+      "排程任務",
+      "Scheduling",
+      "Polling",
+      "資料庫輪詢",
+      "Job Queue",
+      "Message Queue",
+      "Worker",
+      "高可用性",
+      "分散式系統"
+    ],
+    "secondary_keywords": [
+      "MinPrepareTime",
+      "MaxDelayTime",
+      "COST_SCORE",
+      "EFFICIENT_SCORE",
+      "BlockingCollection",
+      "SQL Server",
+      "LocalDB",
+      "GitHub"
+    ],
+    "technology_stack": {
+      "languages": ["C#", ".NET", "SQL"],
+      "frameworks": ["Dapper", "BlockingCollection", "System.Threading", "SQL Server"],
+      "tools": ["Microsoft SQL Server", "LocalDB", "GitHub", "Visual Studio"],
+      "patterns": ["輪詢機制", "生產者消費者模式", "分散式鎖定", "高可用架構"]
+    },
+    "content_characteristics": {
+      "article_type": "實務練習",
+      "difficulty_level": "高級",
+      "reading_time": "約25-35分鐘",
+      "implementation_level": "包含完整的程式碼範例和測試機制"
+    },
+    "references": {
+      "internal_links": [
+        "前一篇平行任務處理練習"
+      ],
+      "external_links": [
+        "GitHub Repository: SchedulingPractice",
+        "SQL Server Notification Services"
+      ],
+      "mentioned_tools": [
+        "SQL Server LocalDB",
+        "GitHub Pull Requests",
+        "Visual Studio"
+      ]
+    }
+  }
+}

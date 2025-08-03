@@ -1,0 +1,58 @@
+{
+  "source_file": "_posts/2019/2019-07-06-pipeline-practices.md",
+  "generated_date": "2025-08-03 14:50:00 +0800",
+  "version": "1.0",
+  "tags": {
+    "primary_keywords": [
+      "平行處理",
+      "多執行緒", 
+      "Task",
+      "Thread",
+      "ThreadPool",
+      "PLINQ",
+      "BlockingCollection",
+      "Channel",
+      "Semaphore",
+      "Pipeline"
+    ],
+    "secondary_keywords": [
+      "WIP",
+      "TTFT", 
+      "TTLT",
+      "AVG_WAIT",
+      "生產者消費者",
+      "併發控制",
+      "效能優化",
+      "Benchmark",
+      "Code Review"
+    ],
+    "technology_stack": {
+      "languages": ["C#", ".NET Core"],
+      "frameworks": ["Task Parallel Library (TPL)", "PLINQ", "BlockingCollection", "Channel", "System.Threading", "Reactive Extensions (RX)"],
+      "tools": ["Visual Studio", "GitHub", "AMD Ryzen 處理器"],
+      "patterns": ["平行程式設計", "生產者消費者模式", "Pipeline 架構"]
+    },
+    "content_characteristics": {
+      "article_type": "實務練習",
+      "difficulty_level": "高級", 
+      "reading_time": "約30-45分鐘",
+      "implementation_level": "包含完整的程式碼範例和效能比較"
+    },
+    "references": {
+      "internal_links": [
+        "CLI + PIPELINE 開發技巧",
+        "CLI 傳遞物件的處理技巧"
+      ],
+      "external_links": [
+        "GitHub Repository: ParallelProcessPractice",
+        "Microsoft .NET Guide: Parallel Programming in .NET", 
+        "Asynchronous Producer Consumer Pattern in .NET (C#)"
+      ],
+      "mentioned_tools": [
+        "Visual Studio Enterprise 2019",
+        "GitHub Pull Requests", 
+        "Excel"
+      ]
+    }
+  }
+}
