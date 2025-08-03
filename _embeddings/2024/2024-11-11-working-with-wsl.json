@@ -1,0 +1,16 @@
+[
+  { "name": "文章分類", "values": ["技術隨筆"] },
+  { "name": "原始標籤", "values": ["技術隨筆", "VSCode", "Jekyll", "Docker", "WSL"] },
+  { "name": "主要關鍵字", "values": ["WSL", "VSCode", "Docker", "Linux 開發環境", "GPU 虛擬化", "檔案系統效能", "跨平台開發"] },
+  { "name": "次要關鍵字", "values": ["NTFS", "EXT4", "DrvFS", "9P protocol", "Hyper-V", "CUDA", "GitHub Pages", "Jekyll", "Qdrant", "AI 應用", "向量資料庫", "LLM", "Ollama"] },
+  { "name": "技術術語", "values": ["WSL2", "Remote Development", "GPU Virtualization", "File System Performance", "Container Technology", "Cross-platform Development", "9P protocol", "DrvFS", "Hyper-V", "DirectX", "CUDA"] },
+  { "name": "框架技術", "values": ["WSL2", "Docker", "Jekyll", "Visual Studio Code Remote", "GitHub Pages", "NVIDIA Container Toolkit", "DirectX for Linux"] },
+  { "name": "工具平台", "values": ["Visual Studio Code", "Docker", "WSL", "Git", "fio", "nvidia-smi", "Docker Compose", "Windows 11", "Ubuntu 24.04 LTS"] },
+  { "name": "硬體設備", "values": ["AMD Ryzen9 3900X", "NVIDIA RTX 4060Ti", "DDR4 64GB", "Crucial T500 SSD", "Samsung 970Pro SSD", "Kingston NV1 SSD", "Intel 730SSD"] },
+  { "name": "效能測試", "values": ["fio benchmark", "random read/write", "4k block size", "IO depth 64", "multi-threading", "disk performance"] },
+  { "name": "AI 應用", "values": ["Ollama", "Open-WebUI", "LLM", "CUDA", "GPU acceleration", "vector database", "Qdrant"] },
+  { "name": "檔案系統", "values": ["NTFS", "EXT4", "DrvFS", "9P protocol", "symbolic link", "mount", "virtual disk", "vhdx"] },
+  { "name": "文章類型", "values": ["技術教學", "環境配置", "效能優化", "實戰經驗"] },
+  { "name": "難度等級", "values": ["進階"] },
+  { "name": "包含內容", "values": ["環境建置", "效能測試", "問題排除", "配置指南", "架構分析", "實際案例"] }
+]

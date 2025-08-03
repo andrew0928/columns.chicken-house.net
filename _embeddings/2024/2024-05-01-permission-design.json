@@ -1,0 +1,16 @@
+[
+  { "name": "文章分類", "values": ["系列文章: 架構師的修練"] },
+  { "name": "原始標籤", "values": ["系列文章", "架構師的修練", "架構師觀點", "刻意練習", "抽象化"] },
+  { "name": "主要關鍵字", "values": ["權限管理", "RBAC", "角色權限控制", "授權機制", "架構設計", "安全機制"] },
+  { "name": "次要關鍵字", "values": ["IPrincipal", "IIdentity", "Permission", "Role", "Operation", "Authorization", "認證與授權", "訂單管理系統", "CRUD權限", "業務流程"] },
+  { "name": "技術術語", "values": ["Role-Based Access Control", "Authentication", "Authorization", "Subject Assignment", "Permission Assignment", "Security Design", "Interface Design"] },
+  { "name": "程式語言", "values": ["C#"] },
+  { "name": "框架技術", "values": [".NET", "ASP.NET MVC"] },
+  { "name": "工具平台", "values": ["Visual Studio", "Windows Security", "Active Directory"] },
+  { "name": "設計概念", "values": ["認證與授權分離", "權限抽象化", "業務流程對應", "安全機制設計", "介面設計原則"] },
+  { "name": "文章類型", "values": ["架構設計", "教學文章"] },
+  { "name": "難度等級", "values": ["中級"] },
+  { "name": "包含內容", "values": ["概念解釋", "程式碼範例", "設計原則", "實作指導", "案例分析"] },
+  { "name": "業務領域", "values": ["訂單管理系統", "B2B零售", "角色管理", "功能權限"] },
+  { "name": "開發階段", "values": ["架構設計", "安全規劃", "權限建模", "介面定義"] }
+]

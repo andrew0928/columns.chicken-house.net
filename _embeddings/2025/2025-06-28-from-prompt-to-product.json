@@ -1,0 +1,12 @@
+[
+  { "name": "文章分類", "values": ["系列文章: 架構師觀點"] },
+  { "name": "原始標籤", "values": ["架構師觀點", "技術隨筆"] },
+  { "name": "主要關鍵字", "values": ["從 Prompt 到 Product", "AI 開發流程", "Vibe Coding", "研討會演講", "AI 轉型"] },
+  { "name": "次要關鍵字", "values": ["GenAI 開發者年會", "DevOpsDays Taipei", "STUDY4LOVE", "公益講座", "軟體開發轉型", "AI 量化指標"] },
+  { "name": "技術術語", "values": ["AI Development", "Software Engineering", "Developer Transformation", "Prompt Engineering"] },
+  { "name": "框架技術", "values": [] },
+  { "name": "工具平台", "values": ["Google Slides", "HackMD", "Web"] },
+  { "name": "文章類型", "values": ["資源彙整", "演講集合"] },
+  { "name": "難度等級", "values": ["入門"] },
+  { "name": "包含內容", "values": ["演講簡報", "會議共筆", "Q&A問題", "資源連結"] }
+]

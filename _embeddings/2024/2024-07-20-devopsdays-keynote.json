@@ -1,0 +1,49 @@
+{
+  "source-file": ["_posts/2024/2024-07-20-devopsdays-keynote.md"],
+  "generated-date": ["2025-01-03 17:30:00 +0800"],
+  "version": ["1.0"],
+  "tools": ["github_copilot"],
+  "model": ["claude_sonnet_3_5"],
+  
+  "layout": ["post"],
+  "title": ["從 API First 到 AI First"],
+  "categories": ["系列文章: 架構師觀點"],
+  "tags": ["架構師觀點", "技術隨筆", "AI", "DevOpsDays"],
+  "published": ["true"],
+  "comments-disqus": ["false"],
+  "comments-facebook": ["false"],
+  "comments-gitalk": ["true"],
+  
+  "keywords-primary": ["API First", "AI First", "DevOpsDays", "GPTs", "LLM", "Function Calling", "Tool Use", "Prompt Engineering", "Agent", "Copilot", "RAG", "Semantic Kernel"],
+  "keywords-secondary": ["OpenAI", "ChatGPT", "Azure OpenAI", "Keynote", "安德魯小舖", "架構設計", "軟體開發", "使用者體驗", "UX", "AI DX", "Developer Experience", "Microservice", "意圖理解", "降維打擊"],
+  
+  "tech-stack-languages": ["C#", "JSON", "Markdown"],
+  "tech-stack-frameworks": [".NET", "ASP.NET Core", "Semantic Kernel", "Kernel Memory"],
+  "tech-stack-tools": ["Azure OpenAI", "ChatGPT", "Visual Studio", "Git", "Docker"],
+  "tech-stack-platforms": ["Azure", "Windows", "GPTs"],
+  "tech-stack-ai-models": ["GPT-4", "GPT-4o", "GPT-4o-mini", "text-embedding-3-large"],
+  "tech-stack-concepts": ["API First", "AI First", "Function Calling", "Prompt Engineering", "RAG", "Agent Pattern", "Copilot Pattern", "JSON Mode", "Workflow Automation", "Vector Database", "Text Embedding"],
+  
+  "references-internal-links": ["/2024/01/15/archview-llm/", "/2024/02/10/archview-int-app/", "/2024/03/15/archview-int-blog/", "/2023/01/01/api-design-workshop/"],
+  "references-external-links": ["https://docs.google.com/presentation/d/10o1VN0Q-97eTwYN_N-UP8pzLlxrxSBJbfXCcq0mTEDk/edit?usp=sharing", "https://hackmd.io/@DevOpsDay/2024/%2F%40DevOpsDay%2FSylpzzOL0", "https://chatgpt.com/g/g-Bp79bdOOJ-an-de-lu-xiao-pu-v5-2-0", "https://chatgpt.com/g/g-F3ckJut37-an-de-lu-de-bu-luo-ge", "https://platform.openai.com/docs/guides/function-calling", "https://platform.openai.com/docs/guides/json-mode", "https://docs.anthropic.com/en/docs/build-with-claude/tool-use", "https://github.com/microsoft/kernel-memory", "https://github.com/microsoft/semantic-kernel", "https://medium.com/@remitoffoli/building-llm-powered-products-part-2-32d843bef590"],
+  "references-mentioned-tools": ["GPTs", "OpenAI API", "Azure OpenAI", "Semantic Kernel", "Kernel Memory", "Visual Studio", "Git", "ChatGPT", "Function Calling", "JSON Mode", "Swagger/OpenAPI"],
+  
+  "content-metrics-word-count": ["65000"],
+  "content-metrics-reading-time": ["180 分鐘"],
+  "content-metrics-difficulty-level": ["進階"],
+  "content-metrics-content-type": ["技術演講紀錄與深度分析"],
+  
+  "themes": ["AI 應用開發", "軟體架構設計", "API 設計", "使用者體驗", "技術演講"],
+  "target-audience": ["軟體架構師", "後端開發者", "AI 應用開發者", "技術主管", "DevOps 工程師"],
+  "use-cases": ["AI 應用整合", "Copilot 系統開發", "RAG 系統建置", "API 設計改善", "使用者體驗優化"],
+  "related-technologies": ["LLM 應用", "Vector Database", "Embedding", "Natural Language Processing", "Microservices"],
+  
+  "demo-cases": ["安德魯小舖 GPTs", "自然語言購物", "情緒偵測", "Copilot 模式", "部落格 RAG 系統"],
+  "presentation-type": ["Keynote", "技術演講", "實務分享"],
+  "conference": ["DevOpsDays Taipei 2024"],
+  "speaker-role": ["架構師", "技術講者"],
+  
+  "ai-concepts": ["Function Calling", "Tool Use", "Prompt Engineering", "Agent", "Copilot", "RAG", "Embedding", "Vector Search"],
+  "development-concepts": ["API First", "AI First", "DX", "AI DX", "架構設計", "DevOps", "CI/CD"],
+  "ux-concepts": ["意圖理解", "降維打擊", "個人化", "滿意度偵測", "對話介面"]
+}

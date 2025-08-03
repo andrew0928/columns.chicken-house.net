@@ -1,0 +1,16 @@
+[
+  { "name": "文章分類", "values": ["系列文章: 架構師觀點"] },
+  { "name": "原始標籤", "values": ["架構師觀點", "技術隨筆", "AI", "Semantic Kernel"] },
+  { "name": "主要關鍵字", "values": ["RAG", "Retrieval-Augmented Generation", "GPTs", "Semantic Kernel", "Kernel Memory", "Text Embedding", "Vector Search", "向量搜尋", "AI 應用開發", "LLM 應用程式"] },
+  { "name": "次要關鍵字", "values": ["Chat GPT", "Azure OpenAI", "OpenAI", "Embedding Space", "Vector Database", "向量資料庫", "Custom Action", "Function Calling", "Prompt Engineering", "語意搜尋", "內容檢索", "知識庫"] },
+  { "name": "技術術語", "values": ["RAG", "Retrieval-Augmented Generation", "Text Embedding", "Vector Search", "Cosine Similarity", "Chunking", "Ingestion", "Synthesis", "Natural Language Processing"] },
+  { "name": "框架技術", "values": ["Semantic Kernel", "Kernel Memory", ".NET", "Azure OpenAI", "GPTs", "Chat GPT"] },
+  { "name": "AI 模型", "values": ["GPT-4", "text-embedding-3-large", "GPT-4 Turbo"] },
+  { "name": "工具平台", "values": ["Azure App Service", "Azure OpenAI", "Docker", "Vector Database", "SimpleVectorDB", "Azure AI Search", "Qdrant"] },
+  { "name": "程式語言", "values": ["C#", "JSON", "Markdown"] },
+  { "name": "文章類型", "values": ["技術深度解析", "架構設計", "AI 應用開發"] },
+  { "name": "難度等級", "values": ["進階"] },
+  { "name": "包含內容", "values": ["RAG 架構解析", "實作示範", "技術演進分析", "成本分析", "安全設計", "最佳實務"] },
+  { "name": "應用場景", "values": ["智慧檢索", "知識庫建置", "內容管理", "AI 助手開發"] },
+  { "name": "核心概念", "values": ["向量化", "語意搜尋", "資料庫演進", "權限控制", "成本優化"] }
+]
