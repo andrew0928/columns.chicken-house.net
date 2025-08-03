@@ -258,16 +258,74 @@ docker exec -it app bash
 
 **相關工具**：GitHub Actions, Azure DevOps
 ```
+// 略
+```
 
 ## 檔案命名規範
 
 生成內容檔案命名必須與原始文章一致：
 - 原始：`_posts/2024/2024-07-15-docker-aspnet-setup.md`
 - 生成：`_embedding/2024/2024-07-15-docker-aspnet-setup.md`
+- 標籤：`_embedding/2024/2024-07-15-docker-aspnet-setup.json`
+
+## Tags JSON 檔案生成規範
+
+每個 embedding 檔案都必須同時生成對應的 Tags JSON 檔案，用於結構化儲存文章的 metadata：
+
+### 檔案命名
+- Embedding 檔案：`{filename}.md`
+- Tags 檔案：`{filename}.json` (相同檔名，不同副檔名)
+
+### JSON 結構規範
+
+Tags JSON 檔案必須遵循以下結構：
+
+```json
+[
+  { "name": "tag-group1 name", "values": [ "v1", "v2", "v3" ]},
+  { "name": "tag-group2 name", "values": [ "v1", "v2", "v3" ]},
+  { "name": "tag-group3 name", "values": [ "v1", "v2", "v3" ]}
+]
+```
+
+可用的 tag-group name 的內容說明如下：
+
+
+| tag-group name | 描述 | 資料來源 |
+|---------|------|---------|
+| 文章分類 | 原始文章的 categories | front matter |
+| 原始標籤 | 原始文章的 tags | front matter |
+| 主要關鍵字 | 自動識別的核心關鍵字 | 自動識別關鍵字 section |
+| 次要關鍵字 | 自動識別的次要關鍵字 | 自動識別關鍵字 section |
+| 技術術語 | 專業技術詞彙 | 自動識別關鍵字 section |
+| 程式語言 | 使用的程式語言 | 技術堆疊分析 section |
+| 框架技術 | 框架、函式庫、架構模式 | 技術堆疊分析 section |
+| 工具平台 | 開發工具、平台服務 | 技術堆疊分析 section |
+| 平台環境 | 作業系統、運行環境 | 技術堆疊分析 section |
+| 文章類型 | 文章的類型特徵 | 內容特性 section |
+| 難度等級 | 技術難度評估 | 內容特性 section |
+| 包含內容 | 文章包含的內容類型 | 內容特性 section |
+
+### 生成規則
+
+1. **資料提取**：從 embedding 檔案的對應 section 提取資料
+2. **資料清理**：移除重複項目，統一格式
+3. **分組歸類**：按照標籤群組進行分類整理
+4. **排序輸出**：每個群組內的 values 按字母順序排列
+5. **條件輸出**：只輸出有資料的標籤群組（空群組不輸出）
+
+### 使用目的
+
+Tags JSON 檔案主要用於：
+- 支援文章的語意搜尋和分類
+- 提供結構化的 metadata 供 AI 系統使用
+- 建立知識圖譜和內容關聯分析
+- 支援標籤雲和分類導航功能
 
 ## 更新機制
 
 當原始文章更新時，生成內容也應該重新產生：
 - 更新 `generated_date` 欄位
 - 增加 `version` 版本號
+- 同時更新對應的 Tags JSON 檔案
 - 保留歷史版本的重要資訊

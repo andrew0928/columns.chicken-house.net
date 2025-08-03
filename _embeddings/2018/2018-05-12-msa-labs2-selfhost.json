@@ -1,0 +1,75 @@
+[
+  {
+    "name": "文章分類",
+    "values": [
+      "系列文章: .NET + Windows Container, 微服務架構設計",
+      "系列文章: 架構師觀點"
+    ]
+  },
+  {
+    "name": "原始標籤",
+    "values": [
+      "microservice",
+      "系列文章",
+      "ASP.NET",
+      "架構師",
+      "Docker",
+      "Windows Container",
+      "DevOps",
+      "Service Discovery",
+      "Consul"
+    ]
+  },
+  {
+    "name": "主要關鍵字",
+    "values": [
+      "Self Host vs IIS Host",
+      "Container Driven Development",
+      "ASP.NET WebAPI 容器化",
+      "微服務生命週期管理",
+      "Service Discovery 整合"
+    ]
+  },
+  {
+    "name": "次要關鍵字",
+    "values": [
+      "OWIN Self Host",
+      "Container Orchestration",
+      "App Pool 管理",
+      "Windows Container",
+      "Health Checking"
+    ]
+  },
+  {
+    "name": "程式語言",
+    "values": [
+      "C#",
+      "PowerShell"
+    ]
+  },
+  {
+    "name": "框架技術",
+    "values": [
+      "ASP.NET WebAPI",
+      "OWIN",
+      ".NET Framework"
+    ]
+  },
+  {
+    "name": "工具平台",
+    "values": [
+      "Docker",
+      "IIS",
+      "Visual Studio",
+      "ServiceMonitor.exe"
+    ]
+  },
+  {
+    "name": "平台環境",
+    "values": [
+      "Windows Container",
+      "Windows Server",
+      "Azure"
+    ]
+  }
+]

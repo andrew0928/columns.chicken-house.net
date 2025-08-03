@@ -1,0 +1,97 @@
+[
+  {
+    "name": "文章分類",
+    "values": [
+      "系列文章: 架構師觀點"
+    ]
+  },
+  {
+    "name": "主要關鍵字",
+    "values": [
+      "Service Discovery",
+      "DevOpsDays",
+      "微服務架構",
+      "DevOps 整合",
+      "Client Side Discovery"
+    ]
+  },
+  {
+    "name": "次要關鍵字",
+    "values": [
+      "Consul",
+      "Service Registry",
+      "Health Check",
+      "Service Mesh",
+      "SLA 管理"
+    ]
+  },
+  {
+    "name": "技術術語",
+    "values": [
+      "DNS + ELB",
+      "Load Balancer",
+      "Service Definition",
+      "API Gateway",
+      "Configuration Management"
+    ]
+  },
+  {
+    "name": "程式語言",
+    "values": [
+      ".NET Framework"
+    ]
+  },
+  {
+    "name": "架構模式",
+    "values": [
+      "微服務架構",
+      "Client Side Discovery Pattern"
+    ]
+  },
+  {
+    "name": "相關技術",
+    "values": [
+      "Docker Container",
+      "Consul (Service Discovery)",
+      "DNS + Load Balancer",
+      "Service Registry",
+      "Health Check 機制"
+    ]
+  },
+  {
+    "name": "工具平台",
+    "values": [
+      "Docker",
+      "Consul",
+      "Kong API Gateway",
+      "Cloud Load Balancers (Azure/AWS)"
+    ]
+  },
+  {
+    "name": "文章類型",
+    "values": [
+      "會議演講準備文稿",
+      "技術架構分析"
+    ]
+  },
+  {
+    "name": "文章狀態",
+    "values": [
+      "未完成草稿 (published: false)"
+    ]
+  },
+  {
+    "name": "難度等級",
+    "values": [
+      "進階 (架構師 / DevOps 工程師層級)"
+    ]
+  },
+  {
+    "name": "包含內容",
+    "values": [
+      "DevOps 理念闡述",
+      "Service Discovery 應用場景",
+      "架構設計模式"
+    ]
+  }
+]

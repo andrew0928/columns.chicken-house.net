@@ -1,0 +1,129 @@
+[
+  {
+    "name": "文章分類",
+    "values": [
+      "系列文章: .NET + Windows Container, 微服務架構設計",
+      "系列文章: 架構師觀點"
+    ]
+  },
+  {
+    "name": "主要關鍵字",
+    "values": [
+      "排隊機制",
+      "微服務架構",
+      "高流量處理",
+      "電商系統",
+      "雙十一"
+    ]
+  },
+  {
+    "name": "次要關鍵字",
+    "values": [
+      "流量控制",
+      "並發處理",
+      "QoS (Quality of Service)",
+      "POC 驗證",
+      "負載測試"
+    ]
+  },
+  {
+    "name": "技術術語",
+    "values": [
+      "CheckoutLine",
+      "Token 機制",
+      "四核心指標",
+      "O(1) 時間複雜度",
+      "IOPS 優化"
+    ]
+  },
+  {
+    "name": "程式語言",
+    "values": [
+      "C#",
+      ".NET Framework"
+    ]
+  },
+  {
+    "name": "架構模式",
+    "values": [
+      "微服務架構",
+      "排隊演算法設計",
+      "多執行緒處理"
+    ]
+  },
+  {
+    "name": "相關技術",
+    "values": [
+      "Thread Pool",
+      "Interlocked 操作",
+      "SpinWait",
+      "RateLimiter",
+      "Semaphore"
+    ]
+  },
+  {
+    "name": "工具平台",
+    "values": [
+      "Visual Studio",
+      "Excel (數據分析)",
+      "CSV 監控匯出",
+      "Console Application"
+    ]
+  },
+  {
+    "name": "文章類型",
+    "values": [
+      "技術深度分析",
+      "架構設計實作",
+      "POC 驗證案例"
+    ]
+  },
+  {
+    "name": "文章狀態",
+    "values": [
+      "已完成 (published: true)"
+    ]
+  },
+  {
+    "name": "難度等級",
+    "values": [
+      "高級 (架構師 / 資深工程師層級)"
+    ]
+  },
+  {
+    "name": "包含內容",
+    "values": [
+      "演算法設計與分析",
+      "完整 POC 實作代碼",
+      "效能監控與測試",
+      "架構師經驗分享"
+    ]
+  },
+  {
+    "name": "核心概念",
+    "values": [
+      "結帳起點 (FirstCheckOutPosition)",
+      "排隊起點 (LastCheckOutPosition)", 
+      "排隊終點 (LastQueuePosition)",
+      "號碼牌發放機 (CurrentSeed)"
+    ]
+  },
+  {
+    "name": "應用場景",
+    "values": [
+      "電商促銷搶購",
+      "搶票系統",
+      "限量商品銷售",
+      "高並發服務控制"
+    ]
+  },
+  {
+    "name": "DevOps 相關",
+    "values": [
+      "系統監控設計",
+      "Metrics 定義",
+      "可維運性考量",
+      "自動化測試"
+    ]
+  }
+]

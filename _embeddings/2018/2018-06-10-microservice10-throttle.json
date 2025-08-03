@@ -1,0 +1,104 @@
+[
+  {
+    "name": "文章分類",
+    "values": [
+      "系列文章: .NET + Windows Container, 微服務架構設計",
+      "系列文章: 架構師觀點"
+    ]
+  },
+  {
+    "name": "原始標籤",
+    "values": [
+      "架構師",
+      "面試經驗", 
+      "microservices",
+      "circuit breaker",
+      "斷路器"
+    ]
+  },
+  {
+    "name": "主要關鍵字",
+    "values": [
+      "微服務",
+      "斷路器",
+      "circuit breaker",
+      "服務量控制",
+      "流量控制",
+      "throttle"
+    ]
+  },
+  {
+    "name": "次要關鍵字",
+    "values": [
+      "DevOps",
+      "服務雪崩",
+      "服務發現",
+      "API Gateway",
+      "負載管理",
+      "系統架構"
+    ]
+  },
+  {
+    "name": "技術術語",
+    "values": [
+      "RPS (Request Per Second)",
+      "QoS",
+      "SLA",
+      "load balancer",
+      "service discovery"
+    ]
+  },
+  {
+    "name": "程式語言",
+    "values": [
+      "C#"
+    ]
+  },
+  {
+    "name": "架構模式",
+    "values": [
+      "微服務架構",
+      "斷路器模式"
+    ]
+  },
+  {
+    "name": "相關技術",
+    "values": [
+      ".NET Core/Framework",
+      "Threading (多執行緒)",
+      "Queue/Buffer 機制",
+      "統計分析引擎"
+    ]
+  },
+  {
+    "name": "工具平台",
+    "values": [
+      "Kong API Gateway",
+      "NGINX Rate Limiting", 
+      "Windows Container",
+      "Excel (數據視覺化)"
+    ]
+  },
+  {
+    "name": "文章類型",
+    "values": [
+      "技術深度文章",
+      "面試題解析"
+    ]
+  },
+  {
+    "name": "難度等級",
+    "values": [
+      "進階 (Senior Engineer / 架構師層級)"
+    ]
+  },
+  {
+    "name": "包含內容",
+    "values": [
+      "理論說明",
+      "程式碼實作",
+      "性能測試",
+      "圖表分析"
+    ]
+  }
+]

@@ -1,0 +1,72 @@
+[
+  {
+    "name": "文章分類",
+    "values": [
+      "系列文章: 架構師觀點",
+      "系列文章: 架構面試題"
+    ]
+  },
+  {
+    "name": "原始標籤",
+    "values": [
+      "架構師",
+      "面試經驗",
+      "microservices", 
+      "azure stream analytics"
+    ]
+  },
+  {
+    "name": "主要關鍵字",
+    "values": [
+      "連續資料統計",
+      "時間窗口統計",
+      "Stream Analytics",
+      "資料結構應用",
+      "Queue 資料結構"
+    ]
+  },
+  {
+    "name": "次要關鍵字",
+    "values": [
+      "時間複雜度",
+      "Atomic Operations",
+      "Racing Condition",
+      "Redis 分散式儲存",
+      "演算法最佳化"
+    ]
+  },
+  {
+    "name": "程式語言",
+    "values": [
+      "C#",
+      "SQL",
+      "T-SQL"
+    ]
+  },
+  {
+    "name": "框架技術",
+    "values": [
+      ".NET",
+      "Dapper",
+      "StackExchange.Redis"
+    ]
+  },
+  {
+    "name": "工具平台",
+    "values": [
+      "Visual Studio",
+      "SQL Server",
+      "Redis",
+      "MongoDB",
+      "Azure Stream Analytics"
+    ]
+  },
+  {
+    "name": "平台環境",
+    "values": [
+      "Windows",
+      "Azure",
+      "Docker"
+    ]
+  }
+]
