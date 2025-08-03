@@ -23,6 +23,8 @@ _tasks.md, _tasks.log, 這兩個檔案統一放置於 /_migration 目錄下。
    - 當處理失敗時, 將 checklist 改為 `- [ ] {filename} (failed)`
    - 當處理成功時, 將 checklist 改為 `- [x] {filename} (success)`
 5. 處理過程, 請記錄流水帳至 _tasks.log, 標記時間跟 filename
+6. 處理下一個 task 時，請重新再入相關的 instructions, prompts, 避免對話中有限的 context window 導致作業的要求已經被遺忘。
+7. 當所有檔案處理完成後, 將 _tasks.md 重新命名為 `_tasks_{title}_{date}.md`，並且建立新的批次作業任務。
 
 # 整體任務處理原則
 

@@ -288,7 +288,7 @@ Tags JSON 檔案必須遵循以下結構：
 ]
 ```
 
-可用的 tag-group name 的內容說明如下：
+可用的 tag-group name 的內容說明如下 (參考 _embeddings/all-tags-aggregated.json)：
 
 
 | tag-group name | 描述 | 資料來源 |
@@ -313,6 +313,7 @@ Tags JSON 檔案必須遵循以下結構：
 3. **分組歸類**：按照標籤群組進行分類整理
 4. **排序輸出**：每個群組內的 values 按字母順序排列
 5. **條件輸出**：只輸出有資料的標籤群組（空群組不輸出）
+6. **更新彙整標籤**：每次生成後更新 `_embeddings/all-tags-aggregated.json` 檔案，確保所有標籤群組的資料一致性
 
 ### 使用目的
 
