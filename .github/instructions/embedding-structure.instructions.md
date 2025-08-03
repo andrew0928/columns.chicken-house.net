@@ -168,11 +168,11 @@ content_metrics:
   content_type: "教學"  # 教學/心得/評論/工具介紹
 ```
 
-### 3. 摘要 (Summaries)
+### 3. 內容摘要
 提供多層級摘要：
 
 ```markdown
-## 摘要 (Summaries)
+## 內容摘要 (Summaries)
 
 ### 文章摘要 (Article Summary)
 用 8-10 行、約 500 字的完整段落概括整篇文章的核心內容和價值。
@@ -185,16 +185,19 @@ content_metrics:
 - 要點 2：重要的實作細節
 - 要點 3：需要注意的限制或建議
 
-### 段落標題 1 (Section Summaries)
+### 段落標題 1 
 
+(Section Summaries)
 用 8-10 行、約 500 字的完整段落摘要該段落的核心內容，包含主要概念、技術細節、實作重點和關鍵洞察。應詳細說明該段落在整體文章中的作用和價值。使用第三人稱「作者」來描述。
 
-### 段落標題 2 (Section Summaries)
+### 段落標題 2
 
+(Section Summaries)
 用 8-10 行、約 500 字的完整段落摘要該段落的核心內容，包含主要概念、技術細節、實作重點和關鍵洞察。應詳細說明該段落在整體文章中的作用和價值。使用第三人稱「作者」來描述。
 
-### 段落標題 3 (Section Summaries)
+### 段落標題 3
 
+(Section Summaries)
 用 8-10 行、約 500 字的完整段落摘要該段落的核心內容，包含主要概念、技術細節、實作重點和關鍵洞察。應詳細說明該段落在整體文章中的作用和價值。使用第三人稱「作者」來描述。
 ```
 
@@ -274,7 +277,7 @@ docker exec -it app bash
 
 ## Tags JSON 檔案生成規範
 
-每個 embedding 檔案都必須同時生成對應的 Tags JSON 檔案，用於結構化儲存文章的 metadata：
+每個 embedding 檔案都必須同時生成對應的 Tags JSON 檔案，用於結構化儲存文章的 metadata 部分 ( summary, qa, problem 等內容區塊不需要輸出 Json )：
 
 ### 檔案命名
 - Embedding 檔案：`{filename}.md`

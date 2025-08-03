@@ -14,6 +14,33 @@ applyTo: '_embedding/*/*.md'
 
 ## 生成流程規範
 
+請按照下列步驟跟原則，生成每篇文章的衍生內容。要生成的內容有兩份
+
+**一份為 Markdown 格式的文章內容**:
+包含摘要、問答對和解決方案
+參考範例檔案 #file: embedding-template.md
+範例檔案內的除了括號內的文字是給你看的提示之外，其他都是實際生成的資料，請參考格式後直接替換。
+
+**一份為 JSON 格式的結構化資料**:
+只要包含 Metadata，不需要包含 summary、Q&A 和解決方案等文字敘述內容。
+參考範例檔案 #file: embedding-template.json
+主要結構是 tags 兩層式的結構
+
+```json
+{
+   "tag-name1": ["tag-value1", "tag-value2"],
+   "tag-name2": ["tag-value1", "tag-value2"],
+   "tag-name3": ["tag-value1", "tag-value2"]
+}
+```
+
+請務必遵守這樣的結構要求, 將 Metadata 欄位的內容轉換成 tags 的結構。
+必要時就攤平, 在 tag-name 內用 `-` 連接來呈現階層架構。
+
+
+
+
+
 ### 階段 1：內容分析
 1. **讀取原始文章**：完整讀取 `_posts/{year}/{filename}.md`
 2. **解析結構**：識別標題層級、段落、程式碼區塊
