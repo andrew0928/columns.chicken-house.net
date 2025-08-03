@@ -32,3 +32,23 @@
 2025-08-03 13:37:27 - Successfully completed 2019-06-15-netcli-pipeline.md embedding generation
 2025-08-03 13:38:04 - Starting to process 2019-06-20-netcli-tips.md
 2025-08-03 13:40:57 - Successfully completed 2019-06-20-netcli-tips.md embedding generation
+
+
+## 2025-08-03 - 開始2020年文章 Embedding 生成任務
+- 建立 _tasks.md 檔案  
+- 識別 5 個需要處理的文章檔案
+- 準備開始處理第一個檔案
+2025-08-03 15:45:00 - 完成 2020-01-01-microservice13-event-sourcing.md
+- 成功生成 embedding content 和 tags JSON
+- 文章約12500字，涵蓋Event Sourcing、Cloud Native、CQRS等主題
+- 狀態更新為 success
+
+2025-08-03 15:46:00 - 開始處理 2020-02-09-process-pool.md
+- 狀態更新為 processing
+2025-08-03 16:15:00 - 完成 2020-02-09-process-pool.md
+- 成功生成 embedding content 和 tags JSON
+- 文章約25000字，涵蓋Process Pool設計、隔離技術比較、效能測試等主題
+- 狀態更新為 success
+
+2025-08-03 16:16:00 - 開始處理 2020-03-10-interview-abstraction.md
+- 狀態更新為 processing
