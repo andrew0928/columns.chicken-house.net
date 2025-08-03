@@ -26,11 +26,54 @@ version: "1.0"
 ## 摘要 (Summaries)
 [文章和段落層級摘要]
 
-## 問答對 (Q&A Pairs)
+### 段落摘要1 (Section Summaries)
+[每個段落的核心內容摘要]
+
+### 段落摘要2 (Section Summaries)
+[每個段落的核心內容摘要]
+
+### 段落摘要 (Section Summaries)
+[每個段落的核心內容摘要]
+
+## 問答集 (Q&A Pairs)
 [從內容提取的問答配對]
+
+### Q1, [問題標題]
+Q: [問題內容]
+A: [回答內容]
+
+### Q2, [問題標題]
+Q: [問題內容]
+A: [回答內容]
+
+### Q3, [問題標題]
+Q: [問題內容]
+A: [回答內容]
+
 
 ## 解決方案 (Solutions)
 [從內容整理的問題解決方案]
+
+### P1, [問題標題]
+Problem: [問題描述]
+Root Cause: [問題根本原因]
+Solution: [解決方案描述]
+Example: [相關指令或程式碼片段]
+
+### P2, [問題標題]
+Problem: [問題描述]
+Root Cause: [問題根本原因]
+Solution: [解決方案描述]
+Example: [相關指令或程式碼片段]
+
+### P3, [問題標題]
+Problem: [問題描述]
+Root Cause: [問題根本原因]
+Solution: [解決方案描述]
+Example: [相關指令或程式碼片段]
+
+
+
 ```
 
 ## 各區塊詳細規範
