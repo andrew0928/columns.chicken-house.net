@@ -1,234 +1,216 @@
----
-source_file: "_posts/2023/2023-10-01-reorder.md"
-generated_date: "2025-01-03 17:00:00 +0800"
-version: "1.1"
-tools:github_copilot
-model: claude_sonnet_3_5
----
-
-# (文章標題) 架構面試題 #5: Re-Order Messages - 生成內容
+# (文章標題) 從 API First 到 AI First──DevOpsDays Taipei 2024 Keynote 摘要
 
 ## Metadata
 
-### 原始 Metadata
-
+### 原始 Front Matter
 layout: post
-title: "架構面試題 #5: Re-Order Messages"
+title: "從 API First 到 AI First"
 categories:
-- "系列文章: 架構師的修練"
-tags: ["系列文章", "架構師的修練", "架構師觀點", "刻意練習", "抽象化"]
+- "系列文章: 架構師觀點"
+tags: ["架構師觀點","技術隨筆", "AI", "DevOpsDays"]
 published: true
 comments_disqus: false
 comments_facebook: false
 comments_gitalk: true
 redirect_from:
-logo: /wp-content/images/2023-10-01-reorder/2023-10-21-22-13-16.png
-
+logo: /wp-content/images/2024-07-20-devopsdays-keynote/2024-08-03-18-58-39.jpg
 
 ### 自動識別關鍵字
-
 keywords:
   primary:
-    - Message Reordering
-    - 分散式系統
-    - 緩衝區設計
-    - 訊息排序
-    - 系統架構
-    - Buffer
+    - AI First
+    - API First
+    - DevOpsDays Taipei
+    - Copilot / Agent 架構
+    - LLM Function Calling
+    - AI DX
+    - RAG (Retrieval-Augmented Generation)
   secondary:
-    - TCP
-    - UDP
-    - Queue
-    - SLO
-    - DevOps
-    - 演算法
-    - 容錯設計
+    - Semantic Kernel
+    - OpenAI GPTs
+    - Vector Database
+    - Prompt Engineering
     - 系統監控
-    - POC
-    - SortedSet
+    - Pipeline / GitOps
+    - 零售業 AI 應用
+    - UX Optimization
 
 ### 技術堆疊分析
-
 tech_stack:
   languages:
     - C#
+    - JavaScript / TypeScript
   frameworks:
-    - .NET
+    - ASP.NET Core
+    - Semantic Kernel
   tools:
-    - Visual Studio
-    - Git
+    - Azure OpenAI Service
+    - GitHub Copilot
+    - GitHub Actions
+    - Docker / Kubernetes
   platforms:
-    - Windows
+    - Azure
+    - ChatGPT GPTs
   concepts:
-    - Distributed Systems
-    - Message Queue
-    - Buffer Management
-    - State Machine
-    - Algorithm Design
-    - System Monitoring
+    - API Design (OpenAPI / Swagger)
+    - Function Calling / Tool Use
+    - Copilot Pattern
+    - Agent-Engine 協作
+    - RAG Pipeline
+    - GitOps / CI-CD
 
 ### 參考資源
-
 references:
   internal_links:
-    - /2018/06/10/microservice10-throttle/
-    - /2022/05/29/datetime-mock/
-    - /2019/08/30/scheduling-practices/
+    - /2023/01/01/api-design-workshop/
+    - /2024/02/10/archview-int-app/
+    - /2024/03/15/archview-int-blog/
   external_links:
-    - https://www.geeksforgeeks.org/event-ordering-in-distributed-system/
-    - https://www.geeksforgeeks.org/causal-ordering-of-messages-in-distributed-system/
-    - https://zh.wikipedia.org/wiki/%E4%BC%A0%E8%BE%93%E6%8E%A7%E5%88%B6%E5%8D%8F%E8%AE%AE
-    - https://redis.io/commands/getset/
-    - https://github.com/andrew0928/Andrew.ReOrderDemo
+    - https://platform.openai.com/docs/guides/function-calling
+    - https://github.com/microsoft/semantic-kernel
+    - https://cloud.google.com/use-cases/retrieval-augmented-generation
+    - https://hackmd.io/@DevOpsDay/2024
+    - https://blog.mickzh.com/blog/2024-devopsdays-taipei/
   mentioned_tools:
-    - TCP
-    - UDP
-    - Message Queue
-    - Redis
-    - SortedSet
-    - Excel
-    - CSV
+    - ChatGPT
+    - GPT-4o
+    - Kernel Memory
+    - OpenAI Embedding
+    - Stable Diffusion
 
 ### 內容特性
-
 content_metrics:
-  word_count: 18000
-  reading_time: "60 分鐘"
+  word_count: 13800
+  reading_time: "45 分鐘"
   difficulty_level: "進階"
-  content_type: "教學"
+  content_type: "Conference Keynote 筆記"
 
-## 摘要
+---
 
-### 文章摘要
+## 文章摘要
 
-作者透過一個實際的架構面試題來深入探討分散式系統中訊息重新排序的問題。文章從一個常見的場景出發：如何在大量 API Request 的情況下保證訊息按照順序處理。作者首先分析了問題的本質，指出這不是一個簡單的排序問題，而是需要在串流環境下處理亂序訊息的挑戰。文章詳細介紹了訊息排序的基本觀念，包括訊息標示順序的方法、緩衝時間和空間的考量等。作者設計了一個完整的模型來解決這個問題，包含 Command Source、ReOrder Buffer、Command Handler 和監控機制四個核心組件。透過大量的單元測試和模擬實驗，作者展示了不同 Buffer Size 對系統性能的影響，並提供了詳細的 Metrics 分析。整篇文章不僅提供了技術解決方案，更重要的是展示了架構師如何透過建立模型、設計實驗來驗證解決方案的可行性，體現了 DevOps 中開發與維運一體化的思維。
+作者以 DevOpsDays Taipei 2024 Keynote 為例，說明軟體團隊如何從「API First」的思維演進到「AI First」。演講聚焦三件事：
+
+1. 把大型語言模型（LLM）視為「意圖理解介面」，在系統架構中與 Controller 並列，形成 Controller + Copilot 的新 MVC。
+2. 高品質的 Domain API 是 AI DX 的基礎。若 API 設計不合理，將消耗大量 prompt 成本並增加錯誤風險。
+3. 開發者必須掌握四項基礎功：API First、架構規劃（Copilot / Agent 擺位）、LLM 基礎元件（Embedding、Vector DB、Prompt）、常用 AI 設計模式（RAG、推薦系統）。
+
+文中以四個 Demo 說明：
+• Demo 1 「安德魯小舖 GPTs」：用自然語言完成下單流程，展示降維式 UX。
+• Demo 2 「滿意度偵測」：LLM 從對話中抽取情緒並寫回資料庫，實現個人化。
+• Demo 3 「Console Copilot」：用 Semantic Kernel 在傳統 CLI 旁插入 Copilot，展示 Controller + Copilot 互動。
+• Demo 4 「部落格 RAG」：用 Kernel Memory 建立向量索引，強化 GPTs 的專域問答能力。
+
+最後作者提出：AI 運算成本會急速下降，團隊應立即升級 API 設計與部署 Pipeline，預留 AI Agent、Engine 協作的擴充位。
 
 ### 關鍵要點
 
-- 訊息重新排序是分散式系統中的常見問題，需要系統性的解決方案
-- 解決方案的核心是設計合適的緩衝區機制來暫存亂序訊息
-- Buffer Size 的選擇需要在延遲時間和訊息完整性之間取得平衡
-- 系統設計必須考慮監控機制，通過 Metrics 來評估和優化性能
-- POC 和模擬測試是驗證架構設計可行性的重要方法
-- 架構師需要具備建立模型和驗證解決方案的能力
-- DevOps 思維要求在設計階段就考慮維運需求
+- LLM 已具備「選工具解任務」能力，API 若設計合理即可直接被 AI 使用。
+- API DX 決定 AI DX：狀態機、Scope、Idempotent 是關鍵。
+- Copilot 是 Controller 的副駕，Agent 則是進階型完全自駕。
+- RAG 是目前最實用的 AI 模式：檢索 + 增強可快速擴充私有知識。
+- 部署流程將從 3 條線（Code / Config / Env）擴展為 4 條線（+AI Pipeline）。
+- 零售業案例證實：AI 強化的 UX 與推薦可直接轉換營收。
 
-### (段落標題) 練習前的思考: 我需要了解這些機制嗎？
+---
 
-作者在開始技術討論前，先提出了一個重要的哲學問題：是否需要重新發明輪子。作者認為雖然不需要重新發明每個輪子，但要具備重新建立必要輪子的能力。這種能力對架構師角色特別重要，因為架構師經常需要面對複雜且需要高度整合的系統。作者建議的最佳平衡點是做好必要的練習，一方面投入不算多，另一方面可以得到保障。作者強調需要有能力了解原理但不用真的去開發，然後才能判斷要不要自己開發。這種思維對於判斷技術選擇時特別有幫助，能夠立刻做出技術決策。作者指出這些練習雖然不大花時間，但將來在判斷技術選擇時就能發揮關鍵作用。
+## 段落摘要
 
-### (段落標題) 1. 訊息排序的基本觀念
+### 1. 寫在前面
+回顧 2021–2023 演講脈絡，從 CI/CD→API First→DevOps for Architect 走到 AI First，核心都是「基礎功」。
 
-作者詳細解釋了訊息重新排序的核心概念，指出這與一般的排序不同，因為無法等到資料收齊再一次性排序。系統必須一個一個收到不一定正確順序的訊息，並且盡快按順序處理。作者提出了處理的基本流程：如果收到的訊息順序正確就馬上處理，如果不對就暫時存放等待補齊，或是放棄某個訊息繼續往下。這個過程需要在等待時間和放棄訊息數量之間取捨。作者參考了 TCP 處理封包順序的機制，提出了三個關鍵設計要點：訊息必須能標示順序、必須界定處理範圍的緩衝時間、必須界定處理範圍的緩衝空間。作者建立了一個包含四個組件的處理模型：訊息來源、緩衝機制、訊息處理器和監控體系，並設計了完整的介面規格來實現這個系統。
+### 2. Demo 1：降維式購物 UX
+對話 + Function Calling 讓使用者「提出需求」而非「下指令」，LLM 負責意圖解析及 API 呼叫。
 
-### (段落標題) 2. 環境模擬
+### 3. Demo 2：情緒偵測與個人化推薦
+LLM 自動摘要使用者喜好並寫入客戶註記；交易完成後評估滿意度。展示 AI 取代傳統量化指標。
 
-作者設計了完整的模擬環境來測試訊息重新排序的機制。模擬環境包含網路傳輸延遲的隨機模擬，透過調整 period 和 noise 參數來控制訊息產生的週期和隨機延遲範圍。作者也模擬了網路傳輸丟失請求的情況，設定一定機率的 Command 會憑空消失。整個模擬系統使用 DateTime Mock 技術來控制時間軸，避免真實時間對測試的影響。作者特別設計了監控機制，使用 CSV 格式輸出 Metrics 數據，包括每秒的 Push、Send、Drop、Skip 等統計指標。這種監控設計讓開發者能夠在 POC 階段就思考需要觀察的指標，並模擬真實系統上線後的 dashboard 效果。作者強調這種做法能夠把整套系統的設計思路控制在 500 行程式碼內，在單機就能重複模擬執行的複雜度內，大大降低了驗證成本。
+### 4. Demo 3：Copilot 架構
+將 LLM 置於 CLI 側邊，示範 Controller → Copilot → Domain API 的三段式流程，成本低且易導入。
 
-### (段落標題) 3. Reordering Buffer 的設計
+### 5. Demo 4：RAG 與知識強化
+利用向量搜尋把部落格文章嵌入 GPTs 上下文，說明 RAG workflow：Query→Embed→Retrieve→Generate。
 
-作者詳細介紹了 ReOrder Buffer 的核心設計，包括介面定義、資料結構、核心邏輯和監控機制。Buffer 使用 SortedSet 來自動排序和去重複，並透過 _current_next_index 來追蹤下一個預期的 Command Position。核心的 Push 方法實現了完整的訊息處理邏輯：直接丟棄過期訊息、立即處理順序正確的訊息、暫存需要等待的訊息、以及當 Buffer 滿時的處理策略。作者設計了六個監控指標來追蹤系統運作狀況，包括 push、send、drop、skip 的計數以及 buffer 使用量和延遲時間。整個設計採用事件驅動的架構，透過三個事件（CommandIsReadyToSend、CommandWasDroped、CommandWasSkipped）來通知外部系統。作者特別強調了 Adapter 模式的使用，將核心邏輯與事件機制分離，提高了程式碼的可維護性和可測試性。
+### 6. 架構與 Pipeline
+提出「MVC +AI」架構圖與 GitOps + AIOps 四線 Pipeline，呼應 2021 年 CI/CD 議題。
 
-### 4. 模擬與監控
+### 7. 零售業應用串聯
+結合 Happy Lee「四種銷售場景」理論，說明 Agent/Engine 如何在實體零售落地。
 
-作者通過大量的模擬測試來驗證設計的可行性和優化參數設定。測試包括不同的網路環境（調整 command_noise）和不同的 Buffer Size 設定。作者發現 Buffer Size 並非越大越好，過大的 Buffer 在訊息丟失的情況下會導致不必要的延遲。透過系統性的實驗，作者展示了 Buffer Size 從 10 降到 5 時延遲時間的改善，以及繼續降低 Buffer Size 時 Drop Rate 的上升。作者設計了完整的監控 dashboard，能夠實時觀察系統的運作狀況，包括延遲分佈、Buffer 使用率等關鍵指標。這些監控數據不僅用於性能優化，也為制定 SLO（Service Level Objective）提供了基礎。作者特別強調了監控在 POC 階段的重要性，認為能夠在開發初期就建立完整的監控體系對架構師來說是必要的能力。
+### 8. 總結
+AI 降維打擊並非口號，關鍵在於：API 設計、Prompt Engineering、LLM Ops 及成本優化。
 
-### (段落標題) 5, 總結
-
-作者在總結中將整個訊息重新排序的實作過程與 DevOps 理念結合，強調架構師需要具備從概念建立模型到驗證可行性的完整能力。作者指出架構師面對的通常都是困難的問題，如果提出錯誤的方案需要半年後才能驗證，那架構師的存在意義就消失了。因此，發展出能夠早期驗證解決方案可行性的流程至關重要。這個流程包括從概念建立可評估的模型，將其變成可執行的 MVP，並且同時驗證開發和維運等各個層面。作者強調現代的架構師不應該僅止於開發的規劃設計，維運的設計也應該包含在內。文章的前半部分（概念和實作）代表 Dev 的部分，後半部分（模擬和監控）則代表 Ops 的部分，綜合驗證後才真正交由相關團隊實際開發，這體現了完整的 DevOps 思維。
+---
 
 ## 問答集
 
-### (問題: question) Q1: 為什麼需要訊息重新排序機制？
-Q: 在什麼情況下需要實作訊息重新排序的機制？這個問題的本質是什麼？
-A: 當系統透過 API 短時間收到大量 Request 時，由於網路傳輸的不確定性，訊息可能不會按照發送順序到達。這與一般排序不同，因為無法等資料收齊再排序，必須一個一個處理不一定正確順序的訊息。核心挑戰是在等待時間和訊息完整性之間取得平衡。
+### Q1 （概念）什麼是「AI DX」？
+A: AI DX 指的是「提供給 AI 使用的開發者體驗」。若 API 命名、參數與狀態轉移符合常理，LLM 便能以最少 Prompt 正確呼叫；反之會導致 Token 浪費與錯誤率上升。
 
-### (問題: question) Q2: 如何設計訊息的順序標示機制？
-Q: 要實現訊息重新排序，訊息本身需要包含哪些資訊？
-A: 訊息必須要能標示順序，包括：1) 能判斷任意兩個訊息的先後順序，2) 能判斷中間是否有遺漏的訊息。常見做法是使用來源標記的 timestamp 來判斷先後，或使用來源標記的 sequence number 來判斷是否掉號碼。
+### Q2 （操作）如何讓 GPTs 自動呼叫我的 API？
+A: 需在 GPTs 設定頁貼上 OpenAPI spec，並於 Prompt 說明何時使用何種 Function；GPTs 會先思考工具鏈，再輸出 arguments 以 JSON 傳回後端，由系統實際發送 HTTP。
 
-### (問題: question) Q3: Buffer Size 的大小如何選擇？
-Q: ReOrder Buffer 的大小設定有什麼原則？是否越大越好？
-A: Buffer Size 並非越大越好。過大的 Buffer 在訊息丟失時會導致不必要的延遲，因為系統會持續等待永遠不會到達的訊息。過小的 Buffer 則會增加 Drop Rate。需要透過實際測試找出在特定網路環境下，能夠平衡延遲時間和訊息完整性的最佳值。
+### Q3 （排除）LLM 回答錯誤數值怎麼辦？
+A: 對於需精確計算的邏輯，應改由後端服務完成並把結果回寫巨模型；Prompt 中要明確要求「僅用工具計算，不自行推估」。
 
+### Q4 （比較）Agent 與 Copilot 有何差別？
+A: Copilot 以人為主，AI 輔助；Agent 以 AI 為主，可自主拆解任務。取決於 LLM 推理能力與 API 完整度。
 
-## 解決方案
+### Q5 （設計）為何作者主張「狀態機導向 API」？
+A: 狀態機將 Domain 行為拆成原子轉移，可天然對應 HTTP 動詞與 Idempotency，避免 CRUD 無限制修改導致資料損毀，更利於 AI 理解流程。
 
-### (問題: problem) P1: 如何設計訊息重新排序的核心演算法
-Problem: 在分散式系統中，訊息可能因為網路延遲而亂序到達，需要重新排序後再處理
-Root Cause: 網路傳輸的不確定性導致訊息無法按照發送順序到達，而系統又必須保證處理順序的正確性
-Solution:
-- 為每個訊息標記連續的 sequence number 來標示順序
-- 使用 SortedSet 作為緩衝區來暫存亂序訊息
-- 實作三種處理策略：直接轉發（PASSTHRU）、緩衝處理（BUFFERED）、丟棄處理（DROP/SKIP）
-- 設定 _current_next_index 來追蹤下一個預期的訊息編號
-- 當收到預期的訊息時，連同緩衝區中連續的後續訊息一起處理
+### Q6 （模式）RAG 必要元件有哪些？
+A: 有五項
+1) 向量化模型（Embedding）
+2) Vector Store（搜尋 Top-k）
+3) Retriever（加權/排序）
+4) Generator（LLM 完成回答）
+5) Optional Ranking Model 強化精度。
 
-Example:
-```csharp
-if (data.Position == this._current_next_index)
-{
-    this.Send(data, CommandProcessReasonEnum.SEND_PASSTHRU);
-    this._current_next_index = data.Position + 1;
-    
-    // 處理緩衝區中連續的訊息
-    while (this._buffer.Count > 0 && this._current_next_index == this._buffer.Min.Position)
-    {
-        var m = this._buffer.Min;
-        this._buffer.Remove(m);
-        this.Send(m, CommandProcessReasonEnum.SEND_BUFFERED);
-        this._current_next_index++;
-    }
-}
-```
+### Q7 （成本）如何控制 LLM Token 花費？
+A: 採取三層策略：
+1) Prompt 壓縮（少上下文 + Only 必要字段）
+2) 小模型前置（GPT-4o-mini→GPT-4o）
+3) 將資料檢索下放到自建向量庫，LLM 僅做摘要。
 
-### (問題: problem) P2: 如何處理緩衝區滿載的情況
-Problem: 當緩衝區空間不足時，系統必須決定是繼續等待遺失的訊息還是放棄等待
-Root Cause: 網路品質不穩定導致某些訊息可能永遠不會到達，而無限等待會耗盡緩衝區資源
-Solution:
-- 設定緩衝區大小限制來控制資源使用
-- 優先保留已收到的訊息，放棄等待可能永遠不會到達的訊息
-- 實作強制跳過機制（SKIP）來避免系統卡死
-- 透過監控指標來平衡 Drop Rate 和延遲時間
-- 考慮實作基於時間的超時機制
+### Q8 （流程）AI Pipeline 與 CI/CD 如何整合？
+A: 建議另建 AI Repo：data → train → eval → serve 流；完成後同步版本號至 App Config Repo，由 GitOps 將模型 URI 與算力配置推上線。
 
-Example:
-```csharp
-if (this._buffer.Count > this._buffer_size && this._current_next_index < this._buffer.Min.Position)
-{
-    // 強制跳過等待中的訊息
-    this.Skip(this._current_next_index, CommandProcessReasonEnum.SKIP_BUFFERFULL);
-    this._current_next_index++;
-}
-```
+---
 
-### (問題: problem) P3: 如何建立有效的監控和指標系統
-Problem: 需要即時監控系統運作狀況，但缺乏適當的指標和監控機制
-Root Cause: 沒有在設計階段就考慮監控需求，導致系統上線後無法有效觀察和調優
-Solution:
-- 設計六個核心指標：Push、Send、Drop、Skip、Buffer Usage、Delay
-- 實作 ResetMetrics 方法來提供定期的指標快照
-- 使用 CSV 格式輸出指標數據，便於後續分析
-- 設計每秒觸發的監控事件來收集即時數據
-- 建立視覺化的 dashboard 來觀察系統趨勢
+## 解決方案整理
 
-Example:
-```csharp
-DateTimeUtil.Instance.RaiseSecondPassEvent += (sender, args) =>
-{
-    var metrics = (ro as ReOrderBuffer).ResetMetrics();
-    double avg_latency = metrics.send > 0 ? metrics.delay / metrics.send : 0;
-    Console.Error.WriteLine($"{_log_sequence},{metrics.push},{metrics.send},{metrics.drop},{metrics.skip},{metrics.buffer_max},{avg_latency}");
-};
-```
+### 問題：如何在現有系統導入 Copilot 而不重寫 UI？
+**情境**：CLI / Web App 想保留既有操作流程，但希望使用者可隨時求助 AI。
+**解決方案**：
+- 在 Controller 旁新增 Copilot Service，持續串流使用者操作摘要給 LLM。
+- 設計三類觸發事件：Frequent-help、Error-occur、User-ask。
+- Copilot 僅回傳建議或已簽署的 API Command，不直接改資料。
+**工具/指令**：Semantic-Kernel Planner、Azure OpenAI chat.completions。
+**注意事項**：過度頻繁提示會造成干擾；須以 UI 設計節流。
 
+### 問題：API 設計凌亂，AI 無法正確調用
+**情境**：舊系統僅有 CRUD，無明確狀態。
+**根因**：Domain 行為未抽象，角色/許可混雜。
+**解決方案**：
+- 以狀態機列出所有轉移；拆成 _Create / _Update/{State} 原子 API。
+- 在 Swagger 加註 x-role / x-scope 描述。
+- 提供批量 Action API 便利 UI，但標示 "helper" 避免 AI 調用。
+**相關工具**：AspNetCore.OpenAPI-Filer、Swashbuckle Filter。
+**注意事項**：重構期間需版號並行，勿影響舊客戶端。
+
+### 問題：RAG 查不到最新文章
+**情境**：Blog 文章每日發布，向量庫未即時更新。
+**根因**：缺少增量 Ingestion Pipeline。
+**解決方案**：
+- 以 GitHub Actions 每 push 觸發 KM Index rebuild 或增量 update。
+- 使用 Embedding Cache 判斷內容變動再刷新。
+- 將向量庫與文章 Git commit 綁定版本號，方便回溯。
+**指令**：`kmservice index --path posts/2024 --since ${{ github.sha }}`
+**注意事項**：分批寫入避免向量庫鎖表，記得做 ANN 重建。
+
+---
 
 ## 版本異動紀錄
 
-### v1.1 (2025-01-03)
-- 修正摘要格式，改用第三人稱敘述，加入生成工具資訊
-- 完善關鍵字分類和技術堆疊分析
-- 優化問答對和解決方案的結構
-
-### v1.0 (2025-01-03)
-- 初始版本
+- v1.0 (2025-08-05)  初版生成，含 Metadata 擴增、摘要、8 組 Q&A 與 3 套解決方案。
