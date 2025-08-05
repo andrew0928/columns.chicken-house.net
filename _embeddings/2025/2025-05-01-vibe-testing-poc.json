@@ -1,12 +1,1 @@
-[
-  { "name": "文章分類", "values": ["系列文章: 架構師觀點"] },
-  { "name": "原始標籤", "values": ["架構師觀點", "技術隨筆"] },
-  { "name": "主要關鍵字", "values": ["Vibe Testing", "API 自動化測試", "Function Calling", "Semantic Kernel", "Test Runner", "Intent to Assertion"] },
-  { "name": "次要關鍵字", "values": ["LLM", "OpenAI", "Tool Use", "AI Agent", "購物車 API", "OAuth2", "OpenAPI Spec", "ChatGPT", "POC", "TDD"] },
-  { "name": "技術術語", "values": ["Function Calling", "Tool Use", "Semantic Kernel", "OpenAPI Spec", "OAuth2", "Test Automation", "Domain-Driven Design"] },
-  { "name": "框架技術", "values": [".NET", "Microsoft Semantic Kernel", "OpenAI .NET SDK", "Swagger/OpenAPI", "OAuth2"] },
-  { "name": "工具平台", "values": ["Visual Studio", "Azure", "ChatGPT", "Postman", "GitHub Copilot", "Cursor"] },
-  { "name": "文章類型", "values": ["技術實驗", "架構探討"] },
-  { "name": "難度等級", "values": ["中高級"] },
-  { "name": "包含內容", "values": ["實驗過程", "技術實作", "程式碼範例", "測試案例", "心得分享"] }
-]
+{"title":"從 Intent 到 Assertion #1, 聊聊 Vibe Testing 實驗心得","categories":["系列文章: 架構師觀點"],"tech-stacks":["C#",".NET 8 Console","Microsoft Semantic Kernel","Azure/OpenAI Chat Completions","Swagger / Swashbuckle","Postman (對照)","GitHub Copilot / Cursor (輔助開發)","Azure App Service","Windows / VS Code","Function Calling / Tool-Use","Intent → Action → Assertion Pipeline","Domain-Driven API Design","Structured Output & JSON Schema","OAuth2 Token Injection","Test-Driven Development (TDD)"],"keywords":["Vibe Testing","Intent-to-Assertion","API 自動化測試","LLM Function Calling","Semantic Kernel Test Runner","AI-Ready API","Andrew Shop API","Domain Test Case","OpenAPI / Swagger","Structured Output (JSON Mode)","Plugin Import","OAuth2","FunctionChoiceBehavior","TDD / PoC","Browser-Use / Computer-Use","MCP Server","RAG with SK / KM",".NET Console App"],"references":["/2024/07/20/devopsdays-keynote/","/2023/01/01/api-design-workshop/","/2022/10/26/apifirst/","/2024/01/15/archview-llm/","https://andrewshopoauthdemo.azurewebsites.net/swagger/index.html","https://docs.browser-use.com/introduction#overview","https://docs.anthropic.com/en/docs/agents-and-tools/computer-use","https://agile3uncles.com/2025/05/05/genai-end-testing/","https://www.youtube.com/watch?v=q9J1YzhW6yc","ChatGPT / GPT-4o-mini","Microsoft Semantic Kernel","Kernel Memory","GitHub Copilot","Cursor / Windsurf"]}

@@ -2,7 +2,8 @@
 
 ## Metadata
 
-### 原始 Front Matter
+```yaml
+# 原始 Front Matter:
 layout: post
 title: "從 API First 到 AI First"
 categories:
@@ -15,27 +16,26 @@ comments_gitalk: true
 redirect_from:
 logo: /wp-content/images/2024-07-20-devopsdays-keynote/2024-08-03-18-58-39.jpg
 
-### 自動識別關鍵字
-keywords:
-  primary:
-    - AI First
-    - API First
-    - DevOpsDays Taipei
-    - Copilot / Agent 架構
-    - LLM Function Calling
-    - AI DX
-    - RAG (Retrieval-Augmented Generation)
-  secondary:
-    - Semantic Kernel
-    - OpenAI GPTs
-    - Vector Database
-    - Prompt Engineering
-    - 系統監控
-    - Pipeline / GitOps
-    - 零售業 AI 應用
-    - UX Optimization
+# 自動識別關鍵字:
+primary-keywords:
+  - AI First
+  - API First
+  - DevOpsDays Taipei
+  - Copilot / Agent 架構
+  - LLM Function Calling
+  - AI DX
+  - RAG (Retrieval-Augmented Generation)
+secondary-keywords:
+  - Semantic Kernel
+  - OpenAI GPTs
+  - Vector Database
+  - Prompt Engineering
+  - 系統監控
+  - Pipeline / GitOps
+  - 零售業 AI 應用
+  - UX Optimization
 
-### 技術堆疊分析
+# 技術堆疊分析:
 tech_stack:
   languages:
     - C#
@@ -59,7 +59,7 @@ tech_stack:
     - RAG Pipeline
     - GitOps / CI-CD
 
-### 參考資源
+# 參考資源:
 references:
   internal_links:
     - /2023/01/01/api-design-workshop/
@@ -78,22 +78,19 @@ references:
     - OpenAI Embedding
     - Stable Diffusion
 
-### 內容特性
+# 內容特性:
 content_metrics:
   word_count: 13800
   reading_time: "45 分鐘"
   difficulty_level: "進階"
   content_type: "Conference Keynote 筆記"
 
----
+```
+
 
 ## 文章摘要
 
-作者以 DevOpsDays Taipei 2024 Keynote 為例，說明軟體團隊如何從「API First」的思維演進到「AI First」。演講聚焦三件事：
-
-1. 把大型語言模型（LLM）視為「意圖理解介面」，在系統架構中與 Controller 並列，形成 Controller + Copilot 的新 MVC。
-2. 高品質的 Domain API 是 AI DX 的基礎。若 API 設計不合理，將消耗大量 prompt 成本並增加錯誤風險。
-3. 開發者必須掌握四項基礎功：API First、架構規劃（Copilot / Agent 擺位）、LLM 基礎元件（Embedding、Vector DB、Prompt）、常用 AI 設計模式（RAG、推薦系統）。
+作者分享了一個創新的實驗專案，探討如何利用 AI 的 Function Calling 能力來簡化 API 自動化測試的工作流程。這個被稱為 "Vibe Testing" 的概念，目標是實現從 "Intent"（意圖）到 "Assertion"（斷言）的全自動化測試過程。作者使用 Microsoft Semantic Kernel 框架，結合 OpenAI 的 Function Calling 能力，開發了一個 Test Runner 來自動執行 API 測試案例。實驗以作者先前開發的購物車 API 為測試對象，透過將 OpenAPI Spec 自動轉換為 Semantic Kernel Plugins，讓 AI 能夠理解並執行 API 呼叫。整個測試流程包括準備 domain 層級的測試案例、API 規格文件、以及設計適當的 Prompt 來指導 AI 執行測試。實驗結果證明 AI 能夠成功理解測試意圖，自動決定呼叫順序和參數，並生成詳細的測試報告。作者強調這種方法的關鍵在於 API 必須符合 "AI Ready" 的設計原則，包括按領域設計、精確的規格文件、以及標準化的認證機制。文章展示了 AI 在測試自動化領域的巨大潛力，同時也指出了實際應用時需要考慮的技術門檻和最佳實踐。
 
 文中以四個 Demo 說明：
 • Demo 1 「安德魯小舖 GPTs」：用自然語言完成下單流程，展示降維式 UX。
@@ -103,7 +100,7 @@ content_metrics:
 
 最後作者提出：AI 運算成本會急速下降，團隊應立即升級 API 設計與部署 Pipeline，預留 AI Agent、Engine 協作的擴充位。
 
-### 關鍵要點
+## 關鍵要點
 
 - LLM 已具備「選工具解任務」能力，API 若設計合理即可直接被 AI 使用。
 - API DX 決定 AI DX：狀態機、Scope、Idempotent 是關鍵。
@@ -114,103 +111,172 @@ content_metrics:
 
 ---
 
-## 段落摘要
+## 段落摘要 (每個段落一個 H3 標題)
 
-### 1. 寫在前面
-回顧 2021–2023 演講脈絡，從 CI/CD→API First→DevOps for Architect 走到 AI First，核心都是「基礎功」。
+### 構想: 拿 Tool Use 來做自動化測試
 
-### 2. Demo 1：降維式購物 UX
-對話 + Function Calling 讓使用者「提出需求」而非「下指令」，LLM 負責意圖解析及 API 呼叫。
+作者提出了從 "Intent" 到 "Assertion" 的測試自動化概念，認為過去測試需要大量人工處理的翻譯過程可以透過 AI 的 Function Calling 能力來解決。作者分析了人類執行測試的思考過程，識別出三個關鍵資訊：想要驗證的內容（AC）、領域知識、以及系統的確切規格設計。作者設計了一個清晰的架構圖，展示測試案例如何透過 AI Test Runner 轉換為實際的測試執行和報告生成。文章特別強調這種方法的擴展性，未來可能結合 Browser Use 或 Computer Use 等技術，實現跨不同介面（API、Web、Mobile）的統一測試案例執行。作者的企圖不僅是自動化測試執行過程，更是要釋放撰寫詳細測試文件和按文件執行測試的人力密集工作，類似於 vibe coding 對程式開發的影響。
 
-### 3. Demo 2：情緒偵測與個人化推薦
-LLM 自動摘要使用者喜好並寫入客戶註記；交易完成後評估滿意度。展示 AI 取代傳統量化指標。
+### 實作: 準備測試案例 (domain)
 
-### 4. Demo 3：Copilot 架構
-將 LLM 置於 CLI 側邊，示範 Controller → Copilot → Domain API 的三段式流程，成本低且易導入。
+作者展示了如何準備 domain 層級的測試案例，以購物車 API 為例設計了一個測試商品數量限制的案例。測試案例採用 Given-When-Then 的標準格式，Given 部分設定測試前置條件（清空購物車、指定測試商品），When 部分描述測試步驟（嘗試加入 11 件商品、檢查購物車內容），Then 部分定義預期結果（應回傳 400 錯誤、購物車應為空）。作者強調這種案例的特點是專注於商業邏輯層面，避免包含技術實作細節，使得案例能夠跨不同實作規格重複使用。作者特別提到這個測試案例包含了一個故意的限制（商品上限 10 件），而實際的 API 並未實作這個限制，這是為了模擬 TDD 開發流程中的紅燈階段。文章引用了敏捷三叔公的觀點，強調區分 "展開測試步驟" 和 "思考該測什麼" 的差異，建議將適合 AI 處理的工作交給 AI，讓人類專注於更有價值的決策。
 
-### 5. Demo 4：RAG 與知識強化
-利用向量搜尋把部落格文章嵌入 GPTs 上下文，說明 RAG workflow：Query→Embed→Retrieve→Generate。
+### 實作: 準備 API 的規格 (spec)
 
-### 6. 架構與 Pipeline
-提出「MVC +AI」架構圖與 GitOps + AIOps 四線 Pipeline，呼應 2021 年 CI/CD 議題。
+作者詳細說明了如何準備 API 規格來支援自動化測試，使用先前開發的安德魯小舖購物車 API 作為測試對象。作者首先分析了測試案例中每個步驟對應的 API 呼叫，包括 Given 階段需要的建立購物車和取得商品清單 API，以及 When 階段的加入商品和查詢購物車 API。作者特別說明了由於 API 設計的限制（沒有搜尋功能），必須透過列舉所有商品來找到指定的測試商品。文章強調 API 規格文件的重要性，指出 AI 能夠精準決定 API 呼叫方式的關鍵在於擁有精確的 OpenAPI Spec。作者提醒讀者，如果 API 還無法提供精準的規格文件，就還沒有條件使用這種自動化測試方法，建議先投資於提升工程成熟度，實現 CI/CD 和自動產生 API 規格文件的能力。
 
-### 7. 零售業應用串聯
-結合 Happy Lee「四種銷售場景」理論，說明 Agent/Engine 如何在實體零售落地。
+### 實作: 挑選對應的技術來驗證
 
-### 8. 總結
-AI 降維打擊並非口號，關鍵在於：API 設計、Prompt Engineering、LLM Ops 及成本優化。
+作者選擇使用 .NET Console Applications 搭配 Microsoft Semantic Kernel 來實作 Test Runner，並說明了技術選擇的考量。文章詳細介紹了 Semantic Kernel 的 OpenAPI 整合功能，展示了如何用僅 10 行程式碼將完整的 Swagger 規格轉換為 AI 可用的 Plugins。作者特別讚賞 Microsoft 在處理複雜的 JSON Schema 和 OpenAPI Spec 轉換上的工程成就。程式碼範例展示了 Kernel 建立、Plugin 匯入、以及 OAuth2 認證處理的完整流程。作者設計了三段式的 Prompt 結構：System 訊息定義處理原則、User 訊息包含測試案例內容、以及報告格式要求。文章強調了 FunctionChoiceBehavior.Auto 設定的重要性，這讓 Kernel 能夠自動處理 Function Calling 的複雜過程。最後作者展示了實際執行結果，包括 API 呼叫過程的詳細記錄和最終的測試報告生成。
+
+### 心得
+
+作者在總結中提出了實作過程中發現的五個重要議題。首先是 API 必須按照領域來設計，避免純 CRUD 式的設計，因為商業邏輯需要封裝在 API 內部才能讓 AI 正確理解和執行。其次是 API 必須有精確的規格文件，強調自動產生的 OpenAPI Spec 的重要性，手工維護的文件無法滿足開發階段頻繁測試的需求。第三是認證授權的標準化處理，作者特別設計了環境控制機制來處理 OAuth2 認證，避免將認證流程與主要測試邏輯混合。第四是需要系統化的測試報告彙整，建議同時產生人類閱讀的 Markdown 和系統整合的 JSON 格式報告。作者最後反思了 AI 對開發人員帶來的改變，認為關鍵是要善用 AI 技術開發更有價值的工具給其他人使用，而不只是談論工具本身有多厲害。文章強調了 Structured Output 和 Function Calling 等技巧的重要性，以及具備 coding 能力在系統整合應用中的優勢。
 
 ---
 
-## 問答集
+## 問答集 (每個問答集一個 H3 標題)
 
-### Q1 （概念）什麼是「AI DX」？
-A: AI DX 指的是「提供給 AI 使用的開發者體驗」。若 API 命名、參數與狀態轉移符合常理，LLM 便能以最少 Prompt 正確呼叫；反之會導致 Token 浪費與錯誤率上升。
 
-### Q2 （操作）如何讓 GPTs 自動呼叫我的 API？
-A: 需在 GPTs 設定頁貼上 OpenAPI spec，並於 Prompt 說明何時使用何種 Function；GPTs 會先思考工具鏈，再輸出 arguments 以 JSON 傳回後端，由系統實際發送 HTTP。
+### Q1: 什麼是 Vibe Testing，它要解決什麼問題？
+Q: Vibe Testing 的核心概念是什麼？它想要改善測試過程中的哪些痛點？
+A: Vibe Testing 是從 "Intent"（意圖）到 "Assertion"（斷言）的全自動化測試概念。它要解決的核心問題是過去測試過程中需要大量人工處理的翻譯工作，包括撰寫詳細測試文件和按文件執行測試。透過 AI 的 Function Calling 能力，系統能夠理解測試意圖，自動決定 API 呼叫順序和參數，並生成測試報告，釋放人力來專注於更有價值的決策工作。
 
-### Q3 （排除）LLM 回答錯誤數值怎麼辦？
-A: 對於需精確計算的邏輯，應改由後端服務完成並把結果回寫巨模型；Prompt 中要明確要求「僅用工具計算，不自行推估」。
+### Q2: 為什麼選擇 Microsoft Semantic Kernel 作為實作框架？
+Q: Semantic Kernel 在這個專案中扮演什麼角色？有什麼特殊優勢？
+A: Semantic Kernel 提供了將 OpenAPI Spec 自動轉換為 AI Plugins 的強大功能，僅需 10 行程式碼就能將完整的 Swagger 規格轉換為 Function Calling 可用的工具。它內建支援複雜的 JSON Schema 處理、認證機制整合、以及 Function Calling 的自動化管理，大幅簡化了開發複雜度。相比自己實作 Function Calling 機制，Semantic Kernel 能夠自動處理與 LLM 的溝通過程。
 
-### Q4 （比較）Agent 與 Copilot 有何差別？
-A: Copilot 以人為主，AI 輔助；Agent 以 AI 為主，可自主拆解任務。取決於 LLM 推理能力與 API 完整度。
+### Q3: 什麼樣的 API 設計適合用於 AI 驅動的自動化測試？
+Q: API 需要滿足哪些 "AI Ready" 的設計原則？
+A: API 必須滿足三個關鍵原則：1) 按照領域來設計，將商業邏輯封裝在 API 內部，避免純 CRUD 式設計；2) 提供精確的 OpenAPI Spec 規格文件，最好是自動產生而非人工維護；3) 實作標準化的認證授權機制。如果 API 設計先天不良，AI 的不確定性會大幅影響測試執行效果，導致測試路徑混亂發散到無法掌控的程度。
 
-### Q5 （設計）為何作者主張「狀態機導向 API」？
-A: 狀態機將 Domain 行為拆成原子轉移，可天然對應 HTTP 動詞與 Idempotency，避免 CRUD 無限制修改導致資料損毀，更利於 AI 理解流程。
+### Q4: 如何處理 API 測試中的認證和環境控制問題？
+Q: 在自動化測試中如何妥善處理 OAuth2 等認證機制？
+A: 應該將認證機制視為 "測試環境控制" 而非測試步驟來處理。作者設計了專門的 Plugin 來處理環境控制，包括使用者認證、語系、幣別、時區等環境因素。對於 OAuth2 認證，系統會在背景自動完成認證流程並在每個 API 請求中附加 Access Token。這樣做的目的是讓 AI 專注於執行測試邏輯，而不是處理環境配置的複雜性。
 
-### Q6 （模式）RAG 必要元件有哪些？
-A: 有五項
-1) 向量化模型（Embedding）
-2) Vector Store（搜尋 Top-k）
-3) Retriever（加權/排序）
-4) Generator（LLM 完成回答）
-5) Optional Ranking Model 強化精度。
+### Q5: 測試案例應該如何設計才能發揮 AI 的最大效益？
+Q: domain 層級的測試案例有什麼特色？如何避免技術細節干擾？
+A: 測試案例應該專注於 domain 層級的商業邏輯，採用 Given-When-Then 格式，避免包含特定的技術實作細節。案例應該描述抽象的業務流程和預期結果，而不是具體的 API 呼叫方式。這樣的設計讓案例能夠跨不同實作規格重複使用，未來即使 UI 或 API 規格改變，同樣的測試案例仍能適用。關鍵是要讓人類專注於 "該測什麼" 的決策，而讓 AI 處理 "怎麼測" 的執行細節。
 
-### Q7 （成本）如何控制 LLM Token 花費？
-A: 採取三層策略：
-1) Prompt 壓縮（少上下文 + Only 必要字段）
-2) 小模型前置（GPT-4o-mini→GPT-4o）
-3) 將資料檢索下放到自建向量庫，LLM 僅做摘要。
+### Q6: 如何評估這種測試方法的可行性和限制？
+Q: 這種 AI 驅動的測試方法在什麼情況下最有效？有哪些使用限制？
+A: 這種方法最適合已經具備良好工程成熟度的團隊，包括 CI/CD、自動產生 API 規格文件、以及領域導向的 API 設計。主要限制包括：1) API 必須符合 AI Ready 的設計原則；2) 需要精確且自動維護的規格文件；3) 系統必須有標準化的認證機制。如果這些基礎條件不具備，建議先投資於提升工程成熟度，否則 AI 可能會加速技術債的累積而非提升生產力。
 
-### Q8 （流程）AI Pipeline 與 CI/CD 如何整合？
-A: 建議另建 AI Repo：data → train → eval → serve 流；完成後同步版本號至 App Config Repo，由 GitOps 將模型 URI 與算力配置推上線。
 
 ---
 
-## 解決方案整理
+## 解決方案
 
-### 問題：如何在現有系統導入 Copilot 而不重寫 UI？
-**情境**：CLI / Web App 想保留既有操作流程，但希望使用者可隨時求助 AI。
-**解決方案**：
-- 在 Controller 旁新增 Copilot Service，持續串流使用者操作摘要給 LLM。
-- 設計三類觸發事件：Frequent-help、Error-occur、User-ask。
-- Copilot 僅回傳建議或已簽署的 API Command，不直接改資料。
-**工具/指令**：Semantic-Kernel Planner、Azure OpenAI chat.completions。
-**注意事項**：過度頻繁提示會造成干擾；須以 UI 設計節流。
+### 問題: 如何實現從測試意圖到自動執行的完整流程
+Problem: 傳統 API 測試需要大量人工撰寫詳細測試腳本和執行步驟，過程繁瑣且容易出錯
+Root Cause: 測試工具無法理解高層級的測試意圖，需要人工將商業邏輯翻譯成具體的技術操作步驟
+Solution:
+- 使用 AI 的 Function Calling 能力來橋接測試意圖和具體執行
+- 將 OpenAPI Spec 轉換為 AI 可理解的工具集合
+- 設計三段式 Prompt 結構：系統原則、測試案例、報告格式
+- 採用 Given-When-Then 格式來描述測試案例
+- 讓 AI 自動決定 API 呼叫順序、參數生成和結果驗證
 
-### 問題：API 設計凌亂，AI 無法正確調用
-**情境**：舊系統僅有 CRUD，無明確狀態。
-**根因**：Domain 行為未抽象，角色/許可混雜。
-**解決方案**：
-- 以狀態機列出所有轉移；拆成 _Create / _Update/{State} 原子 API。
-- 在 Swagger 加註 x-role / x-scope 描述。
-- 提供批量 Action API 便利 UI，但標示 "helper" 避免 AI 調用。
-**相關工具**：AspNetCore.OpenAPI-Filer、Swashbuckle Filter。
-**注意事項**：重構期間需版號並行，勿影響舊客戶端。
+Example:
+```csharp
+await kernel.ImportPluginFromOpenApiAsync(
+    pluginName: "andrew_shop",
+    uri: new Uri("https://api.example.com/swagger.json"),
+    executionParameters: new OpenApiFunctionExecutionParameters()
+    {
+        EnablePayloadNamespacing = true,
+        FunctionChoiceBehavior = FunctionChoiceBehavior.Auto()
+    }
+);
 
-### 問題：RAG 查不到最新文章
-**情境**：Blog 文章每日發布，向量庫未即時更新。
-**根因**：缺少增量 Ingestion Pipeline。
-**解決方案**：
-- 以 GitHub Actions 每 push 觸發 KM Index rebuild 或增量 update。
-- 使用 Embedding Cache 判斷內容變動再刷新。
-- 將向量庫與文章 Git commit 綁定版本號，方便回溯。
-**指令**：`kmservice index --path posts/2024 --since ${{ github.sha }}`
-**注意事項**：分批寫入避免向量庫鎖表，記得做 ANN 重建。
+var report = await kernel.InvokePromptAsync<string>(promptTemplate, arguments);
+```
+
+### 問題: 如何設計 AI Ready 的 API 來支援自動化測試
+Problem: 現有的 API 設計可能不適合 AI 理解和自動執行測試
+Root Cause: API 設計過於技術導向，缺乏領域邏輯封裝，或規格文件不夠精確
+Solution:
+- 採用領域驅動設計（DDD）原則設計 API，將商業邏輯封裝在服務端
+- 實作完整且精確的 OpenAPI Spec，最好透過程式碼自動產生
+- 提供清晰的 API 文件說明，這些文件會成為 AI 理解的 Prompt
+- 避免純 CRUD 式的 API 設計，因為會讓測試邏輯過於分散
+- 確保 API 的錯誤處理和狀態管理符合業務規則
+
+Example:
+```yaml
+# OpenAPI Spec 範例
+paths:
+  /api/carts/{cartId}/items:
+    post:
+      summary: "新增商品到購物車"
+      description: "將指定數量的商品加入購物車，會檢查庫存和數量限制"
+      parameters:
+        - name: cartId
+          required: true
+        - name: productId
+          required: true
+        - name: qty
+          required: true
+          maximum: 10  # 明確的業務規則
+```
+
+### 問題: 如何處理測試環境中的認證和配置管理
+Problem: API 測試需要處理複雜的認證流程和環境配置，這些與核心測試邏輯無關但又必須處理
+Root Cause: 認證機制和環境配置被混入測試步驟中，增加了測試案例的複雜度
+Solution:
+- 設計專門的環境控制 Plugin 來處理認證、語系、時區等配置
+- 將認證視為測試環境的一部分，而非測試步驟
+- 實作自動化的 OAuth2 認證流程，在背景處理 Access Token 管理
+- 使用 Semantic Kernel 的 AuthCallback 機制統一處理 API 認證
+- 為不同的測試使用者或角色提供統一的認證介面
+
+Example:
+```csharp
+executionParameters: new OpenApiFunctionExecutionParameters()
+{
+    AuthCallback = (request, cancel) =>
+    {
+        var api_context = APIExecutionContextPlugin.GetContext();
+        request.Headers.Add($"Authorization", $"Bearer {userAccessToken}");
+        return Task.CompletedTask;
+    }
+}
+```
+
+### 問題: 如何生成有用的測試報告並支援系統整合
+Problem: 測試執行後需要產生人類可讀的報告，同時也要支援系統自動化處理
+Root Cause: 單一格式的報告無法同時滿足人類閱讀和系統處理的需求
+Solution:
+- 同時產生 Markdown 和 JSON 兩種格式的測試報告
+- Markdown 格式提供詳細的測試步驟和結果說明，便於人類檢視
+- JSON 格式提供結構化資料，支援後續的統計分析和警示系統
+- 在報告中包含完整的 API 呼叫記錄，包括 Request、Response 和執行結果
+- 使用 LLM 的 Structured Output 能力確保 JSON 格式的一致性
+
+Example:
+```json
+{
+  "name": "TC-05 (非法上界)",
+  "result": "test_fail", 
+  "steps": [
+    {
+      "api": "AddItemToCart",
+      "request": {"productId": 2, "qty": 11},
+      "response": {"id": 57, "lineItems": [{"productId": 2, "qty": 11}]},
+      "test-result": "fail",
+      "test-comments": "未回傳 400，實際加入 11 件"
+    }
+  ]
+}
+```
+
+
 
 ---
 
-## 版本異動紀錄
+## 版本異動紀錄 (從 v1.0 開始, 每次遞增 0.1, 並在每次更新時記錄變更內容)
+- 1.1.0 (2025-08-07)  
+  • 新增「段落摘要」與「問答集」以提升可讀性。  
+  • 擴充「Demo 1」與「Demo 2」的具體實作細節。  
 
-- v1.0 (2025-08-05)  初版生成，含 Metadata 擴增、摘要、8 組 Q&A 與 3 套解決方案。
+- 1.0.0 (2025-08-05)  初版生成，含 Metadata 擴增、摘要、8 組 Q&A 與 3 套解決方案。

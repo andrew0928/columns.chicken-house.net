@@ -1,12 +1,1 @@
-[
-  { "name": "文章分類", "values": ["系列文章: 架構師觀點"] },
-  { "name": "原始標籤", "values": ["架構師觀點", "技術隨筆"] },
-  { "name": "主要關鍵字", "values": ["DevOpsDays Taipei", "從 Prompt 到 Product", "技術演講", "研討會分享"] },
-  { "name": "次要關鍵字", "values": ["DevOps", "演講簡報", "共筆", "技術社群", "會議記錄"] },
-  { "name": "技術術語", "values": ["DevOps", "Conference Speaking", "Knowledge Sharing"] },
-  { "name": "框架技術", "values": [] },
-  { "name": "工具平台", "values": ["Google Slides", "HackMD", "Web"] },
-  { "name": "文章類型", "values": ["會議資訊", "資源連結"] },
-  { "name": "難度等級", "values": ["入門"] },
-  { "name": "包含內容", "values": ["演講簡報", "會議共筆", "資源連結"] }
-]
+{"title":"DevOpsDays Taipei 2025 - 從 Prompt 到 Product","categories":["系列文章: 架構師觀點"],"tech-stacks":["Google Slides","HackMD","DevOps","共筆協作"],"keywords":["DevOpsDays Taipei 2025","從 Prompt 到 Product","投影片 (Google Slides)","大會共筆 (HackMD)"],"references":["https://docs.google.com/presentation/d/e/2PACX-1vQxjwDVoiFso6bL-Tn5sDXSPDxYlBIKqCXNxiH4jvWgWR6w_L7F56ut0wtnyAg23h6yT0czExPh4hGb/pubembed","https://hackmd.io/@DevOpsDay/2025/%2FSkkpnJ8zxg"]}

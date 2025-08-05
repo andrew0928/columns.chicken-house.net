@@ -11,29 +11,10 @@ applyTo: '_embedding/*/*.md'
 3. 建立知識圖譜和內容關聯
 4. 提供多層級的內容摘要
 
-請按照下列步驟跟原則，生成每篇文章的衍生內容。要生成的內容有兩份
+請按照下列步驟跟原則，生成每篇文章的衍生內容。
+參考範例檔案當作 template (#file: embedding-template.md)
 
-**一份為 Markdown 格式的文章內容**:
-包含摘要、問答對和解決方案
-參考範例檔案當作 template () #file: embedding-template.md )
 範例檔案內的除了括號內的文字是給你看的提示之外，其他都是實際生成的資料，請參考格式後直接替換。
-
-**一份為 JSON 格式的結構化資料**:
-只要包含 Metadata，不需要包含 summary、Q&A 和解決方案等文字敘述內容。
-參考範例檔案 #file: embedding-template.json
-主要結構是 tags 兩層式的結構
-
-```json
-{
-   "title":             ["tag-value1", "tag-value2"],
-   "categories":  ["tag-value1", "tag-value2"],
-   "tech-stacks": ["tag-value1", "tag-value2"],
-   "keywords":    ["tag-value1", "tag-value2"],
-   "references":  ["tag-value1", "tag-value2"]
-}
-```
-
-請務必遵守這樣的結構要求, 將 Metadata 欄位的內容對應成 tags 的結構。
 
 ### 階段 1：內容分析
 1. **讀取原始文章**：完整讀取 `_posts/{year}/{filename}.md`

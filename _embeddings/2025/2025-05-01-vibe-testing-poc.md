@@ -1,17 +1,13 @@
 ---
-source_file: "_posts/2025/2025-05-01-vibe-testing-poc.md"
-generated_date: "2025-08-03 15:30:00 +0800"
-version: "1.0"
-tools: github_copilot
-model: claude_sonnet_3_5
+- source_file: /docs/_posts/2025/2025-05-01-vibe-testing-poc.md
+- tools: BlogIndex.SyncPost 1.0.0
+- model: o3, endpot: https://app-azureopenai.openai.azure.com/
 ---
-
-# 從 Intent 到 Assertion #1, 聊聊 Vibe Testing 實驗心得 - 生成內容
+# 從 Intent 到 Assertion #1, 聊聊 Vibe Testing 實驗心得
 
 ## Metadata
-
-### 原始 Metadata
-
+```yaml
+# 原始 Front Matter
 layout: post
 title: "從 Intent 到 Assertion #1, 聊聊 Vibe Testing 實驗心得"
 categories:
@@ -24,55 +20,52 @@ comments_gitalk: true
 redirect_from:
 logo: /wp-content/images/2025-05-01-vibe-testing-poc/logo.jpg
 
-### 自動識別關鍵字
+# 自動識別關鍵字
+primary-keywords:
+  - Vibe Testing
+  - Intent-to-Assertion
+  - API 自動化測試
+  - LLM Function Calling
+  - Semantic Kernel Test Runner
+  - AI-Ready API
+  - Andrew Shop API
+  - Domain Test Case
+secondary-keywords:
+  - OpenAPI / Swagger
+  - Structured Output (JSON Mode)
+  - Plugin Import
+  - OAuth2
+  - FunctionChoiceBehavior
+  - TDD / PoC
+  - Browser-Use / Computer-Use
+  - MCP Server
+  - RAG with SK / KM
+  - .NET Console App
 
-keywords:
-  primary:
-    - Vibe Testing
-    - API 自動化測試
-    - Function Calling
-    - Semantic Kernel
-    - Test Runner
-    - Intent to Assertion
-  secondary:
-    - LLM
-    - OpenAI
-    - Tool Use
-    - AI Agent
-    - 購物車 API
-    - OAuth2
-    - OpenAPI Spec
-    - ChatGPT
-    - POC
-    - TDD
-
-### 技術堆疊分析
-
+# 技術堆疊
 tech_stack:
   languages:
     - C#
   frameworks:
-    - .NET
+    - .NET 8 Console
     - Microsoft Semantic Kernel
-    - OpenAI .NET SDK
   tools:
-    - Visual Studio
-    - Swagger/OpenAPI
-    - OAuth2
-    - ChatGPT
+    - Azure/OpenAI Chat Completions
+    - Swagger / Swashbuckle
+    - Postman (對照)
+    - GitHub Copilot / Cursor (輔助開發)
   platforms:
-    - Azure
-    - Windows
+    - Azure App Service
+    - Windows / VS Code
   concepts:
-    - API Testing
-    - Function Calling
-    - Test Automation
-    - AI Agent
-    - Domain-Driven Design
-    - Test-Driven Development
+    - Function Calling / Tool-Use
+    - Intent → Action → Assertion Pipeline
+    - Domain-Driven API Design
+    - Structured Output & JSON Schema
+    - OAuth2 Token Injection
+    - Test-Driven Development (TDD)
 
-### 參考資源
-
+# 參考資源
 references:
   internal_links:
     - /2024/07/20/devopsdays-keynote/
@@ -81,202 +74,120 @@ references:
     - /2024/01/15/archview-llm/
   external_links:
     - https://andrewshopoauthdemo.azurewebsites.net/swagger/index.html
-    - https://www.facebook.com/share/169pN292ZN/
-    - https://www.facebook.com/DotNetWalker
     - https://docs.browser-use.com/introduction#overview
     - https://docs.anthropic.com/en/docs/agents-and-tools/computer-use
     - https://agile3uncles.com/2025/05/05/genai-end-testing/
     - https://www.youtube.com/watch?v=q9J1YzhW6yc
-    - https://forms.gle/a5Q1v6EQLFWgEgT36
-    - https://github.com/andrew0928/AndrewDemo.DevAIAPPs
   mentioned_tools:
+    - ChatGPT / GPT-4o-mini
     - Microsoft Semantic Kernel
-    - OpenAI Function Calling
-    - Swagger/OpenAPI
-    - OAuth2
-    - Postman
+    - Kernel Memory
     - GitHub Copilot
-    - Cursor
-    - Browser Use
-    - Computer Use
+    - Cursor / Windsurf
 
-### 內容特性
-
+# 內容特性
 content_metrics:
-  word_count: 18500
-  reading_time: "45 分鐘"
-  difficulty_level: "中高級"
-  content_type: "技術實驗"
+  word_count: 9800
+  reading_time: "32 分鐘"
+  difficulty_level: "中-高階"
+  content_type: "Technical PoC / 架構實驗筆記"
+```
 
-## 摘要
+## 文章摘要
+作者延續 2023「安德魯小舖」的經驗，嘗試將 LLM 的 Function Calling 能力用於 API 自動化測試，目標是把「Intent-to-Assertion」全流程交給 AI。  
+做法如下：  
+1. 先以 ChatGPT 生成 15 筆 domain-level 測試案例（Given / When / Then），避免落入 UI 或參數細節。  
+2. 使用 Microsoft Semantic Kernel 的 OpenAPI 匯入功能，將 Andrew Shop Swagger 一鍵轉成 Plugin，讓 LLM 能直接呼叫 16 支 API。  
+3. 撰寫僅 50 行左右的 Test Runner（.NET Console），透過三段 Prompt（System、User、User）驅動 Function Calling，自動登入 OAuth2、串接步驟、收集 Response。  
+4. 要求雙格式報告：Markdown 方便人讀、JSON 方便系統彙整；LLM 以 Structured Output 技巧同時產出。  
+5. 首個測試案例「嘗試加入 11 件可口可樂」如預期失敗（API 尚未實作商品上限），驗證 PoC 可行。  
 
-### 文章摘要
+作者並歸納五點心得：  
+A) API 必須 Domain-Driven，避免純 CRUD；B) 必須維持精確且自動生成的 OpenAPI Spec；C) 認證/環境控制須統一抽象；D) 報告需結構化以利統計與警示；E) AI 帶來的是「寫工具的能力」而非僅用工具。整體證明，在 AI-Ready 的條件下，API 測試從腳本撰寫到結果彙整皆可自動化，大幅解放工程師人力。
 
-作者分享了一個創新的實驗專案，探討如何利用 AI 的 Function Calling 能力來簡化 API 自動化測試的工作流程。這個被稱為 "Vibe Testing" 的概念，目標是實現從 "Intent"（意圖）到 "Assertion"（斷言）的全自動化測試過程。作者使用 Microsoft Semantic Kernel 框架，結合 OpenAI 的 Function Calling 能力，開發了一個 Test Runner 來自動執行 API 測試案例。實驗以作者先前開發的購物車 API 為測試對象，透過將 OpenAPI Spec 自動轉換為 Semantic Kernel Plugins，讓 AI 能夠理解並執行 API 呼叫。整個測試流程包括準備 domain 層級的測試案例、API 規格文件、以及設計適當的 Prompt 來指導 AI 執行測試。實驗結果證明 AI 能夠成功理解測試意圖，自動決定呼叫順序和參數，並生成詳細的測試報告。作者強調這種方法的關鍵在於 API 必須符合 "AI Ready" 的設計原則，包括按領域設計、精確的規格文件、以及標準化的認證機制。文章展示了 AI 在測試自動化領域的巨大潛力，同時也指出了實際應用時需要考慮的技術門檻和最佳實踐。
+## 關鍵要點
+- LLM Tool-Use + 精確 OpenAPI Spec = 「零腳本」API 測試。  
+- Semantic Kernel 內建 ImportPluginFromOpenApiAsync，10 行碼完成 16 支 API 的 Tool 封裝。  
+- 測試案例保持在 Domain 層級（Intent），UI / API 規格變動時僅需重展步驟。  
+- OAuth2 Token 透過自訂 Plugin 注入，避免 LLM 虛構或重複登入。  
+- Markdown 報告給人看，JSON 報告給系統整合；Structured Output 是關鍵技巧。  
+- 問題不在技術，而在「API 是否 AI-Ready」：Domain-Driven、狀態明確、Spec 自動化。  
+- 未來可延伸同一份案例到 Web / Mobile UI 測試，只要替換對應規格與 Runner。  
 
-### 關鍵要點
+---
 
-- Vibe Testing 概念旨在實現從測試意圖到執行結果的全自動化流程
-- Function Calling 技術讓 AI 能夠自動決定 API 呼叫順序和參數生成
-- Microsoft Semantic Kernel 提供了將 OpenAPI Spec 轉換為 AI Tools 的完整解決方案
-- API 設計必須符合 AI Ready 原則，包括領域導向設計和精確的規格文件
-- 測試案例應該專注於 domain 層級的商業邏輯，而非技術實作細節
-- OAuth2 等認證機制需要特別處理以支援自動化測試環境
-- 測試報告應該同時提供人類閱讀的 Markdown 格式和系統整合的 JSON 格式
-- 這種方法特別適合需要跨系統整合的複雜測試場景
+## 段落摘要
 
-### 構想: 拿 Tool Use 來做自動化測試
+### 1. 構想：用 Tool-Use 驅動 Intent → Assertion
+作者將傳統手動編寫測試腳本的流程重新拆解：先定義 AC，再交由 LLM 解析 Spec、選 API、執行並斷言，讓 AI 取代「翻譯意圖 → 指令」的人力。
 
-作者提出了從 "Intent" 到 "Assertion" 的測試自動化概念，認為過去測試需要大量人工處理的翻譯過程可以透過 AI 的 Function Calling 能力來解決。作者分析了人類執行測試的思考過程，識別出三個關鍵資訊：想要驗證的內容（AC）、領域知識、以及系統的確切規格設計。作者設計了一個清晰的架構圖，展示測試案例如何透過 AI Test Runner 轉換為實際的測試執行和報告生成。文章特別強調這種方法的擴展性，未來可能結合 Browser Use 或 Computer Use 等技術，實現跨不同介面（API、Web、Mobile）的統一測試案例執行。作者的企圖不僅是自動化測試執行過程，更是要釋放撰寫詳細測試文件和按文件執行測試的人力密集工作，類似於 vibe coding 對程式開發的影響。
+### 2. 實作（一）：準備 Domain-Level 測試案例
+以「單商品限購 10 件」為例，寫出 Given / When / Then；完全不含參數細節，只描述商業意圖，確保案例對 UI / API 介面變動免疫。
 
-### 實作: 準備測試案例 (domain)
+### 3. 實作（二）：準備 API 規格
+沿用 Andrew Shop Swagger；人腦推演需呼叫 CreateCart、GetProducts、AddItem、GetCart 等 API，並列出對應 URI、Headers、Payload，作為 Prompt 提示。
 
-作者展示了如何準備 domain 層級的測試案例，以購物車 API 為例設計了一個測試商品數量限制的案例。測試案例採用 Given-When-Then 的標準格式，Given 部分設定測試前置條件（清空購物車、指定測試商品），When 部分描述測試步驟（嘗試加入 11 件商品、檢查購物車內容），Then 部分定義預期結果（應回傳 400 錯誤、購物車應為空）。作者強調這種案例的特點是專注於商業邏輯層面，避免包含技術實作細節，使得案例能夠跨不同實作規格重複使用。作者特別提到這個測試案例包含了一個故意的限制（商品上限 10 件），而實際的 API 並未實作這個限制，這是為了模擬 TDD 開發流程中的紅燈階段。文章引用了敏捷三叔公的觀點，強調區分 "展開測試步驟" 和 "思考該測什麼" 的差異，建議將適合 AI 處理的工作交給 AI，讓人類專注於更有價值的決策。
+### 4. 實作（三）：建置 Test Runner
+4-1 匯入 OpenAPI → SK Plugin；4-2 編寫三段 Prompt（System 規則、User 案例、User 報告格式）；4-3 執行並生成 Markdown + JSON 報告，驗證案例失敗顯示紅燈。
 
-### 實作: 準備 API 的規格 (spec)
+### 5. 心得與限制
+5-1 API 必須 Domain-Driven；5-2 Spec 必須自動同步；5-3 認證/環境需統一抽象；5-4 報告需結構化；5-5 AI 讓開發者從「寫測試程式」轉向「寫測試工具」。
 
-作者詳細說明了如何準備 API 規格來支援自動化測試，使用先前開發的安德魯小舖購物車 API 作為測試對象。作者首先分析了測試案例中每個步驟對應的 API 呼叫，包括 Given 階段需要的建立購物車和取得商品清單 API，以及 When 階段的加入商品和查詢購物車 API。作者特別說明了由於 API 設計的限制（沒有搜尋功能），必須透過列舉所有商品來找到指定的測試商品。文章強調 API 規格文件的重要性，指出 AI 能夠精準決定 API 呼叫方式的關鍵在於擁有精確的 OpenAPI Spec。作者提醒讀者，如果 API 還無法提供精準的規格文件，就還沒有條件使用這種自動化測試方法，建議先投資於提升工程成熟度，實現 CI/CD 和自動產生 API 規格文件的能力。
-
-### 實作: 挑選對應的技術來驗證
-
-作者選擇使用 .NET Console Applications 搭配 Microsoft Semantic Kernel 來實作 Test Runner，並說明了技術選擇的考量。文章詳細介紹了 Semantic Kernel 的 OpenAPI 整合功能，展示了如何用僅 10 行程式碼將完整的 Swagger 規格轉換為 AI 可用的 Plugins。作者特別讚賞 Microsoft 在處理複雜的 JSON Schema 和 OpenAPI Spec 轉換上的工程成就。程式碼範例展示了 Kernel 建立、Plugin 匯入、以及 OAuth2 認證處理的完整流程。作者設計了三段式的 Prompt 結構：System 訊息定義處理原則、User 訊息包含測試案例內容、以及報告格式要求。文章強調了 FunctionChoiceBehavior.Auto 設定的重要性，這讓 Kernel 能夠自動處理 Function Calling 的複雜過程。最後作者展示了實際執行結果，包括 API 呼叫過程的詳細記錄和最終的測試報告生成。
-
-### 心得
-
-作者在總結中提出了實作過程中發現的五個重要議題。首先是 API 必須按照領域來設計，避免純 CRUD 式的設計，因為商業邏輯需要封裝在 API 內部才能讓 AI 正確理解和執行。其次是 API 必須有精確的規格文件，強調自動產生的 OpenAPI Spec 的重要性，手工維護的文件無法滿足開發階段頻繁測試的需求。第三是認證授權的標準化處理，作者特別設計了環境控制機制來處理 OAuth2 認證，避免將認證流程與主要測試邏輯混合。第四是需要系統化的測試報告彙整，建議同時產生人類閱讀的 Markdown 和系統整合的 JSON 格式報告。作者最後反思了 AI 對開發人員帶來的改變，認為關鍵是要善用 AI 技術開發更有價值的工具給其他人使用，而不只是談論工具本身有多厲害。文章強調了 Structured Output 和 Function Calling 等技巧的重要性，以及具備 coding 能力在系統整合應用中的優勢。
+---
 
 ## 問答集
 
-### Q1: 什麼是 Vibe Testing，它要解決什麼問題？
-Q: Vibe Testing 的核心概念是什麼？它想要改善測試過程中的哪些痛點？
-A: Vibe Testing 是從 "Intent"（意圖）到 "Assertion"（斷言）的全自動化測試概念。它要解決的核心問題是過去測試過程中需要大量人工處理的翻譯工作，包括撰寫詳細測試文件和按文件執行測試。透過 AI 的 Function Calling 能力，系統能夠理解測試意圖，自動決定 API 呼叫順序和參數，並生成測試報告，釋放人力來專注於更有價值的決策工作。
+Q1（概念）什麼是「Intent-to-Assertion」？  
+A: 指從測試意圖（驗證條件）到最終斷言結果的完整鏈條。過去需工程師寫腳本對應 API 及檢查點，現在可交由 LLM 自動解析並執行。
 
-### Q2: 為什麼選擇 Microsoft Semantic Kernel 作為實作框架？
-Q: Semantic Kernel 在這個專案中扮演什麼角色？有什麼特殊優勢？
-A: Semantic Kernel 提供了將 OpenAPI Spec 自動轉換為 AI Plugins 的強大功能，僅需 10 行程式碼就能將完整的 Swagger 規格轉換為 Function Calling 可用的工具。它內建支援複雜的 JSON Schema 處理、認證機制整合、以及 Function Calling 的自動化管理，大幅簡化了開發複雜度。相比自己實作 Function Calling 機制，Semantic Kernel 能夠自動處理與 LLM 的溝通過程。
+Q2（操作）如何把 Swagger 變成 LLM 可用 Tool？  
+A: 在 Semantic Kernel 呼叫 `ImportPluginFromOpenApiAsync`，傳入 swagger.json URL，即會自動轉成 Kernel Plugins，無需手動定義每支函式。
 
-### Q3: 什麼樣的 API 設計適合用於 AI 驅動的自動化測試？
-Q: API 需要滿足哪些 "AI Ready" 的設計原則？
-A: API 必須滿足三個關鍵原則：1) 按照領域來設計，將商業邏輯封裝在 API 內部，避免純 CRUD 式設計；2) 提供精確的 OpenAPI Spec 規格文件，最好是自動產生而非人工維護；3) 實作標準化的認證授權機制。如果 API 設計先天不良，AI 的不確定性會大幅影響測試執行效果，導致測試路徑混亂發散到無法掌控的程度。
+Q3（排除）若 API 規格與程式碼不同步會怎樣？  
+A: LLM 會依 Spec 組請求，若實際 API 參數不同將導致 4xx/5xx，測試被標為「執行失敗」。因此 Spec 必須由 CI/CD 自動產生。
 
-### Q4: 如何處理 API 測試中的認證和環境控制問題？
-Q: 在自動化測試中如何妥善處理 OAuth2 等認證機制？
-A: 應該將認證機制視為 "測試環境控制" 而非測試步驟來處理。作者設計了專門的 Plugin 來處理環境控制，包括使用者認證、語系、幣別、時區等環境因素。對於 OAuth2 認證，系統會在背景自動完成認證流程並在每個 API 請求中附加 Access Token。這樣做的目的是讓 AI 專注於執行測試邏輯，而不是處理環境配置的複雜性。
+Q4（比較）Postman 錄製腳本與本方案差在哪？  
+A: Postman 靠錄製重播，仍需工程師手動處理變數；LLM 方案依 Domain 案例即時推理每一步，不需硬編參數，也能適應 API 介面調整。
 
-### Q5: 測試案例應該如何設計才能發揮 AI 的最大效益？
-Q: domain 層級的測試案例有什麼特色？如何避免技術細節干擾？
-A: 測試案例應該專注於 domain 層級的商業邏輯，採用 Given-When-Then 格式，避免包含特定的技術實作細節。案例應該描述抽象的業務流程和預期結果，而不是具體的 API 呼叫方式。這樣的設計讓案例能夠跨不同實作規格重複使用，未來即使 UI 或 API 規格改變，同樣的測試案例仍能適用。關鍵是要讓人類專注於 "該測什麼" 的決策，而讓 AI 處理 "怎麼測" 的執行細節。
+Q5（概念）什麼是 AI-Ready API？  
+A: 指 Domain-Driven、狀態明確、參數自描述的 API，具備完整 OpenAPI Spec，使 LLM 能零提示猜測地正確呼叫。
 
-### Q6: 如何評估這種測試方法的可行性和限制？
-Q: 這種 AI 驅動的測試方法在什麼情況下最有效？有哪些使用限制？
-A: 這種方法最適合已經具備良好工程成熟度的團隊，包括 CI/CD、自動產生 API 規格文件、以及領域導向的 API 設計。主要限制包括：1) API 必須符合 AI Ready 的設計原則；2) 需要精確且自動維護的規格文件；3) 系統必須有標準化的認證機制。如果這些基礎條件不具備，建議先投資於提升工程成熟度，否則 AI 可能會加速技術債的累積而非提升生產力。
+Q6（操作）如何處理 OAuth2 登入？  
+A: 透過自訂 `APIExecutionContextPlugin` 先取得 Access-Token，再由 ExecutionParameters 於每次呼叫自動附加 Authorization Header。
 
-## 解決方案
+Q7（問題排除）LLM 回傳快取結果怎麼辦？  
+A: 在 System Prompt 明確禁止「假資料」或 Cache，並在 Plugin Execution 打開 HTTP Debug，確保每次請求直連 API。
 
-### 問題: 如何實現從測試意圖到自動執行的完整流程
-Problem: 傳統 API 測試需要大量人工撰寫詳細測試腳本和執行步驟，過程繁瑣且容易出錯
-Root Cause: 測試工具無法理解高層級的測試意圖，需要人工將商業邏輯翻譯成具體的技術操作步驟
-Solution:
-- 使用 AI 的 Function Calling 能力來橋接測試意圖和具體執行
-- 將 OpenAPI Spec 轉換為 AI 可理解的工具集合
-- 設計三段式 Prompt 結構：系統原則、測試案例、報告格式
-- 採用 Given-When-Then 格式來描述測試案例
-- 讓 AI 自動決定 API 呼叫順序、參數生成和結果驗證
+Q8（比較）Domain-Case 與 UI-Case 差別？  
+A: Domain-Case 聚焦商業規則，與介面無關；UI-Case 聚焦元素定位與視覺驗證。前者一份案例可映射多介面，後者須為每介面獨寫。
 
-Example:
-```csharp
-await kernel.ImportPluginFromOpenApiAsync(
-    pluginName: "andrew_shop",
-    uri: new Uri("https://api.example.com/swagger.json"),
-    executionParameters: new OpenApiFunctionExecutionParameters()
-    {
-        EnablePayloadNamespacing = true,
-        FunctionChoiceBehavior = FunctionChoiceBehavior.Auto()
-    }
-);
+Q9（策略）為何要同時輸出 JSON 報告？  
+A: Markdown 便於閱讀，但難以聚合統計。JSON 與 Schema 配合，可被 CI Pipeline 收集，生成趨勢圖或觸發警示。
 
-var report = await kernel.InvokePromptAsync<string>(promptTemplate, arguments);
-```
+Q10（未來）何時能擴展到 Web UI 測試？  
+A: 待 Browser-Use / Computer-Use 成本下降、穩定度提高，即可用相同測試案例 + UI 規格，換接不同 Runner 進行跨平台驗證。
 
-### 問題: 如何設計 AI Ready 的 API 來支援自動化測試
-Problem: 現有的 API 設計可能不適合 AI 理解和自動執行測試
-Root Cause: API 設計過於技術導向，缺乏領域邏輯封裝，或規格文件不夠精確
-Solution:
-- 採用領域驅動設計（DDD）原則設計 API，將商業邏輯封裝在服務端
-- 實作完整且精確的 OpenAPI Spec，最好透過程式碼自動產生
-- 提供清晰的 API 文件說明，這些文件會成為 AI 理解的 Prompt
-- 避免純 CRUD 式的 API 設計，因為會讓測試邏輯過於分散
-- 確保 API 的錯誤處理和狀態管理符合業務規則
+---
 
-Example:
-```yaml
-# OpenAPI Spec 範例
-paths:
-  /api/carts/{cartId}/items:
-    post:
-      summary: "新增商品到購物車"
-      description: "將指定數量的商品加入購物車，會檢查庫存和數量限制"
-      parameters:
-        - name: cartId
-          required: true
-        - name: productId
-          required: true
-        - name: qty
-          required: true
-          maximum: 10  # 明確的業務規則
-```
+## 問題與解決方案
 
-### 問題: 如何處理測試環境中的認證和配置管理
-Problem: API 測試需要處理複雜的認證流程和環境配置，這些與核心測試邏輯無關但又必須處理
-Root Cause: 認證機制和環境配置被混入測試步驟中，增加了測試案例的複雜度
-Solution:
-- 設計專門的環境控制 Plugin 來處理認證、語系、時區等配置
-- 將認證視為測試環境的一部分，而非測試步驟
-- 實作自動化的 OAuth2 認證流程，在背景處理 Access Token 管理
-- 使用 Semantic Kernel 的 AuthCallback 機制統一處理 API 認證
-- 為不同的測試使用者或角色提供統一的認證介面
+### 問題 1：測試腳本撰寫耗時、維護成本高  
+Root Cause：參數硬編、流程改動即失效  
+Solution：以 Domain Intent 編寫案例，交由 LLM 根據最新 OpenAPI Spec 動態決定步驟；透過 SK Plugin 自動更新函式簽章  
+Example：示範「11 件商品」案例，Prompt 僅 10 行，無需任何硬編腳本。
 
-Example:
-```csharp
-executionParameters: new OpenApiFunctionExecutionParameters()
-{
-    AuthCallback = (request, cancel) =>
-    {
-        var api_context = APIExecutionContextPlugin.GetContext();
-        request.Headers.Add($"Authorization", $"Bearer {userAccessToken}");
-        return Task.CompletedTask;
-    }
-}
-```
+### 問題 2：API 不符合 AI-Ready，LLM 難以正確呼叫  
+Root Cause：CRUD 式設計缺乏狀態語意  
+Solution：重構為狀態機導向 API；明確動詞、Idempotent、錯誤碼；Spec 自動產生並上版號  
+Example：將 `AddItemToCart` 拆成 `AddItem` / `UpdateQty` / `RemoveItem`，並於 Spec 加註限制條件。
 
-### 問題: 如何生成有用的測試報告並支援系統整合
-Problem: 測試執行後需要產生人類可讀的報告，同時也要支援系統自動化處理
-Root Cause: 單一格式的報告無法同時滿足人類閱讀和系統處理的需求
-Solution:
-- 同時產生 Markdown 和 JSON 兩種格式的測試報告
-- Markdown 格式提供詳細的測試步驟和結果說明，便於人類檢視
-- JSON 格式提供結構化資料，支援後續的統計分析和警示系統
-- 在報告中包含完整的 API 呼叫記錄，包括 Request、Response 和執行結果
-- 使用 LLM 的 Structured Output 能力確保 JSON 格式的一致性
+### 問題 3：OAuth2 流程阻斷自動化  
+Root Cause：瀏覽器互動需人工  
+Solution：事先於 Runner 植入「UserContext Plugin」：CLI 取得 Token → 設定全域 Header；LLM 僅負責業務 API  
+Example：Plugin 先打 `/oauth/token` 取得 JWT，再於每次 Function Call 注入。
 
-Example:
-```json
-{
-  "name": "TC-05 (非法上界)",
-  "result": "test_fail", 
-  "steps": [
-    {
-      "api": "AddItemToCart",
-      "request": {"productId": 2, "qty": 11},
-      "response": {"id": 57, "lineItems": [{"productId": 2, "qty": 11}]},
-      "test-result": "fail",
-      "test-comments": "未回傳 400，實際加入 11 件"
-    }
-  ]
-}
-```
+---
 
 ## 版本異動紀錄
-
-### v1.0 (2025-08-03)
-- 初始版本
+- 1.0.0 (2025-08-05)  
+  • 初版生成：含 Metadata、段落摘要、10 組 Q&A、3 項問題-解決方案。  
