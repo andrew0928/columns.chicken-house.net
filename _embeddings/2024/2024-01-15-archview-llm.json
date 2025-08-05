@@ -1,15 +1,1 @@
-[
-  { "name": "文章分類", "values": ["系列文章: 架構師觀點"] },
-  { "name": "原始標籤", "values": ["架構師觀點", "技術隨筆"] },
-  { "name": "主要關鍵字", "values": ["AI", "LLM", "大型語言模型", "軟體開發", "架構師觀點", "GPT", "Copilot"] },
-  { "name": "次要關鍵字", "values": ["API First", "Semantic Kernel", "Microsoft", "Open AI", "軟體架構", "DevOps", "DDD", "UX", "自然語言", "意圖理解"] },
-  { "name": "技術術語", "values": ["Large Language Model", "Natural Language Processing", "Domain Driven Design", "OAuth2", "State Machine", "Function Calling", "Prompt Engineering"] },
-  { "name": "框架技術", "values": [".NET", "ASP.NET Core", "Semantic Kernel", "Azure Open AI Service", "GPTs", "LangChain"] },
-  { "name": "工具平台", "values": ["Visual Studio Code", "GitHub Copilot", "Chat GPT", "Azure", "Azure App Service", "Windows"] },
-  { "name": "程式語言", "values": ["C#", "JavaScript"] },
-  { "name": "文章類型", "values": ["技術觀點", "實務案例"] },
-  { "name": "難度等級", "values": ["高級"] },
-  { "name": "包含內容", "values": ["架構設計", "技術趨勢", "實作範例", "轉型建議", "案例分析"] },
-  { "name": "應用場景", "values": ["AI 整合", "軟體架構", "API 設計", "使用者體驗", "開發流程"] },
-  { "name": "目標讀者", "values": ["架構師", "資深開發者", "技術主管", "軟體開發者"] }
-]
+{"title":"[架構師觀點] 開發人員該如何看待 AI 帶來的改變?","categories":["系列文章: 架構師觀點"],"tech-stacks":["C#","JavaScript / TypeScript","ASP.NET Core","Semantic Kernel","Azure OpenAI Service","GitHub Copilot","ChatGPT GPTs","Swagger / Swashbuckle","Docker / Azure App Service","Azure","Windows (AI PC)","API First / Business Model","Function Calling / Tool Use","Copilot Pattern","Orchestration vs. Calculation","OAuth2 / Token Flow","DDD / 限定狀態機"],"keywords":["GPTs / Custom GPT","LLM (Large Language Model)","AI First / Copilot","API First / Domain API","Semantic Kernel","OAuth2","AI DX","Microsoft AI 佈局","Function Calling","Vector Database / RAG","Planner / Skill / Memory","AI PC / NPU","UX & Intent","DDD / 狀態機","Headless API","Prompt Engineering"],"references":["/2016/05/05/archview-net-open-source/","/2020/03/10/interview-abstraction/","https://andrewshopoauthdemo.azurewebsites.net/swagger/index.html","https://chat.openai.com/g/g-Bp79bdOOJ-an-de-lu-xiao-pu-v5-0-0","https://platform.openai.com/docs/guides/function-calling","https://github.com/microsoft/semantic-kernel","https://learn.microsoft.com/semantic-kernel/","https://github.com/andrew0928/AndrewDemo.NetConf2023"]}

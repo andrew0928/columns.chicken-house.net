@@ -1,22 +1,17 @@
 ---
-source_file: "_posts/2024/2024-11-11-working-with-wsl.md"
-generated_date: "2025-01-03 20:00:00 +0800"
-version: "1.0"
-tools: github_copilot
-model: claude_sonnet_3_5
+- source_file: /docs/_posts/2024/2024-11-11-working-with-wsl.md
+- tools: BlogIndex.SyncPost 1.0.0
+- model: o3, endpot: https://app-azureopenai.openai.azure.com/
 ---
-
-# 用 WSL + VSCode 重新打造 Linux 開發環境 - 生成內容
+# 用 WSL + VSCode 重新打造 Linux 開發環境
 
 ## Metadata
-
-### 原始 Metadata
-
+```yaml
+# 原始 Front Matter
 layout: post
 title: "用 WSL + VSCode 重新打造 Linux 開發環境"
-categories:
-- "技術隨筆"
-tags: ["技術隨筆", "VSCode", "Jekyll", "Docker", "WSL"]
+categories: ["技術隨筆"]
+tags: ["技術隨筆","VSCode","Jekyll","Docker","WSL"]
 published: true
 comments_disqus: false
 comments_facebook: false
@@ -24,268 +19,221 @@ comments_gitalk: true
 redirect_from:
 logo: /wp-content/images/2024-11-11-working-with-wsl/logo.jpg
 
-### 自動識別關鍵字
+# 自動識別關鍵字
+primary-keywords:
+  - WSL2
+  - VS Code Remote Development
+  - Docker IO Performance
+  - GPU Virtualization / CUDA
+  - Qdrant
+  - GitHub Pages
+secondary-keywords:
+  - NTFS vs EXT4
+  - DrvFS / 9P Protocol
+  - Hyper-V
+  - fio Benchmark
+  - Ollama & Open-WebUI
+  - NVIDIA Container Toolkit
+  - DirectX / DirectML on Linux
+  - SSD 顆粒 TLC・MLC・QLC
+  - Dev Container / Remote-SSH
+  - Windows 11 24H2
 
-keywords:
-  primary:
-    - WSL
-    - VSCode
-    - Docker
-    - Linux 開發環境
-    - GPU 虛擬化
-    - 檔案系統效能
-    - 跨平台開發
-  secondary:
-    - NTFS
-    - EXT4
-    - DrvFS
-    - 9P protocol
-    - Hyper-V
-    - CUDA
-    - GitHub Pages
-    - Jekyll
-    - Qdrant
-    - AI 應用
-    - 向量資料庫
-    - LLM
-    - Ollama
-
-### 技術堆疊分析
-
+# 技術堆疊分析
 tech_stack:
   languages:
     - Bash
     - PowerShell
+    - YAML / Markdown
   frameworks:
-    - WSL2
-    - Docker
     - Jekyll
+    - .NET Core (build 環節)
   tools:
-    - Visual Studio Code
-    - Git
-    - Docker Compose
-    - WSL
-    - fio
-    - nvidia-smi
-  platforms:
-    - Windows 11
-    - Ubuntu 24.04 LTS
-    - Docker Desktop
     - WSL2
+    - Visual Studio Code & VS Code Server
+    - Docker / Docker Compose
+    - Qdrant
+    - fio
+    - Git
+    - NVIDIA Container Toolkit
+    - Ollama
+    - Open-WebUI
+  platforms:
+    - Windows 11 24H2
+    - Ubuntu 24.04 LTS (WSL)
   concepts:
-    - File System Performance
-    - GPU Virtualization
+    - File-system Virtualization
     - Remote Development
-    - Cross-platform Development
-    - Container Technology
-    - AI/ML Infrastructure
+    - GPU Passthrough / vGPU
+    - Benchmarking
+    - Vector Database
+    - RAG Pipeline
 
-### 參考資源
-
+# 參考資源
 references:
   internal_links:
     - /2018/07/28/labs-lcow-volume/
     - /2024/03/15/archview-int-blog/
-    - /2016/05/05/archview-net-open-source/
   external_links:
-    - https://learn.microsoft.com/en-us/windows/wsl/setup/environment
-    - https://code.visualstudio.com/docs/remote/remote-overview
+    - https://learn.microsoft.com/windows/wsl/
+    - https://fio.readthedocs.io/
     - https://qdrant.tech/
-    - https://ollama.com/
-    - https://pages.github.com/
+    - https://code.visualstudio.com/docs/remote/remote-overview
+    - https://hub.docker.com/r/ollama/ollama
+    - https://learn.microsoft.com/windows/wsl/tutorials/gui-apps
     - https://devblogs.microsoft.com/directx/directx-heart-linux/
-    - https://www.polarsparc.com/xhtml/IntroToWSL2.html
-    - https://news.mynavi.jp/article/20220318-2296803/
-    - https://blog.darkthread.net/blog/ollam-open-webui/
   mentioned_tools:
-    - WSL2
-    - Visual Studio Code
-    - Docker
-    - Qdrant
-    - Ollama
-    - Open-WebUI
-    - Jekyll
-    - GitHub Pages
-    - fio
-    - nvidia-smi
-    - CUDA
-    - DirectX
-    - GPU drivers
+    - Docker Desktop
+    - Hyper-V
+    - VS Code Server
+    - DirectML
+    - mesa
 
-### 內容特性
-
+# 內容特性
 content_metrics:
-  word_count: 15000
-  reading_time: "45 分鐘"
+  word_count: 18000
+  reading_time: "60 分鐘"
   difficulty_level: "進階"
-  content_type: "技術教學"
+  content_type: "實戰心得 / 系統調校"
+```
 
-## 摘要
+## 文章摘要
+作者把日常開發機從「Windows + Docker Desktop」全面升級為「Windows 11 24H2 + WSL2 + VS Code Remote」。動機來自四大痛點：Docker Desktop 授權與臃腫、Volume IO 慢到不可用、CUDA 在 Windows 難以部署、以及希望長期維運 Linux 為主的工作流。  
+文中先用 fio 為四種檔案路徑（Win→Win、WSL→WSL、Win→WSL、WSL→Win）跑隨機 4K 測試，量化出 576 MiB/s 到 16 MiB/s 的 35× 差異，並歸因於 Hyper-V、DrvFS、9P 等轉譯層。接著以向量資料庫 Qdrant、Jekyll 部落格與 Ollama LLM 為三個案例示範：只要把資料放進 WSL EXT4，效能立刻從 38 秒縮到 1.5 秒；再配合 mklink 把目錄映回 Windows，即可兼顧 DX 與 UX。  
+開發端則透過 VS Code Remote 在 WSL 啟動 VS Code Server，讓 Git、Build、Debug 全走 Linux 原生 FS，UI 仍留在 Windows；Ctrl-` 彈出的就是 Bash，Hot-Reload 不再卡頓。  
+最後作者驗證 NVIDIA Container Toolkit：僅需安裝 Windows 驅動與 `nvidia-ctk`，WSL 便能以 `/dev/dxg` 直通 GPU，`docker run --gpus all ollama/ollama` 即可跑 Llama 3，用 Task Manager 可見 GPU 佔用。  
+整體結論：WSL 生態已成熟，投資一顆專用 SSD、善用 VS Code Remote、避免 DrvFS，把重 IO 與 CUDA 任務全部搬進 Linux，Windows 依舊保留桌面體驗，兩邊優勢一次到手。
 
-### 文章摘要
+---
 
-作者詳細記錄了將主要開發環境從傳統 Windows 轉移到 WSL + VSCode 的完整過程與心得。文章起因於作者希望解決四個核心問題：拋開 Docker Desktop for Windows 的束縛、改善 Docker 掛載 volume 的 IO 效能問題、在 Docker 中使用 GPU/CUDA 應用、以及建立一個以 Linux 為主且能與 Windows 無縫整合的長期工作環境。作者透過詳細的效能測試發現，不同的檔案系統組合會造成高達 35 倍的效能差距，最終透過將檔案存放在 WSL 原生檔案系統、使用 VSCode Remote Development 模式、以及正確配置 GPU 虛擬化，成功建立了一套高效的跨平台開發環境。文章不僅提供實用的配置方法，更深入解析了 WSL 架構、檔案系統互通機制、以及 Microsoft 在底層實現的各種黑科技，為想要在 Windows 平台建立 Linux 開發環境的開發者提供了完整的參考指南。
+## 段落摘要
 
-### 關鍵要點
+### 1 替換工作環境的動機  
+作者因 AI/LLM 需要 GPU 與高 IO，決定趁重灌 24H2 一口氣換掉 Docker Desktop，轉向 WSL2。主要期望：改善 Volume IO、解鎖 GPU in Docker、減少授權束縛並維持 Windows 生態工具。
 
-- WSL + VSCode 的整合可以提供接近原生 Linux 的開發體驗
-- 檔案系統的存放位置對效能有巨大影響，跨系統存取會造成嚴重效能損失
-- 透過正確配置，可以在 Windows 下無痛使用 Docker 和 GPU 加速的 AI 應用
-- Microsoft 在 WSL 中實現了許多底層整合技術，包括 GPU 虛擬化和檔案系統互通
-- VSCode Remote Development 模式可以完美解決跨系統開發的各種問題
-- 投資專用的 SSD 給 WSL 使用可以獲得最佳的效能表現
-- GPU 虛擬化技術讓 WSL 能夠直接使用 Windows 的 GPU 驅動和 CUDA 功能
+### 2 案例：向量資料庫 Qdrant  
+以 4 萬筆資料的 Qdrant 容器為例，比較不同 Volume 路徑。掛 NTFS 時啟動 38 秒；改放 WSL EXT4 僅 1.5 秒。fio 基準證實 Hyper-V 與 DrvFS/9P 轉譯是瓶頸；解法是把磁碟放進 Linux，Windows 端用 `mklink` 映射存取。
 
-### 替換工作環境的動機
+### 2-1 WSL 磁碟效能 Benchmark  
+詳細列出四種組合的 4K randrw 分數：Win→Win 576 MiB/s；WSL→WSL 209；WSL→Win 37；Win→WSL 16。並對照架構圖說明各層折損來源。
 
-作者決定重新打造開發環境的主要動機是為了在 Docker 上運行 AI 相關應用。當購買了 NVIDIA RTX4060Ti 16GB 後，發現要在 Windows 下搞定 CUDA 相依性套件與設定非常麻煩，而大部分科學運算應用都以 Linux 為主。除此之外，作者也面臨 Docker Desktop for Windows 的授權限制、Docker 掛載 volume 的 IO 效能問題（效能差距可達數十倍）、以及希望建立一個認知負荷低且能長期使用的整合工作環境。透過實際測試發現，Qdrant 向量資料庫的啟動時間從原本的一分鐘縮短到幾秒鐘，Jekyll 建置時間從 110 秒降到 6 秒，這些戲劇性的改善證明了原本架構確實存在嚴重問題。
+### 2-6 掛載專屬 SSD  
+追加測試四顆 SSD (TLC/MLC/QLC/SATA)，發現「實體 EXT4」或「獨立 vhdx」皆可達原生 100% IO，唯 QLC 效能相對低。結論：買顆好 SSD 給 WSL，DrvFS 只當網路盤。
 
-### WSL 磁碟效能分析與檔案系統架構
+### 3 GitHub Pages with VS Code  
+展示 VS Code Remote：`code .` 會自動布署 VS Code Server，UI 留在 Windows，Terminal 跑 Linux。Git pull->Jekyll build->Hot reload 全在 WSL，檔案更動立即生效，解決 NTFS 缺乏 inotify 的問題。
 
-作者透過詳細的 benchmark 測試，量化了四種不同檔案系統組合的效能表現。測試結果顯示，Windows 原生 NTFS 存取可達 576 MiB/s，WSL 內部 EXT4 存取為 209 MiB/s（36.28%），而跨系統存取的效能則大幅下降：Windows 存取 WSL 檔案系統僅有 16.5 MiB/s（2.86%），WSL 存取 Windows 檔案系統為 37.5 MiB/s（6.51%）。這些效能差異的根本原因在於 WSL 的檔案系統架構，包括 Hyper-V 虛擬化層、9P protocol、以及 DrvFS 檔案系統轉換等多層轉換機制。作者建議將重要的應用程式檔案存放在 WSL 原生檔案系統中，並透過 Windows 的 mklink 指令建立 symbolic link 來維持存取的便利性。
+### 3-1 WSL 執行 Windows App  
+透過 binfmt_misc 與 `WSLInterop`，WSL 可直接呼叫 `explorer.exe`、`cmd.exe`，並將目前目錄掛到 `\\wsl$`；證明跨 Kernel 呼叫的高整合度。
 
-### Visual Studio Code Remote Development 整合
+### 4 GPU (CUDA) Application  
+按官方指南安裝 Windows GPU Driver + WSL NVIDIA CTK，`nvidia-smi` 即顯示 GPU。啟動 `docker run --gpus=all ollama/ollama`，Llama 3 問答可在 1 秒內回應，Task Manager 可見 GPU Loading。也解釋 `/dev/dxg`、DxCore 與 DirectML 在 WSL 的角色。
 
-作者詳細介紹了 VSCode Remote Development 的運作機制，這是解決跨系統開發問題的關鍵技術。VSCode Remote Development 採用前後端分離的架構，UI 操作在 Windows 端處理，而檔案存取、編譯、執行等背景作業則在 Linux 端進行。這種設計完美解決了效能問題，因為所有重度 IO 操作都在同一個作業系統內完成。作者展示了如何在 WSL 中直接使用 `code .` 指令啟動 VSCode，以及如何在 VSCode 中直接存取 Linux 檔案系統、啟動 Linux terminal、運行 Docker 容器、並透過 port forwarding 預覽網頁應用。整個過程的整合度極高，幾乎可以將其視為單機版使用，即使在無網路環境下也能正常運作。
+### 5 心得  
+回顧 Satya Nadella 十年「Microsoft ♥ Linux」路線：WSL、VS Code、.NET OSS 及 GPU Pass-through 讓 Windows 成為合格的 Linux Dev Box。只要避開 DrvFS、活用 Remote Dev，Windows 11 已能同時提供桌面體驗與 Linux 原生效能。
 
-### GPU 虛擬化與 AI 應用支援
-
-作者成功配置了 WSL 的 GPU 虛擬化功能，讓 Docker 容器能夠直接使用 NVIDIA GPU 進行 CUDA 運算。配置過程出乎意料地簡單：只需在 Windows 安裝正確版本的 NVIDIA GPU 驅動、在 WSL 安裝 NVIDIA container toolkit、以及正確配置 Docker runtime。配置完成後，可以透過 `nvidia-smi` 指令在 WSL 中查看 GPU 狀態，並在啟動 Docker 容器時使用 `--gpus=all` 參數來啟用 GPU 支援。作者成功運行了 Ollama + Open-WebUI 的組合，建立了私人的類 ChatGPT 介面，證明整套環境能夠順利支援需要 GPU 加速的 AI 應用。Microsoft 在底層實現了完整的 GPU 虛擬化架構，包括 DirectX、CUDA、OpenGL、OpenCL 等各種 GPU 運算框架的支援。
+---
 
 ## 問答集
 
-### Q1: 為什麼需要重新打造 Linux 開發環境？
-Q: 在 Windows 下開發有什麼問題需要透過 WSL 來解決？
-A: 主要問題包括：Docker Desktop for Windows 的授權限制和額外負擔、Docker 掛載 Windows volume 時的嚴重 IO 效能問題（可能差距數十倍）、Windows 下配置 CUDA 環境的複雜性、以及缺乏一個能夠無縫整合 Windows 和 Linux 工具的統一開發環境。這些問題在處理 AI 應用或需要大量 IO 的容器化服務時特別明顯。
+### Q1 為什麼作者要捨棄 Docker Desktop？  
+A: Docker Desktop 體積大、商用授權限制多，而且 Volume 掛載 NTFS 造成嚴重 IO 瓶頸；在 WSL2 直接跑 Linux Docker 不但免費也更單純，Volume 可放 EXT4，效能大幅提升。
 
-### Q2: WSL 的檔案系統效能差異有多大？
-Q: 不同的檔案系統組合對效能有什麼影響？
-A: 根據 benchmark 測試，效能差異極大：Windows 原生 NTFS 存取為基準（576 MiB/s），WSL 內部 EXT4 存取約為 36%，而跨系統存取效能則大幅下降，Windows 存取 WSL 檔案僅有 3%，WSL 存取 Windows 檔案約有 7%。這是因為跨系統存取需要經過多層轉換，包括 9P protocol 和 DrvFS 檔案系統轉換。
+### Q2 Win→WSL IO 為何特別慢？  
+A: 因為經過 9P Protocol 將 NTFS 操作轉成 EXT4，再疊 Hyper-V vhdx，兩層轉譯讓 4K 隨機 IO 只剩原生約 3% 效能。
 
-### Q3: 如何正確配置 WSL 的檔案存放策略？
-Q: 要如何安排檔案存放位置才能獲得最佳效能？
-A: 建議將需要大量 IO 的應用程式檔案（如 Docker volumes、資料庫檔案）存放在 WSL 原生檔案系統中（如 `/opt/docker`），然後透過 Windows 的 `mklink /d` 指令建立 symbolic link 到習慣的 Windows 路徑（如 `c:\codes\docker`）。這樣既能獲得最佳的 IO 效能，又能維持操作的便利性。
+### Q3 mklink 能完全解決跨系統路徑問題嗎？  
+A: 能大幅簡化路徑記憶與 IDE 操作，但 Windows 端大量 IO 仍走 DrvFS，速度遠低於原生；mklink 只是 UX 改善，不是效能解藥。
 
-### Q4: VSCode Remote Development 如何解決跨系統開發問題？
-Q: VSCode Remote Development 的運作原理是什麼？
-A: VSCode Remote Development 採用前後端分離架構，UI 在 Windows 端處理，而檔案操作、編譯、執行等重度 IO 作業在 Linux 端進行。透過 vscode-server 機制，可以在 WSL 中直接使用 `code .` 指令啟動完整的開發環境，所有操作都像在本機一樣流暢，但實際的檔案處理都在同一個作業系統內完成，避免了跨系統的效能損失。
+### Q4 VS Code Remote 與 SSH/Container 有何差別？  
+A: 其核心是 VS Code Server，WSL 模式用本機通道，不依賴網路；SSH 與 DevContainer 則走 TCP/STDIO。WSL 模式整合度最高，無網路亦可用。
 
-### Q5: 如何在 WSL 中使用 GPU 進行 AI 運算？
-Q: WSL 支援 GPU 虛擬化嗎？如何配置？
-A: WSL2 完全支援 GPU 虛擬化。配置步驟包括：在 Windows 安裝最新的 NVIDIA GPU 驅動、在 WSL 安裝 NVIDIA container toolkit（注意不需要安裝 Linux GPU 驅動）、配置 Docker runtime 使用 nvidia-ctk。配置完成後可以在 WSL 中使用 `nvidia-smi` 查看 GPU 狀態，Docker 容器啟動時加上 `--gpus=all` 參數即可使用 GPU 資源。
+### Q5 如何判斷 VS Code 已連上 WSL？  
+A: 左下角 Status Bar 顯示「WSL - Ubuntu」，開檔對話框只列 `/home` 路徑，內建 Terminal 是 Bash 而非 PowerShell。
 
-### Q6: 投資專用 SSD 給 WSL 使用是否值得？
-Q: 為 WSL 配置專用硬碟能帶來多大改善？
-A: 絕對值得。測試顯示，將實體磁碟直接掛載給 WSL 使用（EXT4 格式）可以獲得接近甚至超越 Windows 原生效能的表現。某些情況下，優質的 MLC SSD 在 WSL 環境下的表現甚至比在 Windows 下還要好（達到 120% 效能）。但要注意避免低階的 QLC SSD，因為虛擬化環境會放大其效能缺陷。
+### Q6 在 WSL 要另外安裝 Linux GPU Driver 嗎？  
+A: 不需要。只安裝 Windows WDDM 2.9+ 驅動，WSL 透過 `/dev/dxg` 與 Hyper-V vGPU 即可共享硬體。
 
-## 解決方案
+### Q7 fio 測試為何選 4K randrw、iodepth 64？  
+A: 模擬資料庫高併發隨機讀寫情境；大 iodepth 能放大 queue 深度，凸顯轉譯層延遲對 IOPS 的影響。
 
-### Docker 容器 IO 效能優化
-Problem: Docker 容器掛載 Windows volume 時效能極差，影響資料庫和建置工具的運行速度
-Root Cause: 跨作業系統的檔案存取需要經過 DrvFS 和 9P protocol 多層轉換，造成嚴重的效能瓶頸
-Solution:
-- 將 Docker volumes 遷移到 WSL 原生檔案系統（如 `/opt/docker`）
-- 使用 Windows mklink 建立 symbolic link 維持存取便利性
-- 確保容器和資料都在同一個作業系統內運行
-- 避免在 Docker 啟動時掛載跨系統的目錄
+### Q8 把 SSD 格式化成 EXT4 直接掛 WSL 有風險嗎？  
+A: Windows 無法直接存取該分割區，需透過 WSL；備份與磁碟管理需在 Linux 端操作，惟可換得接近原生的效能。
 
+### Q9 QLC SSD 在 WSL 為何表現特別差？  
+A: QLC 天然寫入放大與低耐久，在高併發隨機寫環境下易掉速；再疊加 NTFS 或 vhdx 轉譯，效能進一步被稀釋。
+
+### Q10 要跑 LLM 一定得用 NVIDIA 卡嗎？  
+A: 目前 WSL CUDA Pass-through 只支援 NVIDIA；AMD/RDNA 仍需等待 ROCm for WSL。若無 GPU 也可用 CPU 但速度與能耗劣勢明顯。
+
+### Q11 DrvFS 完全不能用嗎？  
+A: 可作檔案搬運或輕量編輯；任何需要 inotify、低延遲或高 IOPS 的服務（資料庫、熱編譯）都應避免。
+
+### Q12 WSLg 可以拿來跑 Linux GUI IDE 嗎？  
+A: 可以，WSLg 會自動轉譯 X11/Wayland 視窗至 Windows，但作者實測 VS Code Remote 提供更流暢且資源佔用更低的體驗。
+
+---
+
+## 問題與解決方案整理
+
+### Problem 1 Docker Volume IO 極慢
+Root Cause:
+1. DrvFS/9P 跨 Kernel 轉譯  
+2. vhdx 再經 Hyper-V 虛擬化  
+3. NTFS 與 inotify 不相容  
+Solutions:
+- 將資料搬進 `~/data` 或獨立 EXT4/vhdx  
+- 以 `mklink` 把路徑映回 Windows  
+- 重度服務（DB、Vector Store）全部走 WSL → WSL  
 Example:
 ```bash
-# 在 WSL 中建立 Docker 工作目錄
-sudo mkdir -p /opt/docker
-
-# 在 Windows 中建立 symbolic link
-mklink /d c:\codes\docker \\wsl$\ubuntu\opt\docker
-
-# Docker Compose 使用相對路徑或 WSL 內路徑
-version: '3.8'
-services:
-  qdrant:
-    image: qdrant/qdrant
-    volumes:
-      - ./qdrant_storage:/qdrant/storage
+docker run -v ~/docker/qdrant:/qdrant/storage qdrant/qdrant
 ```
 
-### VSCode 跨系統開發環境建置
-Problem: 需要在 Windows 和 Linux 之間頻繁切換，缺乏統一的開發體驗
-Root Cause: 傳統開發方式需要分別在兩個系統中配置工具，無法充分利用各自的優勢
-Solution:
-- 安裝 VSCode Remote Development extension pack
-- 在 WSL 中直接使用 `code .` 啟動遠端開發模式
-- 利用 vscode-server 實現前後端分離的開發架構
-- 透過 port forwarding 功能預覽和調試應用程式
-
+### Problem 2 開發時需要雙邊高效 IO
+Root Cause: IDE 在 Windows，程式跑在 Linux，頻繁跨 FS。  
+Solutions:
+- 使用 VS Code Remote - WSL  
+- Git、Build、Debug 全在 Linux  
+- Windows 僅負責前端 UI  
 Example:
 ```bash
-# 在 WSL 中切換到專案目錄
-cd /opt/docker/my-project
-
-# 直接啟動 VSCode Remote Development
+# WSL
 code .
 
-# 在 VSCode 內建 terminal 執行 Docker
-docker-compose up -d
-
-# 使用 port forwarding 預覽應用
-# VSCode 會自動偵測並提供瀏覽器預覽選項
+# Windows VSCode status:
+#  --> WSL - Ubuntu
 ```
 
-### GPU 虛擬化配置與 AI 應用部署
-Problem: 在 Windows 下配置 CUDA 環境複雜，AI 應用部署困難
-Root Cause: Windows 下的 CUDA 相依性管理複雜，版本相容性問題多
-Solution:
-- 在 Windows 安裝最新 NVIDIA GPU 驅動
-- 在 WSL 安裝 NVIDIA Container Toolkit
-- 配置 Docker 使用 nvidia-ctk runtime
-- 使用容器化方式部署 AI 應用，避免直接管理相依性
-
+### Problem 3 CUDA 在容器環境難部署
+Root Cause: Windows 與 Linux Driver 不相容，容器內缺 GPU Runtime。  
+Solutions:
+1. 安裝 Windows WDDM 2.9+ Driver  
+2. `sudo apt install nvidia-container-toolkit && sudo nvidia-ctk runtime configure`  
+3. `docker run --gpus=all …`  
 Example:
-```bash
-# 檢查 GPU 是否正確識別
-nvidia-smi
-
-# 安裝 NVIDIA Container Toolkit
-curl -fsSL https://nvidia.github.io/libnvidia-container/gpgkey | sudo gpg --dearmor -o /usr/share/keyrings/nvidia-container-toolkit-keyring.gpg
-curl -s -L https://nvidia.github.io/libnvidia-container/stable/deb/nvidia-container-toolkit.list | sed 's#deb https://#deb [signed-by=/usr/share/keyrings/nvidia-container-toolkit-keyring.gpg] https://#g' | sudo tee /etc/apt/sources.list.d/nvidia-container-toolkit.list
-sudo apt-get update && sudo apt-get install -y nvidia-container-toolkit
-
-# 配置 Docker runtime
-sudo nvidia-ctk runtime configure --runtime=docker
-sudo systemctl restart docker
-
-# 運行支援 GPU 的容器
-docker run -d --gpus=all -v ollama:/root/.ollama -p 11434:11434 --name ollama ollama/ollama
+```yaml
+services:
+  ollama:
+    image: ollama/ollama
+    runtime: nvidia
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - capabilities: [gpu]
+    volumes:
+      - ollama:/root/.ollama
 ```
 
-### 檔案系統效能優化策略
-Problem: 需要在不同檔案系統間找到效能和便利性的平衡點
-Root Cause: WSL 架構的多層虛擬化導致跨系統存取效能差異巨大
-Solution:
-- 根據應用類型選擇合適的檔案系統配置
-- 投資專用 SSD 並正確配置掛載方式
-- 避免在效能敏感的應用中使用 DrvFS
-- 使用 symbolic link 和 mount 技術優化存取路徑
+### Problem 4 不同 SSD 顆粒效能差異大
+Root Cause: QLC/DRAM-less 在高併發隨機寫易降速；虛擬化再疊加延遲。  
+Solutions:
+- 工作碟選 TLC/MLC，甚至獨立 SATA MLC 亦優於 QLC NVMe  
+- 專用實體 EXT4 分割給 WSL  
+- 若用 vhdx，避免與系統碟共用 IO  
 
-Example:
-```bash
-# 為 WSL 掛載專用磁碟（需要 Windows 管理員權限）
-# 1. 在 Windows 中準備磁碟
-wsl --mount \\.\PHYSICALDRIVE2 --type ext4
+---
 
-# 2. 在 WSL 中掛載到指定位置
-sudo mkdir -p /mnt/wsl-disk
-sudo mount /dev/sdc1 /mnt/wsl-disk
-
-# 3. 配置自動掛載
-echo '/dev/sdc1 /mnt/wsl-disk ext4 defaults 0 0' | sudo tee -a /etc/fstab
-
-# 4. 建立工作目錄並設定權限
-sudo mkdir -p /mnt/wsl-disk/docker
-sudo chown -R $USER:$USER /mnt/wsl-disk/docker
-```
-
-## 版本異動紀錄
-
-### v1.0 (2025-01-03)
-- 初始版本生成
-- 基於原始文章完整內容建立結構化摘要、問答對和解決方案
+## 版本異動
+- 1.0.0 (2025-08-06)  首次生成：含 Metadata、摘要、5 段段落摘要、12 組 Q&A、4 組 Problem/Solution。

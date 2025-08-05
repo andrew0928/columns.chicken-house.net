@@ -1,22 +1,19 @@
 ---
-source_file: "_posts/2024/2024-03-15-archview-int-blog.md"
-generated_date: "2025-01-03 17:00:00 +0800"
-version: "1.0"
-tools: github_copilot
-model: claude_sonnet_3_5
+- source_file: /docs/_posts/2024/2024-03-15-archview-int-blog.md
+- tools: BlogIndex.SyncPost 1.0.0
+- model: o3, endpot: https://app-azureopenai.openai.azure.com/
 ---
-
-# 替你的應用程式加上智慧! 談 RAG 的檢索與應用 - 生成內容
+# 替你的應用程式加上智慧! 談 RAG 的檢索與應用 — 文章摘要
 
 ## Metadata
 
-### 原始 Metadata
-
+```yaml
+# 原始 Front Matter:
 layout: post
 title: "替你的應用程式加上智慧! 談 RAG 的檢索與應用"
 categories:
 - "系列文章: 架構師觀點"
-tags: ["架構師觀點","技術隨筆", "AI", "Semantic Kernel"]
+tags: ["架構師觀點","技術隨筆","AI","Semantic Kernel"]
 published: true
 comments_disqus: false
 comments_facebook: false
@@ -24,315 +21,181 @@ comments_gitalk: true
 redirect_from:
 logo: /wp-content/images/2024-03-15-archview-int-blog/2024-03-10-00-46-41.jpg
 
-### 自動識別關鍵字
+# 自動識別關鍵字:
+primary-keywords:
+  - RAG (Retrieval-Augmented Generation)
+  - Kernel Memory
+  - Semantic Kernel
+  - Embedding / Vector Search
+  - GPTs / ChatGPT
+  - Azure OpenAI Service
+  - Text-Embedding-3-Large
+secondary-keywords:
+  - Vector Database (Azure AI Search, Qdrant, Redis, PostgreSQL)
+  - Tagging / ABAC 安全過濾
+  - Two-Tower Recommendation
+  - Function Calling
+  - .NET / C#
+  - GitHub Pages
+  - AI Explorer / Copilot
+  - NoSQL vs RDB vs VectorDB
 
-keywords:
-  primary:
-    - RAG
-    - Retrieval-Augmented Generation
-    - GPTs
-    - Semantic Kernel
-    - Kernel Memory
-    - Text Embedding
-    - Vector Search
-    - 向量搜尋
-    - AI 應用開發
-    - LLM 應用程式
-  secondary:
-    - Chat GPT
-    - Azure OpenAI
-    - OpenAI
-    - Embedding Space
-    - Vector Database
-    - 向量資料庫
-    - Custom Action
-    - Function Calling
-    - Prompt Engineering
-    - 語意搜尋
-    - 內容檢索
-    - 知識庫
-
-### 技術堆疊分析
-
+# 技術堆疊分析:
 tech_stack:
   languages:
     - C#
-    - JSON
-    - Markdown
+    - Markdown / JSON
   frameworks:
-    - .NET
-    - Semantic Kernel
-    - Kernel Memory
+    - Microsoft Semantic Kernel
+    - Kernel Memory (Serverless / Service)
   tools:
-    - Azure App Service
-    - Azure OpenAI
-    - Visual Studio
-    - Git
-    - Docker
+    - Azure OpenAI (GPT-4, text-embedding-3-large)
+    - ChatGPT GPTs
+    - GitHub / GitHub Actions
+    - VS Code
   platforms:
-    - Azure
-    - Chat GPT
-    - GPTs
-    - Windows
-  ai_models:
-    - GPT-4
-    - text-embedding-3-large
+    - Azure App Service
+    - GitHub Pages
   concepts:
-    - RAG
-    - Retrieval-Augmented Generation
-    - Vector Search
-    - Text Embedding
-    - Natural Language Processing
-    - AI Application Development
-    - Prompt Engineering
+    - RAG Pipeline (Ingestion, Retrieval, Synthesis)
+    - Embedding Space
+    - Vector Similarity (cosine)
+    - Tag-Based Security (ABAC)
+    - AI DX / Prompt Engineering
 
-### 參考資源
-
+# 參考資源:
 references:
   internal_links:
     - /2024/01/15/archview-llm/
-    - /2024/02/10/archview-int-app/
-    - /2016/09/16/blog-as-code/
-    - /2021/03/01/practice-01/
     - /2022/04/25/microservices16-api-implement/
+    - /2016/09/16/blog-as-code/
   external_links:
-    - https://microsoft.github.io/kernel-memory/
     - https://github.com/microsoft/kernel-memory
+    - https://github.com/microsoft/semantic-kernel
+    - https://platform.openai.com/docs/guides/embeddings
     - https://areganti.notion.site/Applied-LLMs-Mastery-2024-562ddaa27791463e9a1286199325045c
-    - https://openai.com/blog/new-embedding-models-and-api-updates
-    - https://platform.openai.com/docs/guides/embeddings/embedding-models
-    - https://openai.com/pricing
-    - https://aws.amazon.com/tw/what-is/retrieval-augmented-generation/
-    - https://chat.openai.com/g/g-F3ckJut37-an-de-lu-de-bu-luo-ge
-    - https://github.com/microsoft/generative-ai-for-beginners
   mentioned_tools:
-    - Kernel Memory
-    - Semantic Kernel
-    - Azure OpenAI
-    - GPTs
-    - Chat GPT
-    - Vector Database
-    - text-embedding-3-large
+    - ChatGPT
     - GPT-4
     - Azure AI Search
     - Qdrant
-    - PostgreSQL
-    - Elastic Search
     - Redis
 
-### 內容特性
-
+# 內容特性:
 content_metrics:
-  word_count: 27000
-  reading_time: "90 分鐘"
+  word_count: 15500
+  reading_time: "50 分鐘"
   difficulty_level: "進階"
-  content_type: "技術深度解析"
-
-## 摘要
-
-本文是 LLM 應用開發系列第三篇，深入探討 RAG (Retrieval-Augmented Generation) 的檢索與應用。作者以自己的部落格為例，展示如何運用 Kernel Memory、Azure OpenAI 等技術，建立一個能夠智慧檢索部落格內容的 GPTs。文章詳細介紹了 RAG 的三個核心組件：Ingestion（資料向量化）、Retrieval（語意檢索）、Synthesis（結果彙整），並深入分析從傳統關鍵字搜尋進化到語意搜尋的技術演進。
-
-### 段落摘要
-
-**第 0 章 - 寫在前面**
-介紹作者部落格的背景：20 年來累積 327 篇文章、400 萬字內容，說明透過 AI 技術提升內容運用價值的動機。
-
-**第 1 章 - "安德魯的部落格" GPTs Demo**
-展示 GPTs 的實際應用效果，包括部落格發展史整理、特定主題彙整、經驗分享彙整等示範案例，證明 AI 輔助內容檢索的實用性。
-
-**第 2 章 - 部落格檢索服務 AndrewBlogKMS**
-深入解析 RAG 架構的三個核心組件：
-- Synthesis：使用 GPTs 進行結果彙整
-- Retrieval：運用 Kernel Memory 進行語意檢索
-- Ingestion：建立文章向量化的資料庫
-
-**第 3 章 - AI 改變了內容搜尋方式**
-探討從表格（RDB）、文件（NoSQL）到向量（VectorDB）的資料庫演進，以及從條件查詢到語意查詢的轉變。
-
-## 問答對
-
-### Q1: 什麼是 RAG？它的三個核心組件是什麼？
-A1: RAG (Retrieval-Augmented Generation) 是檢索增強生成技術，包含三個核心組件：
-1. **Ingestion（資料擷取）**：將文件分段並生成向量，存入索引
-2. **Retrieval（檢索）**：利用向量相似性檢索最相關的文件片段
-3. **Synthesis（合成）**：LLM 結合查詢和檢索結果，生成準確回應
-
-### Q2: Text Embedding 的工作原理是什麼？
-A2: Text Embedding 是將文字轉換成多維度向量的過程。每個維度代表不同的語意特徵，文字在這個向量空間中的位置表達其語意含義。相似語意的文字會在向量空間中靠近，透過計算向量間的相似度（如餘弦相似度）來找出語意相近的內容。
-
-### Q3: 如何使用 Kernel Memory 建立檢索服務？
-A3: 使用 Kernel Memory 的步驟包括：
-1. 配置 Azure OpenAI 的 text embedding 和 chat completion 模型
-2. 選擇向量儲存方式（如 SimpleVectorDB）
-3. 使用 ImportTextAsync 方法匯入文章內容並生成向量
-4. 透過 SearchAsync 或 AskAsync 提供檢索服務
-5. 設定適當的 Tags 進行內容分類和權限控制
-
-### Q4: GPTs Custom Action 如何與外部 API 整合？
-A4: GPTs Custom Action 整合外部 API 的方式：
-1. 提供符合 OpenAPI 規範的 API swagger 文件
-2. 在 description 中詳細說明 API 的用途和參數意義
-3. GPTs 會根據對話脈絡自動判斷何時呼叫 API
-4. 透過 Function Calling 機制自動產生符合規格的請求
-5. 將 API 回應結果整合到對話回應中
-
-### Q5: 向量資料庫與傳統資料庫有什麼差異？
-A5: 主要差異包括：
-- **儲存方式**：向量資料庫儲存高維度向量，傳統資料庫儲存結構化資料
-- **查詢方式**：向量資料庫使用相似度搜尋，傳統資料庫使用精確條件匹配
-- **應用場景**：向量資料庫適合語意搜尋和 AI 應用，傳統資料庫適合事務處理
-- **輔助關係**：向量資料庫通常搭配傳統資料庫使用，負責語意索引，傳統資料庫負責原始資料儲存
-
-### Q6: 如何控制 RAG 應用的安全性和權限？
-A6: 透過 Tags 機制實現安全控制：
-1. **資料標記**：在 Ingestion 階段為每筆資料加上適當標籤
-2. **查詢過濾**：在 Retrieval 時使用 filters 參數限制查詢範圍
-3. **ABAC 原則**：實施屬性基礎存取控制，根據使用者角色設定可存取的標籤
-4. **後端控制**：將 Kernel Memory 當作私有後端服務，透過應用程式層控制存取權限
-
-### Q7: RAG 應用的成本結構是什麼？
-A7: RAG 應用的主要成本包括：
-1. **Embedding 成本**：文件向量化的一次性費用（如 text-embedding-3-large $0.13/1M tokens）
-2. **查詢成本**：每次查詢時問題向量化的費用
-3. **LLM 推理成本**：結果彙整時的 GPT-4 使用費用（$10/1M input tokens）
-4. **儲存成本**：向量資料庫的儲存和運算費用
-5. **API 呼叫成本**：各種 AI 服務的 API 使用費用
-
-### Q8: 從 RDB 到 VectorDB 的演進代表什麼意義？
-A8: 資料庫演進的三個階段代表處理層級的提升：
-1. **RDB（表格）**：處理欄位級的變數，著重效率和精確度
-2. **NoSQL（文件）**：處理物件級的文件，更貼近應用程式模型
-3. **VectorDB（向量）**：處理語意級的向量，能夠理解內容的意義和關聯性
-每個階段都不是取代，而是在更高層級上增強資料處理能力。
-
-## 解決方案
-
-### 問題：如何建立部落格的智慧檢索系統？
-
-**情境**：擁有大量文章內容的部落格，需要提供比關鍵字搜尋更智慧的內容檢索功能
-
-**解決方案**：
-1. **選擇技術架構**：
-   - 使用 Kernel Memory 作為 RAG 引擎
-   - 選擇 Azure OpenAI 提供 embedding 和 LLM 服務
-   - 透過 GPTs 提供使用者介面
-
-2. **實施資料向量化**：
-   ```csharp
-   var memory = new KernelMemoryBuilder()
-       .WithAzureOpenAITextGeneration(config)
-       .WithAzureOpenAITextEmbeddingGeneration(embeddingConfig)
-       .WithSimpleVectorDb(path)
-       .Build<MemoryServerless>();
-   
-   await memory.ImportTextAsync(content, documentId, tags);
-   ```
-
-3. **建立檢索 API**：
-   - 實作 /search 端點提供向量檢索
-   - 實作 /ask 端點提供完整問答
-   - 設定適當的 OpenAPI 文件
-
-4. **整合 GPTs**：
-   - 設定 Custom Action 連接檢索 API
-   - 撰寫適當的 Instructions 指導 GPTs 行為
-   - 測試和調整 prompt 效果
-
-**相關工具/指令**：
-- Kernel Memory NuGet 套件
-- Azure OpenAI Studio
-- GPTs Builder
-- Swagger/OpenAPI 工具
-
-**注意事項**：
-- 注意 token 使用量和成本控制
-- 選擇適當的 embedding 模型
-- 設計合理的文件分段策略
-
-### 問題：如何優化向量搜尋的準確性？
-
-**情境**：RAG 系統建立後，搜尋結果的相關性不夠精確
-
-**解決方案**：
-1. **改善文件分段**：
-   - 按照語意邊界分段，避免切斷完整概念
-   - 保持段落間適當重疊
-   - 控制每段文字長度在 token 限制內
-
-2. **優化 Tags 設計**：
-   ```csharp
-   var tags = new TagCollection();
-   tags.Add("categories", categories);
-   tags.Add("topic", topics);
-   tags.Add("difficulty", level);
-   tags.Add("post-date", date);
-   ```
-
-3. **調整查詢參數**：
-   - 設定適當的 minRelevance 閾值
-   - 調整 limit 參數控制結果數量
-   - 使用 filters 縮小搜尋範圍
-
-4. **提升 prompt 品質**：
-   - 在查詢前先處理和精煉使用者問題
-   - 提供更多上下文資訊
-   - 設計更好的結果彙整指令
-
-**相關工具/指令**：
-```json
-{
-  "query": "processed_user_question",
-  "filters": [{"category": ["target_category"]}],
-  "minRelevance": 0.3,
-  "limit": 5
-}
+  content_type: "Architecture & PoC 實作筆記"
 ```
 
-**注意事項**：
-- 不同領域可能需要不同的相似度閾值
-- 過度過濾可能遺漏相關內容
-- 需要平衡準確性和涵蓋性
+---
 
-### 問題：如何控制 RAG 系統的權限和安全性？
+## 文章摘要（1000 字內）
 
-**情境**：多使用者環境下需要確保使用者只能存取有權限的內容
+作者以 20 年、400 萬字的個人部落格為案例，完整示範如何用 Microsoft Kernel Memory + Azure OpenAI 建立「RAG 檢索服務」，再透過 ChatGPT GPTs 變成一位能對談、能引用原文出處的知識助理。文章先用三段 Demo 呈現 GPTs 如何幫讀者整理部落格歷史、彙整微服務文章、甚至抓出作者都快忘記的 NAS 實作文；接著循 RAG 三階段解析：
 
-**解決方案**：
-1. **實施 ABAC 權限模型**：
-   - 為每筆內容標記適當的存取屬性
-   - 建立角色與屬性的對應關係
-   - 在查詢時自動套用權限過濾
+1. Synthesis—在 GPTs 內設定 Instruction 與自訂 OpenAPI Action，讓 GPT 能看懂 swagger、決定何時呼叫 /search，並把檢索結果重寫成對談答案。  
+2. Retrieval—說明向量搜尋流程（Query→Embedding→Similarity→Top-K→回原文），並比較 /search 與 /ask 兩種 API 用法與成本差異。  
+3. Ingestion—展示 .NET 程式批次掃描 Markdown、分段(chunk)→text-embedding-3-large 轉向量→TagCollection 寫入 SimpleVectorDB；同時闡述 Tag-based Filter 可實作 ABAC 安全過濾。
 
-2. **設計 Tags 安全策略**：
-   ```csharp
-   // 資料匯入時加入權限標籤
-   tags.Add("access-level", ["public", "members"]);
-   tags.Add("department", ["engineering", "marketing"]);
-   tags.Add("user-group", ["admin", "user"]);
-   ```
+作者再從「表格→文件→向量」的演進談資料庫世代，強調向量索引並非取代 RDB / NoSQL，而是為 AI 搜尋加上一層語意座標。最後比較「網站搜尋」(App) 與「對談代理」(Agent) 的定位與費用分攤，指出未來 AI DX 需要掌握 Prompt Engineering、Embedding、VectorDB 等新基礎能力；資深架構師不該和 AI 競賽，而要善用 AI 作為威力強大的副手。
 
-3. **後端安全控制**：
-   - 將 Kernel Memory 部署為私有服務
-   - 透過應用程式層驗證使用者身分
-   - 根據使用者角色動態組合查詢過濾條件
+---
 
-4. **API 安全設計**：
-   ```csharp
-   var userFilters = GetUserAccessFilters(userRole);
-   var searchRequest = new SearchRequest
-   {
-       Query = query,
-       Filters = userFilters,
-       MinRelevance = 0.3
-   };
-   ```
+## 關鍵要點
 
-**相關工具/指令**：
-- Azure Active Directory 進行身分驗證
-- 自定義中介軟體處理授權
-- 設定 HTTPS 和 API 金鑰保護
+- RAG Pipeline＝Ingestion(向量化)＋Retrieval(向量搜尋)＋Synthesis(LLM 回答)。  
+- Kernel Memory 以 OpenAPI 暴露 /search 與 /ask，配合 GPTs 的 Function Calling 可零程式碼串接。  
+- 向量資料庫缺乏 row-level ACL，需用 TagCollection + Filter 建 ABAC 安全機制。  
+- text-embedding-3-large 每 1M tokens 僅 US$0.13，但 GPT-4 彙整答案成本高 100 倍，需精簡 context。  
+- RDB→NoSQL→VectorDB 映射「變數→物件→語意」層級；向量索引將成為新常態。  
+- Demo 證實：20 年 327 篇文章，可在 1 天內完成向量化並上線 Chat 知識庫。  
+- 架構師必須將 AI DX 納入 CI/CD 與安全模型，形成「第 4 條 Pipeline」。
 
-**注意事項**：
-- 權限標籤應在資料建立時就確定
-- 避免在 runtime 動態修改權限標籤
-- 定期審查和更新權限設定
+---
+
+## 段落摘要（依 H2）
+
+### 0. 寫在前面  
+說明撰寫長篇技術文章的價值與難讀缺點，期待借助 GPTs 提升可用性，並提出本次 PoC 目標：打造部落格智慧檢索助手。
+
+### 1. 「安德魯的部落格」GPTs Demo  
+用三個示範展示 GPTs 的實際體驗：  
+1-1 整理 20 年系統遷移史；1-2 彙整微服務相關文；1-3 抓出家用 NAS 文章。觀察 GPTs 能切題引用但偶爾需追加指令。
+
+### 2. 部落格檢索服務  
+概述整體架構：GPTs 前端＋Kernel Memory 後端＋Azure OpenAI。並對照 Applied LLMs Mastery 課程，對應 RAG 三組件。
+
+#### 2-1 RAG 資料檢索的應用 (Synthesis)  
+解析 GPTs 如何透過自訂 Action 自動產生 /search payload，再以三段 Prompt (System/User/Format) 整合回答。
+
+#### 2-2 語意檢索—向量搜尋 (Retrieval)  
+深入講解 Embedding → Vector Similarity → Top-K，對比 /search 與 /ask 差異、費用試算、cosine 與 distance 的意義。
+
+#### 2-3 建立文章向量資料庫 (Ingestion)  
+示範 .NET 批次把 Markdown 轉向量，存 SimpleVectorDB；介紹 chunk 策略、TagCollection 與 OR/AND Filter 語法。
+
+### 3. AI 改變了內容搜尋方式  
+從資料庫世代、查詢方式、交互模式三面向，論述 RDB→NoSQL→VectorDB 的定位及對架構師能力模型的衝擊。
+
+### 4. 結論  
+總結三篇 LLM 系列心得：AI 使基礎技能上移；架構師須掌握 Prompt、Embedding、Vector Search，並思考如何「善用 AI」而非「被取代」。
+
+---
+
+## 問答集
+
+### Q1 什麼是 RAG？  
+A: Retrieval-Augmented Generation 將「向量檢索」與「大型語言模型生成」串成流水線，先找出語意相近內容，再交由 LLM 組成答案，兼具即時性與私有知識覆蓋率。
+
+### Q2 Kernel Memory 與 Semantic Kernel 有何關係？  
+A: Semantic Kernel 提供 AI Chain；Kernel Memory 在其上加值實作 RAG，內建 Ingestion、VectorDB 及 Web API，兩者同屬 Microsoft OSS，可獨立或整合使用。
+
+### Q3 /search 與 /ask 差在哪？  
+A: /search 只做 Retrieval，回傳 Top-K chunks；/ask 再附一層 LLM 彙整 (Synthesis)。/ask 方便但需額外 GPT 成本並維護 prompt。
+
+### Q4 如何控制不同使用者只能看授權內容？  
+A: 在 Ingestion 階段為每筆資料加上 user-id 或 role 標籤，查詢時在 filters 帶入同樣 tag，Kernel Memory 會轉成底層 VectorDB 的過濾語法。
+
+### Q5 text-embedding-3-large 與 GPT-4 成本差多少？  
+A: 1M tokens 嵌入僅 US$0.13；同量 GPT-4 輸入要 US$10，輸出更高，約相差百倍。
+
+### Q6 Chunk 應如何切割？  
+A: 必須 < 8191 tokens；宜以段落為界並可重疊，避免語意斷裂，同時降低 LLM 回答時 context size。
+
+### Q7 GPTs 為何適合 PoC？  
+A: 免寫前端、內建 Function Calling、成本由訂閱者負擔，能快速驗證知識庫品質及回覆體驗。
+
+### Q8 VectorDB 會取代 RDB 嗎？  
+A: 不會。Vector 索引負責語意相似度；原始文件、欄位過濾仍依賴 RDB/NoSQL，兩者互補。
+
+### Q9 何時考慮改用本地 LLM？  
+A: 當對隱私、延遲或成本有嚴格要求且硬體允許，可封裝自有模型，將雲端費用轉為設備 CAPEX。
+
+### Q10 架構師在 AI 時代的新任務？  
+A: 決定「何處用 AI、用哪種模型、資料如何向量化及保護」，並將 AI Pipeline 納入 CI/CD 與治理流程。
+
+---
+
+## 問題-解決方案整理
+
+### Problem 1：長尾技術文章難以被讀者快速運用  
+Root Cause: 關鍵字搜尋無法抓語意，文章量大且跨年代分類不一。  
+Solution: 建立私有 RAG 服務，GPTs 前端 + Kernel Memory 後端；文章向量化並加標籤，讓讀者用自然語言提問即可得到摘要與連結。  
+Example: /search API + GPTs 回覆 Demo 1-1~1-3。
+
+### Problem 2：向量資料庫缺乏細粒度權限  
+Root Cause: VectorDB 原生不支援 Row ACL。  
+Solution: 以 TagCollection 在 Ingestion 階段刻入 user / role 標籤；搜尋時帶 filters；配合 ABAC 策略。  
+Example: filters=[{ "user-tags":["microservice"] }].
+
+### Problem 3：GPT-4 彙整成本過高  
+Root Cause: Top-K chunk 全丟 LLM，token 耗用大。  
+Solution: 1) 調整 chunk size；2) 先用 GPT-3.5 做初步摘要；3) 動態 Top-K + relevance 閥值。  
+Example: minRelevance=0.45 + limit=5 → token 減少 60%。
+
+---
+
+## 版本異動紀錄
+- 1.0.0 (2025-08-06)  初版生成：含 Metadata、文章/段落摘要、10 組 Q&A 與 3 組問題-解決方案。
