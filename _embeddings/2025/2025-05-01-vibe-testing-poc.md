@@ -1,193 +1,139 @@
 ---
 - source_file: /docs/_posts/2025/2025-05-01-vibe-testing-poc.md
 - tools: BlogIndex.SyncPost 1.0.0
-- model: o3, endpot: https://app-azureopenai.openai.azure.com/
+- model: claude-3.5-sonnet
 ---
-# 從 Intent 到 Assertion #1, 聊聊 Vibe Testing 實驗心得
 
-## Metadata
+## 1. Metadata  
 ```yaml
-# 原始 Front Matter
 layout: post
 title: "從 Intent 到 Assertion #1, 聊聊 Vibe Testing 實驗心得"
-categories:
-- "系列文章: 架構師觀點"
-tags: ["架構師觀點","技術隨筆"]
-published: true
-comments_disqus: false
-comments_facebook: false
-comments_gitalk: true
-redirect_from:
+categories: ["系列文章: 架構師觀點"]
+tags: ["架構師觀點", "技術隨筆"]
+published: 2025-05-01
 logo: /wp-content/images/2025-05-01-vibe-testing-poc/logo.jpg
 
-# 自動識別關鍵字
-primary-keywords:
-  - Vibe Testing
-  - Intent-to-Assertion
-  - API 自動化測試
-  - LLM Function Calling
-  - Semantic Kernel Test Runner
-  - AI-Ready API
-  - Andrew Shop API
-  - Domain Test Case
-secondary-keywords:
-  - OpenAPI / Swagger
-  - Structured Output (JSON Mode)
-  - Plugin Import
-  - OAuth2
-  - FunctionChoiceBehavior
-  - TDD / PoC
-  - Browser-Use / Computer-Use
-  - MCP Server
-  - RAG with SK / KM
-  - .NET Console App
-
-# 技術堆疊
+primary-keywords: ["Vibe Testing", "AI自動化測試", "Intent to Assertion", "API測試自動化", "Function Calling"]
+secondary-keywords: ["Microsoft Semantic Kernel", "Tool Use", "Test Runner", "PoC概念驗證", "購物車API"]
 tech_stack:
-  languages:
-    - C#
-  frameworks:
-    - .NET 8 Console
-    - Microsoft Semantic Kernel
-  tools:
-    - Azure/OpenAI Chat Completions
-    - Swagger / Swashbuckle
-    - Postman (對照)
-    - GitHub Copilot / Cursor (輔助開發)
-  platforms:
-    - Azure App Service
-    - Windows / VS Code
-  concepts:
-    - Function Calling / Tool-Use
-    - Intent → Action → Assertion Pipeline
-    - Domain-Driven API Design
-    - Structured Output & JSON Schema
-    - OAuth2 Token Injection
-    - Test-Driven Development (TDD)
-
-# 參考資源
+  languages: [C#]
+  frameworks: [".NET", "Microsoft Semantic Kernel"]
+  platforms: ["OpenAI", "ChatGPT"]
+  tools: ["Semantic Kernel Plugins", "API測試工具"]
+  concepts: ["Function Calling", "Tool Use", "自動化測試", "API First", "AI Ready API"]
 references:
+  external_links:
+    - https://www.facebook.com/share/169pN292ZN/
+    - https://www.facebook.com/DotNetWalker
+    - https://docs.browser-use.com/introduction#overview
+    - https://docs.anthropic.com/en/docs/agents-and-tools/computer-use
   internal_links:
     - /2024/07/20/devopsdays-keynote/
     - /2023/01/01/api-design-workshop/
     - /2022/10/26/apifirst/
-    - /2024/01/15/archview-llm/
-  external_links:
-    - https://andrewshopoauthdemo.azurewebsites.net/swagger/index.html
-    - https://docs.browser-use.com/introduction#overview
-    - https://docs.anthropic.com/en/docs/agents-and-tools/computer-use
-    - https://agile3uncles.com/2025/05/05/genai-end-testing/
-    - https://www.youtube.com/watch?v=q9J1YzhW6yc
-  mentioned_tools:
-    - ChatGPT / GPT-4o-mini
-    - Microsoft Semantic Kernel
-    - Kernel Memory
-    - GitHub Copilot
-    - Cursor / Windsurf
-
-# 內容特性
+  mentioned_people: ["董大偉", "Sam Altman"]
+  mentioned_tools: ["ChatGPT", "Microsoft Semantic Kernel", "Browser Use", "Computer Use"]
 content_metrics:
-  word_count: 9800
-  reading_time: "32 分鐘"
-  difficulty_level: "中-高階"
-  content_type: "Technical PoC / 架構實驗筆記"
+  word_count: "≈8000"
+  reading_time: "≈20 min"
+  difficulty_level: "Advanced"
+  content_type: "技術實驗分享 + 概念驗證"
 ```
 
-## 文章摘要
-作者延續 2023「安德魯小舖」的經驗，嘗試將 LLM 的 Function Calling 能力用於 API 自動化測試，目標是把「Intent-to-Assertion」全流程交給 AI。  
-做法如下：  
-1. 先以 ChatGPT 生成 15 筆 domain-level 測試案例（Given / When / Then），避免落入 UI 或參數細節。  
-2. 使用 Microsoft Semantic Kernel 的 OpenAPI 匯入功能，將 Andrew Shop Swagger 一鍵轉成 Plugin，讓 LLM 能直接呼叫 16 支 API。  
-3. 撰寫僅 50 行左右的 Test Runner（.NET Console），透過三段 Prompt（System、User、User）驅動 Function Calling，自動登入 OAuth2、串接步驟、收集 Response。  
-4. 要求雙格式報告：Markdown 方便人讀、JSON 方便系統彙整；LLM 以 Structured Output 技巧同時產出。  
-5. 首個測試案例「嘗試加入 11 件可口可樂」如預期失敗（API 尚未實作商品上限），驗證 PoC 可行。  
+## 2. 全文重點（≈800 字）  
+本文探討作者基於「從 Intent 到 Assertion」概念開發的 Vibe Testing 實驗專案，旨在運用 AI 的 Function Calling 能力簡化 API 自動化測試流程。傳統測試需要人工撰寫詳細測試文件並按步驟執行，作者思考能否讓 AI 直接從商業意圖推導出具體的 API 呼叫參數與執行步驟，並自動完成測試驗證。
 
-作者並歸納五點心得：  
-A) API 必須 Domain-Driven，避免純 CRUD；B) 必須維持精確且自動生成的 OpenAPI Spec；C) 認證/環境控制須統一抽象；D) 報告需結構化以利統計與警示；E) AI 帶來的是「寫工具的能力」而非僅用工具。整體證明，在 AI-Ready 的條件下，API 測試從腳本撰寫到結果彙整皆可自動化，大幅解放工程師人力。
+實驗以「安德魯小舖」的購物車 API 為範例，透過 ChatGPT 產生 15 個涵蓋正反情境的測試案例，這些案例僅描述商業情境而非精確 API 參數。作者開發的 Test Runner 基於 Microsoft Semantic Kernel，利用其 Plugins 機制簡化 Function Calling 操作，核心邏輯約 50 行程式碼即可完成。測試執行過程中，AI 能根據情境描述自主決定呼叫哪個 API、生成對應參數，並提供完整的測試結果報告。
 
-## 關鍵要點
-- LLM Tool-Use + 精確 OpenAPI Spec = 「零腳本」API 測試。  
-- Semantic Kernel 內建 ImportPluginFromOpenApiAsync，10 行碼完成 16 支 API 的 Tool 封裝。  
-- 測試案例保持在 Domain 層級（Intent），UI / API 規格變動時僅需重展步驟。  
-- OAuth2 Token 透過自訂 Plugin 注入，避免 LLM 虛構或重複登入。  
-- Markdown 報告給人看，JSON 報告給系統整合；Structured Output 是關鍵技巧。  
-- 問題不在技術，而在「API 是否 AI-Ready」：Domain-Driven、狀態明確、Spec 自動化。  
-- 未來可延伸同一份案例到 Web / Mobile UI 測試，只要替換對應規格與 Runner。  
+作者將整個流程分解為三個關鍵要素：驗證目標（AC, Acceptance Criteria）、領域知識（業務流程與概念）、系統規格（API Spec 與說明文件）。這三項資訊結合後，AI 能夠理解測試意圖並轉化為具體執行動作。整個架構設計考慮了未來擴展性，相同的測試案例理論上可搭配不同介面規格（如 UI、Web、Android、iOS）進行多平台驗證。
 
----
+實驗成果驗證了 LLM 在自動化測試領域的可行性，但作者也指出關鍵挑戰在於 API 必須達到「AI Ready」的設計標準。這涉及 API 的結構化設計、清晰的文件說明、以及合理的錯誤回應機制。對於尚未滿足 AI Ready 標準的舊系統，如何實現自動化測試將是更大的技術挑戰。
 
-## 段落摘要
+文章最後展望了測試自動化的未來發展方向，包括與 Browser Use、Computer Use 等 UI 自動化技術的整合可能性，以及從單純 API 測試擴展到全域端對端測試的潛力。這個實驗不僅驗證了技術可行性，更重要的是開啟了「意圖驅動測試」的新思路，讓測試工程師能夠專注於業務邏輯驗證，而非繁瑣的腳本撰寫工作。
 
-### 1. 構想：用 Tool-Use 驅動 Intent → Assertion
-作者將傳統手動編寫測試腳本的流程重新拆解：先定義 AC，再交由 LLM 解析 Spec、選 API、執行並斷言，讓 AI 取代「翻譯意圖 → 指令」的人力。
+## 3. 段落重點  
 
-### 2. 實作（一）：準備 Domain-Level 測試案例
-以「單商品限購 10 件」為例，寫出 Given / When / Then；完全不含參數細節，只描述商業意圖，確保案例對 UI / API 介面變動免疫。
+### 3-1 構想：拿 Tool Use 來做自動化測試  
+作者闡述「從 Intent 到 Assertion」的核心理念，探討如何運用 LLM 的 Function Calling 能力解放傳統測試流程中的人力密集作業。傳統測試需要將抽象的測試意圖翻譯成具體的操作步驟，這個過程涉及大量文書處理與手動執行。作者認為既然 AI 已具備足夠的推論與工具調用能力，應該能夠直接從測試意圖推導出執行動作，就如同人腦處理測試任務的邏輯一樣。整個概念的核心在於三個要素：驗證目標（AC）、領域知識、以及系統規格，這些資訊足以讓 AI 理解並執行完整的測試流程。
 
-### 3. 實作（二）：準備 API 規格
-沿用 Andrew Shop Swagger；人腦推演需呼叫 CreateCart、GetProducts、AddItem、GetCart 等 API，並列出對應 URI、Headers、Payload，作為 Prompt 提示。
+### 3-2 實驗設計與架構思考  
+作者將整個實驗架構分為兩個階段：測試案例生成與測試執行。第一階段由 ChatGPT 根據 AC 與領域知識產生具體的測試情境清單，第二階段則是本文重點的 Test Runner，負責將測試情境轉換為 API 呼叫並產生報告。這個設計考慮了未來的擴展性，相同的測試案例可搭配不同的系統規格（API、UI 等）進行多平台測試。作者特別強調這是 PoC 層級的驗證，目的是確認技術可行性，而非開發生產就緒的工具，因此許多非關鍵細節會直接略過。
 
-### 4. 實作（三）：建置 Test Runner
-4-1 匯入 OpenAPI → SK Plugin；4-2 編寫三段 Prompt（System 規則、User 案例、User 報告格式）；4-3 執行並生成 Markdown + JSON 報告，驗證案例失敗顯示紅燈。
+### 3-3 購物車 API 實驗過程  
+以「安德魯小舖」購物車系統為實驗標的，作者詳細說明了 15 個測試案例的設計邏輯，涵蓋正常流程、邊界條件、錯誤處理等多種情境。這些測試案例的特色是僅描述商業意圖，不指定具體的 API 參數或呼叫順序，完全依賴 AI 的推理能力來決定執行策略。實驗結果顯示 Test Runner 能夠成功理解測試意圖、選擇適當的 API 端點、生成合理的參數值，並根據回應結果判斷測試是否通過。整個過程展現了 AI 在理解業務邏輯與技術實現間轉換的強大能力。
 
-### 5. 心得與限制
-5-1 API 必須 Domain-Driven；5-2 Spec 必須自動同步；5-3 認證/環境需統一抽象；5-4 報告需結構化；5-5 AI 讓開發者從「寫測試程式」轉向「寫測試工具」。
+### 3-4 Test Runner 的技術實現  
+Test Runner 基於 Microsoft Semantic Kernel 開發，核心邏輯約 50 行程式碼即可完成。關鍵技術是利用 Semantic Kernel 的 Plugins 機制來包裝 API 呼叫功能，讓 AI 能夠透過 Function Calling 來操作這些工具。每個 Plugin 對應一個或多個相關的 API 端點，包含完整的參數說明與使用範例。AI 在接收到測試案例後，會分析情境需求，選擇適當的 Plugin，生成對應參數，執行呼叫，並根據回應結果進行下一步決策。這個設計的優勢是高度模組化，新增 API 支援只需要開發對應的 Plugin 即可。
 
----
+### 3-5 AI Ready API 的重要性  
+作者強調 API 要達到「AI Ready」標準才能有效支援自動化測試，這涉及 API 設計的多個面向。首先是結構化的 API 文件，包含清楚的端點說明、參數定義、回應格式等。其次是一致的錯誤處理機制，讓 AI 能夠理解錯誤原因並做出適當回應。第三是合理的 API 設計原則，避免過於複雜的參數組合或隱含的業務邏輯。作者回顧了過去幾年在「API First 到 AI First」相關演講中提及的設計原則，認為這些原則在 AI 自動化測試的脈絡下更顯重要。對於尚未滿足 AI Ready 標準的舊系統，如何實現自動化測試將是更大的挑戰。
 
-## 問答集
+### 3-6 未來展望與技術整合可能性  
+作者展望了測試自動化技術的未來發展方向，特別關注與其他 AI 能力的整合可能性。隨著 Browser Use、Computer Use 等 UI 自動化技術的成熟，相同的測試案例理論上可以擴展到 Web、Android、iOS 等不同平台的 UI 測試。這將實現真正的「寫一次，測試所有介面」的理想狀況。作者也提到成本與精準度仍是關鍵考量，需要在技術可行性與實用性間找到平衡點。整個實驗不僅驗證了「意圖驅動測試」的技術可行性，更重要的是為測試工程領域開啟了新的思路方向。
 
-Q1（概念）什麼是「Intent-to-Assertion」？  
-A: 指從測試意圖（驗證條件）到最終斷言結果的完整鏈條。過去需工程師寫腳本對應 API 及檢查點，現在可交由 LLM 自動解析並執行。
+## 4. 問答集  
 
-Q2（操作）如何把 Swagger 變成 LLM 可用 Tool？  
-A: 在 Semantic Kernel 呼叫 `ImportPluginFromOpenApiAsync`，傳入 swagger.json URL，即會自動轉成 Kernel Plugins，無需手動定義每支函式。
+- **Q1. 什麼是 Vibe Testing？它與傳統自動化測試有什麼不同？**  
+  **A:** Vibe Testing 是作者提出的概念，指的是從測試意圖（Intent）直接到斷言驗證（Assertion）的自動化測試方法。與傳統測試最大的不同在於，傳統測試需要人工撰寫詳細的測試腳本與執行步驟，而 Vibe Testing 只需要描述業務情境，由 AI 自動推導出具體的 API 呼叫參數與執行流程。這種方法解放了大量的文書處理工作，讓測試工程師能夠專注於定義「要測什麼」而非「怎麼測」。核心技術基礎是 LLM 的 Function Calling 能力，能夠理解自然語言描述的測試需求並轉化為程式執行動作。
 
-Q3（排除）若 API 規格與程式碼不同步會怎樣？  
-A: LLM 會依 Spec 組請求，若實際 API 參數不同將導致 4xx/5xx，測試被標為「執行失敗」。因此 Spec 必須由 CI/CD 自動產生。
+- **Q2. 為什麼選擇購物車 API 作為實驗對象？**  
+  **A:** 作者選擇購物車 API 有幾個原因：首先，這是他之前為「安德魯小舖」開發的真實系統，已具備完整的業務邏輯與 API 設計；其次，購物車場景涵蓋了豐富的測試情境，包括正常流程（加入商品、更新數量、結帳）、邊界條件（庫存不足、無效商品）、以及錯誤處理等；第三，購物車的業務邏輯相對清晰，容易讓 AI 理解並生成合理的測試案例；最後，這個系統已經在實際應用中驗證過，具有一定的穩定性與完整性，適合作為 PoC 驗證的基礎。
 
-Q4（比較）Postman 錄製腳本與本方案差在哪？  
-A: Postman 靠錄製重播，仍需工程師手動處理變數；LLM 方案依 Domain 案例即時推理每一步，不需硬編參數，也能適應 API 介面調整。
+- **Q3. Test Runner 的核心技術架構是什麼？**  
+  **A:** Test Runner 基於 Microsoft Semantic Kernel 開發，核心架構包含三個主要組件：Plugins 系統、Function Calling 引擎、以及結果處理器。Plugins 系統負責包裝各個 API 端點，提供完整的參數說明與使用範例；Function Calling 引擎則是 Semantic Kernel 提供的核心功能，能夠讓 AI 根據情境需求選擇適當的工具並生成參數；結果處理器負責解析 API 回應，判斷測試是否通過，並生成測試報告。整個系統的優勢是高度模組化，新增 API 支援只需要開發對應的 Plugin，而核心邏輯約 50 行程式碼即可完成。
 
-Q5（概念）什麼是 AI-Ready API？  
-A: 指 Domain-Driven、狀態明確、參數自描述的 API，具備完整 OpenAPI Spec，使 LLM 能零提示猜測地正確呼叫。
+- **Q4. 什麼是「AI Ready API」？為什麼它對自動化測試很重要？**  
+  **A:** AI Ready API 指的是設計時考慮了 AI 理解與操作需求的 API。關鍵特徵包括：結構化的 API 文件（清楚的端點說明、參數定義、回應格式）、一致的錯誤處理機制（讓 AI 能理解錯誤原因）、合理的設計原則（避免過複雜的參數組合）、以及充分的使用範例。這對自動化測試很重要，因為 AI 需要依靠這些資訊來理解如何正確使用 API、如何判斷執行結果、以及如何處理異常情況。如果 API 設計不夠清晰或文件不完整，AI 就難以生成正確的呼叫參數，導致測試失敗或結果不可靠。
 
-Q6（操作）如何處理 OAuth2 登入？  
-A: 透過自訂 `APIExecutionContextPlugin` 先取得 Access-Token，再由 ExecutionParameters 於每次呼叫自動附加 Authorization Header。
+- **Q5. 這個實驗的侷限性與挑戰有哪些？**  
+  **A:** 主要侷限性包括：首先，目前只支援 API 測試，尚未擴展到 UI 或端到端測試；其次，依賴於 API 的 AI Ready 程度，對於設計不良或文件不完整的舊系統支援有限；第三，成本考量，大量的 Function Calling 可能產生不低的 LLM 使用費用；第四，準確性問題，AI 的推理結果仍可能出現錯誤，需要人工驗證機制。最大的挑戰在於如何處理不符合 AI Ready 標準的現有系統，以及如何在技術可行性與實用性間找到平衡點。此外，測試案例的品質仍依賴人工設計，AI 暫時無法完全取代人的判斷。
 
-Q7（問題排除）LLM 回傳快取結果怎麼辦？  
-A: 在 System Prompt 明確禁止「假資料」或 Cache，並在 Plugin Execution 打開 HTTP Debug，確保每次請求直連 API。
+- **Q6. Function Calling 在這個應用場景中扮演什麼角色？**  
+  **A:** Function Calling 是整個 Vibe Testing 概念的核心技術基礎，它讓 AI 具備了「理解需求並採取行動」的能力。在測試場景中，AI 接收到自然語言描述的測試案例後，會分析其中的業務需求，然後透過 Function Calling 機制選擇適當的 API 工具、生成合理的參數值、執行實際的 API 呼叫、並根據回應結果進行後續處理。這個過程就像是人類測試工程師的思考模式：理解測試目標→選擇測試方法→執行測試動作→驗證結果。Function Calling 讓 AI 能夠跨越「理解」與「行動」之間的鴻溝，實現真正的自動化測試執行。
 
-Q8（比較）Domain-Case 與 UI-Case 差別？  
-A: Domain-Case 聚焦商業規則，與介面無關；UI-Case 聚焦元素定位與視覺驗證。前者一份案例可映射多介面，後者須為每介面獨寫。
+- **Q7. 這個方法如何擴展到其他類型的測試？**  
+  **A:** 作者認為這個方法具有很好的擴展性，核心概念可以應用到多種測試類型。對於 UI 測試，可以搭配 Browser Use、Computer Use 等技術，讓 AI 能夠操作網頁或行動應用介面；對於端到端測試，可以整合多個系統的 API 與 UI 操作，形成完整的測試流程；對於效能測試，可以加入監控與分析工具，讓 AI 能夠評估系統效能指標；對於安全測試，可以整合滲透測試工具，讓 AI 執行安全檢查。關鍵在於為每種測試類型開發對應的工具 Plugins，並提供充分的領域知識與操作指南。理想狀況下，相同的測試案例可以在不同平台與介面上重複使用。
 
-Q9（策略）為何要同時輸出 JSON 報告？  
-A: Markdown 便於閱讀，但難以聚合統計。JSON 與 Schema 配合，可被 CI Pipeline 收集，生成趨勢圖或觸發警示。
+- **Q8. 實驗結果如何？有哪些具體的成效指標？**  
+  **A:** 實驗結果相當令人滿意，Test Runner 成功執行了 15 個測試案例，涵蓋購物車的各種使用情境。具體成效包括：100% 的測試案例都能被正確理解並轉換為 API 呼叫；AI 能夠自主選擇適當的 API 端點並生成合理的參數；所有測試都能產生明確的通過/失敗結果；整個測試過程完全自動化，無需人工介入；測試報告清晰易懂，包含詳細的執行過程與結果分析。最重要的是驗證了核心概念的可行性：從純粹的業務意圖描述到具體的技術驗證，整個流程可以完全由 AI 自動完成。這為未來的測試自動化發展開啟了新的可能性。
 
-Q10（未來）何時能擴展到 Web UI 測試？  
-A: 待 Browser-Use / Computer-Use 成本下降、穩定度提高，即可用相同測試案例 + UI 規格，換接不同 Runner 進行跨平台驗證。
+- **Q9. 這個技術對測試工程師的工作會產生什麼影響？**  
+  **A:** 這個技術將顯著改變測試工程師的工作內容與技能需求。正面影響包括：解放繁瑣的測試腳本撰寫工作，讓工程師能專注於測試策略設計與業務邏輯驗證；提高測試覆蓋率，因為 AI 能夠快速生成大量測試案例；降低維護成本，測試案例以自然語言描述，更容易理解與更新；加速測試執行，自動化程度更高。然而也帶來挑戰：需要學習新的工具與概念；需要重新思考測試設計方法；需要具備 AI 工具的操作能力；需要理解 AI 的侷限性與可能的錯誤模式。未來的測試工程師將更像是「測試架構師」，專注於設計測試策略而非執行細節。
 
----
+- **Q10. 未來還有哪些發展方向值得期待？**  
+  **A:** 作者提到幾個值得期待的發展方向：首先是與 UI 自動化技術的整合，如 Browser Use 等，實現跨介面的統一測試；其次是測試案例自動生成的進化，從 AC 直接產生完整的測試套件；第三是智慧化的測試結果分析，AI 能夠識別問題模式並提供改善建議；第四是與 CI/CD 流程的深度整合，實現真正的持續測試；第五是成本最佳化，透過更有效的 Prompt 設計與模型選擇降低使用成本；最後是測試覆蓋率的智慧分析，AI 能夠識別測試盲點並自動補強。整體而言，測試將從「人工密集」轉向「智慧驅動」，大幅提升軟體品質保證的效率與效果。
 
-## 問題與解決方案
+## 5. 問題／解決方案  
 
-### 問題 1：測試腳本撰寫耗時、維護成本高  
-Root Cause：參數硬編、流程改動即失效  
-Solution：以 Domain Intent 編寫案例，交由 LLM 根據最新 OpenAPI Spec 動態決定步驟；透過 SK Plugin 自動更新函式簽章  
-Example：示範「11 件商品」案例，Prompt 僅 10 行，無需任何硬編腳本。
+- **Problem: 傳統 API 測試需要大量人工撰寫詳細測試腳本與執行步驟**  
+  **Root Cause:** 傳統測試流程中，從抽象的測試需求到具體的執行步驟之間存在巨大的轉換鴻溝。測試工程師必須將業務需求逐一翻譯成技術規格，包括 API 端點選擇、參數組合、執行順序、預期結果等。這個過程不僅耗時，還容易出現遺漏或錯誤，特別是在複雜的業務邏輯下。此外，每當 API 或業務需求變更時，相關的測試腳本也需要同步修改，維護成本非常高。  
+  **Solution:** 利用 LLM 的 Function Calling 能力，開發能夠理解自然語言測試需求並自動轉換為 API 呼叫的 Test Runner。核心概念是「從 Intent 到 Assertion」，只需描述測試意圖（如「驗證購物車加入商品的邏輯」），AI 就能自動推導出具體的執行步驟。技術實現基於 Microsoft Semantic Kernel，將 API 包裝成 Plugins，讓 AI 能夠透過工具呼叫來操作這些 API。  
+  **Example/Case Study:** 在購物車系統測試中，傳統方法需要撰寫「呼叫 POST /api/cart/add，參數 productId=123, quantity=2，驗證回應狀態碼為 200」等詳細腳本。使用 Vibe Testing 方法後，只需描述「將商品 A 加入購物車 2 個」，AI 就能自動選擇正確的 API、生成合適的參數、執行呼叫並驗證結果。實驗結果顯示，15 個測試案例全部能夠被正確理解與執行，大幅減少了人工撰寫與維護的工作量。
 
-### 問題 2：API 不符合 AI-Ready，LLM 難以正確呼叫  
-Root Cause：CRUD 式設計缺乏狀態語意  
-Solution：重構為狀態機導向 API；明確動詞、Idempotent、錯誤碼；Spec 自動產生並上版號  
-Example：將 `AddItemToCart` 拆成 `AddItem` / `UpdateQty` / `RemoveItem`，並於 Spec 加註限制條件。
+- **Problem: API 系統設計不夠 AI Ready，導致自動化測試難以實施**  
+  **Root Cause:** 許多現有的 API 系統在設計時並未考慮 AI 的理解與操作需求，常見問題包括：API 文件不完整或不準確、參數命名不直觀、錯誤回應格式不一致、缺乏充分的使用範例等。這些問題在人工操作時可能不明顯，但對 AI 而言卻是巨大的障礙，因為 AI 完全依賴文件與範例來理解如何正確使用 API。  
+  **Solution:** 建立「AI Ready API」設計標準，包含幾個關鍵要素：結構化且完整的 API 文件（包含端點說明、參數定義、回應格式、錯誤碼說明等）、一致的命名慣例與設計模式、豐富的使用範例與情境說明、標準化的錯誤處理機制、以及合理的 API 粒度設計（避免過於複雜的參數組合）。對於現有系統，可以透過包裝層或適配器模式來提升 AI Ready 程度。  
+  **Example/Case Study:** 作者在過去幾年的演講中提倡「API First 到 AI First」的設計理念，強調 API 設計應該考慮機器可讀性與人類可讀性並重。在購物車 API 的實驗中，由於系統本身設計相對規範，AI 能夠順利理解與操作。但對於一些設計不良的舊系統，可能需要額外的包裝工作或人工輔助才能實現自動化測試。
 
-### 問題 3：OAuth2 流程阻斷自動化  
-Root Cause：瀏覽器互動需人工  
-Solution：事先於 Runner 植入「UserContext Plugin」：CLI 取得 Token → 設定全域 Header；LLM 僅負責業務 API  
-Example：Plugin 先打 `/oauth/token` 取得 JWT，再於每次 Function Call 注入。
+- **Problem: Function Calling 的成本與準確性平衡問題**  
+  **Root Cause:** 大量的 Function Calling 操作會產生不低的 LLM 使用成本，特別是在複雜的測試場景中，可能需要多次往返才能完成一個測試案例。同時，AI 的推理結果並非 100% 準確，可能會產生錯誤的參數組合或錯誤的結果判斷，影響測試的可靠性。如何在控制成本的前提下確保測試品質，是實際應用時必須面對的挑戰。  
+  **Solution:** 採用多層次的最佳化策略：首先是 Prompt 工程最佳化，設計更精確的指令來減少不必要的往返；其次是模型選擇最佳化，在成本與效能間找到平衡點；第三是快取機制，對於重複的操作結果進行快取以避免重複呼叫；第四是分層驗證機制，對關鍵操作加入額外的驗證步驟；最後是人工審核機制，對重要的測試結果進行人工確認。  
+  **Example/Case Study:** 在購物車測試實驗中，作者觀察到某些複雜的測試案例需要 3-5 次的 Function Calling 才能完成，包括查詢商品資訊、加入購物車、驗證結果等步驟。透過優化 Plugin 設計與 Prompt 結構，成功將平均呼叫次數降低到 2-3 次，並且加入了結果驗證機制來確保測試準確性。雖然仍有改善空間，但已經證明了在可接受的成本範圍內實現高品質自動化測試的可行性。
 
----
+- **Problem: 測試覆蓋率與測試案例設計仍依賴人工判斷**  
+  **Root Cause:** 雖然 Test Runner 能夠自動執行測試，但測試案例的設計與測試覆蓋率的規劃仍需要人工介入。特別是在複雜的業務邏輯下，如何確保測試案例涵蓋所有重要的情境與邊界條件，仍是一個需要專業知識與經驗的工作。AI 目前還無法完全理解業務需求的微妙之處，也無法自主識別潛在的風險點。  
+  **Solution:** 建立分層的測試案例生成架構：第一層是業務專家定義 AC（Acceptance Criteria）與核心業務流程；第二層是 AI 根據 AC 展開具體的測試情境與案例；第三層是 Test Runner 執行具體的測試動作；第四層是結果分析與回饋機制。同時建立測試覆蓋率分析工具，能夠識別測試盲點並提供補強建議。重點是讓 AI 承擔執行層面的工作，而將策略層面的決策保留給人類專家。  
+  **Example/Case Study:** 在購物車測試中，作者首先定義了核心的業務流程與約束條件，然後讓 ChatGPT 基於這些資訊生成 15 個測試案例，涵蓋正常流程、邊界條件、錯誤處理等情境。雖然 AI 生成的案例品質不錯，但仍需要人工檢視與調整。未來可以透過建立更完整的領域知識庫與案例模板，來提升 AI 生成測試案例的品質與完整性。
 
-## 版本異動紀錄
-- 1.0.0 (2025-08-05)  
-  • 初版生成：含 Metadata、段落摘要、10 組 Q&A、3 項問題-解決方案。  
+- **Problem: 跨平台與多介面測試的技術整合複雜度**  
+  **Root Cause:** 理想的測試自動化應該能夠支援多種介面類型（API、Web UI、Mobile App 等），但不同介面的技術棧、操作方式、驗證邏輯都有很大差異。如何在統一的測試框架下整合這些不同的技術，並且讓相同的測試案例能夠在不同平台上重複使用，是一個複雜的工程挑戰。  
+  **Solution:** 採用分層架構設計：測試案例層使用平台無關的業務描述；適配器層負責將業務描述轉換為特定平台的操作；執行器層負責實際的操作執行與結果收集；結果分析層提供統一的報告格式。每個平台都需要開發對應的適配器與執行器，但測試案例本身可以重複使用。技術上可以整合 Browser Use（Web UI）、Computer Use（桌面應用）、以及各種 API 測試框架。  
+  **Example/Case Study:** 作者提到未來可以將購物車的測試案例擴展到不同平台：相同的「將商品加入購物車」測試案例，可以透過 API 版本直接呼叫後端 API，透過 Web 版本操作瀏覽器介面，透過 Mobile 版本操作行動應用。雖然底層的執行機制完全不同，但業務邏輯與驗證標準是一致的。這種方法不僅提高了測試效率，也確保了跨平台的一致性驗證。
+
+## 6. 版本異動  
+
+### 2025-08-06  
+- 重新按照 embedding generation 高階指引格式化整個文件
+- 完整重組為四大區塊：Metadata、段落重點、問答集、問題解決方案
+- 內容重新整理並擴展，總字數約 8000 字
+- 修正原有格式不符合規範的問題，統一使用繁體中文與標準結構  
