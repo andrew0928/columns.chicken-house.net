@@ -1,0 +1,43 @@
+{
+  "title": "DevOpsDays \u5C08\u520A: Service Discovery, \u5FAE\u670D\u52D9\u67B6\u69CB\u7684\u57FA\u790E\u5EFA\u8A2D",
+  "published": false,
+  "categories": [
+    "\u7CFB\u5217\u6587\u7AE0: \u67B6\u69CB\u5E2B\u89C0\u9EDE"
+  ],
+  "tags": [],
+  "generator": "BlogIndex.SyncPost v1.0.0.0, o3, https://app-azureopenai.openai.azure.com/",
+  "tech-stacks": [
+    "Docker",
+    ".NET Framework",
+    "Consul",
+    "Kong",
+    "Azure",
+    "AWS",
+    "Service Mesh",
+    "DNS",
+    "ELB",
+    "Load Balancer",
+    "Cloud Native"
+  ],
+  "keywords": [
+    "DevOpsDays Taipei 2018",
+    "Service Discovery",
+    "\u5FAE\u670D\u52D9",
+    "DevOps",
+    "Sidecar",
+    "Service Mesh",
+    "Consul",
+    "Docker",
+    ".NET",
+    "Load Balancer",
+    "DNS",
+    "API Gateway",
+    "SLA"
+  ],
+  "references": [
+    "/2017/12/31/microservice9-servicediscovery/",
+    "/wp-content/images/2018-10-10-microservice11-devopsdays-servicediscovery/2018-10-14-15-26-49.png",
+    "https://thenewstack.io/3-reasons-why-api-management-is-dead/",
+    "/wp-content/images/2018-10-10-microservice11-devopsdays-servicediscovery/2018-11-05-02-22-51.png"
+  ]
+}

@@ -1,0 +1,56 @@
+{
+  "title": "Tips: \u5728 .NET Console Application \u4E2D\u8655\u7406 Shutdown \u4E8B\u4EF6",
+  "published": true,
+  "categories": null,
+  "tags": [
+    "microservice",
+    "Docker",
+    "Windows Container",
+    ".NET",
+    "Container",
+    "Tips",
+    "\u4F5C\u696D\u7CFB\u7D71"
+  ],
+  "generator": "BlogIndex.SyncPost v1.0.0.0, o3, https://app-azureopenai.openai.azure.com/",
+  "tech-stacks": [
+    ".NET Framework",
+    "C#",
+    "Docker",
+    "Windows Container",
+    "Windows",
+    "Consul",
+    "Win32 API",
+    "P/Invoke",
+    "Windows Service",
+    "Windows Forms"
+  ],
+  "keywords": [
+    "Console Application",
+    "Shutdown Event",
+    "Service Discovery",
+    "SetConsoleCtrlHandler",
+    "HandlerRoutine",
+    "SystemEvents",
+    "WM_QUERYENDSESSION",
+    "CDD",
+    "microservice",
+    "Docker",
+    ".NET"
+  ],
+  "references": [
+    "https://www.consul.io/",
+    "https://www.facebook.com/andrew.blog.0928/videos/509145696127380/",
+    "https://msdn.microsoft.com/zh-tw/library/55d3thsc.aspx?f=255\u0026MSPPError=-2147217396",
+    "https://docs.microsoft.com/en-us/windows/console/setconsolectrlhandler",
+    "https://docs.microsoft.com/en-us/windows/console/handlerroutine",
+    "https://msdn.microsoft.com/en-us/library/microsoft.win32.systemevents.sessionending.aspx",
+    "https://msdn.microsoft.com/en-us/library/microsoft.win32.systemevents.aspx?f=255\u0026MSPPError=-2147217396",
+    "/wp-content/images/2018-05-10-tips-handle-shutdown-event/2018-05-12-03-39-50.png",
+    "/wp-content/images/2018-05-10-tips-handle-shutdown-event/2018-05-11-01-59-31.png",
+    "/wp-content/images/2018-05-10-tips-handle-shutdown-event/2018-05-11-02-00-43.png",
+    "/wp-content/images/2018-05-10-tips-handle-shutdown-event/2018-05-10-23-01-02.png",
+    "/wp-content/images/2018-05-10-tips-handle-shutdown-event/2018-05-11-02-05-29.png",
+    "/wp-content/images/2018-05-10-tips-handle-shutdown-event/2018-05-12-11-21-21.png",
+    "/categories/#%E7%B3%BB%E5%88%97%E6%96%87%E7%AB%A0:%20.NET%20\u002B%20Windows%20Container,%20%E5%BE%AE%E6%9C%8D%E5%8B%99%E6%9E%B6%E6%A7%8B%E8%A8%AD%E8%A8%88"
+  ]
+}

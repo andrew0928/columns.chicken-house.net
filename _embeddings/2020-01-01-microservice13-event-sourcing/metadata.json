@@ -1,0 +1,57 @@
+{
+  "title": "\u5FAE\u670D\u52D9\u67B6\u69CB\u8A2D\u8A08 - Event Sourcing",
+  "published": false,
+  "categories": [
+    "\u7CFB\u5217\u6587\u7AE0: .NET \u002B Windows Container, \u5FAE\u670D\u52D9\u67B6\u69CB\u8A2D\u8A08",
+    "\u7CFB\u5217\u6587\u7AE0: \u67B6\u69CB\u5E2B\u89C0\u9EDE"
+  ],
+  "tags": [
+    "microservice",
+    "\u7CFB\u5217\u6587\u7AE0",
+    "\u67B6\u69CB\u5E2B"
+  ],
+  "generator": "BlogIndex.Sync, o3, https://app-azureopenai.openai.azure.com/",
+  "tech-stacks": [
+    ".NET",
+    "Windows Container",
+    "Windows Server",
+    "Kubernetes",
+    "K8S",
+    "Docker",
+    "Message Queue",
+    "NoSQL",
+    "Event Sourcing",
+    "CQRS",
+    "SAGA Pattern",
+    "Command Pattern",
+    "MapReduce",
+    "BigTable",
+    "RAID1",
+    "Domain-Driven Design (DDD)"
+  ],
+  "keywords": [
+    "Event Sourcing",
+    "\u5FAE\u670D\u52D9",
+    "Microservices",
+    "CQRS",
+    "Cloud Native",
+    "Streaming Data Processing",
+    "Message Queue",
+    "Domain-Driven Development",
+    "NoSQL",
+    "Distributed Transaction",
+    "SAGA",
+    "Command Pattern",
+    "MapReduce",
+    "BigTable",
+    "Kubernetes",
+    "Container Orchestration"
+  ],
+  "references": [
+    "https://martinfowler.com/eaaDev/EventSourcing.html",
+    "https://www.facebook.com/andrew.blog.0928/posts/848315655543714",
+    "https://www.infoq.cn/article/L*bT1UfuVoj1I6NRNM3U",
+    "https://zhuanlan.zhihu.com/p/38968012",
+    "https://www.facebook.com/andrew.blog.0928/posts/1400700806971860"
+  ]
+}

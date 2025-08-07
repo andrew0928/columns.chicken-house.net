@@ -1,0 +1,71 @@
+{
+  "title": "\u5FAE\u670D\u52D9\u57FA\u790E\u5EFA\u8A2D - \u7DDA\u4E0A\u8CFC\u7269\u6392\u968A\u6A5F\u5236\u8A2D\u8A08",
+  "published": true,
+  "categories": [
+    "\u7CFB\u5217\u6587\u7AE0: .NET \u002B Windows Container, \u5FAE\u670D\u52D9\u67B6\u69CB\u8A2D\u8A08",
+    "\u7CFB\u5217\u6587\u7AE0: \u67B6\u69CB\u5E2B\u89C0\u9EDE"
+  ],
+  "tags": [
+    "microservice",
+    "\u7CFB\u5217\u6587\u7AE0",
+    "\u67B6\u69CB\u5E2B"
+  ],
+  "generator": "BlogIndex.SyncPost v1.0.0.0, o3, https://app-azureopenai.openai.azure.com/",
+  "tech-stacks": [
+    ".NET",
+    "Windows Container",
+    "C#",
+    "Microservice Architecture",
+    "Redis",
+    "Threading",
+    "OOP",
+    "Dependency Injection",
+    "AWS CloudWatch",
+    "Excel",
+    "Git",
+    "Semaphore",
+    "Virtual Machine (VM)",
+    "Console Application",
+    "RateLimiter"
+  ],
+  "keywords": [
+    "\u6392\u968A\u6A5F\u5236",
+    "\u5FAE\u670D\u52D9",
+    "\u6F14\u7B97\u6CD5",
+    "\u7D50\u5E33\u6D41\u7A0B",
+    "TPS",
+    "QoS",
+    "\u96D9\u5341\u4E00",
+    "POC",
+    "MVP",
+    "DevOps",
+    "Agile",
+    "Queue",
+    "Token",
+    "CheckoutLine",
+    "Thread",
+    "Rate Limit",
+    "Monitoring",
+    "Metrics"
+  ],
+  "references": [
+    "/wp-content/images/2018-12-12-microservice11-lineup/logo.jpg",
+    "https://tw.appledaily.com/new/realtime/20181124/1472338/",
+    "/2018/06/10/microservice10-throttle/",
+    "/wp-content/images/2018-12-12-microservice11-lineup/SLIDE-03.png",
+    "/wp-content/images/2018-12-12-microservice11-lineup/SLIDE-04.png",
+    "/wp-content/images/2018-12-12-microservice11-lineup/SLIDE-05.png",
+    "/wp-content/images/2018-12-12-microservice11-lineup/SLIDE-06.png",
+    "/wp-content/images/2018-12-12-microservice11-lineup/SLIDE-07.png",
+    "/wp-content/images/2018-12-12-microservice11-lineup/SLIDE-08.png",
+    "/wp-content/images/2018-12-12-microservice11-lineup/SLIDE-09.png",
+    "/wp-content/images/2018-12-12-microservice11-lineup/SLIDE-10.png",
+    "/wp-content/images/2018-12-12-microservice11-lineup/SLIDE-11.png",
+    "/wp-content/images/2018-12-12-microservice11-lineup/SLIDE-12.png",
+    "/wp-content/images/2018-12-12-microservice11-lineup/SLIDE-13.png",
+    "/wp-content/images/2018-12-12-microservice11-lineup/SLIDE-17.png",
+    "/wp-content/images/2018-12-12-microservice11-lineup/console.gif",
+    "/wp-content/images/2018-12-12-microservice11-lineup/chart-01.jpg",
+    "/wp-content/images/2018-12-12-microservice11-lineup/chart-02.jpg"
+  ]
+}

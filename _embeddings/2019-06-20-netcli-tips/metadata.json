@@ -1,0 +1,49 @@
+{
+  "title": "\u5F8C\u7AEF\u5DE5\u7A0B\u5E2B\u5FC5\u5099: CLI \u50B3\u905E\u7269\u4EF6\u7684\u8655\u7406\u6280\u5DE7",
+  "published": true,
+  "categories": null,
+  "tags": [
+    "\u7CFB\u5217\u6587\u7AE0",
+    "\u67B6\u69CB\u5E2B",
+    "CLI",
+    "C#",
+    "PIPELINE",
+    "\u4E32\u6D41\u8655\u7406",
+    "TIPS"
+  ],
+  "generator": "BlogIndex.SyncPost v1.0.0.0, o3, https://app-azureopenai.openai.azure.com/",
+  "tech-stacks": [
+    ".NET",
+    ".NET Core",
+    "C#",
+    "PowerShell",
+    "Linux",
+    "Windows",
+    "Shell Script",
+    "Git",
+    "gzip",
+    "GZip",
+    "SSH",
+    "IEnumerable",
+    "LINQ",
+    "JSON",
+    "BinaryFormatter",
+    "CLI"
+  ],
+  "keywords": [
+    "pipeline",
+    "object serialization",
+    "CLI tips",
+    "Json",
+    "binary serialization",
+    "GZip compression",
+    "LINQ filtering",
+    "stream processing",
+    "STDIN/STDOUT",
+    "serialization"
+  ],
+  "references": [
+    "/2019/06/15/netcli-pipeline/",
+    "/wp-content/images/2019-06-20-netcli-tips/2019-06-20-23-35-14.png"
+  ]
+}

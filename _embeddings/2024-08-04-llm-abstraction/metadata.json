@@ -1,0 +1,56 @@
+{
+  "title": "[\u67B6\u69CB\u5E2B\u89C0\u9EDE] LLM \u7684\u62BD\u8C61\u5316\u4ECB\u9762\u8A2D\u8A08",
+  "published": false,
+  "categories": [
+    "\u7CFB\u5217\u6587\u7AE0: \u67B6\u69CB\u5E2B\u89C0\u9EDE"
+  ],
+  "tags": [
+    "\u67B6\u69CB\u5E2B\u89C0\u9EDE",
+    "\u6280\u8853\u96A8\u7B46"
+  ],
+  "generator": "BlogIndex.Sync, o3, https://app-azureopenai.openai.azure.com/",
+  "tech-stacks": [
+    "C#",
+    ".NET",
+    "C",
+    "gRPC",
+    "OpenAI Assistant API",
+    "OpenAI Chat Completion API",
+    "Microsoft Semantic Kernel",
+    "LangChain",
+    "ONNX Runtime",
+    "Ollama",
+    "LM Studio",
+    "JVM",
+    "CLR",
+    "RDBMS",
+    "NoSQL",
+    "VectorDB",
+    "Stack Machine",
+    "RBAC",
+    "PBAC",
+    "ABAC"
+  ],
+  "keywords": [
+    "LLM",
+    "\u62BD\u8C61\u5316\u4ECB\u9762\u8A2D\u8A08",
+    "\u67B6\u69CB\u5E2B",
+    "API",
+    "SDK",
+    "OpenAI",
+    "Assistant API",
+    "Chat Completion",
+    "gRPC",
+    "\u4EBA\u5DE5\u667A\u6167",
+    "\u5DE5\u4EBA\u667A\u6167",
+    "POC",
+    "\u5716\u9748\u6E2C\u8A66",
+    "SessionState",
+    "Thread Pool",
+    "ORM",
+    "Stack Machine",
+    "\u6B0A\u9650\u63A7\u5236",
+    "Token Billing"
+  ],
+  "references": []
+}

@@ -1,0 +1,73 @@
+{
+  "title": "\u67B6\u69CB\u9762\u8A66\u984C #2, \u9023\u7E8C\u8CC7\u6599\u7684\u7D71\u8A08\u65B9\u5F0F",
+  "published": true,
+  "categories": [
+    "\u7CFB\u5217\u6587\u7AE0: \u67B6\u69CB\u5E2B\u89C0\u9EDE",
+    "\u7CFB\u5217\u6587\u7AE0: \u67B6\u69CB\u9762\u8A66\u984C"
+  ],
+  "tags": [
+    "\u67B6\u69CB\u5E2B",
+    "\u9762\u8A66\u7D93\u9A57",
+    "microservices",
+    "azure stream analytics"
+  ],
+  "generator": "BlogIndex.SyncPost v1.0.0.0, o3, https://app-azureopenai.openai.azure.com/",
+  "tech-stacks": [
+    "SQL",
+    "T-SQL",
+    "C#",
+    ".NET / .NET Framework",
+    "Redis",
+    "Azure Stream Analytics",
+    "SQL Server",
+    "MongoDB",
+    "Windows 10",
+    "Docker (Windows Container)",
+    "Azure",
+    "Microsoft Excel",
+    "Microservices"
+  ],
+  "keywords": [
+    "\u9023\u7E8C\u8CC7\u6599",
+    "\u6642\u9593\u7A97\u53E3",
+    "\u7D71\u8A08",
+    "\u8CC7\u6599\u7D50\u69CB",
+    "\u6F14\u7B97\u6CD5",
+    "FIFO",
+    "Queue",
+    "Buffer",
+    "Stream Analytics",
+    "Atomic Operations",
+    "Lock",
+    "Interlocked",
+    "Redis Lists",
+    "INCRBY / DECRBY / GETSET",
+    "scalability",
+    "\u5206\u6563\u5F0F",
+    "\u6548\u80FD",
+    "\u9762\u8A66\u984C",
+    "\u67B6\u69CB\u8A2D\u8A08"
+  ],
+  "references": [
+    "/wp-content/uploads/2018/04/datastream.png",
+    "/2018/03/25/interview01-transaction/",
+    "/wp-content/uploads/2018/04/architecture.png",
+    "http://preshing.com/20130618/atomic-vs-non-atomic-operations/",
+    "/wp-content/uploads/2018/04/inmemory-procedure.png",
+    "https://redis.io/topics/data-types#lists",
+    "https://redis.io/commands",
+    "https://redis.io/commands/incrby",
+    "https://redis.io/commands/decrby",
+    "https://redis.io/commands/getset",
+    "https://mvp.microsoft.com/zh-tw/PublicProfile/5002155?fullName=Andrew%20%20Wu",
+    "https://docs.microsoft.com/zh-tw/azure/stream-analytics/stream-analytics-introduction",
+    "https://docs.microsoft.com/en-us/azure/stream-analytics/stream-analytics-query-patterns",
+    "/2008/09/27/%E8%A9%B2%E5%A6%82%E4%BD%95%E5%AD%B8%E5%A5%BD-%E5%AF%AB%E7%A8%8B%E5%BC%8F/",
+    "/2008/10/01/%E8%A9%B2%E5%A6%82%E4%BD%95%E5%AD%B8%E5%A5%BD-%E5%AF%AB%E7%A8%8B%E5%BC%8F-2-%E7%82%BA%E4%BB%80%E9%BA%BC-programmer-%E8%A9%B2%E5%AD%B8%E8%B3%87%E6%96%99%E7%B5%90%E6%A7%8B/",
+    "/2008/10/08/%E8%A9%B2%E5%A6%82%E4%BD%95%E5%AD%B8%E5%A5%BD-%E5%AF%AB%E7%A8%8B%E5%BC%8F-3-%E9%80%B2%E9%9A%8E%E6%87%89%E7%94%A8-%E8%B3%87%E6%96%99%E7%B5%90%E6%A7%8B-%E5%95%8F%E9%A1%8C%E5%88%86%E6%9E%90/",
+    "/2008/10/20/%E8%A9%B2%E5%A6%82%E4%BD%95%E5%AD%B8%E5%A5%BD-%E5%AF%AB%E7%A8%8B%E5%BC%8F-4-%E4%BD%A0%E7%9A%84%E7%A8%8B%E5%BC%8F%E5%A4%A0-%E5%8F%AF%E9%9D%A0-%E5%97%8E/",
+    "/2008/11/03/%E8%A9%B2%E5%AD%B6%82%E4%BD%95%E5%AD%B8%E5%A5%BD-%E5%AF%AB%E7%A8%8B%E5%BC%8F-5-%E5%96%84%E7%94%A8-trace-assert/",
+    "/2017/01/31/leetcode2-assert/",
+    "/wp-content/uploads/2018/04/stream_analytics_intro_pipeline.png"
+  ]
+}

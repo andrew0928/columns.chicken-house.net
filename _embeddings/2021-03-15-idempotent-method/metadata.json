@@ -1,0 +1,32 @@
+{
+  "title": "[\u5206\u6563\u5F0F\u7CFB\u7D71 #1] Idempotency Key \u7684\u539F\u7406\u8207\u5BE6\u4F5C - \u80FD\u5B89\u5168 Retry \u7684 API \u8A2D\u8A08",
+  "published": false,
+  "categories": [
+    "\u7CFB\u5217\u6587\u7AE0: .NET \u002B Windows Container, \u5FAE\u670D\u52D9\u67B6\u69CB\u8A2D\u8A08",
+    "\u7CFB\u5217\u6587\u7AE0: \u67B6\u69CB\u5E2B\u89C0\u9EDE"
+  ],
+  "tags": [
+    "microservice",
+    "\u7CFB\u5217\u6587\u7AE0",
+    "\u67B6\u69CB\u5E2B"
+  ],
+  "generator": "BlogIndex.Sync, o3, https://app-azureopenai.openai.azure.com/",
+  "tech-stacks": [
+    ".NET",
+    "Windows Container",
+    "HTTP API",
+    "Database"
+  ],
+  "keywords": [
+    "Idempotent",
+    "Idempotency Key",
+    "retry",
+    "\u5206\u6563\u5F0F\u7CFB\u7D71",
+    "\u5FAE\u670D\u52D9",
+    "API",
+    "\u67B6\u69CB"
+  ],
+  "references": [
+    "series-2016-microservice.md"
+  ]
+}

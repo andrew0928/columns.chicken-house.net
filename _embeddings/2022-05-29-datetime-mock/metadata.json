@@ -1,0 +1,65 @@
+{
+  "title": "[\u67B6\u69CB\u5E2B\u7684\u4FEE\u7DF4] - \u5F9E DateTime \u7684 Mock \u6280\u5DE7\u8AC7 PoC \u7684\u61C9\u7528",
+  "published": true,
+  "categories": [
+    "\u7CFB\u5217\u6587\u7AE0: \u67B6\u69CB\u5E2B\u7684\u4FEE\u7DF4"
+  ],
+  "tags": [
+    "\u7CFB\u5217\u6587\u7AE0",
+    "\u67B6\u69CB\u5E2B\u7684\u4FEE\u7DF4",
+    "\u523B\u610F\u7DF4\u7FD2",
+    "UnitTest",
+    "PoC"
+  ],
+  "generator": "BlogIndex.Sync, o3, https://app-azureopenai.openai.azure.com/",
+  "tech-stacks": [
+    "C#",
+    ".NET",
+    "Microsoft Fakes",
+    "Visual Studio Enterprise Edition",
+    "System.DateTime",
+    "Shims",
+    "JWT",
+    "ASP.NET Core",
+    "LINQ",
+    "Message Queue",
+    "Microservices"
+  ],
+  "keywords": [
+    "DateTime",
+    "Mock",
+    "PoC",
+    "Unit Test",
+    "DateTimeUtil",
+    "TimePass",
+    "Ambient Context",
+    "Interface",
+    "Singleton Pattern",
+    "RaiseDayPassEvent",
+    "Dependency Injection"
+  ],
+  "references": [
+    "/wp-content/images/2022-05-29-datetime-mock/2022-05-29-00-57-25.png",
+    "https://ani.gamer.com.tw/animeVideo.php?sn=29007",
+    "https://www.google.com/search?q=C%23%2C\u002BDateTime%2C\u002BMock\u0026oq=C%23%2C\u002BDateTime%2C\u002BMock\u0026aqs=edge.0.69i59j0i512j0i8i30l5j69i58j69i64.372j0j1\u0026sourceid=chrome\u0026ie=UTF-8",
+    "https://docs.microsoft.com/en-us/visualstudio/test/code-generation-compilation-and-naming-conventions-in-microsoft-fakes?view=vs-2022",
+    "https://docs.microsoft.com/zh-tw/previous-versions/visualstudio/visual-studio-2015/test/using-shims-to-isolate-your-application-from-other-assemblies-for-unit-testing?view=vs-2015",
+    "https://methodpoet.com/unit-testing-datetime-now/",
+    "/2022/04/25/microservices16-api-implement/#%E5%96%AE%E5%85%83%E6%B8%AC%E8%A9%A6%E6%A1%88%E4%BE%8B",
+    "https://www.netsolutions.com/insights/proof-of-concept-PoC/",
+    "https://en.wikipedia.org/wiki/Anders_Hejlsberg",
+    "/2016/10/10/microservice3/",
+    "/2016/10/23/microservice4/",
+    "/2016/12/01/microservice7-apitoken/",
+    "/2022/03/25/microservices15-api-design/",
+    "/2022/04/25/microservices16-api-implement/",
+    "/2018/06/10/microservice10-throttle/",
+    "/2018/12/12/microservice11-lineup/",
+    "/2019/01/01/microservice12-mqrpc/",
+    "/2020/02/09/process-pool/",
+    "/2018/03/25/interview01-transaction/",
+    "/2018/04/01/interview02-stream-statistic/",
+    "/2019/06/01/nested-query/",
+    "/2020/03/10/interview-abstraction/"
+  ]
+}

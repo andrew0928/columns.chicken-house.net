@@ -1,0 +1,58 @@
+{
+  "title": "[\u67B6\u69CB\u5E2B\u7684\u4FEE\u7DF4] #3, \u523B\u610F\u7DF4\u7FD2 - \u5982\u4F55\u935B\u934A\u4F60\u7684\u62BD\u8C61\u5316\u80FD\u529B",
+  "published": false,
+  "categories": [
+    "\u7CFB\u5217\u6587\u7AE0: \u67B6\u69CB\u5E2B\u7684\u4FEE\u7DF4"
+  ],
+  "tags": [
+    "\u7CFB\u5217\u6587\u7AE0",
+    "\u67B6\u69CB\u5E2B\u7684\u4FEE\u7DF4",
+    "\u67B6\u69CB\u5E2B\u89C0\u9EDE",
+    "\u523B\u610F\u7DF4\u7FD2",
+    "\u62BD\u8C61\u5316"
+  ],
+  "generator": "BlogIndex.Sync, o3, https://app-azureopenai.openai.azure.com/",
+  "tech-stacks": [
+    ".NET",
+    ".NET Framework",
+    ".NET Core",
+    "C#",
+    "SQL Server",
+    "Linux",
+    "Windows",
+    "Visual Studio",
+    "Visual Studio for Mac",
+    "Windows Container",
+    "Linux Container",
+    "Docker",
+    "ChatGPT",
+    "GitHub Copilot",
+    "Microsoft Graph API",
+    "AI"
+  ],
+  "keywords": [
+    "AI",
+    "ChatGPT",
+    "\u62BD\u8C61\u5316",
+    "\u523B\u610F\u7DF4\u7FD2",
+    "\u6298\u6263\u8A08\u7B97",
+    "interface",
+    "\u8A2D\u8A08\u80FD\u529B",
+    "\u6298\u6263\u898F\u5247",
+    "\u8CFC\u7269\u8ECA",
+    "POC",
+    "API First",
+    "\u67B6\u69CB\u9762\u8A66\u984C",
+    "\u67B6\u69CB\u5E2B\u7684\u4FEE\u7DF4",
+    "\u62BD\u8C61\u5316\u8A2D\u8A08",
+    "discount",
+    "C# interface",
+    ".NET"
+  ],
+  "references": [
+    "https://columns.chicken-house.net/2016/05/05/archview-net-open-source/",
+    "https://columns.chicken-house.net/2020/03/10/interview-abstraction/",
+    "https://skoda-eddie.blogspot.com/2022/03/blog-post_25.html?fbclid=IwAR0_KBoMshllXvadX0l6GMVqqx3CG9vhCbuHIIaHPJgj0Ue_79841pkGeQU",
+    "/wp-content/images/2023-04-01-practice-02-abstraction/slides/page02.png"
+  ]
+}

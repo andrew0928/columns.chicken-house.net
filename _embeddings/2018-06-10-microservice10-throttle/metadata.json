@@ -1,0 +1,73 @@
+{
+  "title": "\u5FAE\u670D\u52D9\u57FA\u790E\u5EFA\u8A2D: \u65B7\u8DEF\u5668 #1, \u670D\u52D9\u8CA0\u8F09\u7684\u63A7\u5236",
+  "published": true,
+  "categories": [
+    "\u7CFB\u5217\u6587\u7AE0: .NET \u002B Windows Container, \u5FAE\u670D\u52D9\u67B6\u69CB\u8A2D\u8A08",
+    "\u7CFB\u5217\u6587\u7AE0: \u67B6\u69CB\u5E2B\u89C0\u9EDE"
+  ],
+  "tags": [
+    "\u67B6\u69CB\u5E2B",
+    "\u9762\u8A66\u7D93\u9A57",
+    "microservices",
+    "circuit breaker",
+    "\u65B7\u8DEF\u5668"
+  ],
+  "generator": "BlogIndex.SyncPost v1.0.0.0, o3, https://app-azureopenai.openai.azure.com/",
+  "tech-stacks": [
+    ".NET",
+    "C#",
+    "Windows Container",
+    "Kong",
+    "NGINX",
+    "Hystrix",
+    "API Gateway",
+    "Service Discovery",
+    "Leaky Bucket",
+    "Token Bucket",
+    "DevOps",
+    "Microservices"
+  ],
+  "keywords": [
+    "\u5FAE\u670D\u52D9",
+    "\u65B7\u8DEF\u5668",
+    "Circuit Breaker",
+    "\u670D\u52D9\u91CF",
+    "\u6D41\u91CF\u63A7\u5236",
+    "Throttle",
+    "Rate Limiting",
+    "Counter Throttle",
+    "Leaky Bucket",
+    "Token Bucket",
+    "API Gateway",
+    "Service Discovery",
+    "DevOps",
+    "Hystrix",
+    "Kong",
+    "NGINX",
+    ".NET",
+    "C#"
+  ],
+  "references": [
+    "https://blog.xizhibei.me/2018/06/03/microservice-design-pattern-circuitbraker/",
+    "https://com-it.tech/archives/40703",
+    "https://getkong.org/plugins/rate-limiting/",
+    "https://www.nginx.com/blog/rate-limiting-nginx/",
+    "https://github.com/andrew0928/InterviewQuiz/tree/master/02.LastHourStatistics/Quiz.ThrottleControl",
+    "/wp-content/images/2018-06-10-microservice10-throttle/2018-06-20-02-02-17.png",
+    "/wp-content/images/2018-06-10-microservice10-throttle/2018-06-17-15-05-37.png",
+    "/wp-content/images/2018-06-10-microservice10-throttle/2018-06-17-16-39-14.png",
+    "/wp-content/images/2018-06-10-microservice10-throttle/2018-06-18-22-28-15.png",
+    "/wp-content/images/2018-06-10-microservice10-throttle/2018-06-18-23-19-37.png",
+    "/wp-content/images/2018-06-10-microservice10-throttle/2018-06-18-23-15-58.png",
+    "/wp-content/images/2018-06-10-microservice10-throttle/2018-06-18-23-25-26.png",
+    "/wp-content/images/2018-06-10-microservice10-throttle/2018-06-18-23-28-55.png",
+    "/wp-content/images/2018-06-10-microservice10-throttle/2018-06-18-23-37-24.png",
+    "/wp-content/images/2018-06-10-microservice10-throttle/2018-06-18-23-40-46.png",
+    "/wp-content/images/2018-06-10-microservice10-throttle/2018-06-18-23-46-56.png",
+    "/wp-content/images/2018-06-10-microservice10-throttle/2018-06-18-23-49-51.png",
+    "/2018/04/01/interview02-stream-statistic/",
+    "/2018/06/03/microservice-design-pattern-circuitbraker/",
+    "/wp-content/uploads/2016/03/img_56dee24543173.png",
+    "/2016/03/12/cpu_sinewave/"
+  ]
+}
