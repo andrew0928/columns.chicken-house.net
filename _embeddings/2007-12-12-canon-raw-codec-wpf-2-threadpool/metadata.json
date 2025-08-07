@@ -1,0 +1,67 @@
+{
+  "title": "Canon Raw Codec \u002B WPF #2, ThreadPool",
+  "published": true,
+  "categories": [
+    "\u7CFB\u5217\u6587\u7AE0: Canon Raw Codec \u0026 WPF"
+  ],
+  "tags": [
+    ".NET",
+    "WPF",
+    "\u4F5C\u54C1\u96C6",
+    "\u591A\u57F7\u884C\u7DD2"
+  ],
+  "generator": "BlogIndex.SyncPost v1.0.0.0, o3, https://app-azureopenai.openai.azure.com/",
+  "tech-stacks": [
+    ".NET",
+    "WPF",
+    "C#",
+    "Java",
+    "GDI\u002B",
+    "ThreadPool",
+    "SimpleThreadPool",
+    "JPEG",
+    "Canon Raw Codec (.CR2)",
+    "Microsoft HD Photo",
+    "Google Picasa",
+    "WaitHandle",
+    "Windows XP",
+    "Windows Vista",
+    "Core2Duo",
+    "Intel Parallel Extensions (TPL)",
+    "Windows Forms",
+    "Parallel Computing",
+    "MSDN",
+    "Intel CPUs"
+  ],
+  "keywords": [
+    "ThreadPool",
+    "priority",
+    "multi-threading",
+    "CPU utilization",
+    "decode",
+    "encode",
+    "resize pictures",
+    "image resizer",
+    "canon codec",
+    "JPEG codec",
+    "RAW",
+    "CR2",
+    "performance",
+    "multi-core",
+    "UI thread",
+    "SimpleThreadPool",
+    "job queue"
+  ],
+  "references": [
+    "http://download.microsoft.com/download/whistler/Install/2/WXP/EN-US/ImageResizerPowertoySetup.exe",
+    "/wp-content/be-files/WindowsLiveWriter/CanonRawCodecWPF2Metadata_2E96/image_3.png",
+    "/wp-content/be-files/WindowsLiveWriter/CanonRawCodecWPF2Metadata_2E96/image_9.png",
+    "/wp-content/be-files/WindowsLiveWriter/CanonRawCodecWPF2Metadata_2E96/image_12.png",
+    "/wp-content/be-files/WindowsLiveWriter/CanonRawCodecWPF2ThreadPool_BB53/%E7%B0%A1%E5%A0%B11_3.png",
+    "/wp-content/be-files/WindowsLiveWriter/CanonRawCodecWPF2Metadata_2E96/image_18.png",
+    "/wp-content/be-files/WindowsLiveWriter/CanonRawCodecWPF2Metadata_2E96/image_21.png",
+    "http://www.zdnet.com.tw/white_board/intel/video-8.htm",
+    "http://msdn.microsoft.com/msdnmag/issues/07/10/Futures/default.aspx?loc=zx",
+    "http://www.microsoft.com/downloads/details.aspx?FamilyID=e848dc1d-5be3-4941-8705-024bc7f180ba\u0026DisplayLang=en"
+  ]
+}

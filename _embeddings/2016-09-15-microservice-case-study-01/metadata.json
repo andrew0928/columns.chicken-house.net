@@ -1,0 +1,65 @@
+{
+  "title": "\u5FAE\u670D\u52D9\u67B6\u69CB #1, WHY Microservices?",
+  "published": true,
+  "categories": [
+    "\u7CFB\u5217\u6587\u7AE0: .NET \u002B Windows Container, \u5FAE\u670D\u52D9\u67B6\u69CB\u8A2D\u8A08",
+    "\u7CFB\u5217\u6587\u7AE0: \u67B6\u69CB\u5E2B\u89C0\u9EDE"
+  ],
+  "tags": [
+    "Microservices",
+    "Monolithic",
+    "Windows Container",
+    "Container"
+  ],
+  "generator": "BlogIndex.SyncPost v1.0.0.0, o3, https://app-azureopenai.openai.azure.com/",
+  "tech-stacks": [
+    ".NET",
+    ".NET Developer",
+    "Windows Container",
+    "ASP.NET MVC",
+    "ASP.NET WebForm",
+    "SOA",
+    "Service Oriented Architecture",
+    "DevOps",
+    "SQL Server",
+    "MySQL",
+    "SQLite",
+    "Java",
+    "C",
+    "Virtual Machine (VM)",
+    "Container"
+  ],
+  "keywords": [
+    "Microservices",
+    "Monolithic",
+    "SOA",
+    "Service Oriented Architecture",
+    "Container",
+    "Containerization",
+    "DevOps",
+    "ASP.NET",
+    "Windows Developer",
+    ".NET Developer",
+    "Runtime",
+    "Library",
+    "Component",
+    "Binary Code",
+    "Source Code",
+    "Service",
+    "Deployment",
+    "Scale Out",
+    "Database",
+    "SQL Server",
+    "Performance",
+    "API",
+    "Protocol"
+  ],
+  "references": [
+    "http://www.slideshare.net/chickenwu/community-open-camp",
+    "https://channel9.msdn.com/Events/Community-Open-Camp/Community-Open-Camp-2016/ComOpenCamp018",
+    "https://github.com/andrew0928/CommunityOpenCampDemo",
+    "https://lostechies.com/andrewsiemer/2016/01/11/testing-microservices/",
+    "/wp-content/uploads/2016/09/microservice-slides-06.PNG",
+    "/wp-content/uploads/2016/09/stateless-authentication-for-microservices-12-6381.jpg"
+  ]
+}

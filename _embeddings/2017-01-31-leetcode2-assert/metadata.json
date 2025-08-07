@@ -1,0 +1,60 @@
+{
+  "title": "\u4E0D\u53EA\u662F TDD #2, \u5169\u500B\u7248\u672C\u81EA\u6211\u9A57\u8B49 \u002B \u57F7\u884C\u671F\u9A57\u8B49",
+  "published": true,
+  "categories": [
+    "\u7CFB\u5217\u6587\u7AE0: \u5982\u4F55\u5B78\u597D\u5BEB\u7A0B\u5F0F",
+    "\u7CFB\u5217\u6587\u7AE0: .NET \u002B Windows Container, \u5FAE\u670D\u52D9\u67B6\u69CB\u8A2D\u8A08",
+    "\u7CFB\u5217\u6587\u7AE0: \u67B6\u69CB\u5E2B\u89C0\u9EDE"
+  ],
+  "tags": [
+    "\u5C08\u6B04",
+    "\u6280\u8853\u96A8\u7B46",
+    "TDD",
+    "Microservices",
+    "\u67B6\u69CB\u5E2B"
+  ],
+  "generator": "BlogIndex.SyncPost v1.0.0.0, o3, https://app-azureopenai.openai.azure.com/",
+  "tech-stacks": [
+    ".NET",
+    ".NET Framework",
+    "C#",
+    "MSTest",
+    "Visual Studio",
+    "Windows",
+    "Windows Container",
+    "Microservices",
+    "Trace / Assert (Debugging)",
+    "LeetCode"
+  ],
+  "keywords": [
+    "TDD",
+    "\u55AE\u5143\u6E2C\u8A66",
+    "\u6F14\u7B97\u6CD5",
+    "AlphaGo",
+    "Shortest Palindrome",
+    "\u8FF4\u6587",
+    "Bubble Sort",
+    "Quick Sort",
+    "Fail Fast",
+    "Assert",
+    "Runtime Validation",
+    "\u91CD\u69CB",
+    "\u81EA\u52D5\u5316\u6E2C\u8A66",
+    "Microservices",
+    "LeetCode"
+  ],
+  "references": [
+    "/2017/01/30/leetcode1-tdd/",
+    "https://www.twreporter.org/a/artificial-intelligence-go-game?gclid=Cj0KEQiA5bvEBRCM6vypnc7QgMkBEiQAUZftQBbf57xWCILjw3aiPBnX17nE_JorZ2v6zV9ioFdPqRUaAktx8P8HAQ",
+    "https://leetcode.com/problems/shortest-palindrome/",
+    "https://en.wikipedia.org/wiki/Bubble_sort",
+    "https://en.wikipedia.org/wiki/Quicksort",
+    "https://www.inside.com.tw/2015/07/26/rework",
+    "/?p=53",
+    "https://en.wikipedia.org/wiki/Conditional_compilation",
+    "https://leetcode.com/problems/zuma-game/",
+    "/wp-content/uploads/2017/01/leetcode2-tostring.png",
+    "/wp-content/uploads/2017/01/leetcode2-logo.jpg",
+    "http://columns.chicken-house.net/tags/#\u7CFB\u5217\u6587\u7AE0-\u5982\u4F55\u5B78\u597D\u5BEB\u7A0B\u5F0F"
+  ]
+}

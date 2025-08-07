@@ -1,0 +1,47 @@
+{
+  "title": "[\u8A2D\u8A08\u6848\u4F8B] \u6E05\u9664Cache\u7269\u4EF6 #2. Create Custom CacheDependency",
+  "published": true,
+  "categories": [
+    "\u8A2D\u8A08\u6848\u4F8B: \u6E05\u9664 Cache \u7269\u4EF6"
+  ],
+  "tags": [
+    ".NET",
+    "C#",
+    "MSDN",
+    "Tips",
+    "\u6280\u8853\u96A8\u7B46",
+    "\u6709\u7684\u6C92\u7684",
+    "\u7269\u4EF6\u5C0E\u5411"
+  ],
+  "generator": "BlogIndex.SyncPost v1.0.0.0, o3, https://app-azureopenai.openai.azure.com/",
+  "tech-stacks": [
+    ".NET Framework",
+    "C#",
+    "Visual Studio 2008",
+    "ASP.NET"
+  ],
+  "keywords": [
+    "Cache",
+    "CacheDependency",
+    "TaggingCacheDependency",
+    "cache item",
+    "tags",
+    "HttpRuntime.Cache",
+    "DependencyDispose",
+    "DownloadData",
+    "funp.com",
+    "Dictionary"
+  ],
+  "references": [
+    "/2009/12/19/\u8A2D\u8A08\u6848\u4F8B-\u6E05\u9664cache\u7269\u4EF6-2-create-custom-cachedependency/",
+    "/columns/post/2009/12/19/e8a8ade8a888e6a188e4be8b-e6b885e999a4Cachee789a9e4bbb6-2-Create-Custom-CacheDependency.aspx/",
+    "/post/2009/12/19/e8a8ade8a888e6a188e4be8b-e6b885e999a4Cachee789a9e4bbb6-2-Create-Custom-CacheDependency.aspx/",
+    "/post/e8a8ade8a888e6a188e4be8b-e6b885e999a4Cachee789a9e4bbb6-2-Create-Custom-CacheDependency.aspx/",
+    "/columns/2009/12/19/e8a8ade8a888e6a188e4be8b-e6b885e999a4Cachee789a9e4bbb6-2-Create-Custom-CacheDependency.aspx/",
+    "/columns/e8a8ade8a888e6a188e4be8b-e6b885e999a4Cachee789a9e4bbb6-2-Create-Custom-CacheDependency.aspx/",
+    "http://columns.chicken-house.net/",
+    "/wp-content/be-files/WindowsLiveWriter/Cache2.CreateCustomCacheDependency/624B07FE/image.png",
+    "/wp-content/be-files/WindowsLiveWriter/Cache2.CreateCustomCacheDependency/192B4E9C/tmp22EC.zip",
+    "/wp-content/be-files/WindowsLiveWriter/Cache2.CreateCustomCacheDependency/32271EE1/tmpB405.zip"
+  ]
+}

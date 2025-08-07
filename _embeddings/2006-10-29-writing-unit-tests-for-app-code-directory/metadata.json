@@ -1,0 +1,56 @@
+{
+  "title": "\u66FF App_Code \u76EE\u9304\u4E0B\u7684 code \u5BEB\u55AE\u5143\u6E2C\u8A66 ?",
+  "published": true,
+  "categories": [],
+  "tags": [
+    ".NET",
+    "\u6280\u8853\u96A8\u7B46"
+  ],
+  "generator": "BlogIndex.SyncPost v1.0.0.0, o3, https://app-azureopenai.openai.azure.com/",
+  "tech-stacks": [
+    "Microsoft .NET",
+    ".NET Framework",
+    "ASP.NET",
+    "ASP.NET 2.0",
+    "Java",
+    "JUnit",
+    "NUnit",
+    "NUnitLite",
+    "Mono",
+    ".NET Compact Framework",
+    "IIS"
+  ],
+  "keywords": [
+    ".NET",
+    ".NET Framework",
+    "ASP.NET",
+    "ASP.NET 2.0",
+    "App_Code",
+    "Unit Test",
+    "\u55AE\u5143\u6E2C\u8A66",
+    "JUnit",
+    "NUnit",
+    "NUnitLite",
+    "Test Runner",
+    "AppDomain",
+    "Assembly",
+    "DLL",
+    "HttpContext",
+    "Hosting",
+    "IIS",
+    "Mono",
+    ".NET Compact Framework",
+    "Temporary ASP.NET Files"
+  ],
+  "references": [
+    "/2006/10/29/\u66FF-app_code-\u76EE\u9304\u4E0B\u7684-code-\u5BEB\u55AE\u5143\u6E2C\u8A66/",
+    "/columns/post/2006/10/29/e69bbf-App_Code-e79baee98c84e4b88be79a84-code-e5afabe596aee58583e6b8ace8a9a6-.aspx/",
+    "/post/2006/10/29/e69bbf-App_Code-e79baee98c84e4b88be79a84-code-e5afabe596aee58583e6b8ace8a9a6-.aspx/",
+    "/post/e69bbf-App_Code-e79baee98c84e4b88be79a84-code-e5afabe596aee58583e6b8ace8a9a6-.aspx/",
+    "/columns/2006/10/29/e69bbf-App_Code-e79baee98c84e4b88be79a84-code-e5afabe596aee58583e6b8ace8a9a6-.aspx/",
+    "/columns/e69bbf-App_Code-e79baee98c84e4b88be79a84-code-e5afabe596aee58583e6b8ace8a9a6-.aspx/",
+    "/blogs/chicken/archive/2006/10/29/1901.aspx/",
+    "http://www.codeplex.com/Wiki/View.aspx?ProjectName=NUnitLite",
+    "http://www.codeplex.com/Wiki/View.aspx?ProjectName=NUnitLite\u0026title=NUnitLite%20Vision"
+  ]
+}

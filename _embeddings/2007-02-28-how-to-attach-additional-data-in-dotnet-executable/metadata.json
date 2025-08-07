@@ -1,0 +1,53 @@
+{
+  "title": "\u5982\u4F55\u5728\u57F7\u884C\u6A94 (.NET) \u88E1\u9644\u52A0\u984D\u5916\u7684\u8CC7\u6599?",
+  "published": true,
+  "categories": null,
+  "tags": [
+    ".NET",
+    "Tips",
+    "\u6280\u8853\u96A8\u7B46"
+  ],
+  "generator": "BlogIndex.SyncPost v1.0.0.0, o3, https://app-azureopenai.openai.azure.com/",
+  "tech-stacks": [
+    ".NET",
+    "C#",
+    "Visual Studio 2005",
+    "Windows",
+    "Windows 2003 x64",
+    "ASP.NET",
+    "MSBuild",
+    "CLR",
+    "csc.exe",
+    "al.exe",
+    "PEVerify"
+  ],
+  "keywords": [
+    "embedded resource",
+    "module",
+    "assembly",
+    "self-extract",
+    "csc.exe",
+    "al.exe",
+    "PEVerify",
+    "signature",
+    "CLR",
+    "compiler",
+    "linker",
+    "runtime",
+    "daily build",
+    "security",
+    "web application",
+    "batch",
+    "x64"
+  ],
+  "references": [
+    "/2007/02/28/\u5982\u4F55\u5728\u57F7\u884C\u6A94-net-\u88E1\u9644\u52A0\u984D\u5916\u7684\u8CC7\u6599/",
+    "/columns/post/2007/02/28/e5a682e4bd95e59ca8e59fb7e8a18ce6aa94-(NET)-e8a3a1e99984e58aa0e9a18de5a496e79a84e8b387e69699.aspx/",
+    "/post/2007/02/28/e5a682e4bd95e59ca8e59fb7e8a18ce6aa94-(NET)-e8a3a1e99984e58aa0e9a18de5a496e79a84e8b387e69699.aspx/",
+    "/post/e5a682e4bd95e59ca8e59fb7e8a18ce6aa94-(NET)-e8a3a1e99984e58aa0e9a18de5a496e79a84e8b387e69699.aspx/",
+    "/columns/2007/02/28/e5a682e4bd95e59ca8e59fb7e8a18ce6aa94-(NET)-e8a3a1e99984e58aa0e9a18de5a496e79a84e8b387e69699.aspx/",
+    "/columns/e5a682e4bd95e59ca8e59fb7e8a18ce6aa94-(NET)-e8a3a1e99984e58aa0e9a18de5a496e79a84e8b387e69699.aspx/",
+    "/blogs/chicken/archive/2007/02/28/2268.aspx/",
+    "/wp-content/be-files/StartApp.zip"
+  ]
+}

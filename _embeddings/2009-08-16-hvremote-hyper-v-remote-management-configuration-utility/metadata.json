@@ -1,0 +1,47 @@
+{
+  "title": "HVRemote (Hyper-V Remote Management Configuration Utility)",
+  "published": true,
+  "categories": null,
+  "tags": [
+    "MSDN",
+    "Tips",
+    "\u6709\u7684\u6C92\u7684"
+  ],
+  "generator": "BlogIndex.SyncPost v1.0.0.0, o3, https://app-azureopenai.openai.azure.com/",
+  "tech-stacks": [
+    "Hyper-V",
+    "Windows Server 2008",
+    "Windows Vista",
+    "Windows 7",
+    "MMC",
+    "WMI",
+    "DCOM",
+    "Remote Desktop",
+    "Active Directory",
+    "HVRemote",
+    "vmconnect.exe",
+    "Microsoft"
+  ],
+  "keywords": [
+    "Hyper-V",
+    "Remote Management",
+    "HVRemote",
+    "Security",
+    "Remote Desktop",
+    "WMI",
+    "DCOM",
+    "Active Directory",
+    "Windows Server 2008",
+    "Windows Vista",
+    "Windows 7",
+    "MMC"
+  ],
+  "references": [
+    "http://blogs.technet.com/jhoward/archive/2008/03/28/part-1-hyper-v-remote-management-you-do-not-have-the-requested-permission-to-complete-this-task-contact-the-administrator-of-the-authorization-policy-for-the-computer-computername.aspx",
+    "http://blogs.technet.com/jhoward/archive/2008/11/14/configure-hyper-v-remote-management-in-seconds.aspx",
+    "http://code.msdn.microsoft.com/HVRemote",
+    "http://technet.microsoft.com/en-us/library/ee256062(WS.10).aspx",
+    "/wp-content/be-files/WindowsLiveWriter/HVRemoteHyperVRemoteManagementConfigurat/425ECE48/image.png",
+    "/wp-content/be-files/WindowsLiveWriter/HVRemoteHyperVRemoteManagementConfigurat/61A1751B/image.png"
+  ]
+}

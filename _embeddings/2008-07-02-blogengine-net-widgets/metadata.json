@@ -1,0 +1,39 @@
+{
+  "title": "[BlogEngine.NET] Widgets",
+  "published": true,
+  "categories": null,
+  "tags": [
+    "BlogEngine.NET",
+    "\u6280\u8853\u96A8\u7B46",
+    "\u6709\u7684\u6C92\u7684"
+  ],
+  "generator": "BlogIndex.SyncPost v1.0.0.0, o3, https://app-azureopenai.openai.azure.com/",
+  "tech-stacks": [
+    "BlogEngine.NET",
+    "FlickrNet",
+    "ASP.NET User Control",
+    "Microsoft Web Parts",
+    "Windows 3.1",
+    "OLE",
+    "OpenDoc"
+  ],
+  "keywords": [
+    "widget",
+    "BlogEngine.NET",
+    "Extension",
+    "FlickrNet",
+    "User Control",
+    "Web Parts",
+    "BlogEngine 1.4"
+  ],
+  "references": [
+    "/2008/07/02/blogengine-net-widgets/",
+    "/columns/post/2008/07/02/BlogEngineNET-Widgets.aspx/",
+    "/post/2008/07/02/BlogEngineNET-Widgets.aspx/",
+    "/post/BlogEngineNET-Widgets.aspx/",
+    "/columns/2008/07/02/BlogEngineNET-Widgets.aspx/",
+    "/columns/BlogEngineNET-Widgets.aspx/",
+    "http://rtur.net/blog/post/2008/03/24/BlogEngine-Widgets-Tutorial.aspx",
+    "http://www.michadel.net/"
+  ]
+}

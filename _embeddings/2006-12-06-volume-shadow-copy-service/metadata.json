@@ -1,0 +1,51 @@
+{
+  "title": "Volume Shadow Copy Service ...",
+  "published": true,
+  "categories": null,
+  "tags": [
+    "\u6280\u8853\u96A8\u7B46",
+    "\u6709\u7684\u6C92\u7684"
+  ],
+  "generator": "BlogIndex.SyncPost v1.0.0.0, o3, https://app-azureopenai.openai.azure.com/",
+  "tech-stacks": [
+    "Windows 2003",
+    "Windows XP",
+    "Windows Vista",
+    "VSS",
+    "SQL Server 2005",
+    "Exchange 2007",
+    "Data Protection 2006",
+    "RAR.exe",
+    "vssadmin.exe",
+    "UNC"
+  ],
+  "keywords": [
+    "vss",
+    "snapshot",
+    "copy on write",
+    "backup",
+    "windows",
+    "file system",
+    "provider",
+    "SQL2005",
+    "Exchange2007",
+    "Data Protection 2006",
+    "disk",
+    "shadow copy",
+    "UNC",
+    "RAR",
+    "vssadmin",
+    "lock"
+  ],
+  "references": [
+    "/2006/12/06/volume-shadow-copy-service/",
+    "/columns/post/2006/12/06/Volume-Shadow-Copy-Service-.aspx/",
+    "/post/2006/12/06/Volume-Shadow-Copy-Service-.aspx/",
+    "/post/Volume-Shadow-Copy-Service-.aspx/",
+    "/columns/2006/12/06/Volume-Shadow-Copy-Service-.aspx/",
+    "/columns/Volume-Shadow-Copy-Service-.aspx/",
+    "/blogs/chicken/archive/2006/12/06/1991.aspx/",
+    "\\\\localhost\\d$\\@GMT-2006.11.28-23.00.01",
+    "\\\\nest\\Home\\@GMT-2006.11.28-23.00.01"
+  ]
+}

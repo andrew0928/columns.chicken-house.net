@@ -1,0 +1,59 @@
+{
+  "title": "Network Bridge in Windows 2003...",
+  "published": true,
+  "categories": null,
+  "tags": [
+    "Tips",
+    "\u6280\u8853\u96A8\u7B46",
+    "\u6709\u7684\u6C92\u7684"
+  ],
+  "generator": "BlogIndex.SyncPost v1.0.0.0, o3, https://app-azureopenai.openai.azure.com/",
+  "tech-stacks": [
+    "Windows Server 2003",
+    "Intel 82559",
+    "Intel PRO/100 S",
+    "Intel PRO/100 Management\u002B",
+    "Marvell Gigabit Ethernet",
+    "Gigabit Ethernet (GBE)",
+    "NAT",
+    "RRAS",
+    "VPN",
+    "DHCP",
+    "DNS",
+    "IIS",
+    "Software Network Bridge"
+  ],
+  "keywords": [
+    "Network Bridge",
+    "Windows 2003",
+    "GBE",
+    "100Mbps",
+    "1000Mbps",
+    "Intel 82559",
+    "Intel PRO/100 S",
+    "Intel PRO/100 Management\u002B",
+    "driver",
+    "NIC",
+    "Marvell",
+    "NAT",
+    "RRAS",
+    "VPN",
+    "DHCP",
+    "DNS",
+    "IIS",
+    "Net Share",
+    "software networking bridge",
+    "disk I/O"
+  ],
+  "references": [
+    "/2007/02/22/network-bridge-in-windows-2003/",
+    "/columns/post/2007/02/22/Network-Bridge-in-Windows-2003.aspx/",
+    "/post/2007/02/22/Network-Bridge-in-Windows-2003.aspx/",
+    "/post/Network-Bridge-in-Windows-2003.aspx/",
+    "/columns/2007/02/22/Network-Bridge-in-Windows-2003.aspx/",
+    "/columns/Network-Bridge-in-Windows-2003.aspx/",
+    "/blogs/chicken/archive/2007/02/22/2199.aspx/",
+    "/wp-content/be-files/files/58684.gif",
+    "/wp-content/be-files/files/37191.gif"
+  ]
+}

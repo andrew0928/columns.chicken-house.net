@@ -1,0 +1,61 @@
+{
+  "title": "[BlogEngine Extension] PostViewCount 1.0",
+  "published": true,
+  "categories": null,
+  "tags": [
+    ".NET",
+    "ASP.NET",
+    "BlogEngine Extension",
+    "BlogEngine.NET",
+    "\u4F5C\u54C1\u96C6",
+    "\u6280\u8853\u96A8\u7B46"
+  ],
+  "generator": "BlogIndex.SyncPost v1.0.0.0, o3, https://app-azureopenai.openai.azure.com/",
+  "tech-stacks": [
+    ".NET",
+    "ASP.NET",
+    "BlogEngine.NET",
+    "C#",
+    "XML",
+    "File System"
+  ],
+  "keywords": [
+    "PostViewCount",
+    "Counter",
+    "BlogEngine",
+    "Extension",
+    "ThreadSafe",
+    "CACHE",
+    "Flyweight pattern",
+    "Factory pattern",
+    "WeakReference",
+    "Provider",
+    "Event Handler",
+    "ExtensionSettings",
+    "PostViewCounter",
+    "Hit Record",
+    "SyncRoot",
+    "Lock",
+    "Multi-threading"
+  ],
+  "references": [
+    "/2008/07/06/blogengine-extension-postviewcount-1-0/",
+    "/columns/post/2008/07/06/BlogEngine-Extension-PostViewCount-10.aspx/",
+    "/post/2008/07/06/BlogEngine-Extension-PostViewCount-10.aspx/",
+    "/post/BlogEngine-Extension-PostViewCount-10.aspx/",
+    "/columns/2008/07/06/BlogEngine-Extension-PostViewCount-10.aspx/",
+    "/columns/BlogEngine-Extension-PostViewCount-10.aspx/",
+    "http://www.codeplex.com/blogengine/Release/ProjectReleases.aspx?ReleaseId=9451",
+    "http://mosesofegypt.net/?tag=/blogengine.net\u002Bextensions",
+    "http://rtur.net/blog/post/2008/07/04/Writing-extensions-for-BlogEngine-14-(part-1).aspx",
+    "http://blog.darkthread.net/",
+    "http://www.google.com/bot.html",
+    "http://www.google.com.tw/search?complete=1\u0026hl=zh-TW\u0026cr=countryTW\u0026rlz=1B3GGGL_zh-TWTW237TW238\u0026q=%E9%A6%99%E6%B8%AFg9\u0026start=30\u0026sa=N",
+    "/wp-content/be-files/PostViewCounter.cs",
+    "http://en.wikipedia.org/wiki/Flyweight_pattern",
+    "http://en.wikipedia.org/wiki/Factory_method_pattern",
+    "http://en.wikipedia.org/wiki/Weak_reference",
+    "http://columns.chicken-house.net/wp-content/be-files/PostViewCounter.cs",
+    "/wp-content/be-files/WindowsLiveWriter/BlogEngineExtensionCounter_1285/image_3.png"
+  ]
+}

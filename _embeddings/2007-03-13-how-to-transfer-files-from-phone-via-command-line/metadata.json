@@ -1,0 +1,53 @@
+{
+  "title": "\u5982\u4F55\u900F\u904E\u547D\u4EE4\u5217, \u5F9E\u624B\u6A5F\u642C\u6A94\u6848\u5230\u96FB\u8166?",
+  "published": true,
+  "categories": [],
+  "tags": [
+    ".NET",
+    "Tips",
+    "\u6280\u8853\u96A8\u7B46",
+    "\u6709\u7684\u6C92\u7684"
+  ],
+  "generator": "BlogIndex.SyncPost v1.0.0.0, o3, https://app-azureopenai.openai.azure.com/",
+  "tech-stacks": [
+    ".NET",
+    "Microsoft ActiveSync",
+    "RAPI",
+    "OpenNETCF",
+    "Windows Batch Script",
+    "rcmd.exe",
+    "DigitalCameraFiler",
+    "Microsoft Windows"
+  ],
+  "keywords": [
+    "\u547D\u4EE4\u5217",
+    "\u624B\u6A5F",
+    "\u642C\u6A94\u6848",
+    "ActiveSync",
+    "RAPI",
+    ".NET",
+    "DigitalCameraFiler",
+    "OpenNETCF",
+    "MSDN",
+    "Batch file",
+    "copy",
+    "del",
+    "xcopy",
+    "Storage Card",
+    "My Documents",
+    "\u76F8\u7247",
+    "\u7167\u7247"
+  ],
+  "references": [
+    "http://www.codeproject.com/ce/rcmd.asp",
+    "http://www.microsoft.com/taiwan/msdn/library/2004/...",
+    "http://www.opennetcf.org/communication.asp",
+    "/2007/03/12/how-to-transfer-files-from-phone-via-command-line/",
+    "/columns/post/2007/03/13/e5a682e4bd95e9808fe9818ee591bde4bba4e588972c-e5be9ee6898be6a99fe690ace6aa94e6a188e588b0e99bbbe885a6.aspx/",
+    "/post/2007/03/13/e5a682e4bd95e9808fe9818ee591bde4bba4e588972c-e5be9ee6898be6a99fe690ace6aa94e6a188e588b0e99bbbe885a6.aspx/",
+    "/post/e5a682e4bd95e9808fe9818ee591bde4bba4e588972c-e5be9ee6898be6a99fe690ace6aa94e6a188e588b0e99bbbe885a6.aspx/",
+    "/columns/2007/03/13/e5a682e4bd95e9808fe9818ee591bde4bba4e588972c-e5be9ee6898be6a99fe690ace6aa94e6a188e588b0e99bbbe885a6.aspx/",
+    "/columns/e5a682e4bd95e9808fe9818ee591bde4bba4e588972c-e5be9ee6898be6a99fe690ace6aa94e6a188e588b0e99bbbe885a6.aspx/",
+    "/blogs/chicken/archive/2007/03/13/2295.aspx/"
+  ]
+}

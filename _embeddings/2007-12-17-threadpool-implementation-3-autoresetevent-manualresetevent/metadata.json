@@ -1,0 +1,51 @@
+{
+  "title": "ThreadPool \u5BE6\u4F5C #3. AutoResetEvent / ManualResetEvent",
+  "published": true,
+  "categories": [
+    "\u7CFB\u5217\u6587\u7AE0: Thread Pool \u5BE6\u4F5C"
+  ],
+  "tags": [
+    ".NET",
+    "\u4F5C\u696D\u7CFB\u7D71",
+    "\u591A\u57F7\u884C\u7DD2",
+    "\u6280\u8853\u96A8\u7B46"
+  ],
+  "generator": "BlogIndex.SyncPost v1.0.0.0, o3, https://app-azureopenai.openai.azure.com/",
+  "tech-stacks": [
+    "C#",
+    ".NET Framework",
+    "AutoResetEvent",
+    "ManualResetEvent",
+    "WaitHandle",
+    "Thread",
+    "ThreadPriority",
+    "Windows OS"
+  ],
+  "keywords": [
+    "AutoResetEvent",
+    "ManualResetEvent",
+    "ThreadPool",
+    "SimpleThreadPool",
+    "worker thread",
+    "WaitHandle",
+    "WaitOne",
+    "Set",
+    "Thread Priority",
+    "GC",
+    "enqueueNotify"
+  ],
+  "references": [
+    "/2007/12/17/threadpool-\u5BE6\u4F5C-3-autoresetevent-manualresetevent/",
+    "/columns/post/2007/12/17/ThreadPool-e5afa6e4bd9c-3-AutoResetEvent-ManualResetEvent.aspx/",
+    "/post/2007/12/17/ThreadPool-e5afa6e4bd9c-3-AutoResetEvent-ManualResetEvent.aspx/",
+    "/post/ThreadPool-e5afa6e4bd9c-3-AutoResetEvent-ManualResetEvent.aspx/",
+    "/columns/2007/12/17/ThreadPool-e5afa6e4bd9c-3-AutoResetEvent-ManualResetEvent.aspx/",
+    "/columns/ThreadPool-e5afa6e4bd9c-3-AutoResetEvent-ManualResetEvent.aspx/",
+    "/columns/post/2007/12/17/ThreadPool-e5afa6e4bd9c-3-AutoResetEvent--ManualResetEvent.aspx/",
+    "/post/2007/12/17/ThreadPool-e5afa6e4bd9c-3-AutoResetEvent--ManualResetEvent.aspx/",
+    "/post/ThreadPool-e5afa6e4bd9c-3-AutoResetEvent--ManualResetEvent.aspx/",
+    "/columns/2007/12/17/ThreadPool-e5afa6e4bd9c-3-AutoResetEvent--ManualResetEvent.aspx/",
+    "/columns/ThreadPool-e5afa6e4bd9c-3-AutoResetEvent--ManualResetEvent.aspx/",
+    "/blogs/chicken/archive/2007/12/17/2894.aspx/"
+  ]
+}

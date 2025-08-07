@@ -1,0 +1,50 @@
+{
+  "title": "[\u8A2D\u8A08\u6848\u4F8B] \u751F\u547D\u904A\u6232#1, \u524D\u8A00",
+  "published": true,
+  "categories": [
+    "\u7CFB\u5217\u6587\u7AE0: \u751F\u547D\u904A\u6232"
+  ],
+  "tags": [
+    ".NET",
+    "C#",
+    "\u591A\u57F7\u884C\u7DD2",
+    "\u6280\u8853\u96A8\u7B46",
+    "\u7269\u4EF6\u5C0E\u5411",
+    "\u7CFB\u5217\u6587\u7AE0: \u751F\u547D\u904A\u6232"
+  ],
+  "generator": "BlogIndex.SyncPost v1.0.0.0, o3, https://app-azureopenai.openai.azure.com/",
+  "tech-stacks": [
+    ".NET",
+    "C#",
+    "Java",
+    "Python",
+    "Scala",
+    "C",
+    "Facebook API"
+  ],
+  "keywords": [
+    "\u751F\u547D\u904A\u6232",
+    "Game of Life",
+    "\u7D30\u80DE\u81EA\u52D5\u6A5F",
+    "\u591A\u57F7\u884C\u7DD2",
+    "\u7269\u4EF6\u5C0E\u5411",
+    "yield return",
+    "\u8A2D\u8A08\u6848\u4F8B",
+    "\u6A21\u64EC\u7A0B\u5F0F",
+    "thread"
+  ],
+  "references": [
+    "http://zh.wikipedia.org/zh-hk/%E7%94%9F%E5%91%BD%E6%B8%B8%E6%88%8F",
+    "http://zh.wikipedia.org/zh-hk/%E8%8B%B1%E5%9B%BD",
+    "http://zh.wikipedia.org/zh-hk/%E6%95%B0%E5%AD%A6%E5%AE%B6",
+    "http://zh.wikipedia.org/zh-hk/%E8%A9%B9%C2%B7%E4%BD%95%E9%A0%93%C2%B7%E5%BA%B7%E5%A8%81",
+    "http://zh.wikipedia.org/zh-hk/1970%E5%B9%B4",
+    "http://zh.wikipedia.org/zh-hk/%E7%B4%B0%E8%83%9E%E8%87%AA%E5%8B%95%E6%A9%9F",
+    "http://zh.wikipedia.org/zh-hk/10%E6%9C%88",
+    "http://zh.wikipedia.org/zh-hk/%E7%A7%91%E5%AD%B8%E7%BE%8E%E5%9C%8B%E4%BA%BA",
+    "http://zh.wikipedia.org/w/index.php?title=%E9%A6%AC%E4%B8%81%C2%B7%E8%91%9B%E7%99%BB%E8%83%BD\u0026action=edit\u0026redlink=1",
+    "http://tw.myblog.yahoo.com/dust512/article?mid=25\u0026prev=28\u0026next=-1",
+    "http://caterpillar.onlyfun.net/Gossip/AlgorithmGossip/LifeGame.htm",
+    "http://blog.darkthread.net/blogs/darkthreadtw/archive/2008/07/21/win-a-vsts-2008.aspx"
+  ]
+}

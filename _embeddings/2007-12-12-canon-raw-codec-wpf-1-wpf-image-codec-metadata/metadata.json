@@ -1,0 +1,60 @@
+{
+  "title": "Canon Raw Codec \u002B WPF #1, WPF Image Codec, Metadata",
+  "published": true,
+  "categories": [
+    "\u7CFB\u5217\u6587\u7AE0: Canon Raw Codec \u0026 WPF"
+  ],
+  "tags": [
+    ".NET",
+    "WPF",
+    "\u4F5C\u54C1\u96C6",
+    "\u591A\u57F7\u884C\u7DD2",
+    "\u6280\u8853\u96A8\u7B46",
+    "\u7576\u5E74\u52C7"
+  ],
+  "generator": "BlogIndex.SyncPost v1.0.0.0, o3, https://app-azureopenai.openai.azure.com/",
+  "tech-stacks": [
+    ".NET",
+    "C#",
+    "WPF",
+    "Windows Presentation Foundation",
+    "GDI",
+    "GDI\u002B",
+    "HD Photo",
+    "System.Windows.Media.Imaging",
+    "BitmapDecoder",
+    "BitmapEncoder",
+    "JpegBitmapEncoder",
+    "Canon Raw Codec",
+    "XPath",
+    "Windows"
+  ],
+  "keywords": [
+    "Canon",
+    "G9",
+    "RAW",
+    "Image Codec",
+    "JPEG",
+    "Metadata",
+    "EXIF",
+    "HD Photo",
+    "BitmapDecoder",
+    "TransformedBitmap",
+    "ScaleTransform",
+    "BitmapFrame",
+    "IFD",
+    "XMP",
+    "ushort",
+    "ImageUtil",
+    "performance"
+  ],
+  "references": [
+    "/2007/12/11/canon-raw-codec-wpf-1-wpf-image-codec-metadata/",
+    "/columns/post/2007/12/12/Canon-Raw-Codec-2b-WPF-12c-WPF-Image-Codec2c-Metadata.aspx/",
+    "/post/2007/12/12/Canon-Raw-Codec-2b-WPF-12c-WPF-Image-Codec2c-Metadata.aspx/",
+    "/post/Canon-Raw-Codec-2b-WPF-12c-WPF-Image-Codec2c-Metadata.aspx/",
+    "/columns/2007/12/12/Canon-Raw-Codec-2b-WPF-12c-WPF-Image-Codec2c-Metadata.aspx/",
+    "/columns/Canon-Raw-Codec-2b-WPF-12c-WPF-Image-Codec2c-Metadata.aspx/",
+    "/blogs/chicken/archive/2007/12/12/2873.aspx/"
+  ]
+}

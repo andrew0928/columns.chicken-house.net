@@ -1,0 +1,45 @@
+{
+  "title": "\u5FAE\u670D\u52D9\u67B6\u69CB #2, \u6309\u7167\u67B6\u69CB\uFF0C\u91CD\u69CB\u7CFB\u7D71",
+  "published": true,
+  "categories": [
+    "\u7CFB\u5217\u6587\u7AE0: .NET \u002B Windows Container, \u5FAE\u670D\u52D9\u67B6\u69CB\u8A2D\u8A08",
+    "\u7CFB\u5217\u6587\u7AE0: \u67B6\u69CB\u5E2B\u89C0\u9EDE"
+  ],
+  "tags": [
+    "Microservice"
+  ],
+  "generator": "BlogIndex.SyncPost v1.0.0.0, o3, https://app-azureopenai.openai.azure.com/",
+  "tech-stacks": [
+    ".NET",
+    ".NET Framework",
+    "C#",
+    "ASP.NET MVC",
+    "ASP.NET Web API",
+    "Windows Container",
+    "HTTP",
+    "HttpClient",
+    "Visual Studio",
+    "Factory Pattern",
+    "Proxy Pattern"
+  ],
+  "keywords": [
+    "\u5FAE\u670D\u52D9",
+    "\u91CD\u69CB",
+    "\u6A21\u7D44\u5316",
+    "\u9AD8\u5167\u805A",
+    "\u4F4E\u8026\u5408",
+    "\u6703\u54E1\u6A5F\u5236",
+    "Factory",
+    "Proxy",
+    "\u670D\u52D9\u5316",
+    "\u55AE\u5143\u6E2C\u8A66",
+    "Debug.Assert",
+    "\u5206\u6563\u5F0F\u67B6\u69CB",
+    "\u6280\u8853\u50B5"
+  ],
+  "references": [
+    "http://blogs.perpetuumsoft.com/dotnet/to-refactor-or-not-to-refactor-part-i/",
+    "https://www.flickr.com/services/api/",
+    "https://github.com/samjudson/flickr-net"
+  ]
+}

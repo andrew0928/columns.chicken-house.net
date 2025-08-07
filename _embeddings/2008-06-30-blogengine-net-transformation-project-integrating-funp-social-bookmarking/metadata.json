@@ -1,0 +1,49 @@
+{
+  "title": "[BlogEngine.NET] \u6539\u9020\u5DE5\u7A0B - \u6574\u5408 FunP \u63A8\u63A8\u738B",
+  "published": true,
+  "categories": [],
+  "tags": [
+    ".NET",
+    "ASP.NET",
+    "BlogEngine.NET",
+    "\u6709\u7684\u6C92\u7684"
+  ],
+  "generator": "BlogIndex.SyncPost v1.0.0.0, o3, https://app-azureopenai.openai.azure.com/",
+  "tech-stacks": [
+    ".NET",
+    "ASP.NET",
+    "C#",
+    "HTML",
+    "JavaScript",
+    "BlogEngine.NET"
+  ],
+  "keywords": [
+    "BlogEngine",
+    "FunP",
+    "\u63A8\u63A8\u738B",
+    "\u9ED1\u7C73",
+    "\u63A8\u6587",
+    "\u6309\u9215",
+    "Rating",
+    "Tags",
+    "IFRAME",
+    "Archive",
+    "PostView"
+  ],
+  "references": [
+    "/post/e68ea8!!!.aspx",
+    "http://www.hemidemi.com/",
+    "http://www.funp.com/",
+    "http://www.hemidemi.com/blogtools/hemi_card",
+    "http://funp.com/tools/buttongen.php",
+    "http://funp.com/tools/buttoniframe.php?url=xxxxxxxxxxxxxx\u0026s=1",
+    "http://funp.com/tools/buttoniframe.php?url=\u003C%=EncodedAbsoluteLink %\u003E\u0026s=1",
+    "http://funp.com/push/submit/add.php?url=\u003C%=EncodedAbsoluteLink %\u003E\u0026s=\u003C%=EncodedPostTitle %\u003E\u0026t=\u003C%=EncodedPostBody %\u003E\u003C%=TagsQueryString %\u003E\u0026via=tools",
+    "http://funp.com/tools/images/post_03.gif",
+    "/wp-content/be-files/WindowsLiveWriter/BlogEngine.NETFunP_11CED/image_10.png",
+    "/wp-content/be-files/WindowsLiveWriter/BlogEngine.NETFunP_11CED/image_11.png",
+    "/wp-content/be-files/WindowsLiveWriter/BlogEngine.NETFunP_11CED/image_12.png",
+    "/wp-content/be-files/WindowsLiveWriter/BlogEngine.NETFunP_11CED/image_3.png",
+    "http://funp.com/tools/buttoniframe.php?url={0}\u0026amp;s=12"
+  ]
+}

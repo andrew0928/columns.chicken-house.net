@@ -1,0 +1,35 @@
+{
+  "title": "\u6CDB\u578B \u002B Singleton Patterns (II)",
+  "published": true,
+  "categories": [
+    "\u7CFB\u5217\u6587\u7AE0: \u6CDB\u578B \u002B Singleton Patterns"
+  ],
+  "tags": [
+    ".NET"
+  ],
+  "generator": "BlogIndex.SyncPost v1.0.0.0, o3, https://app-azureopenai.openai.azure.com/",
+  "tech-stacks": [
+    ".NET",
+    "C#"
+  ],
+  "keywords": [
+    "singleton",
+    "generic",
+    "base class",
+    "library",
+    "Singleton pattern",
+    "GenericSingletonBase",
+    "GenericSingletonImpl1",
+    "instance",
+    "casting"
+  ],
+  "references": [
+    "/2006/10/27/\u6CDB\u578B-singleton-patterns-ii/",
+    "/columns/post/2006/10/27/e6b39be59e8b-2b-Singleton-Patterns-(II).aspx/",
+    "/post/2006/10/27/e6b39be59e8b-2b-Singleton-Patterns-(II).aspx/",
+    "/post/e6b39be59e8b-2b-Singleton-Patterns-(II).aspx/",
+    "/columns/2006/10/27/e6b39be59e8b-2b-Singleton-Patterns-(II).aspx/",
+    "/columns/e6b39be59e8b-2b-Singleton-Patterns-(II).aspx/",
+    "/blogs/chicken/archive/2006/10/27/1894.aspx/"
+  ]
+}

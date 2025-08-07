@@ -1,0 +1,51 @@
+{
+  "title": "[RUN! PC] 2010 \u56DB\u6708\u865F - \u751F\u7522\u8005vs\u6D88\u8CBB\u8005\u2013 \u57F7\u884C\u7DD2\u7684\u4F9B\u9700\u554F\u984C",
+  "published": true,
+  "categories": [
+    "RUN! PC \u5C08\u6B04\u6587\u7AE0"
+  ],
+  "tags": [
+    ".NET",
+    "RUN! PC",
+    "\u4F5C\u54C1\u96C6",
+    "\u591A\u57F7\u884C\u7DD2",
+    "\u6280\u8853\u96A8\u7B46",
+    "\u7269\u4EF6\u5C0E\u5411"
+  ],
+  "generator": "BlogIndex.SyncPost v1.0.0.0, o3, https://app-azureopenai.openai.azure.com/",
+  "tech-stacks": [
+    ".NET",
+    "C#",
+    "BlockingStream",
+    "BlockQueue",
+    "System.IO.Stream",
+    "Stream Pipeline"
+  ],
+  "keywords": [
+    "\u751F\u7522\u8005",
+    "\u6D88\u8CBB\u8005",
+    "\u751F\u7522\u8005/\u6D88\u8CBB\u8005",
+    "\u751F\u7522\u7DDA\u6A21\u5F0F",
+    "\u57F7\u884C\u7DD2",
+    "\u591A\u57F7\u884C\u7DD2",
+    "Pipeline",
+    "BlockingStream",
+    "Stream",
+    "BlockQueue",
+    "Queue",
+    "Stream Pipeline"
+  ],
+  "references": [
+    "/2010/04/05/run-pc-2010-\u56DB\u6708\u865F-\u751F\u7522\u8005vs\u6D88\u8CBB\u8005-\u57F7\u884C\u7DD2\u7684\u4F9B\u9700\u554F\u984C/",
+    "/columns/post/2010/04/05/RUNPC-2010-04.aspx/",
+    "/post/2010/04/05/RUNPC-2010-04.aspx/",
+    "/post/RUNPC-2010-04.aspx/",
+    "/columns/2010/04/05/RUNPC-2010-04.aspx/",
+    "/columns/RUNPC-2010-04.aspx/",
+    "/wp-content/be-files/image_9.png",
+    "http://columns.chicken-house.net/post/MSDN-Magazine-e996b1e8ae80e5bf83e5be97-Stream-Pipeline.aspx",
+    "http://columns.chicken-house.net/post/RUN!PC-e7b2bee981b8e69687e7aba0-e7949fe794a2e7b79ae6a8a1e5bc8fe79a84e5a49ae59fb7e8a18ce7b792e68789e794a8.aspx",
+    "http://columns.chicken-house.net/post/RUNPC-2008-11.aspx",
+    "http://columns.chicken-house.net/post/e7949fe794a2e88085-vs-e6b688e8b2bbe88085-BlockQueue-e5afa6e4bd9c.aspx"
+  ]
+}

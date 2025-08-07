@@ -1,0 +1,49 @@
+{
+  "title": "Fiddler \u8DDF TFS \u76F8\u885D\u7684\u554F\u984C\u89E3\u6C7A - I",
+  "published": true,
+  "categories": [],
+  "tags": [
+    ".NET",
+    "Tips",
+    "\u6280\u8853\u96A8\u7B46"
+  ],
+  "generator": "BlogIndex.SyncPost v1.0.0.0, o3, https://app-azureopenai.openai.azure.com/",
+  "tech-stacks": [
+    "Fiddler",
+    "TFS",
+    "Visual Studio 2005",
+    ".NET",
+    "AJAX",
+    "WinINET",
+    "HTTP"
+  ],
+  "keywords": [
+    "Fiddler",
+    "TFS",
+    "vs2005",
+    "Http",
+    "Debugging",
+    "Proxy",
+    "AJAX",
+    "HTTP 401",
+    "WinINET",
+    "bypass host list"
+  ],
+  "references": [
+    "http://www.fiddler2.com/",
+    "/wp-content/be-files/WindowsLiveWriter/FiddlerTFS_14D72/image07.png",
+    "/wp-content/be-files/WindowsLiveWriter/FiddlerTFS_14D72/image012.png",
+    "/2007/04/23/fiddler-tfs-conflict-solution-part-1/",
+    "/columns/post/2007/04/23/Fiddler-e8b79f-TFS-e79bb8e8a19de79a84e5958fe9a18ce8a7a3e6b1ba-I.aspx/",
+    "/post/2007/04/23/Fiddler-e8b79f-TFS-e79bb8e8a19de79a84e5958fe9a18ce8a7a3e6b1ba-I.aspx/",
+    "/post/Fiddler-e8b79f-TFS-e79bb8e8a19de79a84e5958fe9a18ce8a7a3e6b1ba-I.aspx/",
+    "/columns/2007/04/23/Fiddler-e8b79f-TFS-e79bb8e8a19de79a84e5958fe9a18ce8a7a3e6b1ba-I.aspx/",
+    "/columns/Fiddler-e8b79f-TFS-e79bb8e8a19de79a84e5958fe9a18ce8a7a3e6b1ba-I.aspx/",
+    "/columns/post/2007/04/23/Fiddler-e8b79f-TFS-e79bb8e8a19de79a84e5958fe9a18ce8a7a3e6b1ba---I.aspx/",
+    "/post/2007/04/23/Fiddler-e8b79f-TFS-e79bb8e8a19de79a84e5958fe9a18ce8a7a3e6b1ba---I.aspx/",
+    "/post/Fiddler-e8b79f-TFS-e79bb8e8a19de79a84e5958fe9a18ce8a7a3e6b1ba---I.aspx/",
+    "/columns/2007/04/23/Fiddler-e8b79f-TFS-e79bb8e8a19de79a84e5958fe9a18ce8a7a3e6b1ba---I.aspx/",
+    "/columns/Fiddler-e8b79f-TFS-e79bb8e8a19de79a84e5958fe9a18ce8a7a3e6b1ba---I.aspx/",
+    "/blogs/chicken/archive/2007/04/23/2350.aspx/"
+  ]
+}

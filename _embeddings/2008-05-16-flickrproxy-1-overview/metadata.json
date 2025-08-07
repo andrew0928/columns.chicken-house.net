@@ -1,0 +1,51 @@
+{
+  "title": "FlickrProxy #1 - Overview",
+  "published": true,
+  "categories": [
+    "\u4F5C\u54C1\u96C6: FlickrProxy"
+  ],
+  "tags": [
+    ".NET",
+    "ASP.NET",
+    "\u4F5C\u54C1\u96C6"
+  ],
+  "generator": "BlogIndex.SyncPost v1.0.0.0, o3, https://app-azureopenai.openai.azure.com/",
+  "tech-stacks": [
+    ".NET",
+    "ASP.NET",
+    "Windows Live Writer",
+    "Flickr API",
+    "HTTP",
+    "RTSP",
+    "YouTube",
+    "Microsoft SkyDrive",
+    "Fiddler"
+  ],
+  "keywords": [
+    "FlickrProxy",
+    "code",
+    "ADSL",
+    "bandwidth",
+    "photo hosting",
+    "plugin",
+    "server-side",
+    "proxy",
+    "dynamic upload",
+    "HttpHandler",
+    "runtime processing",
+    "redirect",
+    "WLW",
+    "blog backup",
+    "provider architecture",
+    "POC"
+  ],
+  "references": [
+    "http://michadel.chicken-house.net/blogs/",
+    "http://www.flickr4writer.com",
+    "http://www.flickr.com/",
+    "/post/e4b889e5808be5a5bde794a8e79a84-ASPNET-HttpHandler.aspx",
+    "http://demo.chicken-house.net/MediaProxy/storage/GoogleNews.htm",
+    "http://www.youtube.com/",
+    "http://skydrive.live.com/"
+  ]
+}

@@ -1,0 +1,31 @@
+{
+  "title": "\u5347\u7D1A\u5230 BlogEngine.NET 1.4.5.0 \u4E86",
+  "published": true,
+  "categories": null,
+  "tags": [
+    "BlogEngine.NET",
+    "\u6709\u7684\u6C92\u7684"
+  ],
+  "generator": "BlogIndex.SyncPost v1.0.0.0, o3, https://app-azureopenai.openai.azure.com/",
+  "tech-stacks": [
+    "BlogEngine.NET",
+    "Visual Source Safe",
+    "Volume Shadow Copy Service"
+  ],
+  "keywords": [
+    "\u5347\u7D1A",
+    "BlogEngine.NET",
+    "VSS",
+    "Visual Source Safe",
+    "Volume Shadow Copy Service",
+    "Bot Checker"
+  ],
+  "references": [
+    "/2008/08/29/\u5347\u7D1A\u5230-blogengine-net-1-4-5-0-\u4E86/",
+    "/columns/post/2008/08/29/upgrade-to-be1450.aspx/",
+    "/post/2008/08/29/upgrade-to-be1450.aspx/",
+    "/post/upgrade-to-be1450.aspx/",
+    "/columns/2008/08/29/upgrade-to-be1450.aspx/",
+    "/columns/upgrade-to-be1450.aspx/"
+  ]
+}

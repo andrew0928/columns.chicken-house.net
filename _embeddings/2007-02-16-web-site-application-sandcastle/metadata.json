@@ -1,0 +1,58 @@
+{
+  "title": "Web Site Application \u002B Sandcastle",
+  "published": true,
+  "categories": null,
+  "tags": [
+    ".NET",
+    "ASP.NET",
+    "Tips",
+    "\u6280\u8853\u96A8\u7B46"
+  ],
+  "generator": "BlogIndex.SyncPost v1.0.0.0, o3, https://app-azureopenai.openai.azure.com/",
+  "tech-stacks": [
+    ".NET",
+    "ASP.NET",
+    "C#",
+    "Java",
+    "Sandcastle",
+    "NDoc",
+    "Visual Studio 2005",
+    "Web Deployment Project",
+    "MSBuild",
+    "csc.exe",
+    "aspnet_compiler.exe",
+    "Reflection API",
+    "XML",
+    "CHM"
+  ],
+  "keywords": [
+    "Web Application",
+    "Web Site Application",
+    "Sandcastle",
+    "NDoc",
+    "Assembly",
+    "XML document",
+    "Compiler",
+    "App_Code",
+    "Help file",
+    "DLL",
+    "CHM",
+    "aspnet engine",
+    "Web Deployment Project",
+    "msbuild",
+    "csc.exe",
+    "aspnet_compiler.exe",
+    "Generic",
+    "Partial class",
+    "Typed Dataset",
+    "Web Service Proxy"
+  ],
+  "references": [
+    "/post/e588a9e794a8-NUnitLite2c-e59ca8-App_Code-e4b88be5afabe596aee58583e6b8ace8a9a6.aspx",
+    "http://www.microsoft.com/downloads/details.aspx?FamilyID=E82EA71D-DA89-42EE-A715-696E3A4873B2\u0026displaylang=en",
+    "http://search.msdn.microsoft.com/search/Redirect.aspx?title=ASP.NET\u002BCompilation\u002BTool\u002B(Aspnet_compiler.exe)\u002B\u0026url=http://msdn2.microsoft.com/en-us/library/ms229863(VS.80).aspx",
+    "http://msdn2.microsoft.com/en-us/asp.net/aa336619.aspx",
+    "http://search.msdn.microsoft.com/search/Redirect.aspx?title=Csc\u002BTask\u002B\u0026url=http://msdn2.microsoft.com/en-us/library/s5c8athz.aspx",
+    "http://search.msdn.microsoft.com/search/Redirect.aspx?title=Working\u002Bwith\u002Bthe\u002BC%23\u002B2.0\u002BCommand\u002BLine\u002BCompiler\u002B\u0026url=http://msdn2.microsoft.com/en-us/library/ms379563(vs.80).aspx"
+  ]
+}

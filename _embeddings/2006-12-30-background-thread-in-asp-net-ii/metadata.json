@@ -1,0 +1,37 @@
+{
+  "title": "Background Thread in ASP.NET (II)",
+  "published": true,
+  "categories": [
+    "\u7CFB\u5217\u6587\u7AE0: \u591A\u57F7\u884C\u7DD2\u7684\u8655\u7406\u6280\u5DE7"
+  ],
+  "tags": [
+    ".NET"
+  ],
+  "generator": "BlogIndex.SyncPost v1.0.0.0, o3, https://app-azureopenai.openai.azure.com/",
+  "tech-stacks": [
+    ".NET",
+    "ASP.NET",
+    "COM\u002B",
+    "IIS",
+    "App Pool",
+    "w3wp.exe"
+  ],
+  "keywords": [
+    "worker thread",
+    "application unload",
+    "exception handling",
+    "COM\u002B App Pool",
+    "resource release",
+    "20 min timeout"
+  ],
+  "references": [
+    "/wp-content/be-files/2003-AppPool.jpg",
+    "/2006/12/29/background-thread-in-asp-net-ii/",
+    "/columns/post/2006/12/30/Background-Thread-in-ASPNET-(II).aspx/",
+    "/post/2006/12/30/Background-Thread-in-ASPNET-(II).aspx/",
+    "/post/Background-Thread-in-ASPNET-(II).aspx/",
+    "/columns/2006/12/30/Background-Thread-in-ASPNET-(II).aspx/",
+    "/columns/Background-Thread-in-ASPNET-(II).aspx/",
+    "/blogs/chicken/archive/2006/12/30/2028.aspx/"
+  ]
+}

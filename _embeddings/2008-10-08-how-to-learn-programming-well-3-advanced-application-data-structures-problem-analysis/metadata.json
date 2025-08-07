@@ -1,0 +1,62 @@
+{
+  "title": "\u8A72\u5982\u4F55\u5B78\u597D \u0022\u5BEB\u7A0B\u5F0F\u0022 #3. \u9032\u968E\u61C9\u7528 - \u8CC7\u6599\u7D50\u69CB \u002B \u554F\u984C\u5206\u6790",
+  "published": true,
+  "categories": [
+    "\u7CFB\u5217\u6587\u7AE0: \u5982\u4F55\u5B78\u597D\u5BEB\u7A0B\u5F0F"
+  ],
+  "tags": [
+    ".NET",
+    "C#",
+    "Tips",
+    "\u4F5C\u54C1\u96C6",
+    "\u5C08\u6B04",
+    "\u6280\u8853\u96A8\u7B46",
+    "\u6709\u7684\u6C92\u7684"
+  ],
+  "generator": "BlogIndex.SyncPost v1.0.0.0, o3, https://app-azureopenai.openai.azure.com/",
+  "tech-stacks": [
+    ".NET",
+    ".NET 3.5",
+    "C#",
+    "Pascal",
+    "Graph",
+    "Stack",
+    "Tree",
+    "HashSet",
+    "Dictionary",
+    "List",
+    "SortedList",
+    "HashTable"
+  ],
+  "keywords": [
+    "\u8CC7\u6599\u7D50\u69CB",
+    "\u6F14\u7B97\u6CD5",
+    "Graph",
+    "Stack",
+    "Tree",
+    "\u905E\u8FF4",
+    "HashSet",
+    "Dictionary",
+    "List",
+    "SortedList",
+    "HashTable",
+    "O(n)",
+    "O(1)",
+    "O(log n)",
+    "\u8FF7\u5BAE\u6F14\u7B97\u6CD5",
+    "\u6700\u4F73\u8DEF\u7DDA",
+    "\u6700\u77ED\u8DEF\u5F91",
+    "\u9AD8\u901F\u516C\u8DEF",
+    "\u7A0B\u5F0F\u6548\u80FD",
+    "Niklaus Wirth"
+  ],
+  "references": [
+    "http://www.freeway.gov.tw/way_net.aspx",
+    "http://msdn.microsoft.com/en-us/library/xeaek790.aspx",
+    "http://msdn.microsoft.com/en-us/library/bb359438.aspx",
+    "http://www.javaworld.com.tw/roller/qing/entry/%E7%A8%8B%E5%BC%8F%E8%A8%AD%E8%A8%88%E7%9A%84%E5%85%A9%E5%80%8B%E8%A7%80%E9%BB%9E_1_2",
+    "http://www.javaworld.com.tw/roller/qing/entry/%E7%A8%8B%E5%BC%8F%E8%A8%AD%E8%A8%88%E7%9A%84%E5%85%A9%E5%80%8B%E8%A7%80%E9%BB%9E_2_2",
+    "/wp-content/be-files/WindowsLiveWriter/3_13ACD/image_3.png",
+    "/wp-content/be-files/Taiwan-Highway.zip"
+  ]
+}

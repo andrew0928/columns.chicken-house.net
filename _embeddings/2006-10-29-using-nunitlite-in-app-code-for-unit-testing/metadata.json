@@ -1,0 +1,36 @@
+{
+  "title": "\u5229\u7528 NUnitLite, \u5728 App_Code \u4E0B\u5BEB\u55AE\u5143\u6E2C\u8A66",
+  "published": true,
+  "categories": null,
+  "tags": [
+    ".NET"
+  ],
+  "generator": "BlogIndex.SyncPost v1.0.0.0, o3, https://app-azureopenai.openai.azure.com/",
+  "tech-stacks": [
+    "NUnitLite",
+    "NUnit",
+    ".NET Framework 2.0",
+    "ASP.NET 2.0",
+    "C#",
+    "Microsoft Windows NT 5.1"
+  ],
+  "keywords": [
+    "NUnitLite",
+    "App_Code",
+    "\u55AE\u5143\u6E2C\u8A66",
+    "unit test",
+    "configuration",
+    "test fixture",
+    "test runner",
+    "ASP.NET",
+    "Web Application",
+    "session",
+    "temp folder",
+    "NUnitConsole",
+    "ConsoleUI"
+  ],
+  "references": [
+    "http://www.chicken-house.net/files/chicken/NUnitLiteWebSite.zip",
+    "/wp-content/uploads/2006/10/NUnitLiteApp_Code_2935/image010.png"
+  ]
+}

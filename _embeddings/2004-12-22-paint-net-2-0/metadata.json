@@ -1,0 +1,42 @@
+{
+  "title": "Paint.NET 2.0",
+  "published": true,
+  "categories": null,
+  "tags": [
+    ".NET",
+    "\u6280\u8853\u96A8\u7B46"
+  ],
+  "generator": "BlogIndex.SyncPost v1.0.0.0, o3, https://app-azureopenai.openai.azure.com/",
+  "tech-stacks": [
+    "C#",
+    ".NET",
+    "Java",
+    "Photoshop",
+    "Paint.NET"
+  ],
+  "keywords": [
+    "Paint.NET",
+    "Open Source",
+    "\u5F71\u50CF\u8655\u7406\u8EDF\u9AD4",
+    "C#",
+    ".NET",
+    "Plug-Ins",
+    "Photoshop",
+    "layer",
+    "command history",
+    "\u6FFE\u93E1",
+    "\u5957\u7D22",
+    "\u5674\u69CD",
+    "\u6EF4\u7BA1"
+  ],
+  "references": [
+    "/2004/12/22/paint-net-2-0/",
+    "/columns/post/2004/12/22/PaintNET-20.aspx/",
+    "/post/2004/12/22/PaintNET-20.aspx/",
+    "/post/PaintNET-20.aspx/",
+    "/columns/2004/12/22/PaintNET-20.aspx/",
+    "/columns/PaintNET-20.aspx/",
+    "/blogs/chicken/archive/2004/12/22/217.aspx/",
+    "http://www.eecs.wsu.edu/paint.net/downloads.html"
+  ]
+}

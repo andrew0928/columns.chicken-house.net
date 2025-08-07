@@ -1,0 +1,47 @@
+{
+  "title": "[C# yield return] #2. \u53E6\u985E\u7684\u61C9\u7528 - Thread Sync \u66FF\u4EE3\u65B9\u6848",
+  "published": true,
+  "categories": [
+    "\u7CFB\u5217\u6587\u7AE0: Inside C# Yield Return"
+  ],
+  "tags": [
+    ".NET",
+    "C#",
+    "Tips",
+    "\u4F5C\u54C1\u96C6",
+    "\u591A\u57F7\u884C\u7DD2",
+    "\u6280\u8853\u96A8\u7B46",
+    "\u6709\u7684\u6C92\u7684"
+  ],
+  "generator": "BlogIndex.SyncPost v1.0.0.0, o3, https://app-azureopenai.openai.azure.com/",
+  "tech-stacks": [
+    "C#",
+    ".NET",
+    "Jekyll",
+    "AutoResetEvent"
+  ],
+  "keywords": [
+    "yield return",
+    "ThreadSync",
+    "GameHost",
+    "Player",
+    "IEnumerator",
+    "IEnumerable",
+    "AsyncPlayer",
+    "HintRecord",
+    "Multi-threading",
+    "AutoResetEvent",
+    "Iteration",
+    "Syntax Sugar",
+    "DummyYieldPlayer"
+  ],
+  "references": [
+    "/post/C-yield-return-1-How-It-Work-.aspx",
+    "http://blog.darkthread.net/",
+    "http://blog.darkthread.net/blogs/darkthreadtw/archive/2008/09/02/coding-for-fun-contest-start.aspx",
+    "/post/Thread-Sync-1-e6a682e5bfb5e7af87-e5a682e4bd95e58c96e8a2abe58b95e782bae4b8bbe58b95.aspx",
+    "/post/Thread-Sync-2-e5afa6e4bd9ce7af87-e4ba92e79bb8e7ad89e5be85e79a84e585a9e5808be59fb7e8a18ce7b792.aspx",
+    "/wp-content/be-files/WindowsLiveWriter/Cyieldreturn2.ThreadSync_FE89/image_6.png",
+    "/wp-content/be-files/WindowsLiveWriter/Cyieldreturn2.ThreadSync_FE89/image_5.png"
+  ]
+}

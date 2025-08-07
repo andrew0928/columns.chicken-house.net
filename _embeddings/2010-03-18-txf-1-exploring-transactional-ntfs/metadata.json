@@ -1,0 +1,73 @@
+{
+  "title": "[TxF] #1. \u521D\u63A2 Transactional NTFS",
+  "published": true,
+  "categories": [
+    "\u7CFB\u5217\u6587\u7AE0: \u4EA4\u6613\u5F0F (Transactional) NTFS"
+  ],
+  "tags": [
+    ".NET",
+    "C#",
+    "MSDN",
+    "SQL",
+    "Transactional NTFS",
+    "\u4F5C\u696D\u7CFB\u7D71"
+  ],
+  "generator": "BlogIndex.SyncPost v1.0.0.0, o3, https://app-azureopenai.openai.azure.com/",
+  "tech-stacks": [
+    ".NET",
+    "C#",
+    "C",
+    "C\u002B\u002B",
+    "SQL",
+    "Win32 API",
+    "P/Invoke",
+    "Windows Vista",
+    "Windows Server 2008",
+    "Windows NTFS",
+    "Transactional NTFS (TxF)",
+    "Transactional Registry (TxR)",
+    "Distributed Transaction Coordinator (DTC)",
+    "TransactionScope",
+    "System.Transactions",
+    "COM",
+    "KTM",
+    "AlphaFS",
+    "Longhorn"
+  ],
+  "keywords": [
+    "TxF",
+    "Transactional NTFS",
+    "\u4EA4\u6613\u5F0FNTFS",
+    "TxFS",
+    "Transactional Registry",
+    "TxR",
+    "DTC",
+    "Distributed Transaction Coordinator",
+    "TransactionScope",
+    "AlphaFS",
+    ".NET",
+    "C#",
+    "Win32 API",
+    "P/Invoke",
+    "KTM",
+    "CreateTransaction",
+    "DeleteFileTransactedW",
+    "CommitTransaction",
+    "RollbackTransaction",
+    "Windows Vista",
+    "Windows 2008",
+    "Managed Code"
+  ],
+  "references": [
+    "http://en.wikipedia.org/wiki/Distributed_Transaction_Coordinator",
+    "http://alphafs.codeplex.com/",
+    "http://msdn.microsoft.com/en-us/magazine/cc163388.aspx",
+    "http://community.bartdesmet.net/blogs/bart/archive/2006/11/05/Windows-Vista-_2D00_-Introducing-TxF-in-C_2300_-_2800_part-1_2900_-_2D00_-Transacted-file-delete.aspx",
+    "http://community.bartdesmet.net/blogs/bart/archive/2006/11/19/Windows-Vista-_2D00_-Introducing-TxF-in-C_2300_-_2800_part-2_2900_-_2D00_-Using-System.Transactions-and-the-DTC.aspx",
+    "http://community.bartdesmet.net/blogs/bart/archive/2007/02/21/windows-vista-introducing-txf-in-c-part-3-createfiletransacted-demo.aspx",
+    "http://www.codeproject.com/KB/vista/KTM.aspx",
+    "http://blogs.msdn.com/because_we_can/archive/2005/05/18/419809.aspx",
+    "http://msdn.microsoft.com/en-us/library/ee240893(VS.85).aspx",
+    "http://msdn.microsoft.com/en-us/library/aa365738(VS.85).aspx"
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "title": ".TEXT \u7684\u7DE8\u8F2F\u4ECB\u9762\u88DC\u5F37 (\u81EA\u5DF1\u723D\u4E00\u4E0B)..",
+  "published": true,
+  "categories": null,
+  "tags": [
+    ".NET",
+    "Community Server",
+    "\u6280\u8853\u96A8\u7B46"
+  ],
+  "generator": "BlogIndex.SyncPost v1.0.0.0, o3, https://app-azureopenai.openai.azure.com/",
+  "tech-stacks": [
+    ".NET",
+    "FreeTextBox",
+    ".TEXT",
+    "HTML",
+    "Community Server"
+  ],
+  "keywords": [
+    ".TEXT",
+    "BLOG",
+    "FreeTextBox",
+    "HTML",
+    "\u5716\u7247",
+    "\u8868\u60C5\u7B26\u865F",
+    "\u5DE5\u5177\u5217",
+    "editor",
+    "source mode",
+    "\u63D2\u5165\u5716\u7247",
+    "\u4ECB\u9762",
+    "code"
+  ],
+  "references": [
+    "http://scottwater.com/blog",
+    "/post/FreeTextBox-30-Released-!.aspx",
+    "/Emoticons/teeth_smile.gif",
+    "/Emoticons/shades_smile.gif",
+    "/wp-content/be-files/dottext_editor.jpg"
+  ]
+}

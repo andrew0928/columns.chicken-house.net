@@ -1,0 +1,38 @@
+{
+  "title": "Community Server",
+  "published": true,
+  "categories": null,
+  "tags": [
+    "Community Server",
+    "\u6280\u8853\u96A8\u7B46",
+    "\u6709\u7684\u6C92\u7684"
+  ],
+  "generator": "BlogIndex.SyncPost v1.0.0.0, o3, https://app-azureopenai.openai.azure.com/",
+  "tech-stacks": [
+    ".Text",
+    "Community Server",
+    "ASP.NET",
+    "ASPNET Forum",
+    "nGallery"
+  ],
+  "keywords": [
+    "blog",
+    ".Text",
+    "Community Server",
+    "ASPNET Forum",
+    "nGallery",
+    "RC2"
+  ],
+  "references": [
+    "/2005/02/12/community-server/",
+    "/columns/post/2005/02/12/Community-Server.aspx/",
+    "/post/2005/02/12/Community-Server.aspx/",
+    "/post/Community-Server.aspx/",
+    "/columns/2005/02/12/Community-Server.aspx/",
+    "/columns/Community-Server.aspx/",
+    "/blogs/chicken/archive/2005/02/12/305.aspx/",
+    "http://www.communityserver.org/",
+    "http://demo.chicken-house.net/cs/",
+    "/Emoticons/shades_smile.gif"
+  ]
+}

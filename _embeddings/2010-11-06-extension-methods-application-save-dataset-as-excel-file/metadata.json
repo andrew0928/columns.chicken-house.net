@@ -1,0 +1,62 @@
+{
+  "title": "Extension Methods \u7684\u61C9\u7528: Save DataSet as Excel file...",
+  "published": true,
+  "categories": null,
+  "tags": [
+    ".NET",
+    "C#",
+    "MSDN",
+    "Tips",
+    "\u6709\u7684\u6C92\u7684",
+    "\u6280\u8853\u96A8\u7B46"
+  ],
+  "generator": "BlogIndex.SyncPost v1.0.0.0, o3, https://app-azureopenai.openai.azure.com/",
+  "tech-stacks": [
+    ".NET Framework",
+    ".NET 3.0",
+    "C#",
+    "VB.NET",
+    "C\u002B\u002B",
+    "JavaScript",
+    "XSLT",
+    "HTML",
+    "Office Excel",
+    "Open XML SDK",
+    "Open XML format",
+    "NPOI",
+    "Koogra",
+    "Jet ODBC Driver",
+    "Jet OLEDB Driver",
+    "Windows"
+  ],
+  "keywords": [
+    "Extension Methods",
+    "extension methods",
+    "ReadExcel",
+    "WriteExcel",
+    "DataSet",
+    "DataTable",
+    "Excel",
+    "worksheet",
+    "workbook",
+    "static method",
+    "instance method",
+    "Syntex Sugar",
+    "HSSFWorkbook",
+    "Sheet",
+    "Row",
+    "Cell",
+    "Open XML",
+    "FAQ"
+  ],
+  "references": [
+    "http://msdn.microsoft.com/en-us/library/bb383977.aspx",
+    "http://npoi.codeplex.com/",
+    "http://msdn.microsoft.com/zh-tw/ee818993.aspx",
+    "http://koogra.sourceforge.net/",
+    "http://www.dotblogs.com.tw/mis2000lab/archive/2008/04/24/3454.aspx",
+    "http://www.microsoft.com/downloads/en/details.aspx?FamilyId=AD0B72FB-4A1D-4C52-BDB5-7DD7E816D046\u0026displaylang=en",
+    "http://www.microsoft.com/downloads/en/details.aspx?FamilyID=c6e744e5-36e9-45f5-8d8c-331df206e0d0\u0026DisplayLang=en",
+    "/post/2008/07/26/x64-2-ASPNET-2b-ODBC-(e8ae80e58f96-CSV).aspx"
+  ]
+}

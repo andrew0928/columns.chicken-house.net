@@ -1,0 +1,26 @@
+{
+  "title": "Battlestar Galactica",
+  "published": true,
+  "categories": null,
+  "tags": [
+    "\u6709\u7684\u6C92\u7684"
+  ],
+  "generator": "BlogIndex.SyncPost v1.0.0.0, o3, https://app-azureopenai.openai.azure.com/",
+  "tech-stacks": [
+    "Google",
+    "DVD",
+    "Xbox"
+  ],
+  "keywords": [
+    "Battlestar Galactica",
+    "\u661F\u969B\u5927\u722D\u9738",
+    "Cylon",
+    "\u8CFD\u9686\u4EBA",
+    "Starbuck",
+    "\u53F2\u5DF4\u514B"
+  ],
+  "references": [
+    "/wp-content/be-files/battlestar_galactica.jpg",
+    "http://www.scifi.com/battlestar/classic/"
+  ]
+}

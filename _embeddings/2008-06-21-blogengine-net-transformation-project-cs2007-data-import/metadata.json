@@ -1,0 +1,60 @@
+{
+  "title": "[BlogEngine.NET] \u6539\u9020\u5DE5\u7A0B - CS2007 \u8CC7\u6599\u532F\u5165",
+  "published": true,
+  "categories": null,
+  "tags": [
+    ".NET",
+    "ASP.NET",
+    "BlogEngine.NET",
+    "Community Server",
+    "\u6280\u8853\u96A8\u7B46",
+    "\u6709\u7684\u6C92\u7684"
+  ],
+  "generator": "BlogIndex.SyncPost v1.0.0.0, o3, https://app-azureopenai.openai.azure.com/",
+  "tech-stacks": [
+    ".NET",
+    "ASP.NET",
+    "BlogEngine.NET",
+    "Community Server (CS2007)",
+    "BlogML",
+    "WSDL",
+    "Web Service",
+    "ASMX",
+    "ASHX",
+    "C#",
+    "SQL Server 2005",
+    "T-SQL",
+    "XML",
+    "XPath",
+    "XSLT",
+    "Regular Expression",
+    "HttpHandler",
+    "Regex"
+  ],
+  "keywords": [
+    "BlogEngine.NET",
+    "CS2007",
+    "\u8CC7\u6599\u532F\u5165",
+    "BlogML",
+    "Web Service",
+    "PostID",
+    "PageViewCount",
+    "URL Rewrite",
+    "image.axd",
+    "file.axd",
+    "XML \u532F\u5165",
+    "\u6B63\u898F\u8868\u793A\u5F0F"
+  ],
+  "references": [
+    "http://columns.chicken-house.net/api/blogImporter.asmx",
+    "http://michadel.dyndns.org/netblog/",
+    "http://columns.chicken-house.net/blogs/chicken/xxxxxxx/xxx.jpg",
+    "http://columns.chicken-house.net/xxxxx/wp-content/be-files/xxx.jpg",
+    "http://columns.chicken-house.net/blogs/chicken/rss.aspx",
+    "http://community.chicken-house.net/blogs/chicken/xxxxx",
+    "http://columns.chicken-house.net/blogs/chicken/xxxxx",
+    "http://columns.chicken-house.net/blogs/rss.xml",
+    "http://regexlib.com/",
+    "http://www.funp.com/"
+  ]
+}

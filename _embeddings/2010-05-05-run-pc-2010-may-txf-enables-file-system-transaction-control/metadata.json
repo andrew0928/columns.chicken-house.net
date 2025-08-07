@@ -1,0 +1,61 @@
+{
+  "title": "[RUN! PC] 2010 \u4E94\u6708\u865F - TxF\u8B93\u6A94\u6848\u7CFB\u7D71\u4E5F\u80FD\u9054\u5230\u4EA4\u6613\u63A7\u5236",
+  "published": true,
+  "categories": [
+    "RUN! PC \u5C08\u6B04\u6587\u7AE0"
+  ],
+  "tags": [
+    ".NET",
+    "RUN! PC",
+    "Transactional NTFS",
+    "\u4F5C\u54C1\u96C6",
+    "\u4F5C\u696D\u7CFB\u7D71",
+    "\u6280\u8853\u96A8\u7B46",
+    "\u7269\u4EF6\u5C0E\u5411"
+  ],
+  "generator": "BlogIndex.SyncPost v1.0.0.0, o3, https://app-azureopenai.openai.azure.com/",
+  "tech-stacks": [
+    ".NET",
+    "C#",
+    "Visual Studio 2008",
+    ".NET Framework 4.0",
+    "Transactional NTFS (TxF)",
+    "P/Invoke",
+    "System.Transactions",
+    "DTC (Distributed Transaction Coordinator)",
+    "Windows Vista",
+    "Windows (NTFS)",
+    "AlphaFS"
+  ],
+  "keywords": [
+    "Transactional NTFS",
+    "TxF",
+    "\u6A94\u6848\u7CFB\u7D71\u4EA4\u6613\u63A7\u5236",
+    ".NET",
+    "Thread",
+    "\u591A\u57F7\u884C\u7DD2",
+    "Visual Studio 2008",
+    "C#",
+    "P/Invoke",
+    "AlphaFS",
+    "System.Transactions",
+    "DTC",
+    "Windows Vista",
+    "Longhorn",
+    "\u6A94\u6848\u4EA4\u6613",
+    "\u6548\u80FD\u8003\u91CF"
+  ],
+  "references": [
+    "/wp-content/be-files/image_10.png",
+    "/wp-content/be-files/TransactionDemo.zip",
+    "http://alphafs.codeplex.com/",
+    "http://msdn.microsoft.com/en-us/magazine/cc163388.aspx",
+    "http://community.bartdesmet.net/blogs/bart/archive/2006/11/05/Windows-Vista-_2D00_-Introducing-TxF-in-C_2300_-_2800_part-1_2900_-_2D00_-Transacted-file-delete.aspx",
+    "http://community.bartdesmet.net/blogs/bart/archive/2006/11/19/Windows-Vista-_2D00_-Introducing-TxF-in-C_2300_-_2800_part-2_2900_-_2D00_-Using-System.Transactions-and-the-DTC.aspx",
+    "http://community.bartdesmet.net/blogs/bart/archive/2007/02/21/windows-vista-introducing-txf-in-c-part-3-createfiletransacted-demo.aspx",
+    "http://www.codeproject.com/KB/vista/KTM.aspx",
+    "http://blogs.msdn.com/because_we_can/archive/2005/05/18/419809.aspx",
+    "http://msdn.microsoft.com/en-us/library/ee240893(VS.85).aspx",
+    "http://msdn.microsoft.com/en-us/library/aa365738(VS.85).aspx"
+  ]
+}

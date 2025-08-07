@@ -1,0 +1,56 @@
+{
+  "title": "Fiddler \u8DDF TFS \u76F8\u885D\u7684\u554F\u984C\u89E3\u6C7A - II",
+  "published": true,
+  "categories": null,
+  "tags": [
+    ".NET",
+    "Tips",
+    "\u6280\u8853\u96A8\u7B46"
+  ],
+  "generator": "BlogIndex.SyncPost v1.0.0.0, o3, https://app-azureopenai.openai.azure.com/",
+  "tech-stacks": [
+    ".NET",
+    "C#",
+    "Fiddler",
+    "TFS",
+    "WinINET",
+    "Internet Explorer",
+    "AppDomain",
+    "VPN",
+    "Console Application"
+  ],
+  "keywords": [
+    "Fiddler",
+    "TFS",
+    "Proxy",
+    "WinINETProxyInfo",
+    "OnAttach",
+    "CustomRules.js",
+    "Reflection",
+    "127.0.0.1:8888",
+    "Script",
+    "Capture Traffic",
+    "NIC",
+    "VPN",
+    "AppDomain",
+    "Console Application"
+  ],
+  "references": [
+    "/2007/04/24/fiddler-\u8DDF-tfs-\u76F8\u885D\u7684\u554F\u984C\u89E3\u6C7A-ii/",
+    "/2007/04/24/fiddler-tfs-conflict-solution-part-2/",
+    "/columns/post/2007/04/24/Fiddler-e8b79f-TFS-e79bb8e8a19de79a84e5958fe9a18ce8a7a3e6b1ba-II.aspx/",
+    "/post/2007/04/24/Fiddler-e8b79f-TFS-e79bb8e8a19de79a84e5958fe9a18ce8a7a3e6b1ba-II.aspx/",
+    "/post/Fiddler-e8b79f-TFS-e79bb8e8a19de79a84e5958fe9a18ce8a7a3e6b1ba-II.aspx/",
+    "/columns/2007/04/24/Fiddler-e8b79f-TFS-e79bb8e8a19de79a84e5958fe9a18ce8a7a3e6b1ba-II.aspx/",
+    "/columns/Fiddler-e8b79f-TFS-e79bb8e8a19de79a84e5958fe9a18ce8a7a3e6b1ba-II.aspx/",
+    "/columns/post/2007/04/24/Fiddler-e8b79f-TFS-e79bb8e8a19de79a84e5958fe9a18ce8a7a3e6b1ba---II.aspx/",
+    "/post/2007/04/24/Fiddler-e8b79f-TFS-e79bb8e8a19de79a84e5958fe9a18ce8a7a3e6b1ba---II.aspx/",
+    "/post/Fiddler-e8b79f-TFS-e79bb8e8a19de79a84e5958fe9a18ce8a7a3e6b1ba---II.aspx/",
+    "/columns/2007/04/24/Fiddler-e8b79f-TFS-e79bb8e8a19de79a84e5958fe9a18ce8a7a3e6b1ba---II.aspx/",
+    "/columns/Fiddler-e8b79f-TFS-e79bb8e8a19de79a84e5958fe9a18ce8a7a3e6b1ba---II.aspx/",
+    "/blogs/chicken/archive/2007/04/24/2353.aspx/",
+    "/wp-content/be-files/WindowsLiveWriter/FiddlerTFSII_1D90/image04.png",
+    "/wp-content/be-files/WindowsLiveWriter/FiddlerTFSII_1D90/image09.png",
+    "http://ld-fsweb.learningdigital.com:8080/"
+  ]
+}

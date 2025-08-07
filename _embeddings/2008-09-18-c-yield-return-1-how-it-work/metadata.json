@@ -1,0 +1,48 @@
+{
+  "title": "[C#: yield return] #1. How It Work ?",
+  "published": true,
+  "categories": [
+    "\u7CFB\u5217\u6587\u7AE0: Inside C# Yield Return"
+  ],
+  "tags": [
+    ".NET",
+    "C#",
+    "Tips",
+    "\u591A\u57F7\u884C\u7DD2",
+    "\u6280\u8853\u96A8\u7B46",
+    "\u7269\u4EF6\u5C0E\u5411"
+  ],
+  "generator": "BlogIndex.SyncPost v1.0.0.0, o3, https://app-azureopenai.openai.azure.com/",
+  "tech-stacks": [
+    ".NET",
+    "C#",
+    "Java",
+    "Microsoft CLR",
+    "IEnumerable",
+    "IEnumerator",
+    "Reflector",
+    "Visual Studio"
+  ],
+  "keywords": [
+    "yield return",
+    "IEnumerator",
+    "IEnumerable",
+    "Iterator Pattern",
+    "Syntax Sugar",
+    "for loop",
+    "Collection",
+    "Thread Sync",
+    "compiler",
+    "Design Patterns"
+  ],
+  "references": [
+    "http://msdn.microsoft.com/en-us/library/9k7k7cf0(VS.80).aspx",
+    "http://msdn.microsoft.com/en-us/library/9eekhta0.aspx",
+    "http://en.wikipedia.org/wiki/Syntax_sugar",
+    "http://en.wikipedia.org/wiki/Iterator",
+    "http://en.wikipedia.org/wiki/System_programming",
+    "/",
+    "/2008/08/14/thread-sync-1-\u6982\u5FF5\u7BC7-\u5982\u4F55\u5316\u88AB\u52D5\u70BA\u4E3B\u52D5/",
+    "/2008/08/15/thread-sync-2-\u5BE6\u4F5C\u7BC7-\u4E92\u76F8\u7B49\u5F85\u7684\u5169\u500B\u57F7\u884C\u7DD2/"
+  ]
+}

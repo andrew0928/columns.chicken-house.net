@@ -1,0 +1,68 @@
+{
+  "title": "[TxF] #2. \u5148\u4F5C\u529F\u8AB2 - \u719F\u6089 P/Invoke \u53CA Win32 \u6A94\u6848\u8655\u7406...",
+  "published": true,
+  "categories": [
+    "\u7CFB\u5217\u6587\u7AE0: \u4EA4\u6613\u5F0F (Transactional) NTFS"
+  ],
+  "tags": [
+    ".NET",
+    "C#",
+    "MSDN",
+    "Transactional NTFS"
+  ],
+  "generator": "BlogIndex.SyncPost v1.0.0.0, o3, https://app-azureopenai.openai.azure.com/",
+  "tech-stacks": [
+    ".NET Framework",
+    "C#",
+    "Win32 API",
+    "Windows",
+    "Transactional NTFS (TxF)",
+    "P/Invoke",
+    "kernel32.dll",
+    "SafeHandle",
+    "SafeFileHandle",
+    "IntPtr",
+    "System.IO",
+    "FileStream",
+    "StreamReader",
+    "Windows Vista",
+    "Windows 7",
+    "Windows Server 2008",
+    "Windows Server 2008 R2"
+  ],
+  "keywords": [
+    "Transactional NTFS",
+    "TxF",
+    "P/Invoke",
+    "Win32",
+    "Windows API",
+    "MoveFile",
+    "CreateFile",
+    "CloseHandle",
+    "HANDLE",
+    "SafeHandle",
+    "SafeFileHandle",
+    "IntPtr",
+    "unmanaged code",
+    "managed code",
+    "FileStream",
+    "C#",
+    ".NET",
+    "API"
+  ],
+  "references": [
+    "/post/TxF-1-Transactional-NTFS-e5889de9ab94e9a997.aspx",
+    "http://msdn.microsoft.com/en-us/library/aa446536.aspx",
+    "http://msdn.microsoft.com/en-us/library/aa365239(VS.85).aspx",
+    "http://msdn.microsoft.com/zh-tw/library/e59b22c5.aspx",
+    "http://msdn.microsoft.com/zh-tw/library/aa984739(VS.71).aspx",
+    "/wp-content/be-files/image_6.png",
+    "/wp-content/be-files/image_7.png",
+    "/wp-content/be-files/image_8.png",
+    "http://go.microsoft.com/fwlink/?linkid=14202",
+    "http://msdn.microsoft.com/zh-tw/library/system.runtime.interopservices.safehandle(v=VS.90).aspx",
+    "http://msdn.microsoft.com/zh-tw/library/fh21e17c(v=VS.90).aspx",
+    "http://www.pinvoke.net/index.aspx",
+    "http://en.wikipedia.org/wiki/Pinvoke"
+  ]
+}

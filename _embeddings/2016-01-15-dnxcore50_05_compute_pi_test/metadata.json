@@ -1,0 +1,72 @@
+{
+  "title": ".NET Core \u8DE8\u5E73\u53F0 #5, \u591A\u5DE5\u904B\u7B97\u6548\u80FD\u5927\u8003\u9A57 \u2013 \u8A08\u7B97\u5713\u5468\u7387\u6E2C\u8A66",
+  "published": true,
+  "categories": [
+    "\u7CFB\u5217\u6587\u7AE0: .NET Core \u8DE8\u5E73\u53F0"
+  ],
+  "tags": [
+    ".Net Core",
+    "C#",
+    "Docker",
+    "\u5C08\u6B04"
+  ],
+  "generator": "BlogIndex.SyncPost v1.0.0.0, o3, https://app-azureopenai.openai.azure.com/",
+  "tech-stacks": [
+    ".NET Core",
+    "C#",
+    "CoreCLR",
+    "System.Threading.Tasks",
+    "Docker",
+    "Boot2Docker",
+    "Windows Server 2012 R2",
+    "Windows Server 2016",
+    "Nano Server",
+    "Ubuntu 15.10",
+    "Windows 10",
+    "Azure",
+    "JIT"
+  ],
+  "keywords": [
+    "CPU",
+    "parallel computing",
+    "Total Execute Time",
+    "Average Execute Time",
+    "Efficiency Rate",
+    "threads",
+    "Task",
+    "multi-core",
+    "performance test",
+    "pi calculation",
+    "VM",
+    "hyper-threading",
+    "benchmark",
+    "memory management"
+  ],
+  "references": [
+    "http://26.media.tumblr.com/tumblr_lstbslOSFm1qd5bcwo1_500.gif",
+    "/2015/12/26/dnxcore50_01_should_i_run_dotnet_on_linux/",
+    "/2015/12/27/dnxcore50_02_memfrag_test/",
+    "/2015/12/28/dnxcore50_03_windows_server_2016/",
+    "/2015/12/29/dnxcore50_04_linux_and_summary/",
+    "https://github.com/andrew0928/blog-netcore-cross-platform-test",
+    "https://github.com/andrew0928/blog-netcore-cross-platform-test/blob/master/CalcPI/Program.cs",
+    "https://msdn.microsoft.com/en-us/library/system.threading.tasks.task(v=vs.110).aspx",
+    "http://www.intel.com/content/www/us/en/architecture-and-technology/hyper-threading/hyper-threading-technology.html",
+    "/wp-content/images/2016-01-15-dnxcore50_05_compute_pi_test/img_56967d2029838.png",
+    "/wp-content/images/2016-01-15-dnxcore50_05_compute_pi_test/img_56968d3f83288.png",
+    "/wp-content/images/2016-01-15-dnxcore50_05_compute_pi_test/img_56968ead5dbc6.png",
+    "/wp-content/images/2016-01-15-dnxcore50_05_compute_pi_test/img_5697bf0537be2.png",
+    "/wp-content/images/2016-01-15-dnxcore50_05_compute_pi_test/img_5697c15611c7e.png",
+    "/wp-content/images/2016-01-15-dnxcore50_05_compute_pi_test/img_5697c01884e41.png",
+    "/wp-content/images/2016-01-15-dnxcore50_05_compute_pi_test/img_56968eee469c0.png",
+    "/wp-content/images/2016-01-15-dnxcore50_05_compute_pi_test/img_56969885d1767.png",
+    "/wp-content/images/2016-01-15-dnxcore50_05_compute_pi_test/img_56968f4a5c0ba.png",
+    "/wp-content/images/2016-01-15-dnxcore50_05_compute_pi_test/img_56968fad5bee3.png",
+    "/wp-content/images/2016-01-15-dnxcore50_05_compute_pi_test/img_5697c39e4b005.png",
+    "/wp-content/images/2016-01-15-dnxcore50_05_compute_pi_test/img_5697c3e869f9c.png",
+    "/wp-content/images/2016-01-15-dnxcore50_05_compute_pi_test/img_5697c57aa738a.png",
+    "/wp-content/images/2016-01-15-dnxcore50_05_compute_pi_test/img_5697c596917c0.png",
+    "/wp-content/images/2016-01-15-dnxcore50_05_compute_pi_test/img_5697c755b02c8.png",
+    "/wp-content/images/2016-01-15-dnxcore50_05_compute_pi_test/img_5697c76a62687.png"
+  ]
+}

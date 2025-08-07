@@ -1,0 +1,46 @@
+{
+  "title": "\u539F\u4F86 System.Net.Mail \u4E5F\u6703\u6709 Bug ...",
+  "published": true,
+  "categories": [],
+  "tags": [
+    ".NET",
+    "Tips",
+    "\u6280\u8853\u96A8\u7B46"
+  ],
+  "generator": "BlogIndex.SyncPost v1.0.0.0, o3, https://app-azureopenai.openai.azure.com/",
+  "tech-stacks": [
+    "C#",
+    ".NET Framework",
+    "System.Net.Mail",
+    "SmtpClient",
+    "Windows XP",
+    "Windows Server 2003",
+    "Windows Vista",
+    "Windows Update"
+  ],
+  "keywords": [
+    "System.Net.Mail",
+    "MailMessage",
+    "SmtpClient",
+    "MailAddress",
+    "ToString",
+    "ToEncodedString",
+    "FormatException",
+    "HeaderCollection",
+    "Encoding",
+    "GetEncoding(950)",
+    "ANSI",
+    "Console.WriteLine",
+    "bug"
+  ],
+  "references": [
+    "/2007/04/06/\u539F\u4F86-system-net-mail-\u4E5F\u6703\u6709-bug/",
+    "/2007/04/06/system-net-mail-bug-discovered/",
+    "/columns/post/2007/04/06/e58e9fe4be86-SystemNetMail-e4b99fe69c83e69c89-Bug-.aspx/",
+    "/post/2007/04/06/e58e9fe4be86-SystemNetMail-e4b99fe69c83e69c89-Bug-.aspx/",
+    "/post/e58e9fe4be86-SystemNetMail-e4b99fe69c83e69c89-Bug-.aspx/",
+    "/columns/2007/04/06/e58e9fe4be86-SystemNetMail-e4b99fe69c83e69c89-Bug-.aspx/",
+    "/columns/e58e9fe4be86-SystemNetMail-e4b99fe69c83e69c89-Bug-.aspx/",
+    "/blogs/chicken/archive/2007/04/06/2328.aspx/"
+  ]
+}

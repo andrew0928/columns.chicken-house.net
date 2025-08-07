@@ -1,0 +1,61 @@
+{
+  "title": "\u539F\u4F86\u662F IPv6 \u641E\u7684\u9B3C...",
+  "published": true,
+  "categories": null,
+  "tags": [
+    ".NET",
+    "ASP.NET"
+  ],
+  "generator": "BlogIndex.SyncPost v1.0.0.0, o3, https://app-azureopenai.openai.azure.com/",
+  "tech-stacks": [
+    ".NET Framework",
+    ".NET",
+    "ASP.NET",
+    "C#",
+    "IIS7",
+    "Windows Vista x64",
+    "IPv6",
+    "IPv4",
+    "System.Net.IPAddress",
+    "AddressFamily",
+    "Windows Hosts File",
+    "Visual Studio Development Server (DevWeb)"
+  ],
+  "keywords": [
+    "IPv6",
+    "IPv4",
+    "localhost",
+    "IP address",
+    "netmask",
+    "IsInSubNetwork",
+    "AddressFamily",
+    "InterNetwork",
+    "InterNetworkV6",
+    "Vista",
+    "IIS7",
+    "DevWeb",
+    "hosts",
+    "192.168.2.0/24",
+    "sample code"
+  ],
+  "references": [
+    "/2008/08/12/\u539F\u4F86\u662F-ipv6-\u641E\u7684\u9B3C/",
+    "/columns/post/2008/08/13/e58e9fe4be86e698af-IPv6-e6909ee79a84e9acbc.aspx/",
+    "/post/2008/08/13/e58e9fe4be86e698af-IPv6-e6909ee79a84e9acbc.aspx/",
+    "/post/e58e9fe4be86e698af-IPv6-e6909ee79a84e9acbc.aspx/",
+    "/columns/2008/08/13/e58e9fe4be86e698af-IPv6-e6909ee79a84e9acbc.aspx/",
+    "/columns/e58e9fe4be86e698af-IPv6-e6909ee79a84e9acbc.aspx/",
+    "/wp-content/be-files/WindowsLiveWriter/IPv6_13D1E/image_21.png",
+    "http://localhost/default.aspx",
+    "http://192.168.100.40/default.aspx",
+    "/wp-content/be-files/WindowsLiveWriter/IPv6_13D1E/image_22.png",
+    "/wp-content/be-files/WindowsLiveWriter/IPv6_13D1E/image_23.png",
+    "/wp-content/be-files/WindowsLiveWriter/IPv6_13D1E/image_29.png",
+    "/wp-content/be-files/WindowsLiveWriter/IPv6_13D1E/image_28.png",
+    "/wp-content/be-files/WindowsLiveWriter/IPv6_13D1E/image_27.png",
+    "/wp-content/be-files/WindowsLiveWriter/IPv6_13D1E/image_26.png",
+    "/wp-content/be-files/WindowsLiveWriter/IPv6_13D1E/image_25.png",
+    "/wp-content/be-files/WindowsLiveWriter/IPv6_13D1E/image_24.png",
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"
+  ]
+}

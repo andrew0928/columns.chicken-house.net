@@ -1,0 +1,47 @@
+{
+  "title": "\u5F97\u734E\u4E86 :D~~~",
+  "published": true,
+  "categories": null,
+  "tags": [
+    ".NET",
+    "C#",
+    "Tips",
+    "\u4F5C\u54C1\u96C6",
+    "\u591A\u57F7\u884C\u7DD2",
+    "\u6280\u8853\u96A8\u7B46",
+    "\u6709\u7684\u6C92\u7684",
+    "\u7269\u4EF6\u5C0E\u5411",
+    "\u7576\u5E74\u52C7"
+  ],
+  "generator": "BlogIndex.SyncPost v1.0.0.0, o3, https://app-azureopenai.openai.azure.com/",
+  "tech-stacks": [
+    ".NET",
+    "C#",
+    "VSTS 2008",
+    "Microsoft",
+    "Cisco"
+  ],
+  "keywords": [
+    "\u5F97\u734E",
+    "\u731C\u6578\u5B57",
+    "Thread Sync",
+    "yield return",
+    "GameHost",
+    "Player",
+    "\u8A2D\u8A08\u6A21\u5F0F",
+    "\u591A\u57F7\u884C\u7DD2",
+    "\u6BD4\u8CFD",
+    "VSTS"
+  ],
+  "references": [
+    "/wp-content/be-files/WindowsLiveWriter/D_12C2/IMG_9142_1.jpg",
+    "http://blog.darkthread.net/blogs/darkthreadtw/archive/2008/09/23/vsts-winner.aspx",
+    "http://blog.darkthread.net/blogs/darkthreadtw/archive/2008/07/21/win-a-vsts-2008.aspx",
+    "http://blog.darkthread.net/blogs/darkthreadtw/archive/2008/09/02/coding-for-fun-contest-start.aspx",
+    "http://columns.chicken-house.net/post/Thread-Sync-1-e6a682e5bfb5e7af87-e5a682e4bd95e58c96e8a2abe58b95e782bae4b8bbe58b95.aspx",
+    "http://columns.chicken-house.net/post/Thread-Sync-2-e5afa6e4bd9ce7af87-e4ba92e79bb8e7ad89e5be85e79a84e585a9e5808be59fb7e8a18ce7b792.aspx",
+    "http://columns.chicken-house.net/post/C-yield-return-1-How-It-Work-.aspx",
+    "http://columns.chicken-house.net/post/YieldReturn2_ThreadSyncReplacement.aspx",
+    "http://blog.darkthread.net/"
+  ]
+}

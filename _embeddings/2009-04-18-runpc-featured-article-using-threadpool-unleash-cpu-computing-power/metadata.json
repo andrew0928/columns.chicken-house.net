@@ -1,0 +1,46 @@
+{
+  "title": "RUNPC \u7CBE\u9078\u6587\u7AE0 - \u904B\u7528ThreadPool\u767C\u63EECPU\u904B\u7B97\u80FD\u529B",
+  "published": true,
+  "categories": [
+    "RUN! PC \u5C08\u6B04\u6587\u7AE0"
+  ],
+  "tags": [
+    ".NET",
+    "C#",
+    "RUN! PC",
+    "\u4F5C\u54C1\u96C6",
+    "\u591A\u57F7\u884C\u7DD2",
+    "\u5C08\u6B04",
+    "\u6280\u8853\u96A8\u7B46",
+    "\u6709\u7684\u6C92\u7684"
+  ],
+  "generator": "BlogIndex.SyncPost v1.0.0.0, o3, https://app-azureopenai.openai.azure.com/",
+  "tech-stacks": [
+    ".NET",
+    "C#",
+    "ASP.NET",
+    "ThreadPool",
+    "Semaphore"
+  ],
+  "keywords": [
+    "ThreadPool",
+    "CPU",
+    "\u591A\u57F7\u884C\u7DD2",
+    "multi-threading",
+    "\u751F\u7522\u7DDA\u6A21\u5F0F",
+    "Semaphore",
+    "ASP.NET",
+    "C#",
+    ".NET",
+    "\u540C\u6B65",
+    "Web\u61C9\u7528\u7A0B\u5F0F"
+  ],
+  "references": [
+    "http://www.runpc.com.tw/content/main_content.aspx?mgo=176\u0026fid=E02",
+    "/post/RUN!PC-e7b2bee981b8e69687e7aba0-e7949fe794a2e7b79ae6a8a1e5bc8fe79a84e5a49ae59fb7e8a18ce7b692e68789e794a8.aspx",
+    "/post/RUNPC-2008-11.aspx",
+    "/post/RUNPC-2008-09.aspx",
+    "/post/RUNPC-2008-06.aspx",
+    "/post/RUNPC-2008-04.aspx"
+  ]
+}

@@ -1,0 +1,59 @@
+{
+  "title": "FlickrProxy #4 - \u4FEE\u6B63\u540C\u6B65\u4E0A\u50B3\u7684\u554F\u984C",
+  "published": true,
+  "categories": [
+    "\u4F5C\u54C1\u96C6: FlickrProxy"
+  ],
+  "tags": [
+    ".NET",
+    "ASP.NET",
+    "\u4F5C\u54C1\u96C6"
+  ],
+  "generator": "BlogIndex.SyncPost v1.0.0.0, o3, https://app-azureopenai.openai.azure.com/",
+  "tech-stacks": [
+    ".NET",
+    "ASP.NET",
+    "C#",
+    "Semaphore",
+    "Critical Section",
+    "MD5",
+    "Dictionary",
+    "Flickr",
+    "IE"
+  ],
+  "keywords": [
+    "FlickrProxy",
+    "Flickr",
+    "Upload",
+    "HttpRequest",
+    "LOCK",
+    "Critical Section",
+    "Semaphore",
+    "Multi-threading",
+    "Cache",
+    "MD5",
+    "Dictionary",
+    "Photo",
+    "Quad Core CPU",
+    "BUG",
+    "\u4E26\u884C\u8655\u7406"
+  ],
+  "references": [
+    "http://michadel.chicken-house.net/blogs/michadel/default.aspx",
+    "/wp-content/be-files/archive/tags/RUNPC/default.aspx",
+    "http://en.wikipedia.org/wiki/Critical_section",
+    "/post/Next-Ten-Years.aspx",
+    "/2008/06/03/flickrproxy-4-\u4FEE\u6B63\u540C\u6B65\u4E0A\u50B3\u7684\u554F\u984C/",
+    "/columns/post/2008/06/03/FlickrProxy-4-e4bfaee6ada3e5908ce6ada5e4b88ae582b3e79a84e5958fe9a18c.aspx/",
+    "/post/2008/06/03/FlickrProxy-4-e4bfaee6ada3e5908ce6ada5e4b88ae582b3e79a84e5958fe9a18c.aspx/",
+    "/post/FlickrProxy-4-e4bfaee6ada3e5908ce6ada5e4b88ae582b3e79a84e5958fe9a18c.aspx/",
+    "/columns/2008/06/03/FlickrProxy-4-e4bfaee6ada3e5908ce6ada5e4b88ae582b3e79a84e5958fe9a18c.aspx/",
+    "/columns/FlickrProxy-4-e4bfaee6ada3e5908ce6ada5e4b88ae582b3e79a84e5958fe9a18c.aspx/",
+    "/columns/post/2008/06/03/FlickrProxy-4---e4bfaee6ada3e5908ce6ada5e4b88ae582b3e79a84e5958fe9a18c.aspx/",
+    "/post/2008/06/03/FlickrProxy-4---e4bfaee6ada3e5908ce6ada5e4b88ae582b3e79a84e5958fe9a18c.aspx/",
+    "/post/FlickrProxy-4---e4bfaee6ada3e5908ce6ada5e4b88ae582b3e79a84e5958fe9a18c.aspx/",
+    "/columns/2008/06/03/FlickrProxy-4---e4bfaee6ada3e5908ce6ada5e4b88ae582b3e79a84e5958fe9a18c.aspx/",
+    "/columns/FlickrProxy-4---e4bfaee6ada3e5908ce6ada5e4b88ae582b3e79a84e5958fe9a18c.aspx/",
+    "/blogs/chicken/archive/2008/06/03/3261.aspx/"
+  ]
+}

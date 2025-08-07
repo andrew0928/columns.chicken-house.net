@@ -1,0 +1,42 @@
+{
+  "title": "php python on .net",
+  "published": true,
+  "categories": null,
+  "tags": [
+    "\u6280\u8853\u96A8\u7B46"
+  ],
+  "generator": "BlogIndex.SyncPost v1.0.0.0, o3, https://app-azureopenai.openai.azure.com/",
+  "tech-stacks": [
+    ".NET CLR",
+    ".NET",
+    "IronPython",
+    "Python",
+    "Phalanger",
+    "PHP"
+  ],
+  "keywords": [
+    ".NET",
+    "CLR",
+    "language",
+    "Python",
+    "Microsoft",
+    "IronPython",
+    "PHP",
+    "Phalanger",
+    "compiler",
+    "platform",
+    "support"
+  ],
+  "references": [
+    "/Emoticons/emotion-2.gif",
+    "http://www.microsoft.com/downloads/details.aspx?FamilyID=CF952FDB-2344-4B1E-B169-3F5DFBCA2984\u0026displaylang=en",
+    "http://www.php-compiler.net/",
+    "/2005/04/08/php-python-on-net/",
+    "/columns/post/2005/04/08/php-python-on-net.aspx/",
+    "/post/2005/04/08/php-python-on-net.aspx/",
+    "/post/php-python-on-net.aspx/",
+    "/columns/2005/04/08/php-python-on-net.aspx/",
+    "/columns/php-python-on-net.aspx/",
+    "/blogs/chicken/archive/2005/04/08/532.aspx/"
+  ]
+}

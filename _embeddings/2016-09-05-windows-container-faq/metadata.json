@@ -1,0 +1,61 @@
+{
+  "title": "Windows Container FAQ - \u5B98\u7DB2\u6C92\u6709\u8AAA\u7684\u4E8B",
+  "published": true,
+  "categories": [],
+  "tags": [
+    "Docker",
+    "Windows Container",
+    "\u4F5C\u696D\u7CFB\u7D71",
+    "\u6280\u8853\u96A8\u7B46"
+  ],
+  "generator": "BlogIndex.SyncPost v1.0.0.0, o3, https://app-azureopenai.openai.azure.com/",
+  "tech-stacks": [
+    "ASP.NET Web Form",
+    "ASP.NET MVC",
+    ".NET Core",
+    "Docker",
+    "Windows Container",
+    "Windows Server 2016",
+    "Windows Server",
+    "Hyper-V",
+    "Windows 10",
+    "Linux",
+    "AlpineLinux",
+    "Docker Engine",
+    "Windows Kernel",
+    "Linux Kernel",
+    "Docker for Windows",
+    "Microsoft",
+    "GitHub",
+    "Docker Registry"
+  ],
+  "keywords": [
+    "windows container",
+    "docker",
+    "windows server 2016",
+    ".net core",
+    "hyper-v",
+    "container image",
+    "microsoft",
+    "docker hub",
+    "nanoserver",
+    "windowsservercore",
+    "iis"
+  ],
+  "references": [
+    "https://www.microsoft.com/net/core#windows",
+    "https://www.docker.com/",
+    "https://community-open-camp.azurewebsites.net/",
+    "https://channel9.msdn.com/Events/Community-Open-Camp/Community-Open-Camp-2016/ComOpenCamp018",
+    "https://msdn.microsoft.com/zh-tw/virtualization/windowscontainers/about/faq",
+    "https://msdn.microsoft.com/zh-tw/virtualization/windowscontainers/deployment/deployment",
+    "http://www.infoq.com/cn/articles/windows-and-docker",
+    "https://msdn.microsoft.com/zh-tw/virtualization/windowscontainers/deployment/system_requirements",
+    "https://msdn.microsoft.com/en-us/virtualization/windowscontainers/quick_start/quick_start_windows_server",
+    "https://msdn.microsoft.com/en-us/virtualization/windowscontainers/quick_start/quick_start_windows_10",
+    "http://hub.docker.com",
+    "https://hub.docker.com/u/microsoft/",
+    "https://github.com/Microsoft/Virtualization-Documentation/tree/master/windows-container-samples/windowsservercore",
+    "https://msdn.microsoft.com/en-us/virtualization/windowscontainers/management/container_networking"
+  ]
+}

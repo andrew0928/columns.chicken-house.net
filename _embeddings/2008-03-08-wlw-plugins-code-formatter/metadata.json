@@ -1,0 +1,43 @@
+{
+  "title": "WLW Plugins: Code Formatter",
+  "published": true,
+  "categories": null,
+  "tags": [
+    ".NET",
+    "\u4F5C\u54C1\u96C6"
+  ],
+  "generator": "BlogIndex.SyncPost v1.0.0.0, o3, https://app-azureopenai.openai.azure.com/",
+  "tech-stacks": [
+    "C#",
+    "HTML",
+    "CSS",
+    "ASP.NET",
+    "Visual Basic.NET",
+    "PowerShell",
+    "T-SQL",
+    "WinForms",
+    "Windows Live Writer",
+    "Visual Studio",
+    ".NET"
+  ],
+  "keywords": [
+    "c# code format",
+    "code formatter",
+    "WLW",
+    "plugins",
+    "syntax highlight",
+    "Windows Live Writer",
+    "CSS",
+    "HTML",
+    "WinForms",
+    "ComboBox",
+    "Unicode"
+  ],
+  "references": [
+    "http://manoli.net/csharpformat/",
+    "/wp-content/be-files/WindowsLiveWriter/WLWPluginsCodeFormatter_11BC9/image_5.png",
+    "/wp-content/be-files/WindowsLiveWriter/WLWPluginsCodeFormatter_11BC9/image3.png",
+    "/wp-content/be-files/WindowsLiveWriter/WLWPluginsCodeFormatter_11BC9/image_8.png",
+    "http://www.chicken-house.net/files/chicken/ChickenHouse.LiveWriterAddIns.zip"
+  ]
+}

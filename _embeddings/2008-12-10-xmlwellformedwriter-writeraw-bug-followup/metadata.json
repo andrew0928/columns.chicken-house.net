@@ -1,0 +1,52 @@
+{
+  "title": "XmlWellFormedWriter.WriteRaw( ) \u7684 Bug \u5F8C\u7E8C\u767C\u5C55",
+  "published": true,
+  "categories": [],
+  "tags": [
+    ".NET",
+    "C#",
+    "MSDN",
+    "Tips",
+    "\u6280\u8853\u96A8\u7B46",
+    "\u6709\u7684\u6C92\u7684"
+  ],
+  "generator": "BlogIndex.SyncPost v1.0.0.0, o3, https://app-azureopenai.openai.azure.com/",
+  "tech-stacks": [
+    ".NET",
+    "C#",
+    "XML",
+    "XmlWriter",
+    "XmlDocument",
+    "XDocument",
+    "XPathNavigator",
+    "XmlReader",
+    "Visual Studio 2008",
+    "Microsoft Connect",
+    "System.Xml",
+    "ConformanceLevel.Fragment"
+  ],
+  "keywords": [
+    "WriteRaw",
+    "XmlWellFormedWriter",
+    "Bug",
+    "XmlFragment",
+    "NotSupportException",
+    "XmlWriter",
+    "XmlDocument",
+    "XPathNavigator.AppendChild",
+    "WriteNode",
+    "XmlReaderSettings",
+    "ConformanceLevel.Fragment"
+  ],
+  "references": [
+    "http://columns.chicken-house.net/post/e58e9fe4be86-XmlWellFormedWriter-e4b99fe69c89-Bug-.aspx",
+    "https://connect.microsoft.com/VisualStudio/feedback/ViewFeedback.aspx?FeedbackID=386899\u0026wa=wsignin1.0",
+    "/post/e58e9fe4be86-XmlWellFormedWriter-e4b99fe69c89-Bug-.aspx",
+    "/2008/12/10/xmlwellformedwriter-writeraw-\u7684-bug-\u5F8C\u7E8C\u767C\u5C55/",
+    "/columns/post/2008/12/10/XmlWellFormedWriterWriteRaw(-)-e79a84-Bug-e5be8ce7ba8ce799bce5b195.aspx/",
+    "/post/2008/12/10/XmlWellFormedWriterWriteRaw(-)-e79a84-Bug-e5be8ce7ba8ce799bce5b195.aspx/",
+    "/post/XmlWellFormedWriterWriteRaw(-)-e79a84-Bug-e5be8ce7ba8ce799bce5b195.aspx/",
+    "/columns/2008/12/10/XmlWellFormedWriterWriteRaw(-)-e79a84-Bug-e5be8ce7ba8ce799bce5b195.aspx/",
+    "/columns/XmlWellFormedWriterWriteRaw(-)-e79a84-Bug-e5be8ce7ba8ce799bce5b195.aspx/"
+  ]
+}

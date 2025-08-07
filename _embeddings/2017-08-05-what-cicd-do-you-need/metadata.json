@@ -1,0 +1,73 @@
+{
+  "title": "\u67B6\u69CB\u5E2B\u89C0\u9EDE: \u4F60\u9700\u8981\u4EC0\u9EBC\u6A23\u7684 CI / CD ?",
+  "published": true,
+  "categories": [
+    "\u7CFB\u5217\u6587\u7AE0: \u67B6\u69CB\u5E2B\u89C0\u9EDE"
+  ],
+  "tags": [
+    "\u67B6\u69CB\u5E2B",
+    "CI",
+    "CD",
+    "DevOps",
+    "\u8EDF\u9AD4\u5DE5\u7A0B",
+    "\u958B\u767C\u6D41\u7A0B"
+  ],
+  "generator": "BlogIndex.SyncPost v1.0.0.0, o3, https://app-azureopenai.openai.azure.com/",
+  "tech-stacks": [
+    "Git",
+    "Git Flow",
+    "GitLab",
+    "GitLab CI",
+    "GitHub",
+    "GitHub Pages",
+    "SVN",
+    "Microsoft Visual Source Safe",
+    "Team Foundation Server (TFS)",
+    "TFS Agents",
+    "Jenkins",
+    "Redmine",
+    "Virtual PC",
+    "Docker",
+    "Docker Registry",
+    "Containers",
+    "Ubuntu",
+    "apt-get",
+    "npm",
+    "nuget",
+    ".NET",
+    "ASP.NET",
+    "Node.js"
+  ],
+  "keywords": [
+    "CI/CD",
+    "DevOps",
+    "SCRUM",
+    "Microservices",
+    "Containers",
+    "Version Control",
+    "Continuous Integration",
+    "Continuous Deployment",
+    "Release Management",
+    "Unit Test",
+    "Package Management",
+    "SemVer",
+    "Branch Strategy",
+    "Hotfix",
+    "Artifacts",
+    "Automation",
+    "Security",
+    "GitLab Pipeline"
+  ],
+  "references": [
+    "https://blog.infostretch.com/39-tools-for-building-your-cicd-stack/",
+    "https://www.ptt.cc/bbs/Soft_Job/index.html",
+    "/2016/09/16/blog-as-code/",
+    "http://nvie.com/posts/a-successful-git-branching-model/",
+    "https://msdn.microsoft.com/en-us/library/ee817672.aspx",
+    "https://msdn.microsoft.com/en-us/library/bb668951.aspx",
+    "https://msdn.microsoft.com/en-us/library/bb668944.aspx",
+    "https://www.visualstudio.com/en-us/docs/tfvc/branch-strategically",
+    "/2017/05/28/aspnet-msa-labs1/",
+    "http://semver.org/lang/zh-TW/"
+  ]
+}

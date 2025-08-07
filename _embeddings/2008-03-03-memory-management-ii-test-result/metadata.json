@@ -1,0 +1,68 @@
+{
+  "title": "Memory Management (II) - Test Result",
+  "published": true,
+  "categories": [
+    "\u7CFB\u5217\u6587\u7AE0: Memory Management"
+  ],
+  "tags": [
+    ".NET",
+    "\u4F5C\u696D\u7CFB\u7D71",
+    "\u6280\u8853\u96A8\u7B46"
+  ],
+  "generator": "BlogIndex.SyncPost v1.0.0.0, o3, https://app-azureopenai.openai.azure.com/",
+  "tech-stacks": [
+    "C",
+    "C\u002B\u002B",
+    ".NET",
+    "Java",
+    "Windows",
+    "Linux",
+    "Windows Server 2003",
+    "x86",
+    "x64",
+    "WOW64",
+    "LargeAddressAware",
+    "/3GB option"
+  ],
+  "keywords": [
+    "memory management",
+    "virtual memory",
+    "address space",
+    "fragment",
+    "defragment",
+    "pointer",
+    "physical RAM",
+    "swap file",
+    "Out Of Memory",
+    "LargeAddressAware",
+    "/3GB",
+    "WOW64",
+    "x86",
+    "x64",
+    "Windows 2003",
+    "garbage collection",
+    "memory leak",
+    "C",
+    "C\u002B\u002B",
+    ".NET",
+    "Java"
+  ],
+  "references": [
+    "/2008/03/03/memory-management-ii-test-result/",
+    "/columns/post/2008/03/03/Memory-Management-(II)-Test-Result.aspx/",
+    "/post/2008/03/03/Memory-Management-(II)-Test-Result.aspx/",
+    "/post/Memory-Management-(II)-Test-Result.aspx/",
+    "/columns/2008/03/03/Memory-Management-(II)-Test-Result.aspx/",
+    "/columns/Memory-Management-(II)-Test-Result.aspx/",
+    "/columns/post/2008/03/03/Memory-Management-(II)---Test-Result.aspx/",
+    "/post/2008/03/03/Memory-Management-(II)---Test-Result.aspx/",
+    "/post/Memory-Management-(II)---Test-Result.aspx/",
+    "/columns/2008/03/03/Memory-Management-(II)---Test-Result.aspx/",
+    "/columns/Memory-Management-(II)---Test-Result.aspx/",
+    "/blogs/chicken/archive/2008/03/03/3019.aspx/",
+    "/wp-content/be-files/WindowsLiveWriter/b924c2e3d4b2_2526/image_11.png",
+    "/wp-content/be-files/WindowsLiveWriter/b924c2e3d4b2_2526/image3_1.png",
+    "/wp-content/be-files/WindowsLiveWriter/b924c2e3d4b2_2526/image6_1.png",
+    "/post/Memory-Management---(I)-Fragment-.aspx"
+  ]
+}

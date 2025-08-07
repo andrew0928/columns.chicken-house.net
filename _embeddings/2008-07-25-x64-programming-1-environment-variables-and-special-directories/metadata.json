@@ -1,0 +1,50 @@
+{
+  "title": "x64 programming #1: \u74B0\u5883\u8B8A\u6578\u53CA\u7279\u6B8A\u76EE\u9304..",
+  "published": true,
+  "categories": null,
+  "tags": [
+    ".NET",
+    "\u6280\u8853\u96A8\u7B46"
+  ],
+  "generator": "BlogIndex.SyncPost v1.0.0.0, o3, https://app-azureopenai.openai.azure.com/",
+  "tech-stacks": [
+    ".NET",
+    "C#",
+    "Visual Studio",
+    "Visual Studio 2008",
+    "Win32 API",
+    "Windows Vista x64",
+    "Windows x64",
+    "Windows x86",
+    "IIS 6",
+    "MSDN",
+    "SysWOW64",
+    "System32"
+  ],
+  "keywords": [
+    "x64",
+    "x86",
+    "64-bit Windows",
+    "Environment Variables",
+    "Environment.SpecialFolder",
+    "ProgramFiles",
+    "CommonProgramFiles",
+    "PROCESSOR_ARCHITECTURE",
+    "Path",
+    "Registry Redirection",
+    "File System Redirection",
+    "c:\\Windows\\system32",
+    "c:\\Windows\\SysWOW64",
+    "Programming Guide for 64-bit Windows"
+  ],
+  "references": [
+    "/2008/07/25/x64-programming-1-\u74B0\u5883\u8B8A\u6578\u53CA\u7279\u6B8A\u76EE\u9304/",
+    "/columns/post/2008/07/25/x64-programming-1-e792b0e5a283e8ae8ae695b8e58f8ae789b9e6ae8ae79baee98c84.aspx/",
+    "/post/2008/07/25/x64-programming-1-e792b0e5a283e8ae8ae695b8e58f8ae789b9e6ae8ae79baee98c84.aspx/",
+    "/post/x64-programming-1-e792b0e5a283e8ae8ae695b8e58f8ae789b9e6ae8ae79baee98c84.aspx/",
+    "/columns/2008/07/25/x64-programming-1-e792b0e5a283e8ae8ae695b8e58f8ae789b9e6ae8ae79baee98c84.aspx/",
+    "/columns/x64-programming-1-e792b0e5a283e8ae8ae695b8e58f8ae789b9e6ae8ae79baee98c84.aspx/",
+    "http://msdn.microsoft.com/en-us/library/bb427430(VS.85).aspx",
+    "file://\\\\NTREL202.ntdev.corp.microsoft.com\\34FB5F65-FFEB-4B61-BF0E-A6A76C450FAA\\TraceFormat"
+  ]
+}

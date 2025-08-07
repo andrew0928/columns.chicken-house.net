@@ -1,0 +1,39 @@
+{
+  "title": "Community Server 2007 Beta 1 Available Now",
+  "published": true,
+  "categories": null,
+  "tags": [
+    ".NET",
+    "Community Server",
+    "\u6280\u8853\u96A8\u7B46",
+    "\u6709\u7684\u6C92\u7684"
+  ],
+  "generator": "BlogIndex.SyncPost v1.0.0.0, o3, https://app-azureopenai.openai.azure.com/",
+  "tech-stacks": [
+    ".NET",
+    "ASP.NET",
+    "Community Server",
+    "Cassini",
+    "IIS",
+    "Visual Studio 2005",
+    "Web Services",
+    "MHT"
+  ],
+  "keywords": [
+    "Community Server 2007 Beta 1",
+    "theme engine",
+    "UI",
+    "membership store",
+    "membership provider",
+    "web service",
+    "demo.exe",
+    "cassini",
+    "\u6279\u6B21\u6A94",
+    ".mht"
+  ],
+  "references": [
+    "http://scottwater.com/blog/archive/community-server-2007-beta-1-available/",
+    "http://communityserver.org/forums/568417/ShowThread.aspx#568417",
+    "/post/ASPNET-Tips-Launch-ASPNET-Web-Sites-without-IIS--VS2005.aspx"
+  ]
+}

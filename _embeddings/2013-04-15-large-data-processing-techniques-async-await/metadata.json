@@ -1,0 +1,63 @@
+{
+  "title": "\u8655\u7406\u5927\u578B\u8CC7\u6599\u7684\u6280\u5DE7 \u2013 Async / Await",
+  "published": true,
+  "categories": [],
+  "tags": [
+    ".NET",
+    "ASP.NET",
+    "AZURE",
+    "C#",
+    "MSDN",
+    "Tips",
+    "\u591A\u57F7\u884C\u7DD2",
+    "\u6280\u8853\u96A8\u7B46"
+  ],
+  "generator": "BlogIndex.SyncPost v1.0.0.0, o3, https://app-azureopenai.openai.azure.com/",
+  "tech-stacks": [
+    ".NET Framework 4.5",
+    "C# 5.0",
+    "ASP.NET",
+    "Azure Storage",
+    "Azure",
+    "Visual Studio",
+    "Async/Await"
+  ],
+  "keywords": [
+    "async",
+    "await",
+    "\u975E\u540C\u6B65",
+    "\u591A\u57F7\u884C\u7DD2",
+    "Azure Storage",
+    "BLOB",
+    "\u6548\u80FD",
+    "I/O",
+    "bandwidth",
+    "CPU",
+    ".NET Framework 4.5",
+    "C# 5.0",
+    "Task",
+    "Stream Pipeline",
+    "Producer Consumer"
+  ],
+  "references": [
+    "/2013/04/14/\u8655\u7406\u5927\u578B\u8CC7\u6599\u7684\u6280\u5DE7-async-await/",
+    "/columns/post/2013/04/15/e89995e79086e5a4a7e59e8be8b387e69699e79a84e68a80e5b7a7-e28093-Async-Await.aspx/",
+    "/post/2013/04/15/e89995e79086e5a4a7e59e8be8b387e69699e79a84e68a80e5b7a7-e28093-Async-Await.aspx/",
+    "/post/e89995e79086e5a4a7e59e8be8b387e69699e79a84e68a80e5b7a7-e28093-Async-Await.aspx/",
+    "/columns/2013/04/15/e89995e79086e5a4a7e59e8be8b387e69699e79a84e68a80e5b7a7-e28093-Async-Await.aspx/",
+    "/columns/e89995e79086e5a4a7e59e8be8b387e69699e79a84e68a80e5b7a7-e28093-Async-Await.aspx/",
+    "/wp-content/be-files/image_16.png",
+    "/wp-content/be-files/image_17.png",
+    "/wp-content/be-files/image_18.png",
+    "/wp-content/be-files/image_19.png",
+    "/wp-content/be-files/image_thumb_2.png",
+    "/wp-content/be-files/image_21.png",
+    "/wp-content/be-files/image_22.png",
+    "/post/MSDN-Magazine-e996b1e8ae80e5bf83e5be97-Stream-Pipeline.aspx",
+    "/post/e7949fe794a2e88085-vs-e6b688e8b2bbe88085-BlockQueue-e5afa6e4bd9c.aspx",
+    "/post/RUNPC-2008-11.aspx",
+    "/post/RUN!PC-e7b2bee981b8e69687e7aba0-e7949fe794a2e7b79ae6a8a1e5bc8fe79a84e5a49ae59fb7e8a18ce7b792e68789e794a8.aspx",
+    "http://msdn.microsoft.com/en-us/library/vstudio/hh156513.aspx",
+    "http://msdn.microsoft.com/en-us/library/vstudio/hh191443.aspx"
+  ]
+}

@@ -1,0 +1,71 @@
+{
+  "title": "API \u0026 SDK Design #2, \u8A2D\u8A08\u5C08\u5C6C\u7684 SDK",
+  "published": true,
+  "categories": [
+    "\u7CFB\u5217\u6587\u7AE0: .NET \u002B Windows Container, \u5FAE\u670D\u52D9\u67B6\u69CB\u8A2D\u8A08",
+    "\u7CFB\u5217\u6587\u7AE0: API \u0026 SDK Design",
+    "\u7CFB\u5217\u6587\u7AE0: \u67B6\u69CB\u5E2B\u89C0\u9EDE"
+  ],
+  "tags": [
+    "API",
+    "SDK",
+    "\u7CFB\u5217\u6587\u7AE0",
+    "ASP.NET",
+    "\u67B6\u69CB\u5E2B"
+  ],
+  "generator": "BlogIndex.SyncPost v1.0.0.0, o3, https://app-azureopenai.openai.azure.com/",
+  "tech-stacks": [
+    ".NET",
+    ".NET Core",
+    "C#",
+    "ASP.NET",
+    "Windows Container",
+    "Microservice",
+    "HTTP API",
+    "REST API",
+    "Azure",
+    "Azure API App Service",
+    "Azure API Management",
+    "HttpClient",
+    "Java",
+    "Node.js",
+    "Flash (ActionScript)",
+    "C",
+    "Go",
+    "WCF",
+    "ODATA",
+    "Swagger",
+    "JWT",
+    "AES",
+    "GitHub"
+  ],
+  "keywords": [
+    "API",
+    "SDK",
+    "Interface",
+    "Contract",
+    "Client",
+    "Server",
+    "BirdInfo",
+    "Design",
+    "Microservice",
+    "Azure"
+  ],
+  "references": [
+    "/2016/10/10/microservice3/",
+    "https://azure.microsoft.com/zh-tw/services/app-service/api/",
+    "https://azure.microsoft.com/en-us/services/api-management/",
+    "https://github.com/andrew0928/SDKDemo/tree/dev-SDK",
+    "//wp-content/uploads/2016/10/apisdk-02-socket.jpg",
+    "/wp-content/uploads/2016/10/apisdk-02-socket.jpg",
+    "/wp-content/uploads/2016/10/apisdk-02-arch.png",
+    "/wp-content/uploads/2016/10/apisdk-02-contracts.png",
+    "/wp-content/uploads/2016/10/apisdk-02-sdk-contracts.png",
+    "/wp-content/uploads/2016/10/apisdk-02-solution-structure.png",
+    "https://azure.microsoft.com/zh-tw/downloads/",
+    "https://www.flickr.com/services/api/",
+    "https://msdn.microsoft.com/en-us/library/ms731082(v=vs.110).aspx",
+    "http://swagger.io/",
+    "http://localhost:56648"
+  ]
+}

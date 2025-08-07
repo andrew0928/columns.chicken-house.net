@@ -1,0 +1,49 @@
+{
+  "title": "\u4EE4\u4EBA\u706B\u5927\u7684 SQL \u5B57\u5143\u7DE8\u78BC...",
+  "published": true,
+  "categories": null,
+  "tags": [
+    "SQL",
+    "Tips",
+    "\u706B\u5927"
+  ],
+  "generator": "BlogIndex.SyncPost v1.0.0.0, o3, https://app-azureopenai.openai.azure.com/",
+  "tech-stacks": [
+    "SQL",
+    "SQL Server",
+    "SQL Native Client",
+    "Unicode",
+    "Linked Server",
+    "ntext",
+    "Cursor"
+  ],
+  "keywords": [
+    "SQL",
+    "\u5B57\u5143\u7DE8\u78BC",
+    "Unicode",
+    "\u4E82\u78BC",
+    "Linked Server",
+    "ntext",
+    "BUFFER OVERFLOW",
+    "Overflow",
+    "Bug",
+    "Cursor",
+    "Temp Table",
+    "SELECT INTO",
+    "Chinese encoding",
+    "\u8CC7\u6599\u5EAB",
+    "Data migration",
+    "IT \u5916\u5305"
+  ],
+  "references": [
+    "/wp-content/be-files/WindowsLiveWriter/SQL_11CC/image_7.png",
+    "/wp-content/be-files/WindowsLiveWriter/SQL_11CC/image_8.png",
+    "/wp-content/be-files/WindowsLiveWriter/SQL_11CC/image_9.png",
+    "/2008/09/27/\u4EE4\u4EBA\u706B\u5927\u7684-sql-\u5B57\u5143\u7DE8\u78BC/",
+    "/columns/post/2008/09/27/SQL-BUFFER-OVERFLOW.aspx/",
+    "/post/2008/09/27/SQL-BUFFER-OVERFLOW.aspx/",
+    "/post/SQL-BUFFER-OVERFLOW.aspx/",
+    "/columns/2008/09/27/SQL-BUFFER-OVERFLOW.aspx/",
+    "/columns/SQL-BUFFER-OVERFLOW.aspx/"
+  ]
+}

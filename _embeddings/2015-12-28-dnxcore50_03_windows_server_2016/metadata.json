@@ -1,0 +1,59 @@
+{
+  "title": ".NET Core \u8DE8\u5E73\u53F0 #3, \u8A18\u61B6\u9AD4\u7BA1\u7406\u5927\u8003\u9A57 - Windows Container (2016 TP)",
+  "published": true,
+  "categories": [
+    "\u7CFB\u5217\u6587\u7AE0: .NET Core \u8DE8\u5E73\u53F0"
+  ],
+  "tags": [
+    ".NET",
+    ".Net Core",
+    "Docker",
+    "\u4F5C\u696D\u7CFB\u7D71",
+    "\u5C08\u6B04"
+  ],
+  "generator": "BlogIndex.SyncPost v1.0.0.0, o3, https://app-azureopenai.openai.azure.com/",
+  "tech-stacks": [
+    ".NET Core",
+    "Docker",
+    "Windows Container",
+    "Windows Server 2012 R2",
+    "Windows Server 2016 Nano (TP4)",
+    "Windows Server Core",
+    "Hyper-V Container",
+    "Hyper-V",
+    "Linux",
+    "Ubuntu",
+    "Boot2Docker",
+    "PowerShell"
+  ],
+  "keywords": [
+    ".NET Core",
+    "memory management",
+    "memory fragmentation",
+    "memory utilization",
+    "Windows Container",
+    "Windows Server 2016",
+    "Windows Server 2012 R2",
+    "Server Core",
+    "Hyper-V Container",
+    "Docker",
+    "Linux",
+    "VM",
+    "dnx.exe",
+    "pagfile"
+  ],
+  "references": [
+    "http://dirteam.com/sander/wp-content/uploads/sites/2/2015/11/tp4-1024x512.jpg",
+    "http://columns.chicken-house.net/2015/12/26/dnxcore50_01_should_i_run_dotnet_on_linux/",
+    "http://columns.chicken-house.net/2015/12/27/dnxcore50_02_memfrag_test/",
+    "http://columns.chicken-house.net/2015/12/29/dnxcore50_04_linux_and_summary/",
+    "http://columns.chicken-house.net/?p=739\u0026preview=true",
+    "http://columns.chicken-house.net/wp-content/uploads/2015/12/img_568017243c37f.png",
+    "http://columns.chicken-house.net/wp-content/uploads/2015/12/img_568018e727ab4.png",
+    "http://columns.chicken-house.net/wp-content/uploads/2015/12/img_568019519b820.png",
+    "http://columns.chicken-house.net/wp-content/uploads/2015/12/img_56840f8bb211b-e1451495326913.png",
+    "http://columns.chicken-house.net/wp-content/uploads/2015/12/img_56801dd7cd650.png",
+    "http://windowsitpro.com/windows-server-2016/differences-between-windows-containers-and-hyper-v-containers-windows-server-201",
+    "http://windowsitpro.com/site-files/windowsitpro.com/files/uploads/2015/08/container2.jpg"
+  ]
+}

@@ -1,0 +1,48 @@
+{
+  "title": "LINQ to Object #2, Indexes for Objects",
+  "published": true,
+  "categories": null,
+  "tags": [
+    ".NET",
+    "C#",
+    "Tips",
+    "\u7269\u4EF6\u5C0E\u5411"
+  ],
+  "generator": "BlogIndex.SyncPost v1.0.0.0, o3, https://app-azureopenai.openai.azure.com/",
+  "tech-stacks": [
+    ".NET",
+    "C#",
+    "LINQ",
+    "LINQ to Object",
+    "i4o",
+    "IndexedList",
+    "IndexableCollection",
+    "List",
+    "Stopwatch"
+  ],
+  "keywords": [
+    "LINQ",
+    "Object",
+    "Indexes",
+    "i4o",
+    "collection",
+    "query",
+    "indexing",
+    "performance",
+    "Foo",
+    "Text",
+    "Number",
+    "List1",
+    "List2",
+    "List3"
+  ],
+  "references": [
+    "/2011/10/30/linq-to-object-2-indexes-for-objects/",
+    "/columns/post/2011/10/30/LINQ-to-Object-2-Indexes-for-Objects.aspx/",
+    "/post/2011/10/30/LINQ-to-Object-2-Indexes-for-Objects.aspx/",
+    "/post/LINQ-to-Object-2-Indexes-for-Objects.aspx/",
+    "/columns/2011/10/30/LINQ-to-Object-2-Indexes-for-Objects.aspx/",
+    "/columns/LINQ-to-Object-2-Indexes-for-Objects.aspx/",
+    "/wp-content/be-files/image_14.png"
+  ]
+}

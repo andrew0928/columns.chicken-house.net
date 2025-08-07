@@ -1,0 +1,46 @@
+{
+  "title": "\u83AB\u660E\u5947\u5999\u7684\u932F\u8AA4\u8A0A\u606F: \u627E\u4E0D\u5230 VJSharpCodeProvider ?",
+  "published": true,
+  "categories": null,
+  "tags": [
+    ".NET",
+    "ASP.NET",
+    "BlogEngine.NET",
+    "Tips",
+    "\u6280\u8853\u96A8\u7B46",
+    "\u6709\u7684\u6C92\u7684"
+  ],
+  "generator": "BlogIndex.SyncPost v1.0.0.0, o3, https://app-azureopenai.openai.azure.com/",
+  "tech-stacks": [
+    ".NET",
+    "ASP.NET",
+    "BlogEngine.NET",
+    "Visual Studio 2008",
+    "Visual J#",
+    "J#",
+    "Java",
+    "CodeDom",
+    "CodeProvider"
+  ],
+  "keywords": [
+    "VJSharpCodeProvider",
+    "\u932F\u8AA4\u8A0A\u606F",
+    "BlogEngine.NET",
+    "SecurePost",
+    "PostViewCounter",
+    "Visual Studio 2008",
+    "Visual J#",
+    "CodeDom",
+    "CodeProvider",
+    "Compile Error",
+    "web.config",
+    "App_Data"
+  ],
+  "references": [
+    "/post/upgrade-to-be1450.aspx",
+    "/post/BlogEngine-Extension-Secure-Post-v10.aspx",
+    "/post/BlogEngine-Extension-PostViewCount-10.aspx",
+    "http://www.codeplex.com/blogengine",
+    "/"
+  ]
+}

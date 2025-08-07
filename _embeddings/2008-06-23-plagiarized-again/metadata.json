@@ -1,0 +1,40 @@
+{
+  "title": "\u53C8\u88AB\u76DC\u6587\u4E86... :@",
+  "published": true,
+  "categories": null,
+  "tags": [
+    ".NET",
+    "\u4F5C\u54C1\u96C6",
+    "\u6280\u8853\u96A8\u7B46",
+    "\u6709\u7684\u6C92\u7684",
+    "\u706B\u5927"
+  ],
+  "generator": "BlogIndex.SyncPost v1.0.0.0, o3, https://app-azureopenai.openai.azure.com/",
+  "tech-stacks": [
+    ".NET Framework",
+    "System.Net.Mail",
+    "WPF"
+  ],
+  "keywords": [
+    "\u76DC\u6587",
+    "\u8F49\u8CBC",
+    "\u51FA\u8655",
+    "System.Net.Mail",
+    "Bug",
+    "Microsoft",
+    ".NET",
+    "WPF",
+    "\u767E\u5EA6\u77E5\u9053",
+    "GOOGLE",
+    "BLOG"
+  ],
+  "references": [
+    "http://columns.chicken-house.net/post/e5898de8a880-Canon-Raw-Codec-12-2b-NET-Framework-30-(WPF).aspx",
+    "http://columns.chicken-house.net/post/e981b2e4be86e79a84e6ada3e7bea9.aspx",
+    "http://columns.chicken-house.net/post/e58e9fe4be86-SystemNetMail-e4b99fe69c83e69c89-Bug-.aspx",
+    "/wp-content/be-files/WindowsLiveWriter/3d9d9787df4d_1430E/image_thumb.png",
+    "/wp-content/be-files/WindowsLiveWriter/3d9d9787df4d_1430E/image_2.png",
+    "/wp-content/be-files/WindowsLiveWriter/3d9d9787df4d_1430E/image_thumb_1.png",
+    "/wp-content/be-files/WindowsLiveWriter/3d9d9787df4d_1430E/image_4.png"
+  ]
+}

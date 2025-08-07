@@ -1,0 +1,56 @@
+{
+  "title": "Policy Injection Application Block \u5C0F\u767C\u73FE...",
+  "published": true,
+  "categories": null,
+  "tags": [
+    ".NET",
+    "C#",
+    "MSDN",
+    "Tips",
+    "\u6280\u8853\u96A8\u7B46",
+    "\u6709\u7684\u6C92\u7684",
+    "\u7269\u4EF6\u5C0E\u5411"
+  ],
+  "generator": "BlogIndex.SyncPost v1.0.0.0, o3, https://app-azureopenai.openai.azure.com/",
+  "tech-stacks": [
+    ".NET",
+    "C#",
+    "CLR",
+    ".NET Remoting",
+    "AOP",
+    "Enterprise Library",
+    "Policy Injection Application Block",
+    "Security Application Block",
+    "Windows",
+    "NTFS",
+    "Performance Monitor",
+    "Microsoft Patterns \u0026 Practices"
+  ],
+  "keywords": [
+    "Policy Injection Application Block",
+    "Enterprise Library",
+    "Patterns \u0026 Practices",
+    "AOP",
+    "CAS",
+    "AuthorizationCallHandler",
+    "Role Based Security Control",
+    "Attribute",
+    "Security",
+    "Proxy",
+    "RealProxy",
+    "IMessage",
+    "IMessageSink",
+    "Logging Handler",
+    "Caching Handler",
+    "Exception Handling Handler",
+    "Performance Counter Handler",
+    "Validation Handler",
+    "Custom Pipeline Handlers"
+  ],
+  "references": [
+    "http://msdn.microsoft.com/en-us/library/dd203099.aspx",
+    "http://msdn.microsoft.com/en-us/library/ms998572.aspx",
+    "http://msdn.microsoft.com/en-us/library/dd139982.aspx",
+    "http://en.wikipedia.org/wiki/Aspect-oriented_programming"
+  ]
+}

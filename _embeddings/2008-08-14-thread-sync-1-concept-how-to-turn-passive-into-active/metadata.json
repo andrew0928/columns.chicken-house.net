@@ -1,0 +1,51 @@
+{
+  "title": "Thread Sync #1. \u6982\u5FF5\u7BC7 - \u5982\u4F55\u5316\u88AB\u52D5\u70BA\u4E3B\u52D5?",
+  "published": true,
+  "categories": [
+    "\u7CFB\u5217\u6587\u7AE0: \u591A\u57F7\u884C\u7DD2\u7684\u8655\u7406\u6280\u5DE7"
+  ],
+  "tags": [
+    ".NET",
+    "\u591A\u57F7\u884C\u7DD2",
+    "\u6280\u8853\u96A8\u7B46",
+    "\u7269\u4EF6\u5C0E\u5411"
+  ],
+  "generator": "BlogIndex.SyncPost v1.0.0.0, o3, https://app-azureopenai.openai.azure.com/",
+  "tech-stacks": [
+    ".NET",
+    "C#",
+    "C",
+    "Thread Pool",
+    "AutoResetEvent",
+    "ManualResetEvent"
+  ],
+  "keywords": [
+    "\u57F7\u884C\u7DD2",
+    "\u540C\u6B65",
+    "Thread",
+    "\u591A\u57F7\u884C\u7DD2",
+    "Thread Sync",
+    "Thread Pool",
+    "AutoResetEvent",
+    "ManualResetEvent",
+    "GameHost",
+    "Player",
+    "\u731C\u6578\u5B57",
+    "1A1B",
+    "\u4FC4\u7F85\u65AF\u65B9\u584A",
+    "Polymorphism"
+  ],
+  "references": [
+    "http://blog.darkthread.net/blogs/darkthreadtw/archive/2008/08/09/coding-for-fun-rfc.aspx",
+    "http://blog.darkthread.net/",
+    "/wp-content/be-files/WindowsLiveWriter/ThreadSync1_32F9/2_1.png",
+    "/wp-content/be-files/WindowsLiveWriter/ThreadSync1_32F9/3_1.png",
+    "/post/ThreadPool-e5afa6e4bd9c-3-AutoResetEvent-ManualResetEvent.aspx",
+    "/2008/08/14/thread-sync-1-\u6982\u5FF5\u7BC7-\u5982\u4F55\u5316\u88AB\u52D5\u70BA\u4E3B\u52D5/",
+    "/columns/post/2008/08/14/Thread-Sync-1-e6a682e5bfb5e7af87-e5a682e4bd95e58c96e8a2abe58b95e782bae4b8bbe58b95.aspx/",
+    "/post/2008/08/14/Thread-Sync-1-e6a682e5bfb5e7af87-e5a682e4bd95e58c96e8a2abe58b95e782bae4b8bbe58b95.aspx/",
+    "/post/Thread-Sync-1-e6a682e5bfb5e7af87-e5a682e4bd95e58c96e8a2abe58b95e782bae4b8bbe58b95.aspx/",
+    "/columns/2008/08/14/Thread-Sync-1-e6a682e5bfb5e7af87-e5a682e4bd95e58c96e8a2abe58b95e782bae4b8bbe58b95.aspx/",
+    "/columns/Thread-Sync-1-e6a682e5bfb5e7af87-e5a682e4bd95e58c96e8a2abe58b95e782bae4b8bbe58b95.aspx/"
+  ]
+}

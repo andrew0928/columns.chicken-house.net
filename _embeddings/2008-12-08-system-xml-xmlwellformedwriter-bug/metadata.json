@@ -1,0 +1,44 @@
+{
+  "title": "\u539F\u4F86 System.Xml.XmlWellFormedWriter \u6709 Bug ..",
+  "published": true,
+  "categories": [],
+  "tags": [
+    ".NET",
+    "C#",
+    "MSDN",
+    "Tips",
+    "\u6709\u7684\u6C92\u7684"
+  ],
+  "generator": "BlogIndex.SyncPost v1.0.0.0, o3, https://app-azureopenai.openai.azure.com/",
+  "tech-stacks": [
+    ".NET",
+    "C#",
+    "System.Xml",
+    "XmlWriter",
+    "XmlTextWriter",
+    "XmlWellFormedWriter",
+    "XmlDocument",
+    "XmlReader"
+  ],
+  "keywords": [
+    "XmlWellFormedWriter",
+    "XmlTextWriter",
+    "XmlWriter",
+    "WriteRaw",
+    "XmlNodeWriter",
+    "XmlCopyPipe",
+    "XmlDocument",
+    "XmlReader",
+    "SmtpMail",
+    "API",
+    "XmlFragment"
+  ],
+  "references": [
+    "http://msdn.microsoft.com/zh-tw/library/0755ytay.aspx",
+    "http://columns.chicken-house.net/post/e58e9fe4be86-SystemNetMail-e4b99fe69c83e69c89-Bug-.aspx",
+    "http://blogs.msdn.com/mfussell/archive/2005/02/12/371546.aspx",
+    "http://blogs.msdn.com/mfussell/",
+    "/wp-content/be-files/WindowsLiveWriter/XmlWellFormedWriterBug_E451/image_3.png",
+    "/wp-content/be-files/WindowsLiveWriter/XmlWellFormedWriterBug_E451/image_6.png"
+  ]
+}

@@ -1,0 +1,70 @@
+{
+  "title": "\u8A72\u5982\u4F55\u5B78\u597D \u0022\u5BEB\u7A0B\u5F0F\u0022 #2. \u70BA\u4EC0\u9EBC programmer \u8A72\u5B78\u8CC7\u6599\u7D50\u69CB ??",
+  "published": true,
+  "categories": [
+    "\u7CFB\u5217\u6587\u7AE0: \u5982\u4F55\u5B78\u597D\u5BEB\u7A0B\u5F0F"
+  ],
+  "tags": [
+    ".NET",
+    "C#",
+    "MSDN",
+    "Tips",
+    "\u4F5C\u54C1\u96C6",
+    "\u5C08\u6B04",
+    "\u6280\u8853\u96A8\u7B46",
+    "\u6709\u7684\u6C92\u7684",
+    "\u7576\u5E74\u52C7"
+  ],
+  "generator": "BlogIndex.SyncPost v1.0.0.0, o3, https://app-azureopenai.openai.azure.com/",
+  "tech-stacks": [
+    "C#",
+    ".NET",
+    ".NET Framework",
+    "Windows",
+    "MSDN"
+  ],
+  "keywords": [
+    "\u8CC7\u6599\u7D50\u69CB",
+    "Data Structure",
+    "Sorting",
+    "Bubble Sort",
+    "Quick Sort",
+    "Search",
+    "Binary Search",
+    "Hash Table",
+    "Time Complexity",
+    "O(n)",
+    "O(1)",
+    "O(log n)",
+    "Algorithm",
+    "Collection",
+    "List",
+    "Dictionary",
+    "SortedList",
+    "SortedDictionary",
+    "Programmer",
+    "Performance",
+    "ContactData",
+    "Sample Code"
+  ],
+  "references": [
+    "/post/GoodProgrammer1.aspx",
+    "/2008/10/01/\u8A72\u5982\u4F55\u5B78\u597D-\u5BEB\u7A0B\u5F0F-2-\u70BA\u4EC0\u9EBC-programmer-\u8A72\u5B78\u8CC7\u6599\u7D50\u69CB/",
+    "/columns/post/2008/10/01/e8a9b2e5a682e4bd95e5adb8e5a5bd-e5afabe7a88be5bc8f-2-e782bae4bb80e9babc-programmer-e8a9b2e5adb8e8b387e69699e7b590e6a78b-.aspx/",
+    "/post/2008/10/01/e8a9b2e5a682e4bd95e5adb8e5a5bd-e5afabe7a88be5bc8f-2-e782bae4bb80e9babc-programmer-e8a9b2e5adb8e8b387e69699e7b590e6a78b-.aspx/",
+    "/post/e8a9b2e5a682e4bd95e5adb8e5a5bd-e5afabe7a88be5bc8f-2-e782bae4bb80e9babc-programmer-e8a9b2e5adb8e8b387e69699e7b590e6a78b-.aspx/",
+    "/columns/2008/10/01/e8a9b2e5a682e4bd95e5adb8e5a5bd-e5afabe7a88be5bc8f-2-e782bae4bb80e9babc-programmer-e8a9b2e5adb8e8b387e69699e7b590e6a78b-.aspx/",
+    "/columns/e8a9b2e5a682e4bd95e5adb8e5a5bd-e5afabe7a88be5bc8f-2-e782bae4bb80e9babc-programmer-e8a9b2e5adb8e8b387e69699e7b590e6a78b-.aspx/",
+    "http://en.wikipedia.org/wiki/Time_complexity",
+    "http://msdn.microsoft.com/en-us/library/fh1w7y8z.aspx",
+    "http://msdn.microsoft.com/en-us/library/k7z0zy8k.aspx",
+    "http://msdn.microsoft.com/en-us/library/9tee9ht2.aspx",
+    "http://msdn.microsoft.com/en-us/library/xfhwa508.aspx",
+    "http://en.wikipedia.org/wiki/Hashtable",
+    "http://msdn.microsoft.com/en-us/library/ms132319.aspx",
+    "http://msdn.microsoft.com/en-us/library/f7fta44c.aspx",
+    "/wp-content/be-files/WindowsLiveWriter/2.programmer_148DA/image_3.png",
+    "/wp-content/be-files/WindowsLiveWriter/2.programmer_148DA/image_6.png",
+    "/wp-content/be-files/WindowsLiveWriter/2.programmer_148DA/image_9.png"
+  ]
+}

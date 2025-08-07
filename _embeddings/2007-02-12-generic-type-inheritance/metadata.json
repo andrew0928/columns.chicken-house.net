@@ -1,0 +1,44 @@
+{
+  "title": "Generic Type \u7684\u7E7C\u627F...",
+  "published": true,
+  "categories": null,
+  "tags": [
+    ".NET",
+    "Tips",
+    "\u6280\u8853\u96A8\u7B46",
+    "\u7269\u4EF6\u5C0E\u5411"
+  ],
+  "generator": "BlogIndex.SyncPost v1.0.0.0, o3, https://app-azureopenai.openai.azure.com/",
+  "tech-stacks": [
+    ".NET",
+    "C#",
+    "ASP.NET",
+    "System.Web.UI",
+    "UserControl"
+  ],
+  "keywords": [
+    "generic type",
+    "inheritance",
+    "Singleton",
+    "base class",
+    "Editor",
+    "control",
+    "User Control",
+    "polymorphism",
+    "reflection",
+    "attribute",
+    "DateTime",
+    "OO"
+  ],
+  "references": [
+    "/post/e6b39be59e8b-2b-Singleton-Patterns.aspx",
+    "/post/e6b39be59e8b-2b-Singleton-Patterns-(II).aspx",
+    "/2007/02/12/generic-type-\u7684\u7E7C\u627F/",
+    "/columns/post/2007/02/12/Generic-Type-e79a84e7b9bce689bf.aspx/",
+    "/post/2007/02/12/Generic-Type-e79a84e7b9bce689bf.aspx/",
+    "/post/Generic-Type-e79a84e7b9bce689bf.aspx/",
+    "/columns/2007/02/12/Generic-Type-e79a84e7b9bce689bf.aspx/",
+    "/columns/Generic-Type-e79a84e7b9bce689bf.aspx/",
+    "/blogs/chicken/archive/2007/02/12/2138.aspx/"
+  ]
+}

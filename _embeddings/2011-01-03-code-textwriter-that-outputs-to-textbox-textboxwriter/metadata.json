@@ -1,0 +1,62 @@
+{
+  "title": "[CODE] \u53EF\u4EE5\u8F38\u51FA\u5230 TextBox \u7684 TextWriter: TextBoxWriter!",
+  "published": true,
+  "categories": null,
+  "tags": [
+    ".NET",
+    "ASP.NET",
+    "C#",
+    "\u591A\u57F7\u884C\u7DD2",
+    "\u6280\u8853\u96A8\u7B46"
+  ],
+  "generator": "BlogIndex.SyncPost v1.0.0.0, o3, https://app-azureopenai.openai.azure.com/",
+  "tech-stacks": [
+    "C#",
+    ".NET Framework",
+    "ASP.NET",
+    "Windows Azure",
+    "Azure Storage",
+    "Web Role",
+    "Worker Role",
+    "Windows Service",
+    "Windows Forms",
+    "Cassini (Web Server)",
+    "Windows Task Scheduler",
+    "Console Application",
+    "TextWriter",
+    "TextBox",
+    "Socket",
+    "UTF8 Encoding"
+  ],
+  "keywords": [
+    "TextBoxWriter",
+    "TextWriter",
+    "TextBox",
+    "AppendText",
+    "UI thread",
+    "thread-safe",
+    "multi-threading",
+    "Windows Service",
+    "Windows Forms",
+    "Console application",
+    "log file",
+    "START/STOP/PAUSE/CONTINUE",
+    "recycle mechanism",
+    "Windows Azure",
+    "Web Role",
+    "Worker Role",
+    "Azure Storage",
+    "Cassini",
+    "output",
+    "encoding"
+  ],
+  "references": [
+    "/post/RUN!PC-e7b2bee981b8e69687e7aba0-e7949fe794a2e7b79ae6a8e5bc8fe79a84e5a49ae59fb7e8a18ce7b692e68789e794a8.aspx",
+    "http://ruddyleemsblog.wordpress.com/",
+    "http://msdn.microsoft.com/en-us/library/system.windows.forms.textboxbase.appendtext(v=VS.90).aspx",
+    "http://www.google.com.tw/search?hl=zh-TW\u0026source=hp\u0026biw=1024\u0026bih=1219\u0026q=textboxwriter\u0026aq=f\u0026aqi=g2\u0026aql=\u0026oq=\u0026gs_rfai=",
+    "http://msdn.microsoft.com/en-us/library/system.io.textwriter.write(v=VS.90).aspx",
+    "http://msdn.microsoft.com/en-us/library/system.io.textwriter.writeline(v=VS.90).aspx",
+    "http://blog.darkthread.net/blogs/darkthreadtw/archive/2007/09/29/tips-about-ui-thread-limitation.aspx"
+  ]
+}

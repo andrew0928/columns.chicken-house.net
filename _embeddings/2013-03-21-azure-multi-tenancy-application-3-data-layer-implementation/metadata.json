@@ -1,0 +1,57 @@
+{
+  "title": "[Azure] Multi-Tenancy Application #3, (\u8CC7\u6599\u5C64)\u5BE6\u4F5C\u6848\u4F8B",
+  "published": true,
+  "categories": [
+    "\u7CFB\u5217\u6587\u7AE0: Multi-Tenancy Application"
+  ],
+  "tags": [
+    "ASP.NET",
+    "AZURE",
+    "C#",
+    "\u4F5C\u54C1\u96C6",
+    "\u6280\u8853\u96A8\u7B46"
+  ],
+  "generator": "BlogIndex.SyncPost v1.0.0.0, o3, https://app-azureopenai.openai.azure.com/",
+  "tech-stacks": [
+    "C#",
+    "ASP.NET",
+    "ASP.NET MVC",
+    "MVC4",
+    "Entity Framework",
+    "EF5",
+    "Linq",
+    "Windows Azure",
+    "Azure Storage",
+    "Azure Table Storage",
+    "SaaS"
+  ],
+  "keywords": [
+    "Multi-Tenancy",
+    "Application",
+    "DataContext",
+    "Hub",
+    "HubData",
+    "HubDataContext",
+    "Client",
+    "Partition",
+    "Data Layer",
+    "MVC Routing",
+    "Unit Test",
+    "POC",
+    "Prototype",
+    "Windows Azure Storage",
+    "Azure Table Storage",
+    "Entity Framework",
+    "ASP.NET MVC",
+    "Linq",
+    "SCRUM"
+  ],
+  "references": [
+    "/2013/03/21/azure-multi-tenancy-application-3-\u8CC7\u6599\u5C64\u5BE6\u4F5C\u6848\u4F8B/",
+    "/columns/post/2013/03/21/Azure-Multi-Tenancy-Application-3-e5afa6e4bd9ce6a188e4be8b.aspx/",
+    "/post/2013/03/21/Azure-Multi-Tenancy-Application-3-e5afa6e4bd9ce6a188e4be8b.aspx/",
+    "/post/Azure-Multi-Tenancy-Application-3-e5afa6e4bd9ce6a188e4be8b.aspx/",
+    "/columns/2013/03/21/Azure-Multi-Tenancy-Application-3-e5afa6e4bd9ce6a188e4be8b.aspx/",
+    "/columns/Azure-Multi-Tenancy-Application-3-e5afa6e4bd9ce6a188e4be8b.aspx/"
+  ]
+}

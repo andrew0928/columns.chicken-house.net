@@ -1,0 +1,38 @@
+{
+  "title": "Spam Comments And CAPTCHA...",
+  "published": true,
+  "categories": null,
+  "tags": [
+    ".NET",
+    "\u4F5C\u54C1\u96C6",
+    "\u6280\u8853\u96A8\u7B46",
+    "\u6709\u7684\u6C92\u7684"
+  ],
+  "generator": "BlogIndex.SyncPost v1.0.0.0, o3, https://app-azureopenai.openai.azure.com/",
+  "tech-stacks": [
+    ".NET",
+    "ASP.NET",
+    "Community Server",
+    "XML",
+    "OCR",
+    "MSN Messenger"
+  ],
+  "keywords": [
+    "CAPTCHA",
+    "spam",
+    "comments",
+    "bot",
+    "Turing test",
+    "spammer",
+    "OCR",
+    "community server",
+    "robots.txt",
+    "question\u2013answer challenge"
+  ],
+  "references": [
+    "http://www.darkthread.net",
+    "http://blogs.clearscreen.com/migs/archive/2005/02/01/905.aspx",
+    "http://blog.darkthread.net/forums/thread/575.aspx",
+    "http://en.wikipedia.org/wiki/Captcha"
+  ]
+}

@@ -1,0 +1,35 @@
+{
+  "title": "WMCmd.vbs \u5728 VISTA \u4E0B\u57F7\u884C\u6703\u5C0E\u81F3 cscript.exe \u767C\u751F\u932F\u8AA4...",
+  "published": true,
+  "categories": null,
+  "tags": [
+    "Tips",
+    "\u6280\u8853\u96A8\u7B46",
+    "\u6709\u7684\u6C92\u7684"
+  ],
+  "generator": "BlogIndex.SyncPost v1.0.0.0, o3, https://app-azureopenai.openai.azure.com/",
+  "tech-stacks": [
+    "Windows Vista",
+    "Windows Media Encoder 9",
+    "WMCmd.vbs",
+    "cscript.exe",
+    "Data Execution Prevention (DEP)"
+  ],
+  "keywords": [
+    "WMCmd.vbs",
+    "Windows Vista",
+    "cscript.exe",
+    "DEP",
+    "Windows Media Encoder 9",
+    "Microsoft Support",
+    "FIX",
+    "batch video script",
+    "Canon",
+    ".CRW",
+    "codec"
+  ],
+  "references": [
+    "http://support.microsoft.com/kb/929182/en-us",
+    "/post/e5a4a7e5b7a5e7a88b-60GB-e79a84-DV-avi-e5a393e68890-WMV.aspx"
+  ]
+}

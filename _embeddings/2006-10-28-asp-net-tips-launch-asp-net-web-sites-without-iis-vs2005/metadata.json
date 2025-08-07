@@ -1,0 +1,48 @@
+{
+  "title": "ASP.NET Tips: Launch ASP.NET Web Sites without IIS / VS2005",
+  "published": true,
+  "categories": null,
+  "tags": [
+    ".NET"
+  ],
+  "generator": "BlogIndex.SyncPost v1.0.0.0, o3, https://app-azureopenai.openai.azure.com/",
+  "tech-stacks": [
+    "ASP.NET",
+    "IIS",
+    "Visual Studio 2005",
+    "NUnitLite",
+    ".NET Framework 2.0",
+    "Windows",
+    "WebDev.WebServer.EXE",
+    "Batch Script",
+    "Develop Web Server"
+  ],
+  "keywords": [
+    "ASP.NET",
+    "IIS",
+    "Visual Studio 2005",
+    "Develop Web Server",
+    "NUnitLite",
+    "Web Application",
+    "Sample code",
+    "Batch file",
+    "SendTo",
+    "Browser",
+    "dev web server"
+  ],
+  "references": [
+    "/2006/10/27/asp-net-tips-launch-asp-net-web-sites-without-iis-vs2005/",
+    "/columns/post/2006/10/28/ASPNET-Tips-Launch-ASPNET-Web-Sites-without-IIS-VS2005.aspx/",
+    "/post/2006/10/28/ASPNET-Tips-Launch-ASPNET-Web-Sites-without-IIS-VS2005.aspx/",
+    "/post/ASPNET-Tips-Launch-ASPNET-Web-Sites-without-IIS-VS2005.aspx/",
+    "/columns/2006/10/28/ASPNET-Tips-Launch-ASPNET-Web-Sites-without-IIS-VS2005.aspx/",
+    "/columns/ASPNET-Tips-Launch-ASPNET-Web-Sites-without-IIS-VS2005.aspx/",
+    "/columns/post/2006/10/28/ASPNET-Tips-Launch-ASPNET-Web-Sites-without-IIS--VS2005.aspx/",
+    "/post/2006/10/28/ASPNET-Tips-Launch-ASPNET-Web-Sites-without-IIS--VS2005.aspx/",
+    "/post/ASPNET-Tips-Launch-ASPNET-Web-Sites-without-IIS--VS2005.aspx/",
+    "/columns/2006/10/28/ASPNET-Tips-Launch-ASPNET-Web-Sites-without-IIS--VS2005.aspx/",
+    "/columns/ASPNET-Tips-Launch-ASPNET-Web-Sites-without-IIS--VS2005.aspx/",
+    "/blogs/chicken/archive/2006/10/28/1904.aspx/",
+    "http://localhost:%DEVWEB_PORT%/"
+  ]
+}

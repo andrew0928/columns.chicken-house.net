@@ -1,0 +1,39 @@
+{
+  "title": "\u6CDB\u578B \u002B Singleton Patterns",
+  "published": true,
+  "categories": [
+    "\u7CFB\u5217\u6587\u7AE0: \u6CDB\u578B \u002B Singleton Patterns"
+  ],
+  "tags": [
+    ".NET"
+  ],
+  "generator": "BlogIndex.SyncPost v1.0.0.0, o3, https://app-azureopenai.openai.azure.com/",
+  "tech-stacks": [
+    ".NET",
+    ".NET Framework 2.0",
+    "C#"
+  ],
+  "keywords": [
+    "singleton",
+    "generic",
+    "singleton patterns",
+    ".NET Framework 2.0",
+    "C#",
+    "class",
+    "code",
+    "SingletonBase",
+    "Instance",
+    "inheritance",
+    "Activator",
+    "Hashtable"
+  ],
+  "references": [
+    "/2006/10/26/\u6CDB\u578B-singleton-patterns/",
+    "/columns/post/2006/10/26/e6b39be59e8b-2b-Singleton-Patterns.aspx/",
+    "/post/2006/10/26/e6b39be59e8b-2b-Singleton-Patterns.aspx/",
+    "/post/e6b39be59e8b-2b-Singleton-Patterns.aspx/",
+    "/columns/2006/10/26/e6b39be59e8b-2b-Singleton-Patterns.aspx/",
+    "/columns/e6b39be59e8b-2b-Singleton-Patterns.aspx/",
+    "/blogs/chicken/archive/2006/10/26/1892.aspx/"
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "title": "Canon Digital Camera \u8A18\u61B6\u5361\u6B78\u6A94\u5DE5\u5177 - RAW Support Update",
+  "published": true,
+  "categories": [],
+  "tags": [
+    ".NET",
+    "\u6280\u8853\u96A8\u7B46",
+    "\u6709\u7684\u6C92\u7684"
+  ],
+  "generator": "BlogIndex.SyncPost v1.0.0.0, o3, https://app-azureopenai.openai.azure.com/",
+  "tech-stacks": [
+    ".NET Framework",
+    "C#",
+    "C\u002B\u002B",
+    "Windows XP",
+    "Canon Digital Camera SDK",
+    "Microsoft RAW Image Thumbnailer and Viewer for Windows XP",
+    "RawManager.Interop.dll"
+  ],
+  "keywords": [
+    "Canon",
+    "Digital Camera",
+    "\u8A18\u61B6\u5361\u6B78\u6A94\u5DE5\u5177",
+    "RAW",
+    "RAW file",
+    "CRW",
+    "CRawViewerClass",
+    "DigitalCameraFiler",
+    "assembly",
+    "dll",
+    "API",
+    "DigitalCameraFilerSetup.msi",
+    "Microsoft"
+  ],
+  "references": [
+    "http://www.microsoft.com/downloads/details.aspx?FamilyId=D48E808E-B10D-4CE4-A141-5866FD4A3286\u0026displaylang=en\u0026Hash=AKaUVvxBh5XTO8fSXj6oUQmxLZAIkGTh8NzlZpwqSoCKqxdFKhVexFexOz1oLkXYi7C3rLi1dzbWfrUGColAfA==",
+    "http://www.chicken-house.net/files/chicken/ChickenHouse.Tools.DigitalCameraFiler.Binary.zip"
+  ]
+}

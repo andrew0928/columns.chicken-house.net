@@ -1,0 +1,46 @@
+{
+  "title": "\u7DB2\u8DEF\u6436\u7968\u5C0F\u5E6B\u624B - \u9060\u7AEF\u7DB2\u7AD9\u6642\u9418, WebServerClock v1.0",
+  "published": true,
+  "categories": null,
+  "tags": [
+    "\u6709\u7684\u6C92\u7684",
+    ".NET",
+    "C#",
+    "Tips"
+  ],
+  "generator": "BlogIndex.SyncPost v1.0.0.0, o3, https://app-azureopenai.openai.azure.com/",
+  "tech-stacks": [
+    ".NET",
+    "C#",
+    "HttpClient",
+    "Windows Forms",
+    "HTTP/1.1",
+    "NTP",
+    "GitHub",
+    "RFC2616",
+    "RFC822",
+    "RFC1123"
+  ],
+  "keywords": [
+    "WebServerClock",
+    "\u7DB2\u8DEF\u6436\u7968",
+    "\u9060\u7AEF\u7DB2\u7AD9\u6642\u9418",
+    "\u5C0D\u6642",
+    "Date header",
+    "Offset",
+    "\u4F3A\u670D\u5668\u6642\u9593",
+    "HttpClient",
+    "NTP",
+    "\u958B\u6E90"
+  ],
+  "references": [
+    "/wp-content/uploads/2017/01/webserverclock-logo.png",
+    "http://blog.mixflavor.com/2013/12/ticket.html",
+    "https://github.com/andrew0928/WebServerClock",
+    "http://fangpeishi.com/ntp_problem.html",
+    "https://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html",
+    "/wp-content/uploads/2017/01/webserverclock-operate.gif",
+    "http://ccnet.ntu.edu.tw/ntp/operate.html",
+    "/wp-content/uploads/2017/01/webserverclock-capture01.png"
+  ]
+}

@@ -1,0 +1,64 @@
+{
+  "title": "ThreadPool \u5BE6\u4F5C #1. \u57FA\u672C\u6982\u5FF5",
+  "published": true,
+  "categories": [
+    "\u7CFB\u5217\u6587\u7AE0: Thread Pool \u5BE6\u4F5C"
+  ],
+  "tags": [
+    ".NET",
+    "\u591A\u57F7\u884C\u7DD2",
+    "\u6280\u8853\u96A8\u7B46"
+  ],
+  "generator": "BlogIndex.SyncPost v1.0.0.0, o3, https://app-azureopenai.openai.azure.com/",
+  "tech-stacks": [
+    "C#",
+    ".NET Framework",
+    "Java",
+    "ASP.NET",
+    "IIS",
+    "Operating System",
+    "System.Threading.WaitHandle",
+    "ManualResetEvent",
+    "AutoResetEvent",
+    "Semaphore",
+    "Mutex",
+    "Monitor",
+    "SpinLock"
+  ],
+  "keywords": [
+    "ThreadPool",
+    "thread pool",
+    "multithreading",
+    "synchronization",
+    "producer-consumer",
+    "thread sync",
+    "job queue",
+    "idle timeout",
+    "process states",
+    "WaitHandle",
+    "ManualResetEvent",
+    "AutoResetEvent",
+    "Semaphore",
+    "Mutex",
+    "Monitor",
+    "SpinLock",
+    "threads management",
+    "idle thread",
+    "blocked state",
+    "running state",
+    "waiting state",
+    "thread creation",
+    "thread recycling"
+  ],
+  "references": [
+    "/2007/12/14/threadpool-\u5BE6\u4F5C-1-\u57FA\u672C\u6982\u5FF5/",
+    "/columns/post/2007/12/14/ThreadPool-e5afa6e4bd9c-1-e59fbae69cace6a682e5bfb5.aspx/",
+    "/post/2007/12/14/ThreadPool-e5afa6e4bd9c-1-e59fbae69cace6a682e5bfb5.aspx/",
+    "/post/ThreadPool-e5afa6e4bd9c-1-e59fbae69cace6a682e5bfb5.aspx/",
+    "/columns/2007/12/14/ThreadPool-e5afa6e4bd9c-1-e59fbae69cace6a682e5bfb5.aspx/",
+    "/columns/ThreadPool-e5afa6e4bd9c-1-e59fbae69cace6a682e5bfb5.aspx/",
+    "/blogs/chicken/archive/2007/12/14/2880.aspx/",
+    "http://en.wikipedia.org/wiki/Process_states",
+    "http://upload.wikimedia.org/wikipedia/commons/thumb/8/83/Process_states.svg/600px-Process_states.svg.png"
+  ]
+}

@@ -1,0 +1,29 @@
+{
+  "title": "Finally...",
+  "published": true,
+  "categories": null,
+  "tags": [
+    "\u6709\u7684\u6C92\u7684",
+    "\u6C34\u96FB\u5DE5"
+  ],
+  "generator": "BlogIndex.SyncPost v1.0.0.0, o3, https://app-azureopenai.openai.azure.com/",
+  "tech-stacks": [
+    "blog server"
+  ],
+  "keywords": [
+    "\u96FB\u8166",
+    "ports",
+    "\u96FB\u8A71\u7DDA",
+    "blog server",
+    "\u4E0A\u7DDA"
+  ],
+  "references": [
+    "/2007/09/11/finally/",
+    "/columns/post/2007/09/11/Finally.aspx/",
+    "/post/2007/09/11/Finally.aspx/",
+    "/post/Finally.aspx/",
+    "/columns/2007/09/11/Finally.aspx/",
+    "/columns/Finally.aspx/",
+    "/blogs/chicken/archive/2007/09/11/2644.aspx/"
+  ]
+}

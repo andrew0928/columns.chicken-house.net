@@ -1,0 +1,44 @@
+{
+  "title": "EF#3. Entity \u0026 Inheritance",
+  "published": true,
+  "categories": [
+    "\u7CFB\u5217\u6587\u7AE0: Entity Framework \u8207 \u7269\u4EF6\u5C0E\u5411\u8A2D\u8A08"
+  ],
+  "tags": [
+    ".NET",
+    "C#",
+    "SQL",
+    "\u6280\u8853\u96A8\u7B46",
+    "\u7269\u4EF6\u5C0E\u5411",
+    "Entity Framework"
+  ],
+  "generator": "BlogIndex.SyncPost v1.0.0.0, o3, https://app-azureopenai.openai.azure.com/",
+  "tech-stacks": [
+    "Entity Framework",
+    "NHibernate",
+    "ADO.NET",
+    "C\u002B\u002B",
+    "CLR",
+    ".NET",
+    "RDBMS",
+    "DBMS",
+    "SQL"
+  ],
+  "keywords": [
+    "inheritance",
+    "OOP",
+    "ORM",
+    "virtual table",
+    "table per hierarchy",
+    "table per type",
+    "table per concrete type",
+    "normalization",
+    "denormalization"
+  ],
+  "references": [
+    "http://en.wikipedia.org/wiki/Virtual_table",
+    "http://en.wikipedia.org/wiki/Database_normalization#Normal_forms",
+    "http://blogs.msdn.com/adonet/archive/2007/03/15/inheritance-in-the-entity-framework.aspx",
+    "http://www.hibernate.org/hib_docs/reference/en/html/inheritance.html"
+  ]
+}

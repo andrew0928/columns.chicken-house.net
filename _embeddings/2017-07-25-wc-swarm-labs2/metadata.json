@@ -1,0 +1,62 @@
+{
+  "title": "Azure Labs: Mixed-OS Docker Swarm",
+  "published": true,
+  "categories": null,
+  "tags": [
+    "Docker",
+    "Windows Container",
+    "Swarm"
+  ],
+  "generator": "BlogIndex.SyncPost v1.0.0.0, o3, https://app-azureopenai.openai.azure.com/",
+  "tech-stacks": [
+    "Docker",
+    "Docker Swarm",
+    "Windows Container",
+    "Linux Container",
+    "Microsoft Azure",
+    "Windows Server",
+    "Ubuntu Server",
+    "Hyper-V",
+    "Nginx",
+    "ASP.NET MVC",
+    ".NET Framework",
+    ".NET Core",
+    "BusyBox",
+    "GitHub",
+    "SSH",
+    "CI/CD",
+    "Routing Mesh",
+    "DNSRR"
+  ],
+  "keywords": [
+    "container",
+    "Mixed-OS",
+    "Docker Swarm",
+    "Azure",
+    "Linux Node",
+    "Windows Node",
+    "token",
+    "service",
+    "manager",
+    "cluster",
+    "label",
+    "nginx",
+    "routing mesh",
+    "DNSRR",
+    "ASP.NET MVC",
+    ".NET",
+    "microservice",
+    "legacy application",
+    "CI/CD",
+    "Open Source"
+  ],
+  "references": [
+    "/2016/05/05/archview-net-open-source/",
+    "/2017/07/25/wc-swarm-labs/",
+    "https://siliconangle.com/blog/2017/04/19/microsoft-plans-use-hyper-v-run-linux-containers-windows-server/",
+    "https://docs.microsoft.com/en-us/virtualization/windowscontainers/manage-containers/swarm-mode#linuxwindows-mixed-os-clusters",
+    "https://www.facebook.com/andrew.blog.0928/",
+    "https://github.com/andrew0928/columns.chicken-house.net",
+    "https://youtu.be/I9oDD78E_1E?t=430"
+  ]
+}

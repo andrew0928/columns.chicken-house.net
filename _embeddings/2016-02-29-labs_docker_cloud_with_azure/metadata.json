@@ -1,0 +1,59 @@
+{
+  "title": "[\u5BE6\u6230] \u5341\u5206\u9418\u641E\u5B9A! \u5728 Azure \u4E0A\u9762\u4F48\u7F72 Docker Container! - Docker Cloud \u8A17\u7BA1\u670D\u52D9\u9AD4\u9A57",
+  "published": true,
+  "categories": null,
+  "tags": [
+    "AZURE",
+    "Docker",
+    "\u5C08\u6B04",
+    "\u6280\u8853\u96A8\u7B46"
+  ],
+  "generator": "BlogIndex.SyncPost v1.0.0.0, o3, https://app-azureopenai.openai.azure.com/",
+  "tech-stacks": [
+    "Docker",
+    "Docker Machine",
+    "Docker Compose",
+    "Docker Swarm",
+    "Docker Cloud",
+    "Microsoft Azure",
+    "Amazon Web Service",
+    "Hyper-V",
+    "VMware",
+    "Linux",
+    "Ubuntu",
+    "NGINX",
+    "MySQL",
+    "WordPress"
+  ],
+  "keywords": [
+    "Azure",
+    "Docker",
+    "Docker Machine",
+    "Docker Compose",
+    "Docker Swarm",
+    "Docker Cloud",
+    "WordPress",
+    "NGINX",
+    "MySQL",
+    "Linux",
+    "Ubuntu",
+    "High Availability",
+    "Node",
+    "Stack",
+    "Service",
+    "Container",
+    "VM",
+    "Public Cloud",
+    "IaaS"
+  ],
+  "references": [
+    "https://docs.docker.com/machine/overview/",
+    "https://docs.docker.com/compose/overview/",
+    "https://docs.docker.com/swarm/overview/",
+    "http://cloud.docker.com",
+    "https://docs.docker.com/docker-trusted-registry/cse-release-notes/",
+    "http://static4.ithome.com.tw/sites/default/files/styles/picture_size_large/public/field/image/docker_cloud.jpg?itok=4E_uQGFh",
+    "http://hub.docker.com",
+    "http://columns.chicken-house.net/2016/02/07/buy_minipc_server/"
+  ]
+}

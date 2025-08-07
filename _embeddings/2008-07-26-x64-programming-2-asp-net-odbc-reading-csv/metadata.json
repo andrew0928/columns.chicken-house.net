@@ -1,0 +1,63 @@
+{
+  "title": "x64 programming #2: ASP.NET \u002B ODBC (\u8B80\u53D6 CSV)",
+  "published": true,
+  "categories": null,
+  "tags": [
+    ".NET",
+    "ASP.NET",
+    "Tips",
+    "\u6280\u8853\u96A8\u7B46"
+  ],
+  "generator": "BlogIndex.SyncPost v1.0.0.0, o3, https://app-azureopenai.openai.azure.com/",
+  "tech-stacks": [
+    "ASP.NET",
+    ".NET",
+    "C#",
+    "ODBC",
+    "CSV",
+    "IIS6",
+    "IIS7",
+    "Visual Studio 2008",
+    "Windows Vista x64",
+    "Windows Server 2003 x64",
+    "Excel",
+    "Microsoft Office",
+    "DevWeb",
+    "OleDB",
+    "COM",
+    "Win32",
+    "SysWOW64"
+  ],
+  "keywords": [
+    "x64",
+    "x86",
+    "ODBC driver",
+    "Enable32bitAppOnWin64",
+    "DataGrid",
+    "Driver={Microsoft Text Driver (*.txt; *.csv)}",
+    "DBQ",
+    "App_Pool",
+    "aspnet_regiis.exe",
+    "kb/894435",
+    "32 \u4F4D\u5143\u6A21\u5F0F",
+    "64 \u4F4D\u5143\u6A21\u5F0F",
+    "DLL",
+    "Plug-Ins",
+    "ActiveX Control",
+    "Codec"
+  ],
+  "references": [
+    "/2008/07/26/x64-programming-2-asp-net-odbc-\u8B80\u53D6-csv/",
+    "/columns/post/2008/07/26/x64-2-ASPNET-2b-ODBC-(e8ae80e58f96-CSV).aspx/",
+    "/post/2008/07/26/x64-2-ASPNET-2b-ODBC-(e8ae80e58f96-CSV).aspx/",
+    "/post/x64-2-ASPNET-2b-ODBC-(e8ae80e58f96-CSV).aspx/",
+    "/columns/2008/07/26/x64-2-ASPNET-2b-ODBC-(e8ae80e58f96-CSV).aspx/",
+    "/columns/x64-2-ASPNET-2b-ODBC-(e8ae80e58f96-CSV).aspx/",
+    "http://support.microsoft.com/kb/894435/zh-tw",
+    "/wp-content/be-files/WindowsLiveWriter/x642ASP.NETODBCCSV_42B/image_3.png",
+    "/wp-content/be-files/WindowsLiveWriter/x642ASP.NETODBCCSV_42B/image_6.png",
+    "/wp-content/be-files/WindowsLiveWriter/x642ASP.NETODBCCSV_42B/image_9.png",
+    "/wp-content/be-files/WindowsLiveWriter/x642ASP.NETODBCCSV_42B/image_12.png",
+    "/wp-content/be-files/WindowsLiveWriter/x642ASP.NETODBCCSV_42B/image_15.png"
+  ]
+}

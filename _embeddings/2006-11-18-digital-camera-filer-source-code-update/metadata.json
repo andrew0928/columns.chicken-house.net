@@ -1,0 +1,50 @@
+{
+  "title": "Digital Camera Filer - Source Code (update)",
+  "published": true,
+  "categories": null,
+  "tags": [
+    ".NET",
+    "\u6280\u8853\u96A8\u7B46"
+  ],
+  "generator": "BlogIndex.SyncPost v1.0.0.0, o3, https://app-azureopenai.openai.azure.com/",
+  "tech-stacks": [
+    ".NET",
+    "C#",
+    "Java",
+    "Visual Studio 2005",
+    "ASP.NET",
+    "Factory Pattern",
+    "Reflection",
+    "AppDomain",
+    "System.Drawing.Image",
+    "PhotoLibrary",
+    "Microsoft RAW Image Viewer",
+    "Canon SDK",
+    "EXIF"
+  ],
+  "keywords": [
+    "Digital Camera Filer",
+    "MediaFiler",
+    "PhotoLibrary",
+    "Microsoft RAW Image Viewer",
+    "Factory Pattern",
+    "custom attribute",
+    "Reflection",
+    "plug-ins",
+    "C#",
+    "EXIF",
+    "Canon",
+    "RAW",
+    "JPEG",
+    "AVI",
+    "THM",
+    "Source Code"
+  ],
+  "references": [
+    "http://www.gotdotnet.com/workspaces/workspace.aspx...",
+    "http://www.microsoft.com/downloads/details.aspx?familyid=D48E808E-B10D-4CE4-A141-5866FD4A3286\u0026displaylang=en",
+    "http://www.chicken-house.net/files/chicken/ChickenHouse.Tools.DigitalCameraFiler.zip/CodeStructure.png",
+    "/post/e4b889e5808be5a5bde794a8e79a84-ASPNET-HttpHandler.aspx",
+    "http://www.chicken-house.net/files/chicken/ChickenHouse.Tools.DigitalCameraFiler.zip"
+  ]
+}

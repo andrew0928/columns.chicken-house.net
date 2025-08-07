@@ -1,0 +1,58 @@
+{
+  "title": "\u524D\u8A00: Canon Raw Codec 1.2 \u002B .NET Framework 3.0 (WPF)",
+  "published": true,
+  "categories": [
+    "\u7CFB\u5217\u6587\u7AE0: Canon Raw Codec \u0026 WPF"
+  ],
+  "tags": [
+    ".NET",
+    "WPF",
+    "\u4F5C\u54C1\u96C6",
+    "\u591A\u57F7\u884C\u7DD2",
+    "\u6280\u8853\u96A8\u7B46"
+  ],
+  "generator": "BlogIndex.SyncPost v1.0.0.0, o3, https://app-azureopenai.openai.azure.com/",
+  "tech-stacks": [
+    ".NET Framework 3.0",
+    "WPF",
+    "Windows XP",
+    "Windows Vista",
+    "Canon Raw Codec 1.2",
+    "JpegEncoder",
+    "InPlaceMetadataWriter",
+    "BitmapMetadata",
+    "Metadata Query Language",
+    "Core2 Duo"
+  ],
+  "keywords": [
+    "CR2",
+    "Canon",
+    "G9",
+    "EXIF",
+    "Metadata",
+    "BitmapSource",
+    "MSDN",
+    "Thread",
+    "Multi-thread",
+    "Image Resizer",
+    "Digital Camera Filer",
+    "RAW",
+    "Codec"
+  ],
+  "references": [
+    "/post/Canon-G9-e585a5e6898b2c-e4b88de9818e.aspx",
+    "http://software.canon-europe.com/software/0026049.asp",
+    "/wp-content/be-files/archive/2006/12/23/cr2-supported.aspx",
+    "/post/Digital-Camera-Filer---Source-Code-(update).aspx",
+    "/post/Canon-Digital-Camera-e8a898e686b6e58da1e6adb8e6aa94e5b7a5e585b7---Release-Notes.aspx",
+    "/post/Canon-Digital-Camera-e8a898e686b6e58da1e6adb8e6aa94e5b7a5e585b7---RAW-Support-Update.aspx",
+    "/post/Canon-Digital-Camera-e79bb8e6a99fe78da8e4baab---e8a898e686b6e58da1e6adb8e6aa94e5b7a5e585b7.aspx",
+    "/2007/11/26/\u524D\u8A00-canon-raw-codec-1-2-net-framework-3-0-wpf/",
+    "/columns/post/2007/11/26/e5898de8a880-Canon-Raw-Codec-12-2b-NET-Framework-30-(WPF).aspx/",
+    "/post/2007/11/26/e5898de8a880-Canon-Raw-Codec-12-2b-NET-Framework-30-(WPF).aspx/",
+    "/post/e5898de8a880-Canon-Raw-Codec-12-2b-NET-Framework-30-(WPF).aspx/",
+    "/columns/2007/11/26/e5898de8a880-Canon-Raw-Codec-12-2b-NET-Framework-30-(WPF).aspx/",
+    "/columns/e5898de8a880-Canon-Raw-Codec-12-2b-NET-Framework-30-(WPF).aspx/",
+    "/blogs/chicken/archive/2007/11/26/2833.aspx/"
+  ]
+}

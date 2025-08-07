@@ -1,0 +1,46 @@
+{
+  "title": "Using VHDMount with Virtual PC",
+  "published": true,
+  "categories": null,
+  "tags": [
+    "Tips",
+    "\u6280\u8853\u96A8\u7B46",
+    "\u6709\u7684\u6C92\u7684"
+  ],
+  "generator": "BlogIndex.SyncPost v1.0.0.0, o3, https://app-azureopenai.openai.azure.com/",
+  "tech-stacks": [
+    "Microsoft Virtual Server 2005 R2 SP1",
+    "Virtual PC",
+    "VHDMount",
+    "VMware",
+    "Windows XP",
+    "Hardware Assisted Virtualization"
+  ],
+  "keywords": [
+    "Microsoft Virtual Server 2005 R2 SP1",
+    "Hardware Assisted Virtualization",
+    "VHDMount",
+    ".vhd",
+    "Virtual PC",
+    "virtual cd-rom",
+    ".iso",
+    "vmware",
+    "undo disk",
+    "mount",
+    "dismount",
+    "commit",
+    "host OS",
+    "guest OS",
+    "Windows XP",
+    "virtual machine"
+  ],
+  "references": [
+    "/2007/06/23/using-vhdmount-with-virtual-pc/",
+    "/columns/post/2007/06/23/Using-VHDMount-with-Virtual-PC.aspx/",
+    "/post/2007/06/23/Using-VHDMount-with-Virtual-PC.aspx/",
+    "/post/Using-VHDMount-with-Virtual-PC.aspx/",
+    "/columns/2007/06/23/Using-VHDMount-with-Virtual-PC.aspx/",
+    "/columns/Using-VHDMount-with-Virtual-PC.aspx/",
+    "/blogs/chicken/archive/2007/06/23/2462.aspx/"
+  ]
+}

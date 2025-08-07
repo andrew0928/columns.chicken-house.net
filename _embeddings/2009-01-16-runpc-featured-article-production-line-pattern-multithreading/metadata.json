@@ -1,0 +1,59 @@
+{
+  "title": "RUN!PC \u7CBE\u9078\u6587\u7AE0 - \u751F\u7522\u7DDA\u6A21\u5F0F\u7684\u591A\u57F7\u884C\u7DD2\u61C9\u7528",
+  "published": true,
+  "categories": [
+    "RUN! PC \u5C08\u6B04\u6587\u7AE0"
+  ],
+  "tags": [
+    ".NET",
+    "C#",
+    "RUN! PC",
+    "\u4F5C\u54C1\u96C6",
+    "\u591A\u57F7\u884C\u7DD2",
+    "\u5C08\u6B04",
+    "\u6280\u8853\u96A8\u7B46",
+    "\u6709\u7684\u6C92\u7684"
+  ],
+  "generator": "BlogIndex.SyncPost v1.0.0.0, o3, https://app-azureopenai.openai.azure.com/",
+  "tech-stacks": [
+    ".NET",
+    "C#",
+    "ThreadPool",
+    "Thread",
+    "ManualResetEvent",
+    "Queue",
+    "Stopwatch",
+    "ZipOutputStream",
+    "ZIP",
+    "JPEG",
+    "PNG",
+    "Windows Vista x64",
+    "Intel Core 2 Quad Q9300"
+  ],
+  "keywords": [
+    "\u591A\u57F7\u884C\u7DD2",
+    "Pipeline",
+    "\u751F\u7522\u7DDA\u6A21\u5F0F",
+    "\u591A\u6838\u5FC3 CPU",
+    "\u6548\u80FD\u512A\u5316",
+    "\u7E2E\u5716",
+    "ZIP \u58D3\u7E2E",
+    "ThreadPool",
+    "ThreadSafe",
+    "Stage1",
+    "Stage2",
+    "Idle Time",
+    "\u4F47\u5217",
+    "\u5716\u7247\u6279\u6B21\u8655\u7406"
+  ],
+  "references": [
+    "http://www.runpc.com.tw/content/main_content.aspx?mgo=178\u0026fid=E08",
+    "/wp-content/images/2009-01-16-runpc-\u7CBE\u9078\u6587\u7AE0-\u751F\u7522\u7DDA\u6A21\u5F0F\u7684\u591A\u57F7\u884C\u7DD2\u61C9\u7528/2019-06-23-22-21-40.png",
+    "/wp-content/images/2009-01-16-runpc-\u7CBE\u9078\u6587\u7AE0-\u751F\u7522\u7DDA\u6A21\u5F0F\u7684\u591A\u57F7\u884C\u7DD2\u61C9\u7528/2019-06-23-22-23-27.png",
+    "/wp-content/images/2009-01-16-runpc-\u7CBE\u9078\u6587\u7AE0-\u751F\u7522\u7DDA\u6A21\u5F0F\u7684\u591A\u57F7\u884C\u7DD2\u61C9\u7528/2019-06-23-22-23-56.png",
+    "/wp-content/images/2009-01-16-runpc-\u7CBE\u9078\u6587\u7AE0-\u751F\u7522\u7DDA\u6A21\u5F0F\u7684\u591A\u57F7\u884C\u7DD2\u61C9\u7528/2019-06-23-22-24-20.png",
+    "/wp-content/images/2009-01-16-runpc-\u7CBE\u9078\u6587\u7AE0-\u751F\u7522\u7DDA\u6A21\u5F0F\u7684\u591A\u57F7\u884C\u7DD2\u61C9\u7528/2019-06-23-22-25-20.png",
+    "/wp-content/images/2009-01-16-runpc-\u7CBE\u9078\u6587\u7AE0-\u751F\u7522\u7DDA\u6A21\u5F0F\u7684\u591A\u57F7\u884C\u7DD2\u61C9\u7528/2019-06-23-22-26-23.png",
+    "/wp-content/images/2009-01-16-runpc-\u7CBE\u9078\u6587\u7AE0-\u751F\u7522\u7DDA\u6A21\u5F0F\u7684\u591A\u57F7\u884C\u7DD2\u61C9\u7528/2019-06-23-22-27-03.png"
+  ]
+}

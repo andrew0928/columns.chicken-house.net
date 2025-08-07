@@ -1,0 +1,36 @@
+{
+  "title": "\u95DC\u4E0D\u6389\u7684 Vista UAC !?",
+  "published": true,
+  "categories": [],
+  "tags": [
+    "Tips"
+  ],
+  "generator": "BlogIndex.SyncPost v1.0.0.0, o3, https://app-azureopenai.openai.azure.com/",
+  "tech-stacks": [
+    "Windows Vista",
+    "User Account Control (UAC)",
+    "msconfig.exe",
+    "Windows Registry",
+    "Process Monitor"
+  ],
+  "keywords": [
+    "Vista",
+    "UAC",
+    "msconfig",
+    "registry",
+    "ProcessMonitor",
+    "patch",
+    "control panel",
+    "reboot",
+    "Windows"
+  ],
+  "references": [
+    "/wp-content/be-files/WindowsLiveWriter/VistaUAC_1E70/image_3.png",
+    "/2008/10/31/\u95DC\u4E0D\u6389\u7684-vista-uac/",
+    "/columns/post/2008/10/31/e9979ce4b88de68e89e79a84-Vista-UAC-!.aspx/",
+    "/post/2008/10/31/e9979ce4b88de68e89e79a84-Vista-UAC-!.aspx/",
+    "/post/e9979ce4b88de68e89e79a84-Vista-UAC-!.aspx/",
+    "/columns/2008/10/31/e9979ce4b88de68e89e79a84-Vista-UAC-!.aspx/",
+    "/columns/e9979ce4b88de68e89e79a84-Vista-UAC-!.aspx/"
+  ]
+}

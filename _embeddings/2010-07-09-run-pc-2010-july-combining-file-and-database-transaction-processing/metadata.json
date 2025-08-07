@@ -1,0 +1,54 @@
+{
+  "title": "[RUN! PC] 2010 \u4E03\u6708\u865F - \u7D50\u5408\u6A94\u6848\u53CA\u8CC7\u6599\u5EAB\u7684\u4EA4\u6613\u8655\u7406",
+  "published": true,
+  "categories": [
+    "RUN! PC \u5C08\u6B04\u6587\u7AE0"
+  ],
+  "tags": [
+    ".NET",
+    "RUN! PC",
+    "Transactional NTFS",
+    "\u4F5C\u54C1\u96C6",
+    "\u4F5C\u696D\u7CFB\u7D71",
+    "\u6280\u8853\u96A8\u7B46",
+    "\u7269\u4EF6\u5C0E\u5411"
+  ],
+  "generator": "BlogIndex.SyncPost v1.0.0.0, o3, https://app-azureopenai.openai.azure.com/",
+  "tech-stacks": [
+    ".NET Framework",
+    "TxF",
+    "TransactionScope",
+    "AlphaFS",
+    "NTFS",
+    "System.IO",
+    "VSS",
+    "HardLink",
+    "P/Invoke",
+    "Windows"
+  ],
+  "keywords": [
+    "Transactional NTFS",
+    "TxF",
+    "TransactionScope",
+    "AlphaFS",
+    "System.IO",
+    "NTFS",
+    "VSS",
+    "HardLink",
+    "P/Invoke",
+    "\u6A94\u6848\u7CFB\u7D71",
+    "\u8CC7\u6599\u5EAB",
+    "\u4EA4\u6613\u8655\u7406"
+  ],
+  "references": [
+    "/wp-content/be-files/IMG_3972_1.jpg",
+    "/post/2010/05/05/RUNPC-2010-05.aspx",
+    "/wp-content/be-files/RunPC-201007.zip",
+    "/2010/07/09/run-pc-2010-\u4E03\u6708\u865F-\u7D50\u5408\u6A94\u6848\u53CA\u8CC7\u6599\u5EAB\u7684\u4EA4\u6613\u8655\u7406/",
+    "/columns/post/2010/07/09/RUN!-PC-2010-e4b883e69c88e8999f-e7b590e59088e6aa94e6a188e58f8ae8b387e69699e5baabe79a84e4baa4e69893e89995e79086.aspx/",
+    "/post/2010/07/09/RUN!-PC-2010-e4b883e69c88e8999f-e7b590e59088e6aa94e6a188e58f8ae8b387e69699e5baabe79a84e4baa4e69893e89995e79086.aspx/",
+    "/post/RUN!-PC-2010-e4b883e69c88e8999f-e7b590e59088e6aa94e6a188e58f8ae8b387e69699e5baabe79a84e4baa4e69893e89995e79086.aspx/",
+    "/columns/2010/07/09/RUN!-PC-2010-e4b883e69c88e8999f-e7b590e59088e6aa94e6a188e58f8ae8b387e69699e5baabe79a84e4baa4e69893e89995e79086.aspx/",
+    "/columns/RUN!-PC-2010-e4b883e69c88e8999f-e7b590e59088e6aa94e6a188e58f8ae8b387e69699e5baabe79a84e4baa4e69893e89995e79086.aspx/"
+  ]
+}

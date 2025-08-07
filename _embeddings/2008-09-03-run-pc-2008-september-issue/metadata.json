@@ -1,0 +1,50 @@
+{
+  "title": "[RUN! PC] 2008 \u4E5D\u6708\u865F",
+  "published": true,
+  "categories": [
+    "RUN! PC \u5C08\u6B04\u6587\u7AE0"
+  ],
+  "tags": [
+    ".NET",
+    "RUN! PC",
+    "\u4F5C\u54C1\u96C6",
+    "\u591A\u57F7\u884C\u7DD2",
+    "\u6280\u8853\u96A8\u7B46"
+  ],
+  "generator": "BlogIndex.SyncPost v1.0.0.0, o3, https://app-azureopenai.openai.azure.com/",
+  "tech-stacks": [
+    ".NET",
+    "C#",
+    "ThreadPool",
+    "AutoResetEvent",
+    "ManualResetEvent",
+    "Console Application"
+  ],
+  "keywords": [
+    "\u57F7\u884C\u7DD2",
+    "ThreadPool",
+    "AutoResetEvent",
+    "ManualResetEvent",
+    "\u591A\u57F7\u884C\u7DD2",
+    "\u540C\u6B65\u6A5F\u5236",
+    "\u65D7\u6A19",
+    "\u6548\u80FD",
+    "Console application",
+    "Sample code",
+    "RUN! PC"
+  ],
+  "references": [
+    "/wp-content/be-files/WindowsLiveWriter/RUNPC2008_13519/image_5.png",
+    "/post/ThreadPool-e5afa6e4bd9c-1-e59fbae69cace6a682e5bfb5.aspx",
+    "/post/ThreadPool-e5afa6e4bd9c-2-e7a88be5bc8fe7a2bc-(C).aspx",
+    "/post/ThreadPool-e5afa6e4bd9c-3-AutoResetEvent-ManualResetEvent.aspx",
+    "http://demo.chicken-house.net/RUNPC/2008-09/2008-09.zip",
+    "/2008/09/03/run-pc-2008-\u4E5D\u6708\u865F/",
+    "/2008/09/02/run-pc-2008-\u4E5D\u6708\u865F/",
+    "/columns/post/2008/09/03/RUNPC-2008-09.aspx/",
+    "/post/2008/09/03/RUNPC-2008-09.aspx/",
+    "/post/RUNPC-2008-09.aspx/",
+    "/columns/2008/09/03/RUNPC-2008-09.aspx/",
+    "/columns/RUNPC-2008-09.aspx/"
+  ]
+}

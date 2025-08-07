@@ -1,0 +1,29 @@
+{
+  "title": "CS Control: Recent Comments",
+  "published": true,
+  "categories": null,
+  "tags": [],
+  "generator": "BlogIndex.SyncPost v1.0.0.0, o3, https://app-azureopenai.openai.azure.com/",
+  "tech-stacks": [
+    "Community Server 2.0",
+    "ASP.NET",
+    ".NET",
+    "Provider Model",
+    "Data Provider",
+    "Theme Model"
+  ],
+  "keywords": [
+    "CS 2.0",
+    "Theme",
+    "Provider Model",
+    "Data Provider",
+    "Post object",
+    "WeblogPost",
+    "user control",
+    "Recent Comments"
+  ],
+  "references": [
+    "/post/ChickenHouseWebCommunityServerExtension-e696b0e58a9fe883bd-e4b98b-2.aspx",
+    "/wp-content/be-files/recent-comments.jpg"
+  ]
+}

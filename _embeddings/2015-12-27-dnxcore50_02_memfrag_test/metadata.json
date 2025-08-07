@@ -1,0 +1,59 @@
+{
+  "title": ".NET Core \u8DE8\u5E73\u53F0 #2, \u8A18\u61B6\u9AD4\u7BA1\u7406\u5927\u8003\u9A57 - setup environment",
+  "published": true,
+  "categories": [
+    "\u7CFB\u5217\u6587\u7AE0: .NET Core \u8DE8\u5E73\u53F0"
+  ],
+  "tags": [
+    ".Net Core",
+    "AZURE",
+    "C#",
+    "Docker",
+    "\u5C08\u6B04",
+    "\u6280\u8853\u96A8\u7B46"
+  ],
+  "generator": "BlogIndex.SyncPost v1.0.0.0, o3, https://app-azureopenai.openai.azure.com/",
+  "tech-stacks": [
+    ".NET Core",
+    ".NET",
+    "C#",
+    "Azure",
+    "Docker",
+    "Windows 10",
+    "Windows Server 2016",
+    "Windows Server 2012 R2",
+    "Windows Container",
+    "Linux Container",
+    "Boot2Docker",
+    "Ubuntu 15.10",
+    "SSH",
+    "Hyper-V",
+    "Nano Server",
+    "CoreCLR"
+  ],
+  "keywords": [
+    "memory management",
+    "garbage collection",
+    "GC",
+    "Out Of Memory",
+    "OOM",
+    "memory fragmentation",
+    "allocate",
+    "free memory",
+    "VM",
+    "container",
+    "platform test",
+    "64mb",
+    "72mb",
+    "performance",
+    "environment setup"
+  ],
+  "references": [
+    "/2015/12/27/dnxcore50_02_memfrag_test/",
+    "/?p=120",
+    "/?p=118",
+    "/?p=117",
+    "http://www.apertus.com.tw/",
+    "/wp-content/uploads/2015/12/img_567f9c9e811a9.png"
+  ]
+}

@@ -1,0 +1,50 @@
+{
+  "title": "[CODE] LINQ to Object - \u66FF\u7269\u4EF6\u52A0\u4E0A\u7D22\u5F15!",
+  "published": true,
+  "categories": [],
+  "tags": [
+    "C#",
+    "\u6280\u8853\u96A8\u7B46",
+    "\u7269\u4EF6\u5C0E\u5411"
+  ],
+  "generator": "BlogIndex.SyncPost v1.0.0.0, o3, https://app-azureopenai.openai.azure.com/",
+  "tech-stacks": [
+    "C#",
+    ".NET",
+    "C/C\u002B\u002B",
+    "LINQ",
+    "LINQ to SQL",
+    "LINQ to Entity Framework",
+    "LINQ to Object",
+    "HashSet",
+    "Expression Trees",
+    "Windows 7"
+  ],
+  "keywords": [
+    "LINQ",
+    "Object",
+    "\u7D22\u5F15",
+    "IndexedList",
+    "HashSet",
+    "Extension Method",
+    "Where",
+    "\u6027\u80FD",
+    "Proof of Concept",
+    "i4o",
+    "Embedded SQL"
+  ],
+  "references": [
+    "/post/2011/01/03/CODE-e58fafe4bba5e8bcb8e587bae588b0-TextBox-e79a84-TextWriter-TextBoxWriter!.aspx",
+    "http://blog.darkthread.net/post-2011-10-20-linq-search-performance-issue.aspx",
+    "http://en.wikipedia.org/wiki/Embedded_SQL",
+    "/2011/10/25/code-linq-to-object-\u66FF\u7269\u4EF6\u52A0\u4E0A\u7D22\u5F15/",
+    "/columns/post/2011/10/25/indexed_linq.aspx/",
+    "/post/2011/10/25/indexed_linq.aspx/",
+    "/post/indexed_linq.aspx/",
+    "/columns/2011/10/25/indexed_linq.aspx/",
+    "/columns/indexed_linq.aspx/",
+    "/wp-content/be-files/image_13.png",
+    "http://i4o.codeplex.com/",
+    "http://staxmanade.blogspot.com/2008/12/i4o-indexspecification-for.html"
+  ]
+}

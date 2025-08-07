@@ -1,0 +1,56 @@
+{
+  "title": "[Azure] Multi-Tenancy Application #1, \u8A2D\u8A08\u6982\u5FF5",
+  "published": true,
+  "categories": [
+    "\u7CFB\u5217\u6587\u7AE0: Multi-Tenancy Application"
+  ],
+  "tags": [
+    "AZURE",
+    "MSDN",
+    "SQL",
+    "\u6280\u8853\u96A8\u7B46"
+  ],
+  "generator": "BlogIndex.SyncPost v1.0.0.0, o3, https://app-azureopenai.openai.azure.com/",
+  "tech-stacks": [
+    "Microsoft Azure",
+    "ASP.NET MVC4",
+    "SQL Server",
+    "SQL Server 2005",
+    "Windows Server",
+    "SalesForce",
+    "NoSQL",
+    "PaaS",
+    "SaaS"
+  ],
+  "keywords": [
+    "Multi-Tenancy",
+    "SaaS",
+    "PaaS",
+    "Azure",
+    "Microsoft Azure",
+    "ASP.NET MVC4",
+    "Web Application",
+    "Separated DB",
+    "Separate Schema",
+    "Shared Schema",
+    "SQL Server",
+    "Data Isolation",
+    "Cloud Computing",
+    "Extensibility",
+    "SalesForce",
+    "Database",
+    "Schema",
+    "Architecture Design"
+  ],
+  "references": [
+    "http://en.wikipedia.org/wiki/Platform_as_a_service",
+    "http://en.wikipedia.org/wiki/SaaS",
+    "http://en.wikipedia.org/wiki/Multi-tenancy",
+    "http://msdn.microsoft.com/en-us/library/aa479086.aspx",
+    "http://i.msdn.microsoft.com/dynimg/IC124001.gif",
+    "http://i.msdn.microsoft.com/dynimg/IC6354.gif",
+    "http://i.msdn.microsoft.com/dynimg/IC106518.gif",
+    "http://i.msdn.microsoft.com/dynimg/IC216.gif",
+    "/wp-content/be-files/image_15.png"
+  ]
+}

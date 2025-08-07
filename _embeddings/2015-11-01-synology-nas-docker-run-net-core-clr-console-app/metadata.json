@@ -1,0 +1,57 @@
+{
+  "title": "\u540C\u5834\u52A0\u6620: \u7528 Synology NAS \u7684 Docker \u74B0\u5883\uFF0C\u57F7\u884C .NET Core CLR Console App",
+  "published": true,
+  "categories": null,
+  "tags": [
+    ".NET",
+    ".Net Core",
+    "Docker"
+  ],
+  "generator": "BlogIndex.SyncPost v1.0.0.0, o3, https://app-azureopenai.openai.azure.com/",
+  "tech-stacks": [
+    ".NET Core",
+    ".NET Core CLR",
+    "DNX",
+    "DNU",
+    "ASPNET5",
+    "Visual Studio 2015",
+    "Docker",
+    "Synology NAS",
+    "DSM",
+    "Linux"
+  ],
+  "keywords": [
+    "NAS",
+    "Docker",
+    ".NET Core",
+    "Core CLR",
+    "Console App",
+    "Visual Studio 2015",
+    "Synology",
+    "DNX",
+    "DNU",
+    "ASPNET5"
+  ],
+  "references": [
+    "/2015/10/31/coreclr-helloworld-consoleapp/",
+    "/wp-content/uploads/2015/11/synology_docker_thumb_256.png",
+    "/wp-content/uploads/2015/11/img_563589e050a00.png",
+    "/wp-content/uploads/2015/11/img_56358bc0803ca.png",
+    "/wp-content/uploads/2015/11/img_56358c3594fc3.png",
+    "/wp-content/uploads/2015/11/img_56358d04538dd.png",
+    "/wp-content/uploads/2015/11/img_56358d6119b15.png",
+    "/wp-content/uploads/2015/11/img_56358df03680e.png",
+    "/wp-content/uploads/2015/11/img_56358eedbc0ef.png",
+    "/wp-content/uploads/2015/11/img_56358ffb04358.png",
+    "/wp-content/uploads/2015/11/img_5635903eddfbb.png",
+    "/wp-content/uploads/2015/11/img_563590c6f1c1e.png",
+    "/wp-content/uploads/2015/11/img_5635906e36809.png",
+    "/wp-content/uploads/2015/11/img_5635921d6ac0d.png",
+    "/wp-content/uploads/2015/11/img_56359288a4dad.png",
+    "/wp-content/uploads/2015/11/img_5635964f0eb57.png",
+    "/wp-content/uploads/2015/11/img_5635968ced9be.png",
+    "/wp-content/uploads/2015/11/img_563596bc4c7a3.png",
+    "/wp-content/uploads/2015/11/img_563597c80e76a.png",
+    "https://www.synology.com/zh-tw/dsm/app_packages/Docker"
+  ]
+}

@@ -1,0 +1,52 @@
+{
+  "title": "BlogEngine Extension: Secure Post v1.0",
+  "published": true,
+  "categories": null,
+  "tags": [
+    ".NET",
+    "ASP.NET",
+    "BlogEngine Extension",
+    "BlogEngine.NET",
+    "\u4F5C\u54C1\u96C6",
+    "\u6280\u8853\u96A8\u7B46"
+  ],
+  "generator": "BlogIndex.SyncPost v1.0.0.0, o3, https://app-azureopenai.openai.azure.com/",
+  "tech-stacks": [
+    ".NET",
+    "ASP.NET",
+    "C#",
+    "BlogEngine.NET",
+    "IIS",
+    "CommunityServer",
+    "CodePlex",
+    "MD5",
+    "SHA256",
+    "HTML",
+    "DHTML"
+  ],
+  "keywords": [
+    "BlogEngine",
+    "Extension",
+    "Secure Post",
+    "Password",
+    "SecurePost",
+    "Post",
+    "C#",
+    "Extension Manager",
+    "POC",
+    "Hash",
+    "MD5",
+    "SHA256",
+    "BlogEngine.NET",
+    "CodePlex"
+  ],
+  "references": [
+    "http://www.dotnetblogengine.net/page/extensions.aspx",
+    "http://blog.lavablast.com/post.aspx?id=ceb887a9-f0d1-4379-815a-513cda5d5fc8",
+    "http://columns.chicken-house.net",
+    "/wp-content/be-files/WindowsLiveWriter/BlogEngineExtensionSecurePostv1.0_30DC/image_3.png",
+    "/wp-content/be-files/WindowsLiveWriter/BlogEngineExtensionSecurePostv1.0_30DC/image_6.png",
+    "/wp-content/be-files/WindowsLiveWriter/BlogEngineExtensionSecurePostv1.0_30DC/image_9.png",
+    "/wp-content/be-files/WindowsLiveWriter/BlogEngineExtensionSecurePostv1.0_30DC/image_12.png"
+  ]
+}

@@ -1,0 +1,47 @@
+{
+  "title": "ThreadPool \u5BE6\u4F5C #2. \u7A0B\u5F0F\u78BC (C#)",
+  "published": true,
+  "categories": [
+    "\u7CFB\u5217\u6587\u7AE0: Thread Pool \u5BE6\u4F5C"
+  ],
+  "tags": [
+    ".NET",
+    "\u4F5C\u696D\u7CFB\u7D71",
+    "\u591A\u57F7\u884C\u7DD2",
+    "\u6280\u8853\u96A8\u7B46"
+  ],
+  "generator": "BlogIndex.SyncPost v1.0.0.0, o3, https://app-azureopenai.openai.azure.com/",
+  "tech-stacks": [
+    "C#",
+    ".NET",
+    "ThreadPool",
+    "Thread",
+    "ThreadPriority",
+    "WaitHandle",
+    "ManualResetEvent",
+    "Windows OS"
+  ],
+  "keywords": [
+    "ThreadPool",
+    "SimpleThreadPool",
+    "worker thread",
+    "job queue",
+    "idle timeout",
+    "QueueUserWorkItem",
+    "EndPool",
+    "CancelPool",
+    "DoWorkerThread",
+    "WaitOne",
+    "WorkItem",
+    "enqueueNotify"
+  ],
+  "references": [
+    "/2007/12/17/threadpool-\u5BE6\u4F5C-2-\u7A0B\u5F0F\u78BC-c/",
+    "/columns/post/2007/12/17/ThreadPool-e5afa6e4bd9c-2-e7a88be5bc8fe7a2bc-(C).aspx/",
+    "/post/2007/12/17/ThreadPool-e5afa6e4bd9c-2-e7a88be5bc8fe7a2bc-(C).aspx/",
+    "/post/ThreadPool-e5afa6e4bd9c-2-e7a88be5bc8fe7a2bc-(C).aspx/",
+    "/columns/2007/12/17/ThreadPool-e5afa6e4bd9c-2-e7a88be5bc8fe7a2bc-(C).aspx/",
+    "/columns/ThreadPool-e5afa6e4bd9c-2-e7a88be5bc8fe7a2bc-(C).aspx/",
+    "/blogs/chicken/archive/2007/12/17/2893.aspx/"
+  ]
+}

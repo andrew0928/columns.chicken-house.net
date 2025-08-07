@@ -1,0 +1,45 @@
+{
+  "title": "\u642D\u914D CodeFormatter\uFF0C\u7DB2\u7AD9\u9808\u8981\u914D\u5408\u7684\u8A2D\u5B9A",
+  "published": true,
+  "categories": null,
+  "tags": [
+    ".NET",
+    "\u4F5C\u54C1\u96C6",
+    "\u6280\u8853\u96A8\u7B46"
+  ],
+  "generator": "BlogIndex.SyncPost v1.0.0.0, o3, https://app-azureopenai.openai.azure.com/",
+  "tech-stacks": [
+    ".NET",
+    "CommunityServer",
+    "Windows Live Writer",
+    "CodeFormatter",
+    "CSS",
+    "C#",
+    "JavaScript",
+    "HTC (HTML Component)",
+    "JQuery",
+    "DHTML",
+    "Internet Explorer (IE)",
+    "HTA (HTML Application)",
+    "HTML"
+  ],
+  "keywords": [
+    "Plugin",
+    "Code Formatter",
+    "Copy Code",
+    "BLOG SERVER",
+    "Custom Styles",
+    "DashBoard",
+    "Sample Code",
+    "Clipboard",
+    "Security Warning",
+    "Preview",
+    "Bug Fix"
+  ],
+  "references": [
+    "http://www.chicken-house.net/files/chicken/ChickenHouse.LiveWriterAddIns.zip",
+    "/themes/code.htc",
+    "/wp-content/be-files/WindowsLiveWriter/CodeFormatter_9FE0/image_9.png",
+    "/wp-content/be-files/WindowsLiveWriter/CodeFormatter_9FE0/image_8.png"
+  ]
+}

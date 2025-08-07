@@ -1,0 +1,49 @@
+{
+  "title": "\u539F\u4F86 .NET \u65E9\u5C31\u5167\u5EFA XmlNodeWriter \u4E86...",
+  "published": true,
+  "categories": null,
+  "tags": [
+    ".NET",
+    "C#",
+    "Tips",
+    "\u4F5C\u54C1\u96C6",
+    "\u6280\u8853\u96A8\u7B46",
+    "\u7269\u4EF6\u5C0E\u5411"
+  ],
+  "generator": "BlogIndex.SyncPost v1.0.0.0, o3, https://app-azureopenai.openai.azure.com/",
+  "tech-stacks": [
+    ".NET Framework",
+    "C#",
+    "Enterprise Library",
+    "Entity Framework",
+    "XmlNodeWriter",
+    "XmlWriter",
+    "XmlReader",
+    "XmlDocument",
+    "SAX",
+    "XSLT",
+    "Visual Studio Orcas"
+  ],
+  "keywords": [
+    "XmlNodeWriter",
+    "XmlWriter",
+    "XmlReader",
+    "XmlDocument",
+    "XmlNode",
+    "XmlNodeReader",
+    "AppendChild",
+    "Factory Pattern",
+    "Extension Method",
+    "XmlWriterFactory",
+    "XSLT Transform",
+    "XmlProcessing"
+  ],
+  "references": [
+    "http://zh.wikipedia.org/w/index.php?title=SAX\u0026variant=zh-tw",
+    "http://msdn.microsoft.com/zh-tw/library/system.xml.xmlwriter.aspx",
+    "http://www.codeplex.com/",
+    "http://code.msdn.microsoft.com/",
+    "http://blogs.msdn.com/xmlteam/",
+    "http://blogs.msdn.com/xmlteam/archive/2007/02/02/xml-features-in-the-february-ctp-of-visual-studio-orcas.aspx#1586207"
+  ]
+}

@@ -1,0 +1,43 @@
+{
+  "title": "\u4FEE\u6539 Community Server \u7684 blog editor ( Part II )",
+  "published": true,
+  "categories": [],
+  "tags": [
+    ".NET",
+    "\u6280\u8853\u96A8\u7B46"
+  ],
+  "generator": "BlogIndex.SyncPost v1.0.0.0, o3, https://app-azureopenai.openai.azure.com/",
+  "tech-stacks": [
+    ".NET",
+    "Community Server",
+    "Provider Pattern",
+    "FreeTextBox",
+    "TextEditor Wrapper"
+  ],
+  "keywords": [
+    "CommunityServer",
+    "Provider Pattern",
+    "TextEditor Wrapper",
+    "membership",
+    "roles",
+    "auth",
+    "configuration",
+    "FreeTextBox",
+    "Toolbar",
+    "\u8868\u60C5\u7B26\u865F",
+    "source code",
+    "security mechanism"
+  ],
+  "references": [
+    "/2005/03/20/\u4FEE\u6539-community-server-\u7684-blog-editor-part-ii/",
+    "/columns/post/2005/03/20/e4bfaee694b9-Community-Server-e79a84-blog-editor-(-Part-II-).aspx/",
+    "/post/2005/03/20/e4bfaee694b9-Community-Server-e79a84-blog-editor-(-Part-II-).aspx/",
+    "/post/e4bfaee694b9-Community-Server-e79a84-blog-editor-(-Part-II-).aspx/",
+    "/columns/2005/03/20/e4bfaee694b9-Community-Server-e79a84-blog-editor-(-Part-II-).aspx/",
+    "/columns/e4bfaee694b9-Community-Server-e79a84-blog-editor-(-Part-II-).aspx/",
+    "/blogs/chicken/archive/2005/03/20/346.aspx/",
+    "/wp-content/be-files/cs_editor_part2.jpg",
+    "/Emoticons/emotion-11.gif",
+    "/Emoticons/emotion-2.gif"
+  ]
+}

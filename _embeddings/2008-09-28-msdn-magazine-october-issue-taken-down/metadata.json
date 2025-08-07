@@ -1,0 +1,39 @@
+{
+  "title": "MSDN Magazine \u5341\u6708\u865F\u7ADF\u7136\u4E0B\u67B6\u4E86...",
+  "published": true,
+  "categories": [],
+  "tags": [
+    ".NET",
+    "MSDN",
+    "\u591A\u57F7\u884C\u7DD2",
+    "\u6280\u8853\u96A8\u7B46"
+  ],
+  "generator": "BlogIndex.SyncPost v1.0.0.0, o3, https://app-azureopenai.openai.azure.com/",
+  "tech-stacks": [
+    ".NET",
+    "TPL",
+    "PLINQ",
+    "F#",
+    "Visual Studio",
+    "Threading"
+  ],
+  "keywords": [
+    "MSDN Magazine",
+    "\u5341\u6708\u865F",
+    "\u591A\u6838\u5FC3\u8655\u7406\u5668",
+    "\u5E73\u884C\u8655\u7406",
+    "TPL",
+    "PLINQ",
+    "F#",
+    "False Sharing",
+    "High-Performance Algorithms",
+    "Parallel Programming",
+    "Visual Studio",
+    "\u591A\u6838"
+  ],
+  "references": [
+    "/wp-content/be-files/WindowsLiveWriter/MSDNMagazine_14B2A/image_3.png",
+    "http://msdn.microsoft.com/en-us/magazine/default.aspx",
+    "http://72.14.235.104/search?q=cache:-ISFPHzsRZUJ:msdn.microsoft.com/en-us/magazine/default.aspx\u002B%22false\u002Bsharing%22\u002B%2B\u002B%22msdn\u002Bmagazine%22\u0026hl=zh-TW\u0026ct=clnk\u0026cd=2\u0026gl=tw"
+  ]
+}

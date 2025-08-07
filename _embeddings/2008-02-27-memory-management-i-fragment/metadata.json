@@ -1,0 +1,52 @@
+{
+  "title": "Memory Management - (I). Fragment ?",
+  "published": true,
+  "categories": [
+    "\u7CFB\u5217\u6587\u7AE0: Memory Management"
+  ],
+  "tags": [
+    ".NET",
+    "\u4F5C\u696D\u7CFB\u7D71",
+    "\u6280\u8853\u96A8\u7B46",
+    "\u6709\u7684\u6C92\u7684"
+  ],
+  "generator": "BlogIndex.SyncPost v1.0.0.0, o3, https://app-azureopenai.openai.azure.com/",
+  "tech-stacks": [
+    "C",
+    ".NET",
+    "C\u002B\u002B",
+    "Linux",
+    "Windows"
+  ],
+  "keywords": [
+    "Memory",
+    "Fragment",
+    "Virtual Memory",
+    "Paging",
+    "Swap",
+    "Allocate",
+    "Free",
+    "Pointer",
+    "32\u4F4D\u5143",
+    "64\u4F4D\u5143",
+    "C",
+    "C\u002B\u002B",
+    "Linux",
+    "Windows"
+  ],
+  "references": [
+    "/2008/02/26/memory-management-i-fragment/",
+    "/columns/post/2008/02/27/Memory-Management-(I)-Fragment-.aspx/",
+    "/post/2008/02/27/Memory-Management-(I)-Fragment-.aspx/",
+    "/post/Memory-Management-(I)-Fragment-.aspx/",
+    "/columns/2008/02/27/Memory-Management-(I)-Fragment-.aspx/",
+    "/columns/Memory-Management-(I)-Fragment-.aspx/",
+    "/columns/post/2008/02/27/Memory-Management---(I)-Fragment-.aspx/",
+    "/post/2008/02/27/Memory-Management---(I)-Fragment-.aspx/",
+    "/post/Memory-Management---(I)-Fragment-.aspx/",
+    "/columns/2008/02/27/Memory-Management---(I)-Fragment-.aspx/",
+    "/columns/Memory-Management---(I)-Fragment-.aspx/",
+    "/blogs/chicken/archive/2008/02/27/3009.aspx/",
+    "/wp-content/be-files/WindowsLiveWriter/MemoryManagementI.Fragment_45D5/image_3.gif"
+  ]
+}

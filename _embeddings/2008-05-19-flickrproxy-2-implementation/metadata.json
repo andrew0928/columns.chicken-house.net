@@ -1,0 +1,66 @@
+{
+  "title": "FlickrProxy #2 - \u5BE6\u4F5C",
+  "published": true,
+  "categories": [
+    "\u4F5C\u54C1\u96C6: FlickrProxy"
+  ],
+  "tags": [
+    ".NET",
+    "ASP.NET",
+    "\u4F5C\u54C1\u96C6"
+  ],
+  "generator": "BlogIndex.SyncPost v1.0.0.0, o3, https://app-azureopenai.openai.azure.com/",
+  "tech-stacks": [
+    ".NET Framework",
+    "ASP.NET",
+    "C#",
+    "IIS",
+    "FlickrNet",
+    "Flickr API",
+    "ISAPI",
+    "Visual Studio",
+    "System.Web.StaticFileHandler",
+    "Web.config",
+    "XML",
+    "UML",
+    "Fiddler",
+    "Windows"
+  ],
+  "keywords": [
+    "FlickrProxy",
+    "HttpHandler",
+    "Cache",
+    "Redirect",
+    "Photo",
+    "Hash",
+    "photoID",
+    "API Key",
+    "Security Key",
+    "Token",
+    "Upload",
+    "Blog Server",
+    "JPG",
+    "Sequence Diagram",
+    "IIS configuration",
+    "StaticFileHandler"
+  ],
+  "references": [
+    "http://michadel.chicken-house.net/blogs/michadel/default.aspx",
+    "/post/e4b889e5808be5a5bde794a8e79a84-ASPNET-HttpHandler.aspx",
+    "http://www.darkthread.net/",
+    "http://blog.darkthread.net/blogs/darkthreadtw/archive/2008/05/10/replace-html-of-asp-net.aspx",
+    "ms-help://MS.MSDNQTR.v90.en/dv_vwdcon/html/f5d7bdde-f52d-4f5e-8f86-397378ed1024.htm",
+    "ms-help://MS.MSDNQTR.v90.en/dv_vwdcon/html/d5633f9a-03fb-4ccc-a799-dc67d656fa60.htm",
+    "ms-help://MS.MSDNQTR.v90.en/dv_vwdcon/html/f540bdeb-d22e-4e1d-ba8a-fe6c9926283b.htm",
+    "ms-help://MS.MSDNQTR.v90.en/dv_vwdcon/html/daa90a3b-47d7-45f7-98cc-188fa56424c9.htm",
+    "http://www.flickr.com/services/api/keys",
+    "http://www.codeplex.com/FlickrNet",
+    "http://www.codeplex.com/FlickrNet/Wiki/View.aspx?title=Examples\u0026referringTitle=Home",
+    "http://demo.chicken-house.net/MediaProxy/storage/HTMLPage.htm",
+    "/wp-content/be-files/WindowsLiveWriter/FlickrProxy2_EC39/1_3.png",
+    "/wp-content/be-files/WindowsLiveWriter/FlickrProxy2_EC39/image_thumb_2.png",
+    "/wp-content/be-files/WindowsLiveWriter/FlickrProxy2_EC39/image_thumb_3.png",
+    "/wp-content/be-files/WindowsLiveWriter/FlickrProxy2_EC39/image_thumb_4.png",
+    "/wp-content/be-files/WindowsLiveWriter/FlickrProxy2_EC39/image_thumb_5.png"
+  ]
+}

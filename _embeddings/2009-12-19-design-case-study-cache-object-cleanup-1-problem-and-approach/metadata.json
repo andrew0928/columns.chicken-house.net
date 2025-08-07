@@ -1,0 +1,54 @@
+{
+  "title": "[\u8A2D\u8A08\u6848\u4F8B] \u6E05\u9664Cache\u7269\u4EF6 #1. \u554F\u984C\u8207\u4F5C\u6CD5",
+  "published": true,
+  "categories": [
+    "\u8A2D\u8A08\u6848\u4F8B: \u6E05\u9664 Cache \u7269\u4EF6"
+  ],
+  "tags": [
+    ".NET",
+    "ASP.NET",
+    "C#",
+    "MSDN",
+    "Tips",
+    "\u6280\u8853\u96A8\u7B46",
+    "\u7269\u4EF6\u5C0E\u5411"
+  ],
+  "generator": "BlogIndex.SyncPost v1.0.0.0, o3, https://app-azureopenai.openai.azure.com/",
+  "tech-stacks": [
+    ".NET Framework",
+    "ASP.NET",
+    "C#",
+    "HttpRuntime",
+    "Cache",
+    "IDictionary",
+    "Regular Expressions",
+    "File System I/O"
+  ],
+  "keywords": [
+    "Cache",
+    "cache item",
+    "cache key",
+    "HttpRuntime",
+    "Remove",
+    "GetEnumerator",
+    "CacheDependency",
+    "URL",
+    "web browser",
+    "temporary internet files",
+    "https",
+    "image/jpeg",
+    "columns.chicken-house.net",
+    "Dictionary",
+    "regular expression",
+    "I/O"
+  ],
+  "references": [
+    "/2009/12/19/\u8A2D\u8A08\u6848\u4F8B-\u6E05\u9664cache\u7269\u4EF6-1-\u554F\u984C\u8207\u4F5C\u6CD5/",
+    "/columns/post/2009/12/19/e8a8ade8a888e6a188e4be8b-e6b885e999a4Cachee789a9e4bbb6-1-e5958fe9a18ce88887e4bd9ce6b395.aspx/",
+    "/post/2009/12/19/e8a8ade8a888e6a188e4be8b-e6b885e999a4Cachee789a9e4bbb6-1-e5958fe9a18ce88887e4bd9ce6b395.aspx/",
+    "/post/e8a8ade8a888e6a188e4be8b-e6b885e999a4Cachee789a9e4bbb6-1-e5958fe9a18ce88887e4bd9ce6b395.aspx/",
+    "/columns/2009/12/19/e8a8ade8a888e6a188e4be8b-e6b885e999a4Cachee789a9e4bbb6-1-e5958fe9a18ce88887e4bd9ce6b395.aspx/",
+    "/columns/e8a8ade8a888e6a188e4be8b-e6b885e999a4Cachee789a9e4bbb6-1-e5958fe9a18ce88887e4bd9ce6b395.aspx/",
+    "http://msdn.microsoft.com/zh-tw/library/system.web.caching.cache.remove.aspx"
+  ]
+}

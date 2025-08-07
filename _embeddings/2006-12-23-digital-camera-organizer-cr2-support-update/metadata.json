@@ -1,0 +1,30 @@
+{
+  "title": "\u6B78\u6A94\u5DE5\u5177\u66F4\u65B0 - .CR2 Supported",
+  "published": true,
+  "categories": null,
+  "tags": [
+    ".NET"
+  ],
+  "generator": "BlogIndex.SyncPost v1.0.0.0, o3, https://app-azureopenai.openai.azure.com/",
+  "tech-stacks": [
+    ".NET",
+    "Microsoft Raw Image Viewer",
+    "Jekyll"
+  ],
+  "keywords": [
+    ".CR2",
+    "RAW",
+    ".JPG",
+    "exif",
+    "MediaFilerFileExtensionAttribute",
+    "Factory Patterns",
+    "pattern.cr2",
+    "Canon DSLR",
+    "5D",
+    "20D",
+    "G2"
+  ],
+  "references": [
+    "http://www.chicken-house.net/files/chicken/ChickenHouse.Tools.DigitalCameraFiler.Binary.zip"
+  ]
+}

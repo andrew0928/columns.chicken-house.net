@@ -1,0 +1,59 @@
+{
+  "title": "Memory Management (III) - .NET CLR ?",
+  "published": true,
+  "categories": [
+    "\u7CFB\u5217\u6587\u7AE0: Memory Management"
+  ],
+  "tags": [
+    ".NET",
+    "\u4F5C\u696D\u7CFB\u7D71",
+    "\u6280\u8853\u96A8\u7B46"
+  ],
+  "generator": "BlogIndex.SyncPost v1.0.0.0, o3, https://app-azureopenai.openai.azure.com/",
+  "tech-stacks": [
+    ".NET 2.0",
+    "CLR",
+    ".NET GC",
+    "C#",
+    "C",
+    "Java",
+    "JavaVM",
+    "Windows Vista x86",
+    "Reflector"
+  ],
+  "keywords": [
+    "GC",
+    "Garbage Collection",
+    "generation",
+    "IDisposable",
+    "Heap",
+    "pointer",
+    "reference",
+    "relocation",
+    "compact collection",
+    "OutOfMemoryException",
+    "gcConcurrent",
+    "gcServer",
+    "native code"
+  ],
+  "references": [
+    "/columns/post/2008/03/03/Memory-Management-(III)-NET-CLR-.aspx/",
+    "/post/2008/03/03/Memory-Management-(III)-NET-CLR-.aspx/",
+    "/post/Memory-Management-(III)-NET-CLR-.aspx/",
+    "/columns/2008/03/03/Memory-Management-(III)-NET-CLR-.aspx/",
+    "/columns/Memory-Management-(III)-NET-CLR-.aspx/",
+    "/columns/post/2008/03/03/Memory-Management-(III)---NET-CLR-.aspx/",
+    "/post/2008/03/03/Memory-Management-(III)---NET-CLR-.aspx/",
+    "/post/Memory-Management-(III)---NET-CLR-.aspx/",
+    "/columns/2008/03/03/Memory-Management-(III)---NET-CLR-.aspx/",
+    "/columns/Memory-Management-(III)---NET-CLR-.aspx/",
+    "/blogs/chicken/archive/2008/03/03/3021.aspx/",
+    "/post/Memory-Management-(II)---Test-Result.aspx",
+    "/post/Memory-Management---(I)-Fragment-.aspx",
+    "/wp-content/be-files/WindowsLiveWriter/MemoryManagementIII.NETCLR_330F/image_3.png",
+    "/wp-content/be-files/WindowsLiveWriter/MemoryManagementIII.NETCLR_330F/image_5.png",
+    "/wp-content/be-files/WindowsLiveWriter/MemoryManagementIII.NETCLR_330F/image_7.png",
+    "/wp-content/be-files/WindowsLiveWriter/MemoryManagementIII.NETCLR_330F/image_9.png",
+    "http://www.microsoft.com/taiwan/msdn/columns/DoNet/garbage_collection.htm"
+  ]
+}

@@ -1,0 +1,67 @@
+{
+  "title": "EF#1. \u8981\u5B78\u597D Entity Framework? \u8ACB\u5148\u5B78\u597D OOP \u8DDF C# ...",
+  "published": true,
+  "categories": [
+    "\u7CFB\u5217\u6587\u7AE0: Entity Framework \u8207 \u7269\u4EF6\u5C0E\u5411\u8A2D\u8A08"
+  ],
+  "tags": [
+    ".NET",
+    "C#",
+    "\u6280\u8853\u96A8\u7B46",
+    "\u7269\u4EF6\u5C0E\u5411",
+    "Entity Framework"
+  ],
+  "generator": "BlogIndex.SyncPost v1.0.0.0, o3, https://app-azureopenai.openai.azure.com/",
+  "tech-stacks": [
+    "Entity Framework",
+    "NHibernate",
+    "Linq to SQL",
+    "LINQ",
+    ".NET",
+    "C#",
+    "SQL 2000",
+    "T-SQL",
+    "Typed DataSet",
+    "SmallTalk",
+    "OODB",
+    "TAMINO",
+    "XML",
+    "DBMS"
+  ],
+  "keywords": [
+    "ORM",
+    "Entity Framework",
+    "NHibernate",
+    "OOP",
+    "C#",
+    "LINQ",
+    "Linq to SQL",
+    "Reflection",
+    "Attributes",
+    "Partial Class",
+    "Extension Methods",
+    "Encapsulation",
+    "Inheritance",
+    "Polymorphism",
+    "ObjectContext",
+    "EntitySet",
+    "Navigation Property",
+    "Typed DataSet",
+    "DBMS",
+    "SQL 2000",
+    "OODB",
+    "TAMINO"
+  ],
+  "references": [
+    "/2009/01/21/ef1-\u8981\u5B78\u597D-entity-framework-\u8ACB\u5148\u5B78\u597D-oop-\u8DDF-c/",
+    "/columns/post/2009/01/22/EF1-e8a681e5adb8e5a5bd-Entity-Framework-e8ab8be58588e5adb8e5a5bd-OOP-e8b79f-C-.aspx/",
+    "/post/2009/01/22/EF1-e8a681e5adb8e5a5bd-Entity-Framework-e8ab8be58588e5adb8e5a5bd-OOP-e8b79f-C-.aspx/",
+    "/post/EF1-e8a681e5adb8e5a5bd-Entity-Framework-e8ab8be58588e5adb8e5a5bd-OOP-e8b79f-C-.aspx/",
+    "/columns/2009/01/22/EF1-e8a681e5adb8e5a5bd-Entity-Framework-e8ab8be58588e5adb8e5a5bd-OOP-e8b79f-C-.aspx/",
+    "/columns/EF1-e8a681e5adb8e5a5bd-Entity-Framework-e8ab8be58588e5adb8e5a5bd-OOP-e8b79f-C-.aspx/",
+    "http://en.wikipedia.org/wiki/Smalltalk",
+    "http://en.wikipedia.org/wiki/OODB",
+    "http://www.softwareag.com/Corporate/products/wm/tamino/default.asp",
+    "http://msdn.microsoft.com/en-us/library/esbykkzb(VS.71).aspx"
+  ]
+}

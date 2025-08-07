@@ -1,0 +1,47 @@
+{
+  "title": "[RUN! PC] 2008 \u5341\u4E00\u6708\u865F",
+  "published": true,
+  "categories": [
+    "RUN! PC \u5C08\u6B04\u6587\u7AE0"
+  ],
+  "tags": [
+    ".NET",
+    "RUN! PC",
+    "\u4F5C\u54C1\u96C6",
+    "\u591A\u57F7\u884C\u7DD2",
+    "\u6280\u8853\u96A8\u7B46"
+  ],
+  "generator": "BlogIndex.SyncPost v1.0.0.0, o3, https://app-azureopenai.openai.azure.com/",
+  "tech-stacks": [
+    ".NET Framework 4.0",
+    "Visual Studio 2010",
+    "Windows",
+    "Console Application",
+    "Intel CPU"
+  ],
+  "keywords": [
+    "\u591A\u57F7\u884C\u7DD2",
+    "\u5E73\u884C\u8655\u7406",
+    "\u751F\u7522\u7DDA\u6A21\u5F0F",
+    "\u751F\u7522\u8005\u6D88\u8CBB\u8005",
+    "Stream Pipeline",
+    ".NET Framework 4.0",
+    "Visual Studio 2010",
+    "Intel",
+    "CPU",
+    "\u56DB\u6838 \u002B HT",
+    "ROADMAP"
+  ],
+  "references": [
+    "/wp-content/be-files/WindowsLiveWriter/RUNPC2008_1D6E/IMG_0208_1.jpg",
+    "/post/e7949fe794a2e88085-vs-e6b688e8b2bbe88085-BlockQueue-e5afa6e4bd9c.aspx",
+    "/post/MSDN-Magazine-e996b1e8ae80e5bf83e5be97-Stream-Pipeline.aspx",
+    "/admin/Pages/wp-content/be-files/RUNPC-2008-11.zip",
+    "/2008/11/04/run-pc-2008-\u5341\u4E00\u6708\u865F/",
+    "/columns/post/2008/11/04/RUNPC-2008-11.aspx/",
+    "/post/2008/11/04/RUNPC-2008-11.aspx/",
+    "/post/RUNPC-2008-11.aspx/",
+    "/columns/2008/11/04/RUNPC-2008-11.aspx/",
+    "/columns/RUNPC-2008-11.aspx/"
+  ]
+}

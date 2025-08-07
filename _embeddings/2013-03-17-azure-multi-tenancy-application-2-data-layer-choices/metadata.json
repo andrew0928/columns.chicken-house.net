@@ -1,0 +1,57 @@
+{
+  "title": "[Azure] Multi-Tenancy Application #2, \u8CC7\u6599\u5C64\u7684\u9078\u64C7",
+  "published": true,
+  "categories": [
+    "\u7CFB\u5217\u6587\u7AE0: Multi-Tenancy Application"
+  ],
+  "tags": [
+    "AZURE",
+    "MSDN",
+    "SQL",
+    "\u6280\u8853\u96A8\u7B46"
+  ],
+  "generator": "BlogIndex.SyncPost v1.0.0.0, o3, https://app-azureopenai.openai.azure.com/",
+  "tech-stacks": [
+    "Microsoft Azure",
+    "Azure Table Storage",
+    "SQL Server",
+    "SQL Server 2012",
+    "RDBMS",
+    "NoSQL",
+    "Hadoop",
+    "MapReduce",
+    "Windows Azure",
+    "SalesForce.com",
+    "ORM",
+    "LINQ",
+    "ASP.NET MVC"
+  ],
+  "keywords": [
+    "Multi-Tenancy",
+    "Separated DB",
+    "Separated Schema",
+    "Shared Schema",
+    "Scale Out",
+    "Partition",
+    "Scalability",
+    "Database",
+    "Table",
+    "PartitionKey",
+    "RowKey",
+    "Query",
+    "Index",
+    "Performance",
+    "SaaS",
+    "Data Layer",
+    "SQL 2012"
+  ],
+  "references": [
+    "http://msdn.microsoft.com/en-us/library/aa479086.aspx",
+    "http://msdn.microsoft.com/en-us/library/ms143432.aspx",
+    "http://en.wikipedia.org/wiki/NoSQL",
+    "http://books.gotop.com.tw/a_ACL036700",
+    "http://robbincremers.me/2012/03/01/everything-you-need-to-know-about-windows-azure-table-storage-to-use-a-scalable-non-relational-structured-data-store/",
+    "http://msdn.microsoft.com/en-gb/magazine/ff796231.aspx",
+    "http://www.microsoftpdc.com/2009/svc09"
+  ]
+}

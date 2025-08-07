@@ -1,0 +1,55 @@
+{
+  "title": "NGenerics - DataStructure / Algorithm Library",
+  "published": true,
+  "categories": null,
+  "tags": [
+    ".NET",
+    "C#",
+    "MSDN",
+    "Tips",
+    "\u6280\u8853\u96A8\u7B46",
+    "\u6709\u7684\u6C92\u7684"
+  ],
+  "generator": "BlogIndex.SyncPost v1.0.0.0, o3, https://app-azureopenai.openai.azure.com/",
+  "tech-stacks": [
+    ".NET",
+    "C#",
+    "System.Collections.Generic",
+    "NGenerics",
+    "ICollection",
+    "IEnumerable"
+  ],
+  "keywords": [
+    "NGenerics",
+    "DataStructure",
+    "Algorithm",
+    "Graph",
+    "SortedList",
+    "Heap",
+    "BinaryTree",
+    "CircularQueue",
+    "PriorityQueue",
+    "GraphAlgorithm",
+    "Dijkstras Algorithm",
+    "Kruskals Algorithm",
+    "Prims Algorithm",
+    "minimal spanning tree",
+    "shortest path",
+    "delegate",
+    "IVisitor"
+  ],
+  "references": [
+    "/post/e8a9b2e5a682e4bd95e5adb8e5a5bd-e5afabe7a88be5bc8f-2-e782bae4bb80e9babc-programmer-e8a9b2e5adb8e8b387e69699e7b590e6a78b-.aspx",
+    "http://www.codeplex.com",
+    "http://www.codeplex.com/NGenerics",
+    "http://nthucad.cs.nthu.edu.tw/~yyliu/personal/nou/04ds/dijkstra.html",
+    "http://203.64.42.21/course/2007/Algorithms/poko/Kruskal.htm",
+    "http://nthucad.cs.nthu.edu.tw/~yyliu/personal/nou/04ds/prim.html",
+    "/2008/10/14/ngenerics-datastructure-algorithm-library/",
+    "/columns/post/2008/10/14/NGenerics-DataStructure-Algorithm-Library.aspx/",
+    "/post/2008/10/14/NGenerics-DataStructure-Algorithm-Library.aspx/",
+    "/post/NGenerics-DataStructure-Algorithm-Library.aspx/",
+    "/columns/2008/10/14/NGenerics-DataStructure-Algorithm-Library.aspx/",
+    "/columns/NGenerics-DataStructure-Algorithm-Library.aspx/"
+  ]
+}

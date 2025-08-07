@@ -1,0 +1,52 @@
+{
+  "title": "\u96E3\u641E\u7684 Entity Framework - \u8DE8\u8D8A Context \u7684\u67E5\u8A62",
+  "published": true,
+  "categories": null,
+  "tags": [
+    ".NET",
+    "C#",
+    "Entity Framework"
+  ],
+  "generator": "BlogIndex.SyncPost v1.0.0.0, o3, https://app-azureopenai.openai.azure.com/",
+  "tech-stacks": [
+    ".NET",
+    "C#",
+    "Entity Framework",
+    "Enterprise Library",
+    "ORM",
+    "ADO.NET",
+    "LINQ",
+    "LINQ to Entities",
+    "eSQL",
+    "Visual Studio 2008",
+    "SQL"
+  ],
+  "keywords": [
+    "Entity Framework",
+    "Context",
+    "ObjectContext",
+    ".edmx",
+    "eSQL",
+    "LINQ",
+    "connection string",
+    "large models",
+    "database schema",
+    "ORM",
+    "EntitySet",
+    "AssociationSet",
+    "SaveChange",
+    "assembly",
+    "module",
+    "split"
+  ],
+  "references": [
+    "/2009/01/20/\u96E3\u641E\u7684-entity-framework-\u8DE8\u8D8A-context-\u7684\u67E5\u8A62/",
+    "/columns/post/2009/01/20/e99ba3e6909ee79a84-Entity-Framework-e8b7a8e8b68a-Context-e79a84e69fa5e8a9a2.aspx/",
+    "/post/2009/01/20/e99ba3e6909ee79a84-Entity-Framework-e8b7a8e8b68a-Context-e79a84e69fa5e8a9a2.aspx/",
+    "/post/e99ba3e6909ee79a84-Entity-Framework-e8b7a8e8b68a-Context-e79a84e69fa5e8a9a2.aspx/",
+    "/columns/2009/01/20/e99ba3e6909ee79a84-Entity-Framework-e8b7a8e8b68a-Context-e79a84e69fa5e8a9a2.aspx/",
+    "/columns/e99ba3e6909ee79a84-Entity-Framework-e8b7a8e8b68a-Context-e79a84e69fa5e8a9a2.aspx/",
+    "http://blogs.msdn.com/adonet/archive/2008/11/24/working-with-large-models-in-entity-framework-part-1.aspx",
+    "http://blogs.msdn.com/adonet/archive/2008/11/25/working-with-large-models-in-entity-framework-part-2.aspx"
+  ]
+}

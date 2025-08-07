@@ -1,0 +1,53 @@
+{
+  "title": "Canon G9 \u5BB3\u6211\u6C92\u7761\u597D... \u76F8\u7247\u81EA\u52D5\u8F49\u6B63\u7684\u554F\u984C",
+  "published": true,
+  "categories": null,
+  "tags": [
+    ".NET",
+    "Tips",
+    "WPF",
+    "\u6280\u8853\u96A8\u7B46",
+    "\u6709\u7684\u6C92\u7684"
+  ],
+  "generator": "BlogIndex.SyncPost v1.0.0.0, o3, https://app-azureopenai.openai.azure.com/",
+  "tech-stacks": [
+    ".NET",
+    "WPF",
+    "C#",
+    "Windows",
+    "EXIF",
+    "JPEG",
+    "CR2",
+    "Canon RAW Codec",
+    "Canon G9",
+    "IXUS55",
+    "JpegBitmapEncoder"
+  ],
+  "keywords": [
+    "EXIF",
+    "Orientation",
+    "Rotation",
+    "Canon",
+    "G9",
+    "IXUS55",
+    "photo",
+    "auto rotate",
+    "RAW codec",
+    "RotateTransform",
+    "ScaleTransform",
+    "TransformGroup"
+  ],
+  "references": [
+    "/wp-content/be-files/WindowsLiveWriter/CanonG9_299C/image_12.png",
+    "/wp-content/be-files/WindowsLiveWriter/CanonG9_299C/image_11.png",
+    "/wp-content/be-files/WindowsLiveWriter/CanonG9_299C/image_10.png",
+    "/wp-content/be-files/WindowsLiveWriter/CanonG9_299C/image_9.png",
+    "http://zh.wikipedia.org/w/index.php?title=%E6%B0%B4%E9%8A%80%E9%96%8B%E9%97%9C\u0026variant=zh-tw",
+    "/2008/08/28/canon-g9-\u5BB3\u6211\u6C92\u7761\u597D-\u76F8\u7247\u81EA\u52D5\u8F49\u6B63\u7684\u554F\u984C/",
+    "/columns/post/2008/08/28/Canon-G9-e5aeb3e68891e6b292e79da1e5a5bd.aspx/",
+    "/post/2008/08/28/Canon-G9-e5aeb3e68891e6b292e79da1e5a5bd.aspx/",
+    "/post/Canon-G9-e5aeb3e68891e6b292e79da1e5a5bd.aspx/",
+    "/columns/2008/08/28/Canon-G9-e5aeb3e68891e6b292e79da1e5a5bd.aspx/",
+    "/columns/Canon-G9-e5aeb3e68891e6b292e79da1e5a5bd.aspx/"
+  ]
+}

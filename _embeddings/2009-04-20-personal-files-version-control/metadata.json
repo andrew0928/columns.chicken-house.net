@@ -1,0 +1,62 @@
+{
+  "title": "\u500B\u4EBA\u6A94\u6848 \u002B \u7248\u672C\u63A7\u5236...",
+  "published": true,
+  "categories": null,
+  "tags": [
+    "Tips",
+    "\u6280\u8853\u96A8\u7B46",
+    "\u6709\u7684\u6C92\u7684"
+  ],
+  "generator": "BlogIndex.SyncPost v1.0.0.0, o3, https://app-azureopenai.openai.azure.com/",
+  "tech-stacks": [
+    "SVN",
+    "Subversion",
+    "Visual SourceSafe (VSS)",
+    "Volume Shadow Copy Service (VSS)",
+    "Team Foundation Server (TFS)",
+    "Hyper-V",
+    "PortableApps",
+    "Visual Studio",
+    "IIS",
+    "SQL Server",
+    "SharePoint Team Services",
+    "Active Directory",
+    "CVS",
+    "7-Zip",
+    "Windows Server 2003",
+    "USB DISK"
+  ],
+  "keywords": [
+    "\u7248\u672C\u63A7\u5236",
+    "\u6A94\u6848\u7BA1\u7406",
+    "SVN",
+    "Subversion",
+    "VSS",
+    "Visual SourceSafe",
+    "Volume Shadow Copy Service",
+    "TFS",
+    "USB DISK",
+    "\u5099\u4EFD",
+    "commit",
+    "checkout",
+    "merge",
+    "snapshot",
+    "copy on write",
+    "PortableApps",
+    "Hyper-V",
+    "Windows",
+    "Word",
+    "PowerPoint",
+    "CVS"
+  ],
+  "references": [
+    "http://columns.chicken-house.net/post/ThinkPadX40-SSD.aspx",
+    "http://subversion.tigris.org/",
+    "http://en.wikipedia.org/wiki/Revision_control",
+    "http://msdn.microsoft.com/en-us/aa740435.aspx",
+    "http://columns.chicken-house.net/post/Volume-Shadow-Copy-Service-.aspx",
+    "http://en.wikipedia.org/wiki/Copy_on_write",
+    "http://en.wikipedia.org/wiki/Snapshot_algorithm",
+    "http://portableapps.com/"
+  ]
+}

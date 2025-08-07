@@ -1,0 +1,71 @@
+{
+  "title": "\u5BB9\u5668\u5316\u7684\u5FAE\u670D\u52D9\u958B\u767C #1, IP\u67E5\u8A62\u67B6\u69CB\u8207\u958B\u767C\u7BC4\u4F8B",
+  "published": true,
+  "categories": [
+    "\u7CFB\u5217\u6587\u7AE0: .NET \u002B Windows Container, \u5FAE\u670D\u52D9\u67B6\u69CB\u8A2D\u8A08",
+    "\u7CFB\u5217\u6587\u7AE0: \u67B6\u69CB\u5E2B\u89C0\u9EDE"
+  ],
+  "tags": [
+    "microservice",
+    "\u7CFB\u5217\u6587\u7AE0",
+    "ASP.NET",
+    "\u67B6\u69CB\u5E2B",
+    "Docker",
+    "Windows Container",
+    "DevOps"
+  ],
+  "generator": "BlogIndex.SyncPost v1.0.0.0, o3, https://app-azureopenai.openai.azure.com/",
+  "tech-stacks": [
+    ".NET Framework",
+    "ASP.NET WebAPI2",
+    "C#",
+    "Docker",
+    "Windows Container",
+    "Azure",
+    "GitLab CI",
+    "NuGet",
+    "IIS",
+    "Dockerfile",
+    "Docker Compose",
+    "Docker Registry",
+    "LinuxKit",
+    "Visual J#",
+    "Windows Server 2016",
+    "Windows 10 Pro/Enterprise",
+    "NLog",
+    "Log4Net",
+    "HTTP REST",
+    "GZip",
+    "IP2C.NET",
+    "Reverse Proxy"
+  ],
+  "keywords": [
+    "\u5BB9\u5668\u5316",
+    "\u5FAE\u670D\u52D9",
+    "IP \u67E5\u8A62\u670D\u52D9",
+    "Container Driven Development",
+    "CI/CD",
+    "High Availability",
+    "Scalability",
+    "Auto Update",
+    "Client Side Cache",
+    "SDK",
+    "DevOps",
+    "Volume \u639B\u8F09",
+    "Reverse Proxy",
+    "Worker Service"
+  ],
+  "references": [
+    "/wp-content/uploads/2017/05/containerize-all-your-apps-meme.jpg",
+    "http://blog.darkthread.net/post-2017-02-13-in-memory-ip-to-country-mapping.aspx",
+    "https://github.com/darkthread/IP2C.NET",
+    "https://github.com/andrew0928/IP2C.NET.Service",
+    "https://logging.apache.org/log4net/",
+    "http://software77.net/faq.html#automated",
+    "http://software77.net/geo-ip/?DL=1",
+    "http://nlog-project.org/",
+    "/2017/01/15/docker-networks/",
+    "/wp-content/uploads/2017/05/2017-05-23-23-25-51.png",
+    "/wp-content/uploads/2017/05/2017-05-23-23-37-16.png"
+  ]
+}
