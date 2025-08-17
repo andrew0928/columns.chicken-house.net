@@ -1,62 +1,62 @@
-# .NET RAG 神器 - Microsoft Kernel Memory 與 Semantic Kernel 整合應用
+# .NET RAG 神器 ─ Microsoft Kernel Memory 與 Semantic Kernel 整合應用
 
 # 問答集 (FAQ, frequently asked questions and answers)
 
-## Q: 為什麼在開發 AI 應用前，必須先徹底了解 Chat Completion API？
-Chat Completion API 幾乎是所有 LLM 雲端服務的唯一核心端點，只要掌握它就能完成問答、工具呼叫、RAG 等各式需求。真正的難度不在 API 本身，而是如何運用各種「AI App Design Patterns」去解決業務問題。
+## Q: 什麼是 Microsoft Kernel Memory (MSKM)？它與 Semantic Kernel (SK) 如何搭配？
+MSKM 是微軟開源的「長期記憶/文件索引服務」，負責完成文件文字化、分段、向量化、儲存與查詢等 RAG 需要的全部流程；SK 則提供 LLM 互動、Function Calling、Plugins 等能力。  
+兩者的整合點有二：  
+1. MSKM NuGet 套件已內建「SK Memory Plugin」，可以直接掛到 SK 內，讓 LLM 透過 Function Calling 操作 MSKM。  
+2. MSKM 本身也是用 SK 撰寫，SK 支援的各種 LLM／Embedding 連接器在 MSKM 內開箱即用。  
 
-## Q: 對開發者而言，讓 LLM 輸出 JSON（並附上 Json Schema）有什麼好處？
-1. 可以直接反序列化成強型別物件，方便後續程式碼處理。  
-2. Schema 中可明確標示成功或失敗欄位，讓程式不用靠猜測判斷 LLM 是否答得出來。  
-3. 只保留 LLM「非它不可」的職責，其餘交由傳統程式碼處理，效能與費用都更可控。
+## Q: 為什麼開發者在設計 LLM 輸出時，應該使用 JSON Schema？
+使用 JSON Schema 可以：  
+1. 讓 LLM 產生結構化輸出，一次反序列化成 C# 物件便於後續程式碼處理。  
+2. 明確標示成功或失敗欄位，降低靠「猜測」判斷結果的風險。  
+3. 把 LLM 侷限在「非它不可」的任務，其餘轉交傳統程式邏輯，避免浪費 token 及成本。  
 
-## Q: 如果 LLM 約有 1 % 機率回答不出結果，程式應該怎麼判斷？
-在 Json Schema 中加上顯式的狀態欄位（例如 `"is_success": true/false`），由 LLM 主動回報是否取得答案，而不要靠字串解析或例外偵測去猜測結果。
+## Q: 一次 Chat Completion API 呼叫的基本結構有哪些區塊？
+1. Headers（含 API Key 等認證資訊）  
+2. Model 與參數（如 temperature）  
+3. Messages（對話歷程，含 role）  
+4. Tools（可選，用於 Function Calling 的工具定義）  
+5. Response Format（可選，指定回應格式或 JSON Schema）  
 
-## Q: 是否所有工作都應該交給 LLM 一次完成？
-不應該。建議採「單一職責」原則：  
-‧ 讓 LLM 專注在推理、生成等 AI 強項；  
-‧ 搜尋、格式轉換、數值計算等可由一般程式或外部 API 處理，以降低 token 成本並提升可靠度。
+## Q: Function Calling 是如何讓 LLM 與程式碼互動的？
+開發者在呼叫前「公布」可用函式（tools），對話過程中 LLM 依語意判斷：  
+1. 直接回文字給使用者；或  
+2. 回傳 tool_call，要求應用程式代為執行函式並回傳結果；  
+應用程式把結果以 tool-result 形式餵回 LLM，直到 LLM 判定任務完成。此機制開啟了 Agent、自動化流程等高階應用。  
 
-## Q: 什麼是 Function Calling？為何被視為 LLM 時代最重要的基礎能力？
-Function Calling（或 Tool Use）允許先把可呼叫的函式清單與參數定義傳給 LLM；LLM 在對話過程中自行判斷是否要呼叫這些函式、以及以何種參數呼叫。它讓 LLM 能像「總機」一樣調度外部系統，開啟 Agent 化與自動化工作的可能。
+## Q: 什麼是 Retrieval Augmented Generation (RAG)？為何常與 Function Calling 一起使用？
+RAG 透過「先檢索、後生成」提高答案新穎度與正確性，基本流程為：  
+1. 收斂使用者問題，轉成查詢條件；  
+2. 到向量資料庫（或搜尋引擎）取回相關片段；  
+3. 把檢索結果 + 問題組成 prompt，交給 LLM 生成最終回覆。  
+若把「檢索」實作成 tool，LLM 便能用 Function Calling 自動決定何時檢索、如何組合參數，形成完整的 RAG 鏈。  
 
-## Q: 多步驟 Function Calling 實務上如何運作？
-對話除了 `system/user/assistant` 角色，還會加入  
-‧ `assistant(+tool_calls)`：LLM 告知要執行的函式與參數；  
-‧ `tool`：應用程式執行函式後，把回傳結果貼回對話。  
-LLM 可根據最新對話歷程反覆規劃→執行→檢視→再規劃，直到任務完成。
+## Q: MSKM 提供哪兩種主要的部署／使用模式？
+1. Web Service　：以 Docker image 或原始碼部署，透過 HTTP API 存取。  
+2. Serverless／Embedded　：直接把 MSKM 核心嵌入自家 .NET 應用程式，不經 HTTP，於程式內呼叫。  
 
-## Q: 一個典型 RAG（Retrieval Augmented Generation）流程包含哪些步驟？
-1. 問題收斂（Re-write/Refine Query）。  
-2. 依收斂後的關鍵字或向量到檢索系統查詢相關內容。  
-3. 將檢索結果與原始問題組成新 prompt，交給 LLM 生成最終答案。
+## Q: 提升 RAG 檢索準確度，有哪些「文件前處理」技巧？
+作者實測以下方法能大幅改善命中率：  
+1. 生成「全文摘要」(abstract)。  
+2. 為每個段落生成摘要 (paragraph-abstract)。  
+3. 轉成 FAQ（question/answer)。  
+4. 轉成「解決方案案例」(problem/root cause/resolution/example)。  
+這些由 LLM 預先產生的內容再向量化儲存，可對齊使用者多元的提問視角。  
 
-## Q: RAG 如何透過 Function Calling 自動被觸發？
-只要將「search」之類的檢索函式註冊到 LLM 的 tools，並在 system prompt 中說明「先搜尋再回答」。LLM 便會在需要時自行呼叫該函式，把搜尋結果納入回答，完成 RAG 流程。
+## Q: 若模型原生不支援 Function Calling，可以土炮實作嗎？
+可以。核心只需落實三點：  
+1. 以 system prompt 說明「有哪些工具」及對話規則。  
+2. 讓 LLM 用固定前置詞區分「給使用者」與「給工具」的訊息。  
+3. 應用程式攔截工具訊息、執行指令，再把結果插回對話。  
+即便使用不支援 Function Calling 的模型，也能手動完成類似流程。  
 
-## Q: Microsoft Kernel Memory (MSKM) 是什麼？解決了哪個痛點？
-MSKM 是微軟開源的「RAG as a Service」。它處理長期記憶管理：文件抽取、分段、向量化、標籤、儲存、查詢等整條 Pipeline，讓開發者不用自己打造繁複的長文檔資料處理機制。
+## Q: Function Calling 的三個基礎要件是什麼？
+1. 定義工具清單與參數格式。  
+2. 在訊息中區分 user、assistant、tool 三方角色。  
+3. 讓 LLM 「自行」產生 tool 名稱與對應參數，應用程式負責執行並回傳結果。  
 
-## Q: MSKM 與 Semantic Kernel (SK) 如何整合？
-1. MSKM 已內建 SK 的 Memory Plugin，可直接掛到 Kernel 當成工具，讓 LLM 用 Function Calling 操作 MSKM。  
-2. MSKM 本身即使用 SK 打造，所以 SK 支援的各種 LLM / Embedding Connector（OpenAI、Azure OpenAI、Ollama、Claude …）在 MSKM 皆可沿用。
-
-## Q: 為何在大型文件做 RAG 時，單靠「固定長度分段」常常查不到重點？
-使用者詢問的語意角度（question/problem）與作者撰寫文章的角度不一定一致，單純切片後向量化容易牛頭不對馬嘴。可先用 LLM 生成「摘要、段落摘要、FAQ、Problem/Resolution」等多種視角的文本，再一起向量化存入 MSKM，可大幅提升檢索精度。
-
-## Q: 最近 MSKM Docker 映像有什麼已知問題？該怎麼辦？
-2025 / 02 之後的 0.97.x 版本重寫 chunking 流程，中文會出現「疊字」錯誤。暫時建議回退到 0.96.x 版本，官方 Issue 仍在修復中。
-
-## Q: 如果使用的模型原生不支援 Function Calling，還能用嗎？
-可以。透過「土炮」法：  
-1. 在 system prompt 定義好「給使用者的回覆」與「給工具的指令」前置詞；  
-2. 應用程式攔截帶有指令前置詞的訊息，解析後自行呼叫對應函式並回貼結果；  
-3. 依序把完整對話再送回 LLM。  
-只要模型推理能力夠強，仍能模擬出 Function Calling 效果。
-
-## Q: 參與者問卷顯示，哪些主題對大家最有幫助？
-統計結果前三名為：  
-1. 進階 RAG 與檢索資料前處理技巧。  
-2. Function Calling 與底層 Request/Response 流程解析。  
-3. Microsoft Kernel Memory 與 Semantic Kernel 的整合實作。
+## Q: 問卷調查中，哪個主題被認為對工作幫助最大？
+根據 93 份回覆，RAG 與其進階應用（尤其是「生成檢索專用資訊」與「MSKM 介紹」）得到最多人票選為「對工作幫助最大」的主題。

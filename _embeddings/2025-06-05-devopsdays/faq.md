@@ -2,17 +2,17 @@
 
 # 問答集 (FAQ, frequently asked questions and answers)
 
-## Q: 這篇文章主要紀錄哪一場技術活動？
-文章主要紀錄「DevOpsDays Taipei 2025」這場活動。
-
 ## Q: 作者第幾次參加 DevOpsDays Taipei？
-這已經是作者第七次參加 DevOpsDays Taipei。
+這是作者第七次參加 DevOpsDays Taipei。
 
-## Q: 讀者可以在哪裡觀看作者的演講簡報？
-演講簡報透過 Google Slides 嵌入連結提供，於演講開始後公開。
+## Q: 在哪裡可以看到「從 Prompt 到 Product」這場演講的簡報投影片？
+演講當天已在文章中嵌入 Google Slides，連結為：
+https://docs.google.com/presentation/d/e/2PACX-1vQxjwDVoiFso6bL-Tn5sDXSPDxYlBIKqCXNxiH4jvWgWR6w_L7F56ut0wtnyAg23h6yT0czExPh4hGb/pub?start=false&loop=false&delayms=3000  
+（文章內以 `<iframe>` 形式嵌入，可直接瀏覽）
 
-## Q: 如果想查看大會共筆，應該到哪裡？
-大會共筆可於 HackMD 查看，連結為：https://hackmd.io/@DevOpsDay/2025/%2FSkkpnJ8zxg
+## Q: 讀者可以在哪裡查看本場次的共筆紀錄？
+可在 HackMD 大會共筆查看，連結為：
+https://hackmd.io/@DevOpsDay/2025/%2FSkkpnJ8zxg
 
-## Q: 作者後續打算在文章中補充哪些內容？
-作者會陸續補上參與心得以及 Q&A 回覆等內容。
+## Q: 這篇文章之後還會更新哪些內容？
+作者表示後續將陸續補上心得與聽眾 QA 回覆等資訊。

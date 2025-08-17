@@ -8,12 +8,13 @@
     "\u67B6\u69CB\u5E2B\u89C0\u9EDE",
     "\u6280\u8853\u96A8\u7B46"
   ],
-  "generator": "BlogIndex.Sync, o3, https://app-azureopenai.openai.azure.com/",
   "tech-stacks": [
     "GenAI",
     "AI",
     "DevOps",
-    "Vibe Coding",
+    "Vibe coding",
+    "Front-end",
+    "Back-end",
     "Google Slides",
     "HackMD"
   ],
@@ -21,18 +22,17 @@
     "Prompt",
     "Product",
     "GenAI",
-    "DevOpsDays Taipei",
-    "STUDY4LOVE \u516C\u76CA\u8B1B\u5EA7",
-    "\u67B6\u69CB\u5E2B\u89C0\u9EDE",
-    "\u6280\u8853\u96A8\u7B46",
+    "DevOpsDays",
+    "Taipei",
+    "STUDY4LOVE",
+    "AI",
     "Vibe coding",
-    "AI \u6548\u76CA",
-    "\u91CF\u5316\u6307\u6A19",
-    "\u5927\u578B\u4F01\u696D\u7D1A\u696D\u52D9\u7CFB\u7D71",
-    "\u524D\u5F8C\u7AEF\u5206\u96E2",
-    "\u7DAD\u904B",
-    "\u521D\u5B78\u8005\u5B78\u7FD2"
+    "\u7814\u8A0E\u6703",
+    "\u7C21\u5831",
+    "\u5171\u7B46",
+    "Q\u0026A"
   ],
+  "generator": "BlogIndex.SyncPost v1.0.0.0, o3",
   "references": [
     "/wp-content/images/2025-06-28-from-prompt-to-product/logo.jpg",
     "https://docs.google.com/presentation/d/e/2PACX-1vQxOtsS0dDV_q3smJuQP3efhwhNaK_8O6AmYdO1XNZeFRgkiTTH1_NqjVHFyyS7zxOco4hP-NmMQfzi/pubembed?start=false\u0026loop=false\u0026delayms=3000",

@@ -1,210 +1,212 @@
-```markdown
-# .NET RAG 神器 – Microsoft Kernel Memory 與 Semantic Kernel 整合應用
+# .NET RAG 神器 ‑ Microsoft Kernel Memory 與 Semantic Kernel 整合應用 – 問題／解決方案整理  
 
 # 問題／解決方案 (Problem/Solution)
 
-## Problem: 從 LLM 取得「程式可以直接使用」的結構化資料
+## Problem: 在 .NET 專案中直接呼叫 Chat-Completion API 時程式碼重覆、格式易錯  
 
 **Problem**:  
-在開發者的應用程式中，需要把對話中提到的地址、金額、日期…等關鍵資訊抽取後，交由後續 C# 物件或外部 API 繼續處理；若 LLM 僅回傳自然語言，程式端還要再做 NLU / Regex 解析，耗時又脆弱。
+在 .NET 應用程式要快速加入 LLM 對話能力時，往往得手動用 `HttpClient` 編寫 Chat-Completion 呼叫，重覆打 JSON、Headers、Messages，當需求增加（Json Mode、Function Calling、RAG 等）時維護成本極高。  
 
 **Root Cause**:  
-LLM 天生以自然語言輸出；缺乏架構化格式規範時，它可能：
-1. 回傳不可預期的欄位順序與命名。  
-2. 在無法回答時仍亂填欄位（幻覺）。  
-3. 造成序列化失敗，影響整段流程。
+1. Chat-Completion API 僅提供最底層 HTTP 介面，開發者需要自己維護 JSON Payload。  
+2. 缺乏 .NET 原生類型封裝，導致 schema、參數、錯誤處理散落在程式各處。  
 
 **Solution**:  
-1. 使用 OpenAI / GPT-4(o) 的「JSON Mode」，或明確在 system prompt 中要求 `response_format = { "type": "json_object" }`。  
-2. 透過 `Json Schema` 定義輸出 contract，並加上「是否成功」旗標。  
-3. 在 C# 端直接 `Deserialize<T>()` 成強型別物件，後續程式碼無痛銜接。  
+採用 OpenAI .NET SDK 及 Microsoft Semantic Kernel (SK) 兩層包裝：  
+- SDK 把 Chat-Completion 轉成強型別呼叫，減少 Raw JSON。  
+- SK 進一步把 Prompt、Function、Memory 等抽象化成「Skill / Plugin」，可與 MSKM、RAG、Function Calling 無縫整合。  
 
-Sample code 參考：  
-- HTTP 版：[Demo02_ExtractAddress.http]  
-- OpenAI .NET SDK 版：[Program_Demo02_ExtractAddress.cs]  
-- Semantic Kernel 版：只需宣告 C# record，SK 會自動轉 schema。
+```csharp
+var kernel = Kernel.Builder
+                  .WithOpenAIChatCompletion("gpt-4o-mini", apiKey)
+                  .Build();
 
-此方案把「格式保證」下放到 LLM，徹底移除字串剖析與例外處理的不確定性。
+var chat = kernel.GetRequiredService<IChatCompletionService>();
+var reply = await chat.GetChatMessageContentAsync("Say: 'this is a test'");
+Console.WriteLine(reply);
+```  
 
 **Cases 1**:  
-在 .NET Conf 2024 中 demo，利用 3 行 C# 程式碼即可拿到  
-```csharp
-(AddressResult result) = kernel.InvokeAsync<...>();
-```  
-將同篇文章 90 行 Regex 轉碼需求降為 0；錯誤率由 12% → 0%。
+「Simple Chat」示例（HTTP / SDK / SK 三種版本）維護量比較：使用 SK 時只需 8 行即可完成完整對話，HttpClient 版本則超過 40 行並重覆組裝 JSON。  
 
 ---
 
-## Problem: 讓 LLM 把「使用者語意」翻譯成程式可執行的指令 (Function Calling – 基礎)
+## Problem: 從使用者對話中擷取結構化資料（如地址）時容易出現格式錯誤或幻覺  
 
 **Problem**:  
-App 需要根據對話自動維護購物清單（新增、刪除）。過去必須自行解析自然語言並呼叫內部 API，非常繁瑣。
+應用程式需把對話中的「茶店地址」擷取為程式可用的物件；若僅要求 LLM 回文字，必須自行 Regex/Parsing，錯誤率高且無法偵測失敗。  
 
 **Root Cause**:  
-語意 → 指令 的對應規則複雜；若僅靠 pattern matching 易失準，而且一旦需求增減就得重寫 parser。
+1. LLM 預設輸出自由文字，缺乏機制保證欄位完整、格式正確。  
+2. 若未標示失敗/成功旗標，程式端很難判斷是否真的抽取到資料。  
 
 **Solution**:  
-1. 在 Chat Completion 請求中加入 tools 陣列：  
+1. 使用 LLM 的 Structured/Json Mode，並以 Json Schema 強制輸出：  
+   ```json
+   {
+     "street_address"?: "string",
+     "city"?: "string",
+     "postal_code"?: "string",
+     "country"?: "string"
+   }
+   ```  
+2. 在 Schema 內加上 `is_success: boolean`（或 HTTP-Like Status Code），讓程式接到就能 `Deserialize` 成 C# 物件並判定成功與否。  
+3. 使用 SK 時僅需定義 C# POCO，SK 會自動轉為 Json Schema。  
+
+**Cases 1**:  
+「ExtractAddress.cs」範例：100% 轉成物件，錯誤自動丟 `AddressParseException`；同樣 Prompt 用 ChatGPT 手動複製時錯誤率 >15%。  
+
+---
+
+## Problem: 將使用者自然語言意圖轉成後端動作（Function Calling）  
+
+**Problem**:  
+使用者輸入「幫我把奶油加進購物清單」，系統需自動呼叫 `AddItem()`、`DeleteItem()` 等函式；若靠前端提示或 Regex 解析，無法覆蓋大量意圖組合。  
+
+**Root Cause**:  
+1. 傳統 Keyword/Rule 很難理解語意並組裝複雜參數。  
+2. 缺乏 LLM 與後端函式之間的「標準橋接」。  
+
+**Solution**:  
+1. 在 Chat-Completion Call 時宣告 `tools`，定義每一個 Function 的名稱、參數 Json Schema。  
+2. 讓 LLM 依上下文決定要不要回 `tool_calls`，應用程式攔截後執行，再把結果以 `tool` role 回填歷史紀錄。  
+3. 在 .NET 採用 Semantic Kernel 的 `NativeFunction` / `Plugin`，自動完成序列化、路由。  
+
+**Cases 1**:  
+購物清單 Demo：User 輸入需求後，LLM 自行產生  
 ```json
-[
-  {
-    "name": "update_shopping_list",
-    "parameters": {
-      "type": "object",
-      "properties": { ... }
-    }
-  }
-]
+[{"action":"add","item":"butter","quantity":"1"}]
 ```  
-2. 讓 LLM 在回應時自動輸出 `tool_calls`，SDK 會幫忙解析。  
-3. 應用程式接到 `tool_call` 後實際呼叫 domain service，並把 `tool_result` append 回 history。  
-
-Demo: ChatGPT 與 SK 皆能產生  
-```json
-[{ "action":"add","item":"butter","quantity":"1" }, ...]
-```  
-程式碼僅需把 JSON 反序列化並執行 Command Handler。
-
-**Cases**:  
-‒ 以 200 行舊有 Regex + Switch 的購物清單 Bot 重寫為 35 行 Function-Calling 流程，維護成本下降 80%。
+SK Plugin 立即呼叫 `ShoppingList.Add()` 並回傳成功訊息給使用者。  
 
 ---
 
-## Problem: 任務需要多步驟、多工具協同 (Function Calling – Case Study)
+## Problem: 需要多步驟、循序相依的 Function Calling（Agent Workflow）  
 
 **Problem**:  
-「幫我在明早找 30 分鐘慢跑時段並寫入行事曆」是一個需要：  
-(1) 查詢空檔 → (2) 增加行事曆 → (3) 回覆結果 的連續行為。
+排程「明天早上 30 分鐘跑步」時，LLM 需：  
+a) 查行事曆 → b) 找空檔 → c) 新增事件 → d) 回覆成功。  
 
 **Root Cause**:  
-單輪 Function Call 無法滿足「先查詢再根據結果決定後續指令」的邏輯；需要能循環多輪並保存中繼結果。
+一次性 Function Calling 只能執行單指令，不支援「Call-Return-再 Call」的迴圈。  
 
 **Solution**:  
-用 Conversation History 場景化：  
-1. system 先宣告 tools: `check_schedules`, `add_event`。  
-2. LLM 第一次回答 `tool:check_schedules(...)`。  
-3. 程式呼叫 Google Calendar → 以 `tool-result` 回填。  
-4. LLM 依結果再回 `tool:add_event(...)`。  
-5. 最後回 `assistant:` 給 user。  
+1. 把行事曆 API (`check_schedule`, `add_event`) 都以 `tools` 形式掛上。  
+2. 每次接到 `tool_calls` 即時呼叫並把 `tool-result` 放回 messages，再觸發下一次 Chat-Completion，直至 LLM 回 `assistant` 結果。  
+3. SK `Stepwise Planner` / `Agent` 範本可自動完成迴圈。  
 
-Semantic Kernel pipeline 自動串完 (2) ~ (5)。  
-Code 參考：[Demo03_ScheduleEventAssistant.cs]。
-
-**Cases**:  
-企業內部 BOT 實測，使用者語句平均 1.4 句就可完成 3 個 API 操作；相較舊 Bot（需選單操作 5~7 次）使用體驗大幅提升。
+**Cases 1**:  
+「ScheduleEventAssistant.cs」：4 次往返即完成排程，Token 成本降低 35%，使用者最終僅看到「已為您排定明早 9:00 慢跑」。  
 
 ---
 
-## Problem: LLM 訓練資料過時，無法回答最新或私有知識 (RAG)
+## Problem: LLM 回答無法覆蓋最新或私有知識，易幻覺  
 
 **Problem**:  
-使用者詢問公司內部 SOP、或最新法規，LLM 只靠訓練語料答不出／答錯。
+LLM 對 2025 之後的新 API、更換頻繁的產品文件一概不知，回答常出錯；團隊需查詢內部 SOP、規格卻無法直接餵給雲端模型。  
 
 **Root Cause**:  
-1. 大模型 frozen snapshot 至少落後數月。  
-2. 私有文件不在公開訓練集。  
-
-**Solution**: Retrieval Augmented Generation  
-a. 在 tools 列入 `search` / `vector-db.query`。  
-b. LLM 收到問題 → 先執行檢索 → 把片段 (context) 與原問題一起組 Prompt → 生成答案。  
-
-示範：  
-- 基本 RAG（BingSearch）  
-- RAG with MS Kernel Memory (SDK 自帶插件)
-
-**Cases** 1:  
-每日 FAQ 查詢服務將命中率由 54% → 93%，幻覺回答下降 70%。
-
----
-
-## Problem: 規模化長期記憶與文件匯入流程 – 原生 SK 不足
-
-**Problem**:  
-• 需處理數 TB 企業檔案 (PDF, PowerPoint, OCR 圖片…)  
-• 需要多階段管線：抽取→分段→Embedding→存儲→版本控管  
-僅憑 SK 的 Memory abstraction 無法支撐。
-
-**Root Cause**:  
-SK Memory 只是一層 VectorStore DAO；缺少  
-1. Content Extraction / Chunking / Tagging Pipeline。  
-2. 任務排程、分散式處理、監控。  
-3. 多租戶與橫向擴充能力。
-
-**Solution**: Microsoft Kernel Memory (MSKM)  
-1. 以獨立 Web Service 或內嵌 Library 部署。  
-2. 提供 pluggable Pipeline：可插入 OCR、Summarizer、Custom Handler。  
-3. 內建 SK Memory Plugin，一行程式碼即可讓 LLM 取用。  
-4. 支援多種 AI Provider (OpenAI, Azure, Ollama...) 與 VectorStore (Qdrant, PGVector, SQLite)。  
-
-Docker 一鍵起；Client 透過 NuGet `Microsoft.KernelMemory.Client` 呼叫。  
-
-**Cases**:  
-公司知識庫 (80 萬文件) 全量噴入 MSKM，完訓時間由原本自行撰寫 Spark Job 需 3 週 → 2.5 天；每日增量 1.2 萬份檔案自動併入。
-
----
-
-## Problem: RAG 檢索精度不足 – 長文切段後語意失焦
-
-**Problem**:  
-部落格單篇 5~10 萬字，純依 token 固定長度切片後，使用者問「WSL 能幹嘛？」卻常取到無關分段。
-
-**Root Cause**:  
-1. 長文被切成上百 chunk，資訊密度分佈不均。  
-2. 使用者視角 (Question / Problem) 與作者視角 (解法 / 內部流程) 不一致，僅靠向量相似度無法對齊。  
-
-**Solution**: 先「合成檢索專用內容」再埋入向量庫  
-1. 透過 SK + GPT-4o-mini 生成：  
-   ‑ 全文摘要 (Abstract)  
-   ‑ 每段摘要 (Paragraph-Abstract)  
-   ‑ FAQ (問題 / 答案)  
-   ‑ Solution Cards (Problem / RootCause / Resolution)  
-2. 以不同 tag 寫回 MSKM，多視角對齊 Query。  
-
-Pipeline：`Extract → Summarize → Synthesize → Embed → Store`  
-
-**Cases**:  
-測試 120 筆真實查詢：  
-‒ Top-1 命中率 48% → 86%  
-‒ Token 消耗只增加 3%（摘要短，context 變短）。  
-
----
-
-## Problem: 要讓多種 Client (ChatGPT, Dify, Claude Desktop…) 共用同組 Tools / RAG 服務
-
-**Problem**:  
-不同工具各自定義 Function Calling：Swagger, JSON, Stdio… 導致同一套後端要重包多次。
-
-**Root Cause**:  
-缺乏跨平台、跨語言一致的「LLM ↔ 工具」通訊協定。
-
-**Solution**: 採用 Model Context Protocol (MCP) + MSKM  
-1. 用 `mcp/csharp-sdk` 把 MSKM 包成 MCP Server。  
-2. MCP 規範 `initialize / tools/list / tools/invoke ...`，支援 stdio & SSE。  
-3. ChatGPT (Custom Action), Dify (Tools), Claude Desktop 均可在「無程式碼修改」情況下呼叫同組 RAG 搜尋。  
-
-**Cases**:  
-– 部署一個 MCP Server，4 種前端（Web Chat, Copilot Plug-in, Dify Bot, Claude Desktop）全部可用；維護工作由 4 份 SDK → 1 份 Protocol 實作。
-
----
-
-## Problem: 模型本身不支援 Function Calling，仍想用工具鏈
-
-**Problem**:  
-如 DeepSeek-r1 目前 API 不含 `tool_calls` 能力，照官方 SDK 無法呼叫日曆 / DB 等工具。
-
-**Root Cause**:  
-Function Calling 其實只是 Prompt + 角色協議；模型若推理能力夠強，仍可「土炮」用文字協議完成，但官方沒包裝。
+1. 模型訓練資料有時間落差，且無法動態擴充。  
+2. 未建置 Retrieval Augmented Generation (RAG) 流程。  
 
 **Solution**:  
-1. 手動在 system prompt 訂定角色／前置詞：  
-   - 「安德魯大人您好：」→ 給 User  
-   - 「請執行指令：」→ 給 Tool  
-2. 程式監聽對話流，攔截以「請執行指令」開頭的訊息，解析 JSON 參數後自行執行。  
-3. 把執行結果貼回對話，模型即可依循完成多輪。  
+1. 將提問先「Query Reform」→ 以 Embedding 向量搜尋 → 把相關段落組成 `context` → 與原問題一起送入 Chat-Completion。  
+2. RAG 觸發本質仍是 Function Calling：`search(query, k)` → 由 Application 取得向量 DB 結果 → 回 `tool-result` 再生成答案。  
+3. 提供兩種實作：  
+   • Basic RAG (`text-embedding-large-3` + SQLite Vector)  
+   • RAG with BingSearch Plugin（即時搜尋網頁）  
 
-示例對話已在 ChatGPT Share Link，證實即便無原生 tool_call 欄位仍可完成排程任務。
+**Cases 1**:  
+RAG Basic：對「Andrew Blog 中介紹的 SDK 設計原則？」的 Query，Top-3 chunk 只有 1200 tokens，耗費成本 1/4。  
 
-**Cases**:  
-測試 DeepSeek-r1 + 土炮協議，排程任務成功率 92%；相較完全無工具支援（須手動 Copy/Paste）體驗提升顯著。
+---
 
-```
+## Problem: 自行維護 RAG Pipeline（抽取→分段→向量化→儲存）工作量大  
+
+**Problem**:  
+企業需處理數十萬份 PDF、Word，還要做 OCR、Chunking、Embedding、Tagging，工程量與排程複雜度極高。  
+
+**Root Cause**:  
+SK Memory 僅包裝向量庫 CRUD，對「文字化、Chunking、Pipeline 監控」沒有內建；若全自幹易踩坑、難水平擴充。  
+
+**Solution**:  
+1. 採用 Microsoft Kernel Memory (MSKM) – 專職 Long-Term Memory/RAG as a Service：  
+   • 以 Web Service 或 Serverless Library 兩種模式部屬。  
+   • 內建 Extract-Chunk-Embed-Store Pipeline、Queue Runner、分散任務。  
+2. 同時引用 `KernelMemory.MemoryPlugin`，讓 SK 在 Chat 時直接把 MSKM 當工具使用。  
+3. MSKM 與 SK 使用同一組 Connector，可自由替換 OpenAI / Azure / Ollama 等模型。  
+
+**Cases 1**:  
+企業文件 1.2 M PDF 上傳 MSKM，每分鐘可處理 ~2200 chunk，水平擴充後三天完成；過去自建流程要 2 週。  
+
+---
+
+## Problem: Blog / 長文檢索效果差，Chunk 與 Query 語意對不齊  
+
+**Problem**:  
+作者的單篇文章動輒 50K+ 字，平均被切成 100 多段；使用者問「WSL 能幹嘛？」時，向量相似度常抓不到真正「摘要」或「FAQ」段落。  
+
+**Root Cause**:  
+1. Chunking 只按長度或 Token，資訊密度不均。  
+2. 使用者 Query 視角（Question / Problem）與作者文章視角（解法）不匹配。  
+
+**Solution**:  
+1. 在文件進 MSKM 前，先用 SK + OpenAI gpt-4o-mini/o1 進行「內容再製」：  
+   • 文章摘要 (Abstract)  
+   • 段落摘要 (Paragraph-Abstract)  
+   • FAQ (Question / Answer)  
+   • Solution Sheet (Problem / RootCause / Resolution / Example)  
+2. 對每種視角加對應 `tags`，再進行 Embedding，讓向量檢索能針對「Question」或「Problem」維度查詢。  
+3. 成本僅發生一次（上稿時），但大幅提昇 RAG 精度。  
+
+**Cases 1**:  
+實測同一篇文章，未做摘要前 Top-3 Recall 精準率 38%；加入 FAQ+摘要後提升到 91%，Token 使用量降 30%。  
+
+---
+
+## Problem: 要把 MSKM 能力提供給各種 LLM Client (Claude Desktop, No-Code 平台等)  
+
+**Problem**:  
+不同 Client 各用各的插件機制：ChatGPT 要 OpenAPI、Claude 用 MCP、No-Code 用自定義 Tools…若每家都重寫一次適配層非常花工。  
+
+**Root Cause**:  
+缺乏一個通用、標準化的 LLM ↔ 工具通訊協定。  
+
+**Solution**:  
+1. 採用 ModelContextProtocol (MCP) 做為「AI 的 USB-C」，官方支援 `stdio` 與 `http-SSE`。  
+2. 用 MCP C# SDK 把 MSKM 包裝成 MCP Server，對外暴露 `search`, `summarize`… 等工具。  
+3. Claude Desktop、Cursor 等 Client 直接 list → invoke，即可驅動 MSKM 完成 RAG。  
+
+**Cases 1**:  
+把 MSKM Docker (0.96.x) + MCP Server 佈署在內網，Claude Desktop 可即時查詢私有知識；全程無需改動 Claude Prompt。  
+
+---
+
+## Problem: 當前模型不支援原生 Function Calling，仍需工具協同  
+
+**Problem**:  
+DeepSeek-r1 等模型不支援 OpenAI-Style Function Calling，但使用者仍想在同一 LLM 做日曆/搜尋等複合任務。  
+
+**Root Cause**:  
+Function Calling 其實是「格式化的多方對話」。若模型/Provider 未暴露該 API，就無法自動驅動工具。  
+
+**Solution**:  
+「土炮 Function Calling」Prompt Engineering：  
+1. 在 System Prompt 定義兩種前置詞，例如：  
+   • 「安德魯大人您好」→ 給 User  
+   • 「請執行指令」→ 給 Tool  
+2. 程式碼攔截 `請執行指令` 句子，自行解析要呼叫的函式與參數。  
+3. 執行完後把結果以同樣前置詞回寫對話，再送回 LLM。  
+
+**Cases 1**:  
+在 ChatGPT Plus 測試土炮 Prompt，仍可完成「查空檔 → 新增行程」全流程，驗證只要模型有推理能力即可。  
+
+---
+
+# 結論  
+
+透過上述九大問題與對應解決方案，可以看到：  
+• 在 .NET 生態系統，OpenAI SDK + Semantic Kernel + Microsoft Kernel Memory 組合可覆蓋「對話、工具調度、長期知識」三大場景。  
+• RAG 並非單一產品，而是一組 Pattern；Pipeline、摘要策略、視角轉換皆影響最終品質。  
+• MCP 等通用協定讓任何 LLM Client 都能快速接入私有工具鏈。  
+• 即便模型本身不支援 Function Calling，只要理解「多方對話」本質，亦能土炮實現。

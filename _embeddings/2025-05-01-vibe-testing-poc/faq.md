@@ -1,35 +1,40 @@
-# 從 Intent 到 Assertion #1：聊聊 Vibe Testing 實驗心得
+```markdown
+# 從 Intent 到 Assertion #1, 聊聊 Vibe Testing 實驗心得
 
 # 問答集 (FAQ, frequently asked questions and answers)
 
-## Q: AI 真的能取代工程師手寫 Script，直接自動化 API 測試嗎？
-可以。作者用 Microsoft Semantic Kernel + OpenAI Function Calling 做了一個 Test Runner，讓 LLM 依測試情境自行決定要呼叫哪些 API、組出參數、執行並生成報告。PoC 成功跑完 15 個情境，證明「只出一張嘴就能完成 API 自動化測試」是可行的。
+## Q: AI 真的能取代工程師手動撰寫 Script，直接自動化執行 API 測試嗎？
+是的。作者以「安德魯小舖」購物車 API 為範例，利用 LLM 的 Function Calling 能力與自製 Test Runner 成功完成 15 筆測試情境的自動化執行與報告產生，證實「從 Intent 到 Assertion」全流程可由 AI 代勞。
 
-## Q: 什麼叫「從 Intent 到 Assertion」？
-Intent 指「想驗證什麼」（業務意圖或 AC），Assertion 指「判斷結果是否符合預期」。理想狀態是：人類只負責描述 Intent，LLM 便能自動推論執行步驟、呼叫 API、收集結果並進行 Assertion，最終產生測試報告。
+## Q: 要讓 AI 正確地從 Intent 走到 Assertion，需要先備妥哪些資訊？
+1. 驗證目標（Acceptance Criteria / 測試意圖）  
+2. 領域知識（業務流程、狀態圖等）  
+3. 系統的精確規格（OpenAPI/Swagger、UI 流程說明、呼叫範例）  
+有了這三者，LLM 才能把高階意圖拆成具體 API 呼叫並判斷回應。
 
-## Q: 這次 PoC 用到了哪些關鍵技術？程式量多嗎？
-1. Microsoft Semantic Kernel  
-2. OpenAPI ↔ Plugin 自動轉換（`ImportPluginFromOpenApiAsync`）  
-3. OpenAI ChatCompletion（Function Calling, Structured Output）  
-4. .NET 8 Console App  
-總共約 50 行關鍵程式即可串起整個流程。
+## Q: 作者是怎麼把 OpenAPI 規格變成 LLM 可使用的工具？
+透過 Microsoft Semantic Kernel 內建的  
+```csharp
+kernel.ImportPluginFromOpenApiAsync(...)
+```  
+大約 10 行程式碼即可把 Swagger 轉成 Kernel Plugin，讓 LLM 在對話中直接呼叫對應 API。
 
-## Q: Test Runner 如何把 OpenAPI 規格變成 LLM 可用的工具？
-透過 Semantic Kernel 內建的 `ImportPluginFromOpenApiAsync(...)`，把 Swagger 檔一次轉成 Plugin。Kernel 在推論過程中會自動決定何時呼叫這些 Plugin（即 API），工程師無須手動撰寫 16 支 API 的包裝函式。
+## Q: 為何強調 API 必須「AI Ready」並依領域設計，而非單純 CRUD？
+若 API 只有 CRUD，商業規則落在呼叫端，AI 必須自行拼裝複雜邏輯，容易導致測試流程失控；領域驅動的 API 既封裝商業規則又易於 LLM 理解，才能穩定地由 AI 進行自動化測試。
 
-## Q: 想用同樣方式測試自己的 API，需要具備哪些「AI Ready」條件？
-1. API 必須以 Domain 思維設計，而非純 CRUD。  
-2. 要有完整且精確的 OpenAPI/Swagger 文件，且能隨 CI/CD 自動產生。  
-3. 認證／授權機制要標準化，方便在 Test Runner 裡一次處理（例如 OAuth2、JWT）。若缺任一條件，Function Calling 驅動的自動化測試將難以落地。
+## Q: 這次 PoC 的實際測試結果如何？
+以「嘗試一次加入 11 件可口可樂」為例，AI 依序建立購物車、抓出商品 ID、呼叫加入 API 並驗證結果。因原 API 未實作「同商品數量上限 10 件」限制，AI 報告判定測試失敗 (test_fail)，顯示 PoC 能準確抓出規格與實作不符之處。
 
-## Q: 為什麼作者同時要求輸出 JSON 結構化報告，而不只 Markdown？
-Markdown 便於人閱讀；但真正在大量案例或 CI pipeline 中，需要機器可解析的統計與告警能力，因此額外要求 LLM 再輸出一份符合 JSON Schema 的結構化結果，方便後續系統整合與自動彙整。
+## Q: 除了 API 本身，還有哪些環境面向需先標準化？
+• 統一的認證／授權機制（作者以 OAuth2 實作並在 Test Runner 內集中處理 Token）  
+• 測試環境控制（語系、幣別、時區等）  
+• 系統化蒐集與統計測試報告（AI 同步輸出 Markdown 給人看、JSON 給系統整合）
 
-## Q: 這種 Domain-level 測試案例未來能直接拿去測 UI 嗎？
-原理上可以。只要 UI 也有標準化規格（例如 Browser Use、Computer Use 等工具準備就緒），再換一個對應的 Test Runner，即可用同一份情境去驗證 Web、Android、iOS 等多介面行為。
+## Q: 為什麼 PoC 先做成 .NET Console App，而不是直接上 MCP 等大型平台？
+此階段目的是驗證核心可行性；MCP 牽涉大規模推廣與額外技術門檻，屬後續優化議題，暫時跳過以聚焦實驗重點。
 
-## Q: 這項實驗帶來的主要啟示是什麼？
-1. LLM + Function Calling 已成熟到能接手「執行測試」這類高度模板化又勞力密集的工作。  
-2. 真正的挑戰在「讓系統 AI Ready」：好的 API 設計、文件、自動化工程與環境控制。  
-3. 開發者價值將從「寫程式快」轉向「更懂得如何引導 AI 把事做好」。
+## Q: 後續作者還打算深入哪兩大主題？
+1. 測試案例如何從 AC 系統性展開  
+2. 規模化細節：MCP 整合、權限設計與其他周邊問題  
+敬請期待接續文章。
+```
