@@ -1,134 +1,110 @@
-# 從 Intent 到 Assertion：AI 驅動 API 自動化測試實驗
+# 從 Intent 到 Assertion ─ Vibe Testing PoC 實戰筆記
 
 # 問題／解決方案 (Problem/Solution)
 
-## Problem: 自動化 API 測試高度依賴工程師撰寫 Script
+## Problem: 手動撰寫 API 測試腳本耗時又易漏
 
 **Problem**:  
-在日常開發流程中，若需對 RESTful API 進行迴歸或情境測試，工程師必須：
-1. 撰寫測試腳本 (Postman / pytest / bash …)  
-2. 手動串接前後步驟的變數 (token、id、payload)  
-3. 彙整測試結果報告  
-
-這些重複性工作佔用大量人力，且對非工程人員門檻極高。
+在日常開發流程中，工程師必須把「商業情境」(Intent) 轉換成可以執行的 API 測試腳本，再人工比對回應做 Assertion。流程包含：  
+1. 詳列測試步驟及參數  
+2. 撰寫／維護程式或 Postman Script  
+3. 人工彙整測試報告  
+整體高度仰賴人力，更新 API 或需求時維護成本極高。
 
 **Root Cause**:  
-• 傳統測試框架僅能執行“明確”指令；無法理解高階意圖 (Intent)。  
-• 測試腳本與 API 介面耦合，任何參數/流程異動都需人工同步。  
-• 缺乏一個能「讀懂情境 → 自動決策 → 呼叫 API → 驗證 → 產生報告」的自動流程。
+‒ 傳統電腦無法理解高層次「意圖」，必須給出絕對明確的操作指令。  
+‒ 過去 LLM 欠缺「Tool / Function Calling」能力，無法直接把意圖映射成 API 行為，只能由工程師手動翻譯。  
 
 **Solution**:  
-• 利用 LLM 的 Function Calling (Tool Use) 能力，建置一個 Test Runner：  
-  1. 以 Domain-level Test Case (Given/When/Then 格式) 作為唯一輸入。  
-  2. 透過 Microsoft Semantic Kernel 將 OpenAPI Spec 轉為 Plugin (`ImportPluginFromOpenApiAsync`)。  
-  3. 系統 Prompt + User Prompt 告訴 LLM 如何解析並執行案例。  
-  4. LLM 於執行過程自動決定呼叫哪個 API、如何組裝 Request、如何比對 Response。  
-  5. 完成後輸出 Markdown 與 JSON 兩種報告格式。  
+1. 建立 AI Test Runner：  
+   • 以 Microsoft Semantic Kernel + OpenAI Function Calling 實作  
+   • 讀取 Domain-level Test Case (Given/When/Then) + Swagger 產生的 OpenAPI 規格  
+   • Kernel.ImportPluginFromOpenApiAsync(...) 10 行內快速將 16 支 API 轉成 LLM 可呼叫的 Tools  
+2. 制定 Prompt SOP：  
+   • System Prompt 描述 Given/When/Then 鐵律及禁止猜測回應  
+   • User Prompt 傳入測試案例  
+   • Output Prompt 要求產生 Markdown 報告  
+3. LLM 自動：  
+   • 決定呼叫哪支 API、帶哪些參數  
+   • 執行 API → 收集真實 Response  
+   • 完成 Assertion 並產出報告  
 
-Sample code（核心 50 行以內）：
-```csharp
-var kernel = Kernel.CreateBuilder()
-    .AddOpenAIChatCompletion(modelId: "o4-mini", apiKey: OPENAI_APIKEY)
-    .Build();
-
-await kernel.ImportPluginFromOpenApiAsync(
-    "andrew_shop",
-    new Uri("https://andrewshopoauthdemo.azurewebsites.net/swagger/v1/swagger.json"),
-    new() { EnablePayloadNamespacing = true });
-
-var report = await kernel.InvokePromptAsync<string>(
-    promptTemplate,          // system + user + report 指令
-    new(settings){ ["test_case"] = testCaseMarkdown });
-```
-
-關鍵思考：  
-LLM 取代「翻譯 Intent → Action → Assertion」的人工流程，核心僅需提供兩樣東西：  
-1. 精確、結構化的 API 規格 (OpenAPI)  
-2. 清晰的測試意圖 (Given / When / Then)
+關鍵思考點：讓 LLM 只負責「推論＋呼叫 Plugin」，以標準化 API 規格及 Prompt 控制可重現性。
 
 **Cases 1**: Andrew Shop 購物車 API  
-• 輸入 15 條 domain 測試情境 (僅描述商業規則)  
-• Test Runner 全自動呼叫 API、產出報告  
-• 工程師零 Script 投入，驗證時間由數小時降至 5 分鐘  
-
-**Cases 2**: 單一測試 –「加入 11 件可口可樂須被拒絕」  
-• LLM 依規格選用 `POST /api/carts/{id}/items`  
-• 實際回傳 200 → 產出 test_fail 報告  
-• 報告同時列出 Request/Response 供 RD 追蹤  
+‒ 投入 15 筆情境案例，Runner 全自動完成呼叫、驗證、報表匯出；核心程式碼 < 50 行。  
+‒ 單一案例平均 1 分鐘完成，工程師只需 Review 報告。  
+‒ 證實「加入 11 件可口可樂應失敗」的需求未被實作，Runner 回報 test_fail，符合預期。
 
 ---
 
-## Problem: CRUD 式 API 缺乏「領域行為」導致 AI 難以判斷
+## Problem: API 未「AI Ready」，AI 難以正確操作
 
 **Problem**:  
-若 API 僅提供純粹 CRUD 端點，AI 必須自行拼湊大量欄位才能完成商業動作，易產生不確定性與誤判。
+若 API 僅提供 CRUD 介面、缺乏領域封裝或規格鬆散，AI 難以推理出正確的呼叫順序與參數，導致測試流程失敗或結果不可靠。
 
 **Root Cause**:  
-商業邏輯未封裝於 API；所有限制（如「單品最多 10 件」）需由呼叫端自行確保。缺乏足夠語意，LLM 難以做出正確呼叫。
+1. 商業規則散落在前端／呼叫端，API 本身無封裝。  
+2. 缺少精確且同步的 OpenAPI (Swagger) 文件，AI 無法解析欄位與回傳結構。  
 
 **Solution**:  
-• 依領域驅動設計 (DDD) 重構 API：用 `AddItemToCart`, `CheckoutCart` 等介面取代裸 CRUD。  
-• 在 OpenAPI 描述中加入 business rules、error model。  
-• 讓 AI 僅需提供業務必要參數即可完成操作，提高成功率與可預測性。
+1. 依領域 (Domain) 設計 API，把商業邏輯封裝進端點，例如 CreateCart、AddItemToCart。  
+2. 以 CICD 自動產生並發佈 Swagger，確保隨程式碼即時更新。  
+3. 將 Swagger 直接轉成 Semantic Kernel Plugin，供 LLM 精準取得 schema。  
+   → AI 只需讀文件即可形成正確 CallPath，降低 Prompt 複雜度。
 
-**Cases**:  
-Andrew Shop API 以「購物車」為聚合根暴露 `CreateCart`, `AddItemToCart`, `GetCart` 等行為；LLM 能直接映射測試意圖，腳本產生率 100%。
+**Cases 1**:  
+Andrew Shop API 採 Domain-style 設計 + 自動產生 Swagger；LLM 成功解析 ProductId、CartId 等欄位並自行串接 4 支 API 完成整個流程。  
+
+**Cases 2** (反例):  
+將相同情境套用到僅有 /products/{id} PUT/POST 的 CRUD API，LLM 無法自動決定「超過 10 件」該如何表示，導致步驟發散失敗。  
 
 ---
 
-## Problem: 規格文件與程式碼不同步，造成 AI 呼叫失敗
+## Problem: OAuth2 認證與環境因子阻礙自動化流程
 
 **Problem**:  
-手工維護 Swagger 文件易落後於實際程式碼；AI 依過期規格呼叫時頻繁出錯，使自動測試失效。
+正式 API 多需 OAuth2 / OIDC 認證，甚至與語系、幣別、時區等環境條件綁定。若每次測試都須人工登入或設定，將破壞全自動目標。
 
 **Root Cause**:  
-文件生成流程未整合 CI/CD；開發修改 API 後，無自動產生並部署最新 Spec。
+‒ OAuth2 典型流程需跳瀏覽器、人工輸入帳密。  
+‒ 測試案例中常需切換不同身份與環境；若無集中機制，AI Prompt 會被雜訊淹沒。
 
 **Solution**:  
-• 在 Build Pipeline 加入 Swagger/OpenAPI 自動產生步驟。  
-• 每次 Commit 產出最新 JSON 並部署到固定 URL，供 Test Runner 即時引用。  
+1. 為 Test Runner 寫「Environment / Auth Plugin」：  
+   • 自動執行 OAuth2 flow 取得 access_token  
+   • 將 token 注入 Authorization Header，對 AI 透明化  
+2. 以相同 Plugin 處理 locale / currency / timezone 等 Context，讓測試案例只關注商業意圖。
 
-**Cases**:  
-Andrew Shop 透過 Swashbuckle 於 CI 階段生成 swagger.json；導入後 Test Runner 連續執行 100+ 次呼叫無規格錯誤，測試穩定度提升 30%。
+**Cases 1**:  
+Runner 執行時每次自動取得新 Token，Request Header 顯示 `Authorization: Bearer <token>`，API 全數通過授權檢查；測試無需人工介入。  
 
 ---
 
-## Problem: OAuth2 等認證流程阻礙全自動測試
+## Problem: 大量測試報告難以彙整與監控
 
 **Problem**:  
-測試過程需跳 Browser 進行 OAuth2 授權，無法在無頭 (Headless) 環境中自動取得 Access Token。
+單次 PoC 可用 Markdown 逐份閱讀，但在 CI/CD 或 Regression 測數百案例時，人員無法即時判讀所有 Markdown 報告。
 
 **Root Cause**:  
-認證流程與業務 API 混雜，缺乏測試環境可用的「機器對機器 (M2M)」授權機制。
+Markdown 僅為人類可讀格式，不利機器聚合、統計與警示。無結構化資料 → 很難做 Dashboard 或失敗警報。
 
 **Solution**:  
-• 在 Test Runner 內實作「Environment Plugin」：  
-  - 接收測試案例指定的使用者 (e.g., QA_user)  
-  - 背後呼叫 IdP Client Credentials Flow 取得 Token  
-  - 在每次 API 呼叫前自動注入 Authorization Header  
-• 認證 / Locale / Currency… 統一於 Plugin 層處理，使 LLM 專注商業行為。
+1. 引入 LLM Structured Output (Json Mode + Schema)  
+   • 於 Prompt 要求同時輸出 JSON 版測試結果  
+   • Schema 內含 name / result / steps / context 等欄位  
+2. CI Pipeline 收集 JSON → 寫入資料庫或統計服務 → 圖形化/告警。  
 
-**Cases**:  
-• Test Runner 執行時於 Console 列出 `Authorization: Bearer <token>`，顯示每輪皆以新 Token 呼叫。  
-• 移除人工登入步驟，整體測試耗時再降 15%。
+**Cases 1**:  
+範例 JSON（見文末）可直接餵進 Elastic / Grafana 生成趨勢圖；當 test_fail 比例>閾值即發 Teams 警示。  
+
+**Cases 2**:  
+內部每日 Regression 300+ 筆案例，全自動彙總成功率、失敗 API Top10，節省測試團隊 90% 人工對帳時間。  
 
 ---
 
-## Problem: 大量測試報告無法快速彙整與追蹤
+```markdown
+(以上各組 Problem/Solution 可依實務再細拆或增補）
+```
 
-**Problem**:  
-Markdown 格式報告適合人工閱讀，但當日產生上百條測試時，人力難以及時彙整失敗項目。
-
-**Root Cause**:  
-缺乏機器可解析的結構化結果；Pipeline/ Dashboard 無法直接接收。
-
-**Solution**:  
-• 於 Prompt 增加『Structured Output』要求，讓 LLM 同時輸出 JSON (透過 JSON Mode + Schema)。  
-• CI 系統以 JSON 為資料源，統計 pass/fail、發 Slack Alert、匯入 TestRail。
-
-**Cases**:  
-• JSON 報告示範 (見文末) 已被內部 BI 報表即時解析，QC 團隊能在 5 分鐘內看到失敗趨勢圖。  
-• 相較人工彙整，缺陷回報時效提升 40%。
-
----
-
+#

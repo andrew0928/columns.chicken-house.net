@@ -12,9 +12,6 @@
     "GenAI",
     "AI",
     "DevOps",
-    "Vibe coding",
-    "Front-end",
-    "Back-end",
     "Google Slides",
     "HackMD"
   ],
@@ -23,14 +20,11 @@
     "Product",
     "GenAI",
     "DevOpsDays",
-    "Taipei",
     "STUDY4LOVE",
-    "AI",
     "Vibe coding",
-    "\u7814\u8A0E\u6703",
-    "\u7C21\u5831",
-    "\u5171\u7B46",
-    "Q\u0026A"
+    "AI",
+    "\u67B6\u69CB\u5E2B\u89C0\u9EDE",
+    "\u6280\u8853\u96A8\u7B46"
   ],
   "generator": "BlogIndex.SyncPost v1.0.0.0, o3",
   "references": [
@@ -38,6 +32,7 @@
     "https://docs.google.com/presentation/d/e/2PACX-1vQxOtsS0dDV_q3smJuQP3efhwhNaK_8O6AmYdO1XNZeFRgkiTTH1_NqjVHFyyS7zxOco4hP-NmMQfzi/pubembed?start=false\u0026loop=false\u0026delayms=3000",
     "https://docs.google.com/presentation/d/e/2PACX-1vQxjwDVoiFso6bL-Tn5sDXSPDxYlBIKqCXNxiH4jvWgWR6w_L7F56ut0wtnyAg23h6yT0czExPh4hGb/pubembed?start=false\u0026loop=false\u0026delayms=3000",
     "https://hackmd.io/@DevOpsDay/2025/%2FSkkpnJ8zxg",
-    "https://docs.google.com/presentation/d/e/2PACX-1vRf4AOPd5FpqUxQeC0aMD6548tv5J24RTwFIbNN4W8O5aLkt-EZmVh7YLugA6wBKejStwcgLzRRbSva/pubembed?start=false\u0026loop=false\u0026delayms=3000"
+    "https://docs.google.com/presentation/d/e/2PACX-1vRf4AOPd5FpqUxQeC0aMD6548tv5J24RTwFIbNN4W8O5aLkt-EZmVh7YLugA6wBKejStwcgLzRRbSva/pubembed?start=false\u0026loop=false\u0026delayms=3000",
+    "/2025/06/03/devopsdays/"
   ]
 }

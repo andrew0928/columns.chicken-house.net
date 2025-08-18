@@ -1,59 +1,56 @@
 # .NET RAG 神器 ─ Microsoft Kernel Memory 與 Semantic Kernel 整合應用
 
 ## 摘要提示
-- Chat Completion API: 以 OpenAI ChatCompletion 為核心，示範從 HTTP、SDK 到 Semantic Kernel 的基本呼叫流程與通訊模式。  
-- JSON Mode: 透過 Json Schema 讓 LLM 產生結構化輸出，方便程式以物件方式接手後續流程。  
-- Function Calling: 說明 LLM 如何根據工具定義產生指令並取得結果，奠定 Agent 化應用的基礎能力。  
-- 進階 Function Flow: 以「排程晨跑」案例展示多輪工具呼叫與結果回饋的完整往返機制。  
-- RAG 基礎: 結合檢索與生成，讓 LLM 引用外部知識庫回答最新或專有領域問題。  
-- Microsoft Kernel Memory: 將 RAG 封裝成服務，可雲端部署亦可內嵌，並提供 SK Memory Plugin 直接串接。  
-- RAG 優化: 透過摘要、FAQ、解決方案等多視角內容，提升長文向量檢索的相關性與精確度。  
-- MCP 整合: 以 Model Context Protocol 將 MSKM 暴露為 MCPServer，與 Claude Desktop、No-code 平台等互通。  
-- 土炮 Function Calling: 在不支援工具呼叫的模型上，以角色標記與對話規則手動實作同樣流程。  
-- 問卷回饋: 近百位開發者對課程內容、時程與後續主題給出高度評價與建議。
+- LLM基礎：透過 Chat Completion API 示範 .NET 開發者必備的對話呼叫流程與訊息結構。  
+- Json Mode：以 Json Schema 讓 LLM 輸出結構化資料，利於程式後續反序列化與錯誤判斷。  
+- Function Calling：說明工具（tool）宣告、呼叫與回傳機制，是 Agent 工作流程的核心。  
+- 連續呼叫案例：以「排程晨跑」範例拆解多輪 tool-call 與回應的完整對談。  
+- RAG觀念：檢索增強生成將外部知識庫檢索結果納入 Prompt，提高回答新穎度與正確度。  
+- Microsoft Kernel Memory：定位為「RAG as a Service」，負責文件抽取、分段、向量化與儲存。  
+- Semantic Kernel：提供 Plug-in 與 Memory 介面，與 MSKM 天然互補、開箱即可使用。  
+- 進階RAG：利用 LLM 先行產生摘要、FAQ、Problem/Solution 等多視角內容，改善相似度檢索品質。  
+- MCP整合：示範將 MSKM 封裝成 MCP Server，讓 Claude Desktop 等支援 MCP 的 Host 可直接調用。  
+- 社群回饋：問卷顯示 Function Calling、RAG 與 MSKM 架構最受開發者關注，整體評價近滿分。  
 
 ## 全文重點
-本文整理自作者三月直播與八日臉書貼文，主軸是如何在 .NET 環境把 LLM 的「結構化輸出、Function Calling 與 RAG」三項基礎能力落實為可維運的企業級應用。  
-首先透過 Day 0 介紹 Chat Completion API 的訊息格式（header、model 參數、messages、tools、response_format），奠定後續所有範例的通訊基礎；並以 HTTP、OpenAI .NET SDK 及 Semantic Kernel 三種寫法對照，讓讀者體會抽象層次差異。  
-Day 1 聚焦 JSON Mode，指出開發者應要求 LLM 直接回傳符合 Json Schema 的物件，並於物件內明確標示成功或失敗，以降低解析成本與幻覺風險。  
-Day 2-3 進入 Function Calling：Day 2 先講單輪指令生成，Day 3 以行事曆排程為例，示範 LLM 如何根據工具庫決定呼叫順序、等待程式執行結果，再回覆最終答案，完整展示「Calling-Return-Calling」迴圈。  
-Day 4 引入 RAG，解釋檢索強化生成流程：問題收斂→向量或搜尋引擎檢索→將結果與問題組成新 prompt 交給 LLM。作者示範使用 BingSearch plugins，讓 LLM 具備即時查詢能力。  
-Day 5 正式介紹 Microsoft Kernel Memory（MSKM）—一套由 Semantic Kernel 團隊開發的開源 RAG 服務。MSKM 以 Docker/源碼雙模式部署，並內建 SK Memory Plugin，使 LLM 能把「長期記憶」當工具呼叫。  
-Day 6 深談進階 RAG：面對長文與多篇文章，僅靠分段向量化常導致語意失真；作者利用 LLM 在匯入前生成摘要、段落摘要、FAQ、問題解決對映等多種「檢索專用文本」，搭配自訂 pipeline 或外部預處理，大幅提升相關性。  
-Day 7 探討 MSKM 與外部系統的整合：列舉 GPTs Custom Action、No Code 平台 Custom Tools、MCPServer 等多種通訊協定，並以 MCP C# SDK 將 MSKM 暴露給 Claude Desktop；同時說明 MCP 的 initialize、tools/list、tools/invoke 標準流程。  
-Day 8 則示範「土炮」方式：即使模型不原生支援 Function Calling，只要在 system prompt 定義對話規則並於應用程式端攔截特定前綴訊息，一樣能完成工具呼叫往返。  
-最後作者彙整 93 份問卷回饋：學員最受用的主題依序為 Function Calling、RAG 與 MSKM；多數人透過 SDK 或 SK 存取 LLM，並對後續進階 Agent、事件驅動、實務案例保持高度興趣。整體評分平均九成以上。
+本文整理作者於直播與系列貼文中，從基礎到進階系統化介紹 .NET 生態中建構 LLM 應用的完整流程。首先以 OpenAI Chat Completion API 為範例，說明訊息角色、模型參數與呼叫模式，奠定後續所有範例基礎。接着介紹 Json Mode，在 Prompt 中宣告 Json Schema 以取得結構化輸出，解決程式與 LLM 溝通的不確定性；再進一步闡述 Function Calling（Tool Use），透過 tools 定義與 assistant/tool 雙向訊息，讓 LLM 能主動決定何時呼叫程式函式以及如何處理回傳結果。
+
+在掌握 Json Mode 與 Function Calling 的實務用法後，文章切入 RAG（Retrieval Augmented Generation）。作者先解析 RAG 的一般流程：問題重寫、檢索、組 Prompt 再生成答案；再示範如何把檢索動作本身做成 tool，讓 LLM 自行觸發，於是 RAG 與 Function Calling 自然整合。為解決資料匯入、分段與長期存取的工程痛點，Microsoft Kernel Memory（MSKM）被引介為「RAG as a Service」。MSKM 以獨立服務或 Serverless 套件針對文件做抽取、chunking、向量化、標籤與寫入，可直接透過 NuGet 套件掛成 Semantic Kernel 的 Memory Plug-in，並支援多家 Embedding/LLM 連接器。
+
+作者進一步分享自身部落格文章的實驗：僅以預設 chunk 設定向量化，對長文或抽象問題效果不佳；因此於匯入前先用 LLM 生成多種檢索導向資訊（全文摘要、段落摘要、FAQ、問題/解決方案等），並加上 tags 再寫入 MSKM，大幅提升檢索準確率。文中亦展示多種整合情境：SK + MSKM 在程式內原生 Function Calling、透過 OpenAPI 或 No-Code 平台、以 MCP Protocol 封裝 MSKM 供 Claude Desktop 直接呼叫，證明同一組工具鏈能對應不同 Host 與開發場景。
+
+最後，作者公布直播問卷統計，Function Calling、RAG 與 MSKM 架構最受歡迎；多數聽眾期待進一步的 MCP、Agent、商務案例與工作坊，整體評分接近滿分。結論指出，RAG 與 Function Calling 並非單一產品，而是 AI APP 的設計模式；唯有充分理解底層原理並善用 SK、MSKM 等工具，才能打造可維運、可擴充、具成本效益的 LLM 應用。
 
 ## 段落重點
-### 相關資源與連結
-彙整直播錄影、投影片、範例程式碼與問卷網址，方便讀者邊看文章邊對照原始素材；同時說明本文為直播後的整理稿，未來新內容將持續補充到此。
+### 相關資源與連結  
+列舉直播影片、投影片、範例程式碼與問卷等外部資源，方便讀者回顧與實作。
 
-### Day 0 – Chat Completion API
-解析 Chat Completion 的訊息格式與通訊模式，只靠單一 API 即可實作完整對話；示範 HTTP、OpenAI SDK 與 Semantic Kernel 三種呼叫層級，提醒開發者了解抽象層帶來的便利與限制。
+### Day 0 Chat Completion API  
+詳解 OpenAI Chat Completion 基本呼叫模式、訊息角色、headers 與可選工具定義；示範以 HTTP Client、OpenAI .NET SDK、Semantic Kernel 實作簡易聊天。
 
-### Day 1 – Structured Output (JSON Mode)
-闡述為何在程式內應使用 Json Schema 強制 LLM 回傳結構化結果；提出成功/失敗旗標、職責切割與成本考量三點原則，並用多語言範例說明 SDK 帶來的 schema 生成優勢。
+### Day 1 Structured Output  
+說明 Json Mode 重要性：用 Schema 約束輸出格式、標示成功與否欄位、單一職責分離；比較直接寫 HTTP、SDK 與 SK 的便利差異。
 
-### Day 2 – Function Calling (Basic)
-介紹 Function Calling 又稱 Tool Use 的概念：於 system prompt 宣告可用函式，LLM 根據意圖輸出 action 與參數。以購物清單為例，示範 LLM 如何把自然語意翻譯為 add/delete 指令集合。
+### Day 2 Function Calling (Basic)  
+介紹 Function Calling 概念與簡化流程；透過購物清單案例展示 LLM 如何把自然語言轉為 action/parameter JSON，為後端程式執行。
 
-### Day 3 – Function Calling (Case Study)
-深入探討多輪指令流程，以「排程 30 分鐘晨跑」為例，說明 tool、tool-result、assistant 三種訊息如何交替；強調理解原理後，可選用 Semantic Kernel、n8n、Dify 等框架簡化實作。
+### Day 3 Function Calling (Case Study)  
+以排程晨跑為例，拆解多輪 tool-call：check_schedule → add_event → 回報；強調 tool 與 tool-result 訊息在 chat history 中的角色與順序。
 
-### Day 4 – RAG with Function Calling
-將 Function Calling 應用於 RAG：LLM 先辨識問題，再自行組出搜尋函式與參數，檢索結果後生成答案；透過 plugins，可讓 LLM 彷彿「會用 Google」，並能隨時切換為私有知識庫。
+### Day 4 RAG with Function Calling  
+解釋 RAG 基本流程及如何把「檢索」做成 tool；示範掛 BingSearch Plug-in，讓 LLM 自動決定查詢並引用來源，打造類 Search GPT 效果。
 
-### Day 5 – MSKM: RAG as a Service
-介紹 Microsoft Kernel Memory 的定位與兩種部署模式（服務與內嵌），解釋其解決「長期記憶」的向量化、存儲與檢索流程；點出 MSKM 與 SK 的兩大整合優勢：Memory Plugin 與共用 Connector。
+### Day 5 MSKM: RAG as a Service  
+介紹 Microsoft Kernel Memory 的定位、部署選項與與 SK 的互補關係；強調其解決長期記憶匯入、分段與向量儲存的工程痛點。
 
-### Day 6 – 進階 RAG 應用
-說明單純分段向量化在長文場景的缺陷，提出摘要、段落摘要、FAQ、問題解決對映等多視角生成策略；藉由 SK 先行加工，或在 MSKM 自訂 pipeline，顯著提升查詢命中率。
+### Day 6 進階 RAG 應用  
+分享將長文先行摘要、FAQ 化、Problem/Solution 化等多視角內容後再向量化，可顯著提升相似度檢索品質；展示自定 pipeline 與成本取捨。
 
-### Day 7 – MSKM 與其他系統整合
-盤點四種 Function Calling 通路：GPT Custom Action、No Code Tools、MCPServer、SK Plugins；重點介紹 MCP 協定（stdio/SSE）與 csharp-sdk 實作，並演示 Claude Desktop 透過 MSKM 進行 RAG。
+### Day 7 MSKM 與其他系統整合  
+梳理多種 Function Calling 執行環境：ChatGPT GPTs、No-Code Dify、MCP Server、SK 原生；示範用 MCP/csharp-sdk 封裝 MSKM 供 Claude Desktop 使用並提出實務踩坑。
 
-### Day 8 – 土炮 Function Calling
-展示在不支援工具呼叫的模型上，以 system prompt 定義「請執行指令／安德魯大人您好」雙角色，配合程式端攔截與轉發即可重現 Function Calling 流程；提醒實務仍以原生支援模型為佳。
+### Day 8 土炮 Function Calling  
+證明即使模型本身不支援 tool-call，只要在 prompt 中定義角色與格式，也能「土炮」出相同流程；提醒正式環境仍建議使用原生支援工具。
 
-### 問券回饋
-統計 93 份問卷：Function Calling、RAG、MSKM 為最受用主題；多數開發者偏好 SDK 與 SK；對進階 Agent、實務案例、事件驅動整合等後續課題呼聲最高，整體滿意度逾 90%。
+### 問券回饋  
+統計 93 份回覆，Function Calling、RAG、MSKM 架構最被看重；聽眾期望更多 MCP、Agent 及商業案例，整體評價高。
