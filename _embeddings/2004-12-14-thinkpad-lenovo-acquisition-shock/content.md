@@ -1,0 +1,26 @@
+---
+layout: post
+title: "ThinkPad? 聯想墊子? My god..."
+categories:
+
+tags: ["有的沒的"]
+published: true
+comments: true
+redirect_from:
+  - /2004/12/14/thinkpad-聯想墊子-my-god/
+  - /columns/post/2004/12/14/ThinkPad-e881afe683b3e5a28ae5ad90-My-god.aspx/
+  - /post/2004/12/14/ThinkPad-e881afe683b3e5a28ae5ad90-My-god.aspx/
+  - /post/ThinkPad-e881afe683b3e5a28ae5ad90-My-god.aspx/
+  - /columns/2004/12/14/ThinkPad-e881afe683b3e5a28ae5ad90-My-god.aspx/
+  - /columns/ThinkPad-e881afe683b3e5a28ae5ad90-My-god.aspx/
+  - /blogs/chicken/archive/2004/12/14/175.aspx/
+wordpress_postid: 318
+---
+
+最近新聞報的挺兇, 什麼 IT 新聞網站都有這麼一則消息...
+
+"IBM 要把 PC 部門賣給對岸的聯想電腦"...
+
+My god, 我愛用的 ThinkPad ... 看來 X31 是末代小黑了, 下一台 notebook 還要不要繼續用 ThinkPad 就要好好考慮一下, 該不會在對岸會出現這樣的對話...
+
+"老闆, 你們聯想墊子筆記本多少錢?"咳咳...

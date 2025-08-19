@@ -1,0 +1,9 @@
+{
+	"servers": {
+		"安德魯的部落格 (remote)": {
+			"url": "https://columns-lab.chicken-house.net/api/mcp/",
+			"type": "http"
+		}
+	},
+	"inputs": []
+}
