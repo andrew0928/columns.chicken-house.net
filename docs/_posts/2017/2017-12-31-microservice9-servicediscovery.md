@@ -18,7 +18,7 @@ Microservices 先天就是個分散式系統，在開發領域上的門檻，主
 
 說到治理大量服務的能力，Nginx 官網有篇 [文章](https://www.nginx.com/blog/nginmesh-nginx-as-a-proxy-in-an-istio-service-mesh/) 講得不錯，我就借他的圖用一用。裡面提到 Modern Apps 演進過程，從 1980 的 client / server, 到 2000+ 的 3-tiers, 到現在的 microservices ...
 
-![](/wp-content/uploads/2017/12/Modern-Apps-1024x564.png)
+![](/images/2017-12-31-microservice9-servicediscovery/Modern-Apps-1024x564.png)
 
 從這張圖可以理解到, 走向微服務架構，有沒有能力管理好這麼多數量的 instance, 是你的 apps 能否成功的上線運作的關鍵因素之一。如果以 container 來看，服務的數量從小規模 (100+) 到中大規模 (1000+)，到你在書上看到的各種微服務大型成功案例 (10000+) 就知道，這種數量不大可能靠 IT 人員逐一設置固定 IP + PORT, 然後由 developer 逐一設置 configuration file, 這時善用 service discovery 就是解決這個問題的方法。
 
@@ -62,7 +62,7 @@ Service discovery 之所以重要，是因為它解決了 microservices 最關�
 
 不論你用什麼方法，service discovery 想解決的問題情境，都可以用這張圖來表達:
 
-![](/wp-content/uploads/2017/12/Richardson-microservices-part4-1_difficult-service-discovery.png)
+![](/images/2017-12-31-microservice9-servicediscovery/Richardson-microservices-part4-1_difficult-service-discovery.png)
 
 來回顧一下，已經運行數十年的 DNS 有哪些不足的地方? 在微服務架構下，我們預期內部的各個服務，都採取高度動態的前提進行部署。也許隨著流量的變化，幾秒鐘之內就會有新的 instance 被啟動或是關閉，instance 的數量也可能從數十個到數千個不等。這種狀況下，DNS 無法有效的解決這幾個問題:
 
@@ -95,7 +95,7 @@ registry, 以及負責確認這些服務健康狀態的 healthy check 機制。�
 
 # The Client‑Side Discovery Pattern
 
-![](/wp-content/uploads/2017/12/Richardson-microservices-part4-2_client-side-pattern.png)
+![](/images/2017-12-31-microservice9-servicediscovery/Richardson-microservices-part4-2_client-side-pattern.png)
 
 這種模式 (Client-Side Discovery Pattern) 的作法，主要是 client side 使用能跟 service registry 搭配運作的 http client (就是圖中的 Registry-aware HTTP Client) ，在呼叫前先查詢好相關資訊，之後就可用來呼叫該服務的 REST API。Registry 會回報可用的服務 end ponts 清單資訊，由 http client 自己決定要選擇哪一個 end point.
 
@@ -194,7 +194,7 @@ Ribbon is a client side IPC library that is battle-tested in cloud. It provides 
 
 # The Server-Side Discovery Pattern
 
-![](/wp-content/uploads/2017/12/Richardson-microservices-part4-3_server-side-pattern.png)
+![](/images/2017-12-31-microservice9-servicediscovery/Richardson-microservices-part4-3_server-side-pattern.png)
 
 既然有前面講到的 "Client-Side" discovery pattern 的存在，自然也有對應的 "Server-Side" discovery pattern... 就是把原本 client side 執行的 registry-aware http client 這部分拆出來，變成一個專屬的服務；就是圖上標示的 "LOAD BALANCER"。
 

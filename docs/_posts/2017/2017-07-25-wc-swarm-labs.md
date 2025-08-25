@@ -6,12 +6,12 @@ tags: ["Docker", "Windows Container", "Swarm"]
 published: true
 comments: true
 redirect_from:
-logo: /wp-content/uploads/2017/07/Docker-Swarm-Orchestration-1024x265.png
+logo: /images/2017-07-25-wc-swarm-labs/Docker-Swarm-Orchestration-1024x265.png
 ---
 
 
 
-![](/wp-content/uploads/2017/07/Docker-Swarm-Orchestration-1024x265.png)
+![](/images/2017-07-25-wc-swarm-labs/Docker-Swarm-Orchestration-1024x265.png)
 
 Azure 上面的 container 相關服務越來越完整了, 完整到我都快找不到理由自己架設了 @@, 從 registry 有 Azure Container Registry 可以，Orchestration 有 Azure Container Service 可用之外 (支援 swarm, dc/os, kubernetes), WebAPP 也開始支援直接部署 container,加上前兩天 preview 的 [Azure Container Instance](https://azure.microsoft.com/en-us/blog/announcing-azure-container-instances/) (把 container 當作超高效率的 vm 看待會比較好懂, 你自己準備 image 就可以丟上去跑)... 
 
@@ -36,11 +36,11 @@ preview, 我只好自己來土炮了。不過得力於 Azure 實在太方便，�
 
 ## 建立 Windows 2016 VM (with containers) x 3
 
-![](/wp-content/uploads/2017/07/2017-07-27-00-37-37.png)
+![](/images/2017-07-25-wc-swarm-labs/2017-07-27-00-37-37.png)
 
 這步驟其實還蠻無腦的，因為 Microsoft 早就幫你準備好了。建立 VM 時直接挑選  "Windows Server 2016 Datacenter - with Containers" 這個 VM image 即可。同樣的 VM 我們需要三台，分別命名為 wcs1, wcs2, wcs3。我這邊就用 wcs1 當作示範:
 
-![](/wp-content/uploads/2017/07/2017-07-27-00-40-49.png)
+![](/images/2017-07-25-wc-swarm-labs/2017-07-27-00-40-49.png)
 
 其中 1, 2, 3 的步驟都只是選擇規格而已，我直接跳到第四個步驟 Summary 就好了。我這邊選用的是 Basics 系列的 VM, 全部的 VM 我都放在wcsdemo 這個 Resource group, VM 規格是 Standard DS2 v2, SSD, 除了 VM Size 之外其他都是用預設值就可以了。同樣規格 VM 開三台，訂購的按鈕用力按下去就好了。只要後面使用時的手腳快一點，其實花不了多少錢的 XDD
 
@@ -52,18 +52,18 @@ preview, 我只好自己來土炮了。不過得力於 Azure 實在太方便，�
 既然都要用 Docker 了，能在同樣的環境下準備一個自己專用的 Registry 是一定要的。這邊要大推一下 Azure Container Registry 服務，真是
 佛心啊，你只要支付 Storage 的費用就夠了，你 push 多少 images 在上面，付多少錢就可以了。Azure Container Registry 服務本身是不用錢的。如果一開始你都還沒 push 甚麼東西進去的話，那等於是 0 成本就可以有自己的 Registry 可以用了。於是我想都沒想就弄了一個... 
 
-![](/wp-content/uploads/2017/07/2017-07-27-00-48-36.png)
+![](/images/2017-07-25-wc-swarm-labs/2017-07-27-00-48-36.png)
 
 新增服務的地方，搜尋一下，就會看到 "Azure Container Registry" ... 選這個就對了。
 
-![](/wp-content/uploads/2017/07/2017-07-27-00-49-32.png)
+![](/images/2017-07-25-wc-swarm-labs/2017-07-27-00-49-32.png)
 
 除了取名字還有選機房地點之外，其實沒什麼要煩惱的，我都採用預設值就好了。以後有進階的需求再回來研究這些設定是幹嘛的..
 這邊我取名為 wcshub, 請記好這名字，後面會用到。
 
 "Create" 按下去，設定步驟就完成了。這時前面的三台 VM 應該都跑完了，我們可以繼續進行下一個步驟了。
 
-![](/wp-content/uploads/2017/07/2017-07-29-15-03-06.png)
+![](/images/2017-07-25-wc-swarm-labs/2017-07-29-15-03-06.png)
 
 另外，Access Keys 的設定項目哩，記得要 Enable Admin User, 還有設定一下存取的密碼... 後面要 push images 時需要用到。
 
@@ -75,7 +75,7 @@ preview, 我只好自己來土炮了。不過得力於 Azure 實在太方便，�
 
 我這邊會把 wcs1 當作 master node. 先 RDP 到 wcs1, 開個 DOS command prompt 出來:
 
-![](/wp-content/uploads/2017/07/2017-07-27-00-54-57.png)
+![](/images/2017-07-25-wc-swarm-labs/2017-07-27-00-54-57.png)
 
 Docker Swarm 的架構是，Cluster 內至少需要挑一台出來做 Manager, 負責分派資源。初次建立 Swarm Cluster 時，第一台就會是 Manager.
 在 wcs1 下這道指令:
@@ -91,7 +91,7 @@ docker swarm init --advertise-addr 10.0.0.4 --listen-addr 10.0.0.4:2377
 第一台 (wcs1) 搞定後，把另外兩台加進來就好。同樣的 RDP 到 wcs2 及 wcs3, 開 DOS command prompt 下這道指令 (其實就剛才那指令
 複製貼上而已):
 
-![](/wp-content/uploads/2017/07/2017-07-27-01-00-25.png)
+![](/images/2017-07-25-wc-swarm-labs/2017-07-27-01-00-25.png)
 
 看到 ```This node joined a swarm as a worker.``` 就代表成功了。
 
@@ -243,7 +243,7 @@ C:\>docker service create --name mvcdemo --with-registry-auth --mode global -p 8
 
 接下來，要查詢所有的 service 有哪些, 跟執行的狀態，就不再是 ```docker ps``` 了，改成這兩個:
 
-![](/wp-content/uploads/2017/07/2017-07-27-01-39-05.png)
+![](/images/2017-07-25-wc-swarm-labs/2017-07-27-01-39-05.png)
 
 啟動的過程中，wcs3 不知碰到啥問題，看來第一次啟動是失敗的，所以有個 container 後來被 shutdown 了，第二次啟動才成功。因此 wcs3 有兩筆 container 的 PS 紀錄。
 
@@ -261,7 +261,7 @@ docker service ps {service name}
 
 最後，服務都正常啟動了，我們就直接來開瀏覽器確認看看 (記得打開 Azure VM 的防火牆)
 
-![](/wp-content/uploads/2017/07/2017-07-27-01-42-16.png)
+![](/images/2017-07-25-wc-swarm-labs/2017-07-27-01-42-16.png)
 
 
 結果，我沒辦法透過瀏覽器看到 vs20 這個 container 執行的結果啊... 之前在這裡卡關卡了一陣子... 先講解法:
@@ -272,17 +272,17 @@ docker service ps {service name}
 docker service create --name mvcdemo --with-registry-auth --mode global --publish mode=host,target=80,published=80 wcshub.azurecr.io/vs20:latest
 ```
 
-![](/wp-content/uploads/2017/07/2017-07-29-22-15-31.png)
+![](/images/2017-07-25-wc-swarm-labs/2017-07-29-22-15-31.png)
 
 這次的 PS 結果，就看的到 port mapping 了。這時用瀏覽器，分別連到三個 node 的 public ip address, 可以看到三個 container 都正常的執行:
 
-![](/wp-content/uploads/2017/07/2017-07-27-01-47-02.png)
+![](/images/2017-07-25-wc-swarm-labs/2017-07-27-01-47-02.png)
 從 wcs1 的 IP 連線
 
-![](/wp-content/uploads/2017/07/2017-07-27-01-47-24.png)
+![](/images/2017-07-25-wc-swarm-labs/2017-07-27-01-47-24.png)
 從 wcs2 的 IP 連線
 
-![](/wp-content/uploads/2017/07/2017-07-27-01-47-33.png)
+![](/images/2017-07-25-wc-swarm-labs/2017-07-27-01-47-33.png)
 從 wcs3 的 IP 連線
 
 可以看到三個 instance 的 ip address 都不大一樣。這個沒有 load balance 的效果，三個 container 跟三個 node 是一對一的，
@@ -304,7 +304,7 @@ docker service create --name mvcdemo --with-registry-auth --mode global --publis
 在 cluster 內的多個 container 就無法無障礙的互相溝通了。為了解決這個問題，docker swarm 在 init 時，就會自動建立一個名為
 "ingress" 的 overlay network:
 
-![](/wp-content/uploads/2017/07/2017-07-27-01-54-33.png)
+![](/images/2017-07-25-wc-swarm-labs/2017-07-27-01-54-33.png)
 
 顧名思義，他是 "overlay" 在實體網路上，建立的虛擬私有網路, scope 是在整個 swarm 內都可以看的到，意思是整個 swarm cluster
 都可以共用這個 overlay network。
@@ -314,7 +314,7 @@ docker service create --name mvcdemo --with-registry-auth --mode global --publis
 
 有點抽象? 看這張圖就懂了:
 
-![](/wp-content/uploads/2017/07/ingress-routing-mesh.png)
+![](/images/2017-07-25-wc-swarm-labs/ingress-routing-mesh.png)
 
 圖片來源: docker docs / [Use swarm mode routing mesh](https://docs.docker.com/engine/swarm/ingress/#publish-a-port-for-a-service)
 
@@ -353,7 +353,7 @@ docker service create --name mvcdemo --with-registry-auth --network ingress --en
 docker service ps mvcdemo
 ```
 
-![](/wp-content/uploads/2017/07/2017-07-28-00-59-28.png)
+![](/images/2017-07-25-wc-swarm-labs/2017-07-28-00-59-28.png)
 
 這些 instance 被分配到 wcs1 ~ wcs3 個別執行中。另外再開個 console service:
 
@@ -369,12 +369,12 @@ docker exec -t -i xxxxxx cmd.exe
 
 結果進去 query dns, 找不到所有的 mvcdemo instances 的 ip address 啊 @@
 
-![](/wp-content/uploads/2017/07/2017-07-28-01-16-29.png)
+![](/images/2017-07-25-wc-swarm-labs/2017-07-28-01-16-29.png)
 
 
 不過，如果先查好其他 container 的 ip address, 連進 console 用 ping 的就可以 ping 的到啊...
 
-![](/wp-content/uploads/2017/07/2017-07-28-01-18-16.png)
+![](/images/2017-07-25-wc-swarm-labs/2017-07-28-01-18-16.png)
 
 看來除了 Docker Native DNS 不會動之外 (當然也用不到 DNSRR)，其他一切正常.... 可是少了 DNS, 最關鍵的 service discovery 就沒辦法用了啊，如果我要用 nginx 當作 reverse proxy + load balancer, 我總不能每次 containers 啟動後都要手動去更新 upstream ip address 吧 @@
 

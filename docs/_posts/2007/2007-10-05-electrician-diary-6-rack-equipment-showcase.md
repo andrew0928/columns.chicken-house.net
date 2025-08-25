@@ -21,13 +21,13 @@ wordpress_postid: 141
 
 ## 0. 雜物間
 
-![CRW_3710(Canon PowerShot G2)](/wp-content/be-files/WindowsLiveWriter/6_2824/CRW_3710(Canon%20PowerShot%20G2)_3.jpg)
+![CRW_3710(Canon PowerShot G2)](/images/2007-10-05-electrician-diary-6-rack-equipment-showcase/CRW_3710(Canon%20PowerShot%20G2)_3.jpg)_3.jpg)
 
 不要以為我家雜物間這麼乾淨, 只是還沒開始擺東西而以 [H]. 這是間只有一坪左右的小房間, 因為空間規劃的關系不好利用, 就直接隔起來當作小儲藏室, 就優先被我佔下來當作機房了... 因為初期弄線很麻煩, 所以其它雜物都還沒擺進來. 之後這間前方跟左方的牆就都會去特力屋買鉻鐵架來擺, 堆滿東西後就真的變 "雜物間" 了...
 
 ## 1. 機櫃本體 [[Y拍網址](http://tw.f2.page.bid.yahoo.com/tw/auction/b35639309?u=rack115402)]
 
-![CRW_3711(Canon PowerShot G2)](/wp-content/be-files/WindowsLiveWriter/6_2824/CRW_3711(Canon%20PowerShot%20G2)_3.jpg)![CRW_3715(Canon PowerShot G2)](/wp-content/be-files/WindowsLiveWriter/6_2824/CRW_3715(Canon%20PowerShot%20G2)_3.jpg)
+![CRW_3711(Canon PowerShot G2)](/images/2007-10-05-electrician-diary-6-rack-equipment-showcase/CRW_3711(Canon%20PowerShot%20G2)_3.jpg)_3.jpg)![CRW_3715(Canon PowerShot G2)](/images/2007-10-05-electrician-diary-6-rack-equipment-showcase/CRW_3715(Canon%20PowerShot%20G2)_3.jpg)_3.jpg)
 
 登登登登, 主角來了. 這就是我的機櫃, 高 15U, 本來還想會不會太大了? 沒想到擺進去剛剛好... 好險當初沒有買小一號的. 機櫃送來才發現怎麼有點大... 所幸尺寸都在預料之中, 沒有發生什麼擺不進去之類的問題. 這個機櫃我在網拍逛了半年有吧? 最早只是想買個小機櫃把吵人的PC還有一堆線的HUB收起來就好, 不過剛好有可能搬家, 就開始認真的逛了起來... 最後挑到這款.
 
@@ -37,7 +37,7 @@ wordpress_postid: 141
 
 ## 2. 機架式機殼 [[Y拍網址](http://tw.f3.page.bid.yahoo.com/tw/auction/c31066996?u=aaa4308)]
 
-![CRW_3713(Canon PowerShot G2)](/wp-content/be-files/WindowsLiveWriter/6_2824/CRW_3713(Canon%20PowerShot%20G2)_3.jpg)
+![CRW_3713(Canon PowerShot G2)](/images/2007-10-05-electrician-diary-6-rack-equipment-showcase/CRW_3713(Canon%20PowerShot%20G2)_3.jpg)_3.jpg)
 
 哈, 這個就沒特地拍照了. 沒啥特別的, 就一般機殼, 只是外型配合機架的尺寸, 高度是 4U, 內部就是裝標準的ATX主機板. 放硬碟的空間蠻夠用的, 我放了四顆HDD, 一顆光碟機... 這個機殼遠比我想像的重. 整個裝好至少有十公斤以上吧? 每次把機器扛上去我都在耽心, 一個不小心掉下來, 其它設備大概就全毀了, 因此我都會先把門給鎖起來, 以防小孩進來亂...
 
@@ -47,7 +47,7 @@ wordpress_postid: 141
 
 ## 3. 電話總機 [[Y拍網址](http://tw.f5.page.bid.yahoo.com/tw/auction/e21725797?u=buzz11192000)] & 監控錄影機 [[Y拍網址](http://tw.f3.page.bid.yahoo.com/tw/auction/c31356141?u=mokoyo2004)]
 
-[![CRW_3716(Canon PowerShot G2)](/wp-content/be-files/WindowsLiveWriter/6_2824/CRW_3716(Canon%20PowerShot%20G2)_thumb.jpg)](/wp-content/be-files/WindowsLiveWriter/6_2824/CRW_3716(Canon%20PowerShot%20G2)_2.jpg)
+[![CRW_3716(Canon PowerShot G2)](/images/2007-10-05-electrician-diary-6-rack-equipment-showcase/CRW_3716(Canon%20PowerShot%20G2)_2.jpg)_thumb.jpg)](/images/2007-10-05-electrician-diary-6-rack-equipment-showcase/CRW_3716(Canon%20PowerShot%20G2)_2.jpg)_2.jpg)
 
 電話總機 (上, 灰黑色的那台) 是我想好久, 終於有機會裝的東西. 我爸有兩線電話, 之前弄的每個地方都擺兩隻話機, 桌面空間都佔掉了, 而且話機太多, 有時電話線內的電力也推不動, 有雜音等等缺點... 加上這次搬回家, 多了一條電話線. 不弄分機不行了... 裝了之後可以一口氣解決掉上面的問題.
 
@@ -57,15 +57,15 @@ wordpress_postid: 141
 
 監控錄影機則是我爸要裝的. 之前他找人來裝, 用電腦錄, 結果被它搞的快瘋了. 這種軟體寫的都爛爛的, 如果你電腦還兼日常用途, 同時錄監控畫面就真的很麻煩. 何況軟體 & driver 還常常出小問題, 最後決定花點小錢, 直接買這種現成的. 這一台主機約 5000 左右, 裡面要另外加一顆 IDE 硬碟. 我把一顆舊的 160GB 裝進去... 它只有在畫面有動靜時才會開始錄影, 160GB 夠錄好幾天...
 
-![image](/wp-content/be-files/WindowsLiveWriter/6_2824/image_3.png)
+![image](/images/2007-10-05-electrician-diary-6-rack-equipment-showcase/image_3.png)
 
 操作介面就不用提了, 實在是不怎麼好用. 各位可以想一下, 比大陸的DVD player選單還難懂, 就知道有多難用了. 我從來都搞不懂面版那堆按鈕要怎麼用... 我都是用網路搭它附的軟體來操作... 它的軟體還堪用, 該有的功能都有. 另外值得一題的是, 它也有 web interface. 沒有裝它的軟體也是可以看, 只要開 browser 就好. 不過它是用 java applet 寫的, browser 要先安裝好 JRE ..
 
-![image](/wp-content/be-files/WindowsLiveWriter/6_2824/image_6.png)
+![image](/images/2007-10-05-electrician-diary-6-rack-equipment-showcase/image_6.png)
 
 ## 4. 網路交換器 [[Y拍網址](http://tw.f2.page.bid.yahoo.com/tw/auction/b33739766?r=1137967708)]
 
-![CRW_3717(Canon PowerShot G2)](/wp-content/be-files/WindowsLiveWriter/6_2824/CRW_3717(Canon%20PowerShot%20G2)_3.jpg)
+![CRW_3717(Canon PowerShot G2)](/images/2007-10-05-electrician-diary-6-rack-equipment-showcase/CRW_3717(Canon%20PowerShot%20G2)_3.jpg)_3.jpg)
 
 這就沒啥特別了, 一台普通的 D-Link 24port switch hub 而以. 二手的, 網咖關門拿來拍賣的舊設備. 本來想買台 GBE 的, 不過實在是太貴了... 以後真的有需要再換...
 
@@ -73,7 +73,7 @@ wordpress_postid: 141
 
 ## 5. 乖乖 [這不是Y拍買的... [家裡大人的網址](http://community.chicken-house.net/blogs/sea/)]
 
-![CRW_3718(Canon PowerShot G2)](/wp-content/be-files/WindowsLiveWriter/6_2824/CRW_3718(Canon%20PowerShot%20G2)_3.jpg)
+![CRW_3718(Canon PowerShot G2)](/images/2007-10-05-electrician-diary-6-rack-equipment-showcase/CRW_3718(Canon%20PowerShot%20G2)_3.jpg)_3.jpg)
 
 上圖 ADSL modem 左上方有沒有看到一包怪東西? 其實是我塞了一包小包乖乖... [H]
 

@@ -136,7 +136,7 @@ public class AsyncDummyPlayer : AsyncPlayer
 
 有沒有差這麼多? 這麼神奇? 是怎麼辦到的? 先來看看類別關系圖:
 
-![ThreadSync](/wp-content/be-files/WindowsLiveWriter/ThreadSync2_2849/ThreadSync_3.png)
+![ThreadSync](/images/2008-08-15-thread-sync-2-implementation-two-threads-waiting-for-each-other/ThreadSync_3.png)
 
 上圖中，AsyncPlayer 就是改變這種型態的關鍵類別。AsyncPlayer 會用我們在上一篇講到的關念，化被動為主動，轉換這兩種呼叫模式。先來看看這個類別的程式碼到底變了什麼把戲，可以讓弱勢的勞工也有自主的權力?
 
@@ -215,7 +215,7 @@ public abstract class AsyncPlayer : Player
 
 這段程式碼長了一點，內容也都刪不得，各位請耐心點看。上一篇我畫了張概念性的時序圖，這次我們再拿同一張圖，不過這次會標上程式碼:
 
-![ThreadSync2](/wp-content/be-files/WindowsLiveWriter/ThreadSync2_2849/ThreadSync2_6.png)
+![ThreadSync2](/images/2008-08-15-thread-sync-2-implementation-two-threads-waiting-for-each-other/ThreadSync2_6.png)
 
 請注意一下各個箭頭的上下順序。由上往下代表時間的進行，如果應該在後面執行的 CODE 不巧先被呼叫了，則動作較快的那個 THREAD 會被迫暫停，等待另一邊的進度跟上。先來看看 StartGuess( ) 怎麼跟 Think( ) 互動:
 

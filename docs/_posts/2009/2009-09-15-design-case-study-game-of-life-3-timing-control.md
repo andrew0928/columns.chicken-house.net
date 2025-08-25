@@ -89,7 +89,7 @@ wordpress_postid: 32
 
 其實這卅幾行 code, 大都花在控制執行緒上面，有興趣的讀者可以翻翻我之前寫的那系列文章，我就不多作說明了。調整之後，這個世界變的更不可測了，一樣的起始環境，連上帝 (在這模擬世界裡，我就是上帝 XD) 都無法預測下一秒會發生什麼事...
 
-![image](/wp-content/be-files/WindowsLiveWriter/3/14B4CC9D/image.png)
+![image](/images/2009-09-15-design-case-study-game-of-life-3-timing-control/image.png)
 
  
 

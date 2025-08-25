@@ -7,10 +7,10 @@ tags: ["架構師", "CI", "CD", "DevOps", "軟體工程", "開發流程"]
 published: true
 comments: true
 redirect_from:
-logo: /wp-content/uploads/2017/08/ci_cd_tools_blog.jpg
+logo: /images/2017-08-05-what-cicd-do-you-need/ci_cd_tools_blog.jpg
 ---
 
-![](/wp-content/uploads/2017/08/ci_cd_tools_blog.jpg)
+![](/images/2017-08-05-what-cicd-do-you-need/ci_cd_tools_blog.jpg)
 > 圖片出處: https://blog.infostretch.com/39-tools-for-building-your-cicd-stack/
 
 這篇沒有要分享太多太硬的東西，或是太燒腦的架構文章，單純分享一下最近我協助團隊導入版控，以及 CI/CD 的想法而已。我一直覺得台灣 (還是世界各地都一樣?) 的軟體開發團隊存在這種 "工具控"、"框架控"、或是 "技術控" 的想法；選用跟得上潮流的技術，比什麼都重要。重要到這些技術或是框架本身到底是想解決什麼問題都不重要了，只要我用了最新的框架就是潮...
@@ -79,7 +79,7 @@ CI/CD, DevOps, SCRUM, Microservices, Containers 等等也是現在熱門的關�
 
 時間跳回 2017, 到了現代, 你期望什麼樣的 CI / CD ? 整套完整的 CI / CD 建置起來很花時間，在一開始你最該注意的是哪個部分? 那些可以一步一步慢慢追加?
 
-![](/wp-content/uploads/2017/08/cicd-naive.png)
+![](/images/2017-08-05-what-cicd-do-you-need/cicd-naive.png)
 > 很標準的 CI/CD 流程圖範例之一
 
 我知道整個 CI/CD 流程分很多步驟，如果你的團隊目前甚麼都還沒有，你想要一次到位的話，那這個導入流程的專案大概註定會失敗收場。但是反過來看，我能否找個兼顧完整、擴充性與未來性的 process, 但是只先只取其精華的部份優先導入? 順利導入之後，將來我的需求變複雜時，再逐步把被精減掉的部分慢慢加回來就好了。這樣的話，每一階段都能夠有導入流程的效益, 也不會變成短視近利，忽略了長期的成效。
@@ -113,10 +113,10 @@ Source code 是開發團隊最重要的資產, 好好的管理它是必要的。
 
 隨便舉幾篇我看過的老文章:
 * [Team Development with Visual Studio .NET and Visual SourceSafe](https://msdn.microsoft.com/en-us/library/ee817672.aspx)  
-![](/wp-content/uploads/2017/08/IC54105.gif)
+![](/images/2017-08-05-what-cicd-do-you-need/IC54105.gif)
 > 光看架構圖就知道他的年紀了...
 * [Team Development with Visual Studio Team Foundation Server - CH1](https://msdn.microsoft.com/en-us/library/bb668951.aspx)  
-![](/wp-content/uploads/2017/08/IC57670.jpg)
+![](/images/2017-08-05-what-cicd-do-you-need/IC57670.jpg)
 > Team Foundation Server Logical Workflow
 * [Guidelines: Source Control](https://msdn.microsoft.com/en-us/library/bb668944.aspx)
 * [Branch strategically](https://www.visualstudio.com/en-us/docs/tfvc/branch-strategically)
@@ -125,7 +125,7 @@ Source code 是開發團隊最重要的資產, 好好的管理它是必要的。
 
 後來看到 git flow, 的確 open source 的這套哲學就是比較精簡收斂, 沒有太多多餘的流程。git flow 很有系統的用 branch 來解決各種開發團隊會碰到的問題，例如新功能 (features) 的開發該如何隔離? 或是 develop -> release, 甚至是已經 release 後的 hotfix 該如何處理等等都包含在內。
 
-![git flow](/wp-content/uploads/2017/08/git-model@2x.png)
+![git flow](/images/2017-08-05-what-cicd-do-you-need/git-model@2x.png)
 > git flow 分支管理的流程說明
 
 不過，沒經驗的人看到這張圖大概就暈了，其實你的應用情境若沒那麼複雜，其實也不需要完全照做，多維護一個 branch 都是成本啊。這邊就要留意了，我強烈建議每個團隊的 team leader, 或是架構師等等這類的角色，務必先花一些時間研究搞清楚整套 git flow 的做法後 (即使你們自己不實際導入)，再來決定哪些是要砍掉的。這件事情若是給沒經驗的人來決定，那後果大概就是把複雜的地方 (或是他搞不懂得地方) 都砍掉了，整個流程被改的四不像，那對團隊會是個災難...
@@ -154,7 +154,7 @@ Source code 是開發團隊最重要的資產, 好好的管理它是必要的。
 最終，最重要的是要有地方看到 CI 執行的成果，這部分 GitLab 做得很不錯，到 pipeline 頁面看看, 都是綠色勾勾就 OK 了。
 如果這是你關注的 project, 每次 CI 的結果也會 email 通知你, 你有裝官方的 APP 也會收到通知，最後你要是有多個 projects 同時進行中，也有貼紙可以讓你把燈號都擺在同一個網頁內..
 
-![gitlab pipeline](/wp-content/uploads/2017/08/pipelines.png)
+![gitlab pipeline](/images/2017-08-05-what-cicd-do-you-need/pipelines.png)
 > gitlab pipeline 畫面
 
 
@@ -181,15 +181,15 @@ CD 其實是我認為最傷神的地方。它的複雜度最高，跟你的執�
 
 講了一大堆，其實我的目的是希望替有心導正流程的團隊，指引一條門檻低，成功率高，能夠循序漸進的方式，逐步導入 CI/CD 的方式。所有 google 能找到的參考資料，大都告訴你 CI / CD 應該要這樣做才對:
 
-![](/wp-content/uploads/2017/08/cicd-naive.png)
+![](/images/2017-08-05-what-cicd-do-you-need/cicd-naive.png)
 
 但是我想說的是，你的第一部可以先 focus 在這張圖就好了，完成後在逐步擴大到上一張圖的境界:
 
-![](/wp-content/uploads/2017/08/2017-08-06-22-13-21.png)
+![](/images/2017-08-05-what-cicd-do-you-need/2017-08-06-22-13-21.png)
 
 架構決定後，再來才是把你中意的系統或是工具填上去。以我自己碰到的案例為例:
 
-![](/wp-content/uploads/2017/08/2017-08-06-22-27-58.png)
+![](/images/2017-08-05-what-cicd-do-you-need/2017-08-06-22-27-58.png)
 
 
 需要人工介入的部分，主要就是 develop push code 到 source control, 剩下的就是等 CI / CD 完成，團隊可以直接透過 package manager 取得 build 後的成果。不論是開發團隊要拉 BETA 版回來測試，或是 OP 人員要拉正式版本到 production 部署，通通都是透過 package manager。

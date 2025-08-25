@@ -42,12 +42,12 @@ http://technet.microsoft.com/en-us/library/ee256062(WS.10).aspx
 
 C:\Program Files\Hyper-V\vmconnect.exe
 
-![image](/wp-content/be-files/WindowsLiveWriter/HVRemoteHyperVRemoteManagementConfigurat/425ECE48/image.png)
+![image](/images/2009-08-16-hvremote-hyper-v-remote-management-configuration-utility/image.png)
 
 搞什麼，連登入視窗都弄的跟 Remote Desktop Client 一模一樣，有時不小心還真會弄錯 =_=
 
 開起來後就是大家熟悉的 Hyper-V 遠端管理的畫面了。這工具只是讓你省掉從 MMC 去 connect VM 這些步驟而以，像 RDP 一樣開了就能用:
 
-![image](/wp-content/be-files/WindowsLiveWriter/HVRemoteHyperVRemoteManagementConfigurat/61A1751B/image.png)
+![image](/images/2009-08-16-hvremote-hyper-v-remote-management-configuration-utility/image.png)
 
 當然透過這工具，上面那堆設定步驟也要照做才會通啦，只是順帶提一下這個 tips 而已。有了 HVRemote 這工具，要設定遠端管理 Hyper-V VM 就更輕鬆了，有需要的人就參考看看吧!

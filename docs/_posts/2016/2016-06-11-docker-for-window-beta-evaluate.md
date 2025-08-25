@@ -12,7 +12,7 @@ wordpress_postid: 1238
 logo: /wp-content/uploads/2016/06/icon-218x181.png
 ---
 
-![Docker for Windows Beta](/wp-content/uploads/2016/06/CjNVIX9UgAA0Z8L.jpg)
+![Docker for Windows Beta](/images/2016-06-11-docker-for-window-beta-evaluate/CjNVIX9UgAA0Z8L.jpg)
 
 總算輪到我了!! 排隊等 Docker Beta Program Token 等好久了~  4 月初登記，5 月中才排到名額... 前陣子忙，一直到現在才有空研究 @@。這版是 Docker 在三歲生日時一起公布的 beta test program, 為 Windows / Mac 開發的新板 Docker, 企圖改善在非 Linux 平台上的 Docker 使用體驗。既然到手了，當然要體驗看看 :D
 
@@ -48,7 +48,7 @@ Docker 在併購及整合技術的挑選上，都很有眼光。精準的建構�
 
 感想先寫到這邊，接下來我就把我在 VM 裡面測試 Docker for Windows beta 的過程簡單紀錄一下。這邊有些技巧要留意，這是官網沒有講的。因為 Docker Engine 還是得依靠 Linux, 因此背後藏一台 Linux VM 仍然是必要的作法。既然我要在 VM 裡測試 Docker for Windows beta, 那麼 VM 裡面要再開 VM 就是閃不了的議題了。還好之前這篇已經先演練過 Nested Hyper-V 了，架構上的問題 Microsoft 已經解決了，剩下就是規劃跟實作。這次我要示範的架構圖如下:
 
-![架構圖](/wp-content/uploads/2016/06/img_575af1cebe972.png)
+![架構圖](/images/2016-06-11-docker-for-window-beta-evaluate/img_575af1cebe972.png)
 
 由於太多層 VM 了，不先講清楚架構的話，會像 Inception 一樣搞不清楚你做了幾層夢境? 最後醒不過來就糟糕了 XD。這次的演練案例，只有最外層是我的實體 PC (CHICKEN-PC), 我在裡面開了台 VM (WIN10) 來跑 Docker for Windows beta, Docker 要求我啟用 Hyper-V feature 後，會自動建立一台 Linux VM (MobyLinuxVM), 在裡面跑 Apline Linux, 並且執行 Docker Engine。
 
@@ -84,39 +84,39 @@ Docker 在併購及整合技術的挑選上，都很有眼光。精準的建構�
 
 順序是你先用 Hyper-V 建立好要安裝 Docker 的 VM (我取的名字是 WIN10)，然後再用 PowerShell Script 啟用 Nested Virtualization。畫面如下:
 
-![PowerShell Script](/wp-content/uploads/2016/06/img_575ac7c6e166c.png)
+![PowerShell Script](/images/2016-06-11-docker-for-window-beta-evaluate/img_575ac7c6e166c.png)
 
 詳細步驟可以參考[官方說明](https://blogs.technet.microsoft.com/virtualization/2015/10/13/windows-insider-preview-nested-virtualization/)的這個段落: How to enable nested virtualization
 
 接著就是建立 WIN10 這台 VM，同時安裝 Windows 10 Enterprise, 這個我就不多說，要留意 VM 的規格，必須停用 Dynamic Memory, 同時至少配置 4GB 以上的 RAM 就可以了。其他隨意... 以下是我自己測試環境的配置，給大家參考。用紅筆畫起來的地方請留意上述的限制:
 
-![VM 設定](/wp-content/uploads/2016/06/img_575bac318bc22.png)
+![VM 設定](/images/2016-06-11-docker-for-window-beta-evaluate/img_575bac318bc22.png)
 
 ## STEP #2, 在 VM 內安裝設定 Docker for Windows Beta
 
 接下來的動作，通通都轉移到 VM: WIN10 裡面進行了。如果你有申請 Beta Program, 你應該會收到下載網址，以及測試用的 Token.. 這段過程很無腦，下載安裝包 (MSI package), 下一步下一步按完就 OK 了:
 
-![Docker 安裝](/wp-content/uploads/2016/06/img_575af80225e5d.png)
+![Docker 安裝](/images/2016-06-11-docker-for-window-beta-evaluate/img_575af80225e5d.png)
 
 不過，如果你沒事先在 WIN10 裡面啟用 Hyper-V 的話，第一次執行 Docker for Windows 的話會出現這警告，按下 [Install & Restart] 後會自動幫你補安裝 + 重新開機:
 
-![Hyper-V 安裝提示](/wp-content/uploads/2016/06/img_575af8c46977b.png)
+![Hyper-V 安裝提示](/images/2016-06-11-docker-for-window-beta-evaluate/img_575af8c46977b.png)
 
 重新啟動後，如果看到要你輸入 Token 的話，那就對了:
 
-![Token 輸入](/wp-content/uploads/2016/06/img_575af908356cf.png)
+![Token 輸入](/images/2016-06-11-docker-for-window-beta-evaluate/img_575af908356cf.png)
 
 這邊要留意一下，如果你 STEP #1 的部分沒做，或是動作不正確的話，接下來會看到 Docker 的警告訊息，說 MobyLinuxVM 無法啟動... 那個訊息閃太快我來不及抓到畫面。不過我自己手動到 Hyper-V 管理員去啟動 VM 也會看到一樣的訊息:
 
-![VM 啟動錯誤](/wp-content/uploads/2016/06/img_575af99d5c5ec.png)
+![VM 啟動錯誤](/images/2016-06-11-docker-for-window-beta-evaluate/img_575af99d5c5ec.png)
 
 Nested Virtualization 沒正確設定好，就會造成 WIN10 這台 VM 裡面沒辦法再往下開一層 Linux VM .. 這時不要傻傻的重新安裝 Docker for Windows, 檢查上層的 CHICKEN-PC 是否正確設定比較重要。最簡單的驗證方法，就是在 WIN10 裡面另外手動建立第二台 VM，看看能否啟動就知道了。
 
-![Docker 啟動成功](/wp-content/uploads/2016/06/img_575afea2eb1ff.png)
+![Docker 啟動成功](/images/2016-06-11-docker-for-window-beta-evaluate/img_575afea2eb1ff.png)
 
 如果一切順利的話，開機後過一兩分鐘後，待 Docker VM 啟動完成之後，會看到這個訊息。同時右下角的 Tray Icon 也會有個 Docker 的 Icon 在那邊。
 
-![Docker Settings](/wp-content/uploads/2016/06/img_575aff4482e69.png)
+![Docker Settings](/images/2016-06-11-docker-for-window-beta-evaluate/img_575aff4482e69.png)
 
 Docker Settings 也有統一的介面了。Dashboard 的部分這版還沒提供，不過調整設定的部分已經好了，VM 的規格可以在這邊調整，其實他只是代替你去調整 Hyper-V 配置給 VM 的 CPU 跟 MEMORY 資源而已。其他細節就各位自己摸索，總知道這個步驟，Docker for Windows 的安裝設定動作就告一段落。可以進行到下一步，開始 Pull Image 回來執行了。
 
@@ -132,7 +132,7 @@ Docker Settings 也有統一的介面了。Dashboard 的部分這版還沒提供
 docker run --rm hello-world
 ```
 
-![Hello World](/wp-content/uploads/2016/06/img_575b089b8c29b.png)
+![Hello World](/images/2016-06-11-docker-for-window-beta-evaluate/img_575b089b8c29b.png)
 
 完全不意外的執行結果，當然是有顯示出 hello-world 這個 container 的輸出。別小看這些訊息，他的背後可是累積了多少資源才能執行成功的 @@
 
@@ -148,11 +148,11 @@ Docker for Windows 開始有專屬的設定方式可以解決這個問題了，�
 
 只勾選 C，結果 windows 就多了 C 這個分享目錄:
 
-![共享設定 C](/wp-content/uploads/2016/06/img_575b0bc5070d2.png)
+![共享設定 C](/images/2016-06-11-docker-for-window-beta-evaluate/img_575b0bc5070d2.png)
 
 是不是只是個巧合? 那我再把 D 勾起來看看:
 
-![共享設定 D](/wp-content/uploads/2016/06/img_575b0b396d834.png)
+![共享設定 D](/images/2016-06-11-docker-for-window-beta-evaluate/img_575b0b396d834.png)
 
 結果真的多了 D 這個 share .. 沒關係，瑕不掩瑜，至少它解決了過去棘手的大麻煩。這次我換成 apline linux 的 image, 直接掛載一個 volume 來驗證看看效果。
 
@@ -162,7 +162,7 @@ Docker for Windows 開始有專屬的設定方式可以解決這個問題了，�
 docker run -it --rm -v C:\Users\chicken\Docker\apline-data:/data apline /bin/ash
 ```
 
-![Volume 測試 1](/wp-content/uploads/2016/06/img_575b0e501d7a1.png)
+![Volume 測試 1](/images/2016-06-11-docker-for-window-beta-evaluate/img_575b0e501d7a1.png)
 
 沒有啟動 C:\ shared drivers 的情況下，並不會出錯，不過 container 內的確也看不到我預先放的 readme.txt 檔...
 
@@ -172,17 +172,17 @@ docker run -it --rm -v C:\Users\chicken\Docker\apline-data:/data apline /bin/ash
 cp /proc/version /data/aplinux-version.txt
 ```
 
-![Volume 測試 2](/wp-content/uploads/2016/06/img_575b0f6f7001d.png)
+![Volume 測試 2](/images/2016-06-11-docker-for-window-beta-evaluate/img_575b0f6f7001d.png)
 
 很遺憾，左邊 Windows 檔案總管果然看不到這新增的檔案，但是在 Linux shell 內 cat 的到內容...
 
 OK，離開這個 container, 刪除 image 後重新再 create 新的 container, 發現剛才的檔案還在，代表 volume 只是沒被正確的掛在 Local DISK，但是 Docker Engine 仍然有找個地方準備 Volume 讓 Container 掛起來用...
 
-![Volume 測試 3](/wp-content/uploads/2016/06/img_575b105bea9e7.png)
+![Volume 測試 3](/images/2016-06-11-docker-for-window-beta-evaluate/img_575b105bea9e7.png)
 
 同樣的實驗再做一次，唯一的差別，在於第二次我事先打開 C:\ 的 Shared Drives 設定:
 
-![共享設定啟用](/wp-content/uploads/2016/06/img_575b10ad9bf2c.png)
+![共享設定啟用](/images/2016-06-11-docker-for-window-beta-evaluate/img_575b10ad9bf2c.png)
 
 同樣用這道指令，進入 Apline Linux shell:
 
@@ -190,7 +190,7 @@ OK，離開這個 container, 刪除 image 後重新再 create 新的 container, 
 docker run -it --rm -v c:\Users\chicken\Docker\apline-data:/data apline /bin/ash
 ```
 
-![Volume 測試 4](/wp-content/uploads/2016/06/img_575b11002573f.png)
+![Volume 測試 4](/images/2016-06-11-docker-for-window-beta-evaluate/img_575b11002573f.png)
 
 這次果然順利 mount 到我只定的 Local DISK 了。同樣的，我在 Linux shell 內產生一個檔案:
 
@@ -200,15 +200,15 @@ cp /proc/version /data/aplinux-version.txt
 cat /data/aplinux-version.txt
 ```
 
-![Volume 測試 5](/wp-content/uploads/2016/06/img_575b114157a49.png)
+![Volume 測試 5](/images/2016-06-11-docker-for-window-beta-evaluate/img_575b114157a49.png)
 
 回到檔案總管看看，果然檔案有寫進來:
 
-![Volume 測試 6](/wp-content/uploads/2016/06/img_575b11959e3c8.png)
+![Volume 測試 6](/images/2016-06-11-docker-for-window-beta-evaluate/img_575b11959e3c8.png)
 
 同樣的，離開 & 刪除 container 後，重建一次，前面對檔案的異動都有保留下來:
 
-![Volume 測試 7](/wp-content/uploads/2016/06/img_575b11cc48af7.png)
+![Volume 測試 7](/images/2016-06-11-docker-for-window-beta-evaluate/img_575b11cc48af7.png)
 
 大功告成! 實驗順利結束 :D
 
@@ -232,7 +232,7 @@ Linux x86 這次就已經能執行了，ARM 我手邊則還沒有東西可以測
 docker run --help
 ```
 
-![Docker CLI Options](/wp-content/uploads/2016/06/img_575bb0070b9c4.png)
+![Docker CLI Options](/images/2016-06-11-docker-for-window-beta-evaluate/img_575bb0070b9c4.png)
 
 查了一下，這是 Windows Container 專用的參數啊 (就算你用 Docker for Windows 也沒用喔，是要 Windows Container)。找到正式說明這參數的文件，有兩份:
 

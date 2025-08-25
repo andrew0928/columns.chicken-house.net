@@ -35,7 +35,7 @@ http://columns.chicken-house.net/columns/post/2008/07/10/GoodProgrammer1.aspx  (
 
 本以為這樣就結束了，順手開啟 Google Search Console 看看新上線的 WordPress 被檢索的狀態... Ouch! 狀況還真不少...
 
-![](/wp-content/uploads/2015/11/img_563ca54e8f511.png)
+![](/images/2015-11-06-apache-rewritemap-urlmapping-case-study/img_563ca54e8f511.png)
 
 Google WebMaster Tools 還真的是好工具，幫我挖出了很多想都沒想到的連結。這是列出來 Google 認為應該存在的網址，卻檢索不到的清單及統計。從統計圖看的到，10/10 換完系統之後檢索錯誤的狀況就暴增，很明顯地這些都是轉換系統後產生的問題... Google 提供下載 .CSV 清單，要確認就方便多了..
 
@@ -66,7 +66,7 @@ http://columns.chicken-house.net/columns/post.aspx?id=52e998ee-ee02-4a66-bb27-af
 
 在[之前的文章](/2015/10/13/docker-%e5%88%9d%e9%ab%94%e9%a9%97-synology-dsm-%e4%b8%8a%e9%9d%a2%e6%9e%b6%e8%a8%ad-wordpress-redmine-reverse-proxy/)就已經提到，我的架構是在 NAS 用 Docker 架設 WordPress, 前端用 NAS 內建的 Apache 擔任 Reverse Proxy 來負責前端。既然都有前端擋著了，轉址這件事也理所當然地讓 Apache 負責。由於實在對 Apache 不熟 @@，我就找了最簡單的方法，其他就... 勤能補拙，靠寫 code 產生正確的設定擋來搞定他，於是第一版就上線了!
 
-[![NETWORK](/wp-content/uploads/2015/10/NETWORK.png)](/wp-content/uploads/2015/10/NETWORK.png)
+[![NETWORK](/images/2015-11-06-apache-rewritemap-urlmapping-case-study/NETWORK.png)](/images/2015-11-06-apache-rewritemap-urlmapping-case-study/NETWORK.png)
 圖: NAS 架設 WordPress + Reverse Proxy 架購說明
 
 找到 apache 最簡單的轉址方式，就是寫 Redirect 指令，Apache 會用 http status code 301 來轉，於是.. 如果要搞定全部的6種格式，得寫 2400 條 rules... 這種時候就很慶幸我自己會寫 code，搬出 Visual Studio 2012, 自動替這 400 篇文章產生這樣的 redirect 指令:
@@ -150,7 +150,7 @@ video-e5b08fe79aaee887aae5b7b1e59083e69db1e8a5bf-II 244
 
 # 成效評估
 
-![](/wp-content/uploads/2015/11/img_563cb0e81195b.png)
+![](/images/2015-11-06-apache-rewritemap-urlmapping-case-study/img_563cb0e81195b.png)
 
 其實效能到底有沒有改善很多，我是不曉得啦，但是光是衝著好維護這點就值得做了。我一樣從 google webmaster tools 抓了檢索的回應時間統計來看，我標上三個時間點，由左到右，依序是:
 
@@ -170,20 +170,20 @@ video-e5b08fe79aaee887aae5b7b1e59083e69db1e8a5bf-II 244
 
 補上 2015/11/09 從 google search console 看到的狀態，在轉移系統前 (2015/10/10 前)，Not Found 的網址穩定的維持在 25 筆，轉移後一直沒有好好的處理這個問題，直到處理完之後 (11/5) 才寫了這篇文章，將 google 回報的一千多筆 404 Not Found 網址全標記為 "已解決" 之後讓 google 重新檢索，目前只回報了仍然有 6 個網址檢索後仍是 404 ... 不過看了看網址內容，加上看了來源是哪裡來的，就決定不理她了 XD
 
-![](/wp-content/uploads/2015/11/img_563f897aa394e.png)
+![](/images/2015-11-06-apache-rewritemap-urlmapping-case-study/img_563f897aa394e.png)
 
 另外，再看看透過 google 檢索我的網站的回應時間。看來經過調整改善後，回應時間的水準也穩定下來，這水準已經跟當初 Hosting 在 GoDaddy 那邊的水準不相上下了，老實說我本來預期會慢上一截的，現在有這種表現，其實還不錯啦，可以接受 :D
 
-![](/wp-content/uploads/2015/11/img_563f8aa579587.png)
+![](/images/2015-11-06-apache-rewritemap-urlmapping-case-study/img_563f8aa579587.png)
 
 # 成效評估 (2015/11/13 更新):
 
 Google Search Console 總算提供到 11/11 的統計資料了，離 RewriteMap 機制上線的時間 (11/06) 已經五天過去了，可以來檢視成果了 :D
 
-![](/wp-content/uploads/2015/11/img_5644cdd2c7b64.png)
+![](/images/2015-11-06-apache-rewritemap-urlmapping-case-study/img_5644cdd2c7b64.png)
 
 一樣，先來看看 404 not found 的數量。跟 11/09 的統計差不多，略增加了幾筆，不過增加的就真的是應該回應 404 的錯誤連結了，看來這部分沒有問題，可以收工了。
 
-![](/wp-content/uploads/2015/11/img_5644ce9385107.png)
+![](/images/2015-11-06-apache-rewritemap-urlmapping-case-study/img_5644ce9385107.png)
 
 接下來來看看回應時間的改善。由於之前才剛啟用過 WP cache plugins, 因此大部分的效能改善是來自 cache 的關係。多了五天的 LOG，其實是可以多看出一些端倪的。上圖我標了兩個紅點，由左至右，第一個是 11/6，就是改用 RewriteMap 機制的時間點。在那之前可以看到因為 cache 帶來的效能改善已經穩定下來了，開始持平。 11/6 ~ 11/11 還有些微的改善 (平均回應時間從 1130ms 下降到 907ms)，這部分除了 RewriteMap 之外就沒有任何其他異動了。看來 2400 條 rules 改寫之後，在 NAS 這種運算能力不高的系統上，改善還算明顯，約有 15% ~ 20% 的改善，算是超出預期的收穫了

@@ -19,4 +19,4 @@ wordpress_postid: 265
 
 咳咳, 優秀的青年 329 是會努力工作的...
 
-當然, 這句話是寫給那些有放假的人看的 ![emotion](/Emoticons/emotion-39.gif)
+當然, 這句話是寫給那些有放假的人看的 ![emotion](/images/2005-03-29-excellent-youth-no-holiday-329/emotion-39.gif)

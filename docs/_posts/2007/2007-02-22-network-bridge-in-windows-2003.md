@@ -28,11 +28,11 @@ wordpress_postid: 182
 
 麻煩的是網路設定的地方... 原本的架構是這樣, 有點小複雜, 除了基本的 NAT 之外, server 上的 RRAS 也設定了 demand-dial, 會自動連到公司的 VPN, 同時也是 VPN server, 接受我在外面撥到家裡的區域網路, 其它 DNS, DHCP, IIS, Net Share 等等的就不畫了.. 
 
-![](/wp-content/be-files/files/58684.gif)
+![](/images/2007-02-22-network-bridge-in-windows-2003/58684.gif)
 
 最初的想法是, 直接多增加一個網段, 專門放 GBE 的 node. 不過家裡也才幾台電腦, 這樣弄好像太小題大作了, 加上這麼一來設定就越來越複雜了, DHCP 要調, static routing 要改... [:'(], 後來放棄, 直接用最不用大腦的 solution ... software networking bridge! 架構如下: 
 
-![](/wp-content/be-files/files/37191.gif)
+![](/images/2007-02-22-network-bridge-in-windows-2003/37191.gif)
 
 還好 windows 2003 有內建 bridge, 正好把 LAN 的兩張網卡串起來, 邏輯上只有一張 network interface, 只是實體接的線路有兩條 (100mbps / 1000mbps), 啥軟體設定都不用改... 
 

@@ -37,8 +37,8 @@ wordpress_postid: 227
 
 | 舊的鍵盤 | 新的鍵盤 |
 |----------|----------|
-| ![舊鍵盤1](/wp-content/be-files/X31KB01.jpg) | ![新鍵盤1](/wp-content/be-files/X31KB04.jpg) |
-| ![舊鍵盤2](/wp-content/be-files/X31KB02.jpg) | ![新鍵盤2](/wp-content/be-files/X31KB05.jpg) |
-| ![舊鍵盤3](/wp-content/be-files/X31KB03.jpg) | ![新鍵盤3](/wp-content/be-files/X31KB06.jpg) |
+| ![舊鍵盤1](/images/2006-07-21-thinkpad-x31-recovery-story/X31KB01.jpg) | ![新鍵盤1](/images/2006-07-21-thinkpad-x31-recovery-story/X31KB04.jpg) |
+| ![舊鍵盤2](/images/2006-07-21-thinkpad-x31-recovery-story/X31KB02.jpg) | ![新鍵盤2](/images/2006-07-21-thinkpad-x31-recovery-story/X31KB05.jpg) |
+| ![舊鍵盤3](/images/2006-07-21-thinkpad-x31-recovery-story/X31KB03.jpg) | ![新鍵盤3](/images/2006-07-21-thinkpad-x31-recovery-story/X31KB06.jpg) |
 
 看起來我比較喜歡英文的這片... 乾淨多了, 那個 "ThinkPad" 的鈕看起來也比較順眼... 少了注音大概就沒有人會想來用我的電腦... 不過最重要的是, 以往 ThinkPad Keyboard 的手感又回來了.. [:'(]

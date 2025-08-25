@@ -14,7 +14,7 @@ wordpress_postid: 1218
 開始之前，先來看一個實際的案例... [StackOverflow](http://www.stackoverflow.com)，開發人員很愛用的網站，每隔幾年都會在官方的部落格上面公布他的系統架構。來看看 2016 版的架構演進成什麼樣子 (原文: [Stack Overflow: The Architecture - 2016 Edition](https://nickcraver.com/blog/2016/02/17/stack-overflow-the-architecture-2016-edition/))
 
 
-![](/wp-content/uploads/2016/05/img_572b734171d80.png)
+![](/images/2016-05-05-archview-net-open-source/img_572b734171d80.png)
 
 為何我特地拿 stackoverflow 網站的架構當作例子? 其實這個例子蠻特別的，導致我幾年前第一次看到就留下深刻的印象。這網站核心的部分，其實都是用 .NET 開發的，包含 Web Tier 跟 Service Tier 都是。理所當然的，資料庫也用 Microsoft SQL Server。但是這麼大規模的網站，也混搭了不少的 Linux Server, 負責 Search Server (Elastic Search) 跟 Cache Server (Redis), 前端的 Load Balancers 也沒有用 Microsoft IIS ARR (IIS Application Request Routing), 而是採用了 Linux + HAProxy..
 
@@ -90,7 +90,7 @@ Container, Windows 2016 開始支援 Windows Container, 以後 Windows Applicati
 
 我就用我理想中的技術及架構，來重現同樣的組態吧:
 
-![](/wp-content/uploads/2016/05/img_5728e4415f238.png)
+![](/images/2016-05-05-archview-net-open-source/img_5728e4415f238.png)
 
 如果你正好看過我前一篇文章 ([Rancher – 管理內部及外部 (Azure) Docker Cluster 的好工具](http://columns.chicken-house.net/2016/04/29/rancher-on-azure-lab/)) 的話，就會知道這環境非常容易就可以架設起來，這樣的架構是非常容易達成的。這其中有幾個關鍵技術，我個人非常推薦過去是 Microsoft 陣營的開發人員現在就去學習，包括 .NET Core、Open Source 常見的主流元件、以及容器化技術 Docker 。這三項分別代表了開發、主流元件、服務佈署三大領域。
 

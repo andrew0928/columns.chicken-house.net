@@ -27,4 +27,4 @@ wordpress_postid: 179
 
 果然有圖有真相, 在手機上[看到小熊子拍的櫻花](http://michadel.chicken-house.net/blogs/michadel/archive/2007/02/26/40.aspx), 突然覺的整支手機的格調就不一樣了, 哈哈.. 不過最近手機越用越兇, 沒事躺床上就開 bt 更新 rss 當報紙看, 三不五時就拿來按一下, home screen 放的 plug in 變多, 現在三天就得充一次電... Orz, 真是有一好沒兩好...
 
-![](/wp-content/be-files/files/45041.jpg)
+![](/images/2007-02-28-new-phone-awesome-part-iii/45041.jpg)

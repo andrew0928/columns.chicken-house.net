@@ -35,7 +35,7 @@ wordpress_postid: 739
 
 第二回合既然要探討 CPU 運算效能，那就來考驗看看 .NET Core 在各種平台下的 CPU Bound 運算的優劣吧。首先我找了段 cpu bound 的代表: 計算指定位數的圓周率程式碼 (計算 10000 位數)。這計算會耗費大量的 CPU 資源，但是不會耗用大量 I/O 及 Memory。透過 [System.Threading.Tasks](https://msdn.microsoft.com/en-us/library/system.threading.tasks.task(v=vs.110).aspx) 同時計算 1 / 2 / 4 / 8 / 16 / 32 / 64 次 10000 位的圓周率，並紀錄執行所花費的時間。同樣的測試，則會在不同的平台，在不同的硬體組態下，用 1 core / 2 core / 4 core / 8 core 的硬體配備，分別執行一次。
 
-![](/wp-content/images/2016-01-15-dnxcore50_05_compute_pi_test/img_56967d2029838.png)
+![](/images/2016-01-15-dnxcore50_05_compute_pi_test/img_56967d2029838.png)
 
 先用一張簡單的時序圖，解釋一下這次測試的指標。上圖的 X 軸代表時間，由左至右。丟了 5 個 task 給 .NET Core, 讓他自己去排程處理。排程有很多種策略，這邊我就不另外控制，完全按照 Task 預設的模式來排程。
 
@@ -89,7 +89,7 @@ VM 的規格跟上次一樣 (如下)， 不過核心數則會分別用 1 / 2 / 4
 
 每個平台測試完，會產出一份這樣的數據結果出來 (時間的單位是 ms):
 
-![](/wp-content/images/2016-01-15-dnxcore50_05_compute_pi_test/img_56968d3f83288.png)
+![](/images/2016-01-15-dnxcore50_05_compute_pi_test/img_56968d3f83288.png)
 
 測試的程式碼如下，我把這次跟上次的 [source code](https://github.com/andrew0928/blog-netcore-cross-platform-test) 都放上 github 了，有興趣的朋友可以自己拉一份下來玩玩.. 主程式如下:
 
@@ -102,19 +102,19 @@ OK，該說明的都說明完了，來看測試結果:
 
 # #1 Windows Server 2012R2 (server core)
 
-![](/wp-content/images/2016-01-15-dnxcore50_05_compute_pi_test/img_56968ead5dbc6.png)
+![](/images/2016-01-15-dnxcore50_05_compute_pi_test/img_56968ead5dbc6.png)
 
 密密麻麻的數字，應該沒啥人想看吧 XD，我直接貼圖表好了。不過圖表好幾個，有些沒代表性的我用 2012R2 當代表貼一次就好。第一張圖是看看平行處理在多核心的狀況下有沒有發揮效果?
 
-![](/wp-content/images/2016-01-15-dnxcore50_05_compute_pi_test/img_5697bf0537be2.png)
+![](/images/2016-01-15-dnxcore50_05_compute_pi_test/img_5697bf0537be2.png)
 
 這圖表的 Y 軸代表執行時間，X 軸分為四區，分別代表 1 2 4 8 個核心的執行狀況。而每區的每種顏色，則代表執行 1 2 4 8 次計算。我先掠過 16 32 64 次的數據，這樣關係看得比較清楚。可以看到 1 core 的狀況下，計算次數加倍，時間就會加倍，但是隨著 core 數量的增加，total execute time 在 core 數還沒用盡時的測試結果，幾乎是一樣的..。
 
-![](/wp-content/images/2016-01-15-dnxcore50_05_compute_pi_test/img_5697c15611c7e.png)
+![](/images/2016-01-15-dnxcore50_05_compute_pi_test/img_5697c15611c7e.png)
 
 這圖代表 average execute time 的變化關係。跟 total execute time 的關係類似，隨著 core 數量的增加，average execute time 的增加幅度就趨緩了，代表 thread pool 其實是有效的在控制 threads 總數，沒有讓過多的 threads 在系統內執行，避免沒有提升整體效能，還造成額外的負擔的狀況。
 
-![](/wp-content/images/2016-01-15-dnxcore50_05_compute_pi_test/img_5697c01884e41.png)
+![](/images/2016-01-15-dnxcore50_05_compute_pi_test/img_5697c01884e41.png)
 
 接著看看 efficiency-rate, 一樣如預期，隨著 core 數量的增加，效率提升大體上也跟 core 數量呈正比。我的設備是 i7-2600k, 是個 4core / 8 thread 架構的 CPU，可以看到在 4 core 時的效率提升還成比例，但是增加到 8 core 時的進步就沒有那麼明顯了，可見 cpu core 跟 cpu thread 的作用還是有差別的。intel 的 [hyper-threading 技術](http://www.intel.com/content/www/us/en/architecture-and-technology/hyper-threading/hyper-threading-technology.html)，有興趣的就看官方說明吧.. 這邊跳過。
 
@@ -122,19 +122,19 @@ OK，該說明的都說明完了，來看測試結果:
 
 # #2 Windows Server 2016 Tech Preview 4 (nano server)
 
-![](/wp-content/images/2016-01-15-dnxcore50_05_compute_pi_test/img_56968eee469c0.png)
+![](/images/2016-01-15-dnxcore50_05_compute_pi_test/img_56968eee469c0.png)
 
 # #3 Ubuntu Server 15.10 + Docker (image: microsoft/dotnet)
 
-![](/wp-content/images/2016-01-15-dnxcore50_05_compute_pi_test/img_56969885d1767.png)
+![](/images/2016-01-15-dnxcore50_05_compute_pi_test/img_56969885d1767.png)
 
 # #4 Boot2Docker 1.9 + Docker (image: microsoft/dotnet)
 
-![](/wp-content/images/2016-01-15-dnxcore50_05_compute_pi_test/img_56968f4a5c0ba.png)
+![](/images/2016-01-15-dnxcore50_05_compute_pi_test/img_56968f4a5c0ba.png)
 
 # #5 (對照組, 純參考用) 我的PC, Windows 10 Enterprise
 
-![](/wp-content/images/2016-01-15-dnxcore50_05_compute_pi_test/img_56968fad5bee3.png)
+![](/images/2016-01-15-dnxcore50_05_compute_pi_test/img_56968fad5bee3.png)
 
 附帶一提，單純當作對照組。因為是實體機器，我沒辦法關掉其中幾個 core XD, 因此這組數據只有 8 core 這區 (嚴格的來說是 4 core 8 thread .. XD)
 
@@ -142,11 +142,11 @@ OK，該說明的都說明完了，來看測試結果:
 
 我本來還期望不同平台，除了看到效能差距之外，會看到有不同的 patterns 出現，看來這邊沒有意外發生 XD，不過效能的差距還是有的，這次我把四個平台數據擺在一起看。
 
-![](/wp-content/images/2016-01-15-dnxcore50_05_compute_pi_test/img_5697c39e4b005.png)
+![](/images/2016-01-15-dnxcore50_05_compute_pi_test/img_5697c39e4b005.png)
 
 數據繁多，我就挑關鍵的部分來看了。我針對 64 次計算的數據，把每個平台跟核心的組合列在一起看:
 
-![](/wp-content/images/2016-01-15-dnxcore50_05_compute_pi_test/img_5697c3e869f9c.png)
+![](/images/2016-01-15-dnxcore50_05_compute_pi_test/img_5697c3e869f9c.png)
 
 有點意思的結果，跟之前 memory test 的結果有點出入，.NET core 在 windows 平台上的最佳化果然還是有優勢的，除了 1 core 環境下，最輕量的 boot2docker 速度最快之外，其他環境下都是 windows 家族領先。
 
@@ -154,17 +154,17 @@ OK，該說明的都說明完了，來看測試結果:
 
 # 綜合比較 - Average Execute Time
 
-![](/wp-content/images/2016-01-15-dnxcore50_05_compute_pi_test/img_5697c57aa738a.png)
+![](/images/2016-01-15-dnxcore50_05_compute_pi_test/img_5697c57aa738a.png)
 
-![](/wp-content/images/2016-01-15-dnxcore50_05_compute_pi_test/img_5697c596917c0.png)
+![](/images/2016-01-15-dnxcore50_05_compute_pi_test/img_5697c596917c0.png)
 
 接著是 average execute time 的比較，一樣，圖表我只留下 64 次計算的結果。結果跟 total execute time 類似，運算速度還是 windows server 家族維持領先。很意外的是，Ubuntu 在這部分的表現敬陪末座，原本想說 linux 極度輕量化的環境，跑起來應該會比 windows server 輕快許多，結果不是如此。一方面 .NET core 在自家的 windows server 最佳化做的最好之外，我想 2016 nano server 極度的輕量化之後，在這邊也看到效果了，不但拚過 ubuntu 預設安裝，連 boot2docker 這種 boot cd 只有 20mb 的 linux 都拚贏了，真是不簡單 (Y)
 
 # 綜合比較 - Efficiency Rate
 
-![](/wp-content/images/2016-01-15-dnxcore50_05_compute_pi_test/img_5697c755b02c8.png)
+![](/images/2016-01-15-dnxcore50_05_compute_pi_test/img_5697c755b02c8.png)
 
-![](/wp-content/images/2016-01-15-dnxcore50_05_compute_pi_test/img_5697c76a62687.png)
+![](/images/2016-01-15-dnxcore50_05_compute_pi_test/img_5697c76a62687.png)
 
 最後一張，其實也沒什麼好比的了 XD，一樣是 windows 2016 獲勝。531% 的效率改善，遙遙領先第二名的 windows 2012 470% ! 不過，我想這個除了最佳化做的好之外，跟 windows 2016 在 1 core 環境下的表現最糟，一增一減下來，進步的比例就放大了，應該也有關係吧!
 

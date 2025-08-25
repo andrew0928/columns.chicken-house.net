@@ -9,12 +9,12 @@ tags: ["API", "SDK", "microservice", "系列文章", "ASP.NET", "架構師"]
 published: true
 comments: true
 redirect_from:
-logo: /wp-content/uploads/2016/10/apisdk-03-gandalf.jpg
+logo: /images/2016-10-31-microservice5/apisdk-03-gandalf.jpg
 ---
 
 上一篇意外的受歡迎，那麼續集就不富樫了，sample code 準備好就開始動工...
 
-![You shall not pass](/wp-content/uploads/2016/10/apisdk-03-gandalf.jpg)
+![You shall not pass](/images/2016-10-31-microservice5/apisdk-03-gandalf.jpg)
 
 這篇要講向前相容，不知為何我就直覺的聯想到甘道夫對抗炎魔的場景了 XDD，如果你的 API 沒做好這件事，那麼使用你服務的 APP 結果就會...
 
@@ -46,7 +46,7 @@ logo: /wp-content/uploads/2016/10/apisdk-03-gandalf.jpg
 
 這邊我就不比較了，我採取的是 (3) 的策略，如這張圖所示，SERVER 隨著時間推進，不斷衍生新版本出來，每次都只保留新版本，同時要保證能
 跟舊版本的 Client 相容，這麼一來大家都用同一個版本就能相安無事:
-![Compatible Versioning](/wp-content/uploads/2016/10/apisdk-03-compatible-versioning.png)
+![Compatible Versioning](/images/2016-10-31-microservice5/apisdk-03-compatible-versioning.png)
 
 看起來不難嘛，只要相容就好了。說的簡單，實做起來挑戰可不小。想像一下你一旦宣告了一個 class, 你寫過的 method 以後遠永不能
 把它拿掉，也不能修改 signature, 那是很折磨人的一件事。有時一時手癢，想說先改一下測試看看，結果就這麼忘掉就 commit 跟 push 出去...
@@ -241,7 +241,7 @@ API 我們也可以替他定義版本，例如這是 10.26 版的 API，上個�
 其實定義直接看 MSDN 對於 [System.Version](https://msdn.microsoft.com/zh-tw/library/system.version(v=vs.110).aspx) 
 的說明就可以看的出來。以我現在在用的 Visual Studio 2015 為例:
 
-![VS2015 ABOUT](/wp-content/uploads/2016/10/apisdk-03-vs2015-about.png)
+![VS2015 ABOUT](/images/2016-10-31-microservice5/apisdk-03-vs2015-about.png)
 
 14.0.25424.00 就是版本號碼，我節錄上面 MSDN 的一段說明:
 
@@ -333,7 +333,7 @@ interface IBirdsApiContract : IApiContract
 
 這邊我先不檢查 (檢查的規矩後面談)，只在 output window 那邊印出版本號碼。查看 Visual Studio 的 output window 可以看到:
 
-![debug output](/wp-content/uploads/2016/10/apisdk-03-debug-output.png)
+![debug output](/images/2016-10-31-microservice5/apisdk-03-debug-output.png)
 
 
 # 版本相容性政策 (SDK init 時檢查)
@@ -343,7 +343,7 @@ interface IBirdsApiContract : IApiContract
 既然要 "檢查" 版本是否相容，那就跟單元測試一樣，要有期望的結果，跟實際的結果。兩者比對就知道是否合乎期待。前面的實做，我們已經可以
 取得 API service 實際的版本號碼了，那麼期待的版本號碼應該是什麼?
 
-![Compatible Versioning](/wp-content/uploads/2016/10/apisdk-03-compatible-versioning.png)
+![Compatible Versioning](/images/2016-10-31-microservice5/apisdk-03-compatible-versioning.png)
 
 最前面提到的 API 版本策略，這張圖要拿出來重新檢視一次。
 
@@ -549,11 +549,11 @@ Press any key to continue . . .
 
 打開 debug mode 開始 trace, 在 API server 端的 action filter 就已經觸發 exception 了:
 
-[![server exception](/wp-content/uploads/2016/10/apisdk-03-exception-server.png)](/wp-content/uploads/2016/10/apisdk-03-exception-server.png)
+[![server exception](/images/2016-10-31-microservice5/apisdk-03-exception-server.png)](/images/2016-10-31-microservice5/apisdk-03-exception-server.png)
 
 這 Exception 會繼續傳遞到前端 SDK，SDK 會接收到 ```HttpClient``` 觸發的 exception:
 
-[![client exception](/wp-content/uploads/2016/10/apisdk-03-exception-client.png)](/wp-content/uploads/2016/10/apisdk-03-exception-client.png)
+[![client exception](/images/2016-10-31-microservice5/apisdk-03-exception-client.png)](/images/2016-10-31-microservice5/apisdk-03-exception-client.png)
 
 
 (原諒我偷懶，寫太多 error handling 的 code, 看起來就會變很阿雜，不適合當 sample code XD)

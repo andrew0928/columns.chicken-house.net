@@ -6,10 +6,10 @@ tags: ["系列文章", "架構師", "CLI", "C#", "PIPELINE", "串流處理", "TI
 published: true
 comments: true
 redirect_from:
-logo: /wp-content/images/2019-06-20-netcli-tips/2019-06-20-23-35-14.png
+logo: /images/2019-06-20-netcli-tips/2019-06-20-23-35-14.png
 ---
 
-![](/wp-content/images/2019-06-20-netcli-tips/2019-06-20-23-35-14.png)
+![](/images/2019-06-20-netcli-tips/2019-06-20-23-35-14.png)
 
 延續[前一篇](/2019/06/15/netcli-pipeline/)，在寫 demo code 的時候想到的小技巧，但是文章內容時在塞不下了，所以另外補了個番外篇，就當作日常開發的小技巧分享吧 (搞不好這種短篇的還比較受歡迎 T_T)。[前一篇](/2019/06/15/netcli-pipeline/)介紹的是 CLI + PIPELINE 的開發技巧。我就以這為主軸，分享一下幾個相關的開發技巧吧。其中一個就是如何透過 pipeline 傳遞物件，另一個就是善用 LINQ 來處理 pipeline 傳來的物件。
 

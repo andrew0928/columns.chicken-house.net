@@ -21,4 +21,4 @@ wordpress_postid: 232
 
 我的硬碟到底要加多大, 才會顯示這訊息? Orz...
 
-![磁碟空間太多](/wp-content/be-files/磁碟空間太多.jpg)
+![磁碟空間太多](/images/2006-02-14-hard-disk-space-message-question/磁碟空間太多.jpg)

@@ -21,4 +21,4 @@ wordpress_postid: 260
 
 URL: [http://www.skype.com/intl/](http://www.skype.com/intl/)
 
-![Skype International](/wp-content/be-files/skype-international.gif)
+![Skype International](/images/2005-04-08-annoying-dont-want-to-use-skype/skype-international.gif)

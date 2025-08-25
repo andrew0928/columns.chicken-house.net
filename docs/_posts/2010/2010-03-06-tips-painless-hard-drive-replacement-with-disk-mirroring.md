@@ -32,25 +32,25 @@ wordpress_postid: 20
 
 1. 我原本的磁碟組態是長這個樣子 (圖我是事後用 VM 模擬的)，其中 Disk 1 (8.00GB) 就是我要換掉的...
 
-   ![image](/wp-content/be-files/image.png)
+   ![image](/images/2010-03-06-tips-painless-hard-drive-replacement-with-disk-mirroring/image.png)
 
 2. 關機裝上一顆新的硬碟 Disk 2 之後，變成這樣 (Disk 2 (16.00GB) 是新的硬碟):
 
-   ![image](/wp-content/be-files/image_1.png)
+   ![image](/images/2010-03-06-tips-painless-hard-drive-replacement-with-disk-mirroring/image_1.png)
 
 3. 把 disk1 / disk2 做成磁碟鏡像之後，就變成這樣:
 
-   ![image](/wp-content/be-files/image_2.png)
+   ![image](/images/2010-03-06-tips-painless-hard-drive-replacement-with-disk-mirroring/image_2.png)
 
 4. 鏡像做好，Resync 完成後，就可以中斷鏡像了。中斷之後變成這個樣子:
 
-   ![image](/wp-content/be-files/image_3.png)
+   ![image](/images/2010-03-06-tips-painless-hard-drive-replacement-with-disk-mirroring/image_3.png)
 
 5. 目前為止，看來磁碟轉移已經完成了，剩下就是想辦法把後面的空間吃進來。接下來的就用 Extend Volume 括大 D: 的大小:
 
-   ![image](/wp-content/be-files/image_4.png)
+   ![image](/images/2010-03-06-tips-painless-hard-drive-replacement-with-disk-mirroring/image_4.png)
 
-   ![image](/wp-content/be-files/image_5.png)
+   ![image](/images/2010-03-06-tips-painless-hard-drive-replacement-with-disk-mirroring/image_5.png)
 
 之後就大功告成了。這方法不但簡單，而且整個過程中，全程 D:\ 都可以正常的使用。除了 (1) --> (2) 需要關機裝硬碟之外， (2) ~ (5) 全程，放在 D:\ 的 SQL DB，IIS 網站，還有 pagefile 通通都正常運作中。有了 windows server 的磁碟陣列還真是好用啊 :D
 

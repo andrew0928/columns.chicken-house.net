@@ -56,7 +56,7 @@ wordpress_postid: 9
 
 當然，這篇是 MSDN 的文章，自然也提到了 Microsoft 的技術 (SQL server) 如何因應這三種不同的需求。這張表格是整篇文章的精華了，很清楚的講到三種模式，對各種問題的最佳處理方式。表格貼不過來 @@，我直接用截圖來說明:
 
-![image](/wp-content/be-files/image_15.png)
+![image](/images/2013-03-12-azure-multi-tenancy-application-1-design-concepts/image_15.png)
 
 簡單舉個例子，Extensibility Patterns 這欄說明的是如何擴充你的資料? 這裡指的擴充不是指效能，是只你要如何增加新的資料型態?
 

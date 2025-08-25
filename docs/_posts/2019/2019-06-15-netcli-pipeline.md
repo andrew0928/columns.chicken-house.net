@@ -9,9 +9,9 @@ published: true
 comments_disqus: true
 comments_gitalk: true
 redirect_from:
-logo: /wp-content/images/2019-06-15-netcli-pipeline/2019-06-17-01-35-31.png
+logo: /images/2019-06-15-netcli-pipeline/2019-06-17-01-35-31.png
 ---
-![](/wp-content/images/2019-06-15-netcli-pipeline/2019-06-17-01-35-31.png)
+![](/images/2019-06-15-netcli-pipeline/2019-06-17-01-35-31.png)
 
 最近工作上碰到個案子，其中一個環節需要開發 CLI (Command Line Interface) 的工具，用來處理上百萬筆的資料，處理的步驟有好幾步，希望能按照步驟獨立成數個 CLI ..。資料筆數跟處理步驟是兩個不同的維度，以開發角度當然是按照步驟來區隔 CLI，但是以執行的效能考量則是希望處理好一筆資料的所有步驟，然後再處理下一筆。我跟同事提了 PIPELINE 的作法，也簡單做了些 POC 來說明可行性，所以才起了寫這篇文章的念頭。
 
@@ -44,7 +44,7 @@ logo: /wp-content/images/2019-06-15-netcli-pipeline/2019-06-17-01-35-31.png
 
 管線處理運用得當的話，能夠大幅提升生產效能，也能減化生產程序，可謂一舉多得。另一個常被運用的例子就是 CPU 的指令，一個指令的執行，切成解碼等等多道程序，沒有 pipeline 的狀況下，每個指令至少都得花 5 cycle (就是常聽到的時脈) 以上來執行。如果用上 pipeline 技巧，則可以讓 CPU 每個時脈週期都有一道指令 (甚至更多) 被執行完成。
 
-![](/wp-content/images/2019-06-15-netcli-pipeline/2019-06-17-01-48-32.png)
+![](/images/2019-06-15-netcli-pipeline/2019-06-17-01-48-32.png)
 
 [Instruction Pipeline](https://microchipdeveloper.com/32bit:mx-arch-pipeline), 說明 CPU 指令執行的過程。簡單的說拆成多個階段，用 PIPELINE 的方式執行，理想狀況下拆越多階，整體效能就越高。
 
@@ -66,7 +66,7 @@ logo: /wp-content/images/2019-06-15-netcli-pipeline/2019-06-17-01-35-31.png
 
 
 **Batch Processing**:
-![](/wp-content/images/2019-06-15-netcli-pipeline/2019-06-15-03-12-36.png)  
+![](/images/2019-06-15-netcli-pipeline/2019-06-15-03-12-36.png)  
 
 * 第一筆資料完成時間: N x (M1 + M2 + M3)
 * 全部(最後一筆)完成時間: N x (M1 + M2 + M3)
@@ -74,7 +74,7 @@ logo: /wp-content/images/2019-06-15-netcli-pipeline/2019-06-17-01-35-31.png
 
 
 **Stream Processing**:
-![](/wp-content/images/2019-06-15-netcli-pipeline/2019-06-15-03-13-05.png)
+![](/images/2019-06-15-netcli-pipeline/2019-06-15-03-13-05.png)
 
 * 第一筆資料完成時間: M1 + M2 + M3
 * 全部(最後一筆)完成時間: N x (M1 + M2 + M3)
@@ -83,7 +83,7 @@ logo: /wp-content/images/2019-06-15-netcli-pipeline/2019-06-17-01-35-31.png
 
 
 **Pipeline Processing**:
-![](/wp-content/images/2019-06-15-netcli-pipeline/2019-06-15-03-13-20.png)
+![](/images/2019-06-15-netcli-pipeline/2019-06-15-03-13-20.png)
 
 * 第一筆資料完成時間: M1 + M2 + M3
 * 全部(最後一筆)完成時間: N x Max(M1, M2, M3)  (如果 M1 = M2 = M3, 那麼就有三倍的效率了)
@@ -397,12 +397,12 @@ static IEnumerable<DataModel> GetModels()
 
 改完後重新執行這兩個案例。這次我們不看 output, 我們開啟 performance profiler 來看看記憶體使用量:
 
-![](/wp-content/images/2019-06-15-netcli-pipeline/2019-06-15-04-40-18.png)
+![](/images/2019-06-15-netcli-pipeline/2019-06-15-04-40-18.png)
 
 
 為了避免[以前踩過的地雷](/2015/12/29/dnxcore50_04_linux_and_summary/) (沒有填資料進去的記憶體，OS / CLR 可能會幫我最佳化延遲 allocale, 造成這測試根本沒作用 XDD)，因此配置出來的記憶體我都填亂數進去，執行速度比較慢。先來看看 [DEMO1](#demo1) 的數據:
 
-![](/wp-content/images/2019-06-15-netcli-pipeline/2019-06-15-04-37-55.png)
+![](/images/2019-06-15-netcli-pipeline/2019-06-15-04-37-55.png)
 
 
 可以看到記憶體一直飆上去，前面 45 sec 都在準備物件，配置了 5GB 記憶體，大約 45 sec 後才開始在執行程式。結束之後 5GB 記憶體都釋放出來了。過程中我就算按了 force GC 也沒有用，就是會吃這麼多記憶體。
@@ -414,12 +414,12 @@ static IEnumerable<DataModel> GetModels()
 
 接著來看 [DEMO2](#demo2) :
 
-![](/wp-content/images/2019-06-15-netcli-pipeline/2019-06-15-04-43-35.png)
+![](/images/2019-06-15-netcli-pipeline/2019-06-15-04-43-35.png)
 
 
 過程可以看到記憶體仍然會往上飆，但是我再跑一次，這次我看到往上飆我就順手按一下 [Force GC] 看看:
 
-![](/wp-content/images/2019-06-15-netcli-pipeline/2019-06-15-04-45-12.png)
+![](/images/2019-06-15-netcli-pipeline/2019-06-15-04-45-12.png)
 
 上面有紅色的標記，就是 GC completed 的 mark, 可以看到 GC 是有效的，代表你的程式已經釋放物件了，只是 CLR 沒那麼勤勞沒有立刻回收而已。記憶體使用量大致上都維持再 1 ~ 2GB, 意思是過程中只需要處理中的物件被保留在記憶體內就好了，測試資料不論改成多少筆，測試結果都差不多。
 
@@ -532,12 +532,12 @@ Press any key to close this window . . .
 
 我把 log 上的資訊，用視覺化的時序圖來表達。從左到右是 P1 ~ P3 的處理過程，從上到下代表時間的進行。同樣顏色的區塊代表同一筆資料。畫成圖你比較能想像執行的順序:
 
-![](/wp-content/images/2019-06-15-netcli-pipeline/2019-06-19-01-19-05.png)
+![](/images/2019-06-15-netcli-pipeline/2019-06-19-01-19-05.png)
 
 
 為了公平比較效能，這段測試一樣是以 buffer size = 1024 bytes 為主下去測試的。我們一樣補一個 1GB buffer 的測試，看看 memory usage:
 
-![](/wp-content/images/2019-06-15-netcli-pipeline/2019-06-15-05-39-56.png)
+![](/images/2019-06-15-netcli-pipeline/2019-06-15-05-39-56.png)
 
 有趣的來了。我一樣在測試過程中不斷的點 Force GC (可以從上面的 GC completed mark 看到我點了幾下)。這個版本跑出來的邏輯跟 [DEMO2](#demo2) 一樣，記憶體使用也維持平穩固定，但是固定的記憶體使用量卻比 [DEMO2](#demo2) 多... 
 
@@ -682,7 +682,7 @@ public static IEnumerable<DataModel> StreamAsyncProcessPhase1(IEnumerable<DataMo
 
 因為我在每個階段都動了一樣的手腳，因此整個處理的流程，就再允許的限制下，部分的被平行化處理了。用視覺化的方式來呈現這過程:
 
-![](/wp-content/images/2019-06-15-netcli-pipeline/2019-06-15-06-23-30.png)
+![](/images/2019-06-15-netcli-pipeline/2019-06-15-06-23-30.png)
 
 左邊是 Log 的時間，上面的 P1 ~ P3 就是 Log 上的 P1 ~ P3, 每一筆資料都有開始結束，我用 1S / 1E 代表第一筆資料的每個階段啟始結束時間，把他標在正確的格子上。最後加點美工，把他框起來上色 (同樣顏色代表同一筆 data)，就變成這張圖了。
 
@@ -691,12 +691,12 @@ public static IEnumerable<DataModel> StreamAsyncProcessPhase1(IEnumerable<DataMo
 
 再繼續之前，我一樣補一下記憶體使用的狀況:
 
-![](/wp-content/images/2019-06-15-netcli-pipeline/2019-06-15-05-59-01.png)
+![](/images/2019-06-15-netcli-pipeline/2019-06-15-05-59-01.png)
 (記憶體, 5)
 
 因為這方式的平行化程度更高了，代表要保留的半成品也更多，因此記憶體使用量也變多了。由於我們才測五筆看不大出來記憶體使用量是否平穩，我改成 20 筆再測一次:
 
-![](/wp-content/images/2019-06-15-netcli-pipeline/2019-06-15-06-01-31.png)
+![](/images/2019-06-15-netcli-pipeline/2019-06-15-06-01-31.png)
 (記憶體, 50)
 
 看來結果一樣維持平穩，只是平行處理的前提下，必須保留在記憶體內的資料比前面的 demo 更多而已。
@@ -821,11 +821,11 @@ Press any key to close this window . . .
 
 記憶體使用的狀況, 記憶體直升到 6GB 才掉下來:
 
-![](/wp-content/images/2019-06-15-netcli-pipeline/2019-06-19-00-01-15.png)
+![](/images/2019-06-15-netcli-pipeline/2019-06-19-00-01-15.png)
 
 跟 [DEMO4](#demo4) 當對照組，一樣把筆數擴大到 20 筆，看看記憶體使用量, 記憶體飆升到 14GB:
 
-![](/wp-content/images/2019-06-15-netcli-pipeline/2019-06-19-00-00-19.png)
+![](/images/2019-06-15-netcli-pipeline/2019-06-19-00-00-19.png)
 
 如果就這些數據來看，[DEMO4](#demo4) 跟 [DEMO5](#demo5) 其實不相上下。但是如果只看 P1 全部完成的時間:
 
@@ -834,7 +834,7 @@ Press any key to close this window . . .
 
 用 EXCEL 把這兩個 DEMO 畫成時序圖，視覺化更容易理解:
 
-![](/wp-content/images/2019-06-15-netcli-pipeline/2019-06-19-00-25-43.png)
+![](/images/2019-06-15-netcli-pipeline/2019-06-19-00-25-43.png)
 
 
 看出這種做法的特色了嗎? 強化了緩衝區的表現，每個階段都可以更緊湊的執行了。現在可以回頭來看一下 source code 了。先前 [DEMO3](#demo3) / [DEMO4](#demo4) 的基礎都是用 IEnumerable<T>, [DEMO3](#demo3) 中間沒有 buffer 的設計，因此 [DEMO3](#demo3) 的總記憶體使用量因為整個過程中半成品的數量受限，因此記憶體平穩地維持在 2GB 上下。
@@ -884,7 +884,7 @@ public static IEnumerable<DataModel> BlockedCollectionProcessPhase1(IEnumerable<
 
 這次 [DEMO5](#demo5) , 我直接用 ```BlockedCollection``` 來做每個階段之間的串接緩衝區，我設定最大的 Queue Size 是 10, 因此半成品數量大幅提升，跑到 14GB 之譜。不過這樣還看不大出來維持平穩的趨勢，我再把處理的筆數，從 20 筆擴大到 100 筆看看:
 
-![](/wp-content/images/2019-06-15-netcli-pipeline/2019-06-19-00-14-39.png)
+![](/images/2019-06-15-netcli-pipeline/2019-06-19-00-14-39.png)
 
 記憶體的增長，大概維持到 25GB 就停止了，穩定下來不會隨著資料持續處理而增加。
 
@@ -916,13 +916,13 @@ DEMO5 則保有 [DEMO4](#demo4) 的優點，寫法更簡潔易懂，我們也對
 
 我畫一張簡單的架構圖，來說明一下 [DEMO5](#demo5) 的架構:
 
-![](/wp-content/images/2019-06-15-netcli-pipeline/2019-06-19-00-31-17.png)
+![](/images/2019-06-15-netcli-pipeline/2019-06-19-00-31-17.png)
 
 想想看，我們花了那麼多工夫，雖然加速 P1 整體的執行，不過全部的處理都還是在同一個 Console Project 啊，對於 OS 來說還是通通包在同一個 Process 內。提早 P1 的結束，不見得能夠完全把所有的資源都放掉。
 
 如果 P1, P2, P3 都是個獨立的 CLI, 加速執行就有意義了 (OS 可以提早結束這個 Process 完全釋放資源), 中間的 buffer 自己處理也很麻煩，如果也能委託 OS 統一處理的畫就好了。那麼我就可以繼續寫跟 [DEMO3](#demo3) 一樣簡單的 code, 還能有同樣的優點....。想像一下，換成 CLI 的話架構圖應該變這樣:
 
-![](/wp-content/images/2019-06-15-netcli-pipeline/2019-06-19-00-37-26.png)
+![](/images/2019-06-15-netcli-pipeline/2019-06-19-00-37-26.png)
 
 完全一樣的效果，完全一樣的架構，差別在於部分機制不需要你自己寫 code, 改成直接由 OS 幫你管理。沒錯，善用 CLI + PIPELINE 就有這些優點。我們接下來換 CLI 的方式來實作這個例子 POC 看看。
 
@@ -1187,7 +1187,7 @@ dotnet CLI-DATA.dll | dotnet CLI-P1.dll | dotnet CLI-P2.dll | dotnet CLI-P3.dll 
 
 各位觀眾，這就是成果了。你可以看到，雖然是三個完全獨立的 CLI, 每個 CLI 的程式碼都只有 10 行左右，但是透過 pipeline 的處理技巧，也可以達到串流處理的效果。我們比照 [DEMO4](#demo4) 的作法，我用 EXCEL 把這 LOG 改用視覺化的方式呈現。兩張圖我擺再一起比較，由左至右分別是 [DEMO3](#demo3) , [DEMO4](#demo4) , [DEMO5](#demo5) , CLI PIPELINE:
 
-![](/wp-content/images/2019-06-15-netcli-pipeline/2019-06-19-01-20-34.png)
+![](/images/2019-06-15-netcli-pipeline/2019-06-19-01-20-34.png)
 
 有看出差別嗎? 我列一下幾個我從圖裡看出來的結論:
 
@@ -1228,7 +1228,7 @@ public static IEnumerable<DataModel> StreamProcessPhase1(IEnumerable<DataModel> 
 
 看到了嗎? 這就是一層一層驅動的結構:
 
-![](/wp-content/images/2019-06-15-netcli-pipeline/2019-06-16-16-06-44.png)
+![](/images/2019-06-15-netcli-pipeline/2019-06-16-16-06-44.png)
 
 
 
@@ -1275,13 +1275,13 @@ public static IEnumerable<DataModel> BlockedCollectionProcessPhase1(IEnumerable<
 
 想通了嗎? 最後來看別人對於 OS 提供的 pipeline 說明, 雖說是 Linux 的設計，不過這方面的設計方式各家 OS 都大同小異，可以參考:
 
-![](/wp-content/images/2019-06-15-netcli-pipeline/2019-06-16-16-12-10.png)  
+![](/images/2019-06-15-netcli-pipeline/2019-06-16-16-12-10.png)  
 
 出處: [Linux IPC with Pipes](http://hzqtc.github.io/2012/07/linux-ipc-with-pipes.html)
 
 對比一下前面畫過的 [DEMO5](#demo5) 架構圖，是不是很類似?
 
-![](/wp-content/images/2019-06-15-netcli-pipeline/2019-06-19-00-37-26.png)
+![](/images/2019-06-15-netcli-pipeline/2019-06-19-00-37-26.png)
 
 
 
@@ -1321,7 +1321,7 @@ type data-4M-1000.jsonl | dotnet CLI-P1.dll > nul
 
 ```
 
-![](/wp-content/images/2019-06-15-netcli-pipeline/2019-06-16-21-28-35.png)
+![](/images/2019-06-15-netcli-pipeline/2019-06-16-21-28-35.png)
 
 前 100 筆的執行時間: 108 sec
 
@@ -1396,7 +1396,7 @@ type data-4M-1000.jsonl | dotnet CLI-P1.dll | dotnet CLI-P2.dll | dotnet CLI-P3.
 
 雖然沒辦法用 visual studio 的 performance profiler 監控記憶體使用狀況，但是從工作管理員可以追到一些蛛絲馬跡:
 
-![](/wp-content/images/2019-06-15-netcli-pipeline/2019-06-16-21-42-50.png)
+![](/images/2019-06-15-netcli-pipeline/2019-06-16-21-42-50.png)
 
 看的出來，在 OS 看到的是四個 process, 包含由 ```cmd.exe``` 執行的 type .... 指令，以及個別執行的 ```dotnet.exe``` 指令。我特地把工作管理員的 "command line" 欄位打開，大家可以看的到執行時的命令列參數，也看的到 Memory usage, dotnet 的三個 process 大都維持在 170mb 上下，跟前面觀察到的雷同。
 
@@ -1416,7 +1416,7 @@ type data-16B-1000.jsonl | dotnet CLI-P1.dll | dotnet CLI-P2.dll | dotnet CLI-P3
 
 工作管理員的狀況, dotnet 三組 process 的記憶體使用量都穩定的維持在 5MB 上下:
 
-![](/wp-content/images/2019-06-15-netcli-pipeline/2019-06-16-22-00-12.png)
+![](/images/2019-06-15-netcli-pipeline/2019-06-16-22-00-12.png)
 
 
 當 P1 跑到 1000 筆的時候, P2 大約跑到 959 筆, P3 大約跑到 918 筆。
@@ -1512,7 +1512,7 @@ type data-16B-1000.jsonl | dotnet CLI-P1.dll | dotnet CLI-P2.dll | dotnet CLI-P3
 
 當 P1 已經把全部的資料 1000 筆都跑完，而 P2 P3 還沒處理完的時候，這時 OS 已經可以把 P1 process 結束掉了，P1 如果有占用任何資源或是連線，就會提早完全被釋放掉。可以想像一下，讓  P1 全速跑完，搞不好整體還能降低對 DB 或是其他系統的負擔。我在看到 P1 1000 end 的訊息之後，重新截取一次工作管理員的畫面，證實 CLI-P1 的 process 已經完全結束了:
 
-![](/wp-content/images/2019-06-15-netcli-pipeline/2019-06-16-22-29-41.png)
+![](/images/2019-06-15-netcli-pipeline/2019-06-16-22-29-41.png)
 
 
 了解這些有甚麼好處? 好處可多了，你會有更多的機會做好最佳化。舉例來說，如果執行這些任務時，P1 需要停掉網站，P2 P3 不需要，可以在線上處理的話，我就可以先用全速把 P1 跑完 (處理結果我輸出到檔案，事後再轉向給 P2 P3 接手)，這時我就可以用更短的停機時間完成任務。或是後面階段出錯，我有保留 P1 的結果，我也可以更容易得重新執行一次 P2 P3 ...

@@ -88,11 +88,11 @@ My God, 頭越想越痛，這樣下去來我大概只能寫出比 DummyPlayer (�
 
 大概畫一下時序圖對照一下，先看看原本的作法:
 
-![投影片2](/wp-content/be-files/WindowsLiveWriter/ThreadSync1_32F9/2_1.png)
+![投影片2](/images/2008-08-14-thread-sync-1-concept-how-to-turn-passive-into-active/2_1.png)
 
 再看一下改用兩個執行緒的作法:
 
-![投影片3](/wp-content/be-files/WindowsLiveWriter/ThreadSync1_32F9/3_1.png)
+![投影片3](/images/2008-08-14-thread-sync-1-concept-how-to-turn-passive-into-active/3_1.png)
 
 不管之中的技術障礙怎麼克服，至少這樣改起來，兩邊都能各自用更合理簡單的方式思考自己的問題，也更接近實際的情況 (莊家跟玩家不會共用一個腦子吧...)。也唯有把問題簡化之後，我們才有辦法想出更複雜的方式來解決問題，科技不就是這樣進步的嘛?
 

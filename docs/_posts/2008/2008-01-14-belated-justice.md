@@ -25,6 +25,6 @@ wordpress_postid: 126
 
 上禮拜就用我的破英文再回報一次, 這次只貼了兩三句鼈腳英文, 簡單說明文章是我寫的, 他盜用我文章 blah blah... 耶! 果然有效... 現在再點那篇文章就變這樣了: 
 
-![image](/wp-content/be-files/WindowsLiveWriter/7e680184a1be_2A22/image_thumb_1.png)
+![image](/images/2008-01-14-belated-justice/image_thumb_1.png)
 
 看來 Google 還是有在做事, 哈哈... 特別在此感謝一下..

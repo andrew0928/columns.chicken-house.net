@@ -9,14 +9,14 @@ redirect_from:
 logo: /wp-content/uploads/2017/07/RE13uSf.png
 ---
 
-![](/wp-content/uploads/2017/07/maxresdefault.jpg)
+![](/images/2017-07-25-wc-swarm-labs2/maxresdefault.jpg)
 
 接下來就玩大一點，前一篇都講到，既然將來 container 會是 software 統一的發行途徑了, 那麼只有 windows 怎麼夠用?
 延續前面的 labs environment, 我們就接著把 linux 加進來吧~
 
 其實，去年在寫這篇 [架構師觀點: .NET 開發人員該如何看待 Open Source Solutions?](/2016/05/05/archview-net-open-source/) 的文章時，我就有這個想法了。文內提到 stackoverflow.com 的架構, 採用個別 domain 最好的 solution, 而不是先被某個 os 或是 framework 限制住選擇。因此 stackoverflow.com 選擇了一個混搭 windows + linux 的架構。
 
-![](/wp-content/uploads/2017/07/img_572b734171d80.png)
+![](/images/2017-07-25-wc-swarm-labs2/img_572b734171d80.png)
 
 這類架構，在過去的開發環境內，真的是來折磨開發人員的。開發不外乎要建立測試環境，想想看你有辦法很容易地在你的 PC 建立一個同樣的
 架構嗎? Sure.. 弄個 VM 當然沒問題，只是要讓每個人都能很快地架起來，他的門檻實在不低啊，再加上裡面的服務都要 update to date, 就更
@@ -33,7 +33,7 @@ Mixed-OS docker swarm, 也就是本篇 labs 要介紹的。另一個就是等 Mi
 
 整個環境，延續上一篇 [Azure Labs: Windows Container Swarm](/2017/07/25/wc-swarm-labs/) 的環境。若想按照順序做，請從上一篇開始。我用簡單的一張意示圖來說明這次要建置的環境:
 
-![](/wp-content/uploads/2017/07/2017-07-30-18-54-47.png)
+![](/images/2017-07-25-wc-swarm-labs2/2017-07-30-18-54-47.png)
 
 其中 wcs1 ~ wcs3, 還有 ingress 都是上一篇建立起來的 docker swarm 環境。我們也透過 docker swarm 的管理機制，把 ASP.NET MVC 的 DEMO 放上去執行了。這次目的是要追加 Linux Node, 同時也把 Linux Apps (NGINX) 放上去執行。
 
@@ -44,7 +44,7 @@ Mixed-OS docker swarm, 也就是本篇 labs 要介紹的。另一個就是等 Mi
 程序是一樣的，我先在 Azure 上面，加了第四台 VM，命名為 lcs4, 使用 ubuntu server + docker .. 建置 VM 的過程我就略過了。
 只要確保你建置的過程沒有手殘，弄到不同的 VLAN 下就好了。我曾經恍神，選到 classic 的 VM，結果是完全另一個 virtual network 啊 (IP 一樣 10.0.0.0/24)，結果怎樣都 ping 不到...
 
-![](/wp-content/uploads/2017/07/2017-07-30-19-03-44.png)
+![](/images/2017-07-25-wc-swarm-labs2/2017-07-30-19-03-44.png)
 
 在 swarm manager node (wcs1) 下這道指令，就能查閱要讓其他 docker node 加入的指令。最關鍵的就是 Token 的內容了。
 要加入新的 worker node, 或是 manager node, 使用的 Token 是不一樣的。直接看指令跟執行的結果:
@@ -172,7 +172,7 @@ sezkbujza758        web.2               nginx:latest        lcs4                
 
 我還沒準備 linux 版本的 demo, 暫時還看不到 3 個 nginx container 透過 routing mesh 切換的結果，不過我開瀏覽器連到 lcs4 的 public ip address, 可以正確的尋訪到 nginx 的服務內容:
 
-![](/wp-content/uploads/2017/07/2017-07-30-19-34-50.png)
+![](/images/2017-07-25-wc-swarm-labs2/2017-07-30-19-34-50.png)
 
 看來就真的等 windows container 也支援 routing mesh 的那天了啊... 希望那個 "coming soooooon" 真的很快會來臨 :D
 
@@ -267,12 +267,12 @@ Orz, 看來情況也沒比較好啊 @@
 
 上面提到的 [官方文件: Getting Started with Swarm Mode](https://docs.microsoft.com/en-us/virtualization/windowscontainers/manage-containers/swarm-mode#linuxwindows-mixed-os-clusters) 裡面，有擺了 Microsoft Container Network Team 的 Program Manager 作的三段 Demo Videos, 主題就剛好是我這兩篇探討的內容。
 
-![](/wp-content/uploads/2017/07/2017-07-31-00-28-43.png)
+![](/images/2017-07-25-wc-swarm-labs2/2017-07-31-00-28-43.png)
 
 第三段就是講透過 nginx 來做 web load balance, 枉我很認真地看完這三段在幹嘛... 結果當我看到這畫面時，我就... 就...
 就崩潰了 XDD, 看看這段 nginx conf 的內容:
 
-![](/wp-content/uploads/2017/07/2017-07-31-00-30-53.png)
+![](/images/2017-07-25-wc-swarm-labs2/2017-07-31-00-30-53.png)
 
 影片 [位置](https://youtu.be/I9oDD78E_1E?t=430): 07:20 處
 

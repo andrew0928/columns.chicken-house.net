@@ -17,7 +17,7 @@ redirect_from:
 wordpress_postid: 315
 ---
 
-![Battlestar Galactica](/wp-content/be-files/battlestar_galactica.jpg)
+![Battlestar Galactica](/images/2004-12-16-battlestar-galactica/battlestar_galactica.jpg)
 
 年紀夠大的人, 大概都記得小時後中視播過的影集 "星際大爭霸" 吧... 就是眼睛有個像霹靂車的燈一樣閃來閃去的機器人 -- Cylon (賽隆人), 而人類這邊有個愛耍帥的 Starbuck (史巴克)...
 

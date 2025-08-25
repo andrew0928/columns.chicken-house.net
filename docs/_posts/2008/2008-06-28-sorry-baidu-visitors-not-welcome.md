@@ -33,7 +33,7 @@ wordpress_postid: 91
 
 身為渺小不起眼 BLOG 主人，我也只能用消極的抗議，來表示我的不滿。除了寫這篇文章以外，也順帶來個 ASP.NET HttpModule 教學...。針對這次事件，我特地在本站加上了這個 HttpModule，只要查出使用者是透過任何由百度提供的 LINK 而連到本站的話，都會顯示這頁抗議的畫面，如下:
 
-![image](/wp-content/be-files/WindowsLiveWriter/Baidu.com_BED/image_3.png)
+![image](/images/2008-06-28-sorry-baidu-visitors-not-welcome/image_3.png)
 
 顯示了 60 秒抗議畫面後，就會自動進如原本要連結的頁面。在透過正規的管道而得不到妥善的處置，我也只能用消極的抗意來表達我的不滿。請看到的人留個 MESSAGE 支持一下吧，或是有推推王帳號的人也幫忙推一下，一起對不重視智慧財產權的百度表答不滿 & 抗議!
 

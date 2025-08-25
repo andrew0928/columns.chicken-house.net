@@ -29,12 +29,12 @@ wordpress_postid: 229
 
 要求一點都不高, 不過每次逛3C賣場, 擺出來的廿卅種就是沒一個合意的... 昨天剛好順路經過金鍵盤 (光華附近的小店), 看到這款, 就毫不考慮買了兩把.. [:D]
 
-![USB Keyboard 1](/wp-content/be-files/usb-kb01.jpg)
+![USB Keyboard 1](/images/2006-05-21-new-usb-keyboard-purchase/usb-kb01.jpg)
 
 這款的鍵用的是類似Notebook那種構造, 剛好用的很習慣... 雖然不能跟 ThinkPad 的鍵盤比, 不過差不多了, 也都符合我上面列的要求, 價格也還好, 500 有找..
 
 不過用了一個晚上, 唯一的問題就是, NumLock 那個燈實在是亮的刺眼... 嘖, 沒事用什麼白光LED..
 
-![USB Keyboard 2](/wp-content/be-files/usb-kb02.jpg)
+![USB Keyboard 2](/images/2006-05-21-new-usb-keyboard-purchase/usb-kb02.jpg)
 
 照片看起來已經很亮了, 實際看起來更亮, 直接瞪著看已經到了會刺眼的程度.. Orz ... 不過沒差啦, 找個東西貼起來就好..

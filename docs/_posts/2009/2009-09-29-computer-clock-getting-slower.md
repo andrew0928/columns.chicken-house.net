@@ -28,6 +28,6 @@ wordpress_postid: 28
 
 這樣的架構，機車的地方就在於: Hyper-V 本身 VM 會跟 Host 做 time sync ... 而 Host 有加入 AD, Host 又會跟 Guest 同步時間，Hyper 又替 Guest 跟 Host 同步時間... 每次誤差一點，幾週下來就變這樣了 @@ 害我的手機莫名奇妙就晚了快半小時...
 
-![image](/wp-content/be-files/WindowsLiveWriter/f45cd5a15979/727116E0/image.png)
+![image](/images/2009-09-29-computer-clock-getting-slower/image.png)
 
 果然，這選項移除後，就一切正常了 @@，頂多就讓 DC 脫褲子放屁，到外面的 server 去對時吧... 嗯，這年頭，真的什麼怪事都會發生... 還好這次有抓到問題，哈哈... 這篇就給跟我一樣宅的人參考吧 :D

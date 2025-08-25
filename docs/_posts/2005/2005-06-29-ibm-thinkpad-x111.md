@@ -29,4 +29,4 @@ Onboard 256mb RAM + 512MB RAM
 統強 Combo  
 IBM 小黑鼠
 
-用起來還真不錯, 害的我也想換了.. ![emotion-11](/Emoticons/emotion-11.gif)
+用起來還真不錯, 害的我也想換了.. ![emotion-11](/images/2005-06-29-ibm-thinkpad-x111/emotion-11.gif)

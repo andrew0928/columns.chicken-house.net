@@ -73,7 +73,7 @@ HTC 的原理很簡單，CSS是統一管理各種樣式，而DHTML的一堆事�
 
 SERVER 的部份這樣就大功告成了。未來在插入CODE時，只要勾選這個選項 [產生出來的HTML會包含原始程式碼]: 
 
-![image](/wp-content/be-files/WindowsLiveWriter/CodeFormatter_9FE0/image_9.png)
+![image](/images/2008-04-04-configuring-website-settings-for-codeformatter-compatibility/image_9.png)
 
 最後輸出的成果就會像這樣，標題右方的 [copy code] 功能就正常了。按下去之後，SAMPLE CODE 就會自動複製到剪貼簿，不會因為加了一堆格式，讓你複製下來的 CODE 不能直接使用... 
 
@@ -95,7 +95,7 @@ public class Sample {
 
 這個功能，在預覽的時後就沒加上去了。另外預覽的畫面也做了點調整，一方面不是直接用IE開啟HTML檔，因為這樣會有一堆安全警告的訊息，我改用HTA (HTML APPLICATION)來實作預覽的功能。為了感謝提供這個LIB的原作者，我也在預覽的畫面裡加上他的首頁了。最後，當然也要讚助一下我自己的網站... 哈哈 :D 
 
-![image](/wp-content/be-files/WindowsLiveWriter/CodeFormatter_9FE0/image_8.png)
+![image](/images/2008-04-04-configuring-website-settings-for-codeformatter-compatibility/image_8.png)
 
 好，這個PLUGINS大概就告一個段落，未來大概就修正BUG了，需要的人歡迎下載使用。如果要散佈請注明出處。 
 

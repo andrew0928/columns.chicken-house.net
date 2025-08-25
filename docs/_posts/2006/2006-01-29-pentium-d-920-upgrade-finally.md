@@ -45,11 +45,11 @@ Server 只做幾件事, 沒有太多軟體相容的問題, 跑起來很滿意...
 
 換機之後, 100M 的網路終於有被塞爆的一天... 特地貼圖紀念一下, 看來下次該換 GBE 了 [H]
 
-![Network 100M](/wp-content/be-files/network-100.gif)
+![Network 100M](/images/2006-01-29-pentium-d-920-upgrade-finally/network-100.gif)
 
 貼貼其它的圖, 自己爽一下 [H]
 
-![Pentium D](/wp-content/be-files/PentiumD.gif)
-![CPU ID 1](/wp-content/be-files/CPUID_01.gif)
-![CPU ID 2](/wp-content/be-files/CPUID_02.gif)
-![CPU ID 3](/wp-content/be-files/CPUID_03.gif)
+![Pentium D](/images/2006-01-29-pentium-d-920-upgrade-finally/PentiumD.gif)
+![CPU ID 1](/images/2006-01-29-pentium-d-920-upgrade-finally/CPUID_01.gif)
+![CPU ID 2](/images/2006-01-29-pentium-d-920-upgrade-finally/CPUID_02.gif)
+![CPU ID 3](/images/2006-01-29-pentium-d-920-upgrade-finally/CPUID_03.gif)

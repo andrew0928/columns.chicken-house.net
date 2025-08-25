@@ -23,6 +23,6 @@ wordpress_postid: 55
 
 在開始 --> 執行裡輸入 msconfig.exe 後，可以看到這一項:
 
-![image](/wp-content/be-files/WindowsLiveWriter/VistaUAC_1E70/image_3.png)
+![image](/images/2008-10-31-vista-uac-wont-turn-off/image_3.png)
 
 看來是直接修改 registry, 果然有效，直接執行後 REBOOT 就一切正常了 -_-, 如果有人也碰過一樣的問題可以試看看!

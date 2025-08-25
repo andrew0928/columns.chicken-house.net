@@ -25,4 +25,4 @@ wordpress_postid: 127
 
 [http://canon-vs-nikon.blogspot.com/2007/11/canon-raw-codec-12-net-framework-30-wpf.html](http://canon-vs-nikon.blogspot.com/2007/11/canon-raw-codec-12-net-framework-30-wpf.html)
 
-[![image](/wp-content/be-files/WindowsLiveWriter/2edc8ffce949_2951/image_thumb_2.png)](/admin/Pages/wp-content/be-files/WindowsLiveWriter/2edc8ffce949_2951/image_6.png)
+[![image](/images/2007-12-21-damn-someone-stole-my-article/image_thumb_2.png)](/admin/Pages/wp-content/be-files/WindowsLiveWriter/2edc8ffce949_2951/image_6.png)

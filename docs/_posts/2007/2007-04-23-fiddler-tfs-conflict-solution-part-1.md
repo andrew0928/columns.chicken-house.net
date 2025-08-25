@@ -26,11 +26,11 @@ wordpress_postid: 166
 
 不過以上不是重點, 重點是我常常搭配 visual studio 2005 一起使用, 每當 Fiddler 開啟, 我再使用 vs2005 的 TFS 相關功能時, vs2005 跟 TFS 中間的 http connection 就被欄下來不動了.
 
-![TFS connection blocked](/wp-content/be-files/WindowsLiveWriter/FiddlerTFS_14D72/image07.png)
+![TFS connection blocked](/images/2007-04-23-fiddler-tfs-conflict-solution-part-1/image07.png)
 
 Fiddler Log:
 
-![Fiddler HTTP 401 error](/wp-content/be-files/WindowsLiveWriter/FiddlerTFS_14D72/image012.png)
+![Fiddler HTTP 401 error](/images/2007-04-23-fiddler-tfs-conflict-solution-part-1/image012.png)
 
 HTTP 401, 看起來就像是 vs2005 傳出去的身份驗證機制沒有成功的通過 Fiddler 傳到 server, 導至 server 回應 401 回報沒有權限... vs2005 回的 ERROR MESSAGE 則是看起來跟這件事一點關聯都沒有...
 

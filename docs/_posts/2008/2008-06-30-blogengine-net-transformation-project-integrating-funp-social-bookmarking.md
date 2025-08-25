@@ -37,15 +37,15 @@ BlogEngine 原本也有內建一些，不過被我拿掉了。底下列出我調
 
 原 CS 的樣式:
 
-![image](/wp-content/be-files/WindowsLiveWriter/BlogEngine.NETFunP_11CED/image_10.png)
+![image](/images/2008-06-30-blogengine-net-transformation-project-integrating-funp-social-bookmarking/image_10.png)
 
 修改前:
 
-![image](/wp-content/be-files/WindowsLiveWriter/BlogEngine.NETFunP_11CED/image_11.png)
+![image](/images/2008-06-30-blogengine-net-transformation-project-integrating-funp-social-bookmarking/image_11.png)
 
 修改後:
 
-![image](/wp-content/be-files/WindowsLiveWriter/BlogEngine.NETFunP_11CED/image_12.png)
+![image](/images/2008-06-30-blogengine-net-transformation-project-integrating-funp-social-bookmarking/image_12.png)
 
 看了一下推推王的[工具](http://funp.com/tools/buttongen.php)，不外乎都是插入一段 `<SCRIPT>` 標簽，然後用 document.write( ) 或是 eval 等等 client side script 的方式產生片 HTML Code, 缺點就是繞了一大圈，出了問題也常讓人搞不清楚問題在那裡。花了點時間追一下，追出最後插在網頁的 HTML CODE 長這樣:
 
@@ -96,7 +96,7 @@ BlogEngine 原本也有內建一些，不過被我拿掉了。底下列出我調
 
 果然效果好多了，也不會再碰到版面掛掉等等鳥問題，只不過載入 [封存] 頁面時，一次四五百個 `<IFRAME>` 同時在跑，IE也是跑的很吃力....
 
-![image](/wp-content/be-files/WindowsLiveWriter/BlogEngine.NETFunP_11CED/image_3.png)
+![image](/images/2008-06-30-blogengine-net-transformation-project-integrating-funp-social-bookmarking/image_3.png)
 
 同樣的技巧也拿來修改 ~/archive.aspx 這頁。這頁原本是把所有的文章按照分類一篇一篇列出來，捨棄原有的 RATING 機制不用，直接用推文的機制取代。因此這頁原本顯示 RATING 分數的地方就被我改成推推王的推薦次術了。我的文章有兩百多篇，出現過的地方都列一次，加一加總共會出現近五百個推文按鈕 @_@，自然也不可能用原本官方的作法產生按鈕，直接用上面挖出來的方法，修改 archive.aspx.cs:
 

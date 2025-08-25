@@ -9,9 +9,9 @@ comments_disqus: false
 comments_facebook: false
 comments_gitalk: true
 redirect_from:
-logo: /wp-content/images/2024-01-15-archview-llm/2024-01-20-12-29-24.jpg
+logo: /images/2024-01-15-archview-llm/2024-01-20-12-29-24.jpg
 ---
-![](/wp-content/images/2024-01-15-archview-llm/2024-01-20-12-29-24.jpg)
+![](/images/2024-01-15-archview-llm/2024-01-20-12-29-24.jpg)
 (圖片來源: DALL-E, 不過我參不透 AI 想表達啥 XDD)
 
 
@@ -48,7 +48,7 @@ GPTs 是以 Chat GTP 為基礎, 他允許你在這基礎上, 預先設定好它�
 
 首先，對話一開始，我就問了店裡有賣什麼:
 
-![](/wp-content/images/2024-01-15-archview-llm/2024-01-19-21-17-09.png)
+![](/images/2024-01-15-archview-llm/2024-01-19-21-17-09.png)
 
 其中看到 "已與 andrewshopoauthdemo.azurewebsites.net  進行對話"，就代表 GPTs 背後已經在呼叫你的 API 了，箭頭往下拉可以看到背後 POST 了什麼資訊.. 這邊還如預期，GPTs 中規中矩的呼叫了 ```/api/products```, 把取得的商品資訊 (json) 轉成清單顯示給我看。 GPTs 蠻細心的地方是，商品資訊還會自動幫我摘要.. 我原本寫的內容比較囉嗦... 為了方便對照，底下是 API 原生傳回的內容:
 
@@ -97,7 +97,7 @@ GPTs 是以 Chat GTP 為基礎, 他允許你在這基礎上, 預先設定好它�
 不過這規則並沒有 API 揭露，因此需要推測，並且加入購物車試看看才能知道結果。所以我出了難題給 GPTs:
 
 
-![](/wp-content/images/2024-01-15-archview-llm/2024-01-19-21-21-19.png)
+![](/images/2024-01-15-archview-llm/2024-01-19-21-21-19.png)
 
 
 結果還蠻神奇的，GPTs 的理解跟推理能力還不錯，看的懂我的要求，也看得懂 API 的能力範圍，於是自己推演了邏輯，一連串呼叫了好幾次 API 幫我確認結果，最後給了我建議的採購項目。不得不說，做得比我預期好，雖然偶爾會得到錯的答案，但是看的出來 GPTs 有在努力...。
@@ -108,12 +108,12 @@ GPTs 是以 Chat GTP 為基礎, 他允許你在這基礎上, 預先設定好它�
 
 結果 GPTs 的處理相當正確，呼叫了對應的 API，也給我正確的結果，並且進行了結帳的流程，呼叫了 ```/api/checkout/create``` (開始結帳) 的 API..
 
-![](/wp-content/images/2024-01-15-archview-llm/2024-01-19-21-27-18.png)
+![](/images/2024-01-15-archview-llm/2024-01-19-21-27-18.png)
 
 
 結帳過程很順利。我的 API 設計本來就只要求拿到支付 ID 就當作結帳完成，而 API 背後我也沒真的去檢查 ID 對不對，簡單的說你只要給個 ID 就能過關。GPTs 也正確地替我呼叫結帳完成 API, 完成結帳。並且顯示訂單內容給我:
 
-![](/wp-content/images/2024-01-15-archview-llm/2024-01-19-21-29-09.png)
+![](/images/2024-01-15-archview-llm/2024-01-19-21-29-09.png)
 
 
 到這裡為止，購物的主要流程都很順利地結束了。我給 GPTs 100 分，因為他替我 "腦補" 補上了我 API 沒有涵蓋的功能，這點對我來說還蠻震撼的，GPTs 補足了所有軟體的難題: 猜測使用者想要幹嘛，然後做出正確回應... 我留一些感想在後面觀點在聊，我繼續往下 demo ...
@@ -123,7 +123,7 @@ GPTs 是以 Chat GTP 為基礎, 他允許你在這基礎上, 預先設定好它�
 
 繼續測試 GPTs 的解讀跟處理能力... 我繼續挑戰他的對談能力，這次告訴它預算，條件比照辦理，但是有小孩不能喝酒。我刻意句子沒有講不要買酒，只是隱諱地告訴他我的期待，需要靠他自己聯想，該把購物車內的酒類商品都拿掉，並且調整數量符合我的預算跟條件 (不同商品購買數量要接近一致):
 
-![](/wp-content/images/2024-01-15-archview-llm/2024-01-19-21-33-35.png)
+![](/images/2024-01-15-archview-llm/2024-01-19-21-33-35.png)
 
 碰到我這種奧客，果然錢很難賺 XDD，這次也順利結帳，成立第二張訂單，過程我就略過了 (有興趣自己看對談紀錄)。
 
@@ -132,7 +132,7 @@ GPTs 是以 Chat GTP 為基礎, 他允許你在這基礎上, 預先設定好它�
 
 接下來，身為一位常客 (也才買兩次)，來詢問一下買過了什麼也是很合理的... 問了訂購紀錄，GPTs 也幫我辦到了，同時也很盡責地幫我把資訊彙整了一下才回給我。我貼一下 GPTs 的回應:
 
-![](/wp-content/images/2024-01-15-archview-llm/2024-01-19-21-37-28.png)
+![](/images/2024-01-15-archview-llm/2024-01-19-21-37-28.png)
 
 我也補一下 API 回應的 raw data (json) 結果，讓大家可以對比一下..
 (測試完成我就清掉了，這 API ( /api/member/orders ) 結果是我事後另外補的，資訊不大一樣各位就別計較了 XDD)
@@ -218,7 +218,7 @@ GPTs 是以 Chat GTP 為基礎, 他允許你在這基礎上, 預先設定好它�
 
 接著，繼續為難店長 (咦?)，我很清楚我的 API 只有傳回訂單內容，我就要求 GPTs 幫我家總一下到底每種商品我買過幾件...
 
-![](/wp-content/images/2024-01-15-archview-llm/2024-01-19-21-46-37.png)
+![](/images/2024-01-15-archview-llm/2024-01-19-21-46-37.png)
 
 結果，如我預期做得很不錯，不但沒有重新打一次 API 重新取得結果之外，也正確地理解我的要求，幫我算好統計結果了。最後我要求把條列的內容換成表格，也一樣做到了 (看起來是用 markdown)
 
@@ -233,7 +233,7 @@ Demo 內容就到此先告一段落，背後很多技術細節，跟我處理過
 
 我相信不少朋友只是想知道 API 做了哪些事，我特地把 swagger 打開才部署上 Azure App Service, 需要可以直接看 [swagger](https://andrewshopoauthdemo.azurewebsites.net/swagger/index.html), 我也捷了圖:
 
-![](/wp-content/images/2024-01-15-archview-llm/2024-01-20-12-55-58.png)
+![](/images/2024-01-15-archview-llm/2024-01-20-12-55-58.png)
 
 
 
@@ -333,7 +333,7 @@ Demo 內容就到此先告一段落，背後很多技術細節，跟我處理過
 
 回到開頭講的 2016 那一篇文章吧，當時 .NET 開發人員 (越資深的體會越深刻，就是一路跟著 Microsoft 的技術路線走過來的那群人)，從一切都是 Microsoft 生態的環境 ( Windows, .NET Framework, COM+, SQL server, IIS server, Visual Studio, Office, Active Directory .. ), 突然間 .NET Core 橫跨 Linux ( 而且效能還比 windows 好 ), Container ( 完全是 Linux 生態系的技術 ) 也突然席捲軟體部署的方式, Microsoft 突然之間從 Steve Ballmer 年代的抨擊 Open Source 是毒瘤, 到 Satya 開始講 Microsoft Love Linux / Open Source ..
 
-![](/wp-content/images/2024-01-15-archview-llm/2024-01-20-13-31-37.png)
+![](/images/2024-01-15-archview-llm/2024-01-20-13-31-37.png)
 
 回顧歷史，我長期都是走 Microsoft 技術路線討生活的，我自己看到這樣改變的時刻也不少，每隔 5 ~ 8 年都會碰到一波。例如:
 
@@ -404,7 +404,7 @@ Microsoft 身為 Open AI 的大股東, 對 GPT 模型有最優先的掌握度。
 
 因此，要發揮 LLM 的威力，充分整合到你的應用內，你需要一個能透過對話方式驅動整個應用程式的發展框架。我之前在這門[線上課程](https://www.youtube.com/watch?v=JhCl-GeT4jw)，看到這張圖，我覺得很貼切:
 
-![](/wp-content/images/2024-01-15-archview-llm/2024-01-21-02-16-49.png)
+![](/images/2024-01-15-archview-llm/2024-01-21-02-16-49.png)
 
 LLM 扮演了 Controller 的角色，或是講得更精準一點，Orchestration 會更貼切。他接收各種來源的自然語言要求，了解之後會判斷該如何回應。LLM 需要決定該轉發什麼樣的要求給後端的服務 (不論是 search engine, 或是 api, 或是 access database) 等等。LLM 扮演了 "理解語言背後的意圖"，翻譯成精確的指令，轉發 API 給其他系統。並且把得到的結果再度翻譯成自然語言，或是需要再次轉發成後續的指令。LLM 是 "精確運算" 與 "模糊的語意分析" 之間的橋樑，這是傳統的應用程式最難突破的環節，也是融合 AI 應用的核心。
 
@@ -439,12 +439,12 @@ LLM 扮演了 Controller 的角色，或是講得更精準一點，Orchestration
 
 幾個月前，我在思考應用程式該怎麼跟 LLM 有效的結合? 一個是要有明確的規格跟流程，另一個都是用很模糊的輸入 (對 code 而言，prompt 只是 string, 所有 input 都是 string, 跟全部是 object 其實沒兩樣)，那麼兩者的處理協作方式到底該是什麼樣貌? 研究了 GPTs, 剛好也看到 [Microsoft Semantic Kernel](https://learn.microsoft.com/en-us/semantic-kernel/overview/??wt.mc_id=AZ-MVP-5002155), 我發現這就是以後的應用程式分層架構了..
 
-![](/wp-content/images/2024-01-15-archview-llm/2024-01-20-18-19-10.png)
+![](/images/2024-01-15-archview-llm/2024-01-20-18-19-10.png)
 
 看懂 Semantic Kernel 的這兩張圖就夠了，這張講的是 AI infrastructure / models 與 Plugins / Copilot 之間的協作，Semantic Kernel 就是扮演把這些全部串在一起的框架。如果 安德魯小舖 GPTs 我用 Semantic Kernel 改寫成單機版，那麼我的 API 就是圖上的 Plugins 了，我不管用什麼技術刻出來的 UI，就是對等 Copilot 的位置了。而不論我是跑本機板的 LLM，或是使用 cloud 的 AI service, 我用 connector 串聯它們，就是底下的 foundation models / AI infrastructure 了
 
 
-![](/wp-content/images/2024-01-15-archview-llm/2024-01-20-18-18-51.png)
+![](/images/2024-01-15-archview-llm/2024-01-20-18-18-51.png)
 
 從另一個角度來看，這張圖更清楚。Model 只是按照 prompt 幫你算該回應什麼內容，對話過程是 application 應該自己維護的，在 Semantic Kernel 架構中的 Memory 就是指能記住對話過程的 "記憶"，Semantic Kernel 會協調 Memory / Model / Plugins, 自己處理這些元件之間的協作。
 

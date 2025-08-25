@@ -150,7 +150,7 @@ public PostViewCounter()
 
 對應的設定頁面:
 
-![image](/wp-content/be-files/WindowsLiveWriter/BlogEngineExtensionCounter_1285/image_3.png)
+![image](/images/2008-07-06-blogengine-extension-postviewcount-1-0/image_3.png)
 
 最後講了半天，真正想自己動手寫的人應該不多吧 :D，只是想下載回去裝來用的人就不用聽我前面廢話一堆了，只要下載這檔案，放到 ~/App_Code/Extension 下，就安裝完成了... 咳咳，連安裝手冊都省了。檔案 COPY 好後就會在 Extension Manager 裡看到我寫的外掛，就可以開始用了。有任何意件歡迎留話給我 :D
 

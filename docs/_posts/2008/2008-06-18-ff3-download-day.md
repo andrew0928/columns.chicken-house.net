@@ -20,4 +20,4 @@ wordpress_postid: 98
 
 貼張照片紀念一下，以後可以跟小皮說 "這個世界紀錄你老爸也有算一份..."
 
-![Firefox 3 下載頁面](/wp-content/be-files/WindowsLiveWriter/FF3_336F/image_thumb.png)
+![Firefox 3 下載頁面](/images/2008-06-18-ff3-download-day/image_thumb.png)

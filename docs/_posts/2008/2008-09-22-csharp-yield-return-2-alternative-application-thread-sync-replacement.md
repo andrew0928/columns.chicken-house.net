@@ -27,11 +27,11 @@ wordpress_postid: 67
 
 不多說，先看看之前畫的兩張時序圖:
 
-![image](/wp-content/be-files/WindowsLiveWriter/Cyieldreturn2.ThreadSync_FE89/image_6.png)
+![image](/images/2008-09-22-csharp-yield-return-2-alternative-application-thread-sync-replacement/image_6.png)
 
 先看之前 ThreadSync #1 裡提到的圖，我這次加上紅線當 "輔助線"，紅線代表執行 GameHost 的主程式，這個執行序必需反反覆覆的在 GameHost / Player 兩份類別的程式碼跑來跑去，主程式是 GameHost 發起的，當然被強迫切成好幾段的就只有 Player 了。
 
-![image](/wp-content/be-files/WindowsLiveWriter/Cyieldreturn2.ThreadSync_FE89/image_5.png)
+![image](/images/2008-09-22-csharp-yield-return-2-alternative-application-thread-sync-replacement/image_5.png)
 
 這是修改過後的版本，GameHost / Player 有各自的執行緒，紅色是 GameHost，藍色是 Player。當執行緒跑到中間時代表它在等待了，等另一方也跑到中間把執行結果放到共用變數，同時叫醒對方之後才交換過來。兩方都各自照著自己的邏輯跑，不過這種等待 & 喚醒的動作，相較於一般的 function call / return 而言，實在是太慢了...。我就是從這張圖得來的靈感，這個解決方式不就跟 yield return 很像嘛? 都是為了避免多次呼叫之間，被呼叫的另一方的邏輯被破切斷的問題... 因此我就開始思考 AsyncPlayer 是不是有機會用 yield return 寫出另一個版本...。
 

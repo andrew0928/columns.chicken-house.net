@@ -7,7 +7,7 @@ categories:
 tags: ["Microservices", "Monolithic", "Windows Container", "Container"]
 published: true
 comments: true
-logo: /wp-content/uploads/2016/09/stateless-authentication-for-microservices-12-6381.jpg
+logo: /images/2016-09-15-microservice-case-study-01/stateless-authentication-for-microservices-12-6381.jpg
 ---
 
 八月底，接受了 Microsoft 的邀請，參加了 Community Open Camp 研討會，講了這場 "微服務架構 導入經驗分享 - .NET + Windows Container"。
@@ -53,11 +53,11 @@ session 只有 40 min, 我必須雇到前後資訊的串接，也要顧到在場
 軟體就是不斷的 reuse code, 不斷的堆疊, 累積成能解決問題的 application. 累積這些 code 的方法很多，過去的軟體開發方式，最常用的就是
 library / component 的方式，把 code / binary 組裝成一個大型的 application。先來看張圖:
 
-![單體式架構(monolithic) vs 微服務(microservices)](/wp-content/uploads/2016/09/microservice-slides-06.PNG)
+![單體式架構(monolithic) vs 微服務(microservices)](/images/2016-09-15-microservice-case-study-01/microservice-slides-06.PNG)
 
 > 用這張圖實在太嚴肅了 (這是 Microsoft 那邊找來的 slides).. 我在找資料時找到一篇 [testing microservices](https://lostechies.com/andrewsiemer/2016/01/11/testing-microservices/) 的文章..
 > 結果看到這張圖我就笑了 XDDD，有夠靠背的... 貼來給大家欣賞一下 :D
-> ![也是 Microservices vs Monolithic](/wp-content/uploads/2016/09/stateless-authentication-for-microservices-12-6381.jpg)
+> ![也是 Microservices vs Monolithic](/images/2016-09-15-microservice-case-study-01/stateless-authentication-for-microservices-12-6381.jpg)
 
 
 這兩種架構，應該從巨觀來看。說穿了很簡單，就是由最基礎的 code 堆疊到最終的 application，採用了不同 reuse 的做法而已。單體式架構

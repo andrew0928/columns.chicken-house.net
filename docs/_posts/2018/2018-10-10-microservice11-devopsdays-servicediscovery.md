@@ -45,7 +45,7 @@ logo:
 
 微服務架構的第一個難題，就是你該如何管理好為數眾多的服務? 在這架構下，團隊會面臨越來越多樣的服務 (大型應用程式拆解之後的結果)，隨著規模的擴大，每個服務也會由越來越多的小型 instances 組成 (如 container)。
 
-![](/wp-content/images/2018-10-10-microservice11-devopsdays-servicediscovery/2018-10-14-15-26-49.png)
+![](/images/2018-10-10-microservice11-devopsdays-servicediscovery/2018-10-14-15-26-49.png)
 
 服務的種類及數量都不斷的在增加，服務的異動也越來越頻繁 (也許幾秒鐘就會有變化)。過去簡單的管理方式 (或是不管理? XD) 都會變成系統發展的瓶頸。回想一下，你的團隊目前都怎麼管理內外部的服務?
 
@@ -91,7 +91,7 @@ logo:
 
 這時來看看 Service Discovery 的 Service Definition 資料庫 (registry) 能如何運用吧! 先來看看 Slack 提供的服務方案:
 
-![](/wp-content/images/2018-10-10-microservice11-devopsdays-servicediscovery/2018-11-05-02-22-51.png)
+![](/images/2018-10-10-microservice11-devopsdays-servicediscovery/2018-11-05-02-22-51.png)
 
 不同方案，有不同的服務內容。File storage 的控制是小菜一碟，按照規格開發即可。Support 則是人工的服務，按照 SOP 即可。最難理解怎麼辦到的，則是 SLA 99.99% 保證這件事。我大膽的假設一下，這件事背後可能有幾種做法:
 

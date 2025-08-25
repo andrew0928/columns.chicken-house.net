@@ -16,7 +16,7 @@ redirect_from:
 wordpress_postid: 16
 ---
 
-![image](/wp-content/be-files/image_9.png)
+![image](/images/2010-04-05-run-pc-2010-april-producer-vs-consumer-threading-supply-demand-problems/image_9.png)
 
 隔了足足一年，趁著過年，生出第五篇了 :D，再次感謝編輯賞光啦，願意刊登我寫的題材...
 

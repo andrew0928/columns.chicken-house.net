@@ -60,7 +60,7 @@ wordpress_postid: 48
 
 而這是程式的輸出畫面:
 
-![image](/wp-content/be-files/WindowsLiveWriter/XmlWellFormedWriterBug_E451/image_3.png)
+![image](/images/2008-12-08-system-xml-xmlwellformedwriter-bug/image_3.png)
 
  
 
@@ -209,7 +209,7 @@ xmldoc.Save(Console.Out);
 
 試了一下，果然如預期的執行了 :D，結果也沒錯，還好 XmlWellFormedWriter 的 Bug 只存在於 WriteRaw... 閃開就沒事了:
 
-![image](/wp-content/be-files/WindowsLiveWriter/XmlWellFormedWriterBug_E451/image_6.png)
+![image](/images/2008-12-08-system-xml-xmlwellformedwriter-bug/image_6.png)
 
  
 

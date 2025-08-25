@@ -9,10 +9,10 @@ tags: ["microservice", "系列文章", "架構師", "POC", "ASYNC"]
 published: true
 comments: true
 redirect_from:
-logo: /wp-content/images/2020-02-09-process-pool/logo.png
+logo: /images/2020-02-09-process-pool/logo.png
 ---
 
-![](/wp-content/images/2020-02-09-process-pool/logo.png)
+![](/images/2020-02-09-process-pool/logo.png)
 
 好久沒寫微服務系列的文章了，這篇算是 Message Queue 的進階版本，如果你有越來越多的任務需要 Message Queue 後端的 Worker 來處理，後端 Worker 的架構其實是個很有意思的架構思考練習題。會想解決這個議題: Task Management, 需求有點類似 serverless, 我希望有個 pool 能很快的消化掉我丟進去的 task ...。其實我需要的架構就類似 message queue + serverless 就能符合了，但是有些因素, 我得認真評估自行建置最關鍵的那一塊該怎麼做。不過這篇我沒打算把主題擴的那麼大，我就專注在 Process Pool 上面了。
 
@@ -351,7 +351,7 @@ public static void WorkerMain(string mode, HelloWorkerBase[] workers)
 
 簡單的用個架構圖來表示，我想做的就是這樣的機制:
 
-![](/wp-content/images/2020-02-09-process-pool/2020-02-16-21-57-06.png)
+![](/images/2020-02-09-process-pool/2020-02-16-21-57-06.png)
 
 我需要有個隔離環境，來讓 ```HelloTask``` 安心的被執行，而主控端能夠適當的分配任務 (data) 給隔離環境下的 ```HelloTask``` 執行，並且傳回結果。
 
@@ -748,7 +748,7 @@ SingleProcessWorker           : 37037.03703703704 tasks/sec
 
 測試做完，老實說最令我跌破眼鏡的就是這組數據。我把上面的 32 項測試結果都匯到 Excel, 過濾出 .NET Fx 主程式；有負載；BASE64 傳輸模式的測試結果。令我傻眼的是: 透過 Process 層級隔離的，理論上應該是最慢的啊... 怎麼反過頭來超車，比 InProcess 還要快? 這其中一定有甚麼誤會...。
 
-![](/wp-content/images/2020-02-09-process-pool/2020-02-16-18-29-55.png)
+![](/images/2020-02-09-process-pool/2020-02-16-18-29-55.png)
 
 我還花了不少時間看我的 code 有沒有弄錯，最後真相大白，原因是:
 
@@ -760,7 +760,7 @@ SingleProcessWorker           : 37037.03703703704 tasks/sec
 
 再來做個比較，通通一樣的條件，只是主程式換成 .NET Core, 來看看圖表:
 
-![](/wp-content/images/2020-02-09-process-pool/2020-02-16-18-39-08.png)
+![](/images/2020-02-09-process-pool/2020-02-16-18-39-08.png)
 
 數字果然會說話，這次純粹通通都是 .NET Core 來較勁，數據就合理了。InProcess 的效能遙遙領先 Process(.NET Core) 達 330% .. 神奇的是，一模一樣的 Process (.NET Fx / Core ), 只是透過不同的主程式來啟動，竟然效能也有差異... Process(.NET Fx) 的版本因為主程式換成 .NET Core, 效能就提升了 6.2% ...  而 Process(.NET Core) 表現更搶眼，提升了 19.95% ...
 
@@ -775,7 +775,7 @@ SingleProcessWorker           : 37037.03703703704 tasks/sec
 
 同樣這些資料，我再用不同角度來評斷一下:
 
-![](/wp-content/images/2020-02-09-process-pool/2020-02-16-19-04-12.png)
+![](/images/2020-02-09-process-pool/2020-02-16-19-04-12.png)
 
 我列出所有無負載；BASE64 傳輸的數據出來看，我想知道空轉的情況下，到底整體的架構帶來的影響有多大。
 
@@ -785,7 +785,7 @@ SingleProcessWorker           : 37037.03703703704 tasks/sec
 
 這又是另一個有趣的題目，先來看看數據，這次我過濾了 無負載；只看 Process(.NET Core) 隔離方式:
 
-![](/wp-content/images/2020-02-09-process-pool/2020-02-16-19-15-09.png)
+![](/images/2020-02-09-process-pool/2020-02-16-19-15-09.png)
 
 工作端基本上不用選了，我只看 Process(.NET Core) 這項就好。有 OS 的隔離，基本上我就把他當作同一回事了，我專注在前面一層主程式管控端的選擇。我唯一搞不清楚的是，最佳組合竟然是出現在 .NET Fx -> (VALUE) -> .NET Core, 比起 .NET Core -> (VALUE) -> .NET Core 好上 15.56 %... 我只能把他當作也許 .NET Fx 有些局部的最佳化做得比較好吧!
 
@@ -1168,7 +1168,7 @@ ProcessPoolWorker             : 183.8978998859833 tasks/sec
 
 既然要做 orchestration, 那就應該做到位一點。上面的例子，我 pool size 開到 24 process(es), 跑測試時, 把我 12C/24T CPU 的運算能力都吃光了:
 
-![](/wp-content/images/2020-02-09-process-pool/2020-02-18-02-05-18.png)
+![](/images/2020-02-09-process-pool/2020-02-18-02-05-18.png)
 
 如果這台 server 還有其他任務要跑 (至少要讓主程式好好的執行啊)，那有些地方應該要留意一下:
 
@@ -1189,7 +1189,7 @@ _process.ProcessorAffinity = new IntPtr(14);    // 0000 0000 0000 1110
 我將 ```ProcessorAffinity``` 設定成 14 (0b 0000 1110), 代表我只用第 1, 2, 3 這三個核心, 其他 0, 4 ~ 23 通通讓給其他人使用。同樣程式跑出來就像這樣，這 24 process 都只擠在我指定的那三個核心上面執行:
 
 
-![](/wp-content/images/2020-02-09-process-pool/2020-02-18-02-14-24.png)
+![](/images/2020-02-09-process-pool/2020-02-18-02-14-24.png)
 
 
 

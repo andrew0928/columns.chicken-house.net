@@ -8,10 +8,10 @@ tags: ["架構師", "面試經驗", "microservices", "circuit breaker", "斷路�
 published: true
 comments: true
 redirect_from:
-logo: /wp-content/images/2018-06-10-microservice10-throttle/2018-06-20-02-02-17.png
+logo: /images/2018-06-10-microservice10-throttle/2018-06-20-02-02-17.png
 ---
 
-![](/wp-content/images/2018-06-10-microservice10-throttle/2018-06-20-02-02-17.png)  
+![](/images/2018-06-10-microservice10-throttle/2018-06-20-02-02-17.png)  
 
 原本 "服務量控制" 這是我要拿來寫 "架構面試題 #3" 的內容的，不過想想拿這個來考白板也太殘忍了吧! 同時這些基礎知識恰好是微服務架構裡面 "[斷路器](https://blog.xizhibei.me/2018/06/03/microservice-design-pattern-circuitbraker/)" (circuit breaker) 很重要的基礎，因此這篇就順理成章地接在 "服務發現" (service discovery) 的下一個主題了。
 
@@ -67,7 +67,7 @@ API 呼叫次數的確是有現成的 solution 可以使用 (如: [Kong - API Ga
 
 解決問題的方式就是服務量的管控，偵測到這個現象時 (錯誤率增高，或是服務量超過安全警戒)，就打開斷路器，暫時隔絕新的 request 繼續丟給該服務處理，以求整體系統的可靠。這時就是斷路器 (circuit breaker) 的設計目的。不過這機制困難點不在於你要挑選什麼 framework 或是 service 來用，而是你是否有辦法精準的掌握你系統內的服務服務量數據，並且有能力做好整合，進一步做到自動化調節服務量的機制?
 
-![](/wp-content/images/2018-06-10-microservice10-throttle/2018-06-17-15-05-37.png)  
+![](/images/2018-06-10-microservice10-throttle/2018-06-17-15-05-37.png)  
 
 出處: [防雪崩利器：熔斷器 Hystrix 的原理與使用](https://com-it.tech/archives/40703)
 
@@ -178,7 +178,7 @@ public class DummyThrottle : ThrottleBase
 
 正好可以對照著看一下第一部份產生甚麼樣的 request:
 
-![](/wp-content/images/2018-06-10-microservice10-throttle/2018-06-18-22-28-15.png)
+![](/images/2018-06-10-microservice10-throttle/2018-06-18-22-28-15.png)
 
 以上，各位可以驗證一下是否符合來源服務量的描述。接著我們就可以看看各種方式控制服務量後的成果了。輸出的 CSV 統計數據共有這五個欄位:
 
@@ -190,7 +190,7 @@ public class DummyThrottle : ThrottleBase
 
 這些數據，在前面兩部分的 code 都會不斷的累加 counter, 在這段 code 則會每秒讀出數據之後，reset counter 歸零重新統計。CSV 的資料，只要複製貼上 EXCEL 就可以看到服務量統計表 (如下例):
 
-![](/wp-content/images/2018-06-10-microservice10-throttle/2018-06-17-16-39-14.png)
+![](/images/2018-06-10-microservice10-throttle/2018-06-17-16-39-14.png)
 
 
 寫到這邊，萬事俱備! 接下來就等著看面試者的發揮了。不過這題其實有點難度，你可以拿來用在內部的教育訓練，或是內部面試篩選能處理這些問題的人員，也可以拿來面試 senior engineer。搭配 EXCEL 很容易視覺化執行的結果，因此也很適合拿來做 POC 跟討論評估各種做法的優缺點。
@@ -436,7 +436,7 @@ TotalRequests,SuccessRequests,FailRequests,ExecutedRequests,AverageExecuteTime
 
 statistic (chart):
 
-![](/wp-content/images/2018-06-10-microservice10-throttle/2018-06-18-23-19-37.png)
+![](/images/2018-06-10-microservice10-throttle/2018-06-18-23-19-37.png)
 
 
 
@@ -446,7 +446,7 @@ statistic (chart):
 
 我把設定範圍調整一下，改為 rate: 500, time window: 1 sec, 重新看一次執行結果:
 
-![](/wp-content/images/2018-06-10-microservice10-throttle/2018-06-18-23-15-58.png)
+![](/images/2018-06-10-microservice10-throttle/2018-06-18-23-15-58.png)
 
 藉由縮小 time window, 得到的結果稍為平緩了一些。不過還是可以看到波動的幅度很大，難以預測跟控制。如果你有選購過 UPS 你就知道，這樣的凸波會害死後面的機器.. XD
 
@@ -508,11 +508,11 @@ public class StaticEngineThrottle : ThrottleBase
 
 我在 ```StaticEngineThrottle``` 裡面，藏了一個 ```InMemoryEngine: _average_engine```, 用來取代上個例子單獨的 counter... 運作的原理是透過這個 ```InMemoryEngine```, 統計過去 {time window} sec 內累計的處理量。修正過的做法，我一樣採用指定速率: rate = 500 rps, time window = 5 sec, 以下是跑出來的結果, 服務量控制的波動幅度穩定一些:
 
-![](/wp-content/images/2018-06-10-microservice10-throttle/2018-06-18-23-25-26.png)
+![](/images/2018-06-10-microservice10-throttle/2018-06-18-23-25-26.png)
 
 一樣做個對照組，改用 rate = 500 rps, time window = 1 sec:
 
-![](/wp-content/images/2018-06-10-microservice10-throttle/2018-06-18-23-28-55.png)
+![](/images/2018-06-10-microservice10-throttle/2018-06-18-23-28-55.png)
 
 
 ## 小結
@@ -612,12 +612,12 @@ public class LeakyBucketThrottle : ThrottleBase
 
 rate: 500 rps, time window: 5 sec
 
-![](/wp-content/images/2018-06-10-microservice10-throttle/2018-06-18-23-37-24.png)
+![](/images/2018-06-10-microservice10-throttle/2018-06-18-23-37-24.png)
 
 
 rate: 500 rps, time window: 1 sec
 
-![](/wp-content/images/2018-06-10-microservice10-throttle/2018-06-18-23-40-46.png)
+![](/images/2018-06-10-microservice10-throttle/2018-06-18-23-40-46.png)
 
 
 
@@ -732,12 +732,12 @@ public class TokenBucketThrottle : ThrottleBase
 
 rate: 500 rps, time window: 5 sec
 
-![](/wp-content/images/2018-06-10-microservice10-throttle/2018-06-18-23-46-56.png)
+![](/images/2018-06-10-microservice10-throttle/2018-06-18-23-46-56.png)
 
 
 rate: 500 rps, time window: 1 sec
 
-![](/wp-content/images/2018-06-10-microservice10-throttle/2018-06-18-23-49-51.png)
+![](/images/2018-06-10-microservice10-throttle/2018-06-18-23-49-51.png)
 
 
 
@@ -759,7 +759,7 @@ Leaky Bucket 跟 Token Bucket 只是分別管控 buffer 的前端 (來源) 跟�
 終於寫到結論了 @@, 寫到這邊，我只能說... 服務量控制真的是很煩人的一件事啊! 之前有篇文章，就是要寫程式控制 CPU 的使用率，想辦法讓 CPU 的 utilization 劃出正弦波... 為了修飾波形，想辦法消除雜訊，就花掉不少心思... 有興趣的朋友們可以去體會一下:
 
 
-![](/wp-content/uploads/2016/03/img_56dee24543173.png)  
+![](/images/2018-06-10-microservice10-throttle/img_56dee24543173.png)  
 
 [Microsoft 面試考題: 用 CPU utilization 畫出正弦波](/2016/03/12/cpu_sinewave/)
 

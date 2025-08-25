@@ -75,7 +75,7 @@ private static byte[] DownloadData(Uri sourceURL)
 
 而主程式的最後一行，則是想要把指定網站 ( funp.com ) 下載的所有資料，都從 cache 移除。為了方便觀看程式結果，我特地加上了 callback method, 當 cache item 被移除時, 會在畫面顯示資訊:
 
-![image](/wp-content/be-files/WindowsLiveWriter/Cache2.CreateCustomCacheDependency/624B07FE/image.png)
+![image](/images/2009-12-19-design-case-study-cache-object-cleanup-2-create-custom-cachedependency/image.png)
 
 由執行結果來看，果然被移出 cache 的都是來在 funp.com 的網址... 接著來看看程式碼中出現的 TaggingCacheDependecny 是怎麼實作的。相關的 code 如下:
 

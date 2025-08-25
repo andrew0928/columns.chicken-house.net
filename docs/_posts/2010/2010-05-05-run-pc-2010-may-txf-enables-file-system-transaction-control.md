@@ -16,7 +16,7 @@ redirect_from:
 wordpress_postid: 15
 ---
 
-![image](/wp-content/be-files/image_10.png)
+![image](/images/2010-05-05-run-pc-2010-may-txf-enables-file-system-transaction-control/image_10.png)
 
 五月號就刊出來，還真有點意外 :D，這次稿件趕不及，晚了幾天才交出去，編輯大人還是讓我上五月號啦，真是感謝 :D
 

@@ -24,4 +24,4 @@ wordpress_postid: 292
 
 果然貼起來, 滑鼠就像腳底抹了油一樣, 用起來真順手啊, 哈哈... 附上抹油前跟抹油後的照片:
 
-![使用前](/wp-content/be-files/mouse-1.jpg) ![使用後](/wp-content/be-files/mouse-2.jpg)
+![使用前](/images/2005-01-01-teflon-tape/mouse-1.jpg) ![使用後](/images/2005-01-01-teflon-tape/mouse-2.jpg)

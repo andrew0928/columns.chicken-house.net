@@ -18,15 +18,15 @@ wordpress_postid: 75
 
 抱怨一下，因為在看照片時發現，有些直的拍的照片看起來是正確的 (會自己轉 90 度)，有些卻不是... 得歪著頭看，所以就很好奇到底是怎麼回事...。
 
-![Correct orientation photos](/wp-content/be-files/WindowsLiveWriter/CanonG9_299C/image_12.png)
+![Correct orientation photos](/images/2008-08-28-canon-g9-kept-me-awake-photo-auto-rotation-problem/image_12.png)
 
 這幾張是正確的 (右上 & 左下，會自動轉 90 度)
 
-![Incorrect orientation photos](/wp-content/be-files/WindowsLiveWriter/CanonG9_299C/image_11.png)
+![Incorrect orientation photos](/images/2008-08-28-canon-g9-kept-me-awake-photo-auto-rotation-problem/image_11.png)
 
 這幾張是錯的 (應該自動轉 90 度才對)
 
-![Wrong rotation](/wp-content/be-files/WindowsLiveWriter/CanonG9_299C/image_10.png)
+![Wrong rotation](/images/2008-08-28-canon-g9-kept-me-awake-photo-auto-rotation-problem/image_10.png)
 
 第二張是錯的 (應該要轉 180 度才對)
 
@@ -36,7 +36,7 @@ wordpress_postid: 75
 
 因為我的照片都是自己用 WPF 寫程式縮圖處理的，我開始懷疑是不是我的歸檔程式的問題。G9 拍的 .CR2 檔，透過 RAW CODEC 轉成 JPEG 會自動轉正，G9 / IXUS55 拍的 JPG 檔則不會...
 
-![EXIF orientation values](/wp-content/be-files/WindowsLiveWriter/CanonG9_299C/image_9.png)
+![EXIF orientation values](/images/2008-08-28-canon-g9-kept-me-awake-photo-auto-rotation-problem/image_9.png)
 
 嗯，開始無聊了，拿起相機拍了四種角度，然後用 DEBUGGER 去看 EXIF 的 ORIENTATION 值為啥... .CR2 要用 "/ifd/{ushort=274}" 來查，會得到一個 UInt16 的值，如果是 .JPG 則要改成 "/app1/{ushort=0}/{ushort=274}" ...
 

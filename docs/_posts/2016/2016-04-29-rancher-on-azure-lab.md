@@ -61,7 +61,7 @@ wordpress_postid: 1159
 
 # STEP #0, Planning
 
-![Planning Diagram](/wp-content/uploads/2016/04/img_5720ee43d57b5.png)
+![Planning Diagram](/images/2016-04-29-rancher-on-azure-lab/img_5720ee43d57b5.png)
 
 我這次 LAB 想架設的環境，就用典型的切割開發跟正式環境吧。我希望有兩組 Docker Cluster, 分別做為開發及正式使用。開發環境理所當然的要架設在 Intranet 內，這次案例我就用我自己的 PC 開 VM 來模擬。而正式環境就在 Azure 上面架設。然而這兩組環境，統一由一套 Rancher 來管理及佈署。
 
@@ -90,7 +90,7 @@ wordpress_postid: 1159
 
 過程很簡單，就是 Docker Engine 搞定後，docker run rancher/server 回來執行就完成了。裝好後預設的 PORT 是 8080，輸入 http://{your ip}:8080/ 就可以看到 Rancher Server 的管理介面了。預設不用密碼，我自己單機使用我就懶得去設定帳號權限，正式使用時請勿跳過這段!
 
-![Rancher Server 預設安裝的畫面](/wp-content/uploads/2016/04/img_57221f673affc.png)
+![Rancher Server 預設安裝的畫面](/images/2016-04-29-rancher-on-azure-lab/img_57221f673affc.png)
 *圖: Rancher Server 預設安裝的畫面*
 
 Rancher Server 跑起來不算輕快，Container Started 之後要等一兩分鐘才能完全啟動，請有耐心點等待，別以為你裝壞了。Rancher Server 用了不少 Java 開發的套件，啟動慢是正常的 @@，請別用太糟糕的規格給 Rancher Server, 官方建議是至少 1GB+ RAM, 我自己觀察，最後給了 2GB RAM 比較剛好，這個 VM 就只執行 Rancher OS + Rancher Server 這個 Container 而已，本身我並沒有讓他加入 Cluster，往後要佈署的服務也不會被放到這台 VM 上，單純當 Master 來使用。
@@ -101,25 +101,25 @@ Rancher Server 跑起來不算輕快，Container Started 之後要等一兩分�
 
 這邊有些準備動作要先做，我想建立一組 Docker Engine Cluster, 專供內部的 Development Team 使用，步驟是先準備好 Docker Engine 環境，然後按照 Rancher Server 的指示，執行 "Add Host" 的步驟，把這個 Docker Engine 納入 Cluster 的管控。這邊我比照前面的步驟，用 Rancher OS 建了三台 VM，分別是 Rancher Host #1 ~ #3。
 
-![Rancher Hosts](/wp-content/uploads/2016/04/img_57222434871bf.png)
+![Rancher Hosts](/images/2016-04-29-rancher-on-azure-lab/img_57222434871bf.png)
 
 接著，進入 Rancher Server, 先建立 "Local Environment"
 
 Environment > Manage Environments > Add Environment, Container Orchestration 選預設的 Cattle:
 
-![Add Environment](/wp-content/uploads/2016/04/img_572224eb7eda3.png)
+![Add Environment](/images/2016-04-29-rancher-on-azure-lab/img_572224eb7eda3.png)
 
 右上角切換到 Local Environment, 從 Infrastructure > Hosts > Add Host, 把建立好的三台 VM 都加進去: (手動增加 Host, 請選 Custom )
 
-![Add Host](/wp-content/uploads/2016/04/img_5722253db5c6e.png)
+![Add Host](/images/2016-04-29-rancher-on-azure-lab/img_5722253db5c6e.png)
 
 複製 (5) 的指令，到 Host 上面執行，稍等 3 ~ 5 分鐘，Rancher Agent 啟動執行完畢，就可以在 Rancher Server 上面看到這個 Host 了 !
 
-![Host Added](/wp-content/uploads/2016/04/img_572225fa8eeb3.png)
+![Host Added](/images/2016-04-29-rancher-on-azure-lab/img_572225fa8eeb3.png)
 
 介面設計的很不錯，上面跑了那些 container, 還有目前整個 host 的資源使用狀況，或是每個 container 的使用狀況都一清二楚:
 
-![Host Management](/wp-content/uploads/2016/04/img_5722269a33cb6.png)
+![Host Management](/images/2016-04-29-rancher-on-azure-lab/img_5722269a33cb6.png)
 
 # STEP #3, 架設 Azure Environment
 
@@ -129,7 +129,7 @@ Environment > Manage Environments > Add Environment, Container Orchestration 選
 
 一樣，先準備 Azure Environment，切換過去後，從 Infrastructure > Hosts > Add Host ，輸入你 Azure 上的資訊，還有你要開設的 VM 規格及數量後:
 
-![Azure Configuration](/wp-content/uploads/2016/04/img_57222755ed594.png)
+![Azure Configuration](/images/2016-04-29-rancher-on-azure-lab/img_57222755ed594.png)
 
 按下 [CREATE] ，等個幾分鐘就一切大功告成! 你下單的 Host 就都排排站在那邊等你差遣了 XD
 
@@ -139,27 +139,27 @@ Environment > Manage Environments > Add Environment, Container Orchestration 選
 
 步驟一樣很簡單... 就跟在 PCHome 上面買東西一樣... 從 Marketplace 挑選: Containers > Azure Container Service..
 
-![Azure Container Service](/wp-content/uploads/2016/04/img_572227ef0fa06.png)
+![Azure Container Service](/images/2016-04-29-rancher-on-azure-lab/img_572227ef0fa06.png)
 
 填一下基本設定，登入帳號，還有 SSH 要用的 public key，挑選你要用的機房...
 
-![Azure Setup 1](/wp-content/uploads/2016/04/img_5722283f5022e.png)
+![Azure Setup 1](/images/2016-04-29-rancher-on-azure-lab/img_5722283f5022e.png)
 
 選擇你要用的 Orchestrator configuration, 這邊我就用最標準的 Swarm ...
 
-![Azure Setup 2](/wp-content/uploads/2016/04/img_5722285abac2c.png)
+![Azure Setup 2](/images/2016-04-29-rancher-on-azure-lab/img_5722285abac2c.png)
 
 選擇訂購數量，看看你要什麼規格的 VM 要幾台...
 
-![Azure Setup 3](/wp-content/uploads/2016/04/img_5722286ce0af1.png)
+![Azure Setup 3](/images/2016-04-29-rancher-on-azure-lab/img_5722286ce0af1.png)
 
 最後，付款前最終確認...
 
-![Azure Setup 4](/wp-content/uploads/2016/04/img_5722287ce9238.png)
+![Azure Setup 4](/images/2016-04-29-rancher-on-azure-lab/img_5722287ce9238.png)
 
 完成，接下來你只要等就可以了...
 
-![Azure Deployment](/wp-content/uploads/2016/04/img_57222899d6dc6.png)
+![Azure Deployment](/images/2016-04-29-rancher-on-azure-lab/img_57222899d6dc6.png)
 
 Orz, 真的是 OOXX ... 之前研究了半天，結果按幾下就可以用了... 這個速成的時代，你要會的 "操作" 跟 "基礎知識" 的落差實在是越來越大了。很難想像再晚十年才進入這行的年輕人，到時他們接受的資訊量，腦袋還能負荷嗎? 未來懂得操作又能理解背後的基礎知識的人，會不會越來越少?
 
@@ -183,11 +183,11 @@ OK，官方都這樣說了... 只好等了~
 
 怎麼切換? 很簡單，右上角的 Environment 選單選完就好了...
 
-![Environment Switch](/wp-content/uploads/2016/04/img_57225073588ee.png)
+![Environment Switch](/images/2016-04-29-rancher-on-azure-lab/img_57225073588ee.png)
 
 這邊補充一下 Rancher 的用語。以我的例子，我佈署的是整套 WordPress 服務。這整組服務就稱作 Stack, 而每個角色 (如 WEB，DB) 則稱作 Service，每個 Service 可能是由一個或多個 Container 組合起來的，那這就叫 Node。因此，你可以從管理介面上看到這些服務組成的關係，跟細節的相關資訊。
 
-![Stack Configuration](/wp-content/uploads/2016/04/img_57222bf24eb00.png)
+![Stack Configuration](/images/2016-04-29-rancher-on-azure-lab/img_57222bf24eb00.png)
 
 Applications > Stacks > Add Stack, 輸入你要建立的服務組態。這邊要是你用過 Docker Compose 的話，那麼這個介面一看就懂了，其實你就是把 docker-compose.yml 的內容傳上去或是直接貼上去就搞定了，你需要幾個 conainer, 彼此之間怎麼連結, 通通都是貼上後按 CREATE 就 OK~
 
@@ -195,37 +195,37 @@ Applications > Stacks > Add Stack, 輸入你要建立的服務組態。這邊要
 
 等 Rancher 佈署完成，連上對應的 IP / PORT 就可以使用了!
 
-![Hello World Deployment](/wp-content/uploads/2016/04/img_57222ce1d6a74.png)
+![Hello World Deployment](/images/2016-04-29-rancher-on-azure-lab/img_57222ce1d6a74.png)
 
-![Hello World Result](/wp-content/uploads/2016/04/img_57222dbf32386.png)
+![Hello World Result](/images/2016-04-29-rancher-on-azure-lab/img_57222dbf32386.png)
 
 # STEP #5, Scale Out Your Service
 
 如果你的服務要正式上線，通常 Scale Out, 設定 Load Balancer 提高服務能力，及提高可靠度都是必要的動作。到這個 Service 的頁面，Scale 的數值設定成你要的值，然後就靜靜地等 Rancher 幫你擴充 container 的數量就完成了 :D
 
-![Scale Out](/wp-content/uploads/2016/04/img_57222d3b27ac3.png)
+![Scale Out](/images/2016-04-29-rancher-on-azure-lab/img_57222d3b27ac3.png)
 
 老實說這動作有點無腦... 不過要留意的是， Rancher 會替你把 container 分散在不同的 host 上面。如果你想挑選... 我還找不到很明確的方法來做這件事 XD
 
 等它跑完後，當然可以執行。Rancher 會替你把每個 container 分配在不同的 host。由於還沒有啟用 Load Balancer, 因此要個別用不同的 IP 連到這三個 instance:
 
-![Multiple Instances 1](/wp-content/uploads/2016/04/img_57222dbf32386.png)
-![Multiple Instances 2](/wp-content/uploads/2016/04/img_57222da8cce29.png)
-![Multiple Instances 3](/wp-content/uploads/2016/04/img_57222dd6387ea.png)
+![Multiple Instances 1](/images/2016-04-29-rancher-on-azure-lab/img_57222dbf32386.png)
+![Multiple Instances 2](/images/2016-04-29-rancher-on-azure-lab/img_57222da8cce29.png)
+![Multiple Instances 3](/images/2016-04-29-rancher-on-azure-lab/img_57222dd6387ea.png)
 
 仔細看，這三個分別是 Host #1, #2, #3 的 IP address, 連到這三個不同的 container 也得到不一樣的 hostname ..
 
 來試看看 Rancher 內建的 Load Balancer 怎麼用吧~ 回到 Stack, 在這組 Application 內新增 [Load Balancer] 這個服務:
 
-![Add Load Balancer](/wp-content/uploads/2016/04/img_57222e40753c8.png)
+![Add Load Balancer](/images/2016-04-29-rancher-on-azure-lab/img_57222e40753c8.png)
 
-![Load Balancer Config](/wp-content/uploads/2016/04/img_57222e6614ecf.png)
+![Load Balancer Config](/images/2016-04-29-rancher-on-azure-lab/img_57222e6614ecf.png)
 
 Load Balancer 的設定，你可以直接綁訂它要處理的 Target Services. 這邊可以跨越 Stack 連結 Services, 意思是你可以替好幾個不同的應用 (Stacks), 透過同一個 Load Balancer 服務來發佈它。設定完成後，改用 Load Balancer 的網址重新來看看這個 Tutum 的 Hello-World:
 
-![Load Balancer Test 1](/wp-content/uploads/2016/04/img_57222efa89b05.png)
-![Load Balancer Test 2](/wp-content/uploads/2016/04/img_57222f0e3fe62.png)
-![Load Balancer Test 3](/wp-content/uploads/2016/04/img_57222f1f04992.png)
+![Load Balancer Test 1](/images/2016-04-29-rancher-on-azure-lab/img_57222efa89b05.png)
+![Load Balancer Test 2](/images/2016-04-29-rancher-on-azure-lab/img_57222f0e3fe62.png)
+![Load Balancer Test 3](/images/2016-04-29-rancher-on-azure-lab/img_57222f1f04992.png)
 
 我可是重新整理按了好幾次，才湊滿這三張畫面的... 這證明了 Load Balancer 發揮作用了! 看它的官方文件，得知 Rancher Load Balancer 服務其實用的就是 HA-Proxy, 因此很多進階的設定檔也都可以直接使用 HA Proxy 的語法來進行。這邊就不多做說明，各位有需要研究可以參考官方網站的說明:  [Adding Load Balancers](http://docs.rancher.com/rancher/rancher-ui/applications/stacks/adding-balancers)
 
@@ -235,29 +235,29 @@ Load Balancer 的設定，你可以直接綁訂它要處理的 Target Services. 
 
 先來看看怎麼做吧，回頭再來說背後的原理... 這邊假定你的服務都是透過 Stack 的方式佈署，也就是背後都會有對應的 docker compose 設定檔。所以如何指派你的更新內容? 當然就是異動你的 docker compose 設定了。透過新的 docker compose 設定，Rancher 會替你把更新的 container 拉回來，替代你現在正在運作的服務。
 
-![Upgrade Option](/wp-content/uploads/2016/04/img_572245251ccec.png)
+![Upgrade Option](/images/2016-04-29-rancher-on-azure-lab/img_572245251ccec.png)
 
 首先，Rancher 很貼心的直接把 Upgrade 獨立成一個選項...
 
-![Upgrade Configuration](/wp-content/uploads/2016/04/img_5722456271099.png)
+![Upgrade Configuration](/images/2016-04-29-rancher-on-azure-lab/img_5722456271099.png)
 
 之後就可以看到整個 Service 的設定畫面了，包含你的 container image 來源，container 環境設定，包含 port mapping, start up 參數，volumes .... 等等設定都可以在這邊調整。
 
 不過重點不在有多少設定可以更改，重點在最上面那行... Batch Size, Batch Interval, 還有 Start Behavior... 這三個參數的作用各位先記著，後面再說明..
 
-![Upgrade Process 1](/wp-content/uploads/2016/04/img_57224612a9f8f.png)
+![Upgrade Process 1](/images/2016-04-29-rancher-on-azure-lab/img_57224612a9f8f.png)
 
 線上服務的升級，優先以不中斷服務為主要目的，因此前面不論你改了甚麼設定，Rancher 不會去更動任何 "既有" 的 containers. 畫面上可以看到 Rancher 開始用新的設定值，替你按照需求，建立新的 container。圖中 TutumHelloWorld 這個 Service 的 Scale 設定為 3，不過 Rancher 卻幫你建立第四個了... 這就是將要替代舊服務的 container.
 
-![Upgrade Process 2](/wp-content/uploads/2016/04/img_572246be623eb.png)
+![Upgrade Process 2](/images/2016-04-29-rancher-on-azure-lab/img_572246be623eb.png)
 
 再繼續等下去，會發現三個 containers 都已經被建立好，同時也自動啟動了 (畫面中還有一個的狀態是 Starting 啟動中)。
 
-![Upgrade Process 3](/wp-content/uploads/2016/04/img_572247110c81d.png)
+![Upgrade Process 3](/images/2016-04-29-rancher-on-azure-lab/img_572247110c81d.png)
 
 要替換的服務都準備好，也成功啟動後... 原有的 containers 就可以退役了，於是 Rancher 就自動替你停掉他們... 畫面中可以看到原有的 containers 開始一個一個進到 Stopping 狀態...
 
-![Upgrade Process 4](/wp-content/uploads/2016/04/img_57224769ae0e1.png)
+![Upgrade Process 4](/images/2016-04-29-rancher-on-azure-lab/img_57224769ae0e1.png)
 
 隔了一會兒，舊的 containers 都成功的停掉了，這時看看右上角的服務狀態，已經從之前的 "Upgrading" 變為 "Upgraded"。這時你可以實際測試看看，是否新的服務都正常運行?
 
@@ -271,15 +271,15 @@ Load Balancer 的設定，你可以直接綁訂它要處理的 Target Services. 
 
 這邊我就不抓 Rollback 的畫面了，給各位看一下 Finish Upgrade 之後會有什麼事情發生:
 
-![Finish Upgrade 1](/wp-content/uploads/2016/04/img_572248b74e84a.png)
+![Finish Upgrade 1](/images/2016-04-29-rancher-on-azure-lab/img_572248b74e84a.png)
 
 右上角的服務狀態，變成 "Finishing Upgrade"，而經過 user 的確認之後，原有的 containers 就變成 Removing 的狀態，Rancher 開始替你刪除回收這些資源...
 
-![Finish Upgrade 2](/wp-content/uploads/2016/04/img_5722490655b73.png)
+![Finish Upgrade 2](/images/2016-04-29-rancher-on-azure-lab/img_5722490655b73.png)
 
 一切都完成後，服務狀態又回到正常的 "Active"，原有的 container 也已被移除，如果你畫面還沒刷新，那它會標示 "Removed"，如果你重新整理畫面，就會發現原有的 containers 完全消失了。
 
-![Upgrade Complete](/wp-content/uploads/2016/04/img_57224961c4cab.png)
+![Upgrade Complete](/images/2016-04-29-rancher-on-azure-lab/img_57224961c4cab.png)
 
 整個 Upgrade 程序，到這裡告一段落。這是我覺得最有用的部分，因為它大大解決了日常維運最常碰到的困擾啊... 其實整個流程並不難理解，但是過去同樣的動作，我都得自己下一堆指令... 下指令不是什麼難事，難就難在只要是人就醫訂有機會犯錯... 尤其在線上運作時，這些錯誤更難以接受... 這個功能就真的幫上大忙了!
 

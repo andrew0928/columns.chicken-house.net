@@ -66,15 +66,15 @@ public class PInvokeTest
 
 程式執行前，看一下 C:\ 的 DIR *.TXT 指令執行結果:
 
-![image](/wp-content/be-files/image_6.png)
+![image](/images/2010-03-23-txf-2-homework-first-pinvoke-and-win32-file-handling/image_6.png)
 
 沒錯，有 c:\file1.txt 這檔案... 接著來執行範例程式:
 
-![image](/wp-content/be-files/image_7.png)
+![image](/images/2010-03-23-txf-2-homework-first-pinvoke-and-win32-file-handling/image_7.png)
 
 執行成功。再重新看一下 C:\ 的 DIR *.TXT 指令執行結果:
 
-![image](/wp-content/be-files/image_8.png)
+![image](/images/2010-03-23-txf-2-homework-first-pinvoke-and-win32-file-handling/image_8.png)
 
 看來程式很順利的呼叫了 win32 api 裡定義的 MoveFile( ... ) ... 這種範例有點不入流，要處理檔案總不可能只有這樣吧? 接著我們再來看看需要 Open File 加上讀寫檔案內容的應用。
 

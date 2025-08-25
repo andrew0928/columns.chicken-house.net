@@ -6,10 +6,10 @@ tags: ["microservice", "Docker", "Windows Container", ".NET", "Container", "Tips
 published: true
 comments: true
 redirect_from:
-logo: /wp-content/images/2018-05-10-tips-handle-shutdown-event/2018-05-12-03-39-50.png
+logo: /images/2018-05-10-tips-handle-shutdown-event/2018-05-12-03-39-50.png
 ---
 
-![](/wp-content/images/2018-05-10-tips-handle-shutdown-event/2018-05-12-03-39-50.png)
+![](/images/2018-05-10-tips-handle-shutdown-event/2018-05-12-03-39-50.png)
 
 會寫這篇實在有點意料之外，原本我只是想寫 service discovery 使用 [consul](https://www.consul.io/) 的應用案例啊，為了配合我之前推廣的 [CDD](https://www.facebook.com/andrew.blog.0928/videos/509145696127380/) (**C**ontainer **D**riven **D**evelopment, 容器驅動開發) 的想法，所有的服務開發，只要搭配 container 就都能簡化成 console application 模式就好，結果過程就碰到這個坑...。解決的過程中，也意外挖出不少 google 不到的細節，加上這個問題沒搞定之前，我要寫的內容跟範例實在寫不下去啊.. 於是就多了這篇...
 
@@ -171,7 +171,7 @@ docker logs demo.console -f
 
 正確的話，應該會看到這樣的畫面:
 
-![](/wp-content/images/2018-05-10-tips-handle-shutdown-event/2018-05-11-01-59-31.png)
+![](/images/2018-05-10-tips-handle-shutdown-event/2018-05-11-01-59-31.png)
 
 
 **3, 停止 container, 觀察 stdout**:
@@ -208,7 +208,7 @@ docker stop demo.console
 
 [HandlerRoutine callback function](https://docs.microsoft.com/en-us/windows/console/handlerroutine)
 
-![](/wp-content/images/2018-05-10-tips-handle-shutdown-event/2018-05-10-23-01-02.png)
+![](/images/2018-05-10-tips-handle-shutdown-event/2018-05-10-23-01-02.png)
 
 
 
@@ -291,7 +291,7 @@ public partial class Form1 : Form
 基本上結構跟前面的一樣，只是把 handler routine 搬到 ```Form1``` 的 ```WndProc``` 這個 message 處理中心而已。一樣透過 ```AutoResetEvent``` 來跟主程式進行同步。改好 code 之後 (這版我沒有處理 CTRL-C, CLOSE-WINDOW 這些，我只處理 OS Shutdown)，我一樣用前面的方式，打包成 docker container 之後測試看看。這是 container stop 後的畫面:
 
 
-![](/wp-content/images/2018-05-10-tips-handle-shutdown-event/2018-05-11-02-05-29.png)
+![](/images/2018-05-10-tips-handle-shutdown-event/2018-05-11-02-05-29.png)
 
 真是太神奇了，終於可以成功的攔截到關機事件了。
 
@@ -303,7 +303,7 @@ public partial class Form1 : Form
 
 這就是我在個人 facebook 上面發的牢騷:
 
-![](/wp-content/images/2018-05-10-tips-handle-shutdown-event/2018-05-12-11-21-21.png)
+![](/images/2018-05-10-tips-handle-shutdown-event/2018-05-12-11-21-21.png)
 > 為了搞定 .net framework + windows container 某個功能, 竟然還要動用到 windows form ....
 
 我講的就是這篇文章要搞定的問題。其實這件事困擾我很久了，幾個月前我讓同事幫忙處理這個問題 (我知道你有在看，就是你 XD)，但是當時的進度只到第一個做法就沒繼續挖下去了，直到最近我有點空檔，親自花了些時間研究，才挖出這堆東西。雖然身為資深的 Microsoft 陣營開發人員，但是還是不免抱怨幾句 XD, 我知道這些坑，都是將來要跨入 windows container 的朋友們一定會碰到的，希望我的經驗可以幫得上忙 :D

@@ -34,7 +34,7 @@ wordpress_postid: 43
 
 在開始之前，我們先來看看一個最簡單的 Entity Framework 的範例，然後來看看封裝性能夠對你的程式帶來什麼影響? 先來看看只用到了 ORM 卻沒發揮封裝性的例子:
 
-![image](/wp-content/be-files/WindowsLiveWriter/EF2.Entityencapsulation_14856/image_thumb_1.png)
+![image](/images/2009-01-23-ef2-entity-encapsulation/image_thumb_1.png)
 
 這是存放會員資料的表格，對應的 TABLE 很簡單，SQL 如下:
 

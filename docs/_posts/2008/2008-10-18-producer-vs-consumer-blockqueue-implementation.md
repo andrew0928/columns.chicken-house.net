@@ -26,7 +26,7 @@ wordpress_postid: 57
 
 把這個動作想像成我們有兩組人分別負責下載及壓縮的動作，下載的部份可以多執行緒同時進行沒問題，但是下載好一個檔案，就可以先丟給後面的那組人開始壓縮了，不用等期它人下載完成。如果下載的暫存目錄空間有限，我們甚至可以這樣調整: 當 TEMP 滿了的話，下載動作就暫停，等到 TEMP 裡的東西壓縮好清掉一部份後再繼續。而壓縮的部份則相反，如果 TEMP 已經空了就暫停，等到有東西進來再繼續，直到完成為止。 
 
-![](/wp-content/be-files/WindowsLiveWriter/vsBlockQueue_7B44/image_2.png)
+![](/images/2008-10-18-producer-vs-consumer-blockqueue-implementation/image_2.png)
 
 前後兩階段該如何利用多執行緒，我就跳過去了， [過去那幾篇](/category/Threading.aspx) 就足以應付。這種模式的關鍵在於前後兩階段的進度該如何平衡。有些範例是有照規矩的把這模式實作出來，不過... 你也知道，看起來就是像作業的那種，完全不像是可以拿來正規的用途。 
 
@@ -152,13 +152,13 @@ Consumer 也很簡單，每個 Consumer 只是去 Queue 拿東西出來，顯示
 
 要試試生產者/消費者模式的各種狀況，可以試著調整兩者的執行緒數量。舉例來說，調大 Producer 執行緒數量時 (P: 10 / C:5)，結果是這樣: 
 
-![](/wp-content/be-files/WindowsLiveWriter/vsBlockQueue_7B44/image_7.png)
+![](/images/2008-10-18-producer-vs-consumer-blockqueue-implementation/image_7.png)
 
 
 Producer 的進度大約就是領先 Consumer 的進度 10 筆資料左右，領先的幅度就暫停了，不會無止境的成長下去。證明卡在 QUEUE 內的數量受到控制。接下來再來看看調高 Consumer 的執行緒數量的結果: 
 
 
-![](/wp-content/be-files/WindowsLiveWriter/vsBlockQueue_7B44/image_8.png)
+![](/images/2008-10-18-producer-vs-consumer-blockqueue-implementation/image_8.png)
 
 
 好像 [iPhone 上市搶購熱潮](http://taiwan.cnet.com/crave/0,2000088746,20130427,00.htm) 一樣 @_@，供不應求，Producer 提供的資料馬上被搶走了...。 

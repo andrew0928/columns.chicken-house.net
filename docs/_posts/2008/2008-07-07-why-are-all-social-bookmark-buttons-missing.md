@@ -16,15 +16,15 @@ redirect_from:
 wordpress_postid: 87
 ---
 
-![image](/wp-content/be-files/WindowsLiveWriter/8dc7a0549a69_196F/image_12.png)
+![image](/images/2008-07-07-why-are-all-social-bookmark-buttons-missing/image_12.png)
 
 前兩天突然發現，怎麼一堆文章原本有推文數字的，怎麼都不見了?
 
-![image](/wp-content/be-files/WindowsLiveWriter/8dc7a0549a69_196F/image_14.png)
+![image](/images/2008-07-07-why-are-all-social-bookmark-buttons-missing/image_14.png)
 
 網站有問題怎麼可以不追查個水落石出? 連到推推王找一下當時的推文... 耶? 還在啊，旁邊還有推文記錄...。
 
-![image](/wp-content/be-files/WindowsLiveWriter/8dc7a0549a69_196F/image_13.png)
+![image](/images/2008-07-07-why-are-all-social-bookmark-buttons-missing/image_13.png)
 
 怪的是從推推王點回來看我的文章，Oops!
 
@@ -36,7 +36,7 @@ wordpress_postid: 87
 
 真妖獸，馬上聯想到前幾天升級 BE1.4 可能會有影響，就搬出 VSS 來比對一下，果然 1.3 跟 1.4 在自動產生 SLUG (SLUG 就是指 POST 網址後面那一串) 的規責有調整過:
 
-![image](/wp-content/be-files/WindowsLiveWriter/8dc7a0549a69_196F/image_3.png)
+![image](/images/2008-07-07-why-are-all-social-bookmark-buttons-missing/image_3.png)
 
 嗯，肉眼看的出的調整，包括逗號被移掉，連續多個 -- 也會被替換成 - ，這個案例就是原網址的 "---" 換成 "-" 後就連不到了 :@
 

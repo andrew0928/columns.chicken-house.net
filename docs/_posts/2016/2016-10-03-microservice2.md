@@ -8,7 +8,7 @@ tags: ["Microservice"]
 published: true
 comments: true
 # redirect_from:
-logo: /wp-content/uploads/2016/10/microservice-refactoring.gif
+logo: /images/2016-10-03-microservice2/microservice-refactoring.gif
 ---
 
 上一篇說明了微服務架構的好處，這篇來談談該如何做。其實說穿了很簡單，不就把大型的單體式
@@ -25,7 +25,7 @@ logo: /wp-content/uploads/2016/10/microservice-refactoring.gif
 
 <!--more-->
 
-![refactoring](/wp-content/uploads/2016/10/microservice-refactoring.gif)  
+![refactoring](/images/2016-10-03-microservice2/microservice-refactoring.gif)  
 圖片出處: [http://blogs.perpetuumsoft.com/dotnet/to-refactor-or-not-to-refactor-part-i/](http://blogs.perpetuumsoft.com/dotnet/to-refactor-or-not-to-refactor-part-i/)
 
 {% include series-2016-microservice.md %}

@@ -77,35 +77,35 @@ wordpress_postid: 82
 
 後來追了半天才意外發現問題出在這... 打開 ASP.NET Trace, 看一下 REMOTE_ADDR 到底抓到啥子東西?
 
-![image](/wp-content/be-files/WindowsLiveWriter/IPv6_13D1E/image_21.png)
+![image](/images/2008-08-13-so-ipv6-was-the-culprit/image_21.png)
 
 嘖嘖嘖，搞半天原來是 Vista 預設把 IPv6 給開了起來，IIS7 / DevWeb 都中獎，直接回報 IPv6 格式的 IP Address 回來... 怎麼解? 這種問題說穿了就不值錢，強迫用 IPv4 就好。我試過幾種可行的方式，有:
 
 1. **直接用 IPv4 的位址連線**: 這簡單，以我來說，URL 從 http://localhost/default.aspx 改成 http://192.168.100.40/default.aspx 就好了。不過這樣對 DevWeb 就沒用了，DevWeb 只接受來自 localhost 的連線...
 
-   ![image](/wp-content/be-files/WindowsLiveWriter/IPv6_13D1E/image_22.png)
+   ![image](/images/2008-08-13-so-ipv6-was-the-culprit/image_22.png)
 
 2. **改 IIS 設定，直接綁到 IPv4 的位址**，不過這招試不出來，似呼沒啥用，localhost 不會連到 192.168.100.40，而我直接打這 IP 的話就會變成範例1...
 
-   ![image](/wp-content/be-files/WindowsLiveWriter/IPv6_13D1E/image_23.png)
+   ![image](/images/2008-08-13-so-ipv6-was-the-culprit/image_23.png)
 
 3. **改 c:\windows\system32\drivers\etc\hosts**
 
    無意間 PING 看看 localhost, 才發現連 localhost 都被對應到 IPv6 了...
 
-   ![image](/wp-content/be-files/WindowsLiveWriter/IPv6_13D1E/image_29.png)
+   ![image](/images/2008-08-13-so-ipv6-was-the-culprit/image_29.png)
 
    打開 C:\windows\system32\drivers\etc\hosts 這檔案看一看，果然...
 
-   ![image](/wp-content/be-files/WindowsLiveWriter/IPv6_13D1E/image_28.png)
+   ![image](/images/2008-08-13-so-ipv6-was-the-culprit/image_28.png)
 
    把 IPv6 那行拿掉後再試試 ping localhost ...
 
-   ![image](/wp-content/be-files/WindowsLiveWriter/IPv6_13D1E/image_27.png)
+   ![image](/images/2008-08-13-so-ipv6-was-the-culprit/image_27.png)
 
    耶! 這次 IP 就變成 IPv4 的了... 開 IE, 連 http://localhost/default.aspx 看看，it works!
 
-   ![image](/wp-content/be-files/WindowsLiveWriter/IPv6_13D1E/image_26.png)
+   ![image](/images/2008-08-13-so-ipv6-was-the-culprit/image_26.png)
 
    因為這招是直接把 localhost 對應到 127.0.0.1，因此對於鎖 localhost 的 WEBDEV 也可以用。
 
@@ -113,9 +113,9 @@ wordpress_postid: 82
 
    真是個沒品的傢伙，打不過就來這套...
 
-   ![image](/wp-content/be-files/WindowsLiveWriter/IPv6_13D1E/image_25.png)
+   ![image](/images/2008-08-13-so-ipv6-was-the-culprit/image_25.png)
 
-   ![image](/wp-content/be-files/WindowsLiveWriter/IPv6_13D1E/image_24.png)
+   ![image](/images/2008-08-13-so-ipv6-was-the-culprit/image_24.png)
 
    這樣也可以...
 

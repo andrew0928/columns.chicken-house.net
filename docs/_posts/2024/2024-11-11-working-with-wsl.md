@@ -9,10 +9,10 @@ comments_disqus: false
 comments_facebook: false
 comments_gitalk: true
 redirect_from:
-logo: /wp-content/images/2024-11-11-working-with-wsl/logo.jpg
+logo: /images/2024-11-11-working-with-wsl/logo.jpg
 ---
 
-![](/wp-content/images/2024-11-11-working-with-wsl/logo.jpg)
+![](/images/2024-11-11-working-with-wsl/logo.jpg)
 > 圖: DALL-E, 趕流行, 我讓 ChatGPT 搜尋我自己然後畫出來的形象圖..
 
 TL;DR; 這篇只是心得文而已，記錄我把主要工作環境翻新成 WSL + VS code 的過程，跟背後追問題學到的冷知識..
@@ -86,7 +86,7 @@ OS: Microsoft Windows 11 Pro (24H2, 趁機重灌, 重建環境)
 
 在這邊先科普一下 WSL 的 file system 架構... 看底下這張圖:
 
-![](/wp-content/images/2024-11-11-working-with-wsl/image.png)
+![](/images/2024-11-11-working-with-wsl/image.png)
 > 來源: [Introduction to WSL 2](https://www.polarsparc.com/xhtml/IntroToWSL2.html)
 
 
@@ -251,7 +251,7 @@ Number of I/O units to keep in flight against the file. Note that increasing iod
 
 我找了張仔細一點的架構圖:
 
-![alt text](/wp-content/images/2024-11-11-working-with-wsl/image-2.png)
+![alt text](/images/2024-11-11-working-with-wsl/image-2.png)
 > 來源: [第2版視窗子系統Linux　二刀流無縫順暢運行](https://www.netadmin.com.tw/netadmin/zh-tw/technology/EDC6D4560B184F0D9E7A750862D3C9E4)
 
 每多一層轉換，IO 的效率就會 **很有感** 的下降一級... 按照這圖的說明，我把前面測試的四種案例經過的轉換，都整理成列表，並且做成表格:
@@ -379,7 +379,7 @@ C:\CodeWork>dir
 ```
 
 檔案總管下，也看的到類似的資訊:
-![alt text](/wp-content/images/2024-11-11-working-with-wsl/file-explorer-mklink.png)
+![alt text](/images/2024-11-11-working-with-wsl/file-explorer-mklink.png)
 
 
 
@@ -630,7 +630,7 @@ andrew@113N000081:~$ explorer.exe .
 
 開出來的檔案總管 (注意看檔案總管的資料夾開在這位置 ```\\wsl.localhost\Ubuntu\home\andrew``` ):
 
-![alt text](/wp-content/images/2024-11-11-working-with-wsl/wsl-launch-explorer.png)
+![alt text](/images/2024-11-11-working-with-wsl/wsl-launch-explorer.png)
 
 
 
@@ -671,7 +671,7 @@ magic 4d5a
 
 **No source code** needs to be on your local machine to get these benefits. Each extension in the [Remote Development extension pack](https://aka.ms/vscode-remote/download/extension) can run commands and other extensions directly inside a container, in WSL, or on a remote machine so that everything feels like it does when you run locally.
 
-![alt text](/wp-content/images/2024-11-11-working-with-wsl/image-3.png)
+![alt text](/images/2024-11-11-working-with-wsl/image-3.png)
 
 Remote Development 支援好幾種環境 ( SSH, WSL, DevContainer, Tunnel )，我只針對 WSL 環境的使用來介紹就好了。官方的說明我貼兩個，一個是 vscode server 的架構說明，另一個是 WSL 的部署方式。
 
@@ -685,7 +685,7 @@ We now provide a standalone "VS Code Server," which is a service built off the s
 
 從架構圖來看, vscode 就是負責 ui 操作, 而 source code 的存取 ( file system ), terminal, run / debug application 等等都是在 vscode server 這端進行的, 中間只透過 vscod remote - tunnel extension 來溝通
 
-![alt text](/wp-content/images/2024-11-11-working-with-wsl/image-4.png)
+![alt text](/images/2024-11-11-working-with-wsl/image-4.png)
 
 
 
@@ -697,7 +697,7 @@ The Visual Studio Code WSL extension lets you use the Windows Subsystem for Linu
 
 The extension runs commands and other extensions directly in WSL so you can edit files located in WSL or the mounted Windows filesystem (for example /mnt/c) without worrying about pathing issues, binary compatibility, or other cross-OS challenges.
 
-![alt text](/wp-content/images/2024-11-11-working-with-wsl/image-1.png)
+![alt text](/images/2024-11-11-working-with-wsl/image-1.png)
 
 This lets VS Code provide a local-quality development experience — including full IntelliSense (completions), code navigation, and debugging — regardless of where your code is hosted.
 
@@ -735,19 +735,19 @@ andrew@113N000081:/opt/docker/columns.chicken-house.net$
 
 
 1. 試試看 CTRL-O 開啟檔案, 你會發現能選的檔案，都是 linux 環境下的檔案:  
-![alt text](/wp-content/images/2024-11-11-working-with-wsl/vscode-open-file-dialog.png)  
+![alt text](/images/2024-11-11-working-with-wsl/vscode-open-file-dialog.png)  
 
 1. 用 CTRL-` 開啟 vscode 內建的 terminal, 開出來的是 linux 下的 bash, 工作目錄就是 git repo 的目錄:  
-![alt text](/wp-content/images/2024-11-11-working-with-wsl/vscode-terminal.png)  
+![alt text](/images/2024-11-11-working-with-wsl/vscode-terminal.png)  
 
 1. 在 terminal 啟動 docker compose, 會直接起一個 GitHub Pages 的 container, 跑 Jekyll 來建置靜態網站:  
-![alt text](/wp-content/images/2024-11-11-working-with-wsl/image-6.png)  
+![alt text](/images/2024-11-11-working-with-wsl/image-6.png)  
 
 1. (bonus) 可以偵測這個 session 是否有轉發 ports, 可以列出來並且開瀏覽器預覽內容:  
-![alt text](/wp-content/images/2024-11-11-working-with-wsl/image-7.png)
+![alt text](/images/2024-11-11-working-with-wsl/image-7.png)
   
 1. 如果你喜歡，可以在 vscode 預覽:  
-![alt text](/wp-content/images/2024-11-11-working-with-wsl/image-9.png)  
+![alt text](/images/2024-11-11-working-with-wsl/image-9.png)  
 
 
 >
@@ -824,16 +824,16 @@ docker run -d --gpus=all -v ollama:/root/.ollama -p 11434:11434 --name ollama ol
 
 試跑了一下 ```llama3.2```, 問了幾個問題, 回應速度還挺快的, 底下這堆訊息大概一秒鐘就回應完成了, 比正常人說話的速度快多了:
 
-![alt text](/wp-content/images/2024-11-11-working-with-wsl/image-8.png)
+![alt text](/images/2024-11-11-working-with-wsl/image-8.png)
 
 
 對應 windows 的 task manager, 果然看的到 GPU 有 loading... 多問了兩句，感覺對於 RTX4060Ti-16GB 來說不痛不癢的:
-![alt text](/wp-content/images/2024-11-11-working-with-wsl/image-10.png)
+![alt text](/images/2024-11-11-working-with-wsl/image-10.png)
 
 
 大功告成! 看來我也可以無痛的在 wsl 下面執行需要 CUDA 的應用程式了，最後我弄了個 ollama + open-webui 的 ```docker-compose.yaml``` (可以參考黑大的範本: [傻瓜 LLM 架設 - Ollama + Open WebUI 之 Docker Compose 懶人包](https://blog.darkthread.net/blog/ollam-open-webui/))，無痛就起了一個私人的類 ChatGPT UI...
 
-![alt text](/wp-content/images/2024-11-11-working-with-wsl/image-11.png)
+![alt text](/images/2024-11-11-working-with-wsl/image-11.png)
 
 
 這條路打通，開始很多需要靠 GPU 的應用就都隨手可得了。拿個 ```docker-compose.yaml```，執行 ```docker compose up -d``` , 就能啟動完整的服務, 要跑 ollama, vllm, stable diffusion 以及各種好用的 UI 都不是問題了。
@@ -855,7 +855,7 @@ docker run -d --gpus=all -v ollama:/root/.ollama -p 11434:11434 --name ollama ol
 **VM 內的 GPU: /dev/dxg**:  
 Guest OS 會有對應的虛擬化的硬體, 在 Linux 下就是 ```/dev/dxg``` (我猜 dxg 是指: DirectX Graphics, 因為 Microsoft 在多個地方都用到這名詞，例如 [DXGI](https://learn.microsoft.com/en-us/windows/win32/direct3ddxgi/d3d10-graphics-programming-guide-dxgi?source=docs&WT.mc_id=email&sharingId=AZ-MVP-5002155) - DirectX Graphics Infrastructure, [DXGKNL](https://learn.microsoft.com/en-us/windows-hardware/drivers/display/directx-graphics-kernel-subsystem?source=docs&WT.mc_id=email&sharingId=AZ-MVP-5002155) - DirectX Graphics Kernel Subsystem) 這個 device, Microsoft 直接為了這個虛擬 GPU 寫了 driver, 然後這路線就打通了
 
-![alt text](/wp-content/images/2024-11-11-working-with-wsl/image-12.png)
+![alt text](/images/2024-11-11-working-with-wsl/image-12.png)
 
 
 **GPU 對應的涵式庫**:
@@ -868,7 +868,7 @@ GPU 虛擬化打通之後，Microsoft 第一件事是拿 Direct X 的 source 在
 
 看來，四年前的 //Build 就給我答案了，Direct ML 也能被移植到 WSL.. 我相信這範圍的應用會比 D3D 來的吸引人。
 
-![alt text](/wp-content/images/2024-11-11-working-with-wsl/image-13.png)
+![alt text](/images/2024-11-11-working-with-wsl/image-13.png)
 
 
 除了 DirectX 系列的移植，其他 AI 運算涵式庫，最大宗的就是 CUDA 了，其他還有 OpenGL, OpenCL 等等, 也都循同樣路徑, 從 DxCore 開始來轉換提供相容性。從架構圖來看, 轉換的架構略有不同，不過結果很簡單，就是 WSL 也能用到 GPU 資源了。看完這個架構，我才理解，為何我在處理 WSL 下跑 CUDA 應用的時候，好幾份文件都強調:
@@ -878,10 +878,10 @@ GPU 虛擬化打通之後，Microsoft 第一件事是拿 Direct X 的 source 在
 原來就是這個原因，因為關鍵都在啟動 GPU 虛擬化.. 這關打通後，後面的其實都一樣，WSL 直接內建了。真正要裝在 WSL 內的應該是 Microsoft 替 ```/dev/dxg``` 寫的 driver, 而不是 GPU 原廠寫的 driver 啊
 
 最後捕兩張圖: OpenGL, OpenCL 等套件, 是透過 mesa library 來實作的:
-![alt text](/wp-content/images/2024-11-11-working-with-wsl/image-14.png)
+![alt text](/images/2024-11-11-working-with-wsl/image-14.png)
 
 而 CUDA 的堆疊路徑有點差別, 直接從 DxCore 對應而來:
-![alt text](/wp-content/images/2024-11-11-working-with-wsl/image-15.png)
+![alt text](/images/2024-11-11-working-with-wsl/image-15.png)
 
 
 **GUI 應用程式**:
@@ -902,14 +902,14 @@ WSL 2 enables Linux GUI applications to feel native and natural to use on Window
 
 You can now integrate both Windows and Linux applications into your workflow for a seamless desktop experience.
 
-![alt text](/wp-content/images/2024-11-11-working-with-wsl/image-16.png)
+![alt text](/images/2024-11-11-working-with-wsl/image-16.png)
 
 
 # 5, 心得
 
 從 2014 Satya Nadella 接任 Microsoft CEO, 開始喊 "Microsoft Love Linux" 開始, 到現在 10 年了, 真心佩服他有辦法把 windows 生態系改造成現在這個樣子, windows 終究不是 linux, 但是兩個異質的作業系統, Microsoft 能 (願意) 整合到這種程度也是挺了不起的..
 
-![alt text](/wp-content/images/2024-11-11-working-with-wsl/image-17.png)
+![alt text](/images/2024-11-11-working-with-wsl/image-17.png)
 > 果然 Microsoft 要有愛才能做到這程度啊
 
 當年寫的這篇: [[架構師觀點] .NET 開發人員該如何看待 Open Source Solutions?](/2016/05/05/archview-net-open-source/)，看起來預測的每件事情都逐步實現了。Visual Studio 已經可以直接編譯 & 測試 Linux APP 了，.NET 真的也擴展到 Linux 及 IoT 等領域, VS Code 已經是各平台的 IDE 首選了。而這篇講的工作環境整合，則是說明 windows 已經可以成為 linux 的開發環境了。

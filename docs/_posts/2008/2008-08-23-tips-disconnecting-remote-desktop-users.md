@@ -21,11 +21,11 @@ wordpress_postid: 78
 
 什麼秘技都一樣，說穿了就不值錢。半年前貼了一篇 [[遠端桌面連線的小技巧](/post/Tips-e981a0e7abafe6a18ce99da2e980a3e7b79ae79a84e5b08fe68a80e5b7a7.aspx)]，裡面講到加上 /console 這參數就能連到 console session，不會跟其它人去搶那兩個連線，就可以把不順眼的 USER 砍了。連進去後要砍人很簡單，工作管理員叫出來，最後一頁 [USER] 就會列出有多少人掛在上面...
 
-![Remote Desktop Task Manager](/wp-content/be-files/WindowsLiveWriter/Tips_D86B/image_5.png)
+![Remote Desktop Task Manager](/images/2008-08-23-tips-disconnecting-remote-desktop-users/image_5.png)
 
 通常這樣就能解決 90% 的問題了。如果連這個秘密連線都被用掉了，那只剩另一招: TSDISCON.exe
 
-![TSDISCON Command Help](/wp-content/be-files/WindowsLiveWriter/Tips_D86B/image_6.png)
+![TSDISCON Command Help](/images/2008-08-23-tips-disconnecting-remote-desktop-users/image_6.png)
 
 TSDISCON: Disconnects a terminal session. 讚! 就是要這種東西... 用法很簡單，如果你有遠端 SERVER 的管理者權限，防火牆又沒把 NETBIOS 關掉，那麼可以這樣用:
 

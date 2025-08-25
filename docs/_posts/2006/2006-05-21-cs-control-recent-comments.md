@@ -29,4 +29,4 @@ wordpress_postid: 228
 
 總算是研究出來了, 哇哈哈, 現在我們家的 CS 又有跟別人不一樣的特色了.. [:$]
 
-![Recent Comments](/wp-content/be-files/recent-comments.jpg)
+![Recent Comments](/images/2006-05-21-cs-control-recent-comments/recent-comments.jpg)

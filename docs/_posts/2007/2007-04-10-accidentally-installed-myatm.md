@@ -36,4 +36,4 @@ C:\Program Files\\InstallShield Installation Information\{F25E1429-F70A-4843-888
 
 真是它ㄨㄨㄨ的... 還好我無聊, 不然安裝程式清單老卡一個不想要的軟體, 看了還真礙眼... 哈哈, 弄完了, 收工!
 
-![MyATM uninstall registry fix](/wp-content/be-files/WindowsLiveWriter/8cba23b9e713_14BB3/image03.png)
+![MyATM uninstall registry fix](/images/2007-04-10-accidentally-installed-myatm/image03.png)

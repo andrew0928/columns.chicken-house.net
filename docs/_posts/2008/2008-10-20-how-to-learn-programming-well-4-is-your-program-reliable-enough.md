@@ -418,11 +418,11 @@ public static int ComputeQuestionScore(XmlElement quiz_question, XmlElement pape
 那真的不正常的話會怎樣? 我特地拿掉倒扣扣到 0 分為止的 check, 用新版的 code 執行看看。
 
 
-![](/wp-content/be-files/WindowsLiveWriter/4.SoftwareEngineer_14CFC/image_5.png)
+![](/images/2008-10-20-how-to-learn-programming-well-4-is-your-program-reliable-enough/image_5.png)
 
 在 .NET 裡 ASSERT 觸動後就是這個樣子。那 TRACE 呢? 我們進 DEBUG MODE 來看看:
 
-![](/wp-content/be-files/WindowsLiveWriter/4.SoftwareEngineer_14CFC/image_6.png)
+![](/images/2008-10-20-how-to-learn-programming-well-4-is-your-program-reliable-enough/image_6.png)
 
 TRACE Message 直接被收到 Visual Studio 的 Output 視窗內。不過在 .NET 環境下，這兩者的行為已經跟書上講的廿年前作法有很多不同了。這些機制仍然可以開關，不過已經不是靠 DEBUG / RELEASE MODE 來切換，而是在 .NET configuration 裡用設定檔的方式來切換。
 

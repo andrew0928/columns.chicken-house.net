@@ -11,7 +11,7 @@ redirect_from:
 wordpress_postid: 339
 ---
 
-[![img_56358907f0c81](/wp-content/uploads/2015/11/img_56358907f0c81.png)](/wp-content/uploads/2015/11/img_56358907f0c81.png)
+[![img_56358907f0c81](/images/2015-10-13-docker-first-experience-synology-dsm-wordpress-redmine-reverse-proxy/img_56358907f0c81.png)](/images/2015-10-13-docker-first-experience-synology-dsm-wordpress-redmine-reverse-proxy/img_56358907f0c81.png)
 
 前言: 先讓我講一點前情提要 XD，想看安裝步驟的請自己跳到後面...
 
@@ -49,7 +49,7 @@ Docker 是個好物，沒用過或沒聽過的可以參考這裡:  [What is dock
 
 架好後當然快樂的使用了。這時問題開始來了... 畢竟我用的是 NAS 內建的套件，我又不熟 Linux, 有很多東西就算我找到文章可以進去大改特改，我也不大敢動手，NAS 終究是拿來讓我日子過快樂一點的，不是要重回當黑手的日子... 因此太過古怪的技巧我就不想用了，我想盡量用正常一點的方式來設定，免得以後換個版本我就搞不定...
 
-[![NETWORK](/wp-content/uploads/2015/10/NETWORK.png)](/wp-content/uploads/2015/10/NETWORK.png)
+[![NETWORK](/images/2015-10-13-docker-first-experience-synology-dsm-wordpress-redmine-reverse-proxy/NETWORK.png)](/images/2015-10-13-docker-first-experience-synology-dsm-wordpress-redmine-reverse-proxy/NETWORK.png)
 
 上圖是我現在家裡的網路架構，這時碰到的問題在於，PORT 80 早就被 NAS 內建的 apache 搶去用了。WordPress 若要用 80 PORT 就沒辦法了。DSM 也沒地方讓你把 PORT 80 放出來，二來就算放出來，我也沒辦法讓兩個以上的 container 都 mapping 到 80 PORT... 這樣要開放對外網站就顯得很棘手... 最終 WordPress 分配給他 8012 這個 port, 總不能叫所有的網友，以後要看我的文章要連這 PORT 吧? @@
 
@@ -61,11 +61,11 @@ Reverse Proxy 其實很多種應用，進階一點的 Load Balancer, Cache, HTTP
 
 1. Synology DSM 的控制台，底下有 Web Station, 先用正常的介面，建立 virtual host, 綁到 columns.chicken-house.net 這個 hostname (80)
 
-   [![01](/wp-content/uploads/2015/10/01.png)](/wp-content/uploads/2015/10/01.png)
+   [![01](/images/2015-10-13-docker-first-experience-synology-dsm-wordpress-redmine-reverse-proxy/01.png)](/images/2015-10-13-docker-first-experience-synology-dsm-wordpress-redmine-reverse-proxy/01.png)
 
    當然，其他 DNS 的設定你要自己搞定。我自己家裡用的 ROUTER 有內建個小型 DNS，加個 static record 就可以把 columns.chicken-house.net 對應到 NAS 的內部 IP，我自己要看我的 BLOG 不用繞到外面出國比賽再繞回來... 外面的 DNS 也要改一改，對到 router 的對外 IP，有固定 IP 的可以設 A record, 有 DDNS 的可以用 cname record. 改完可以測看看，這時應該會看到 Synology 自己準備的 404 page:
    
-   [![02](/wp-content/uploads/2015/10/02.png)](/wp-content/uploads/2015/10/02.png)
+   [![02](/images/2015-10-13-docker-first-experience-synology-dsm-wordpress-redmine-reverse-proxy/02.png)](/images/2015-10-13-docker-first-experience-synology-dsm-wordpress-redmine-reverse-proxy/02.png)
 
 2. 接下來，就是要設定這個 virtual host 要扮演 reverse proxy, 轉向內部的 word press 網站了。其實整篇廢話這麼多，重點就這一段而已 @@用 SSH 登入 NAS，修改這個檔案: /etc/httpd/httpd-vhost.conf-user , 其中 line 15 ~ 25, 就是我加進去的指令，告訴 apache 在這個 virtual host 內，位於 / 以下的 http request, 都轉給 http://nas:8012 這個內部的 URL，也就是安裝 WordPress 的 container 的發行端點
 
@@ -109,7 +109,7 @@ Reverse Proxy 其實很多種應用，進階一點的 Load Balancer, Cache, HTTP
 
    拿手機測試一下，關掉 wifi, 用 4G 連看看我自己的網站... 果然可以用正常的 URL 看到內容:
    
-   ![wp_ss_20151012_0002](/wp-content/uploads/2015/10/wp_ss_20151012_0002.png)
+   ![wp_ss_20151012_0002](/images/2015-10-13-docker-first-experience-synology-dsm-wordpress-redmine-reverse-proxy/wp_ss_20151012_0002.png)
 
 3. 其實到這邊就大功告成了。不過... 請務必備份這個檔案 !!  DSM 的介面設計得太簡單好用了，所以當你回到 (1) 重新調整後，或是有第二個 docker container 也要依樣畫葫蘆發布的話，DSM 會把這個設定擋蓋掉 T_T，我就是因為這樣全部重來一次...
 
@@ -125,6 +125,6 @@ OK，大功告成! 繞了一大圈，總算把我的 NAS 調教成可以擔負�
 
 5. 有統一的 container 管理工具，mount storage, port mapping, cpu / ram resource management 等等都有現成的, 套件中心提供的就沒這樣的管理彈性:
 
-   [![03](/wp-content/uploads/2015/10/03.png)](/wp-content/uploads/2015/10/03.png)
+   [![03](/images/2015-10-13-docker-first-experience-synology-dsm-wordpress-redmine-reverse-proxy/03.png)](/images/2015-10-13-docker-first-experience-synology-dsm-wordpress-redmine-reverse-proxy/03.png)
 
 好，流水帳就記到這裡，當你還想再加上其他 container, 就依樣畫葫蘆就好。這篇其實沒甚麼重點，主要就是為了滿足 Synology NAS 用戶，能用 Docker 套件來做些正是用途的小技巧而已，歡迎分享 :D

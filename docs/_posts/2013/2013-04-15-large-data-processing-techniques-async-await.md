@@ -21,13 +21,13 @@ wordpress_postid: 6
 
 其實這次要處理的問題很單純，就是 WEB 要從 Azure Storage Blob 讀取大型檔案，處理前端的認證授權之後，將檔案做編碼處理後直接從 Response 輸出。主要要解決的問題是效能過於糟糕... 透過層層的處理，效能 (3.5 Mbps) 跟直接從 Azure Storage 取得檔案 (7.3 Mbps) 相比只剩一半左右.. 過程中監控過 SERVER 的 CPU，頻寬等等，看來這些都不是效能的瓶頸。
 
-![](/wp-content/be-files/image_16.png)
+![](/images/2013-04-15-large-data-processing-techniques-async-await/image_16.png)
 
 
 
 為了簡化問題，我另外寫了個簡單的 Sample Code, 來呈現這問題。最後找出來的原因是，程式碼就是單純的跑 while loop, 不斷的把檔案內容讀進 buffer 並處理後，將 buffer 輸出。結果因為程式完全是 single thread 的處理方式，也沒有使用任何非同步的處理技巧，導致程式在讀取及處理時，輸出就暫停了，而在輸出時，讀取及處理的部份就暫停了，讓輸入及輸出的 I/O, 還有 CPU 都沒有達到滿載... 於是效能就打對折了。用時間軸表達，過程就如下圖:
 
-![](/wp-content/be-files/image_17.png)
+![](/images/2013-04-15-large-data-processing-techniques-async-await/image_17.png)
 
 這樣的設計方式，同一時間只能做一件事。若把上圖換成各種資源的使用率，會發現不論是 DISK、NETWORK、CPU等等資源，都沒有同時間保持忙碌。換句話說好像公司請了三個員工，可是同時間只有一個人在做事一樣，這樣的工作安排是很沒效率的。要改善的方法就是讓三個員工都保持忙碌，同時還能亂中有序，能彼此協調共同完成任務。
 
@@ -84,7 +84,7 @@ public class Program
 
 程式執行結果：
 
-![](/wp-content/be-files/image_18.png)
+![](/images/2013-04-15-large-data-processing-techniques-async-await/image_18.png)
 
 程式總共要花掉 10 秒鐘才執行完畢，由於完全沒有任何並行的處理，因此就是很簡單的 Read 花掉 2 秒，Process 花掉 3 秒，Write 則花掉 5 秒，加起來剛好就是總執行時間 10 秒。
 
@@ -103,7 +103,7 @@ public class Program
 
 這次我的目的，其實用前面那幾篇的技巧就能解決了。不過這次實作我想換個方法，都已經 2013 了，有 Async / Await 為何要丟著不用? 這次就用新方法來試看看。先用上面的時間軸那張圖，來看看改進後的程式執行狀況，應該是什麼樣子:
 
-![](/wp-content/be-files/image_19.png)
+![](/images/2013-04-15-large-data-processing-techniques-async-await/image_19.png)
 
 解釋一下這張圖: 橘色的部份代表是用非同步的方式呼叫的，呼叫後不會 BLOCK 原呼叫者，而是會立即 RETURN，兩邊同時進行。而圖中有個箭頭 + ```await```, 則代表第二個非同步呼叫 ```Write()``` 的動作，會等待前一個 ```Write()``` 完成後才會繼續。
 
@@ -176,7 +176,7 @@ public class Program
 
 改寫過的版本，程式碼很簡單易懂，90% 以上的程式碼結構，都跟原本同步的版本是一樣的，大幅維持了程式碼的可讀性，完全不像過去用了多執行緒或是非同步的版本，整個結構都被切的亂七八糟。看看程式的執行結果，果然跟預期的一樣，整體執行時間大約為 5 秒。多出來的 660 ms, 就是第一次的 ```Read() + Process()```, 跟最後一次的 ```Write()``` 是沒有重疊的，因此會多出 500 ms, 再加上一些執行的誤差及額外負擔，就是這 660ms 的來源了。
 
-![](/wp-content/be-files/image_thumb_2.png)
+![](/images/2013-04-15-large-data-processing-techniques-async-await/image_thumb_2.png)
 
 
 最後，來看一下效能的改善。在我實際的案例裡，Read 是受限於 VM 與 Storage 之間的頻寬，固定為 200Mbps, 而 Process 是受限於 VM 的 CPU 效能，也是固定可控制的, 最後 Write 則是受限於 client 到 VM 之間的頻寬，可能從 2Mbps ~ 20Mbps 不等，這會直接影響到到 Write 需要的時間。
@@ -194,11 +194,11 @@ public class Program
 |ASYNC花費時間(ms)|5500|5500|5500|8500|20500|40500|80500|200500|
 |效能改善%|127.27%|163.64%|181.82%|152.94%|121.95%|111.11%|105.59%|102.24%|
 
-![](/wp-content/be-files/image_21.png)
+![](/images/2013-04-15-large-data-processing-techniques-async-await/image_21.png)
 
 以執行時間來看，頻寬低於 80M 之後，改善的程度就固定下來了，隨著頻寬越來越低，WRITE 需要花費的時間越來越長，改善的幅度就越來越不明顯。同樣這些數據，換成改善的百分比，換成下一張圖:
 
-![](/wp-content/be-files/image_22.png)
+![](/images/2013-04-15-large-data-processing-techniques-async-await/image_22.png)
 
 改善幅度最好的地方，發生在 80Mbps, 這時正好是 ```Read() + Process()``` 的時間，正好跟 ```Write()``` 花費的時間一樣的地方。頻寬高於或低於這個地方，效果就開始打折扣了。通常改善幅度若低於 10%, 那就屬於 "無感" 的改善了。
 

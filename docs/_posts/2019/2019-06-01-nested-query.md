@@ -8,10 +8,10 @@ tags: ["系列文章", "架構師", "面試經驗", "POC"]
 published: true
 comments: true
 redirect_from:
-logo: /wp-content/images/2019-06-01-nested-query/2019-06-01-23-22-03.png
+logo: /images/2019-06-01-nested-query/2019-06-01-23-22-03.png
 ---
 
-![](/wp-content/images/2019-06-01-nested-query/2019-06-01-23-22-03.png)
+![](/images/2019-06-01-nested-query/2019-06-01-23-22-03.png)
 圖片來源: [https://pixabay.com/photos/tree-landscape-field-branch-696839/](https://pixabay.com/photos/tree-landscape-field-branch-696839/)
 
 
@@ -69,7 +69,7 @@ logo: /wp-content/images/2019-06-01-nested-query/2019-06-01-23-22-03.png
 
 先舉個簡單的例子來說明:
 
-![](/wp-content/images/2019-06-01-nested-query/2019-05-30-23-00-38.png)
+![](/images/2019-06-01-nested-query/2019-05-30-23-00-38.png)
 
 那麼資料表應該長這樣:
 
@@ -84,7 +84,7 @@ logo: /wp-content/images/2019-06-01-nested-query/2019-06-01-23-22-03.png
 
 用這概念，直接拉出 SQL table schema:
 
-![](/wp-content/images/2019-06-01-nested-query/2019-05-27-23-19-57.png)
+![](/images/2019-06-01-nested-query/2019-05-27-23-19-57.png)
 
 
 很直覺的結構，設計 schema 本身是小事，直接來看看這五項需求該如何面對...
@@ -130,7 +130,7 @@ select NAME, SIZE from demo1.FILEINFO where DIR_ID = @root
 
 查詢結果:
 
-![](/wp-content/images/2019-06-01-nested-query/2019-05-27-23-43-08.png)
+![](/images/2019-06-01-nested-query/2019-05-27-23-43-08.png)
 
 
 
@@ -158,7 +158,7 @@ select * from
 
 查詢結果:
 
-![](/wp-content/images/2019-06-01-nested-query/2019-05-27-23-28-02.png)
+![](/images/2019-06-01-nested-query/2019-05-27-23-28-02.png)
 
 
 執行時間: 00:00:00.279 (sec)
@@ -263,7 +263,7 @@ select * from DIR_CTE
 
 這段 SQL 的執行結果:
 
-![](/wp-content/images/2019-06-01-nested-query/2019-05-28-00-03-05.png)
+![](/images/2019-06-01-nested-query/2019-05-28-00-03-05.png)
 
 
 
@@ -314,7 +314,7 @@ where F.EXT = '.ini'
 
 查詢結果:
 
-![](/wp-content/images/2019-06-01-nested-query/2019-05-28-00-20-07.png)
+![](/images/2019-06-01-nested-query/2019-05-28-00-20-07.png)
 
 
 拿 DIR 指令 ( ```dir /s /b /a c:\windows\system32\*.ini``` ) 對照一下:
@@ -346,7 +346,7 @@ C:\Windows\System32\DriverStore\FileRepository\prnms005.inf_amd64_6c1071b47c60ba
 執行時間: 00:00:00.547 (sec)
 執行計畫 (Estimated Subtree Cost): 0.942181
 
-![](/wp-content/images/2019-06-01-nested-query/2019-05-28-00-19-20.png)
+![](/images/2019-06-01-nested-query/2019-05-28-00-19-20.png)
 
 
 
@@ -386,7 +386,7 @@ where F.EXT = '.ini'
 執行時間: 00:00:08.138 (sec)
 執行計畫 (Estimated Subtree Cost): 3.09097
 
-![](/wp-content/images/2019-06-01-nested-query/2019-05-28-23-37-47.png)
+![](/images/2019-06-01-nested-query/2019-05-28-23-37-47.png)
 
 
 
@@ -441,7 +441,7 @@ select * from demo1.DIRINFO where PARENT_ID = @root order by NAME asc
 
 查詢結果:
 
-![](/wp-content/images/2019-06-01-nested-query/2019-05-28-00-59-41.png)
+![](/images/2019-06-01-nested-query/2019-05-28-00-59-41.png)
 
 
 
@@ -509,7 +509,7 @@ select * from DIR_CTE
 
 執行結果:
 
-![](/wp-content/images/2019-06-01-nested-query/2019-05-28-01-19-38.png)
+![](/images/2019-06-01-nested-query/2019-05-28-01-19-38.png)
 
 
 ## 需求 5, 刪除目錄
@@ -605,11 +605,11 @@ select * from DIR_CTE
 
 刪除前 (截錄片段):
 
-![](/wp-content/images/2019-06-01-nested-query/2019-05-28-02-15-00.png)
+![](/images/2019-06-01-nested-query/2019-05-28-02-15-00.png)
 
 刪除後 (截錄片段):
 
-![](/wp-content/images/2019-06-01-nested-query/2019-05-28-02-15-37.png)
+![](/images/2019-06-01-nested-query/2019-05-28-02-15-37.png)
 
 
 執行計畫:
@@ -648,7 +648,7 @@ select * from DIR_CTE
 
 同樣先用簡單的 tree 來說明。用前面的圖來說明:
 
-![](/wp-content/images/2019-06-01-nested-query/2019-05-30-23-00-38.png)
+![](/images/2019-06-01-nested-query/2019-05-30-23-00-38.png)
 
 那麼資料表應該長這樣 (我簡化成五層就好):
 
@@ -663,11 +663,11 @@ select * from DIR_CTE
 
 一樣，直接來看看轉化成 SQL table schema (範例資料 ```c:\``` 目錄最深是 18 層, 我建立了 1 ~ 20 層的 ID 欄位):
 
-![](/wp-content/images/2019-06-01-nested-query/2019-05-28-23-51-39.png)
+![](/images/2019-06-01-nested-query/2019-05-28-23-51-39.png)
 
 如果你對資料的一致性要求嚴格一點的話，接下來的步驟就麻煩了，你得對每一個欄位都設定 constraint ... 沒錯，你決定建立 20 層欄位來應付將來的搜尋的話，你就得建立 20 次關聯性限制... 這邊容許我偷一點懶，我決定放棄建立關聯性限制了，我只針對搜尋的效能建立索引...。建立資料的部分我就略過了，以下是按照這種 schema 建立好的資料範例:
 
-![](/wp-content/images/2019-06-01-nested-query/2019-05-28-23-53-01.png)
+![](/images/2019-06-01-nested-query/2019-05-28-23-53-01.png)
 
 
 
@@ -705,7 +705,7 @@ where ID02 = 151535 and ID03 is NULL
 
 查詢結果:
 
-![](/wp-content/images/2019-06-01-nested-query/2019-05-29-00-04-27.png)
+![](/images/2019-06-01-nested-query/2019-05-29-00-04-27.png)
 
 執行時間: 00:00:00.184 (sec)
 執行計畫 (Estimated Subtree Cost): 0.0077312
@@ -723,7 +723,7 @@ where DIR_ID = 151535
 
 查詢結果:
 
-![](/wp-content/images/2019-06-01-nested-query/2019-05-29-00-09-20.png)
+![](/images/2019-06-01-nested-query/2019-05-29-00-09-20.png)
 
 執行時間: 00:00:00.157 (sec)
 執行計畫 (Estimated Subtree Cost): 0.213376
@@ -743,7 +743,7 @@ select * from
 
 ```
 
-![](/wp-content/images/2019-06-01-nested-query/2019-05-29-00-11-59.png)
+![](/images/2019-06-01-nested-query/2019-05-29-00-11-59.png)
 
 
 
@@ -769,7 +769,7 @@ where ID03 = 189039
 
 查詢結果:
 
-![](/wp-content/images/2019-06-01-nested-query/2019-05-29-00-20-30.png)
+![](/images/2019-06-01-nested-query/2019-05-29-00-20-30.png)
 
 
 執行時間: 00:00:00.407 (sec)
@@ -788,7 +788,7 @@ where F.EXT = '.ini' and D.ID03 = 189039
 
 查詢結果:
 
-![](/wp-content/images/2019-06-01-nested-query/2019-05-29-00-26-53.png)
+![](/images/2019-06-01-nested-query/2019-05-29-00-26-53.png)
 
 執行時間: 00:00:00.067 (sec)
 執行計畫 (Estimated Subtree Cost): 0.18752
@@ -878,7 +878,7 @@ select * from demo2.DIRINFO where ID03 = 218818
 
 查詢結果:
 
-![](/wp-content/images/2019-06-01-nested-query/2019-05-29-01-02-46.png)
+![](/images/2019-06-01-nested-query/2019-05-29-01-02-46.png)
 
 
 好吧，雖然噁心但是至少也是有效率的完成任務了。總檢討後面再說，來看最後一個需求...
@@ -962,7 +962,7 @@ delete demo2.DIRINFO where ID03 = 218818
 
 我同樣用前面的 tree 來說明一下:
 
-![](/wp-content/images/2019-06-01-nested-query/2019-05-30-23-11-42.png)
+![](/images/2019-06-01-nested-query/2019-05-30-23-11-42.png)
 
 標上 left / right 的資料:
 
@@ -976,18 +976,18 @@ delete demo2.DIRINFO where ID03 = 218818
 
 整個完整的 database diagram 大概長這樣:
 
-![](/wp-content/images/2019-06-01-nested-query/2019-06-02-23-16-33.png)
+![](/images/2019-06-01-nested-query/2019-06-02-23-16-33.png)
 
 
 這 left / right index 怎麼標出來的? 看看圖上標示的黃色箭頭... 基本上就是按照 depth first traversal 的方式走完每個節點。每個節點第一次被走到的時候就按順序標上 left，繞了一圈回到這個節點後再標上 right.. 這時 left / right 就代表這個結點在座標軸上涵蓋的範圍了。因為 depth first traversal 的規則，每個 node 底下的 nodes 都走完後一定會回來這個 node, 因此按照順序標上流水號，就成為這個結果了。這個 left / right index 可以同時代表多個意義，除了 "包含" 的關係之外，每個 node 一定都會佔掉兩個空間，因此只要 index 有維護好，都是連續整數的話，left / right 的數值差異就可以代表子節點的個數，你想計算子節點的各數時連查都不用查，直接 (right - left - 1) / 2 就可以得到答案了。
 
 沒仔細想的話，光是看到這堆數字大概丈二金剛摸不著頭腦吧! 這是為 tree struct 精心設計的 index, wiki 上用了另一種視角來看這個結構。看一下 wiki 上的另一個例子:
 
-![](/wp-content/images/2019-06-01-nested-query/2019-05-31-00-12-10.png)
+![](/images/2019-06-01-nested-query/2019-05-31-00-12-10.png)
 
 把標上的 index 呈現在數線上:
 
-![](/wp-content/images/2019-06-01-nested-query/2019-05-31-00-12-59.png)
+![](/images/2019-06-01-nested-query/2019-05-31-00-12-59.png)
 
 用實際的例子來說明上面的觀念吧。看出這標號的用意了嗎? clothing 的標記是 left:1, right:22, 代表所有 left, right 被包圍在 1 ~ 22 之間的都是他的子節點。搞懂規則後，只要你能在 tree 節點有異動時維護好這些 left / right index, 你會發現 tree 的各種操作會變的非常容易 (而且很容易對應到 SQL 的操作)。
 
@@ -1039,7 +1039,7 @@ where P.ID = 151535 and not exists
 
 查詢結果:
 
-![](/wp-content/images/2019-06-01-nested-query/2019-05-31-00-51-03.png)
+![](/images/2019-06-01-nested-query/2019-05-31-00-51-03.png)
 
 執行時間: 00:02:33.591 (sec)
 執行計畫 (Estimated Subtree Cost): 0.941395
@@ -1070,7 +1070,7 @@ where F.EXT = '.ini' and C.LEFT_INDEX between 378075 and 380740
 
 查詢結果:
 
-![](/wp-content/images/2019-06-01-nested-query/2019-05-31-01-13-38.png)
+![](/images/2019-06-01-nested-query/2019-05-31-01-13-38.png)
 
 執行時間: 00:00:00.173 (sec)
 執行計畫 (Estimated Subtree Cost): 0.167235
@@ -1089,7 +1089,7 @@ where F.EXT = '.dll' and C.LEFT_INDEX between 303068 and 437609
 
 查詢結果:
 
-![](/wp-content/images/2019-06-01-nested-query/2019-05-31-01-14-07.png)
+![](/images/2019-06-01-nested-query/2019-05-31-01-14-07.png)
 
 執行時間: 00:00:00.836 (sec)
 執行計畫 (Estimated Subtree Cost): 10.7832
@@ -1116,7 +1116,7 @@ select * from
 
 查詢結果:
 
-![](/wp-content/images/2019-06-01-nested-query/2019-05-31-01-08-02.png)
+![](/images/2019-06-01-nested-query/2019-05-31-01-08-02.png)
 
 執行時間: 00:00:00.546 (sec)
 執行計畫 (Estimated Subtree Cost): 4.08984
@@ -1176,7 +1176,7 @@ select * from demo3.DIRINFO where LEFT_INDEX > @windows_left;
 
 查詢結果:
 
-![](/wp-content/images/2019-06-01-nested-query/2019-06-01-01-14-21.png)
+![](/images/2019-06-01-nested-query/2019-06-01-01-14-21.png)
 
 新增的目錄 ID: 218822
 
@@ -1191,11 +1191,11 @@ select * from demo3.DIRINFO where LEFT_INDEX > @windows_left;
 
 動手之前，再來看一次該怎麼拆解 tree node 搬移的動作。回到前面說明用的圖:
 
-![](/wp-content/images/2019-06-01-nested-query/2019-05-30-23-11-42.png)
+![](/images/2019-06-01-nested-query/2019-05-30-23-11-42.png)
 
 我把它換成 wiki 的看法，在數線上面重畫一次這個 tree:
 
-![](/wp-content/images/2019-06-01-nested-query/2019-06-01-01-58-04.png)
+![](/images/2019-06-01-nested-query/2019-06-01-01-58-04.png)
 
 視覺化之後就很容易了解了。每個方框就是個 node, 上面的 node 寬度一定會完全涵蓋底下的 nodes, 同一層的 nodes 彼此不會重疊。接著用這種結構圖來說明一下搬移的步驟。其實步驟很簡單，就是兩個區塊之間的挪移而已。只是挪移的過程會卡來卡去的很麻煩，所以我用 0 以下的空間 (負數) 當作暫存區，先把要搬移的 nodes (C, D, E) 搬到暫存區, 然後把其他的 nodes 先調整大小，把目標 node (B)下的空間騰出來，最後再把搬到暫存區的 nodes (C, D, E) 搬回來就結束了。
 
@@ -1205,15 +1205,15 @@ select * from demo3.DIRINFO where LEFT_INDEX > @windows_left;
 
 1. **被搬移的 nodes 搬到暫存區**:  
 C, D, E 都往左 shift 到全部的 index 都為負數為止。經過計算全部都位移 -10  
-![](/wp-content/images/2019-06-01-nested-query/2019-06-01-02-04-25.png)  
+![](/images/2019-06-01-nested-query/2019-06-01-02-04-25.png)  
 
 2. **目標 node 騰出空間**:  
 B 原本只有 2 ~ 3 (沒有空間再放其他 nodes 了), 擴張到 B(2,9), 騰出待會可以放下三個 nodes 的空間。如果 B 還有其他兄弟 nodes, 也要一起配合挪出位子..  
-![](/wp-content/images/2019-06-01-nested-query/2019-06-01-02-08-40.png)  
+![](/images/2019-06-01-nested-query/2019-06-01-02-08-40.png)  
 
 3. **把暫存區的 nodes 搬回來**:  
 B(2,9) 騰出了 3 ~ 8 的 index, 原本被搬到暫存區的 C, D, E 經過計算，全部 index 位移 +9 就可以搬回來新位置了。  
-![](/wp-content/images/2019-06-01-nested-query/2019-06-01-02-10-23.png)  
+![](/images/2019-06-01-nested-query/2019-06-01-02-10-23.png)  
 
 經過這三個步驟大功告成。搬移結束。
 
@@ -1306,7 +1306,7 @@ and not exists
 
 查詢結果:
 
-![](/wp-content/images/2019-06-01-nested-query/2019-06-01-13-46-20.png)
+![](/images/2019-06-01-nested-query/2019-06-01-13-46-20.png)
 
 果然, ID = 134937 的 Users 目錄，整包都被搬過來了，執行成功!
 
@@ -1382,7 +1382,7 @@ and not exists
 ```
 
 
-![](/wp-content/images/2019-06-01-nested-query/2019-06-01-17-27-21.png)
+![](/images/2019-06-01-nested-query/2019-06-01-17-27-21.png)
 
 
 
@@ -1419,7 +1419,7 @@ and not exists
 
 > 表格: 執行時間 (Execute Time, sec)
 
-![](/wp-content/images/2019-06-01-nested-query/2019-06-02-03-58-03.png)
+![](/images/2019-06-01-nested-query/2019-06-02-03-58-03.png)
 
 
 
@@ -1439,7 +1439,7 @@ and not exists
 
 > (追加)模擬 ```dir /s /b c:\windows\*.dll```, 找出所有位於 ```c:\windows``` 目錄下 (包含子目錄) 所有副檔名為 ```.dll``` 的檔案清單
 
-![](/wp-content/images/2019-06-01-nested-query/2019-06-02-03-58-40.png)
+![](/images/2019-06-01-nested-query/2019-06-02-03-58-40.png)
 
 在大型的資料庫內，做遞迴的分類搜尋，你會發現 [方案一](#sol1) 使用了遞迴，這正是 RDBMS 最不擅長的計算，硬是執行 Query 的效果非常慘，完全不在同一個檔次身上。至於 [方案二](#sol2) 及 [方案三](#sol3)，雖說都很快，但是也差了接近 10 倍的時間。我是認為這個差距你可以參考，但是最終應該以整體考量來決定。因為 [方案二](#sol2) 獲取效能的代價很高，尤其是在開發與維護方面。
 
@@ -1452,7 +1452,7 @@ and not exists
 
 > 模擬 ```rm /s /q c:\windows\backup```
 
-![](/wp-content/images/2019-06-01-nested-query/2019-06-02-03-59-24.png)
+![](/images/2019-06-01-nested-query/2019-06-02-03-59-24.png)
 
 這需求其實就是搜尋 + 刪除的綜合體了。大量刪除的 I/O 時間，沖淡了搜尋速度巨大的差異。三種方式的差異都還在同一個數量及，可以看到 [方案三](#sol3) 整體表現最好。其實這個範圍內的差異，我不會太斤斤計較。因為，一來數據本身會有誤差，二來我並沒有很細緻的去調整 INDEX，我相信這個範圍內的差異，很有可能會因為某些環節效能調教而被扭轉的。
 

@@ -9,10 +9,10 @@ comments_disqus: false
 comments_facebook: false
 comments_gitalk: true
 redirect_from:
-logo: /wp-content/images/2023-01-01-api-design-workshop/slides/slides-01.png
+logo: /images/2023-01-01-api-design-workshop/slides-01.png
 ---
 
-![](/wp-content/images/2023-01-01-api-design-workshop/slides/slides-01.png)
+![](/images/2023-01-01-api-design-workshop/slides-01.png)
 
 最近這陣子，我對外分享的主題，其實都集中在 "API First" 身上。碰到一些朋友給我的 feedback, 我覺得挺有趣，我挑一個，放在這篇實做篇的最前面:
 
@@ -129,7 +129,7 @@ bject Model), 非微軟陣營的 Open Doc, 分散式的物件通訊協定 CORBA 
 
 接續上一篇講完 PI First 的 "為什麼 (WHY)", 這篇的重點就轉移到 "如何 (HOW)" 了。因為設計的方式不同，API 的規格變成第一順位，流程上就完全不同了。這篇我從這四個面向:
 
-![](/wp-content/images/2023-01-01-api-design-workshop/slides/slides-08.png)
+![](/images/2023-01-01-api-design-workshop/slides-08.png)
 
 1. 規格優先: 開發流程上的改變
 1. 設計方式的改變與標準化
@@ -141,7 +141,7 @@ bject Model), 非微軟陣營的 Open Doc, 分散式的物件通訊協定 CORBA 
 
 我截了一個常見的畫面，各位可以思考一下背後隱含的問題與思考的要點:
 
-![](/wp-content/images/2023-01-01-api-design-workshop/slides/slides-10.png)
+![](/images/2023-01-01-api-design-workshop/slides-10.png)
 
 各位應該都看過這種授權確認的畫面了，支援 OAuth2 跨服務跟使用者確認授權時，大都會跳出這種確認畫面。請問，在你 (使用者) 決定按下 "確定" 之前，你要掌握哪些資訊你才放心的按下去? 反過來說，如果你自己就是 API 的設計者，你要怎麼設計 (規格) 才能讓你的 user 也放心?
 
@@ -172,13 +172,13 @@ API 設計困難的地方在於: 你無法預期別人要拿你的 API 做甚麼
 
 # 1. 開發流程上的改變
 
-![](/wp-content/images/2023-01-01-api-design-workshop/slides/slides-11.png)
+![](/images/2023-01-01-api-design-workshop/slides-11.png)
 
 大部分的人，都是從 "Hello World" 開始學寫 code 的... 每個人都是先讓 code 會動，才開始學怎麼把重複的程式碼封裝成 function 等等的步驟開始學程式語言的。也因此，要學習先忘掉實做，先訂介面在寫程式，對所有 developer 都是需要適應的過程，勢必也會需要改變一些你習慣的流程。
 
 我拿 Ruddy 老師，在他的部落格上有一篇文章，就是在講 Contract First, 我拿這頁當案例來說明:
 
-![](/wp-content/images/2023-01-01-api-design-workshop/slides/slides-12.png)
+![](/images/2023-01-01-api-design-workshop/slides-12.png)
 
 左半部是一般的做法，標上 1,2,3 是順序:
 
@@ -209,7 +209,7 @@ API 設計困難的地方在於: 你無法預期別人要拿你的 API 做甚麼
 
 這些顯而易見的好處，其實都是把事情 "做的更好" 的改變。而我自己認為 contract first 更重要的是: 能提早確認 contract 正確，我可以做到 "把事情做對" 的改變。把事情做好，跟做對的事情是不同的層次，不是二選一的題目啊 (鄉民: 我全都要)，但是當你要取捨時，規模越大、越複雜、系統需要服務的年限越長遠 (產品化)，越需要先確認 "要做的是對的事"。從 contract first 來確認有沒有做對，我在三年前寫過 [一篇文章](/2020/03/10/interview-abstraction/) 可以清楚地傳達這想法。這篇文章說明電商網站折扣機制的設計方式，其中運用到大量抽象化的概念。我擴大了 Mock 的應用範圍，讓我自己越早能驗證關鍵的邏輯，越早確認我的設計可行，後續開發的風險就越低。我用這頁投影片來說明:
 
-![](/wp-content/images/2023-01-01-api-design-workshop/slides/slides-16.png)
+![](/images/2023-01-01-api-design-workshop/slides-16.png)
 
 我的目的，是越早證明抽象化的折扣計算引擎能正確地替我計算出結帳金額，其餘實做的細節我都可以以後再說 (例如開資料庫，實做安全機制等等)。我採用的方法就是盡可能的 Mock 其他跟計算邏輯無關的部分，讓我能把關注點放在計算，同時用大量的測試案例，優先確認我最在意的結帳金額計算的結果都是正確的。
 
@@ -238,12 +238,12 @@ API 設計困難的地方在於: 你無法預期別人要拿你的 API 做甚麼
 
 # 2. API Design Workshop
 
-![](/wp-content/images/2023-01-01-api-design-workshop/slides/slides-17.png)
+![](/images/2023-01-01-api-design-workshop/slides-17.png)
 
 這段落我就實際舉一個網站開發的案例，從頭開始跑一次設計 API 的方法。首先，來看一下這截圖，我想跟我一樣宅的朋友們，應該都對這網站不陌生吧:
 
 
-![](/wp-content/images/2023-01-01-api-design-workshop/slides/slides-19.png)
+![](/images/2023-01-01-api-design-workshop/slides-19.png)
 
 我擷取的是某電玩動漫社群網站的會員註冊流程。很標準的設計，我用文字描述一下流程:
 
@@ -254,7 +254,7 @@ API 設計困難的地方在於: 你無法預期別人要拿你的 API 做甚麼
 
 知道我為何要說明這流程嗎? 這流程很普通，幾乎每個需要註冊帳號的網站都有，你要自己寫一個也不困難。但是回想一下上一篇，講到你的老闆為何會想要推動 API First? 
 
-![](/wp-content/images/2023-01-01-api-design-workshop/slides/slides-20.png)
+![](/images/2023-01-01-api-design-workshop/slides-20.png)
 
 回到你為何需要開發 API 這原始目的了。你期待 API 解決什麼問題? 如果這網站的業務不斷擴大，老闆開始期待把外圍的功能外包了，包含網站首頁 (可能隨著業務發展，網站每隔幾個月就想要大改版的話)，卻又不想動到核心功能 (例如會員註冊機制)，很自然而然地就會把這部分 API 化，然後外包網站，讓外包商呼叫你的 API 來完成這功能的整合。
 
@@ -262,7 +262,7 @@ API 設計困難的地方在於: 你無法預期別人要拿你的 API 做甚麼
 
 這時，上述的四個步驟，你就該開始思考，這些功能你該如何 API 化? 你該怎麼設計 API 規格才能滿足老闆的期待? (再講一次，不是開出 API 讓畫面能動就了事了)
 
-![](/wp-content/images/2023-01-01-api-design-workshop/slides/slides-21.png)
+![](/images/2023-01-01-api-design-workshop/slides-21.png)
 
 這頁我把重點都標出來了。你要訂定 API 規格之前，一定要先想清楚，這 API 的目的是要把 "什麼價值" 透過 API 公開? 資料嗎? 運算嗎? 流程嗎? 要是你沒想清楚，你就會把所有的功能都變成 API，結果到最後 API 並沒有簡化什麼，也沒有發揮前後端解耦的效果，因為只要網站小改版，你的 API 可能就得跟著改版了。
 
@@ -286,7 +286,7 @@ OK, 想通的話，不急著看程式碼，我就真的照著跑一次，然後�
 
 先來第一版狀態圖，請參考下圖:
 
-![](/wp-content/images/2023-01-01-api-design-workshop/slides/slides-22.png)
+![](/images/2023-01-01-api-design-workshop/slides-22.png)
 
 如果有人需要 mermaid code 的話，歡迎自取:
 
@@ -317,7 +317,7 @@ stateDiagram-v2
 
 延續 2-1 的基礎，我接著繼續把動作標上去，直接看投影片說明:
 
-![](/wp-content/images/2023-01-01-api-design-workshop/slides/slides-23.png)
+![](/images/2023-01-01-api-design-workshop/slides-23.png)
 
 ```mermaid
 
@@ -474,7 +474,7 @@ public bool Verify(string code)
 
 我用這頁投影片來說明:
 
-![](/wp-content/images/2023-01-01-api-design-workshop/slides/slides-24.png)
+![](/images/2023-01-01-api-design-workshop/slides-24.png)
 
 ```mermaid
 stateDiagram-v2
@@ -511,7 +511,7 @@ stateDiagram-v2
 
 接下來，要標記的是 "**互動的角色**"。上述的 (2), (3) 的行為，並非任何無相關的人都能夠執行的，可能只有指定的系統 (透過 APIKEY)，或是特定的人 (透過登入後才有的 session token) 才能進行的互動行為。
 
-![](/wp-content/images/2023-01-01-api-design-workshop/slides/slides-25.png)
+![](/images/2023-01-01-api-design-workshop/slides-25.png)
 
 一樣，狀態機上面我們已經標示了所有的行為操作，我在每個行為的旁邊再標上角色。為了方便標示，我用 A ~ E 的代號來表達 (不然字太多，寫不下了)。狀態圖可以參考投影片，或是你熟悉的話可以直接看底下我附上的 mermaid script:
 
@@ -934,7 +934,7 @@ Q: **What's different between open api and async api ?**
 這邊我就示範一小段驗證的過程。先來看看這個案例:
 
 
-![](/wp-content/images/2023-01-01-api-design-workshop/slides/slides-31.png)
+![](/images/2023-01-01-api-design-workshop/slides-31.png)
 
 團隊裡 PO (Product Owner) 應該都能寫出這樣的 story 吧? 這串案例描述了步驟，也替每個步驟標示了 **caller** (誰) 做了什麼 **action** (操作)，完成後的 **state** (狀態)。執行前的狀態沒有特別標示，不過這是連續動作，前一動的完成狀態就是下一動的起始狀態了。
 
@@ -944,7 +944,7 @@ Q: **What's different between open api and async api ?**
 
 初始狀態是會員資料尚未建立的情況，因此這動作前的狀態應該是 created, 按照情境表的標示應該走 register 這操作，並且會到達完成狀態 unverified，操作的對象是 A-會員本人。從狀態機來看，的確存在這條路徑，並且角色也都符合，這步驟驗證通過。
 
-![](/wp-content/images/2023-01-01-api-design-workshop/scenario/s0-01.png)
+![](/images/2023-01-01-api-design-workshop/s0-01.png)
 
 
 > (S0-01.1), 系統偵測到註冊成功的事件後，自動發出 email 送出驗證連結
@@ -957,7 +957,7 @@ Q: **What's different between open api and async api ?**
 
 透過 email 點選驗證連結，會執行 verify 的操作。從狀態機上面可以看到存在這條路徑 (起始狀態: unverified, 最終狀態: verified, 操作: verify)，這個步驟驗證通過。
 
-![](/wp-content/images/2023-01-01-api-design-workshop/scenario/s0-02.png)
+![](/images/2023-01-01-api-design-workshop/s0-02.png)
 
 
 
@@ -965,7 +965,7 @@ Q: **What's different between open api and async api ?**
 
 購買商品後，銷售系統會呼叫 API: Get 取得會員資訊。從狀態機上面可以看到，起始狀態: verified, 允許執行 Get 這個 action，這個步驟驗證通過
 
-![](/wp-content/images/2023-01-01-api-design-workshop/scenario/s0-03.png)
+![](/images/2023-01-01-api-design-workshop/s0-03.png)
 
 
 > (S0-04), 超商需要會員的手機末三碼及姓氏 (不須完整姓名)。
@@ -973,7 +973,7 @@ Q: **What's different between open api and async api ?**
 訂單成立列印標籤時，需要讓協力廠商透過 API 取得個資列印標籤。但是這些協力廠商不一定能 100% 信任，因此 API 最好只提供剛好夠用的資訊即可。
 透過狀態機可以確認，在目前狀態 verified, 可以執行操作: Get-Masked 取得遮罩後的個資。這個步驟驗證通過
 
-![](/wp-content/images/2023-01-01-api-design-workshop/scenario/s0-04.png)
+![](/images/2023-01-01-api-design-workshop/s0-04.png)
 
 
 

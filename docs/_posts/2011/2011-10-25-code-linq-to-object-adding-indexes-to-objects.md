@@ -228,7 +228,7 @@ class Program
 
 而程式執行的結果:
 
-![](/wp-content/be-files/image_13.png)
+![](/images/2011-10-25-code-linq-to-object-adding-indexes-to-objects/image_13.png)
 
 貼一下參考配備 (這是炫耀文...)，給大家體會一下速度...
 

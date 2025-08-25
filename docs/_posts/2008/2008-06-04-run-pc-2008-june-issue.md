@@ -18,7 +18,7 @@ redirect_from:
 wordpress_postid: 102
 ---
 
-![IMG_8698 (Canon PowerShot G9)](/wp-content/be-files/WindowsLiveWriter/RUNPC2008_14A41/IMG_8698%20(Canon%20PowerShot%20G9)_1.jpg)
+![IMG_8698 (Canon PowerShot G9)](/images/2008-06-04-run-pc-2008-june-issue/IMG_8698%20(Canon%20PowerShot%20G9).jpg)_1.jpg)
 
 運氣不錯，還有續集耶 [:D]
 

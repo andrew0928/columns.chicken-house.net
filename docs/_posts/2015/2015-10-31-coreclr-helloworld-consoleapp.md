@@ -10,7 +10,7 @@ redirect_from:
 wordpress_postid: 384
 ---
 
-![from: blog.docker.com](/wp-content/uploads/2015/11/img_5634e81ed3baf.png)
+![from: blog.docker.com](/images/2015-10-31-coreclr-helloworld-consoleapp/img_5634e81ed3baf.png)
 
 *from: blog.docker.com*
 
@@ -66,19 +66,19 @@ CLR 就是 Common Language Runtime, 套用 Java 的說法其實就是 VM，也�
 
 .NET 的執行環境，可以執行及啟動 .NET app / ASP.NET 的命令列指令。一樣套用 Java 的說法，就像是對應到 java.exe 的東西，
 
-![](/wp-content/uploads/2015/10/img_5634cc50c552f.png)
+![](/images/2015-10-31-coreclr-helloworld-consoleapp/img_5634cc50c552f.png)
 
 **DNVM ( .NET Version Manager )**
 
 .NET 的版本維護工具，類似 APT-GET 這樣的命令列指令，用來維護及更新 DNX. DNX 各種版本的維護工具就叫做 DNVM，可別看到 VM 就以為是 Virtual Machine, 他是各種 DNX 的 Version Manager.
 
-![](/wp-content/uploads/2015/10/img_5634cc306b7c5.png)
+![](/images/2015-10-31-coreclr-helloworld-consoleapp/img_5634cc306b7c5.png)
 
 **DNU ( .NET Utilities )**
 
 .NET 開發人員維護工具，有點像是 Java 的 Javac.exe, 可以進行 build, 下載或是更新相依的 NuGet 套件。
 
-![](/wp-content/uploads/2015/10/img_5634cc6325694.png)
+![](/images/2015-10-31-coreclr-helloworld-consoleapp/img_5634cc6325694.png)
 
 這幾個指令的關係搞清楚之後，今天的主角終於... 終於可以上場了。
 
@@ -112,30 +112,30 @@ CLR 就是 Common Language Runtime, 套用 Java 的說法其實就是 VM，也�
    ```
    sudo docker ps -a
    ```
-   ![](/wp-content/uploads/2015/10/img_5634db571dd81.png)
+   ![](/images/2015-10-31-coreclr-helloworld-consoleapp/img_5634db571dd81.png)
 
 4. 在 container 內執行 bash, 同時進入互動模式直到 bash 結束為止:
    ```
    sudo docker exec -t -i 93462d92e941 /bin/bash
    ```
-   ![](/wp-content/uploads/2015/10/img_5634dbc969491.png)
+   ![](/images/2015-10-31-coreclr-helloworld-consoleapp/img_5634dbc969491.png)
    這時 command prompt 已經變了，由原本的 chicken@localhost:~$ 變成 root@93462d92e941:/# , 代表 shell 已經啟動成功，且順利進去 conainer 內了，接下來我就可以把它當作 VM 開始大玩特玩..
 
 5. 打開 visual studio 2015, 開 console app project, 寫一段不入流的 code, 印出 "Hello! .Net Core! " ..
-   ![](/wp-content/uploads/2015/10/img_5634dcb340830.png)
+   ![](/images/2015-10-31-coreclr-helloworld-consoleapp/img_5634dcb340830.png)
 
 6. 完成後，想辦法把檔案丟到 container 裡面... docker 提供 cp 這個指令，可以跨過 docker host / container 的界線 copy 檔案。細節我就跳過，總之 (5) 編譯出來的檔案，我放在 container 內的 /home/ConsoleApp1/ 目錄下:
-   ![](/wp-content/uploads/2015/10/img_5634dd872b08f.png)
+   ![](/images/2015-10-31-coreclr-helloworld-consoleapp/img_5634dd872b08f.png)
 
 7. 接下來就是主要步驟了，先用 dnvm list 確認你能用的 dnx 版本，有需要可以用 dnvm install 來安裝，或是用 dnvm upgrade 來升級.. 我這次要用的是 coreclr x64 的版本:
-   ![](/wp-content/uploads/2015/10/img_5634dde846dc0.png)
+   ![](/images/2015-10-31-coreclr-helloworld-consoleapp/img_5634dde846dc0.png)
 
 8. 進入 dnxcore50 的目錄，用 dnu restore 指令，確認所有相依的 package 都已存在 (若沒有的話會自動到 NuGet 去抓回來)
-   ![](/wp-content/uploads/2015/10/img_5634de4cad27c.png)
+   ![](/images/2015-10-31-coreclr-helloworld-consoleapp/img_5634de4cad27c.png)
 
 9. 噹噹! 萬事俱備，最後就是執行了! 用 dnx 來跑我的 console application:
    為了避免有人誤會，我是用 windows command prompt 充數，順手把 OS information 印出來以資證明..
-   ![](/wp-content/uploads/2015/10/img_5634ded3b054b.png)
+   ![](/images/2015-10-31-coreclr-helloworld-consoleapp/img_5634ded3b054b.png)
 
 哇哈哈，終於成功了。看到我寫的 C# code 的控制範圍能擴大到 Ubuntu Server 上，那個成就感實在是不可言喻 :D 這次碰到最大的困難，是查到的指令都是講 ASP.NET 如何在 docker 上執行，可是我只是要 run console app 啊，沒找到文章把這整傳邏輯跟做法整理再一起，只好自己摸索...。好在當年學生時代有好好的學 unix (當年用 solaris ... 自己有用過一陣子的 linux.. ), 基本觀念跟 shell script 都還有，硬是闖出一條路。
 

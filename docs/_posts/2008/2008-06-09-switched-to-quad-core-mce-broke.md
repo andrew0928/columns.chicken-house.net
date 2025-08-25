@@ -22,11 +22,11 @@ wordpress_postid: 101
 
 把桌機的 E6300 換掉，換 Q9300 上去，不錯，什麼東西都很正常，速度也快，溫度也低...。正當一切都很美好的時後，想說開個 MCE 來看電視，嘖... 掛了? 出現這個美化過的 General Protection Failure 畫面:
 
-![MCE 錯誤畫面](/wp-content/be-files/WindowsLiveWriter/MCE_FB80/clip_image002_3.jpg)
+![MCE 錯誤畫面](/images/2008-06-09-switched-to-quad-core-mce-broke/clip_image002_3.jpg)
 
 點了建議選項，無解。點了 DETAIL 下去看，也看不出個所以然...
 
-![詳細錯誤資訊](/wp-content/be-files/WindowsLiveWriter/MCE_FB80/clip_image002%5B6%5D_thumb.jpg)
+![詳細錯誤資訊](/images/2008-06-09-switched-to-quad-core-mce-broke/clip_image002%5B6%5D_thumb.jpg)
 
 Microsoft 這次算是有良心，沒有再寫 "請聯絡您的系統管理員" ... 別再叫 USER 找系統管理員了，最好這種五四三的問題跟外星人的數字，系統管理員都看的懂...
 

@@ -194,7 +194,7 @@ public string[] FindBestPath(string startName, string endName, out double cost)
 
 先來看看結果。主程式是要找出 "機場端" 跟 "基金" 交流道之間的最經濟路線，看看程式跑出來的結果:
 
-![](/wp-content/be-files/WindowsLiveWriter/3_13ACD/image_3.png)
+![](/images/2008-10-08-how-to-learn-programming-well-3-advanced-application-data-structures-problem-analysis/image_3.png)
 
 不相信的人就拿紙筆畫一畫算一算吧! 應該是沒算錯啦。這個例子我就不像上一個例子，放上千萬個節點來拼拼看速度到底多快了，因為我沒有現成的資料啊，這東西要產生假資料也麻煩的多，就略過這個步驟了。不過我們倒是可以回過頭來看看，目前這段程式有什麼可以改進的?
 

@@ -17,6 +17,6 @@ redirect_from:
 wordpress_postid: 242
 ---
 
-我的 notebook 正式變成匪貨了 ![emotion-9](/Emoticons/emotion-9.gif)
+我的 notebook 正式變成匪貨了 ![emotion-9](/images/2005-08-19-what-was-coming-finally-came/emotion-9.gif)
 
-![LenovoThinkPad.jpg](/wp-content/be-files/LenovoThinkPad.jpg)
+![LenovoThinkPad.jpg](/images/2005-08-19-what-was-coming-finally-came/LenovoThinkPad.jpg)

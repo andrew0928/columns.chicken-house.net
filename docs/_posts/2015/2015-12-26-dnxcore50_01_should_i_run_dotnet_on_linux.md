@@ -9,10 +9,10 @@ comments: true
 permalink: "/2015/12/26/dnxcore50_01_should_i_run_dotnet_on_linux/"
 redirect_from:
 wordpress_postid: 608
-logo: /wp-content/uploads/2015/12/img_567e9b3cb3f8f.png
+logo: /images/2015-12-26-dnxcore50_01_should_i_run_dotnet_on_linux/img_567e9b3cb3f8f.png
 ---
 
-![](/wp-content/uploads/2015/12/img_567e9b3cb3f8f.png)
+![](/images/2015-12-26-dnxcore50_01_should_i_run_dotnet_on_linux/img_567e9b3cb3f8f.png)
 
 最近這幾篇 .NET Core / Docker 相關的文章貼出來之後，最常聽到有人問我的問題就是:
 

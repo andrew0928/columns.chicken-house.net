@@ -8,10 +8,10 @@ tags: ["系列文章", "架構師", "C#", "OOP"]
 published: true
 comments: true
 redirect_from:
-logo: /wp-content/images/2020-03-10-interview-abstraction/logo.jpg
+logo: /images/2020-03-10-interview-abstraction/logo.jpg
 ---
 
-![](/wp-content/images/2020-03-10-interview-abstraction/logo.jpg)  
+![](/images/2020-03-10-interview-abstraction/logo.jpg)  
 [圖片來源](https://mobile-cuisine.com/marketing/why-offer-discount-coupons/)
 
 
@@ -48,18 +48,18 @@ logo: /wp-content/images/2020-03-10-interview-abstraction/logo.jpg
 開始進入本文，我們就直接來看折扣計算的問題吧! 這次我不自己想題目了，我直接跟現成的 DM 來取材。什麼東西的折扣機制最複雜? 我想就以超市為首選了 XDD, 我逛了逛最近很紅的全X超市，從他的官網首頁隨便挑幾個折扣的促銷資訊，同時在底下先標上我自己的註記:
 
 
-> ![](/wp-content/images/2020-03-10-interview-abstraction/2020-03-10-00-58-41.png)
+> ![](/images/2020-03-10-interview-abstraction/2020-03-10-00-58-41.png)
 > NOTE: 指定商品 (衛生紙) 一次買 6 捲便宜 100 元
 
-> ![](/wp-content/images/2020-03-10-interview-abstraction/2020-03-10-01-01-03.png)  
+> ![](/images/2020-03-10-interview-abstraction/2020-03-10-01-01-03.png)  
 > NOTE: 指定商品 (蘋果) 單粒 23 元， 4 粒 88 元
 
 
-> ![](/wp-content/images/2020-03-10-interview-abstraction/2020-03-10-01-03-15.png)  
+> ![](/images/2020-03-10-interview-abstraction/2020-03-10-01-03-15.png)  
 > NOTE: 指定商品 (雞湯塊) 單盒特價 145 元，第二件 5 折
 
 
-> ![](/wp-content/images/2020-03-10-interview-abstraction/2020-03-10-01-04-36.png)  
+> ![](/images/2020-03-10-interview-abstraction/2020-03-10-01-04-36.png)  
 > NOTE: 指定商品 (沐浴乳) 買一送一
 
 
@@ -71,13 +71,13 @@ logo: /wp-content/images/2020-03-10-interview-abstraction/logo.jpg
 
 接下來玩大一點，換一家店看看... 這次我們看全X便利商店:
 
-> ![](/wp-content/images/2020-03-10-interview-abstraction/2020-03-10-01-15-06.png)  
+> ![](/images/2020-03-10-interview-abstraction/2020-03-10-01-15-06.png)  
 > NOTE: 指定商品 2 件 + 49 元送杯套一個
 
-> ![](/wp-content/images/2020-03-10-interview-abstraction/2020-03-10-01-16-09.png)  
+> ![](/images/2020-03-10-interview-abstraction/2020-03-10-01-16-09.png)  
 > NOTE: 指定商品 同商品 加 10 元多 1 件
 
-> ![](/wp-content/images/2020-03-10-interview-abstraction/2020-03-10-01-17-23.png)  
+> ![](/images/2020-03-10-interview-abstraction/2020-03-10-01-17-23.png)  
 > NOTE: 指定商品 任選兩件 第二件 6 折，不同價格以兩件 8 折計算
 
 
@@ -94,14 +94,14 @@ logo: /wp-content/images/2020-03-10-interview-abstraction/logo.jpg
 
 頭開始痛了嗎? 還沒結束... 繼續往下看，很多超商還愛玩一種配對的折扣: 早餐 + 飲料 這種...
 
-> ![](/wp-content/images/2020-03-10-interview-abstraction/2020-03-10-01-30-14.png)  
+> ![](/images/2020-03-10-interview-abstraction/2020-03-10-01-30-14.png)  
 > NOTE: 指定鮮食 + 指定飲料 特價 ( 39元, 49元, 59元 )
 
 
 覺得有點難歸納了嗎? 別急，還沒結束... 再來一個:
 
 
-> ![](/wp-content/images/2020-03-10-interview-abstraction/2020-03-10-01-31-25.png)  
+> ![](/images/2020-03-10-interview-abstraction/2020-03-10-01-31-25.png)  
 > NOTE: 任選主餐 + 指定副餐 折 5 元
 
 
@@ -311,22 +311,22 @@ Total: $60.00
 
 我這筆交易，實際上買了這些東西:
 
-![](/wp-content/images/2020-03-10-interview-abstraction/2020-03-15-03-18-21.png)
+![](/images/2020-03-10-interview-abstraction/2020-03-15-03-18-21.png)
 
 在這交易內，我使用了這張折價券:
 
-![](/wp-content/images/2020-03-10-interview-abstraction/2020-03-15-03-22-55.png)
+![](/images/2020-03-10-interview-abstraction/2020-03-15-03-22-55.png)
 
 
 我買了一樣的三箱飲料，這飲料當時有個優惠活動: "任兩箱結帳88折"，同時我還有一張 "$100 現折券 (滿 $1000 可使用)" 的優惠券。其實湊四箱優惠更大，但是我不想買這麼多啊，因此我當時只買了三箱，湊到 1000 元，剛剛好符合折價券的要求。不過我事後查了一下電子發票，才發現廠商每箱都開了個別的電子發票給我，總共有三張。也因為如此，店員在結帳時還覺得奇怪，為何買一樣的東西買三箱，但是價格卻不一樣... XDD
 
 我把三張發票都貼一下:
 
-![](/wp-content/images/2020-03-10-interview-abstraction/2020-03-15-03-24-29.png)
+![](/images/2020-03-10-interview-abstraction/2020-03-15-03-24-29.png)
 
-![](/wp-content/images/2020-03-10-interview-abstraction/2020-03-15-03-24-42.png)
+![](/images/2020-03-10-interview-abstraction/2020-03-15-03-24-42.png)
 
-![](/wp-content/images/2020-03-10-interview-abstraction/2020-03-15-03-25-02.png)
+![](/images/2020-03-10-interview-abstraction/2020-03-15-03-25-02.png)
 
 
 
@@ -642,7 +642,7 @@ public abstract class RuleBase
 
 解釋我重構了什麼東西前，先看一下類別圖 (class diagram):
 
-![](/wp-content/images/2020-03-10-interview-abstraction/2020-03-16-00-59-19.png)
+![](/images/2020-03-10-interview-abstraction/2020-03-16-00-59-19.png)
 
 我用了 ```POS``` 來代表結帳時的所有計算邏輯；目前商店有多少活動正在舉行中，應該是店家控制的，因此 ```Rules``` 掛在 ```POS``` 底下，是它的 properties 之一。
 
@@ -834,7 +834,7 @@ static IEnumerable<RuleBase> LoadRules()
 
 不過這折扣光是規則就沒那麼容易... 仔細看了一下活動規則，發現還真囉嗦:
 
-![](/wp-content/images/2020-03-10-interview-abstraction/2020-04-02-22-09-02.png)
+![](/images/2020-03-10-interview-abstraction/2020-04-02-22-09-02.png)
 
 [來源網址](https://event.family.com.tw/food/39_49_59/)
 

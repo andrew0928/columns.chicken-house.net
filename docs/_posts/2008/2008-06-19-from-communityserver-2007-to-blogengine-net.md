@@ -26,11 +26,11 @@ wordpress_postid: 96
 
 要搬 BLOG，最直覺的就是用 [BlogML](http://blogml.org/) 了，不錯，我用的 CommunityServer2007 [有工具](http://www.codeplex.com/BlogML/Release/ProjectReleases.aspx?ReleaseId=171)可以匯出 BlogML，而 BlogEngine.Net 也有工具可以匯入 BlogML，想想真是太好了... 就先用 DevWeb 架了 BlogEngine.Net 起來試搬看看.. 
 
-![image](/wp-content/be-files/WindowsLiveWriter/8565b2db2c22_307D/image_8.png)
+![image](/images/2008-06-19-from-communityserver-2007-to-blogengine-net/image_8.png)
 
 BlogEngine.Net 匯入的方式，是用 ClickOnce，直接從它的官方網站下載的 WinForm App 配合 BlogEngine.Net 本身提供的 Web Service 來進行匯入 BlogML 的動作，除了 BLOGML 之外也支援 RSS? 不過 RSS 怎麼試都試不出來，放棄... 直接用 BlogML ... 
 
-![image](/wp-content/be-files/WindowsLiveWriter/8565b2db2c22_307D/image_7.png)
+![image](/images/2008-06-19-from-communityserver-2007-to-blogengine-net/image_7.png)
 
 畫面很乾淨，它也很忠實的完成了它的工作... CommunityServer2007 的 BLOGML 匯入時出了點問題，文章的修改時間不知為何，BlogEngine.Net 都一直抓到 0000/01/01 00:00:00.000 ，而BlogEngine.Net 還會幫你修正時區的問題 (台灣時區，要 -8 小時才是標準時間)，結果一扣就變成負的，就送我一個 Exception ... Orz 
 
@@ -63,25 +63,25 @@ BlogEngine.Net 匯入的方式，是用 ClickOnce，直接從它的官方網站�
 
 現在還有空在這裡慢慢打，當然是這些問題都解決完了，先看看成果吧，細節有空再補 HOWTO 文章。那些 LINK 不對的問題，各位翻翻舊文章，如果都看的到圖點的到東西，就是沒問題了。有問題的請再留話給我，我來修看看。 
 
-![image](/wp-content/be-files/WindowsLiveWriter/8565b2db2c22_307D/image_23.png)
+![image](/images/2008-06-19-from-communityserver-2007-to-blogengine-net/image_23.png)
 
 來看看加上 Google Ads 的版面，老實說這個版跟 Google Ads 還真搭... 看起來就像同一套的.. 我只調了 CSS ，跟 MASTER PAGE.. 
 
-![image](/wp-content/be-files/WindowsLiveWriter/8565b2db2c22_307D/image_22.png)
+![image](/images/2008-06-19-from-communityserver-2007-to-blogengine-net/image_22.png)
 
 再來是站內文章互連的 LINK。這邊讓我傷了幾秒鐘的腦筋... 就放棄原本只想寫寫批次檔代換的念頭了。轉檔前跟本不知道轉檔後的新 LINK 是長什麼樣子，轉檔後就錯失先改好 BLOGML 再匯入的機會了... 想了一下，無解，一定要動用到 2 PASS 才行... 就乖乖的改轉檔程式了。第一輪就是基本的匯入，然後在原本的 BLOGML 附記新的 LINK 及 BlogEngine.Net 的 PostID，然後 PASS 2 再把舊文章逐一翻出來 SEARCH & REPLACE ... 上圖可以看到，內文 [四核 CPU] 的 LINK (在底下) 就已經是修正過的了，各位可以去試看看... 
 
 再來是站外的 LINK，站內我自己的可以改，站外可沒辦法... 拿最捧我場的 [Darkthread](http://blog.darkthread.net/) 網站為例，[搜尋一下](http://blog.darkthread.net/blogs/darkthreadtw/search.aspx?q=chicken)就有七八篇是連到我這邊，怎麼可以辜負大人的好意... 動搖國本也要改! 現在我的 BlogEngine.Net 已經可以接受舊系統的網址了，而且會正確的轉到同一篇文章的新網址。不過為了不讓大家 "不知不覺" 就轉過來，我特地加了一頁提示，因為書上教的，不要把錯誤隱藏起來 :D，你可以用防禦性的方式寫 CODE，但是務必加上 ASSERT 及 TRACE 提醒自己這裡要注意... (出自一本古董書: Writing Solid Code... 太古董了實在找不到 LINK ... ) 
 
-![image](/wp-content/be-files/WindowsLiveWriter/8565b2db2c22_307D/image_21.png)
+![image](/images/2008-06-19-from-communityserver-2007-to-blogengine-net/image_21.png)
 
 就挑這篇來示範吧，黑暗大哥的文章裡有個 LINK，存的是舊的 CommunityServer 格式 URL，點下去之後會跳到我的網站... 
 
-![image](/wp-content/be-files/WindowsLiveWriter/8565b2db2c22_307D/image_20.png)
+![image](/images/2008-06-19-from-communityserver-2007-to-blogengine-net/image_20.png)
 
 倒數完或是你沒耐性直接按下去的話，就會跳到這篇文章... BINGO，原本的內容出現了! 
 
-![image](/wp-content/be-files/WindowsLiveWriter/8565b2db2c22_307D/image_19.png)
+![image](/images/2008-06-19-from-communityserver-2007-to-blogengine-net/image_19.png)
 
 嗯，總算修正回來了。其實修正網址是搬家最頭痛的問題了，這個搞定其它都好說 :D  留給有興趣想從 CommunityServer 搬家到 BlogEngine.Net 的人參考... 
 

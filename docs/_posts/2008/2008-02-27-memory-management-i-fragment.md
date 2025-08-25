@@ -41,7 +41,7 @@ wordpress_postid: 120
 
 簡單畫張圖說明，就像這樣: 
 
-![](/wp-content/be-files/WindowsLiveWriter/MemoryManagementI.Fragment_45D5/image_3.gif)
+![](/images/2008-02-27-memory-management-i-fragment/image_3.gif)
 
 
 其中:

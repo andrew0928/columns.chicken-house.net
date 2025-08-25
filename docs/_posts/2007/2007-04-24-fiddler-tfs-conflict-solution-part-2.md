@@ -69,11 +69,11 @@ static void Main(string[] args)
 
 對, 這麼順利的話就不會分兩篇了, 誰曉得貼上去後 Fiddler 就給我唉這段 message:
 
-![Fiddler script error](/wp-content/be-files/WindowsLiveWriter/FiddlerTFSII_1D90/image04.png)
+![Fiddler script error](/images/2007-04-24-fiddler-tfs-conflict-solution-part-2/image04.png)
 
 按了 [確定] 後就變這樣:
 
-![Fiddler script compilation error](/wp-content/be-files/WindowsLiveWriter/FiddlerTFSII_1D90/image09.png)
+![Fiddler script compilation error](/images/2007-04-24-fiddler-tfs-conflict-solution-part-2/image09.png)
 
 真是嘖嘖嘖... 大概猜的出問題在那, 這種外掛的 script 多半動態 Load Script, 動態 compile, 同時會載入到另一個獨立的 AppDomain, 看起來在 script 可用的範圍內, 是存取不到 Fiddler.WinINETProxyInfo 這個類別... 
 

@@ -24,7 +24,7 @@ wordpress_postid: 70
 
 順手寫了幾行 CODE，先驗證一下最基本的動作做不做的到 (POC: Prove Of Concept)。第一步是先把顯示內容的動作攔下來，換成制示的輸入密碼訊息... 這個簡單，沒幾行就搞定了:
 
-![Password Protected Post Demo](/wp-content/be-files/WindowsLiveWriter/BlogEngineExtensionSecurePostv1.0_30DC/image_3.png)
+![Password Protected Post Demo](/images/2008-09-06-blogengine-extension-secure-post-v1-0/image_3.png)
 
 直接從 CodePlex 抓下來的 Source Code, 解壓縮完就可以寫了。加上這段 CODE 並不難，整個 Extension 只有這樣而以:
 
@@ -80,7 +80,7 @@ private static void Post_Serving(object sender, ServingEventArgs e)
 
 啥米? 就是第一部份的 CODE 加上第四及第五行就搞定了? 程式不挑的話，現在已經寫完了... 哈哈! 上面的輸入密碼畫面，輸入正確密碼後就可以看到文章內容了。我特地連網址列一起複製下來，在網址列上會看到密碼明碼。照道理應該是要先 HASH 啦，不過 CLIENT SIDE 跟 SERVER SIDE 都要有同樣的 HASH 機制才行，想用 MD5 / SHA256 之類的來算，無耐 CLIENT 要弄這些也是很煩，就決定不理它了...。明碼就明碼吧，執行後的畫面像這樣:
 
-![Password Protected Post Result](/wp-content/be-files/WindowsLiveWriter/BlogEngineExtensionSecurePostv1.0_30DC/image_6.png)
+![Password Protected Post Result](/images/2008-09-06-blogengine-extension-secure-post-v1-0/image_6.png)
 
 剩下的部份就沒什麼了，想想加上去好了。就是透過 BlogEngine 的 Extension Manager，讓使用者可以簡單的調整參數。要讓使用者自定的參數只有三個:
 
@@ -119,11 +119,11 @@ static SecurePost()
 
 我已經很努力的多撐幾行了... 不過也只有這廿行，寫完了...。整個 .cs 檔案直接丟到 ~/App_Code/Extension 就算安裝完成。用管理者身份登入 BE 後，在 Extension 那頁可以看到:
 
-![Extension Manager - SecurePost](/wp-content/be-files/WindowsLiveWriter/BlogEngineExtensionSecurePostv1.0_30DC/image_9.png)
+![Extension Manager - SecurePost](/images/2008-09-06-blogengine-extension-secure-post-v1-0/image_9.png)
 
 不錯，SecurePost 已經出現在 Extension Manager 裡了。因為有加上 settings 的程式碼，所以右邊有 [編輯] 的字樣出現。點下去之後會到這個畫面:
 
-![Extension Settings](/wp-content/be-files/WindowsLiveWriter/BlogEngineExtensionSecurePostv1.0_30DC/image_12.png)
+![Extension Settings](/images/2008-09-06-blogengine-extension-secure-post-v1-0/image_12.png)
 
 嗯，看起來真專業，沒想到從頭到尾所有的 CODE 還不到一百行...。幾十行 CODE 寫出來的 Extension 就可以唬人了.. :D，試看看還真的會動耶 (廢話)。早知道寫起來那麼快，當初就不花那麼多時間去找人家寫好的了...。最後附上整段完整的程式碼，有需要的人就拿去用吧! 用法很簡單，全部複製下來 (可以按 [COPY CODE] 就好)，存檔，把檔案放在 ~/App_Code/Extension/SecurePost.cs 下，然後用管理者身份進入 BlogEngine Extension Manager 改一改就好了!
 

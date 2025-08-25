@@ -16,7 +16,7 @@ redirect_from:
 wordpress_postid: 38
 ---
 
-[![image](/wp-content/be-files/WindowsLiveWriter/555555_DBB7/image_thumb.png)](/wp-content/be-files/WindowsLiveWriter/555555_DBB7/image_2.png)
+[![image](/images/2009-05-13-555555-page-views-milestone/image_thumb.png)](/wp-content/be-files/WindowsLiveWriter/555555_DBB7/image_2.png)
 
 正好想到，開了自己的部落格來看，啊!!! 總點閱次數: 555551 ...
 

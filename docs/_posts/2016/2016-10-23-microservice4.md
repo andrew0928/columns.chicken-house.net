@@ -9,7 +9,7 @@ tags: ["API", "SDK", "系列文章", "ASP.NET", "架構師"]
 published: true
 comments: true
 redirect_from:
-logo: //wp-content/uploads/2016/10/apisdk-02-socket.jpg
+logo: //images/2016-10-23-microservice4/apisdk-02-socket.jpg
 ---
 [上一篇](/2016/10/10/microservice3/)出來後，才發現，原來不是每個人都清楚 API 跟 SDK 的差別... 接下去之前我就花點篇幅來說明一下。
 這個分不清楚的話實在有點囧啊，以前在本機上，這可能幾乎是一樣的東西，但是到了分散式的環境就不是那麼一回事..。
@@ -22,7 +22,7 @@ logo: //wp-content/uploads/2016/10/apisdk-02-socket.jpg
 
 範例程式: 請從 GitHub 下載，本篇的內容對應到 [dev-SDK 分支](https://github.com/andrew0928/SDKDemo/tree/dev-SDK)
 
-![](/wp-content/uploads/2016/10/apisdk-02-socket.jpg)  
+![](/images/2016-10-23-microservice4/apisdk-02-socket.jpg)  
 (sorry, 這圖找不到原圖出處, 知道的請通知我，我再補上~)
 
 <!--more-->
@@ -286,7 +286,7 @@ BirdInfo 物件的定義, 還有 HttpClient 使用的細節都封裝了起來，
 問題到這邊就結束了嗎? 如果以第一版來說，的確結束了。接下來我們來看看 API 或是 SDK 改版會面臨的問題。我先用一張圖來
 描述 APP / SDK / API 三者之間的關係:
 
-![架構圖](/wp-content/uploads/2016/10/apisdk-02-arch.png)
+![架構圖](/images/2016-10-23-microservice4/apisdk-02-arch.png)
 
 這裡面有四個部分，分別是 APP, SDK, API, SERVER。其中由於到目前為止，API 都只是紙上的 "定義"，所以我用虛線表示。
 
@@ -384,7 +384,7 @@ Press any key to continue . . .
 
 原本的架構，調整後變成這樣，前後端都必須依照 contracts 的約定，來進行溝通:
 
-![API service contract](/wp-content/uploads/2016/10/apisdk-02-contracts.png)
+![API service contract](/images/2016-10-23-microservice4/apisdk-02-contracts.png)
 
 
 首先，在整個 solution 內新增 ```Demo.Contracts``` 這個 class library project, 每個其他的 project 加入 reference. 
@@ -400,7 +400,7 @@ Press any key to continue . . .
 這個過程中，能夠善用 refactory 的話，可以替你節省不少力氣，否則你就要搬完 code, 改完 reference 後，編譯看看有多少 error
 再一條一條修改。修正後的 solution 結構，長的像這樣:
 
-![](/wp-content/uploads/2016/10/apisdk-02-solution-structure.png)
+![](/images/2016-10-23-microservice4/apisdk-02-solution-structure.png)
 
 
 
@@ -418,7 +418,7 @@ Press any key to continue . . .
 
 一樣，我們用同樣的技巧，訂定 SDK contracts, 來解決 APP 跟 SDK 之間的問題。架構圖再調整一下，變成這樣:
  
-![sdk contract](/wp-content/uploads/2016/10/apisdk-02-sdk-contracts.png)
+![sdk contract](/images/2016-10-23-microservice4/apisdk-02-sdk-contracts.png)
 
 Demo.Contracts 我也增加了 SDK Client interface:
 

@@ -15,7 +15,7 @@ redirect_from:
   - /columns/RUNPC-2008-11.aspx/
 wordpress_postid: 52
 ---
-![IMG_0208](/wp-content/be-files/WindowsLiveWriter/RUNPC2008_1D6E/IMG_0208_1.jpg)
+![IMG_0208](/images/2008-11-04-run-pc-2008-november-issue/IMG_0208_1.jpg)
 
 YA! 第四篇!! :D 還是一樣要先感謝一下編輯賞光，讓我有點空間寫些不一樣的東西。
 

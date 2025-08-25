@@ -9,10 +9,10 @@ comments: true
 permalink: "/2016/03/12/cpu_sinewave/"
 redirect_from:
 wordpress_postid: 973
-logo: /wp-content/images/2016-03-12-cpu_sinewave/logo.png
+logo: /images/2016-03-12-cpu_sinewave/logo.png
 ---
 
-![](/wp-content/images/2016-03-12-cpu_sinewave/logo.png)
+![](/images/2016-03-12-cpu_sinewave/logo.png)
 
 故事的開頭很簡單，起因就只是某個上了年紀的大叔，逛到別人的面試題目，發現答不出來就一頭鑽進去，輸不起的故事而已 XD
 
@@ -21,7 +21,7 @@ logo: /wp-content/images/2016-03-12-cpu_sinewave/logo.png
 每次看到 **"這是XXX(大公司)的面試題目"** 這種聳動的標題，我都覺得那只是噱頭而已...  直到某日亂逛靠北工程師，看到這則留言:
 
 
-![](/wp-content/uploads/2016/03/img_56dee24543173.png)
+![](/images/2016-03-12-cpu_sinewave/img_56dee24543173.png)
 
 
 
@@ -32,7 +32,7 @@ logo: /wp-content/images/2016-03-12-cpu_sinewave/logo.png
 長年都抱著 Microsoft Solution 在研究的我，怎麼能錯過這個考驗? 想想這題目還蠻有趣的，於是一時手癢，就開了 Visual Studio 2015 動起手來... 中間的過程就省略了，其實程式沒幾行，控制 CPU 使用率的原理，還有三角函數搞得清楚就沒問題了。結果不到十分鐘，第一版就出來了，直接看結果:
 
 
-![](/wp-content/uploads/2016/03/img_56dee4e3127bd.png)
+![](/images/2016-03-12-cpu_sinewave/img_56dee4e3127bd.png)
 
 這是 sin wave? @@, 用點想像力的話，結果是沒有錯啦，不過這也太難看了一點 T_T
 
@@ -44,7 +44,7 @@ logo: /wp-content/images/2016-03-12-cpu_sinewave/logo.png
 
 改善過後的波形...:  
 
-![](/wp-content/images/2016-03-12-cpu_sinewave/12512448_10204274956434167_8308402654463171370_n.jpg)
+![](/images/2016-03-12-cpu_sinewave/12512448_10204274956434167_8308402654463171370_n.jpg)
 
 
 Orz, 這什麼鬼? 勉強比上一個好一些，還看的出來是個 sine wave 啦 =_=
@@ -57,7 +57,7 @@ Orz, 這什麼鬼? 勉強比上一個好一些，還看的出來是個 sine wave
 
 繼續下去前，先來說明一下基本的運作原理。其實程式的運作方式很簡單，就像微積分一樣，把圖形切成很系的不同時段，我只要控制在那個時段內的 CPU 使用率，在我想要的數值內就夠了。剩下只要隨著時間的變化，讓 CPU 的使用率隨著 sin(time) 來變化就夠了。先把正弦波調整一下，調整一下震幅大小，同時也把波形位移一下...，如下圖:
 
-![](/wp-content/uploads/2016/03/img_56e2e918afcd9.png)
+![](/images/2016-03-12-cpu_sinewave/img_56e2e918afcd9.png)
 
 
 Orz, 好久沒算數學了, 不過這種題目就是要計算啊...```sin(x)``` 的值是從 1 ~ -1 之間變化，所以我做了位移 + 縮放，最後我真正要的函數是 ```f(x) = (sin x + 1) / 2```。我只要把時間按照指定的單位切割成小段 (我用的是 100ms), 然後把每一段的時間當作 x 帶入計算，就可以知道這段時間內我要把 CPU 使用率控制在多少 % ...
@@ -82,13 +82,13 @@ Orz, 好久沒算數學了, 不過這種題目就是要計算啊...```sin(x)``` 
 但是真的寫一段 CODE 來確認，反倒讓我跌破眼鏡... ```Sleep()``` 的精確度已經不是吳下阿蒙了，也許我的主機板比較威一點... 看來是很精確的。但是 ```Sleep()``` 的結果的卻是飄移的比較厲害，容易受到 OS 的影響而有變化。反觀 ```SpinWait.SpinUntil()```, 飄移的幅度較小，但是精確度也沒好到哪裡去，就是省掉 context switch 的不確定性而已... 附上執行結果及測試用的程式:
 
 
-![](/wp-content/uploads/2016/03/img_56e385cf5a90e.png)
+![](/images/2016-03-12-cpu_sinewave/img_56e385cf5a90e.png)
 
 
 沒有背景的干擾情況下，分別用 ```Sleep()``` 及 ```SpinUntil()``` 分別 IDLE 10 ms 的結果:
 
 
-![](/wp-content/uploads/2016/03/img_56e2ecf83bddb.png)
+![](/images/2016-03-12-cpu_sinewave/img_56e2ecf83bddb.png)
 
 開了 10 threads 當作背景的干擾，分別用 ```Sleep()``` 及 ```SpinUntil()``` 分別 IDLE 10 ms 的結果
 
@@ -206,12 +206,12 @@ for (int i = 0; i < testrun_count; i++)
 
 完整程式碼就不多貼了，文章最底下有附上 GitHub 連結，請自行採用。我直接跑了 noise thread 0 ~ 10 的結果出來。我分別針對不同方法的 "精密度" 及 "準確度" 來探討。這兩者有啥不同? 可以參考 Wiki 的 [說明](https://zh.wikipedia.org/wiki/%E6%BA%96%E7%A2%BA%E8%88%87%E7%B2%BE%E5%AF%86)。
 
-![](/wp-content/uploads/2016/03/img_56e82e4177266.png)
+![](/images/2016-03-12-cpu_sinewave/img_56e82e4177266.png)
 
 
 先來看準確度吧! 我拿平均值跟理想值來比較，用這個來當作準確度的指標。下圖的 X 軸代表背景的干擾，就是我測試程式內 noise thread 的數量。Y軸代表每種方法各執行 50 次，測到的平均值。圖中Y軸 100 的那條虛線，就是我預期的結果，也是完美方法應該得到的曲線位置。越接近虛線代表越完美。
 
-![](/wp-content/uploads/2016/03/img_56e39ce8bab6d.png)
+![](/images/2016-03-12-cpu_sinewave/img_56e39ce8bab6d.png)
 
 我的 CPU 是 4 core / 8 threads, 所以可以看到 thread 在 7 的時候，準確度就明顯的開始受影響了。系統預設的 SpinUntil( ) 明顯的有誤差，但是在後面高負載的情況下反而表現最好，看來理論的基礎還是有用的，只不過在我需要的範圍內不見得是最佳的選擇...
 
@@ -224,7 +224,7 @@ for (int i = 0; i < testrun_count; i++)
 
 另外一個 "精密度" 又要怎麼看? 我拿 50 次測試結果的標準差，來當作 "精密度" 的指標，越低代表結果越穩定可靠，不會有暴衝的問題。直接來看圖:
 
-![](/wp-content/uploads/2016/03/img_56e39f73d83e3.png)
+![](/images/2016-03-12-cpu_sinewave/img_56e39f73d83e3.png)
 
 這張圖的結果也類似，在我期望的範圍內，也是 Advanced SpinUntil( ) 的表現最好，依序是:
 
@@ -248,7 +248,7 @@ for (int i = 0; i < testrun_count; i++)
 
 OK，講了這麼多廢話，開始來看看修正過的結果吧。果然努力是看的到結果的，這次的波形就漂亮多了:
 
-![](/wp-content/uploads/2016/03/img_56dee7228dd76.png)
+![](/images/2016-03-12-cpu_sinewave/img_56dee7228dd76.png)
 
 
 來看看經過多次調教後的 source code:
@@ -351,7 +351,7 @@ public static long[] GetDataFromBitmap(long period, long unit)
 
 除了用字串陣列，在程式碼裡面畫圖之外，另外也改寫產生對照表的 method, 用同樣的規格傳回對照表，丟到一樣的主程式，執行後的效果變成這樣:
 
-![](/wp-content/images/2016-03-12-cpu_sinewave/12705619_10204279832556067_6262664502740275173_n.jpg)
+![](/images/2016-03-12-cpu_sinewave/12705619_10204279832556067_6262664502740275173_n.jpg)
 
 來跟正規的 Batman Logo 對比一下...
 

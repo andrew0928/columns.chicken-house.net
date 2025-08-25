@@ -36,19 +36,19 @@ wordpress_postid: 221
 
 抓幾張畫面...
 
-![MCE Screenshot 1](/wp-content/uploads/2006/09/MicrosoftWindowsXPMediaCenterEdition2005_2895/021.png)
+![MCE Screenshot 1](/images/2006-09-25-microsoft-windows-xp-media-center-edition-2005/021.png)
 
 預約錄影清單... 當然節目的相關資訊都在裡面.
 
-![MCE Screenshot 2](/wp-content/uploads/2006/09/MicrosoftWindowsXPMediaCenterEdition2005_2895/05.png)
+![MCE Screenshot 2](/images/2006-09-25-microsoft-windows-xp-media-center-edition-2005/05.png)
 
 節目表... 左下角會用PIP方式顯示目前正在播放的節目畫面..
 
-![MCE Screenshot 3](/wp-content/uploads/2006/09/MicrosoftWindowsXPMediaCenterEdition2005_2895/03.png)
+![MCE Screenshot 3](/images/2006-09-25-microsoft-windows-xp-media-center-edition-2005/03.png)
 
 播放畫面, 我錄的 "超人特攻隊" ... 它的操作界面都是特別針對電視能看的清楚的畫面, 還有都是能搭配搖控器操作... keyboard / mouse 不是必需品.
 
-![MCE Screenshot 4](/wp-content/uploads/2006/09/MicrosoftWindowsXPMediaCenterEdition2005_2895/06.png)
+![MCE Screenshot 4](/images/2006-09-25-microsoft-windows-xp-media-center-edition-2005/06.png)
 
 選台時下方會出現的頻道 and 節目資訊..
 

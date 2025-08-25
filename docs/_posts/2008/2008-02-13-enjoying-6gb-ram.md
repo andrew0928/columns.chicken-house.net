@@ -17,7 +17,7 @@ redirect_from:
 wordpress_postid: 122
 ---
 
-![image](/wp-content/be-files/WindowsLiveWriter/6GBRAM_41C2/image_7.png)
+![image](/images/2008-02-13-enjoying-6gb-ram/image_7.png)
 
 哇哈哈, 雖然現在RAM便宜到翻掉, 不過要突破4GB的先天限制, 還真花了不少功夫... 不想用 Server 版的 OS, 也不想用 PAE 等等其它不乾不脆的方式, 走的是換 64 Bits OS 這條路, 總算成功了, 當然要貼來紀念一下. 
 

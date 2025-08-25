@@ -17,7 +17,7 @@ redirect_from:
 wordpress_postid: 71
 ---
 
-![RUN! PC 2008 September Issue](/wp-content/be-files/WindowsLiveWriter/RUNPC2008_13519/image_5.png)
+![RUN! PC 2008 September Issue](/images/2008-09-03-run-pc-2008-september-issue/image_5.png)
 
 感謝編輯賞光，第三篇順利刊出 :D
 

@@ -9,10 +9,10 @@ comments_disqus: false
 comments_facebook: false
 comments_gitalk: true
 redirect_from:
-logo: /wp-content/images/2025-05-01-vibe-testing-poc/logo.jpg
+logo: /images/2025-05-01-vibe-testing-poc/logo.jpg
 ---
 
-![alt text](/wp-content/images/2025-05-01-vibe-testing-poc/logo.jpg)
+![alt text](/images/2025-05-01-vibe-testing-poc/logo.jpg)
 
 最近，起了一個小型的 Side Project, 想說先前研究 "安德魯小舖"，一年半以前就已經做的到用對話的方式讓 AI 替我執行對應的 API 的應用了，現在這些應用更成熟了 (每間大廠都在推各種 Agent 的解決方案..)，某天就突發奇想:
 
@@ -37,7 +37,7 @@ logo: /wp-content/images/2025-05-01-vibe-testing-poc/logo.jpg
 > 
 > 最後，貼個執行結果給大家體會一下，實作方式我整理一下再分享開發過程... Test Runner 是用 Microsoft Semantic Kernel 開發的，就是拿 Plugins 來簡化 Function Calling 操作而已。關鍵的部分大概 50 行以內就搞定了，敬請期待 😀
 > 
-> ![alt text](/wp-content/images/2025-05-01-vibe-testing-poc/image.jpg)
+> ![alt text](/images/2025-05-01-vibe-testing-poc/image.jpg)
 > 
 
 另外，也感謝董大偉老師，他在他經營的 FB 粉專 [‧NET Walker 大內行者 ](https://www.facebook.com/DotNetWalker) 也發文介紹: [🧠「出一張嘴，測試自己會跑、報告自己會生」](https://www.facebook.com/share/p/1C9swrMH4c/)
@@ -49,7 +49,7 @@ logo: /wp-content/images/2025-05-01-vibe-testing-poc/logo.jpg
 > 這波浪潮對工程師來說，是一個新的養成議題。  
 > 未來不是比誰程式寫得快，而是比誰「更懂如何引導 AI 把事做好」。  
 > 💬 原文有範例、有思路、有未來，推薦大家看看 👇  
-> ![alt text](/wp-content/images/2025-05-01-vibe-testing-poc/image-7.jpg)
+> ![alt text](/images/2025-05-01-vibe-testing-poc/image-7.jpg)
 
 
 以上簡介跟回顧完畢，開始進入正題 :D
@@ -74,13 +74,13 @@ logo: /wp-content/images/2025-05-01-vibe-testing-poc/logo.jpg
 
 按照我思考的順序，大致像這樣:
 
-![alt text](/wp-content/images/2025-05-01-vibe-testing-poc/image-1.png)
+![alt text](/images/2025-05-01-vibe-testing-poc/image-1.png)
 
 如果你心裡很清楚知道 AC 是什麼 (例如: 購物車的操作不得違背系統限制)，加上領域知識 (例如: 購物車的設計，狀態圖，流程圖等等)，這兩份資訊交給 ChatGPT，應該能展開一些案例清單。而這些案例，再搭配詳細的系統規格後，應該就能展開確定的執行步驟。
 
 而這篇我專注的範圍 Test Runner，則是這個部分:
 
-![alt text](/wp-content/images/2025-05-01-vibe-testing-poc/image-2.png)
+![alt text](/images/2025-05-01-vibe-testing-poc/image-2.png)
 
 因此, 輸入就是展開過的測試案例 (不直接是 AC)，而我期待的結果輸出就是測試報告。
 
@@ -88,7 +88,7 @@ logo: /wp-content/images/2025-05-01-vibe-testing-poc/logo.jpg
 
 試著幻想一下未來的可能性，一份合理的 domain 層級測試案例, 經過不同的介面規格 + (AI) Test Runner 擴展，能夠對不同介面進行相同商業規則的驗證 (我目前的能力只能實現 API 的範圍):
 
-![alt text](/wp-content/images/2025-05-01-vibe-testing-poc/image-6.png)
+![alt text](/images/2025-05-01-vibe-testing-poc/image-6.png)
 
 
 
@@ -143,7 +143,7 @@ logo: /wp-content/images/2025-05-01-vibe-testing-poc/logo.jpg
 
 - Andrew Shop  [API Spec](https://andrewshopoauthdemo.azurewebsites.net/swagger/index.html) (這 API 自從安德魯小舖上線後就再也沒改過了...)
 
-![alt text](/wp-content/images/2025-05-01-vibe-testing-poc/image-5.png)
+![alt text](/images/2025-05-01-vibe-testing-poc/image-5.png)
 
 開始前，我先 "腦補" 我該怎麼做.. 這是我做事習慣，當我解析清楚我腦袋怎麼逐步拆解這問題時，下一步我就知道怎麼期待 AI 拆解這問題。因為我清楚拆解過程，我就能掌握 Prompt 到底該提醒 AI 該怎麼做。
 
@@ -362,14 +362,14 @@ var report = await kernel.InvokePromptAsync<string>(
 
 
 這是 Given 的部分:
-![alt text](/wp-content/images/2025-05-01-vibe-testing-poc/image-3.png)
+![alt text](/images/2025-05-01-vibe-testing-poc/image-3.png)
 
 這是 When 的部分:
-![alt text](/wp-content/images/2025-05-01-vibe-testing-poc/image-4.png)
+![alt text](/images/2025-05-01-vibe-testing-poc/image-4.png)
 
 過程我就不再解釋了，各位有興趣可以對照著看，截圖只是證明 AI 真的能清楚這流程，有確實執行而已。這邊特別說明一下我沒提到的細節，就是 API 的使用者認證。我原始的 API 支援 OAuth2 的認證機制，正常的話執行過程中應該會跳出 Browser 讓我輸入帳號密碼 ( 用過 "安德魯小舖" GPTs 的朋友應該都看過這畫面 ):
 
-![alt text](/wp-content/images/2025-05-01-vibe-testing-poc/image-8.png)
+![alt text](/images/2025-05-01-vibe-testing-poc/image-8.png)
 
 
 而在這邊我在 Test Runner 加了一段 code 來處理這件事，因此你會看到每個 API 的 Request Headers 都會有這段，而每次測試拿到的 token 都會不同，並且都有真正跑過完整的 OAuth2 認證流程:
@@ -541,7 +541,7 @@ Authorization: Bearer 732bbead3cc54ddf9554c8428c9c2852
 
 回到測試這件事，這篇文章，大概講了我想表達跟嘗試部分的 30% 左右，大家可以把這篇當作起點，後面的我在慢慢補完吧! 後面我打算再寫兩篇，分別聊聊測試案例怎麼展開 (這張圖的左半部)，以及我一直沒有談的規模化細節 (MCP，認證等等的設計)。
 
-![alt text](/wp-content/images/2025-05-01-vibe-testing-poc/image-9.png)
+![alt text](/images/2025-05-01-vibe-testing-poc/image-9.png)
 
 
 文章內提到的參考資料，我都蒐集到這清單內了。有興趣請參考 [**參考資料**]:

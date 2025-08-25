@@ -26,4 +26,4 @@ wordpress_postid: 198
 
 貼張照片試看看...
 
-![](/wp-content/be-files/WindowsLiveWriter/CS2.1SP2MetaWeblogAPInewMediaObjectmeth_C2D6/IMG_5566%5B2%5D.jpg)
+![](/images/2006-12-10-cs-2-1-sp2-metaweblog-api-newmediaobject-method-support/IMG_5566%5B2%5D.jpg)

@@ -26,7 +26,7 @@ World 就是給 Cell 生活的空間，我們只訂義一個有限大小的二�
 
  
 
-![image](/wp-content/be-files/WindowsLiveWriter/2OOP/38218C71/image.png)   
+![image](/images/2009-09-14-design-case-study-game-of-life-2-oop-example-program/image.png)   
 圖1. class diagram (World & Cell)
 
 老實說，這張圖還蠻乏善可陳的，World對外公開的介面，大概包含了幾個主要功能，就是取得指定座標的 Cell (GetCell), 及把目前的整個 World 狀態印出來 (ShowMaps) 的 method 而已。而 Cell 的公開介面，不外乎是它目前是活著還是死的，還有它的建構式，及呼叫後會把狀態轉移到下一次狀態的 method。

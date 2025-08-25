@@ -24,10 +24,10 @@ wordpress_postid: 115
 就是這念頭開始寫這個 project, 蠻好寫的, 兩三個小時過去就堪用了, 經過幾天試用慢慢改成現在的樣子, 先現寶一下, 放幾張圖: 
 
 [圖 1] 編輯畫面
-![image](/wp-content/be-files/WindowsLiveWriter/WLWPluginsCodeFormatter_11BC9/image_5.png)
+![image](/images/2008-03-08-wlw-plugins-code-formatter/image_5.png)
 
 [圖 2] 預覽畫面 (底下當然要加點廣告... )
-![image](/wp-content/be-files/WindowsLiveWriter/WLWPluginsCodeFormatter_11BC9/image3.png)
+![image](/images/2008-03-08-wlw-plugins-code-formatter/image3.png)
 
 結果就不用貼圖了, 底下這段就是用這 plugins 貼進來的... 
 
@@ -56,7 +56,7 @@ public class Program {
 
 要來看 code 嗎? 其實 code 就沒什麼好看的了, 需要的直接抓回去看吧. 倒是不常寫 WinForm 的我, 竟然被內建的 ComboBox 小整了一下... WinForm 內建的 ComboBox 功能很完整, Items 可以放 object, 然後再指定 ValueMember, DisplayMember... blah blah. 當然也有直接提供最簡單的 Text Editor, 一行字就是一個 Item ... 
 
-![image](/wp-content/be-files/WindowsLiveWriter/WLWPluginsCodeFormatter_11BC9/image_8.png)
+![image](/images/2008-03-08-wlw-plugins-code-formatter/image_8.png)
 
 不過, 我要的是很簡單的 Value / Display 分別指定就好, 就是這個 plugins 讓 user 選擇格式的地方 (如上圖), 我希望第一項的 Value 是 "HTML", 而顯示的是 "HTML / XML / ASP.NET", 這樣簡單的要求, 我心裡想... 這麼簡單, 一定可以直接用 Designer 填一填就搞定, 不用再去寫 code, 就可以 init 完成.. 
 

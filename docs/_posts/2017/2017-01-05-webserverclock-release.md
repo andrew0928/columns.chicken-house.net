@@ -7,10 +7,10 @@ tags: ["有的沒的", ".NET", "C#", "Tips"]
 published: true
 comments: true
 redirect_from:
-logo: /wp-content/uploads/2017/01/webserverclock-logo.png
+logo: /images/2017-01-05-webserverclock-release/webserverclock-logo.png
 ---
 
-![LOGO](/wp-content/uploads/2017/01/webserverclock-logo.png)
+![LOGO](/images/2017-01-05-webserverclock-release/webserverclock-logo.png)
 圖片來源: [http://blog.mixflavor.com/2013/12/ticket.html](http://blog.mixflavor.com/2013/12/ticket.html)
 
 
@@ -80,7 +80,7 @@ logo: /wp-content/uploads/2017/01/webserverclock-logo.png
 
 OK，接下來就是實作了。我找張現成的圖，比較好解釋:
 
-![時序圖](/wp-content/uploads/2017/01/webserverclock-operate.gif)
+![時序圖](/images/2017-01-05-webserverclock-release/webserverclock-operate.gif)
 圖片來源: [http://ccnet.ntu.edu.tw/ntp/operate.html](http://ccnet.ntu.edu.tw/ntp/operate.html)
 
 實作上的困難還不少。這張圖把 NTP server 換成 WEB server，回傳的 Date header 時間點應該落在 T1 ~ T2
@@ -126,7 +126,7 @@ T0, T1P (就是指 T1'), T3 就是按照上面那張時序圖來命名的，這�
 
 整段 code 包裝進 windows form 後，執行起來像這樣:
 
-![app](/wp-content/uploads/2017/01/webserverclock-capture01.png)
+![app](/images/2017-01-05-webserverclock-release/webserverclock-capture01.png)
 
 使用方法很簡單，填好網址, 按下 [同步] 就會執行上面那段 code, 同時底下的時鐘就會自動搭配 offset 來修正結果。
 左下方會有小字顯示相關資訊，其實不大需要管他，看時鐘就好..

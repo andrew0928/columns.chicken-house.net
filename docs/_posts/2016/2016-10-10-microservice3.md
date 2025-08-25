@@ -9,11 +9,11 @@ tags: ["API", "SDK", "系列文章", "ASP.NET", "架構師", "C#", "yield return
 published: true
 comments: true
 # redirect_from:
-logo: /wp-content/uploads/2016/10/microservice-webapi-design.jpg
+logo: /images/2016-10-10-microservice3/microservice-webapi-design.jpg
 ---
   
     
-![](/wp-content/uploads/2016/10/microservice-webapi-design.jpg)  
+![](/images/2016-10-10-microservice3/microservice-webapi-design.jpg)  
 (圖片來源: [http://hamidarebai.blogspot.tw/2016/09/building-restful-api-with-aspnet-core.html](http://hamidarebai.blogspot.tw/2016/09/building-restful-api-with-aspnet-core.html))
 
 這篇算是 "微服務架構" 系列文章的外傳... 所以標題稍微改一下 XD!

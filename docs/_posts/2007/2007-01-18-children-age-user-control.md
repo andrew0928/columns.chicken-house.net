@@ -17,7 +17,7 @@ redirect_from:
 wordpress_postid: 193
 ---
 
-![Age Control](/wp-content/be-files/age-control.gif)
+![Age Control](/images/2007-01-18-children-age-user-control/age-control.gif)
 
 每次看 sea 在貼文章都會貼小皮幾歲幾個月, 妹妹幾個月... 就想說直接寫個 user control 就搞定了, 沒想到真的寫下去還有點小麻煩... 哈哈...
 

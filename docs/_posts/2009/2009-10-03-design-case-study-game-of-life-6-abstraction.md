@@ -32,7 +32,7 @@ wordpress_postid: 27
 
 先試著用簡單文字來描述吧。在我們的定義裡，世界是個 M * N 的棋盤，每一格都能放一個生物。每個生物有自己的狀態 (生/死)，也會隨著時間與環境的不同，讓生物的狀態產生變化。畫成 UML 的 class diagram, 大概就像這樣 (手邊沒工具，用 power point 大概畫一下… Orz):
 
-![image](/wp-content/be-files/WindowsLiveWriter/6/540DA0FC/image.png)
+![image](/images/2009-10-03-design-case-study-game-of-life-6-abstraction/image.png)
 
 我們在撰寫程式時，就必需思考題目中講到的生物各種特性，那些是所有的生命共有的特色? 這部份要把它定義在 Life … 另一部份是某種細胞特有的，則要放在衍生類別 Cell 裡。而世界必需要能跟生命作適當的互動，讓生命的進行能繼續下去。這樣的架構好處是，未來如果有第二種 Cell 或是其它的生物，只要是從 Life 繼承下來，都能很順利的在 World 裡活著，因為物件導向技術的 "抽像化" 概念，保證這樣程式的可行性。
 
@@ -40,7 +40,7 @@ wordpress_postid: 27
 
 先把原程式作好調整吧。原 Cell 的程式碼，部份被搬移到 Life, 同時這兩個類別有了繼承關係，如下:
 
-![ClassDiagram1](/wp-content/be-files/WindowsLiveWriter/6/48E416B2/ClassDiagram1.png)
+![ClassDiagram1](/images/2009-10-03-design-case-study-game-of-life-6-abstraction/ClassDiagram1.png)
 
 Life 的部份，定義了所有 Life 都該表達出來的特性，也就是我們對於 Life 的認知，都應該描述在裡面，像是 Life 活在 World (CurrentWorld) 裡，會有它的座標 (PosX, PosY), 也會有它在這個棋盤內顯示的方式 (DisplayText) 等。而跟 World 互動的方面，Life 則透過 GetNextWorldTask( ) 來讓 World 來讓 Life 驅動它生命的進行。
 
@@ -58,7 +58,7 @@ Life 的部份，定義了所有 Life 都該表達出來的特性，也就是我
 
 我們的程式該怎麼配合它改變? (對，機車的 USER 就都是這樣臨時修改規格...) 先來看看執行的結果，畫面上已經分的出來活著的 Cell 跟受感染的 Cell ... 除了看到 Cell 活著與死亡的變化之外，也看的到病毒擴散的狀況是怎麼樣。執行的畫面如下:
 
-![image](/wp-content/be-files/WindowsLiveWriter/6/0FB7A1AD/image.png)
+![image](/images/2009-10-03-design-case-study-game-of-life-6-abstraction/image.png)
 
 圖例: ◎受感染的細胞，●活著的正常細胞，○死亡的細胞
 

@@ -6,12 +6,12 @@ tags: ["系列文章", "架構師", "Practices"]
 published: true
 comments: true
 redirect_from:
-logo: /wp-content/images/2019-08-30-scheduling-practices/2019-08-31-14-19-43.jpg
+logo: /images/2019-08-30-scheduling-practices/2019-08-31-14-19-43.jpg
 ---
 
 這篇也是個練習題，這次換個實際一點的主題，"排程任務" 的處理機制。
 
-![](/wp-content/images/2019-08-30-scheduling-practices/2019-08-31-14-19-43.jpg)
+![](/images/2019-08-30-scheduling-practices/2019-08-31-14-19-43.jpg)
 
 
 後端服務做久了，一定有碰過這類需求: 使用者想要預約網站在某個指定的時間點執行預先排定的工作。不過，Web Application 先天的框架，就都是 Request / Response 的被動處理模式，有 Request, 才有 Response... 這模式先天就不擅長處理預先排定時間執行的任務。因此這類需求，通常都必須另外處理。雖然有不少現成的套件或是服務可以解決，不過我還蠻期待工程師都能思考看看，如果我找不到合適的套件，必須自己處理時，我知道該怎麼做嗎?
@@ -113,24 +113,24 @@ select * from jobs where state = 0 and runat < getdate() order by runat asc
 
 用圖示化的方式說明一下這過程吧。由左到右是時間軸，空心三角形代表預定執行的 Job:
 
-![](/wp-content/images/2019-08-30-scheduling-practices/2019-08-31-17-18-53.png)
+![](/images/2019-08-30-scheduling-practices/2019-08-31-17-18-53.png)
 
 
 如果我定期 (垂直虛線) 掃描一次該執行的 Job ...
 
-![](/wp-content/images/2019-08-30-scheduling-practices/2019-08-31-17-20-58.png)
+![](/images/2019-08-30-scheduling-practices/2019-08-31-17-20-58.png)
 
 啟動掃描到的 Job (實心三角形):
 
-![](/wp-content/images/2019-08-30-scheduling-practices/2019-08-31-17-21-39.png)
+![](/images/2019-08-30-scheduling-practices/2019-08-31-17-21-39.png)
 
 不斷重複同樣的動作:
 
-![](/wp-content/images/2019-08-30-scheduling-practices/2019-08-31-17-22-02.png)
+![](/images/2019-08-30-scheduling-practices/2019-08-31-17-22-02.png)
 
 我們分別標出每個 job 的延遲時間 (Delay #1 ~ #5)
 
-![](/wp-content/images/2019-08-30-scheduling-practices/2019-08-31-17-22-22.png)
+![](/images/2019-08-30-scheduling-practices/2019-08-31-17-22-22.png)
 
 這五筆延遲時間的平均值，以及標準差，就是我們精確度評分的項目。
 
@@ -477,9 +477,9 @@ Jobs 全部都成功執行完畢，但是有 46 筆沒辦法在指定時間內�
 
 老實說這測試還真花時間，連我自己的範例，總共有八組測試要跑，每一組除要跑 10 次測量統計數據，外加 1 次 HATEST 做可靠度測試，全部跑完一次就足足花掉 10 小時以上，還不包括測試 script 沒寫好重跑的時間... (我該慶幸還好參加的人沒有很多嗎?? T_T )
 
-不過為了徹底了解大家寫的 code 表現如何，我還是硬著頭皮把他跑完了 XD，我也加碼直接跑了 1 ~ 10 instances 的數據。我們先從需求規定的 5 instance 來看看結果 ([點我](/wp-content/images/2019-08-30-scheduling-practices/2019-12-09-23-25-45.png)看大圖):
+不過為了徹底了解大家寫的 code 表現如何，我還是硬著頭皮把他跑完了 XD，我也加碼直接跑了 1 ~ 10 instances 的數據。我們先從需求規定的 5 instance 來看看結果 ([點我](/images/2019-08-30-scheduling-practices/2019-12-09-23-25-45.png)看大圖):
 
-![](/wp-content/images/2019-08-30-scheduling-practices/2019-12-09-23-25-45.png)
+![](/images/2019-08-30-scheduling-practices/2019-12-09-23-25-45.png)
 
 說明一下這表格怎麼看。我按照原始的規定，從每個人的統計分數中，挑出 5 instances 內 EFFICIENT_SCORE 最佳的那筆紀錄當作代表做成這張表格。若有需要完整的 EXCEL 可以點[這裡](/wp-content/images/2019-08-30-scheduling-practices/statistics-fixed.xlsx)下載。我先交代一下幾個關鍵的欄位意義:
 
@@ -507,9 +507,9 @@ Jobs 全部都成功執行完畢，但是有 46 筆沒辦法在指定時間內�
 * ```EFFICIENT_SCORE```:  
 同需求說明裡定義的 `EFFICIENT_SCORE`，代表執行時間的效率分數。這分數要漂亮，平均值要低，標準差也要低。我同樣用最好的那一筆當基準，標三個顏色。
 
-前面放了所有人在 5 instances 條件內最好的一筆紀錄做成總表，這份則是 10 instances 內的最佳紀錄表。僅供各位參考用。做 1 ~ 10 的目的是我想在後面的評論，拿來驗證 solution 在不同狀況下的表現用的, 超出 5 instances 的數據我就不列入排名了，以示公平。以下是整理好的表格，給大家參考 ([點我](/wp-content/images/2019-08-30-scheduling-practices/2019-12-09-23-38-15.png)看大圖):
+前面放了所有人在 5 instances 條件內最好的一筆紀錄做成總表，這份則是 10 instances 內的最佳紀錄表。僅供各位參考用。做 1 ~ 10 的目的是我想在後面的評論，拿來驗證 solution 在不同狀況下的表現用的, 超出 5 instances 的數據我就不列入排名了，以示公平。以下是整理好的表格，給大家參考 ([點我](/images/2019-08-30-scheduling-practices/2019-12-09-23-38-15.png)看大圖):
 
-![](/wp-content/images/2019-08-30-scheduling-practices/2019-12-09-23-38-15.png)
+![](/images/2019-08-30-scheduling-practices/2019-12-09-23-38-15.png)
 
 
 
@@ -552,7 +552,7 @@ OK，接下來要開始進入 code review 的階段了，我們就按照發 PR �
 
 **Benchmark**:
 
-![](/wp-content/images/2019-08-30-scheduling-practices/2019-12-09-23-51-19.png)
+![](/images/2019-08-30-scheduling-practices/2019-12-09-23-51-19.png)
 
 **HA test**: PASS
 
@@ -704,7 +704,7 @@ public class HankTestProgram : BackgroundService
 
 **Benchmark**:
 
-![](/wp-content/images/2019-08-30-scheduling-practices/2019-12-09-23-57-27.png)
+![](/images/2019-08-30-scheduling-practices/2019-12-09-23-57-27.png)
 
 
 **HA test**: PASS
@@ -839,7 +839,7 @@ using (JobsRepo repo = new JobsRepo(this._connectString))
 
 **Benchmark**:
 
-![](/wp-content/images/2019-08-30-scheduling-practices/2019-12-10-00-03-31.png)
+![](/images/2019-08-30-scheduling-practices/2019-12-10-00-03-31.png)
 
 **HA test**: PASS
 
@@ -960,7 +960,7 @@ protected async override Task ExecuteAsync(CancellationToken stoppingToken)
 
 **Benchmark**:
 
-![](/wp-content/images/2019-08-30-scheduling-practices/2019-12-10-00-19-32.png)
+![](/images/2019-08-30-scheduling-practices/2019-12-10-00-19-32.png)
 
 **HA test**: FAIL
 
@@ -1016,7 +1016,7 @@ while (_workItems.Count > 0)
 
 **Benchmark**:
 
-![](/wp-content/images/2019-08-30-scheduling-practices/2019-12-10-00-20-08.png)
+![](/images/2019-08-30-scheduling-practices/2019-12-10-00-20-08.png)
 
 
 **HA test**: PASS(註)
@@ -1135,7 +1135,7 @@ foreach (var t in threads) t.Start();
 
 **Benchmark**:
 
-![](/wp-content/images/2019-08-30-scheduling-practices/2019-12-10-00-21-00.png)
+![](/images/2019-08-30-scheduling-practices/2019-12-10-00-21-00.png)
 
 **HA test**: PASS(註)
 
@@ -1228,7 +1228,7 @@ using (JobsRepo repo = new JobsRepo())
 
 **Benchmark**:
 
-![](/wp-content/images/2019-08-30-scheduling-practices/2019-12-10-00-21-49.png)
+![](/images/2019-08-30-scheduling-practices/2019-12-10-00-21-49.png)
 
 **HA test**: PASS(註)
 
@@ -1325,7 +1325,7 @@ using (JobsRepo repo = new JobsRepo())
 
 **Benchmark**:
 
-![](/wp-content/images/2019-08-30-scheduling-practices/2019-12-10-00-22-27.png)
+![](/images/2019-08-30-scheduling-practices/2019-12-10-00-22-27.png)
 
 **HA test**: PASS
 

@@ -8,12 +8,12 @@ comments: true
 use_disqus: false
 use_fbcomment: true
 redirect_from:
-logo: /wp-content/images/2019-07-06-pipeline-practices/logo.png
+logo: /images/2019-07-06-pipeline-practices/logo.png
 ---
 
 前面兩篇聊了不少 CLI / PIPELINE 開發的技巧跟基本功夫，這篇換個方式，來聊聊後端工程師該如何自己練習基本功夫吧。這次談的是 "精準" 控制的練習。
 
-![](/wp-content/images/2019-07-06-pipeline-practices/logo.png)
+![](/images/2019-07-06-pipeline-practices/logo.png)
 
 我在公司負責架構的團隊，兩個月前，我出了個練習題讓團隊的人練習，目的是測驗大家對於處理大量複雜的任務的精準程度。所謂的 "精準"，是指你腦袋裡面能很清楚的掌握你 "期望" 程式該怎麼跑，以及實際上你的程式是否真的如你預期的執行。這篇文章，我想換個方式，把這練習題的 source code 公開出來，用實際的 Hands-On Labs 練習的方式來進行。有興趣的朋友可以親自練習看看。練習的目的，是讓你思考如何精準的處理任務，而不是學習一堆大部頭的框架，因此我設計的這練習題，你只要熟悉基本的 C# 語法與 BCL (Basic Class Library) 就足以應付了，困難的地方在於你如何解決問題。
 
@@ -176,29 +176,29 @@ TS,MEM,WIP_ALL,WIP1,WIP2,WIP3,THREADS_COUNT,ENTER1,ENTER2,ENTER3,EXIT1,EXIT2,EXI
 
 做成 csv 為的是方便你用 excel 打開，直接用圖表來將你的執行成效視覺化用的。舉例來說，前兩個欄位 ```TS``` (time stamp, msec) 跟 ```MEM``` (allocated memory, bytes) 我把它用 excel 繪製成圖表的話，就可以看到這樣的 chart, 模擬像是你用 visual studio profiler 這類工具來監控你程式執行過程:
 
-![](/wp-content/images/2019-07-06-pipeline-practices/021612.png)
+![](/images/2019-07-06-pipeline-practices/021612.png)
 
 
 
 不過，這個版本的 code 實在太單調了，完全看不出啥效果... 我換一個我自己用 thread pool 的 Runner, 拿 ```TS``` 當 X 軸， ```MEM``` 當 Y 軸，就可以看記憶體使用量:
 
-![](/wp-content/images/2019-07-06-pipeline-practices/021935.png)
+![](/images/2019-07-06-pipeline-practices/021935.png)
 
 
 
 其實 .csv 內還藏了不少數據, 再來看看其他數據: ```WIP1``` ~ ```WIP3```, ```WIP_ALL```, 分別代表在 Step1 ~ Step3, 以及所有未完成的 task(s) 總數:
 
-![](/wp-content/images/2019-07-06-pipeline-practices/022611.png)
+![](/images/2019-07-06-pipeline-practices/022611.png)
 
 
 如果我想看看 thread pool 背後到底動用了多少執行緒出來工作，打開 ```THREADS_COUNT``` 欄位可以看到過程中同時有多少個 threads 並行:
 
-![](/wp-content/images/2019-07-06-pipeline-practices/022835.png)
+![](/images/2019-07-06-pipeline-practices/022835.png)
 
 
 最後，如果我真的想看每個瞬間，每個 thread 到底都在幹嘛，來看看最後 ```T1``` ~ ```T30``` 的欄位... 這就不是看圖表了，直接看表格的內容。我在 EXCEL 表格的格式加了工，把同一個 Task 用粗的框線框起來，讓視覺化更明顯一點:
 
-![](/wp-content/images/2019-07-06-pipeline-practices/023121.png)
+![](/images/2019-07-06-pipeline-practices/023121.png)
 
 ```TS``` 代表程式開始執行的時間 (單位: msec), ```T1``` ~ ```T30``` 則代表我最多會顯示每個時間點，每個 thread 都在做啥事，```T1``` 代表第一個 thread, ```T2``` 代表第二個，以此類推。至於表格內的數字，如 ```14#1```, 則代表 ```第 14 個 task 的第一個步驟```，我加上了框線，讓大家看得清楚一點，從上到下，可以看到你的 task 是如何被分配到每個 threads 執行的。你會發現，因為平行運算被受到限制，並不是每個 threads 都隨時保持忙碌的，中間空白的部分代表這個 thread 正在發呆，沒有任務可以進行。
 
@@ -357,7 +357,7 @@ TTLT 就要花點腦筋了, 先概略估計一下。由於這是生產者消費�
 
 不過，精準一點預估的話，要讓每個階段都最佳化執行，應該是每個階段個別都有專屬的 threads, 數量剛好跟平行限制的數量一致，例如 (時間軸是由左到右，不是由上到下):
 
-![](/wp-content/images/2019-07-06-pipeline-practices/2019-09-21-17-15-05.png)
+![](/images/2019-07-06-pipeline-practices/2019-09-21-17-15-05.png)
 
 這是理想的安排狀況，step #1 在理想狀況下會被分成 1000 / 5 = 200 組進行, 共需要花費 200 x 867 = 173400 msec 完成 (跟前面的答案一樣)。  
 
@@ -393,7 +393,7 @@ TTLT 就要花點腦筋了, 先概略估計一下。由於這是生產者消費�
 這次收到 13 筆 pull request, 總共 10 位網友參加挑戰。最後放進 benchmark 評比的有 10 (網友) + 3 (同事) + 5 (示範程式) = 18 組。
 直接先看結果吧! 每個人的 TaskRunner 都各丟 1000 個 task 執行的統計:
 
-![](/wp-content/images/2019-07-06-pipeline-practices/2019-09-21-23-28-21.png)
+![](/images/2019-07-06-pipeline-practices/2019-09-21-23-28-21.png)
 
 雖然我列了 WIP / MEM 等等其他參考的指標，但是既然是以效能為主，我還是關注在 TTFT / TTLT / AVG_WAIT 這三個數字上吧。顏色標示的規則很簡單，以前面提到的 "理想值" 為目標，這三項分數如果跟理想值的差距在 1% 以內，就標上綠色。如果落在 0.5% 以內就標上深綠色。唯獨 AVG_WAIT 比較特別，大概是我理想值估的太保守了，竟然有幾個挑戰者跑出比我認知的 "理想值" 還要好的成績... 因此 AVG_WAIT 這欄標顏色的規則稍微調整，我用成績最好的那一筆 (```JW.JWTaskRunnerV5```) 當作理想值，其餘規則不變。
 
@@ -538,7 +538,7 @@ Benchmark 成績摘要:
 
 最後來看看 TTFT 到底輸在哪邊吧! 我特地調出紀錄檔出來看，我們就看第一個 ```MyTask``` 就好:
 
-![](/wp-content/images/2019-07-06-pipeline-practices/2019-09-22-14-06-29.png)
+![](/images/2019-07-06-pipeline-practices/2019-09-22-14-06-29.png)
 
 TS 那欄是整個測試執行的時間軸，單位是 msec, 為了方便擠進文章內，我把中間重複的部分都隱藏起來了。看的時候留意一下左邊的 TS, 標了一行灰色的，代表有部分資料被我隱藏了。因此整個視覺上的呈現，不代表實際的比例。
 
@@ -685,7 +685,7 @@ Benchmark 成績摘要:
 
 另一個可惜的地方是整體效能不佳，理論上你用的方式應該可以表現很棒的。不知你有沒有留意到關鍵? TTLT / AVG_WAIT 這兩個可以代表整體指標的數值，你都大約落後理想值的 5x, 剛剛好就是 step 1 的平行處理上限。看到關鍵了嗎? 你在 ```PipeLineHead.StartPipeLine()``` 的地方沒處理好，導致你的 code 在 step 1 是 "完全" 沒有平行處理的。加上 step 1 又是瓶頸, 所以...
 
-![](/wp-content/images/2019-07-06-pipeline-practices/2019-09-22-14-51-39.png)
+![](/images/2019-07-06-pipeline-practices/2019-09-22-14-51-39.png)
 
 這現象可以從你的 log.csv 看出端倪，所有 task 的 step #1 都集中在 T1 這個 thread 執行，被平行處理的只有 step 2, step 3... 
 
@@ -831,7 +831,7 @@ Benchmark 成績摘要:
 
 這篇文章 [Asynchronous Producer Consumer Pattern in .NET (C#)](https://www.dotnetcurry.com/dotnetcore/1509/async-dotnetcore-pattern) 的後面有跑一些 benchmark, 來比較 ```DataFlow```, ```BlockingCollection``` 跟 ```Channel``` 的效能差異。在正確的情境上, ```Channel``` 的效能完全甩掉其他兩種方法一條街... 不過，最後還是來看一下 TTFT 吧，為何有這些差距? 我試著挖掘一下原因，一樣我把 .csv 的 log 挖出來看看:
 
-![](/wp-content/images/2019-07-06-pipeline-practices/2019-09-22-15-44-08.png)
+![](/images/2019-07-06-pipeline-practices/2019-09-22-15-44-08.png)
 
 我特地把第一個 ```Task``` (Id: 1) 的每個步驟框出來。還是一樣的問題，忽略了 "精準" 控制每個 task 的執行方式，就會有些環節不夠理想。這個 Task 的 step 1 執行結束是 860ms 的位置, 但是 step 2 被啟動時已經是 1460 msec 的位置了。一開始的時候應該都還沒踩到任何併發處理的限制，這只能說 .NET 剛好沒有在第一時間挑選我們希望的 ```Task``` 起來執行造成的了。
 
@@ -926,7 +926,7 @@ Benchmark 成績摘要:
 
 不過，這做法的優點我還是要提一下，就是能夠很 "精準" 的做你的 ```Task```. 來看看 log.csv:
 
-![](/wp-content/images/2019-07-06-pipeline-practices/2019-09-22-16-05-09.png)
+![](/images/2019-07-06-pipeline-practices/2019-09-22-16-05-09.png)
 
 雖然整體的效能沒有調教好，但是看的出來很工整，所有 ```Task``` 都是按照順序，按照步驟，把有限的三個 threads 擠得滿滿的，一點空檔都沒有。因此可以跑出很好的 TTFT 成績。換個角度說，如果 WIP 是你系統很關鍵的因素 (例如 WIP 過高就會 ```OutOfMemoryException``` 之類的), 這是個不錯的方法。
 
@@ -1000,7 +1000,7 @@ Benchmark 成績摘要:
 
 結果就如同大家所看到的，跑出很亮眼的成績。還好 TTFT 沒有擠進 0.5%, 讓我還有點空間可以挑毛病 ... Orz
 
-![](/wp-content/images/2019-07-06-pipeline-practices/2019-09-22-17-28-50.png)
+![](/images/2019-07-06-pipeline-practices/2019-09-22-17-28-50.png)
 
 交出排程的控制權，給 ```ThreadPool``` 這類通用的排程機制，大概都有這種盲點，針對個案的最佳化，稍微要碰一點運氣，但是整體的成效都很讚。我一樣用 log 來看，第一個完成的其實是 Task Id 為 1004 (其實 1003 1005 都是同時完成的)，我特地把 1004 三個步驟的完成順序標示出來 (淺黃色)。
 

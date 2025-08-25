@@ -18,7 +18,7 @@ redirect_from:
 wordpress_postid: 271
 ---
 
-平常用 Google 用慣了, 沒發現它這麼邪惡... ![](/Emoticons/shades_smile.gif)
+平常用 Google 用慣了, 沒發現它這麼邪惡... ![](/images/2005-03-09-evil-google/shades_smile.gif)
 
 試試看在 Google 搜尋 "[吃驚](http://www.google.com.tw/search?hl=zh-TW&q=%E5%90%83%E9%A9%9A&btnG=Google+%E6%90%9C%E5%B0%8B&meta=)", 看看 Google 給你的貼心建議...
 

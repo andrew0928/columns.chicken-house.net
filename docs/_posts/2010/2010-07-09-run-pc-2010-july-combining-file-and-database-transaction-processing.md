@@ -16,7 +16,7 @@ redirect_from:
 wordpress_postid: 14
 ---
 
-![IMG_3972](/wp-content/be-files/IMG_3972_1.jpg)
+![IMG_3972](/images/2010-07-09-run-pc-2010-july-combining-file-and-database-transaction-processing/IMG_3972_1.jpg)
 
 再次感謝編輯大人 :D，Transactional NTFS #2 也刊出來了!
 

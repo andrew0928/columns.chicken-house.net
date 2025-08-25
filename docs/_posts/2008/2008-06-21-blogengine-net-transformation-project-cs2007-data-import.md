@@ -30,7 +30,7 @@ wordpress_postid: 95
 
 就是心裡一直這樣想，所以... 重匯吧! 不然以後後悔也是補不回來的。首先當然是想先從 BlogEngine 匯入 BlogML 的工具下手，看了一下，沒提供 Source Code ? 再看一下，一篇文章一個 Web Service Call，一則回應也是一個 Web Service Call ... 感覺起來有點沒效率，不過不管了，我內容也不多 (兩百多篇文章) ... 既然有 Web Services，先看看它的 WSDL ...
 
-![image](/wp-content/be-files/WindowsLiveWriter/BlogEngine.NETCS2007_3ABA/image_3.png)
+![image](/images/2008-06-21-blogengine-net-transformation-project-cs2007-data-import/image_3.png)
 [http://columns.chicken-house.net/api/blogImporter.asmx](http://columns.chicken-house.net/api/blogImporter.asmx)
 
 沒幾個 WebMethod 嘛，不過看一看它的 Interface 就已經漏掉很多資訊沒轉進來了 (像是我要的原 CS PostID，事後作新舊網址對照表用，還有 PageViewCount... etc)，要改原程式也是個大工程，不但 CLIENT 要改，WEB METHOD 也要擴充... 我又不是非得遠端用 WEB SERVICES 執行匯入不可，就當下決定另外寫一個匯入程式還比較快...。重寫的話就得研究它的寫法，正好每個 WebMethod 都只作單一的動作，裡面的實作就是現成的範例... 省了不少熟悉 API 的時間 :P
@@ -76,7 +76,7 @@ for xml auto
 
 會看到這樣的畫面:
 
-![image](/wp-content/be-files/WindowsLiveWriter/BlogEngine.NETCS2007_3ABA/image_8.png)
+![image](/images/2008-06-21-blogengine-net-transformation-project-cs2007-data-import/image_8.png)
 
 點下去就是 XML 了，手到加上頭尾的 Root Element 存檔就搞定了。接下來補段 CODE 把我要的 Property 拆出來存 XML 檔，第一步驟收工!
 

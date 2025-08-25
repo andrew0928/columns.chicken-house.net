@@ -28,19 +28,19 @@ wordpress_postid: 144
 
 2. 一條線有四對線, 我同一捆的線都沒超過四條, 因此做了三個 RJ-45 網路接頭, 以 586A 的規範, 做了三個接頭, 分別短路橘,綠,棕這三對線, 另外做了一個 RJ-11 電話接頭, 短路藍色那對線
    
-   ![CRW_3616(Canon PowerShot G2) (Custom)](/wp-content/be-files/WindowsLiveWriter/3_1078A/CRW_3616(Canon%20PowerShot%20G2)%20(Custom)_3.jpg)
+   ![CRW_3616(Canon PowerShot G2) (Custom)](/images/2007-09-19-electrician-diary-3-wire-tracing-labeling/CRW_3616(Canon%20PowerShot%20G2)%20(Custom)_3.jpg)%20(Custom)_3.jpg)
 
 3. 開始查線. 把剛才的接頭都裝上去, 然後另一頭用三用電錶一條一條量... 量到電阻很低的話 (大概 5 歐姆以內), 那就找到了, 一定是同一捆... 然後同一捆每一條都量一下, 看是那一對線短路, 就知道另一頭是那個插座了...
 
 4. TV cable 也差不多, 不過古早在交大宿舍用的網路線還是 BNC 接頭, 當時有幾個終端電阻還留著, 就直接拿來用了... 另一頭只要量到電阻是 50 歐姆就對了.. 第一張圖是合體的樣子, 因為 catv 的 f 頭跟 bnc 接不起來, 所以中間串了一個轉接頭, 為了插拔方便 (有十一條要測.. ), 多串了一個快速接頭. 第二張就是拆該的樣子..
    
-   ![CRW_3619(Canon PowerShot G2) (Custom)](/wp-content/be-files/WindowsLiveWriter/3_1078A/CRW_3619(Canon%20PowerShot%20G2)%20(Custom)_3.jpg)
+   ![CRW_3619(Canon PowerShot G2) (Custom)](/images/2007-09-19-electrician-diary-3-wire-tracing-labeling/CRW_3619(Canon%20PowerShot%20G2)%20(Custom)_3.jpg)%20(Custom)_3.jpg)
    
-   ![CRW_3620(Canon PowerShot G2) (Custom)](/wp-content/be-files/WindowsLiveWriter/3_1078A/CRW_3620(Canon%20PowerShot%20G2)%20(Custom)_3.jpg)
+   ![CRW_3620(Canon PowerShot G2) (Custom)](/images/2007-09-19-electrician-diary-3-wire-tracing-labeling/CRW_3620(Canon%20PowerShot%20G2)%20(Custom)_3.jpg)%20(Custom)_3.jpg)
 
 5. 事先作好的 excel 表, 先把每個插座編好號碼, 然後找到機櫃那頭對應的線之後, 就用號碼環標一下號碼... 
    
-   ![IMG_7769(Canon IXY DIGITAL 55) (Custom)](/wp-content/be-files/WindowsLiveWriter/3_1078A/IMG_7769(Canon%20IXY%20DIGITAL%2055)%20(Custom)_5.jpg)
+   ![IMG_7769(Canon IXY DIGITAL 55) (Custom)](/images/2007-09-19-electrician-diary-3-wire-tracing-labeling/IMG_7769(Canon%20IXY%20DIGITAL%2055)%20(Custom)_5.jpg)%20(Custom)_5.jpg)
 
 看起來蠻簡單的, 不過也是挺累的... 比如標號碼的原則怎麼標, 我也是想了好幾種編碼方式... 一盒號碼環買來是 0 ~ 9 各 10 個, 我那麼多條線一定要兩位數, 而一盒號碼環頂多標到 50 個號碼... 每條線兩端都要標個數字, 因此最多標 25 條線, 而我需要 25 對一樣的數字... 這時如何用有限的數字環標出足夠的數字, 就得先規劃一下了.. 如果直接 01 ~ 25 標下去一定不夠, 因為光是 01 ~ 09 就得用掉 20 個 0, 我那有那麼多 0 ... 
 

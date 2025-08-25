@@ -15,7 +15,7 @@ redirect_from:
   - /columns/e5be97e78d8ee4ba86-D7e7e7e.aspx/
 wordpress_postid: 61
 ---
-![IMG_9142](/wp-content/be-files/WindowsLiveWriter/D_12C2/IMG_9142_1.jpg)
+![IMG_9142](/images/2008-10-02-won-an-award/IMG_9142_1.jpg)
 
 雖然[上禮拜就知道了](http://blog.darkthread.net/blogs/darkthreadtw/archive/2008/09/23/vsts-winner.aspx)，不過[獎品](http://blog.darkthread.net/blogs/darkthreadtw/archive/2008/07/21/win-a-vsts-2008.aspx)還沒拿到，當然要忍一下再發表... 哈哈!
 

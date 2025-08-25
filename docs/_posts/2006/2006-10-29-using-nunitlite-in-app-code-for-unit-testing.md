@@ -100,7 +100,7 @@ public class ConfigurationTest
 
 Step 5. Deploy Web, 調整好各項 configuration, 啟用前先點一下 NUnitLiteTestRunner.aspx, 看看結果如何... 但是我的 IE 很怪, 明明 Step 3 的 code 都已經把 content type 都標示為 text/plain 了, 我的 IE 硬要把它當 xml 來開, 然後才唉唉叫說 xml 有問題.... 結果就變這樣:
 
-![NUnitLite Test Result](/wp-content/uploads/2006/10/NUnitLiteApp_Code_2935/image010.png)
+![NUnitLite Test Result](/images/2006-10-29-using-nunitlite-in-app-code-for-unit-testing/image010.png)
 
 如果你剛好也碰到, 就直接按右鍵選 view source 就好...
 

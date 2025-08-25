@@ -18,7 +18,7 @@ redirect_from:
 wordpress_postid: 295
 ---
 
-![跳動的檯燈](/wp-content/be-files/artefact/LIGHT-160x120.gif)
+![跳動的檯燈](/images/2004-12-26-3d-studio-animated-desk-lamp/LIGHT-160x120.gif)
 
 這是大四去修資科系的"電腦圖學"的作業... 
 

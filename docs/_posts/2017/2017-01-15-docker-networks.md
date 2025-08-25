@@ -7,14 +7,14 @@ tags: ["microservice", "container", "windows container", "docker"]
 published: true
 comments: true
 redirect_from:
-logo: /wp-content/uploads/2017/01/docker-networks-scary-scenes-lotr.jpg
+logo: /images/2017-01-15-docker-networks/docker-networks-scary-scenes-lotr.jpg
 ---
 
 
 最近外務比較多，文章耽擱了一陣子... 在繼續寫 microservices 系列文章前，我先補一篇最近跟
 windows container network 奮鬥的紀錄吧，踩過的地雷跟掃雷的經驗，就分享給有同樣困擾的朋友們...
 
-![network trouble](/wp-content/uploads/2017/01/docker-networks-scary-scenes-lotr.jpg)
+![network trouble](/images/2017-01-15-docker-networks/docker-networks-scary-scenes-lotr.jpg)
 
 > 對，我的感受就像 Frodo 在山洞碰到蜘蛛一樣... 被 network 困住了...  T_T
 
@@ -105,12 +105,12 @@ C:\containers>
 
 ### STEP 2. 本機測試 ```http://localhost:8000```
 
-![test](/wp-content/uploads/2017/01/docker-networks-localhost-web.png)
+![test](/images/2017-01-15-docker-networks/docker-networks-localhost-web.png)
 結果果然是連不上..
 
 ### STEP 3. 遠端測試 ```http://{container host ip}:8000```
 
-![test](/wp-content/uploads/2017/01/docker-networks-remote-web.png)
+![test](/images/2017-01-15-docker-networks/docker-networks-remote-web.png)
 換到我的工作機，用 server ip + port 來測試就可以了!
 
 這邊補充一下，官方說法有提到這段:
@@ -134,7 +134,7 @@ C:\containers>
 
 查到 ip address 是 ```192.168.14.216```, 接著用 server 的 IE 來試試:
 
-![test](/wp-content/uploads/2017/01/docker-networks-localhost-web2.png)
+![test](/images/2017-01-15-docker-networks/docker-networks-localhost-web2.png)
 
 果然這樣就正常了! 所以官方文件一定要看啊，我仗著之前就熟 docker (linux 版本)，不看完文件就開始動手，光是這邊
 當時就浪費了我一個小時... @@

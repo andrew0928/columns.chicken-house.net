@@ -65,4 +65,4 @@ Console.WriteLine("Query time: {0:0.00} msec", timer.Elapsed.TotalMilliseconds);
 
 
 
-![](/wp-content/be-files/image_14.png)
+![](/images/2011-10-30-linq-to-object-2-indexes-for-objects/image_14.png)

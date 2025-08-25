@@ -25,18 +25,18 @@ wordpress_postid: 116
 
 原來這些都有解啊... (1) 最簡單, 把設定存檔就好, 就附圖的資訊, 底下有 [Save As], 以後直接點兩下存好的檔案就好了. 
 
-![image](/wp-content/be-files/WindowsLiveWriter/Tips_1082C/image_3.png)
+![image](/images/2008-03-06-tips-remote-desktop-connection-tricks/image_3.png)
 
 再來, (2) 跟 (3) 其實也有解, 只要先打開 DOS Prompt, 輸入 MSTSC /? 就會出現這個說明畫面: 
 
-![image](/wp-content/be-files/WindowsLiveWriter/Tips_1082C/image_6.png)
+![image](/images/2008-03-06-tips-remote-desktop-connection-tricks/image_6.png)
 
 答案就在影片中... 加上 /w:1440 /h:900 參數, 就可以用寬螢幕的解析度 1440 x 900 來搖控遠端的 server 了. 想要看 console (本機) 的畫面嘛? 比如有時 service 的 error message 只會秀在 console.. 這時只要加上 /console 參數就好. 整段指令如下: 
 
-[![image](/wp-content/be-files/WindowsLiveWriter/Tips_1082C/image_thumb_2.png)](/wp-content/be-files/WindowsLiveWriter/Tips_1082C/image_8.png)
+[![image](/images/2008-03-06-tips-remote-desktop-connection-tricks/image_thumb_2.png)](/wp-content/be-files/WindowsLiveWriter/Tips_1082C/image_8.png)
 
 開出來的視窗: 
 
-![image](/wp-content/be-files/WindowsLiveWriter/Tips_1082C/image_11.png)
+![image](/images/2008-03-06-tips-remote-desktop-connection-tricks/image_11.png)
 
 嗯, 看寬螢幕的果然比較爽, 當然這樣也就有機會用雙螢幕了. 小技巧, 需要的人可以參考看看!
