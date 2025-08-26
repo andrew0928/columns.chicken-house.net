@@ -1,20 +1,6 @@
----
-layout: post
-title: "[架構師觀點] 資安沒有捷徑，請從根本做起!"
-categories:
-- "系列文章: 架構師觀點"
-tags: ["架構師", "資安"]
-published: true
-comments: true
-# comments_disqus: true
-# comments_facebook: true
-redirect_from:
-logo: /wp-content/images/2020-11-23-security-talk/2020-11-23-01-45-18.jpg
----
-
 最近一連串資安事件，加上這兩天看到圈子內很熱門的討論串 (大意: 服務開發商，到底該不該儲存能還原的使用者密碼)，於是就想來寫點短篇一點的，說明一下我對軟體開發相關資安 issue 的看法。
 
-![](/wp-content/images/2020-11-23-security-talk/2020-11-23-01-45-18.jpg)
+![](/images/2020-11-23-security-talk/2020-11-23-01-45-18.jpg)
 
 > 那個討論串，我就不提供連結了。我的目的不是要把那位仁兄抓出來鞭，我只是要來聊聊這事件背後的看法而已。如果有人在底下留言附上 link, 我看到會刪掉的，先在此告知
 

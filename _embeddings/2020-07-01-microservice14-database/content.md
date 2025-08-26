@@ -1,17 +1,3 @@
----
-layout: post
-title: "微服務架構設計 - 資料庫的選擇, RDBMS or NOSQL?"
-categories:
-- "系列文章: .NET + Windows Container, 微服務架構設計"
-- "系列文章: 架構師觀點"
-tags: ["microservice", "系列文章", "架構師", ]
-published: false
-comments: true
-redirect_from:
-logo: 
----
-
-
 // RDB: index O(log(n)), NOSQL: k-v, hash O(1)
 // balance, RDB + NOSQL, use code to keep sync (saga, cqrs, event, api first)
 
@@ -256,4 +242,3 @@ https://columns.chicken-house.net/2016/10/03/microservice2/
 https://columns.chicken-house.net/2017/04/15/microservice8-case-study/
 https://columns.chicken-house.net/2017/07/11/microservice8-case-study-p3/
 https://www.facebook.com/watch/?v=545139382528011
-

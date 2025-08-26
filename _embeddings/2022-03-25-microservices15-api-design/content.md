@@ -1,20 +1,6 @@
----
-layout: post
-title: "微服務架構 - 從狀態圖來驅動 API 的設計"
-categories:
-- "系列文章: 微服務架構"
-tags: ["系列文章", "架構師的修練", "microservices"]
-published: true
-comments_disqus: false
-comments_facebook: false
-comments_gitalk: true
-redirect_from:
-logo: /wp-content/images/2022-03-25-microservices15-api-design/2022-03-27-15-03-23.png
----
-
 這次我直接破題了。我想寫一篇從 State Machine 的分析為主軸，來驅動整個服務的 API 設計的文章。
 
-![](/wp-content/images/2022-03-25-microservices15-api-design/2022-03-27-15-03-23.png)
+![](/images/2022-03-25-microservices15-api-design/2022-03-27-15-03-23.png)
 > 圖片來源: https://www.giga.de/artikel/was-ist-eine-api-schnell-erklaert/
 
 
@@ -109,7 +95,7 @@ logo: /wp-content/images/2022-03-25-microservices15-api-design/2022-03-27-15-03-
 
 綜合上面的狀態與轉移，來看一下第一版的 FSM:
 
-![](/wp-content/images/2022-03-25-microservices15-api-design/2022-03-27-15-34-30.png)
+![](/images/2022-03-25-microservices15-api-design/2022-03-27-15-34-30.png)
 
 
 
@@ -387,7 +373,7 @@ public bool Register()
 因為這些修正，包含了各個面向，所以我不急著改一堆程式就是這原因。先紙上作業，把剛才的思路都更新到 FSM 的圖上。至於程式碼，前面第二步驟都交代過了 FSM 怎麼很標準的跟你程式碼一一對應，用修正過的 FSM 重新對應就好了。重新對應，你可以善用重構的工具跟技巧來執行，因為有 FSM 你可以很明確的知道你想把 code 重構成什麼樣子，按照你的經驗一步一步修正就好了 (題外話: 很多人都知道重構的動作該怎麼操作，但是卻都忘了最重要的題目，你想要重構成甚麼樣子....)。修正過更合理的 state machine 應該變成這樣:
 
 
-![](/wp-content/images/2022-03-25-microservices15-api-design/2022-03-29-06-28-43.png)
+![](/images/2022-03-25-microservices15-api-design/2022-03-29-06-28-43.png)
 
 
 我刻意在前面的步驟，示範了錯誤的的分析，而在後面的步驟對 state machine 做出修正的這過程，就是我所謂的快速驗證。所有設計跟驗證的環節，都圍繞著狀態圖，以及狀態圖標示的資訊列出來的清單。在這情況下，你還很容易修正設計，更好的地方在於你修正了狀態，你會連同動作等等環節都一併修正 (否則多一個狀態，可能地圖上的路就斷了)，你很容易能夠顧及全局，不會出現改了狀態結果忘了改行為等等這種蠢事 (如果你在實作階段才改，就很容易這樣)。這些環節是否彼此緊密搭配，才是影響 API 設計品質的最大主因。
@@ -450,7 +436,7 @@ public bool Register()
 
 以這個例子來說，角色很單純，就會員本身，或是網站官方的客服人員而已。這段還蠻單純的，標上去就好:
 
-![](/wp-content/images/2022-03-25-microservices15-api-design/2022-03-31-00-53-03.png)
+![](/images/2022-03-25-microservices15-api-design/2022-03-31-00-53-03.png)
 
 同樣的，我用條列方式，標示可執行的角色:
 
@@ -629,7 +615,7 @@ public bool ValidateEmail()
 
 最後，來牛刀小試一下。複習一下最後版本的 FSM:
 
-![](/wp-content/images/2022-03-25-microservices15-api-design/2022-03-31-00-53-03.png)
+![](/images/2022-03-25-microservices15-api-design/2022-03-31-00-53-03.png)
 
 先用肉眼來看看這段程式碼，你猜猜看結果應該是?
 
@@ -687,6 +673,3 @@ Press any key to close this window . . .
 --
 附上這次用的 [sample code](https://github.com/andrew0928/AndrewDemo.MemberServiceDesign)  
 ASP.NET Core 版本的還在努力中，敬請期待續集 :D
-
-
-

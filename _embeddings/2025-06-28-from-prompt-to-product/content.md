@@ -1,4 +1,4 @@
-![alt text](/wp-content/images/2025-06-28-from-prompt-to-product/logo.jpg)
+![alt text](/images/2025-06-28-from-prompt-to-product/logo.jpg)
 
 這主題，我在三場不同的研討會都談過了，相關資訊包含簡報，共筆連結等等我就收在一起了。
 後續的心得，QA 等等補充內容，我整理好再陸續補上，敬請期待 :D
@@ -26,7 +26,7 @@
 
 敘畫:
 
-![alt text](/wp-content/images/2025-06-28-from-prompt-to-product/logo.jpg)
+![alt text](/images/2025-06-28-from-prompt-to-product/logo.jpg)
 
 
 簡報:

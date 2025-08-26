@@ -1,19 +1,3 @@
----
-layout: post
-title: "[架構師的修練] #3, 刻意練習 - 如何鍛鍊你的抽象化能力"
-categories:
-- "系列文章: 架構師的修練"
-tags: ["系列文章", "架構師的修練", "架構師觀點", "刻意練習", "抽象化"]
-published: false
-comments_disqus: false
-comments_facebook: false
-comments_gitalk: true
-redirect_from:
-logo: 
----
-
-
-
 有人問了我一些問題，無意間翻到了過去的兩篇文章，聯想到這幾個月的熱門話題 "AI"，有了一些想法，就有了這 PO 文...
 
 其中一篇文章，是 2016 寫的，當時意外得到不少迴響，標題是: "[架構師觀點] .NET 開發人員該如何看待 Open Source Solutions?"
@@ -362,7 +346,7 @@ AI 是個 powerful 的工具, powerful 到你只需要用自然語言, 明確的
 
 Hello!
 
-![](/wp-content/images/2023-04-01-practice-02-abstraction/slides/page02.png)
+![](/images/2023-04-01-practice-02-abstraction/page02.png)
 
 這系列第三篇，回到 "刻意練習" 這個主題。這篇我回到軟體工程師最重要的技巧: coding 的基礎該如何自我鍛鍊，以及我自己如何讓我的團隊有計畫的練習這些能力。有別於第一篇，同樣提到 "刻意練習" 的主題；第一篇講的是打好基礎，當你基礎夠札實的時候，你才有能力把不同的技能彼此串聯靈活運用的重要性。第二篇講的就是靈活運用不同領域技能的案例。第三篇我想講的就是回歸到開發人員的基礎，也就是最重要的抽象化能力該如何鍛鍊起來的主題。
 

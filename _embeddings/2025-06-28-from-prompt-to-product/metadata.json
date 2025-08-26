@@ -11,7 +11,7 @@
   "tech-stacks": [
     "GenAI",
     "AI",
-    "DevOps",
+    "Vibe coding",
     "Google Slides",
     "HackMD"
   ],
@@ -19,20 +19,27 @@
     "Prompt",
     "Product",
     "GenAI",
-    "DevOpsDays",
-    "STUDY4LOVE",
-    "Vibe coding",
     "AI",
-    "\u67B6\u69CB\u5E2B\u89C0\u9EDE",
-    "\u6280\u8853\u96A8\u7B46"
+    "Vibe coding",
+    "DevOpsDays Taipei",
+    "STUDY4LOVE",
+    "\u516C\u76CA\u8B1B\u5EA7",
+    "\u7C21\u5831",
+    "\u5927\u6703\u5171\u7B46",
+    "Q\u0026A",
+    "\u91CF\u5316\u6307\u6A19",
+    "\u4F01\u696D\u4E3B",
+    "\u524D\u5F8C\u7AEF\u5206\u96E2",
+    "\u7DAD\u904B",
+    "\u65B0\u529F\u80FD\u958B\u767C"
   ],
-  "generator": "BlogIndex.SyncPost v1.0.0.0, o3",
+  "generator": "BlogIndex.SyncPost v0.3.0.0, gpt-5",
   "references": [
-    "/wp-content/images/2025-06-28-from-prompt-to-product/logo.jpg",
+    "/images/2025-06-28-from-prompt-to-product/logo.jpg",
     "https://docs.google.com/presentation/d/e/2PACX-1vQxOtsS0dDV_q3smJuQP3efhwhNaK_8O6AmYdO1XNZeFRgkiTTH1_NqjVHFyyS7zxOco4hP-NmMQfzi/pubembed?start=false\u0026loop=false\u0026delayms=3000",
     "https://docs.google.com/presentation/d/e/2PACX-1vQxjwDVoiFso6bL-Tn5sDXSPDxYlBIKqCXNxiH4jvWgWR6w_L7F56ut0wtnyAg23h6yT0czExPh4hGb/pubembed?start=false\u0026loop=false\u0026delayms=3000",
     "https://hackmd.io/@DevOpsDay/2025/%2FSkkpnJ8zxg",
-    "https://docs.google.com/presentation/d/e/2PACX-1vRf4AOPd5FpqUxQeC0aMD6548tv5J24RTwFIbNN4W8O5aLkt-EZmVh7YLugA6wBKejStwcgLzRRbSva/pubembed?start=false\u0026loop=false\u0026delayms=3000",
-    "/2025/06/03/devopsdays/"
-  ]
+    "https://docs.google.com/presentation/d/e/2PACX-1vRf4AOPd5FpqUxQeC0aMD6548tv5J24RTwFIbNN4W8O5aLkt-EZmVh7YLugA6wBKejStwcgLzRRbSva/pubembed?start=false\u0026loop=false\u0026delayms=3000"
+  ],
+  "summary": "\u9019\u4E3B\u984C\uFF0C\u6211\u5728\u4E09\u5834\u4E0D\u540C\u7684\u7814\u8A0E\u6703\u90FD\u8AC7\u904E\u4E86\uFF0C\u76F8\u95DC\u8CC7\u8A0A\u5305\u542B\u7C21\u5831\uFF0C\u5171\u7B46\u9023\u7D50\u7B49\u7B49\u6211\u5C31\u6536\u5728\u4E00\u8D77\u4E86\u3002\n\u5F8C\u7E8C\u7684\u5FC3\u5F97\uFF0CQA \u7B49\u7B49\u88DC\u5145\u5167\u5BB9\uFF0C\u6211\u6574\u7406\u597D\u518D\u9678\u7E8C\u88DC\u4E0A\uFF0C\u656C\u8ACB\u671F\u5F85 :D"
 }

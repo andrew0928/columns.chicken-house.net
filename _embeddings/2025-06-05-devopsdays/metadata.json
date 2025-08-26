@@ -9,24 +9,32 @@
     "\u6280\u8853\u96A8\u7B46"
   ],
   "tech-stacks": [
-    "DevOps",
+    "HackMD",
     "Google Slides",
-    "HackMD"
+    "Gitalk",
+    "DevOps"
   ],
   "keywords": [
     "DevOpsDays",
-    "Taipei",
-    "prompt",
-    "product",
+    "DevOpsDays Taipei",
+    "DevOpsDays Taipei 2025",
+    "Prompt",
+    "Product",
+    "\u5F9E Prompt \u5230 Product",
     "\u7C21\u5831",
     "\u5171\u7B46",
     "QA",
-    "\u67B6\u69CB\u5E2B\u89C0\u9EDE"
+    "\u5FC3\u5F97",
+    "\u6F14\u8B1B",
+    "2025/06/05",
+    "HackMD",
+    "Google Slides"
   ],
-  "generator": "BlogIndex.SyncPost v1.0.0.0, o3",
+  "generator": "BlogIndex.SyncPost v0.3.0.0, gpt-5",
   "references": [
-    "/wp-content/images/2025-06-03-devopsdays/logo.jpg",
+    "/images/2025-06-05-devopsdays/logo.jpg",
     "https://docs.google.com/presentation/d/e/2PACX-1vQxjwDVoiFso6bL-Tn5sDXSPDxYlBIKqCXNxiH4jvWgWR6w_L7F56ut0wtnyAg23h6yT0czExPh4hGb/pubembed?start=false\u0026loop=false\u0026delayms=3000",
     "https://hackmd.io/@DevOpsDay/2025/%2FSkkpnJ8zxg"
-  ]
+  ],
+  "summary": "\u7B2C\u4E03\u6B21\u53C3\u52A0 DevOpsDays Taipei \u4E86, \u9019\u7BC7\u6703\u653E\u6211\u7684\u7C21\u5831, \u9084\u6709\u6211\u7684\u5834\u6B21\u5171\u7B46\u9023\u7D50\u3002\u5F8C\u7E8C\u7684\u5FC3\u5F97\uFF0C\u4EE5\u53CA QA \u56DE\u8986\u7B49, \u6703\u9678\u9678\u7E8C\u7E8C\u88DC\u5728\u5F8C\u9762\u3002"
 }

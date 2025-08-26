@@ -1,17 +1,3 @@
----
-layout: post
-title: "[架構師觀點] LLM 的抽象化介面設計"
-categories:
-- "系列文章: 架構師觀點"
-tags: ["架構師觀點","技術隨筆"]
-published: false
-comments_disqus: false
-comments_facebook: false
-comments_gitalk: false
-redirect_from:
-logo: 
----
-
 先說，這篇單純是我的抽象化思考練習，搭配一點 C# 的 code 來驗證想法而已。雖然提到 LLM，但是內容跟 AI 沒啥關聯......
 
 會寫這篇，是我看了幾個不同平台提供的 LLM API / SDK 介面設計，發現各有巧妙...。回想兩年前開始在看 LLM 相關的 API 時，最後是把 LLM 想像成 "真人" 提供回答問題的服務 API，才開始想通整個 API 的設計脈絡。而其中又以 OpenAI 的 Assistant API 的設計我覺得最貼切。看到這裡，就開始想...

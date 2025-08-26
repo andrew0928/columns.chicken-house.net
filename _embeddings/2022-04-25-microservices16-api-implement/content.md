@@ -1,20 +1,6 @@
----
-layout: post
-title: "微服務架構 - 從狀態圖來驅動 API 的實作範例"
-categories:
-- "系列文章: 微服務架構"
-tags: ["系列文章", "架構師的修練", "microservices"]
-published: true
-comments_disqus: false
-comments_facebook: false
-comments_gitalk: true
-redirect_from:
-logo: /wp-content/images/2022-04-25-microservices16-api-implement/2022-05-08-02-58-31.png
----
-
 微服務 API 的設計與實作，來到第二篇。
 
-![](/wp-content/images/2022-04-25-microservices16-api-implement/2022-05-08-02-58-31.png)
+![](/images/2022-04-25-microservices16-api-implement/2022-05-08-02-58-31.png)
 > 圖片來源: https://www.freecodecamp.org/news/rest-api-best-practices-rest-endpoint-design-examples/
 
 
@@ -37,7 +23,7 @@ logo: /wp-content/images/2022-04-25-microservices16-api-implement/2022-05-08-02-
 
 所以，關鍵就是上一篇提到的介面設計了，我用 API 涵蓋這個介面，但是實際上介面設計包含 API，以及 API 背後的邏輯跟規則等等相關機制，所以上一篇才會用狀態機 (FSM, Finite State Machine) 來收斂 API 的結構。這次我要示範的是大部分系統都會有的會員機制。我先用這張架構圖，定義一下，在微服務架構下，所謂的 "會員" 這領域的內部服務 (或是有的公司都愛稱呼他 "中台")，應該長什麼樣子?
 
-![](/wp-content/images/2022-04-25-microservices16-api-implement/2022-04-05-01-35-35.png)
+![](/images/2022-04-25-microservices16-api-implement/2022-04-05-01-35-35.png)
 
 我想像的微服務，不是直接對外開放的 API，而是同時要服務內部其他團隊或是系統的 API 才對。因此需求主要是來自內部其他系統需要怎麼處理 "會員" 這 domain 的需求。這些 API 應該要能降低或是取代每個系統直接存取會員資料庫的要求，從 direct database access 換成 member service API access 才是，因此 API 的設計都針對內部怎麼看待 "會員" 的分析，而不是對外的各種功能或是畫面的需求。從上面這張圖來看，會員服務就是中間虛線框起來的範圍。
 
@@ -45,7 +31,7 @@ logo: /wp-content/images/2022-04-25-microservices16-api-implement/2022-05-08-02-
 
 還記得上一篇最後的 FSM 嗎? 來複習一下, 同時先定義一下名詞:
 
-![](/wp-content/images/2022-04-25-microservices16-api-implement/2022-04-05-01-43-54.png)
+![](/images/2022-04-25-microservices16-api-implement/2022-04-05-01-43-54.png)
 
 會員服務背後最核心的資料 (這邊我稱作 Entity), 就是一個一個會員的帳號紀錄了。每一個會員，都會有一個自己獨立運作的狀態。會員帳號資料的主要狀態，就是該帳號在系統內的啟用與停用等。狀態是會改變的，促使狀態轉移的就是 FSM 上的箭頭；每一個箭頭都代表一個動作 (action), 這通常是 API 最主要的來源。FSM 上面用狀態 (點) 跟動作 (線) 組合起來的就是狀態圖，你必須在對的狀態下才能呼叫該 API 處理該筆會員資料，只要 FSM 上沒有標示的就應該明確的禁止呼叫 (例如 HTTP API 就應該回應 403 或是 500)。呼叫的過程可能會促使狀態發生改變，連帶地就會觸發事件通知 (event)。最後就是安全問題，並不是每個人，每套系統，每個團隊拿到 API 都可以任意改變狀態的。有些是從你能存取那些範圍的資料來限定，有些事你能替這些資料做那些事來限定。這邊我舉最明確的一個來示範: 同一組 API 我要能區分是來自前台 (Web Site / BFF) 的呼叫，或是來自後台 (Admin Console) 的呼叫。兩者能操作的 API 應該有區別才對。
 
@@ -53,7 +39,7 @@ logo: /wp-content/images/2022-04-25-microservices16-api-implement/2022-05-08-02-
 
 這些資訊，其實在上一篇文章，都已經在狀態圖上面標示清楚了。為了清楚一點呈現，我把他列成表格:
 
-![](/wp-content/images/2022-04-25-microservices16-api-implement/2022-04-05-01-53-17.png)
+![](/images/2022-04-25-microservices16-api-implement/2022-04-05-01-53-17.png)
 
 我按照行為來分類，分成三區，後面要對應 FSM 的實作會容易一些。第一區的 action, 是執行後會直接改變會員資料的狀態，因此我定義了 action, init state, final state 欄位, 來標示只有該筆資料處於 {init state} 時才能執行 {action} 動作，並且執行完畢後狀態會轉為 {final state}。同時，這動作只有列在 {Granted Identity Type} (有的系統會用 Role 來表示同樣的意義) 清單內的認證類型才能執行。這邊的 "USER" 就是指來自前台，直接對應 End User 操作所需要呼叫的 API，而 "STAFF" 則是對應後台，對應管理者操作所需要呼叫的 API。兩者功能需求就有明顯的差別了，尤其是在能做的事情上後者權限大很多。即使都是呼叫同一組 Member Service API, 至少你發給這兩者的 access token 也要有所區別才行。
 
@@ -86,7 +72,7 @@ logo: /wp-content/images/2022-04-25-microservices16-api-implement/2022-05-08-02-
 
 實際的 solution 結構跟命名如下，各位就自行對應:
 
-![](/wp-content/images/2022-04-25-microservices16-api-implement/2022-04-30-16-53-36.png)
+![](/images/2022-04-25-microservices16-api-implement/2022-04-30-16-53-36.png)
 
 
 弄清楚了每個 project 存在的目的後, 哪邊有問題你就知道要查哪個 project 的 code 了。另外，也特別說明一下，在這個案例裡面我想表達的是 "API 規格的設計"，提供實作的案例是想讓各位理解這些東西怎麼被實作出來。所以在這份 code 裡面我也刻意省略了一些實作的過程，我想會對我文章有興趣的朋友們都有一些實作的能力，我就略過不丟人現眼了 XDD。
@@ -120,7 +106,7 @@ logo: /wp-content/images/2022-04-25-microservices16-api-implement/2022-05-08-02-
 
 舉例來說，還記得上一篇文章分析到最後的 FSM 嗎?
 
-![](/wp-content/images/2022-04-25-microservices16-api-implement/2022-04-05-01-43-54.png)
+![](/images/2022-04-25-microservices16-api-implement/2022-04-05-01-43-54.png)
 
 在這張狀態圖上面，我特地自己加了一些標示上去。其中一個就是安全模型。各位看一下上圖，從 ```START``` 到 ```CREATED``` 狀態的箭頭上，有個 ```Register()``` 這個 Action, 底下標示著 ```USER```。這標示背後的涵義就是:
 
@@ -565,7 +551,7 @@ private static readonly byte[] _jwt_key = new byte[] { 0x06, 0x07, 0x04, 0x01 };
 
 我隨手挑了 6741 這串數字 (公司的某個代號) 當作 KEY, 用 16 進位來表達，就是 ```0x06070401``` 這 4 bytes 的內容 ... 註解後面我方便各位，先把 ```0x06070401``` 這串資料用 base64 編碼處理過了，擺在註解裡面。如果各位無聊的話，可以把上面的 JWT token 跟 key 都貼到 [jwt.io](https://jwt.io) 這網站上面，用線上的工具試看看:
 
-![](/wp-content/images/2022-04-25-microservices16-api-implement/2022-04-30-23-39-46.png)
+![](/images/2022-04-25-microservices16-api-implement/2022-04-30-23-39-46.png)
 
 把 token 貼在左邊的格子內，把 base64 編碼過的 key 貼在右邊的 secret 內，你會看到右邊有解開的 json header / payload 內容，左下角有 "Signature Verified" 驗證通過的訊息。熟練一點的話，你可以用這 key, 自己修改 payload 內容，你就可以得到新的 token, 當然也可以貼到我的 code 跑看看，會有你預期的結果的。
 
@@ -616,7 +602,7 @@ Assert.IsFalse(service_for_web.CheckPassword(id, "1234"));
 
 首先，我先用前面放過的這張架構圖，讓大家想像一下這案例適用的情境:
 
-![](/wp-content/images/2022-04-25-microservices16-api-implement/2022-04-05-01-35-35.png)
+![](/images/2022-04-25-microservices16-api-implement/2022-04-05-01-35-35.png)
 
 
 如上圖，整套系統會存取會員服務的路徑其實有好幾個。使用者註冊，一定是先匿名，透過官網進來的。這時官網應該用的是官網系統本身的身分，就是對應到測試案例的 ```web_token``` 為代表。在官網裡面就是透過 ```web_token``` 取得的 ```service_for_web``` 這個 ```MemberService``` instance 來做官網端的操作。
@@ -873,7 +859,7 @@ public class MemberService
 
 回顧一下 FSM (對，跟前面同一張，不用捲回去比對):
 
-![](/wp-content/images/2022-04-25-microservices16-api-implement/2022-04-05-01-43-54.png)
+![](/images/2022-04-25-microservices16-api-implement/2022-04-05-01-43-54.png)
 
 執行期間的思考順序是反過來的。某個 API ( action or method, 都是一樣的意思 ) 被呼叫時，你才知道現在呼叫的人想要執行哪個 action, 同時透過參數取得關鍵的 ID 之後，當下才有辦法去 database 查詢目前的狀態。這兩個資訊到手後，下一步才是到狀態圖確認看看 (確認狀態是否能轉移，確認身分是否正確)，這條路行不行得通? 
 
@@ -1196,7 +1182,7 @@ Microsoft 的 ASP.NET Core 有很好的擴充機制設計，其中我最喜歡�
 
 [ASP.NET Core Middleware](https://docs.microsoft.com/en-us/aspnet/core/fundamentals/middleware/?view=aspnetcore-6.0)
 
-![](/wp-content/images/2022-04-25-microservices16-api-implement/2022-05-02-21-55-40.png)
+![](/images/2022-04-25-microservices16-api-implement/2022-05-02-21-55-40.png)
 
 
 
@@ -1665,11 +1651,11 @@ Content-Length: 0
 講到這，我推薦一下，其實這兩篇文章提到很多內容的想法，都來自於公司內部舉辦的讀書會。近期我們有兩本書正在研讀中，得到不少收穫，有興趣的朋友們也可以去讀看看這些內容。我提供書名就好，購買管道就各自想辦法了，這不是葉佩雯，我就不貼購買連結了，單純提供書名就好:
 
 **持續 API 管理**:  
-![](/wp-content/images/2022-04-25-microservices16-api-implement/2022-05-08-02-20-07.png)
+![](/images/2022-04-25-microservices16-api-implement/2022-05-08-02-20-07.png)
 
 
 **API Design Patterns**:  
-![](/wp-content/images/2022-04-25-microservices16-api-implement/2022-05-08-02-18-32.png)
+![](/images/2022-04-25-microservices16-api-implement/2022-05-08-02-18-32.png)
 
 
 最後回到本文: API 其實就是你對於要解決的領域，抽象化的結果。你抽象化的切入點在哪，完全就影響了你的 API 怎麼設計。怎麼說? 以 C# 來說，完全的抽象化，在語言上就是用 interface 來表達了，而 API 的 "I" 就是 interface 啊! 你要表達的層次是一樣的，只是 C# 是在語言層級處理 interface, 微服務 API 則是在通訊的層級處理 interface, 差別只在如此而已。
@@ -1694,4 +1680,3 @@ Content-Length: 0
 1. [序列化](/2016/02/24/casestudy_license_02_serialization/), 2016/02/24
 1. [數位簽章](/2016/02/24/casestudy_license_03_digital_signature/), 2016/02/24
 1. [金鑰的保護](/2016/03/19/casestudy_license_03_appendix_key_management/), 2016/03/19
-

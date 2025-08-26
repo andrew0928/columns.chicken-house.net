@@ -1,17 +1,3 @@
----
-layout: post
-title: "(TBD) 權限管理機制的設計"
-categories:
-- "系列文章: 架構師的修練"
-tags: ["系列文章", "架構師的修練", "架構師觀點", "刻意練習", "抽象化"]
-published: false
-comments_disqus: false
-comments_facebook: false
-comments_gitalk: false
-redirect_from:
-logo: 
----
-
 這次在 .NET Conf 我分享了 RAG 的主題, 主要是運用 Microsoft Kernel Memory 這套服務的經驗分享。這套服務其實就是把 RAG 常用到的 "Retrieval" 的操作，封裝成獨立服務的開源專案。
 
 <!--more-->
@@ -129,5 +115,3 @@ filters: { "catalog": [ "C05" ] }
 ## 5-2, 在 "人" 或是 "操作" 上面貼標
 
 ## 5-3, 查詢當下要用甚麼標籤過濾?
-
-

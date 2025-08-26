@@ -1,18 +1,4 @@
----
-layout: post
-title: "微服務架構 - API 的安全管控模型"
-categories:
-- "系列文章: 微服務架構"
-tags: ["系列文章", "架構師的修練", "microservices"]
-published: false
-comments_disqus: false
-comments_facebook: false
-comments_gitalk: false
-redirect_from:
-logo: /wp-content/images/2022-07-15-microservices17-api-security-model/2022-07-31-19-27-53.png
----
-
-![](/wp-content/images/2022-07-15-microservices17-api-security-model/2022-07-31-19-27-53.png)
+![](/images/2022-07-15-microservices17-api-security-model/2022-07-31-19-27-53.png)
 > 照片出處: https://blog.techbridge.cc/2016/11/05/web-security-tutorial-introduction/
 
 

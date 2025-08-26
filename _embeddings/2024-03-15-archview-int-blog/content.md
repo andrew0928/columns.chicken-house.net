@@ -1,18 +1,4 @@
----
-layout: post
-title: "替你的應用程式加上智慧! 談 RAG 的檢索與應用"
-categories:
-- "系列文章: 架構師觀點"
-tags: ["架構師觀點","技術隨筆", "AI", "Semantic Kernel"]
-published: true
-comments_disqus: false
-comments_facebook: false
-comments_gitalk: true
-redirect_from:
-logo: /wp-content/images/2024-03-15-archview-int-blog/2024-03-10-00-46-41.jpg
----
-
-![](/wp-content/images/2024-03-15-archview-int-blog/2024-03-10-00-46-41.jpg)
+![](/images/2024-03-15-archview-int-blog/2024-03-10-00-46-41.jpg)
 > 來源: 動畫瘋, [不起眼女主角培育法 S1.EP2](https://ani.gamer.com.tw/animeVideo.php?sn=11544), 這動畫一定是在談 [embedding space](https://www.sciencedirect.com/topics/computer-science/embedding-space) (咦?)..
 
 LLM 應用開發，來到第三篇。這篇我想談談 LLM 應用程式處理資料的做法。在 LLM 帶來很好的語言理解能力後，這需求也延伸到資料處理 (資料庫) 的領域了。這些過程跟我過去理解的資料庫正規化等等技巧，完全是不同領域啊，為了補足這段空缺，前兩篇研究完 LLM 如何替你呼叫 API 完成任務後，這篇我想以同樣角度，研究讓 LLM 能幫你找出並應用你的 DATA 的作法了。在軟體開發的領域，行為跟資料同樣重要，一直都是開發人員關注的兩大主題。補完這篇，我覺的對整個 LLM 應用開發的版圖就完整了。
@@ -153,7 +139,7 @@ LLM 應用開發，來到第三篇。這篇我想談談 LLM 應用程式處理�
 
 我得到的回答:
 
-![](/wp-content/images/2024-03-15-archview-int-blog/2024-03-23-13-33-21.png)
+![](/images/2024-03-15-archview-int-blog/2024-03-23-13-33-21.png)
 
 看起來還不錯，回答的內容的確都是我文章提過的觀點沒錯，不過文字不是我寫的，是 AI 歸納整理出來的。
 後面的參考連結也都正確，列的參考文章都符合我問的問題。
@@ -164,7 +150,7 @@ LLM 應用開發，來到第三篇。這篇我想談談 LLM 應用程式處理�
 > 如果都 api 化了，統計報表的問題該怎麼處理？一樣給我原則跟參考資料。參考資料請至少給我十篇
 
 
-![](/wp-content/images/2024-03-15-archview-int-blog/2024-03-23-13-35-49.png)
+![](/images/2024-03-15-archview-int-blog/2024-03-23-13-35-49.png)
 
 還不錯，這次我特地問了擦邊球，我沒有太多文章在聊分散式系統的報表做法，AI 就老實回答了，沒有硬是亂掰一些資訊出來塘塞... 
 
@@ -173,13 +159,13 @@ LLM 應用開發，來到第三篇。這篇我想談談 LLM 應用程式處理�
 > 那麼有微服務之間維持資料一致性的作法嗎？
 
 
-![](/wp-content/images/2024-03-15-archview-int-blog/2024-03-23-13-40-10.png)
+![](/images/2024-03-15-archview-int-blog/2024-03-23-13-40-10.png)
 
 GPTs 回應了我摘要內容，這些內容沒錯，也是我文章內談過的沒錯。不過我留意到 GPTs 並沒有重新呼叫 API 查資料，也沒有列出相關文章連結，我就補問了一句:
 
 > 有這些主題的相關文章?
 
-![](/wp-content/images/2024-03-15-archview-int-blog/2024-03-23-13-41-26.png)
+![](/images/2024-03-15-archview-int-blog/2024-03-23-13-41-26.png)
 
 人家說的 AI 越來越懶惰了，果然是真的 XDD
 
@@ -192,9 +178,9 @@ GPTs 回應了我摘要內容，這些內容沒錯，也是我文章內談過的
 > 有這些主題的相關文章?
 
 
-![](/wp-content/images/2024-03-15-archview-int-blog/2024-03-23-13-46-39.png)
+![](/images/2024-03-15-archview-int-blog/2024-03-23-13-46-39.png)
 
-![](/wp-content/images/2024-03-15-archview-int-blog/2024-03-23-13-46-53.png)
+![](/images/2024-03-15-archview-int-blog/2024-03-23-13-46-53.png)
 
 
 
@@ -206,13 +192,13 @@ GPTs 回應了我摘要內容，這些內容沒錯，也是我文章內談過的
 > Home Network 下，NAS 有建議安裝那些 container / service ?
 
 
-![](/wp-content/images/2024-03-15-archview-int-blog/2024-03-23-13-49-03.png)
+![](/images/2024-03-15-archview-int-blog/2024-03-23-13-49-03.png)
 
 真的變懶了，追問才給文章列表:
 
 > 有這些主題的相關文章?
 
-![](/wp-content/images/2024-03-15-archview-int-blog/2024-03-23-13-49-54.png)
+![](/images/2024-03-15-archview-int-blog/2024-03-23-13-49-54.png)
 
 
 
@@ -221,9 +207,9 @@ GPTs 回應了我摘要內容，這些內容沒錯，也是我文章內談過的
 > 家用網路環境，NAS 上架設的服務，有 web developer 用的建議方案嗎?
 > 給我摘要說明，同時給我相關文章連結
 
-![](/wp-content/images/2024-03-15-archview-int-blog/2024-03-11-02-13-06.png)
+![](/images/2024-03-15-archview-int-blog/2024-03-11-02-13-06.png)
 
-![](/wp-content/images/2024-03-15-archview-int-blog/2024-03-23-13-51-40.png)
+![](/images/2024-03-15-archview-int-blog/2024-03-23-13-51-40.png)
 
 這些查詢，還真的挖出一些我自己已經沒啥印象的文章 XDDD, 還蠻到位的，我在家裡的 labs 的確弄了這些服務，方便我測試跟開發使用。過去我是自己弄 PC，24hr 開著跑 windows server, 不過自從用了 NAS 之後就再也不自己維護了，部署方式也逐漸改成 NAS 內建，或是用 container 部署。
 
@@ -253,11 +239,11 @@ Demo 先到這邊，我先自己給個 comments. GPTs 要協助各位讀者快�
 
 我找的是這份課程:  [Applied LLMs Mastery 2024](https://areganti.notion.site/Applied-LLMs-Mastery-2024-562ddaa27791463e9a1286199325045c)
 
-![](/wp-content/images/2024-03-15-archview-int-blog/2024-03-24-15-28-10.png)
+![](/images/2024-03-15-archview-int-blog/2024-03-24-15-28-10.png)
 
 看完後你會對 LLM 的應用程式開發有正確的結構跟概念，然後再去找合適的技術，模型，框架來組合。而我只引用其中一段就好: [Week 4 - Retrieval Augmented Generation](https://areganti.notion.site/Week-4-Retrieval-Augmented-Generation-1a0754b1ccc645b78edcaf42e9137d86#4f91a6bfd28040e9b73fac91a3876ed1)，其中有張圖貫穿整個主題:
 
-![](/wp-content/images/2024-03-15-archview-int-blog/2024-03-23-14-30-04.png)
+![](/images/2024-03-15-archview-int-blog/2024-03-23-14-30-04.png)
 
 這圖講的就是 RAG 三個關鍵組件，其實也對應到我這次要做的三個部分:
 
@@ -292,18 +278,18 @@ Demo 先到這邊，我先自己給個 comments. GPTs 要協助各位讀者快�
 ## 2-1, RAG 資料檢索的應用
  **Synthesis**
 
-![](/wp-content/images/2024-03-15-archview-int-blog/2024-03-23-14-30-04.png)
+![](/images/2024-03-15-archview-int-blog/2024-03-23-14-30-04.png)
 
 回到這張圖，我把重點擺在綠色區塊 Synthesis 的部分。留意他有兩個 input: Retrieval 的結果 + Query。意思是拿著 Query 本身 (就是你問的問題)，加上 Retrieval 用同樣 Query 查詢出來的結果 (先別管結果怎麼來的)，讓 LLM 來加工，把它修飾成使用者能理解的回應內容。
 
 
 至於實做過程，我一步一步來拆解: 不知各位在看前面的 demo 時，是否注意到這段訊息:
 
-![](/wp-content/images/2024-03-15-archview-int-blog/2024-03-21-02-02-55.png)
+![](/images/2024-03-15-archview-int-blog/2024-03-21-02-02-55.png)
 
 其中，看到這段 "**Talked to andrewblogkms.azurewebsites.net**"，就代表 GPTs 嘗試呼叫我設定好的 Custom Action ( API ), 來透過外部服務取得資訊了。點下去你可以大致看到，GPTs 帶了哪些資訊給外部 API:
 
-![](/wp-content/images/2024-03-15-archview-int-blog/2024-03-21-02-04-18.png)
+![](/images/2024-03-15-archview-int-blog/2024-03-21-02-04-18.png)
 
 雖然這是被簡化過的內容，不是完整的 API call request payload, 但是大致能解讀出這些資訊:
 
@@ -315,11 +301,11 @@ Demo 先到這邊，我先自己給個 comments. GPTs 要協助各位讀者快�
 
 GPTs 之所以知道這些資訊，是因為我在 GPTs 背後設置了這個 Custom Action:
 
-![](/wp-content/images/2024-03-15-archview-int-blog/2024-03-21-02-08-49.png)
+![](/images/2024-03-15-archview-int-blog/2024-03-21-02-08-49.png)
 
 我在 Custom Action 設定畫面中，提供了 open api schema (swagger)，只要你的 API 符合標準規範，就能掛進來。有了這些資訊，GPTs 就能理解呼叫你的 API 的格式了。另外，除了 spec 之外，標註在 path 與 parameters 上面的文字說明 (description) 是很重要的，因為那是 LLM 拿來判定上下文，跟理解你 API 語意很重要的資訊，你可以理解成 description 其實是說明 API spec 的 prompt ..。我用的檢索服務 [swagger](https://andrewblogkms.azurewebsites.net/swagger/index.html) 長這樣:
 
-![](/wp-content/images/2024-03-15-archview-int-blog/2024-03-21-02-13-00.png)
+![](/images/2024-03-15-archview-int-blog/2024-03-21-02-13-00.png)
 
 有了這些 swagger 的定義，加上 swagger 上面對每個 path, parameters 的說明，就成為告訴 GPTs 怎麼使用 API 的 prompt 了。在 GPTs 的 Function calling 機制下，AI 會自動從前後文，產生符合 API spec 的 request, 經過使用者同意後，就替使用者呼叫外部服務了。
 
@@ -452,7 +438,7 @@ Response: (為了精簡，我刪除不必要的 json 片段)
 
 這樣的 prompt, 貼到 Chat GPT 後可以得到這樣的回應 (如下)，基本上跟我前面示範的 GPTs demo 已經有 87% 像了:
 
-![](/wp-content/images/2024-03-15-archview-int-blog/2024-03-21-02-39-09.png)
+![](/images/2024-03-15-archview-int-blog/2024-03-21-02-39-09.png)
 
 
 到這邊，我盡力還原 GPTs 背後做的事情了。看了很多教學，都有講到 Synthesis 的做法，我這算是自己土炮，用手邊的工具，把分解動作嘗試了一次，做過一次這印象就會刻在你腦袋裡了。
@@ -486,7 +472,7 @@ Response: (為了精簡，我刪除不必要的 json 片段)
 **Retrieval**
 
 
-![](/wp-content/images/2024-03-15-archview-int-blog/2024-03-23-15-13-39.png)
+![](/images/2024-03-15-archview-int-blog/2024-03-23-15-13-39.png)
 
 這張圖表達了 Retrieval, 若把他的步驟再分解:
 
@@ -511,17 +497,17 @@ Embedding, 這是檢索的核心, 檢索的目的是先找到語意相近的片�
 
 Embedding, 簡單的說就是把所有資訊都轉成向量, 而這向量的意義，就是代表你這段資訊跟哪些領域相關。這張圖蠻有意思的，我貼上來:
 
-![](/wp-content/images/2024-03-15-archview-int-blog/2024-03-09-19-47-37.png)
+![](/images/2024-03-15-archview-int-blog/2024-03-09-19-47-37.png)
 
 如果我用兩個維度，一個維度是 風格 (寫實 Realistic / 卡通 cartoon )，另一個維度是物種 (哺乳 mammal / 鳥類 bird), 這兩個維度就形成一個二度空間。而圖上的各種圖片，被向量化就是在這空間上用一個最能表達這圖片的向量來標記。
 
 了解向量化的做法之後，接著就是工程的處理了。將你的內容分割成適當的段落，個別轉成向量:
 
-![](/wp-content/images/2024-03-15-archview-int-blog/2024-03-11-02-23-40.png)
+![](/images/2024-03-15-archview-int-blog/2024-03-11-02-23-40.png)
 
 這些資料都向量化之後，如果你有支援的資料庫 (或是數量不大，自己 coding 處理也行, 這次的 GPTs 我走這條路)，你只要把問題也轉成向量，挑出最相近的內容就很簡單了:
 
-![](/wp-content/images/2024-03-15-archview-int-blog/2024-03-11-02-25-30.png)
+![](/images/2024-03-15-archview-int-blog/2024-03-11-02-25-30.png)
 
 
 接著說明一下搜尋的原理:
@@ -532,7 +518,7 @@ Embedding, 簡單的說就是把所有資訊都轉成向量, 而這向量的意�
 
 講到這個，害我想到以前看過的一部動畫，某個阿宅有這麼一句名言 XDDD:
 
-![](/wp-content/images/2024-03-15-archview-int-blog/2024-03-10-00-46-41.jpg)
+![](/images/2024-03-15-archview-int-blog/2024-03-10-00-46-41.jpg)
 
 
 如果每一筆文字資料都能算出一個向量，把這些對應過程中的做法，用大量資料訓練而成的模型，簡化後面的轉換，這個模型就是 text-embedding model 了。標記語意的向量空間，不可能只有這種二維空間。稍後我示範的案例，我用 [OpenAI](https://openai.com/blog/new-embedding-models-and-api-updates) 的 text-embedding-3-large model, 就可以支援到 3072 dimensions. 不過，每個維度代表什麼意義並沒有被定義，不同模型之間的維度也互不相容... 你必須全部都用一樣的 text-embedding model 才行。
@@ -561,7 +547,7 @@ Embedding, 簡單的說就是把所有資訊都轉成向量, 而這向量的意�
 
 Swagger UI: https://andrewblogkms.azurewebsites.net/swagger/index.html
 
-![](/wp-content/images/2024-03-15-archview-int-blog/2024-03-21-02-13-00.png)
+![](/images/2024-03-15-archview-int-blog/2024-03-21-02-13-00.png)
 
 這 API spec 中的 "/search", 代表的就是 Retrieval 的動作。對應流程上的 "query", 不得不說 microsoft 的規格開的真不錯，理論跟實際都對應的很好，名詞一字都不差。雖然前面貼過了，我就再貼一次 /search 這 API 的範例 request / response:
 
@@ -904,11 +890,11 @@ The mass-energy equivalence principle is a cornerstone of the theory of relativi
 
 我把同樣的 Prompt, 用 ChatGPT4, 貼上去看看, 我得到的回應:
 
-![](/wp-content/images/2024-03-15-archview-int-blog/2024-03-23-17-33-30.png)
+![](/images/2024-03-15-archview-int-blog/2024-03-23-17-33-30.png)
 
 雖然是同樣的模型，回答仍然有些出入。不過我看到英文，就手癢想調整一下 prompt. 我只在原本 instruction 的部分加了幾個字，用 traditional chinese 回答:
 
-![](/wp-content/images/2024-03-15-archview-int-blog/2024-03-23-17-35-09.png)
+![](/images/2024-03-15-archview-int-blog/2024-03-23-17-35-09.png)
 
 測滿意後，就可以回去改 code 了。不過我常常還不到改 code 的階段，只是有時靈光一閃，想知道什麼樣的系統化 prompt 可以得到什麼樣的答案，順手打開 Chat GPT 測試一下就知道了。不一定要寫成 code, 你也會更清楚掌握 prompt 的下法。
 
@@ -917,7 +903,7 @@ The mass-energy equivalence principle is a cornerstone of the theory of relativi
 ## 2-3, 建立文章向量化的資料庫
 **Ingestion**
 
-![](/wp-content/images/2024-03-15-archview-int-blog/2024-03-23-18-55-47.png)
+![](/images/2024-03-15-archview-int-blog/2024-03-23-18-55-47.png)
 
 應該最先做的 Index, 我留到最後再講... 因為這邊很多準備動作，但是你不清楚哪裡要用的話，看了也是無感，到時還是要回頭來看.. 所以我直接調整順序，Ingestion 擺在最後..
 
@@ -929,7 +915,7 @@ The mass-energy equivalence principle is a cornerstone of the theory of relativi
 
 先來看看我這次使用的 text-embedding 003 (large) 模型的[規格](https://platform.openai.com/docs/guides/embeddings/embedding-models):
 
-![](/wp-content/images/2024-03-15-archview-int-blog/2024-03-23-19-14-33.png)
+![](/images/2024-03-15-archview-int-blog/2024-03-23-19-14-33.png)
 
 這個模型，最大能輸出 3072 維度的向量。模型在輸入規格上有個硬限制，就是 max input. 要向量化的原始內容不能超過 max input 限定的範圍 (單位是 token 數量)，8191 tokens, 大約在 8kb 左右的範圍。就算他是 "詞" 不是 "byte" 好了，仍然是很容易就超過的數字，因此你必須面對內容怎麼 "切段" 的課題。因為跟語意搜尋有關，你不能切在中間，最適合的是段落之間，甚至是前後段都要有點重疊，甚至事先濃縮成摘要再處理等等，這邊有些處理策略需要考慮 (我當然還是略過 XDD)，我為了 PoC, 這部分我就是留意，而 Kernel Memory 也內建了幾種 Chunking 的機制可以選擇，也能擴充 (我當然是先用預設值)
 
@@ -937,7 +923,7 @@ The mass-energy equivalence principle is a cornerstone of the theory of relativi
 
 https://openai.com/pricing
 
-![](/wp-content/images/2024-03-15-archview-int-blog/2024-03-23-19-26-05.png)
+![](/images/2024-03-15-archview-int-blog/2024-03-23-19-26-05.png)
 
 每 100 萬個 token 需要花掉 $USD 0.13..
 
@@ -945,7 +931,7 @@ https://openai.com/pricing
 
 也許你會想: 如果我先用 LLM 來精簡問題再問呢? 看一下 GPT4 的費用:
 
-![](/wp-content/images/2024-03-15-archview-int-blog/2024-03-23-19-30-00.png)
+![](/images/2024-03-15-archview-int-blog/2024-03-23-19-30-00.png)
 
 GPT4- Turbo, 每 100 萬個 token 可是要花上 $USD 10 啊，這是 input, LLM 處理後的 output 也要花錢，更貴，要 $USD 30... 因此，別走火入魔，好好控制好不要無謂的浪費就好..
 
@@ -955,14 +941,14 @@ GPT4- Turbo, 每 100 萬個 token 可是要花上 $USD 10 啊，這是 input, LL
 
 接著，直接來看實際範例吧! 我寫了一段小程式，我拿這系列文章第一篇: [架構師觀點] 開發人員該如何看待 AI 帶來的改變? 當作範例，用 Kernel Memory 向量化之後 Import 進資料庫。部落格自己掌控度高就是有這好處，要處理檔案直接就調的到。原始檔案是 .md (markdown)，基本上已經是純文字了:
 
-![](/wp-content/images/2024-03-15-archview-int-blog/2024-03-23-19-50-44.png)
+![](/images/2024-03-15-archview-int-blog/2024-03-23-19-50-44.png)
 
 檔案名稱是: 2024-01-15-archview-llm.md
 檔案的大小: 59,638 bytes (format: markdown)
 
 我挑選的是最陽春的儲存方式 (沒有用任何向量資料庫，就是把每個 chunk 向量化後存成 json ...
 
-![](/wp-content/images/2024-03-15-archview-int-blog/2024-03-23-19-52-46.png)
+![](/images/2024-03-15-archview-int-blog/2024-03-23-19-52-46.png)
 
 這樣的內容，總共被拆成 46 個 chunks, 總容量  1,940,368 bytes, 接近 2mb..
 
@@ -1378,13 +1364,13 @@ Kernel Memory 把這機制保留下來了，而且在 SimpleVectorDB 裡面也�
 貼兩篇我看過的參考資訊:
 
 
-![](/wp-content/images/2024-03-15-archview-int-blog/2024-03-24-19-38-44.png)
+![](/images/2024-03-15-archview-int-blog/2024-03-24-19-38-44.png)
 > spotify, 歌曲也能 embedding ..
 
 來源: Git Repo - [spotify_mpd_two_tower](https://github.com/jswortz/spotify_mpd_two_tower)
 
 
-![](/wp-content/images/2024-03-15-archview-int-blog/2024-03-24-19-42-01.png)
+![](/images/2024-03-15-archview-int-blog/2024-03-24-19-42-01.png)
 
 另外這篇，講的就是電商的應用, 個人化的推薦系統, 也是 two tower 神經網路作法
 [Personalized Recommendation Systems using Two Tower Neural Nets](https://vinay-bhupalam.medium.com/personalized-recommendation-systems-c6a2159445b9)
@@ -1512,7 +1498,7 @@ Chat GPT, 畢竟是個 "Chat", 先天就有上下文的處理。如果我自己�
 
 即使你要提供 "對談" 的介面，我也建議不要第一時間嘗試自己開發，上下文關係的處理要做到精緻其實也是要花功夫的。過濾太多上下文，關聯性就掉了，保留太多，費用就上去了 ( token 很貴啊啊啊... )。如果要自己做，至少也要用對的 API，例如 Open AI 的 Chat Completion API, 或是 Assistant API, 避免自己處理太多 "chat" 的細節...
 
-![](/wp-content/images/2024-03-15-archview-int-blog/2024-03-25-12-22-29.png)
+![](/images/2024-03-15-archview-int-blog/2024-03-25-12-22-29.png)
 
 再者，Chat GPT 有基本的個人 profile, 這些細節也許都能協助讓你的回答更貼近 user 的期待，這些都屬於 prompt engineering 微調的範圍內。其實你收集好這些資訊，下對 prompt，用同樣的 LLM ( GPT4 )，應該都能做到對等的效果。但是就看你要不要 (有沒有辦法) 收集到這些資訊啊! 這是平台化的威力，依附在某個平台，這些好處就是現成的。以我來說，只是個單純的部落格搜尋，應該沒有人想在我這邊留下 user profiles 吧..
 

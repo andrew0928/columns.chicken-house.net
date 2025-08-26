@@ -1,18 +1,3 @@
----
-layout: post
-title: "[分散式系統 #1] Idempotency Key 的原理與實作 - 能安全 Retry 的 API 設計"
-categories:
-- "系列文章: .NET + Windows Container, 微服務架構設計"
-- "系列文章: 架構師觀點"
-tags: ["microservice", "系列文章", "架構師", ]
-published: false
-comments_disqus: false
-comments_facebook: false
-comments_gitalk: true
-redirect_from:
-logo: 
----
-
 好久沒寫微服務系列的文章了 (其實去年寫了兩篇，最後沒能把它寫完就沒發表了)，最近工作上又累積了不少處理的實作經驗，決定順手再來記錄一下。經歷過實作的過程後，才發現導入微服務的過程真是到處都是坑啊! 網路上看到的文章都在講怎麼切割才到位，不過實際上的狀況是，有很多工程師都還沒有足夠的經驗跟能力，能 "只" 靠 API 就把事情做好啊... 很多直接處理 DB 兩三下就能搞定的事情，換成 Http API 就變得困難重重。這些其實不是微服務的坑，而是分散式系統的坑啊...，於是決定開這系列文，第一篇就來談談如何在不可靠的網路上，確保遠端的 API 有正確的被執行的做法吧!
 
 <!--more-->
@@ -49,4 +34,4 @@ logo:
 
 
 
-# 
+#

@@ -1,18 +1,4 @@
----
-layout: post
-title: "架構師觀點 - API First 的開發策略"
-categories:
-- "系列文章: 微服務架構"
-tags: ["系列文章", "架構師的修練", "microservices"]
-published: true
-comments_disqus: false
-comments_facebook: false
-comments_gitalk: true
-redirect_from:
-logo: /wp-content/images/2022-10-26-apifirst/slides/slide01.png
----
-
-![](/wp-content/images/2022-10-26-apifirst/slides/slide01.png)
+![](/images/2022-10-26-apifirst/slide01.png)
 
 這篇的內容，是我在 DevOpsDays Taipei 2022 的 Keynote 演講的主題: DevOps 潮流下的 API First 開發策略。這場次的內容，正好是我近期正在努力的方向，演講的時間有限，沒能 100% 表達我想講的內容，於是我還是用我最習慣的方式: 文章，重新來闡述一次這個主題吧。
 
@@ -65,7 +51,7 @@ OK, 都準備好了, 那就開始進入主題吧! API First 的開發策略 !!
 # 1, 你的團隊有多 "期待" 推行 API First
 
 
-![](/wp-content/images/2022-10-26-apifirst/slides/slide05.png)
+![](/images/2022-10-26-apifirst/slide05.png)
 
 做任何事情前先講目的，這樣你才知道如何取捨，那些該堅持，那些可以放。我先從團隊對 API First 的 "期待"，來看看大家推行 API First 的目的是什麼。從字面上來看，API First 指的是在系統開發的過程中，API 應該被擺在第一順位來考量。與其講一堆落落長的定義，我先從幾個問題來測試看看你的答案為何，來判定你們的期待:
 
@@ -95,7 +81,7 @@ OK, 都準備好了, 那就開始進入主題吧! API First 的開發策略 !!
 
 以上，其實都是我點出的 API first 推行可能要面對的選擇。這邊我跳離一下思考的脈絡，看一下別人怎麼講:
 
-![](/wp-content/images/2022-10-26-apifirst/slides/slide09.png)
+![](/images/2022-10-26-apifirst/slide09.png)
 
 這篇文章: API-First Approach 中間提到這段，就是我 slide 標黃字的兩句話，是我覺得特別有代表性的部分:
 
@@ -115,7 +101,7 @@ OK, 都準備好了, 那就開始進入主題吧! API First 的開發策略 !!
 
 ## 1.2, 老闆期待的 API 經濟
 
-![](/wp-content/images/2022-10-26-apifirst/slides/slide10.png)
+![](/images/2022-10-26-apifirst/slide10.png)
 
 我直接用投影片來說明這段吧。老闆的層級到某個位階以上時，他會在意的就是做這件事到底能替公司帶來什麼效益? 有短期有長期的，投入也有短期有長期的，老闆自然會依據這些資訊來判斷投入多少資源。這時，先來看看，就算你能 100% 完美的推行 API First 好了，在老闆眼裡這些事情的商業價值會是什麼?
 
@@ -141,7 +127,7 @@ OK, 都準備好了, 那就開始進入主題吧! API First 的開發策略 !!
 回想一下，這不就是上面樂高的情況嗎? 如果你只想拿標準的積木去應付特殊需求 (例如組出一台千年鷹號) 是很困難的，你應該在標準化積木的基礎上，適度的加上部分相容但是是特殊造型的零件才能完成。這不就是你自己用 API 來擴充你的系統嗎? 也因為這樣，我們內部很認真地看待 API First 這件事，也因為參與其中，才有我這次的 keynote speech. 掌握正確精準的 API, 你才能同時滿足每個客戶對你規模化與高度客製化的期待。
 
 
-![](/wp-content/images/2022-10-26-apifirst/slides/slide11.png)
+![](/images/2022-10-26-apifirst/slide11.png)
 
 我再把題目帶回到產品開發團隊內部。在團隊從小變到大的過程中，一定是先從幾個人開始，把第一版產品做出來，接著逐步擴大，才有各種分工。過程中開始要面對 API 跟 APP 的分界是最困難的，直接就把 APP 開發出來就好了啊。然而 API 背後就是 "服務"，APP 背後就是 "應用"。怎麼拿捏 API / APP 該處理的範圍就很令人頭痛，API 過度往 APP 偏斜，不論是 UI 或是流程都會被 APP 的設計過度綁定；當你的 API 要應用在不同的領域時，你就會發現 API 派不上用場 (想想前面我講的 "餐飲電商" 案例)，這結果就背離你當初 API First 的目的了，不是嗎?
 
@@ -160,7 +146,7 @@ GIPI: [模組化與客製化](https://www.facebook.com/gipi.net/posts/pfbid0E6PW
 > 其實模組化與客製化是個光譜，完全模組化或完全客製化都不是長期經營應該思考的方向。
 > ...
 
-![](/wp-content/images/2022-10-26-apifirst/2022-11-17-02-36-45.png)
+![](/images/2022-10-26-apifirst/2022-11-17-02-36-45.png)
 
 
 
@@ -175,11 +161,11 @@ GIPI: [模組化與客製化](https://www.facebook.com/gipi.net/posts/pfbid0E6PW
 
 我就舉最具代表性的案例好了: AWS (Amazon Web Service) 的前 CEO 貝佐斯, 他也是帶領 AWS 走到今天這步的最大功臣。他在 2002 年的時候 ( Orz, 20 年前就有這遠見 )，在內部發布了一份備忘錄。內容主要是工程團隊所有服務都應該以對外開放的標準提供 API，跨團隊間 API 是唯一的溝通管道，沒有例外。我把他的備忘錄內容列在這頁投影片:
 
-![](/wp-content/images/2022-10-26-apifirst/slides/slide14.png)
+![](/images/2022-10-26-apifirst/slide14.png)
 
 看到了嗎? 早在 20 年前，貝佐斯就有這樣的看法。他不限定 API 的技術規範 ( HTTP, CORBA 皆可... 有人還知道 CORBA 是啥東西嗎? 我當年研究所念過 XDD, CORBA: Common Object Request Broker Architecture ... )，但是你一定得用通訊的方式來協作，不能直接共享資料庫等等這種暴力的手段來跨團隊通訊。這也間接強迫了 AWS 要及早面對分散式架構的挑戰，你也可以理解成 20 年前它們就在面對微服務架構的各種問題了，也因此 AWS 內部能發展出各式各樣成熟的 PaaS, 可以協助大型系統的通訊與協作，我想跟他們很早就需要面對這樣的挑戰脫離不了關係吧。
 
-![](/wp-content/images/2022-10-26-apifirst/slides/slide16.png)
+![](/images/2022-10-26-apifirst/slide16.png)
 
 從這份備忘錄，表面上我看到了貝佐斯訂了很嚴格的要求，要所有開發團隊遵守，避免不好的通訊方式 (例如: 共用資料庫) 造成技術債。
 
@@ -196,7 +182,7 @@ GIPI: [模組化與客製化](https://www.facebook.com/gipi.net/posts/pfbid0E6PW
 
 回到前面我提到哪個角色該拿捏 API 跟 APP 的分界，我又找了篇老外的文章 XDD, 這篇我找的主題是: 架構師在 Agile Team 裡該扮演的角色... ( Ref: Role of Architect in Agile Development), 裡面提到:
 
-![](/wp-content/images/2022-10-26-apifirst/slides/slide12.png)
+![](/images/2022-10-26-apifirst/slide12.png)
 
 (我只列出我 highlight 的四句話，其他各位有興趣請直接看原文)
 
@@ -249,7 +235,7 @@ Agile Architect (以下簡稱架構師) 架構師負責系統的結構，要同�
 
 這整個過程，最重要的能力就是 "抽象化" 了。我舉一篇我自己在說明抽象化很有代表性的文章: [抽象化設計；折扣規則的設計機制](/2020/03/10/interview-abstraction/) 來當案例:
 
-![](/wp-content/images/2022-10-26-apifirst/2022-11-06-17-00-23.png)
+![](/images/2022-10-26-apifirst/2022-11-06-17-00-23.png)
 
 
 在面對 stakeholder 需要多樣且複雜的折扣需求時，我做了幾件事情來降低整件事情的難度，其中最關鍵的環節，就是上面提到的 "設計公式"。
@@ -301,7 +287,7 @@ Agile Architect (以下簡稱架構師) 架構師負責系統的結構，要同�
 
 寫到這邊，我想對於 API First 的 "期待"，跟背後的想法，應該都交代的差不多了。在進到下一個主題前的最後一段，我想提一下這些思維跟流程的改變，文化跟能力的準備是很重要的啊! 所有改變都是困難的，因為你必須面對團隊過去習慣的做法跟想法。沒有足夠的準備跟動機，這些傳統是會持續維持下去的。講了這麼多的 API First 期待，我想這些都是 "動機" 的部分，而能力的準備，只能靠有系統的吸收他人的經驗了，最好的方式是讀書會，有系統的透過研讀其他成功的案例來獲取經驗跟能力。
 
-![](/wp-content/images/2022-10-26-apifirst/slides/slide18.png)
+![](/images/2022-10-26-apifirst/slide18.png)
 
 我們自己的做法就是資深人員 (具備一定影響力的成員) 參加固定舉行的讀書會來提升這些經驗跟能力，在老師的帶領下我們也會花時間討論，書上講的案例跟方法怎麼應用在我們實際的狀況。我就介紹一下我們讀過 (包含正在讀) 的三本書:
 
@@ -412,16 +398,3 @@ Will 保哥的技術交流中心 直播
 * [直播錄影](https://www.facebook.com/andrew.blog.0928/posts/pfbid0wsyjsDxvjG8b2VpvtgQxjkcnaZsE5LF4FJDW18yCUdU2oGkvQDDPSPdBMxqv7pe7l)
 
 原本我是打算一口氣，一篇寫完的... 不過因為補上了在台上被我刪掉的內容，看了看要塞在一篇實在太拚了，就決定分成兩篇來寫。先把觀念的部分都交代告一段落，下一篇就會從實際推動 API First 的流程，一切以 Contract 為準的做法探討，同時也會說明以狀態機為主來設計 API 規格的作法。不知道有沒有機會，有合適的場合的話這段設計的過程其實很適合弄成 workshop... 等不及的朋友們也可以先看投影片 + 直播的錄影，也請期待下一篇文章 :)
-
-
-
-
-
-
-
-
-
-
-
-
-

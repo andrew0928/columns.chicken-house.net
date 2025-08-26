@@ -1,17 +1,3 @@
----
-layout: post
-title: "微服務架構設計 - Event Sourcing"
-categories:
-- "系列文章: .NET + Windows Container, 微服務架構設計"
-- "系列文章: 架構師觀點"
-tags: ["microservice", "系列文章", "架構師", ]
-published: false
-comments: true
-redirect_from:
-logo: 
----
-
-
 // TODO: Command Pattern
 
 // DEMO: CQRS + Event Sourcing, Implement Distributed Transaction (not 2PC, using SAGA patterns)
@@ -305,32 +291,3 @@ https://www.facebook.com/andrew.blog.0928/posts/1400700806971860
 這就開始考驗你的架構思考跟抽象化能力了。越來越即時的系統，資料的時間維度問題就會被放大，到 2021 年全球化，雲端化，什麼都即時化，架構的設計已經沒有過去那麼容易，把 ER model 定義出來就搞定的年代了。時間維度變成另一個必定要面對的難題。
 
 Cloud Native 的設計思維裡面，其實早就有包含很多成熟可靠的 pattern 了啊! 以我來看，你只要能熟悉掌握 Event Sourcing + CQRS 這兩個處理機制，你就能漂亮的解決這個難題。
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

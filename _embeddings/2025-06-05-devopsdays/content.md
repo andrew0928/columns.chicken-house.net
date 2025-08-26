@@ -1,4 +1,4 @@
-![alt text](/wp-content/images/2025-06-03-devopsdays/logo.jpg)
+![alt text](/images/2025-06-05-devopsdays/logo.jpg)
 
 第七次參加 DevOpsDays Taipei 了, 這篇會放我的簡報, 還有我的場次共筆連結。
 後續的心得，以及 QA 回覆等, 會陸陸續續補在後面。

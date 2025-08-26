@@ -1,17 +1,3 @@
----
-layout: post
-title: "xxxxx 架構面試題 #6: 權限管理機制的設計"
-categories:
-- "系列文章: 架構師的修練"
-tags: ["系列文章", "架構師的修練", "架構師觀點", "刻意練習", "抽象化"]
-published: false
-comments_disqus: false
-comments_facebook: false
-comments_gitalk: false
-redirect_from:
-logo: 
----
-
 "權限管理" 的設計，算是經典問題了吧，這次架構面試題，就來聊聊這個主題。
 
 只要你做過管理後台，就一定會碰到這議題: 
