@@ -1,5 +1,0 @@
-# robots.txt for http://www.chicken-house.net/
-# go away
-
-User-agent: *
-Disallow: /
