@@ -1,22 +1,3 @@
----
-layout: post
-title: "Canon G9 入手, 不過..."
-categories:
-
-tags: ["技術隨筆","敗家","有的沒的"]
-published: true
-comments: true
-redirect_from:
-  - /2007/11/05/canon-g9-入手-不過/
-  - /columns/post/2007/11/05/Canon-G9-e585a5e6898b2c-e4b88de9818e.aspx/
-  - /post/2007/11/05/Canon-G9-e585a5e6898b2c-e4b88de9818e.aspx/
-  - /post/Canon-G9-e585a5e6898b2c-e4b88de9818e.aspx/
-  - /columns/2007/11/05/Canon-G9-e585a5e6898b2c-e4b88de9818e.aspx/
-  - /columns/Canon-G9-e585a5e6898b2c-e4b88de9818e.aspx/
-  - /blogs/chicken/archive/2007/11/05/2788.aspx/
-wordpress_postid: 136
----
-
 想了很久的 Canon PowerShot G9 終於狠下心的敗下去了, 買了英日機的水貨, 約比公司貨便宜三千塊... 其實已經買了兩個禮拜, 但是碰到一堆小障礙, 所以拖到現在才寫 BLOG...
 
 打從 G6 就開始物色新機, G6 因為跟 G2 都採用 DIGIC chip, 功能效能都沒啥大長進, 連 video 也都是很兩光, 不考慮... S2 IS, S3 IS 沒有熱靴不考慮, S5 IS 撐了很久, 最後還是決定留在 G 系列. G7 換了 DIGIC II 則是大改版, 光圈變小, 翻轉 LCD 沒了, 連 RAW 都沒了... 不考慮. G9 跟 G7 差不多, 就是把 RAW 加回來, 換 DIGIC III ... 覺的還在可接受範圍內, 就敗了 [:D], 那 G8 呢? 很抱歉... Canon 沒出 G8 .. Orz.

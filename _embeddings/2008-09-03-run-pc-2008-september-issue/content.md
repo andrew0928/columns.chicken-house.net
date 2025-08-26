@@ -1,23 +1,4 @@
----
-layout: post
-title: "[RUN! PC] 2008 九月號"
-categories:
-- "RUN! PC 專欄文章"
-tags: [".NET","RUN! PC","作品集","多執行緒","技術隨筆"]
-published: true
-comments: true
-redirect_from:
-  - /2008/09/03/run-pc-2008-九月號/
-  - /2008/09/02/run-pc-2008-九月號/
-  - /columns/post/2008/09/03/RUNPC-2008-09.aspx/
-  - /post/2008/09/03/RUNPC-2008-09.aspx/
-  - /post/RUNPC-2008-09.aspx/
-  - /columns/2008/09/03/RUNPC-2008-09.aspx/
-  - /columns/RUNPC-2008-09.aspx/
-wordpress_postid: 71
----
-
-![RUN! PC 2008 September Issue](/wp-content/be-files/WindowsLiveWriter/RUNPC2008_13519/image_5.png)
+![RUN! PC 2008 September Issue](/images/2008-09-03-run-pc-2008-september-issue/image_5.png)
 
 感謝編輯賞光，第三篇順利刊出 :D
 

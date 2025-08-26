@@ -1,23 +1,32 @@
 {
   "title": "\u4EFB\u610F\u653E\u5927/\u7E2E\u5C0F\u7DB2\u9801\u7684\u5167\u5BB9",
   "published": true,
-  "categories": null,
+  "categories": [],
   "tags": [
     "HTML/CSS",
     "\u6280\u8853\u96A8\u7B46"
   ],
-  "generator": "BlogIndex.SyncPost v1.0.0.0, o3, https://app-azureopenai.openai.azure.com/",
   "tech-stacks": [
     "CSS",
     "HTML"
   ],
   "keywords": [
-    "ZOOM",
     "CSS",
+    "ZOOM",
+    "zoom",
+    "\u7DB2\u9801",
+    "\u653E\u5927",
+    "\u7E2E\u5C0F",
     "HTML",
-    "\u7DB2\u9801\u653E\u5927\u7E2E\u5C0F",
+    "element",
+    "style",
+    "\u5C6C\u6027",
+    "\u5B57\u9AD4",
+    "\u5716\u7247",
+    "\u5340\u584A",
     "MSDN"
   ],
+  "generator": "BlogIndex.SyncPost v0.3.0.0, gpt-5",
   "references": [
     "/2004/12/17/\u4EFB\u610F\u653E\u5927\u7E2E\u5C0F\u7DB2\u9801\u7684\u5167\u5BB9/",
     "/columns/post/2004/12/17/zoom-overview.aspx/",
@@ -26,7 +35,8 @@
     "/columns/2004/12/17/zoom-overview.aspx/",
     "/columns/zoom-overview.aspx/",
     "/blogs/chicken/archive/2004/12/17/189.aspx/",
-    "http://community.chicken-house.net/wp-content/be-files/articles/188.aspx",
-    "/wp-content/be-files/articles/188.aspx"
-  ]
+    "/wp-content/be-files/articles/188.aspx",
+    "http://community.chicken-house.net/wp-content/be-files/articles/188.aspx"
+  ],
+  "summary": "\u4F5C\u8005\u5728\u67E5\u95B1 MSDN \u6642\u767C\u73FE\u4E00\u500B\u6709\u8DA3\u7684 CSS \u5C6C\u6027\uFF1Azoom\u3002\u4E00\u822C\u7DB2\u9801\u5E38\u898B\u7684\u662F\u5206\u5225\u8ABF\u6574\u5B57\u9AD4\u5927\u5C0F\u6216\u5716\u7247\u5C3A\u5BF8\uFF0C\u4F46\u82E5\u5E0C\u671B\u5C07\u6574\u500B\u5340\u584A\uFF08\u5305\u542B\u6587\u5B57\u3001\u5716\u7247\u8207\u5176\u6392\u7248\uFF09\u6574\u9AD4\u653E\u5927\u6216\u7E2E\u5C0F\uFF0C\u5F80\u5F80\u4E0D\u6613\u9054\u6210\u3002zoom \u5C6C\u6027\u53EF\u76F4\u63A5\u5957\u7528\u5728\u4EFB\u4F55 HTML \u5143\u7D20\u7684 style \u4E0A\uFF0C\u8B93\u8A72\u5143\u7D20\u53CA\u5176\u5167\u5BB9\u7B49\u6BD4\u4F8B\u7E2E\u653E\uFF0C\u5FEB\u901F\u5BE6\u73FE\u5340\u584A\u7D1A\u7684\u7E2E\u653E\u6548\u679C\uFF0C\u9069\u5408\u7528\u65BC\u9700\u8981\u6574\u9AD4\u653E\u5927\u6216\u7E2E\u5C0F\u986F\u793A\u7684\u60C5\u5883\u3002\u6587\u672B\u63D0\u4F9B\u5168\u6587\u9023\u7D50\uFF0C\u8B80\u8005\u53EF\u9032\u4E00\u6B65\u4E86\u89E3\u5BE6\u4F5C\u7D30\u7BC0\u8207\u4F7F\u7528\u65B9\u5F0F\u3002"
 }

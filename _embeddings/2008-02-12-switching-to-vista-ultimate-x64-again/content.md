@@ -1,27 +1,3 @@
----
-layout: post
-title: "再度換裝 Vista ... Vista Ultimate (x64)"
-categories:
-
-tags: ["技術隨筆","有的沒的"]
-published: true
-comments: true
-redirect_from:
-  - /2008/02/12/再度換裝-vista-vista-ultimate-x64/
-  - /columns/post/2008/02/12/e5868de5baa6e68f9be8a39d-Vista-Vista-Ultimate-(x64).aspx/
-  - /post/2008/02/12/e5868de5baa6e68f9be8a39d-Vista-Vista-Ultimate-(x64).aspx/
-  - /post/e5868de5baa6e68f9be8a39d-Vista-Vista-Ultimate-(x64).aspx/
-  - /columns/2008/02/12/e5868de5baa6e68f9be8a39d-Vista-Vista-Ultimate-(x64).aspx/
-  - /columns/e5868de5baa6e68f9be8a39d-Vista-Vista-Ultimate-(x64).aspx/
-  - /columns/post/2008/02/12/e5868de5baa6e68f9be8a39d-Vista--Vista-Ultimate-(x64).aspx/
-  - /post/2008/02/12/e5868de5baa6e68f9be8a39d-Vista--Vista-Ultimate-(x64).aspx/
-  - /post/e5868de5baa6e68f9be8a39d-Vista--Vista-Ultimate-(x64).aspx/
-  - /columns/2008/02/12/e5868de5baa6e68f9be8a39d-Vista--Vista-Ultimate-(x64).aspx/
-  - /columns/e5868de5baa6e68f9be8a39d-Vista--Vista-Ultimate-(x64).aspx/
-  - /blogs/chicken/archive/2008/02/12/2976.aspx/
-wordpress_postid: 124
----
-
 暨之前[升級到 VISTA](/wp-content/be-files/archive/2007/03/27/vista.aspx) 的經驗, 到最後不適用又換回 XP 到現在, 差一個月就一年了 (真久), 這陣子因為陸陸續續解決掉一些問題, 加上一些誘因, 不得不換到 VISTA, 於是又再度換了一次...
 
 這次會想換, 主要有幾個原因:

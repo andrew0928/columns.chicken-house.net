@@ -1,19 +1,4 @@
----
-layout: post
-title: "Memory Management - (I). Fragment ?"
-categories:
-- "系列文章: Memory Management"
-tags: [".NET","作業系統","技術隨筆","有的沒的"]
-published: true
-comments: true
-permalink: "/2008/02/26/memory-management-i-fragment/"
-redirect_from:
-  - /columns/post/2008/02/27/Memory-Management-(I)-Fragment-.aspx/
-  - /post/2008/02/27/Memory-Management-(I)-Fragment-.aspx/
-  - /post/Memory-Management-(I)-Fragment-.aspx/
-  - /columns/2008/02/27/Memory-Management-(I)-Fragment-.aspx/
-  - /columns/Memory-Management-(I)-Fragment-.aspx/
-  - /columns/post/2008/02/27/Memory-Management---(I)-Fragment-.aspx/
+(I)-Fragment-.aspx/
   - /post/2008/02/27/Memory-Management---(I)-Fragment-.aspx/
   - /post/Memory-Management---(I)-Fragment-.aspx/
   - /columns/2008/02/27/Memory-Management---(I)-Fragment-.aspx/
@@ -41,7 +26,7 @@ wordpress_postid: 120
 
 簡單畫張圖說明，就像這樣: 
 
-![](/wp-content/be-files/WindowsLiveWriter/MemoryManagementI.Fragment_45D5/image_3.gif)
+![](/images/2008-02-27-memory-management-i-fragment/image_3.gif)
 
 
 其中:
@@ -51,4 +36,4 @@ wordpress_postid: 120
 
 來來來, 大挑戰... 這種程式千萬別在自己家裡亂玩... 也別在你按不到 reset 開關的電腦亂玩 (ex: 遠端連到機房的 server) ... 前題是用 C / C++ 這類可以直接操作 pointer 的 language. OS 不限, 覺的 Linux 強就用 Linux, 喜歡 Gates 的就用 windows... 32 / 64 位元都可以... 
 
-先賣個關子, 結果會是怎麼樣? 不同的 OS 會有不同的結果嗎? 64位元會有不同嗎? 有興趣可以試看看，懶的寫 code 也可以猜看看! 
+先賣個關子, 結果會是怎麼樣? 不同的 OS 會有不同的結果嗎? 64位元會有不同嗎? 有興趣可以試看看，懶的寫 code 也可以猜看看!

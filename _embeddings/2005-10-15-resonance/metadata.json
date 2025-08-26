@@ -1,26 +1,31 @@
 {
   "title": "\u5171\u632F...",
   "published": true,
-  "categories": null,
+  "categories": [],
   "tags": [
     "\u6709\u7684\u6C92\u7684"
   ],
-  "generator": "BlogIndex.SyncPost v1.0.0.0, o3, https://app-azureopenai.openai.azure.com/",
-  "tech-stacks": null,
+  "tech-stacks": [],
   "keywords": [
     "\u5171\u632F",
     "\u99AC\u6876",
     "\u6D6E\u7403",
     "\u6C34\u95A5",
-    "\u632F\u52D5\u9031\u671F",
+    "\u6C34\u7BB1",
     "\u6C34\u7BA1",
-    "\u7269\u7406",
-    "\u6C96\u6C34",
-    "\u7246\u58C1",
     "\u9023\u52D5\u687F",
+    "\u9031\u671F",
+    "\u7246\u58C1",
+    "\u6C96\u6C34",
+    "\u632F\u52D5",
+    "\u5C0F\u76AE",
+    "\u6015\u6015",
+    "\u9435\u939A",
+    "\u623F\u6771",
     "T",
     "L\u00B2"
   ],
+  "generator": "BlogIndex.SyncPost v0.3.0.0, gpt-5",
   "references": [
     "/2005/10/15/\u5171\u632F/",
     "/columns/post/2005/10/15/e585b1e68caf.aspx/",
@@ -29,10 +34,11 @@
     "/columns/2005/10/15/e585b1e68caf.aspx/",
     "/columns/e585b1e68caf.aspx/",
     "/blogs/chicken/archive/2005/10/15/1121.aspx/",
-    "/Emoticons/emotion-15.gif",
-    "/Emoticons/emotion-8.gif",
-    "/Emoticons/emotion-12.gif",
-    "/Emoticons/emotion-55.gif",
-    "/Emoticons/emotion-2.gif"
-  ]
+    "/images/2005-10-15-resonance/emotion-15.gif",
+    "/images/2005-10-15-resonance/emotion-8.gif",
+    "/images/2005-10-15-resonance/emotion-12.gif",
+    "/images/2005-10-15-resonance/emotion-55.gif",
+    "/images/2005-10-15-resonance/emotion-2.gif"
+  ],
+  "summary": "\u679C\u7136\u9AD8\u4E2D\u7269\u7406\u8AB2\u6C92\u6253\u6DF7\u9084\u662F\u6709\u7528\u7684... ![emotion-15](/images/2005-10-15-resonance/emotion-15.gif) \u5B78\u904E\u4E86\u5171\u632F, \u7D42\u65BC\u89E3\u6C7A\u6211\u5BB6\u5C0F\u76AE\u6BCF\u6B21\u90FD\u88AB\u99AC\u6876\u5687\u54ED\u7684\u554F\u984C...\n\n\u4E0D\u904E, \u99AC\u6876\u8DDF\u5171\u632F\u6709\u5565\u95DC\u4FC2??? ![emotion-8](/images/2005-10-15-resonance/emotion-8.gif)\n\n\u6211\u5BB6 (\u623F\u6771) \u7684\u99AC\u6876\u5F88\u602A, \u6BCF\u6B21\u6C96\u5B8C\u6C34, \u7246\u58C1\u88E1\u7684\u6C34\u7BA1\u5C31\u6703 \u310E\u3121 \u310E\u3121 \u310E\u3121... \u7684\u8D8A\u97FF\u8D8A\u5927\u8072, \u5927\u8072\u5230\u597D\u50CF\u6709\u4EBA\u62FF\u9435\u939A\u5728\u939A\u7246\u58C1\u4E00\u6A23, \u5C0F\u76AE\u807D\u5230\u5C31\u6703\u908A\u54ED\u908A\u558A \u0022\u6015\u6015\u0022 ..."
 }

@@ -1,21 +1,3 @@
----
-layout: post
-title: "[設計案例] 生命遊戲#1, 前言"
-categories:
-- "系列文章: 生命遊戲"
-tags: [".NET","C#","多執行緒","技術隨筆","物件導向","系列文章: 生命遊戲"]
-published: true
-comments: true
-redirect_from:
-  - /2009/09/12/設計案例-生命遊戲1-前言/
-  - /columns/post/2009/09/12/e8a8ade8a888e6a188e4be8b-e7949fe591bde9818ae688b21-e5898de8a880.aspx/
-  - /post/2009/09/12/e8a8ade8a888e6a188e4be8b-e7949fe591bde9818ae688b21-e5898de8a880.aspx/
-  - /post/e8a8ade8a888e6a188e4be8b-e7949fe591bde9818ae688b21-e5898de8a880.aspx/
-  - /columns/2009/09/12/e8a8ade8a888e6a188e4be8b-e7949fe591bde9818ae688b21-e5898de8a880.aspx/
-  - /columns/e8a8ade8a888e6a188e4be8b-e7949fe591bde9818ae688b21-e5898de8a880.aspx/
-wordpress_postid: 34
----
-
 [前言]
 
 好久沒寫點自己覺的有內容的東西了... 最近 code 寫的少，實在沒有什麼了不起的新技術可以分享，而 thread 那種 "古典" 計算機科學的東西也寫的差不多了.. 就懶了起來。

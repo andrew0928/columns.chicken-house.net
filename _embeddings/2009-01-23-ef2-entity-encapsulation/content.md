@@ -1,21 +1,3 @@
----
-layout: post
-title: "EF#2. Entity & Encapsulation"
-categories:
-- "系列文章: Entity Framework 與 物件導向設計"
-tags: [".NET","C#","SQL","物件導向", "Entity Framework"]
-published: true
-comments: true
-permalink: "/2009/01/23/ef2-entity-encapsulation/"
-redirect_from:
-  - /columns/post/2009/01/23/EF2-Entity-Encapsulation.aspx/
-  - /post/2009/01/23/EF2-Entity-Encapsulation.aspx/
-  - /post/EF2-Entity-Encapsulation.aspx/
-  - /columns/2009/01/23/EF2-Entity-Encapsulation.aspx/
-  - /columns/EF2-Entity-Encapsulation.aspx/
-wordpress_postid: 43
----
-
 前一篇講了一堆大道理，這篇就來看一些實作吧。各種 ORM 的技術都有共同的目的，就是能把物件的狀態存到關聯式資料庫，而這樣的對應機制則是各家 ORM 競爭的重點，勝負的關鍵不外乎是那一套比較簡單? 那一套包裝出的 Entity 物件能夠更貼近一般的物件?
 
 會有這樣的 "對應" 機制需求，原因只有一個，物件技術發展的很快，已經能解決大多數軟體開發的需求了，不過資料庫就沒這麼幸運，現在的 DBMS 撇開一些技術規格不談，本質上還是跟廿年前差不多，就是關聯式資料庫而已，本質上就是一堆 table + relationship, 配合 SQL 語法來處理資料。發展至今，物件技術跟資料庫技術能處理的問題，已經是兩個完全不同世界的問題了，三層式的架構在這段出現斷層...。
@@ -34,7 +16,7 @@ wordpress_postid: 43
 
 在開始之前，我們先來看看一個最簡單的 Entity Framework 的範例，然後來看看封裝性能夠對你的程式帶來什麼影響? 先來看看只用到了 ORM 卻沒發揮封裝性的例子:
 
-![image](/wp-content/be-files/WindowsLiveWriter/EF2.Entityencapsulation_14856/image_thumb_1.png)
+![image](/images/2009-01-23-ef2-entity-encapsulation/image_thumb_1.png)
 
 這是存放會員資料的表格，對應的 TABLE 很簡單，SQL 如下:
 

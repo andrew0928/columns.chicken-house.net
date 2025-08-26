@@ -1,21 +1,3 @@
----
-layout: post
-title: "[設計案例] 清除Cache物件 #2. Create Custom CacheDependency"
-categories:
-- "設計案例: 清除 Cache 物件"
-tags: [".NET","C#","MSDN","Tips","技術隨筆","有的沒的","物件導向"]
-published: true
-comments: true
-redirect_from:
-  - /2009/12/19/設計案例-清除cache物件-2-create-custom-cachedependency/
-  - /columns/post/2009/12/19/e8a8ade8a888e6a188e4be8b-e6b885e999a4Cachee789a9e4bbb6-2-Create-Custom-CacheDependency.aspx/
-  - /post/2009/12/19/e8a8ade8a888e6a188e4be8b-e6b885e999a4Cachee789a9e4bbb6-2-Create-Custom-CacheDependency.aspx/
-  - /post/e8a8ade8a888e6a188e4be8b-e6b885e999a4Cachee789a9e4bbb6-2-Create-Custom-CacheDependency.aspx/
-  - /columns/2009/12/19/e8a8ade8a888e6a188e4be8b-e6b885e999a4Cachee789a9e4bbb6-2-Create-Custom-CacheDependency.aspx/
-  - /columns/e8a8ade8a888e6a188e4be8b-e6b885e999a4Cachee789a9e4bbb6-2-Create-Custom-CacheDependency.aspx/
-wordpress_postid: 22
----
-
 上一篇廢話了這麼多，其實重點只有一個，我這次打算利用 CacheDependency 的機制，只要一聲令下，我想移除的 cache item 就會因為 CacheDependency 的關係自動失效，而不用很辛苦的拿著 cache key 一個一個移除。
 
 我的想法是用 tags 的概念，建立起一套靠某個 tag 就能對應到一組 cache item，然後將它移除。開始之前先來想像一下 code 寫好長什麼樣子:
@@ -75,7 +57,7 @@ private static byte[] DownloadData(Uri sourceURL)
 
 而主程式的最後一行，則是想要把指定網站 ( funp.com ) 下載的所有資料，都從 cache 移除。為了方便觀看程式結果，我特地加上了 callback method, 當 cache item 被移除時, 會在畫面顯示資訊:
 
-![image](/wp-content/be-files/WindowsLiveWriter/Cache2.CreateCustomCacheDependency/624B07FE/image.png)
+![image](/images/2009-12-19-design-case-study-cache-object-cleanup-2-create-custom-cachedependency/image.png)
 
 由執行結果來看，果然被移出 cache 的都是來在 funp.com 的網址... 接著來看看程式碼中出現的 TaggingCacheDependecny 是怎麼實作的。相關的 code 如下:
 

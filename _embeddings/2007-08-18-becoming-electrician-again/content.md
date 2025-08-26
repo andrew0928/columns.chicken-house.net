@@ -1,21 +1,3 @@
----
-layout: post
-title: "又變成水電工了.."
-categories:
-tags: ["家人","有的沒的","水電工"]
-published: true
-comments: true
-redirect_from:
-  - /2007/08/18/又變成水電工了/
-  - /columns/post/2007/08/18/e58f88e8ae8ae68890e6b0b4e99bbbe5b7a5e4ba86.aspx/
-  - /post/2007/08/18/e58f88e8ae8ae68890e6b0b4e99bbbe5b7a5e4ba86.aspx/
-  - /post/e58f88e8ae8ae68890e6b0b4e99bbbe5b7a5e4ba86.aspx/
-  - /columns/2007/08/18/e58f88e8ae8ae68890e6b0b4e99bbbe5b7a5e4ba86.aspx/
-  - /columns/e58f88e8ae8ae68890e6b0b4e99bbbe5b7a5e4ba86.aspx/
-  - /blogs/chicken/archive/2007/08/18/2512.aspx/
-wordpress_postid: 153
----
-
 有了[上一次](/post/e6b0b4e99bbbe5b7a5.aspx)的經驗之後, 這次要佈線就熟練多了... 不過弄起來好像有點過頭了? 把家裡弄的跟網咖一樣...
 
 趁著這次家裡隔間從無到有隔起來, 水電管線也得從頭處理一次, 那當然是趁這次機會把網路線都拉好... 不然下一次大概是廿年以後才有這機會.想了想, 一個房間一個 RJ-45 應該是不大夠, 這年頭什麼都需要網路線, 電腦要用, 網路硬碟要用, 印表機要用, 電話也要用, 音響要用, video player 也要用, 電視遊樂器也要用, 現在連硬碟 (NAS) 都要接網路...... Orz

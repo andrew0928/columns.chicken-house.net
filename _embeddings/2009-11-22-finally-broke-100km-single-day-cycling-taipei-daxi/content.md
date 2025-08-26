@@ -1,13 +1,3 @@
----
-layout: post
-title: 終於突破單日 100km 了! (台北-大溪)
-date: 2009-11-22 22:42:00 +00:00
-tags: 腳踏車
-category: 腳踏車
-redirect_from:
-  - /2009/11/22/終於突破單日-100km-了-d-台北-大溪/
----
-
 有嘗試過的朋友就知道，單日腳踏車破百，雖然不算太難，不過也不輕鬆。騎到後來會有那種撞牆期的感覺.. XD 
 
 今天就拼了，再度挑戰這個里程碑，騎到大溪然後再繞回來...
@@ -38,45 +28,45 @@ redirect_from:
 
  
 
-![image](/wp-content/be-files/WindowsLiveWriter/100KMD/5B5D95AA/image.png)
+![image](/images/2009-11-22-finally-broke-100km-single-day-cycling-taipei-daxi/image.png)
 
 (上回的舊照片) 剛過城林橋..
 
  
 
-![image](/wp-content/be-files/WindowsLiveWriter/100KMD/1F31CA02/image.png)
+![image](/images/2009-11-22-finally-broke-100km-single-day-cycling-taipei-daxi/image.png)
 
 \[27km\] 轉眼間已經到鶯歌了..
 
  
 
-![image](/wp-content/be-files/WindowsLiveWriter/100KMD/53D2263D/image.png)
+![image](/images/2009-11-22-finally-broke-100km-single-day-cycling-taipei-daxi/image.png)
 
 \[28km\] (上回舊照片) 鶯歌陶瓷博物館，經過了好幾次，可是都沒進去過 @_@
 
-![image](/wp-content/be-files/WindowsLiveWriter/100KMD/73810005/image.png)
+![image](/images/2009-11-22-finally-broke-100km-single-day-cycling-taipei-daxi/image.png)
 
 \[28.3 km\] 三鶯大橋下，鶯歌到大溪的自行車道 (2009/07 才通車)
 
-![image](/wp-content/be-files/WindowsLiveWriter/100KMD/1E596418/image.png)
+![image](/images/2009-11-22-finally-broke-100km-single-day-cycling-taipei-daxi/image.png)
 
 過了三鶯大橋後，腳踏車道的風景就完全不一樣了 (Y)
 
-![image](/wp-content/be-files/WindowsLiveWriter/100KMD/52F9C053/image.png)
+![image](/images/2009-11-22-finally-broke-100km-single-day-cycling-taipei-daxi/image.png)
 
 過了個閘門，原來水都被關在這裡，難怪一路上大漢溪都沒什麼水...
 
-![image](/wp-content/be-files/WindowsLiveWriter/100KMD/0BA46A61/image.png)
+![image](/images/2009-11-22-finally-broke-100km-single-day-cycling-taipei-daxi/image.png)
 
 真棒的風景，我喜歡這種有有山有水的 (Y)
 
  
 
-![image](/wp-content/be-files/WindowsLiveWriter/100KMD/646A212B/image.png)
+![image](/images/2009-11-22-finally-broke-100km-single-day-cycling-taipei-daxi/image.png)
 
 離開溪邊，到大溪的這段路變成鄉間小逕，兩旁都是韭菜田及稻田...
 
-![image](/wp-content/be-files/WindowsLiveWriter/100KMD/190A7D67/image.png)
+![image](/images/2009-11-22-finally-broke-100km-single-day-cycling-taipei-daxi/image.png)
 
 \[41.2km\] 到大溪橋了 (這次沒照照片，拿上次的照片充數... :P)
 
@@ -84,19 +74,19 @@ redirect_from:
 
  
 
-![image](/wp-content/be-files/WindowsLiveWriter/100KMD/0ACC0477/image.png)
+![image](/images/2009-11-22-finally-broke-100km-single-day-cycling-taipei-daxi/image.png)
 
 雖然公司有好幾個人住三峽，不過每個都不知道那家有名的牛角麵包是那一家… 只會跟我講我上次買錯家了 XD...
 
 看來還是 GOOGLE + 路人比較可靠，這次就找到了... 是在條不起眼的巷子裡，一家叫 \[福美軒\] 的麵包店.. 一堆人等著麵包出爐，排隊排到店外面... 足足排了一小時才買到 =_=，一個 20 元，每人限購 30 個... 
 
-![image](/wp-content/be-files/WindowsLiveWriter/100KMD/6391BB41/image.png)
+![image](/images/2009-11-22-finally-broke-100km-single-day-cycling-taipei-daxi/image.png)
 
 在回程的路上拿了兩個出來吃，果然好吃 (Y)
 
  
 
-![image](/wp-content/be-files/WindowsLiveWriter/100KMD/1832177D/image.png)
+![image](/images/2009-11-22-finally-broke-100km-single-day-cycling-taipei-daxi/image.png)
 
 柑園橋旁的XX公園 (抱歉，名字忘記了)，有一片草地，前面的是蓮花池... 不過季節不對，看不到蓮花 @@ 那堆綠綠的是布袋蓮，可不是草地... 踩下去是會掉下去的
 
@@ -118,13 +108,13 @@ redirect_from:
 
  
 
-![image](/wp-content/be-files/WindowsLiveWriter/100KMD/37E0F145/image.png)
+![image](/images/2009-11-22-finally-broke-100km-single-day-cycling-taipei-daxi/image.png)
 
 \[85km\] 華江橋上照的.. 
 
  
 
-![image](/wp-content/be-files/WindowsLiveWriter/100KMD/10A6A810/image.png)
+![image](/images/2009-11-22-finally-broke-100km-single-day-cycling-taipei-daxi/image.png)
 
 最後回到家，最後一個巷子口看了一下碼錶，98.5km…. @@
 

@@ -1,22 +1,3 @@
----
-layout: post
-title: "Volume Shadow Copy Service ..."
-categories:
-
-tags: ["技術隨筆","有的沒的"]
-published: true
-comments: true
-redirect_from:
-  - /2006/12/06/volume-shadow-copy-service/
-  - /columns/post/2006/12/06/Volume-Shadow-Copy-Service-.aspx/
-  - /post/2006/12/06/Volume-Shadow-Copy-Service-.aspx/
-  - /post/Volume-Shadow-Copy-Service-.aspx/
-  - /columns/2006/12/06/Volume-Shadow-Copy-Service-.aspx/
-  - /columns/Volume-Shadow-Copy-Service-.aspx/
-  - /blogs/chicken/archive/2006/12/06/1991.aspx/
-wordpress_postid: 202
----
-
 windows 2003 提供的 "新" 功能... 其實也不算新了, 都已經要邁入第四年了, 不過卻是個很實用的東西..
 
 簡單的說, vss 是建立在 file system 以下的服務, 它可以替你的 storage 做 snapshot, 跟一般的備份不一樣, 它是用 "copy on write" 的方式. 意思就是, 當我要求現在替我的硬碟做一次 snapshot, 只要這份 snapshot 不刪除, 我都隨時可以找到這時的檔案內容.

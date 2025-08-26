@@ -7,32 +7,31 @@
     "\u6280\u8853\u96A8\u7B46",
     "\u6709\u7684\u6C92\u7684"
   ],
-  "generator": "BlogIndex.SyncPost v1.0.0.0, o3, https://app-azureopenai.openai.azure.com/",
   "tech-stacks": [
     ".Text",
-    "Community Server",
-    "ASP.NET",
-    "ASPNET Forum",
-    "nGallery"
-  ],
-  "keywords": [
-    "blog",
-    ".Text",
-    "Community Server",
     "ASPNET Forum",
     "nGallery",
-    "RC2"
+    "Community Server"
   ],
+  "keywords": [
+    "Community Server",
+    ".Text",
+    "ASPNET Forum",
+    "nGallery",
+    "RC2",
+    "blog",
+    "forum",
+    "\u6E2C\u8A66\u7248",
+    "\u5347\u7D1A",
+    "\u8A0E\u8AD6\u5340",
+    "\u793A\u7BC4\u7AD9",
+    "\u5B98\u65B9\u7DB2\u7AD9"
+  ],
+  "generator": "BlogIndex.SyncPost v0.3.0.0, gpt-5",
   "references": [
-    "/2005/02/12/community-server/",
-    "/columns/post/2005/02/12/Community-Server.aspx/",
-    "/post/2005/02/12/Community-Server.aspx/",
-    "/post/Community-Server.aspx/",
-    "/columns/2005/02/12/Community-Server.aspx/",
-    "/columns/Community-Server.aspx/",
-    "/blogs/chicken/archive/2005/02/12/305.aspx/",
     "http://www.communityserver.org/",
     "http://demo.chicken-house.net/cs/",
-    "/Emoticons/shades_smile.gif"
-  ]
+    "/images/2005-02-12-community-server/shades_smile.gif"
+  ],
+  "summary": "\u73FE\u5728\u4F7F\u7528\u7684\u90E8\u843D\u683C\u63A1\u7528 .Text \u5F15\u64CE\uFF0C\u4F46\u4F5C\u8005\u5DF2\u8207 ASPNET Forum \u8207 nGallery \u7684\u958B\u767C\u8005\u5408\u4F5C\u5275\u7ACB\u65B0\u516C\u53F8\uFF0C\u5C07\u4E09\u5957\u8EDF\u9AD4\u5408\u4F75\u70BA Community Server\u3002Community Server \u76EE\u524D\u9032\u5165 RC2\uFF0C\u4F5C\u8005\u5DF2\u4E0B\u8F09\u6E2C\u8A66\u7248\u4E26\u67B6\u8A2D\u793A\u7BC4\u7AD9\u9EDE\uFF0C\u4EE5\u8A55\u4F30\u4E4B\u5F8C\u5C07\u73FE\u6709 blog \u8207 forum \u5347\u7D1A\u6574\u5408\uFF1B\u9019\u4E5F\u610F\u5473\u8457\u624B\u908A\u5C1A\u672A\u5B8C\u6210\u7684\u8A0E\u8AD6\u5340\u53EF\u6B63\u5F0F\u9000\u4F11\u3002\u6587\u4E2D\u63D0\u4F9B Community Server \u5B98\u65B9\u7DB2\u7AD9\u8207\u500B\u4EBA\u6E2C\u8A66\u7AD9\u9023\u7D50\uFF0C\u986F\u793A\u5C0D\u65B0\u5E73\u53F0\u7684\u671F\u5F85\u8207\u63A1\u7528\u8A08\u756B\u3002\u4E26\u63D0\u5230\u73FE\u884C .Text \u4E0D\u518D\u6709\u66F4\u65B0\u7248\uFF0C\u8F49\u800C\u7531\u65B0\u5E73\u53F0\u5EF6\u7E8C\u529F\u80FD\u8207\u793E\u7FA4\u652F\u63F4\u3002\u4F5C\u8005\u5C0D RC2 \u7684\u7A69\u5B9A\u5EA6\u8207\u6574\u5408\u6027\u5370\u8C61\u826F\u597D\uFF0C\u672A\u4F86\u5C07\u9032\u4E00\u6B65\u89C0\u5BDF\u5347\u7D1A\u6D41\u7A0B\u8207\u76F8\u5BB9\u6027\u3002"
 }

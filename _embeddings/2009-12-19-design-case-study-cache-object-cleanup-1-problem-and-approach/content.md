@@ -1,21 +1,3 @@
----
-layout: post
-title: "[設計案例] 清除Cache物件 #1. 問題與作法"
-categories:
-- "設計案例: 清除 Cache 物件"
-tags: [".NET","ASP.NET","C#","MSDN","Tips","技術隨筆","物件導向"]
-published: true
-comments: true
-redirect_from:
-  - /2009/12/19/設計案例-清除cache物件-1-問題與作法/
-  - /columns/post/2009/12/19/e8a8ade8a888e6a188e4be8b-e6b885e999a4Cachee789a9e4bbb6-1-e5958fe9a18ce88887e4bd9ce6b395.aspx/
-  - /post/2009/12/19/e8a8ade8a888e6a188e4be8b-e6b885e999a4Cachee789a9e4bbb6-1-e5958fe9a18ce88887e4bd9ce6b395.aspx/
-  - /post/e8a8ade8a888e6a188e4be8b-e6b885e999a4Cachee789a9e4bbb6-1-e5958fe9a18ce88887e4bd9ce6b395.aspx/
-  - /columns/2009/12/19/e8a8ade8a888e6a188e4be8b-e6b885e999a4Cachee789a9e4bbb6-1-e5958fe9a18ce88887e4bd9ce6b395.aspx/
-  - /columns/e8a8ade8a888e6a188e4be8b-e6b885e999a4Cachee789a9e4bbb6-1-e5958fe9a18ce88887e4bd9ce6b395.aspx/
-wordpress_postid: 23
----
-
 每次心裡有什麼好點子想寫出來時，第一關就卡在想不出個好標題... 想來想去的標題，怎麼看就是既不顯眼又不聳動... 果然是個老實的工程師性格 =_= ...  這次要講的，是 .NET HttpRuntime 裡提供的 Cache 物件的操作心得。這個東西我想不用我多作介紹，大家都用到爛掉了吧? 不過好用歸好用，有個老問題其實一直困擾著我很久了...
 
 > ***"我該怎麼手動的把某個物件從 cache 裡移除?"***

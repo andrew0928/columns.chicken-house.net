@@ -1,22 +1,3 @@
----
-layout: post
-title: "浩劫重生的 X31 ..."
-categories:
-
-tags: []
-published: true
-comments: true
-redirect_from:
-  - /2006/07/20/浩劫重生的-x31/
-  - /columns/post/2006/07/21/e6b5a9e58aabe9878de7949fe79a84-X31-.aspx/
-  - /post/2006/07/21/e6b5a9e58aabe9878de7949fe79a84-X31-.aspx/
-  - /post/e6b5a9e58aabe9878de7949fe79a84-X31-.aspx/
-  - /columns/2006/07/21/e6b5a9e58aabe9878de7949fe79a84-X31-.aspx/
-  - /columns/e6b5a9e58aabe9878de7949fe79a84-X31-.aspx/
-  - /blogs/chicken/archive/2006/07/21/1625.aspx/
-wordpress_postid: 227
----
-
 上禮拜在公司跟同事討論事情時, 一個失手桌上喝一半的御茶園就倒在 X31 臉上.. Orz, 當時公司沒雞絲可以搶救, 就立刻把水倒出來 & 搽乾就跑回家了...
 
 回家後災難才開始.. 一開始是開不了機, 拆開用吹風機吹乾就正常了, 不過用了沒多久, 硬碟就發生怪叫, 再拆一次才發現硬碟的電路板進水沒擦到...
@@ -37,8 +18,8 @@ wordpress_postid: 227
 
 | 舊的鍵盤 | 新的鍵盤 |
 |----------|----------|
-| ![舊鍵盤1](/wp-content/be-files/X31KB01.jpg) | ![新鍵盤1](/wp-content/be-files/X31KB04.jpg) |
-| ![舊鍵盤2](/wp-content/be-files/X31KB02.jpg) | ![新鍵盤2](/wp-content/be-files/X31KB05.jpg) |
-| ![舊鍵盤3](/wp-content/be-files/X31KB03.jpg) | ![新鍵盤3](/wp-content/be-files/X31KB06.jpg) |
+| ![舊鍵盤1](/images/2006-07-21-thinkpad-x31-recovery-story/X31KB01.jpg) | ![新鍵盤1](/images/2006-07-21-thinkpad-x31-recovery-story/X31KB04.jpg) |
+| ![舊鍵盤2](/images/2006-07-21-thinkpad-x31-recovery-story/X31KB02.jpg) | ![新鍵盤2](/images/2006-07-21-thinkpad-x31-recovery-story/X31KB05.jpg) |
+| ![舊鍵盤3](/images/2006-07-21-thinkpad-x31-recovery-story/X31KB03.jpg) | ![新鍵盤3](/images/2006-07-21-thinkpad-x31-recovery-story/X31KB06.jpg) |
 
 看起來我比較喜歡英文的這片... 乾淨多了, 那個 "ThinkPad" 的鈕看起來也比較順眼... 少了注音大概就沒有人會想來用我的電腦... 不過最重要的是, 以往 ThinkPad Keyboard 的手感又回來了.. [:'(]

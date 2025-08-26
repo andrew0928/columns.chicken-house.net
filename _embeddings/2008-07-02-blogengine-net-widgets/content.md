@@ -1,20 +1,3 @@
----
-layout: post
-title: "[BlogEngine.NET] Widgets"
-categories:
-
-tags: ["BlogEngine.NET","技術隨筆","有的沒的"]
-published: true
-comments: true
-redirect_from:
-  - /2008/07/02/blogengine-net-widgets/
-  - /columns/post/2008/07/02/BlogEngineNET-Widgets.aspx/
-  - /post/2008/07/02/BlogEngineNET-Widgets.aspx/
-  - /post/BlogEngineNET-Widgets.aspx/
-  - /columns/2008/07/02/BlogEngineNET-Widgets.aspx/
-  - /columns/BlogEngineNET-Widgets.aspx/
-wordpress_postid: 89
----
 原本只是想找找有沒有 BlogEngine.NET Extension 存放自訂設定值的說明，無意間找到這個令人 Orz 的東西，BlogEngine.NET 專用的 Widgets ...
 
 Widgets 這名字到處都有人用，指的不外乎是能留在桌面或是網頁的 "小工具"。拜物件技術所賜，這種東西越來越好作了。當年還在用 ET 的時代，一篇報告要插張圖，就有一堆技巧得拿出來用... 先下好控制碼把位子空出來，列印... 然後再印張圖，貼上去..
@@ -45,4 +28,4 @@ Widgets 這名字到處都有人用，指的不外乎是能留在桌面或是網
 
  
 
-不過事情倒還很順利，之前有作好準備，花了一兩個小時試一下就動工了，動啥工? 看看底下的版本... 已經搬到 1.4 版了 :D，唯一美中不足的是，過去花太多工夫在這個樣板上面，所以只好連樣板一起搬過來... 而這個樣版並不支援 Widget 的功能。看來又有得忙了... 
+不過事情倒還很順利，之前有作好準備，花了一兩個小時試一下就動工了，動啥工? 看看底下的版本... 已經搬到 1.4 版了 :D，唯一美中不足的是，過去花太多工夫在這個樣板上面，所以只好連樣板一起搬過來... 而這個樣版並不支援 Widget 的功能。看來又有得忙了...

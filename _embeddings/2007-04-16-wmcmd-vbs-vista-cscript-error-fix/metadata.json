@@ -7,29 +7,38 @@
     "\u6280\u8853\u96A8\u7B46",
     "\u6709\u7684\u6C92\u7684"
   ],
-  "generator": "BlogIndex.SyncPost v1.0.0.0, o3, https://app-azureopenai.openai.azure.com/",
   "tech-stacks": [
     "Windows Vista",
-    "Windows Media Encoder 9",
+    "Windows Media Encoder 9 Series",
     "WMCmd.vbs",
     "cscript.exe",
-    "Data Execution Prevention (DEP)"
+    "DEP (Data Execution Prevention)",
+    "VBScript",
+    "Windows Script Host",
+    "Canon RAW .CRW codec",
+    "DV AVI",
+    "WMV"
   ],
   "keywords": [
+    "Vista",
+    "Windows Media Encoder 9",
     "WMCmd.vbs",
-    "Windows Vista",
     "cscript.exe",
     "DEP",
-    "Windows Media Encoder 9",
-    "Microsoft Support",
+    "Microsoft",
     "FIX",
-    "batch video script",
+    "KB929182",
+    "\u8CC7\u6599\u57F7\u884C\u9632\u6B62",
+    "\u6279\u6B21\u8F49\u6A94",
+    "video script",
     "Canon",
     ".CRW",
     "codec"
   ],
+  "generator": "BlogIndex.SyncPost v0.3.0.0, gpt-5",
   "references": [
     "http://support.microsoft.com/kb/929182/en-us",
     "/post/e5a4a7e5b7a5e7a88b-60GB-e79a84-DV-avi-e5a393e68890-WMV.aspx"
-  ]
+  ],
+  "summary": "\u4F5C\u8005\u5728 Windows Vista \u4F7F\u7528 Windows Media Encoder 9 \u9644\u5E36\u7684 WMCmd.vbs \u6642\uFF0C\u9047\u5230 cscript.exe \u56E0 DEP\uFF08\u8CC7\u6599\u57F7\u884C\u9632\u6B62\uFF09\u800C\u88AB\u6514\u622A\u5D29\u6F70\u7684\u554F\u984C\u3002\u539F\u4EE5\u70BA\u53EF\u95DC\u9589 DEP \u4F86\u89E3\u6C7A\uFF0C\u4F46\u5728 Vista \u4E2D cscript.exe \u88AB\u5F37\u5236\u9700\u958B\u555F DEP\uFF0C\u7121\u6CD5\u76F4\u63A5\u95DC\u9589\u3002\u4F5C\u8005\u8F49\u800C\u641C\u5C0B\u89E3\u6CD5\uFF0C\u4E26\u5728 Microsoft \u5B98\u65B9\u652F\u63F4\u7DB2\u7AD9\u627E\u5230\u4FEE\u88DC\u7A0B\u5F0F\uFF08KB929182\uFF09\uFF0C\u6A19\u984C\u70BA\u300CFIX: You may experience issues when you use Windows Media Encoder 9 Series on a computer that is running Windows Vista\u300D\u3002\u5B89\u88DD\u8A72\u4FEE\u6B63\u5F8C\uFF0C\u554F\u984C\u5373\u544A\u6392\u9664\uFF0C\u5148\u524D\u64B0\u5BEB\u7684\u6279\u6B21\u8F49\u6A94\u8173\u672C\u53EF\u6062\u5FA9\u6B63\u5E38\u4F7F\u7528\u3002\u6700\u5F8C\u4F5C\u8005\u63D0\u5230\u4ECD\u5F85 Canon \u63D0\u4F9B .CRW \u7684\u89E3\u78BC\u5668\u4EE5\u5B8C\u5584\u5DE5\u4F5C\u6D41\u7A0B\u3002\u6574\u9AD4\u91CD\u9EDE\u5728\u65BC Vista \u4E0B WME 9 \u8207 DEP \u7684\u76F8\u5BB9\u6027\u554F\u984C\u53CA\u5B98\u65B9\u4FEE\u88DC\u7684\u89E3\u6C7A\u65B9\u6848\u3002"
 }

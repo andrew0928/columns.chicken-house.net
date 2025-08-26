@@ -1,28 +1,9 @@
----
-layout: post
-title: "古董 12X CDRW 終於壽終正寢..."
-categories:
-
-tags: ["有的沒的","水電工"]
-published: true
-comments: true
-redirect_from:
-  - /2005/01/25/古董-12x-cdrw-終於壽終正寢/
-  - /columns/post/2005/01/25/e58fa4e891a3-12X-CDRW-e7b582e696bce5a3bde7b582e6ada3e5afa2.aspx/
-  - /post/2005/01/25/e58fa4e891a3-12X-CDRW-e7b582e696bce5a3bde7b582e6ada3e5afa2.aspx/
-  - /post/e58fa4e891a3-12X-CDRW-e7b582e696bce5a3bde7b582e6ada3e5afa2.aspx/
-  - /columns/2005/01/25/e58fa4e891a3-12X-CDRW-e7b582e696bce5a3bde7b582e6ada3e5afa2.aspx/
-  - /columns/e58fa4e891a3-12X-CDRW-e7b582e696bce5a3bde7b582e6ada3e5afa2.aspx/
-  - /blogs/chicken/archive/2005/01/25/279.aspx/
-wordpress_postid: 283
----
-
 自從開始用 notebook 之後, 就很少再添購電腦的配備了... 反正 notebook 也沒什麼配備好加的, 所以現在用的電腦都是古董配備...
 
 不過這批設備大概都開始討錢了, 用了好幾年的 12x CDRW ( 哈哈, 某年 Honga 帶回台灣燒, 燒完懶的丟回美國就送我 ), 昨天用 RW 試燒"霍爾的移動城堡"之後就再起不能... 咳...
 
-枉費這台 Liteon-1210B 還是當代的名機, 還是逃不過雷射頭老化的命運.. ![](/Emoticons/cry_smile.gif)
+枉費這台 Liteon-1210B 還是當代的名機, 還是逃不過雷射頭老化的命運.. ![](/images/2005-01-25-vintage-12x-cdrw-died/cry_smile.gif)
 
-題外話, 另一台 DVD-RW, 之前手賤, 抓破解的 firmware, 把它從 4x 升級成 8x, 但是很多新的加強片子相容性的升級 firmware 就不能用了, 連想換回原本的 4x 也換不回來.. ![](/Emoticons/cry_smile.gif)
+題外話, 另一台 DVD-RW, 之前手賤, 抓破解的 firmware, 把它從 4x 升級成 8x, 但是很多新的加強片子相容性的升級 firmware 就不能用了, 連想換回原本的 4x 也換不回來.. ![](/images/2005-01-25-vintage-12x-cdrw-died/cry_smile.gif)
 
-好在 Honga 提供爛招一枚, 哇哈哈, 現在又恢復原本的 4x DVDRW 了 ![](/Emoticons/teeth_smile.gif), 反正我的 notebook 也不能穩定的用 8x 來燒...
+好在 Honga 提供爛招一枚, 哇哈哈, 現在又恢復原本的 4x DVDRW 了 ![](/images/2005-01-25-vintage-12x-cdrw-died/teeth_smile.gif), 反正我的 notebook 也不能穩定的用 8x 來燒...

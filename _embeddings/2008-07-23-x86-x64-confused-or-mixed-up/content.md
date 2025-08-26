@@ -1,21 +1,3 @@
----
-layout: post
-title: "x86? x64? 傻傻分不清楚..."
-categories:
-
-tags: [".NET"]
-published: true
-comments: true
-redirect_from:
-  - /2008/07/23/x86-x64-傻傻分不清楚/
-  - /columns/post/2008/07/23/x86-x64-e582bbe582bbe58886e4b88de6b885e6a59a.aspx/
-  - /post/2008/07/23/x86-x64-e582bbe582bbe58886e4b88de6b885e6a59a.aspx/
-  - /post/x86-x64-e582bbe582bbe58886e4b88de6b885e6a59a.aspx/
-  - /columns/2008/07/23/x86-x64-e582bbe582bbe58886e4b88de6b885e6a59a.aspx/
-  - /columns/x86-x64-e582bbe582bbe58886e4b88de6b885e6a59a.aspx/
-wordpress_postid: 85
----
-
 雖然常在 x86 / x64 兩種模式下打轉，不過一不留神還真的會吃到虧... 最近平常下班跟工作都碰到 x64 的問題，因此這裡記一下心得，免的以後又吃到虧... 這篇又是無聊的碎碎唸 + 流水帳，沒耐心的人就直接跳過去吧 :D
 
 除非你的程式非得用 C/C++ 不可，否則想要平順的從 x86 跨到 x64 的環境，最簡單的方式還是用 .NET。不過別以為你用 .NET 然後編譯的 PLATFORM 選 ANY CPU 就可以高枕無憂，好戲現在才開始...。
@@ -44,4 +26,4 @@ Microsoft 替 32 -> 64 鋪的路，跟 16 -> 32 不大一樣。16 -> 32 靠的�
 
 它ㄨ的，問題一個接著一個來... 弄到這裡才發現，32 位元模式下的程式，沒辦法叫 64 位元版的 COM 元件來幫我做事，Orz... 如果換 64 位元的話，又用不到 Canon Raw Codec ...。最後沒辦法，只好程式大搬家，拆成幾個獨立的 .exe，各自用適合的版本運作... 以功能來說，這樣已經達成我的目的了。正好並行效果不大好的 Canon Raw Codec，在這樣的模式下還能吃掉四核CPU的80%運算能力，算是偷笑了... 這篇雜七雜八的 x64 / x86 大亂鬥就到這裡為止，謝謝觀賞 :D。
 
-![image](/wp-content/be-files/WindowsLiveWriter/x86x64_146BF/image_9.png)
+![image](/images/2008-07-23-x86-x64-confused-or-mixed-up/image_9.png)

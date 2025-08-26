@@ -1,23 +1,3 @@
----
-layout: post
-title: "生產者 vs 消費者 - BlockQueue 實作"
-categories:
-- "系列文章: 多執行緒的處理技巧"
-tags: [".NET","C#","作品集","作業系統","多執行緒","專欄","技術隨筆","有的沒的","物件導向"]
-published: true
-comments: true
-redirect_from:
-  - /2008/10/18/生產者-vs-消費者-blockqueue-實作/
-  - /columns/post/2008/10/18/e7949fe794a2e88085-vs-e6b688e8b2bbe88085-BlockQueue-e5afa6e4bd9c.aspx/
-  - /post/2008/10/18/e7949fe794a2e88085-vs-e6b688e8b2bbe88085-BlockQueue-e5afa6e4bd9c.aspx/
-  - /post/e7949fe794a2e88085-vs-e6b688e8b2bbe88085-BlockQueue-e5afa6e4bd9c.aspx/
-  - /columns/2008/10/18/e7949fe794a2e88085-vs-e6b688e8b2bbe88085-BlockQueue-e5afa6e4bd9c.aspx/
-  - /columns/e7949fe794a2e88085-vs-e6b688e8b2bbe88085-BlockQueue-e5afa6e4bd9c.aspx/
-wordpress_postid: 57
----
-
-
-
 過去寫了 [好幾篇跟執行緒相關的文章](/category/Threading.aspx)，講的都是如何精確控制執行緒的問題。不過實際上有在寫的人就知道，那些只是  "工具 "，最重要的還是你該怎樣安排你的程式，讓它能有效率的用到執行緒的好處，那才是重點。大部份能有效利用到多執行緒的程式，大都是大量且獨立的小動作，可以很簡單的撒下去給 ```ThreadPool``` 處理，不過當你的程式沒辦法這樣切，就要想點別的辦法了。 
 
 開始看 code 前先講講簡單的概念。這篇要講的是另一種模式:  "**生產者 v.s. 消費者**"。這是個很典型的供需問題，唸過作業系統 (Operation System) 的人應該都被考過這個課題吧 @_@。簡單的說如果你的程式要處理的動作可以分為  "生產者 " (產生資料，載入檔案，或是第一階段的運算等等) 及消費者 (匯出資料，或是第二階段的運算等等) 這種模式，而前後兩個階段各自又適合用執行緒來加速的話，那你就值得來研究一下這種模式。第一手資料就是去看看作業系統的書，[恐龍書](http://www.google.com.tw/search?complete=1&hl=zh-TW&q=%E6%81%90%E9%BE%8D%E7%89%88%2B%E4%BD%9C%E6%A5%AD%E7%B3%BB%E7%B5%B1&btnG=%E6%90%9C%E5%B0%8B&meta=lr%3Dlang_zh-CN%7Clang_zh-TW&aq=f&oq=) 足足有一整章在講，足夠你研究了。本篇重點會擺在怎樣用 C# / .NET 實作的部份。 
@@ -26,7 +6,7 @@ wordpress_postid: 57
 
 把這個動作想像成我們有兩組人分別負責下載及壓縮的動作，下載的部份可以多執行緒同時進行沒問題，但是下載好一個檔案，就可以先丟給後面的那組人開始壓縮了，不用等期它人下載完成。如果下載的暫存目錄空間有限，我們甚至可以這樣調整: 當 TEMP 滿了的話，下載動作就暫停，等到 TEMP 裡的東西壓縮好清掉一部份後再繼續。而壓縮的部份則相反，如果 TEMP 已經空了就暫停，等到有東西進來再繼續，直到完成為止。 
 
-![](/wp-content/be-files/WindowsLiveWriter/vsBlockQueue_7B44/image_2.png)
+![](/images/2008-10-18-producer-vs-consumer-blockqueue-implementation/image_2.png)
 
 前後兩階段該如何利用多執行緒，我就跳過去了， [過去那幾篇](/category/Threading.aspx) 就足以應付。這種模式的關鍵在於前後兩階段的進度該如何平衡。有些範例是有照規矩的把這模式實作出來，不過... 你也知道，看起來就是像作業的那種，完全不像是可以拿來正規的用途。 
 
@@ -152,13 +132,13 @@ Consumer 也很簡單，每個 Consumer 只是去 Queue 拿東西出來，顯示
 
 要試試生產者/消費者模式的各種狀況，可以試著調整兩者的執行緒數量。舉例來說，調大 Producer 執行緒數量時 (P: 10 / C:5)，結果是這樣: 
 
-![](/wp-content/be-files/WindowsLiveWriter/vsBlockQueue_7B44/image_7.png)
+![](/images/2008-10-18-producer-vs-consumer-blockqueue-implementation/image_7.png)
 
 
 Producer 的進度大約就是領先 Consumer 的進度 10 筆資料左右，領先的幅度就暫停了，不會無止境的成長下去。證明卡在 QUEUE 內的數量受到控制。接下來再來看看調高 Consumer 的執行緒數量的結果: 
 
 
-![](/wp-content/be-files/WindowsLiveWriter/vsBlockQueue_7B44/image_8.png)
+![](/images/2008-10-18-producer-vs-consumer-blockqueue-implementation/image_8.png)
 
 
 好像 [iPhone 上市搶購熱潮](http://taiwan.cnet.com/crave/0,2000088746,20130427,00.htm) 一樣 @_@，供不應求，Producer 提供的資料馬上被搶走了...。 
@@ -258,4 +238,4 @@ public class BlockQueue<T>
 
 其實真的要挖的話，這個 Queue 可以進一步的改善，以資料結構來看，這種有固定 SIZE 上限的 QUEUE，最適合用 CircleQueue 來實作了。有興趣的朋友們可以換上回介紹過的 NGenerics 改看看，我就不再示範了。其實還有其它變型，像是 Priority Queue, 進去跟出來的順序不一定一樣，意思是你地位比較高的話是可以  "插隊 " 的，後加入 QUEUE 的物件，可以優先被拿出來。這些機制都是可以進一步改善  "生產者/消費者 " 模式的方法，有需要的讀者們可以朝這個方向思考看看! 
 
-這篇只是個開始，運用這種機制，可以進一步延伸出 Pipeline 模式 (生產線)，甚至更進一步運用到串流 (Stream) 的應用。運氣好的話下個月應該看的到完整的探討跟解說吧 ...，敬請期待 :D 
+這篇只是個開始，運用這種機制，可以進一步延伸出 Pipeline 模式 (生產線)，甚至更進一步運用到串流 (Stream) 的應用。運氣好的話下個月應該看的到完整的探討跟解說吧 ...，敬請期待 :D

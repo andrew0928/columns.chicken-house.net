@@ -1,22 +1,3 @@
----
-layout: post
-title: "WLW Plugins: Code Formatter"
-categories:
-
-tags: [".NET","作品集"]
-published: true
-comments: true
-redirect_from:
-  - /2008/03/07/wlw-plugins-code-formatter/
-  - /columns/post/2008/03/08/WLW-Plugins-Code-Formatter.aspx/
-  - /post/2008/03/08/WLW-Plugins-Code-Formatter.aspx/
-  - /post/WLW-Plugins-Code-Formatter.aspx/
-  - /columns/2008/03/08/WLW-Plugins-Code-Formatter.aspx/
-  - /columns/WLW-Plugins-Code-Formatter.aspx/
-  - /blogs/chicken/archive/2008/03/08/3045.aspx/
-wordpress_postid: 115
----
-
 最近常常貼一些需要附上程式碼的文章, 我都借助 [c# code format](http://manoli.net/csharpformat/) 這網站幫忙轉, 轉成好看一點的 HTML code.. 然後 Live Writer 切到原始碼的模式去改 HTML, 然後再切回來際續編... 
 
 人果然是懶惰的動物, 之前久久寫一篇還好, 最近就開始不耐煩了... 試了一套 Syntax Highlight 的 WLW plugins, 畫面不錯, 不過中文會亂掉.. 想說 c# code format 這網站的主人有 share source code, 我就把它拿來包成 Windows Live Writer Plugins 好了... 
@@ -24,10 +5,10 @@ wordpress_postid: 115
 就是這念頭開始寫這個 project, 蠻好寫的, 兩三個小時過去就堪用了, 經過幾天試用慢慢改成現在的樣子, 先現寶一下, 放幾張圖: 
 
 [圖 1] 編輯畫面
-![image](/wp-content/be-files/WindowsLiveWriter/WLWPluginsCodeFormatter_11BC9/image_5.png)
+![image](/images/2008-03-08-wlw-plugins-code-formatter/image_5.png)
 
 [圖 2] 預覽畫面 (底下當然要加點廣告... )
-![image](/wp-content/be-files/WindowsLiveWriter/WLWPluginsCodeFormatter_11BC9/image3.png)
+![image](/images/2008-03-08-wlw-plugins-code-formatter/image3.png)
 
 結果就不用貼圖了, 底下這段就是用這 plugins 貼進來的... 
 
@@ -56,7 +37,7 @@ public class Program {
 
 要來看 code 嗎? 其實 code 就沒什麼好看的了, 需要的直接抓回去看吧. 倒是不常寫 WinForm 的我, 竟然被內建的 ComboBox 小整了一下... WinForm 內建的 ComboBox 功能很完整, Items 可以放 object, 然後再指定 ValueMember, DisplayMember... blah blah. 當然也有直接提供最簡單的 Text Editor, 一行字就是一個 Item ... 
 
-![image](/wp-content/be-files/WindowsLiveWriter/WLWPluginsCodeFormatter_11BC9/image_8.png)
+![image](/images/2008-03-08-wlw-plugins-code-formatter/image_8.png)
 
 不過, 我要的是很簡單的 Value / Display 分別指定就好, 就是這個 plugins 讓 user 選擇格式的地方 (如上圖), 我希望第一項的 Value 是 "HTML", 而顯示的是 "HTML / XML / ASP.NET", 這樣簡單的要求, 我心裡想... 這麼簡單, 一定可以直接用 Designer 填一填就搞定, 不用再去寫 code, 就可以 init 完成.. 
 

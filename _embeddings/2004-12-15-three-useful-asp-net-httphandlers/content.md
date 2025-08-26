@@ -1,22 +1,3 @@
----
-layout: post
-title: "三個好用的 ASP.NET HttpHandler"
-categories:
-
-tags: [".NET","技術隨筆"]
-published: true
-comments: true
-redirect_from:
-  - /2004/12/15/三個好用的-asp-net-httphandler/
-  - /columns/post/2004/12/15/e4b889e5808be5a5bde794a8e79a84-ASPNET-HttpHandler.aspx/
-  - /post/2004/12/15/e4b889e5808be5a5bde794a8e79a84-ASPNET-HttpHandler.aspx/
-  - /post/e4b889e5808be5a5bde794a8e79a84-ASPNET-HttpHandler.aspx/
-  - /columns/2004/12/15/e4b889e5808be5a5bde794a8e79a84-ASPNET-HttpHandler.aspx/
-  - /columns/e4b889e5808be5a5bde794a8e79a84-ASPNET-HttpHandler.aspx/
-  - /blogs/chicken/archive/2004/12/15/183.aspx/
-wordpress_postid: 316
----
-
 花了幾個晚上寫了這幾個 ASP.NET HttpHandler, 貼上來現一下... 寫這些東西的起因都只有一個字, 就是"懶"!! 科技果然都是來自惰性...
 
 <!--more-->

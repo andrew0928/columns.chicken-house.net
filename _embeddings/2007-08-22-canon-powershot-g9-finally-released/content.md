@@ -1,21 +1,3 @@
----
-layout: post
-title: "不用再龜了... Canon PowerShot G9 現身..."
-categories:
-tags: ["敗家","有的沒的"]
-published: true
-comments: true
-redirect_from:
-  - /2007/08/22/不用再龜了-canon-powershot-g9-現身/
-  - /columns/post/2007/08/22/e4b88de794a8e5868de9be9ce4ba86-Canon-PowerShot-G9-e78fbee8baab.aspx/
-  - /post/2007/08/22/e4b88de794a8e5868de9be9ce4ba86-Canon-PowerShot-G9-e78fbee8baab.aspx/
-  - /post/e4b88de794a8e5868de9be9ce4ba86-Canon-PowerShot-G9-e78fbee8baab.aspx/
-  - /columns/2007/08/22/e4b88de794a8e5868de9be9ce4ba86-Canon-PowerShot-G9-e78fbee8baab.aspx/
-  - /columns/e4b88de794a8e5868de9be9ce4ba86-Canon-PowerShot-G9-e78fbee8baab.aspx/
-  - /blogs/chicken/archive/2007/08/22/2578.aspx/
-wordpress_postid: 152
----
-
 在 Canon 的網站看到 [G9](http://web.canon.jp/imaging/dcp/psg9/index-sp-e.html) 的消息, 這次果然跳過 G8 直接出 G9... 哈哈...
 
 這系列文章, 歹戲拖棚了那麼久, 總算可以演大結局了 (註1). Canon 還是有在看市場的, S5 IS 終於加了被罵很久的熱靴, 這次 G9 也把 G7 被罵很久的 RAW file support 給加回來了, 看樣子 G2 總算可以退休了, 這年頭應該沒有人數位相機用這麼久了吧, 七年, 足足七年, 果然該手癢了... [H].

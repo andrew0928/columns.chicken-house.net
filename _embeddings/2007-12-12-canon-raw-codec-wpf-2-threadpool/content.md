@@ -1,29 +1,10 @@
----
-layout: post
-title: "Canon Raw Codec + WPF #2, ThreadPool"
-categories:
-- "系列文章: Canon Raw Codec & WPF"
-tags: [".NET","WPF","作品集","多執行緒"]
-published: true
-comments: true
-redirect_from:
-  - /2007/12/11/canon-raw-codec-wpf-2-threadpool/
-  - /columns/post/2007/12/12/Canon-Raw-Codec-2b-WPF-22c-ThreadPool.aspx/
-  - /post/2007/12/12/Canon-Raw-Codec-2b-WPF-22c-ThreadPool.aspx/
-  - /post/Canon-Raw-Codec-2b-WPF-22c-ThreadPool.aspx/
-  - /columns/2007/12/12/Canon-Raw-Codec-2b-WPF-22c-ThreadPool.aspx/
-  - /columns/Canon-Raw-Codec-2b-WPF-22c-ThreadPool.aspx/
-  - /blogs/chicken/archive/2007/12/12/2874.aspx/
-wordpress_postid: 132
----
-
 效能問題, 就跟我自己寫的小工具一起講好了. 話說之前 Microsoft 提供了一個很讚的小工具: [Resize Pictures Power Toys](http://download.microsoft.com/download/whistler/Install/2/WXP/EN-US/ImageResizerPowertoySetup.exe), 功能超簡單, 大概就是檔案總管把圖檔選一選, 按右鍵選 "Resize pictures" 就好了:
 
-![image](/wp-content/be-files/WindowsLiveWriter/CanonRawCodecWPF2Metadata_2E96/image_3.png)
+![image](/images/2007-12-12-canon-raw-codec-wpf-2-threadpool/image_3.png)
 
 選了之後就有簡單的對話視窗:
 
-![image](/wp-content/be-files/WindowsLiveWriter/CanonRawCodecWPF2Metadata_2E96/image_9.png)
+![image](/images/2007-12-12-canon-raw-codec-wpf-2-threadpool/image_9.png)
 
 很簡單吧, 我個人非常愛用, 而且轉出來的效果也不差, 看起來 JPEG quality 大約有 80% ~ 90% 吧... 無耐 windows xp 裡有幾個跟 image 相關的 power toys, 到了 vista 通通不能用. 看來應該都是碰到 GDI+ 要轉換到 WPF 的陣痛期吧, 這幾個小工具還真是讓我繼續撐在 XP 的主要理由之一...
 
@@ -31,7 +12,7 @@ wordpress_postid: 132
 
 不過, 大話說太早. 先貼一下成品的畫面, 後面說明比較清楚:
 
-![image](/wp-content/be-files/WindowsLiveWriter/CanonRawCodecWPF2Metadata_2E96/image_12.png)
+![image](/images/2007-12-12-canon-raw-codec-wpf-2-threadpool/image_12.png)
 
 要做的東西很簡單. 選好一堆圖按右鍵選 resize pictures 後就跳這畫面, 按 Resize 就開始跑. 用的是前一篇弄好的 library. 結果碰到的障礙還不少. 雖然可以跑, 但是看了就很礙眼...
 
@@ -51,7 +32,7 @@ wordpress_postid: 132
 
 剩下的問題我試了好幾種方法, 目標都擺在如何安排這堆 thread 在合適的時間做合適的工作. canon codec 就不適合同時丟好幾個 thread 下去跑, 因為完全沒用, 反而拉長每個 .CR2 從開始到輸出的時間. jpeg 的部份就很適合, 因為時間短, 多核的好處也可以藉著多 thread 用的到. 另外 canon codec 因為限制較多, 我需要它以較高的 priority, 並且要在第一時間就開始跑, 才不會拖慢整個轉檔的處理時間... 理想的 task 安排狀況應該要像這樣:
 
-![簡報1](/wp-content/be-files/WindowsLiveWriter/CanonRawCodecWPF2ThreadPool_BB53/%E7%B0%A1%E5%A0%B11_3.png)
+![簡報1](/images/2007-12-12-canon-raw-codec-wpf-2-threadpool/1_3.png)
 
 最後找到一個我比較滿意的解, 就是另外寫一個合用的 ThreadPool... @_@
 
@@ -105,11 +86,11 @@ private static void ShowMessage(object state)
 
 圖一. 用內建的 ThreadPool, 110 sec ( UI 回應正常, 進度列也會跑. 不過礙於 CPU loading 關係, ImageBox 的圖都沒出來)
 
-![image](/wp-content/be-files/WindowsLiveWriter/CanonRawCodecWPF2Metadata_2E96/image_18.png)
+![image](/images/2007-12-12-canon-raw-codec-wpf-2-threadpool/image_18.png)
 
 圖二. 改用我自己寫的 SimpleThreadPool, 90 sec. 因為調整過 priority, 每張圖轉完 ImageBox 都會立即顯示出來.
 
-![image](/wp-content/be-files/WindowsLiveWriter/CanonRawCodecWPF2Metadata_2E96/image_21.png)
+![image](/images/2007-12-12-canon-raw-codec-wpf-2-threadpool/image_21.png)
 
 第一張圖, 所有的 job 都依序執行, 簡單的 jpeg 都擠在前段, 那段 cpu 100% 就是這樣來的. 後面就都是 canon decoder 在跑, cpu 大約都維持在 50% 左右, 直到跑完為止.
 

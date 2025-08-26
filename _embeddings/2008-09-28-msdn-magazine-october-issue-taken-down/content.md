@@ -1,21 +1,4 @@
----
-layout: post
-title: "MSDN Magazine 十月號竟然下架了..."
-categories:
-
-tags: [".NET","MSDN","多執行緒","技術隨筆"]
-published: true
-comments: true
-redirect_from:
-  - /2008/09/28/msdn-magazine-十月號竟然下架了/
-  - /columns/post/2008/09/28/MSDN-OCT2008.aspx/
-  - /post/2008/09/28/MSDN-OCT2008.aspx/
-  - /post/MSDN-OCT2008.aspx/
-  - /columns/2008/09/28/MSDN-OCT2008.aspx/
-  - /columns/MSDN-OCT2008.aspx/
-wordpress_postid: 64
----
-![image](/wp-content/be-files/WindowsLiveWriter/MSDNMagazine_14B2A/image_3.png)
+![image](/images/2008-09-28-msdn-magazine-october-issue-taken-down/image_3.png)
 
 上個禮拜才看完 2008 / 10 的 [MSDN Magazine](http://msdn.microsoft.com/en-us/magazine/default.aspx)，才想說這期 MSDN 的內容，有一半以上的主題是討論多核心處理器效能問題 (平行處理，多核的 CACHE 機制對程式的影響... etc)，不過剛才才想貼篇心得，上網一看竟然又縮回去只剩九月號? @_@
 

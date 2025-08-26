@@ -1,23 +1,3 @@
----
-layout: post
-title: "手癢亂裝 MyATM..."
-categories:
-
-tags: ["Tips","技術隨筆","有的沒的"]
-published: true
-comments: true
-redirect_from:
-  - /2007/04/09/accidentally-installed-myatm/
-  - /2007/04/09/手癢亂裝-myatm/
-  - /columns/post/2007/04/10/e6898be799a2e4ba82e8a39d-MyATM.aspx/
-  - /post/2007/04/10/e6898be799a2e4ba82e8a39d-MyATM.aspx/
-  - /post/e6898be799a2e4ba82e8a39d-MyATM.aspx/
-  - /columns/2007/04/10/e6898be799a2e4ba82e8a39d-MyATM.aspx/
-  - /columns/e6898be799a2e4ba82e8a39d-MyATM.aspx/
-  - /blogs/chicken/archive/2007/04/10/2335.aspx/
-wordpress_postid: 168
----
-
 最近真是, 裝什麼, 什麼就出問題...
 
 因為信用卡繳費期限要到了, 換了 Vista 用 WebATM 又有點怪怪的, 其它銀行的都可以, 唯讀台新的 ATM 一連就當, 看到它有 MyATM 這個小工具可以安裝, 就裝起來看看...
@@ -36,4 +16,4 @@ C:\Program Files\\InstallShield Installation Information\{F25E1429-F70A-4843-888
 
 真是它ㄨㄨㄨ的... 還好我無聊, 不然安裝程式清單老卡一個不想要的軟體, 看了還真礙眼... 哈哈, 弄完了, 收工!
 
-![MyATM uninstall registry fix](/wp-content/be-files/WindowsLiveWriter/8cba23b9e713_14BB3/image03.png)
+![MyATM uninstall registry fix](/images/2007-04-10-accidentally-installed-myatm/image03.png)

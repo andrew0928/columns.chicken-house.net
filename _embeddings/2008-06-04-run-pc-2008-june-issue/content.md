@@ -1,24 +1,4 @@
----
-layout: post
-title: "[RUN! PC] 2008 六月號"
-categories:
-- "RUN! PC 專欄文章"
-tags: [".NET","ASP.NET","RUN! PC","技術隨筆"]
-published: true
-comments: true
-redirect_from:
-  - /2008/06/04/run-pc-2008-六月號/
-  - /2008/06/03/run-pc-2008-六月號/
-  - /columns/post/2008/06/04/RUNPC-2008-06.aspx/
-  - /post/2008/06/04/RUNPC-2008-06.aspx/
-  - /post/RUNPC-2008-06.aspx/
-  - /columns/2008/06/04/RUNPC-2008-06.aspx/
-  - /columns/RUNPC-2008-06.aspx/
-  - /blogs/chicken/archive/2008/06/04/3263.aspx/
-wordpress_postid: 102
----
-
-![IMG_8698 (Canon PowerShot G9)](/wp-content/be-files/WindowsLiveWriter/RUNPC2008_14A41/IMG_8698%20(Canon%20PowerShot%20G9)_1.jpg)
+![IMG_8698 (Canon PowerShot G9)](/images/2008-06-04-run-pc-2008-june-issue/IMG_8698%20(Canon%20PowerShot%20G9).jpg)_1.jpg)
 
 運氣不錯，還有續集耶 [:D]
 

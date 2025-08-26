@@ -1,19 +1,18 @@
 {
   "title": "Code Formatter \u66F4\u65B0: \u8907\u88FDCODE\u53CAHTML\u9810\u89BD",
   "published": true,
-  "categories": null,
+  "categories": [],
   "tags": [
     ".NET",
     "HTML/CSS",
     "\u4F5C\u54C1\u96C6",
     "\u6709\u7684\u6C92\u7684"
   ],
-  "generator": "BlogIndex.SyncPost v1.0.0.0, o3, https://app-azureopenai.openai.azure.com/",
   "tech-stacks": [
     ".NET",
     "C#",
     "HTML",
-    "CSS",
+    "HTML/CSS",
     "Windows Live Writer",
     "MSDN"
   ],
@@ -21,13 +20,20 @@
     "Code Formatter",
     "COPY CODE",
     "HTML PREVIEW",
-    "C# Code Sample",
-    "HTML\u6E2C\u8A66",
     "HTML Preview",
-    "Live Writer Plug-in",
-    "\u8907\u88FD\u7A0B\u5F0F\u78BC",
-    "\u5916\u639B\u7A0B\u5F0F"
+    "Live Writer",
+    "\u5916\u639B\u7A0B\u5F0F",
+    "MSDN",
+    "C#",
+    "HTML",
+    "\u7A0B\u5F0F\u78BC\u7BC4\u4F8B",
+    "\u8907\u88FD\u5230\u526A\u8CBC\u7C3F",
+    "HTML \u9810\u89BD",
+    "H3 \u6A19\u984C",
+    "BLOG",
+    "Plugins"
   ],
+  "generator": "BlogIndex.SyncPost v0.3.0.0, gpt-5",
   "references": [
     "/2008/03/31/code-formatter-\u66F4\u65B0-\u8907\u88FDcode\u53CAhtml\u9810\u89BD/",
     "/columns/post/2008/03/31/Code-Formatter-e69bb4e696b0-e8a487e8a3bdCODEe58f8aHTMLe9a090e8a6bd.aspx/",
@@ -36,5 +42,6 @@
     "/columns/2008/03/31/Code-Formatter-e69bb4e696b0-e8a487e8a3bdCODEe58f8aHTMLe9a090e8a6bd.aspx/",
     "/columns/Code-Formatter-e69bb4e696b0-e8a487e8a3bdCODEe58f8aHTMLe9a090e8a6bd.aspx/",
     "/blogs/chicken/archive/2008/03/31/3133.aspx/"
-  ]
+  ],
+  "summary": "\u672C\u6587\u4ECB\u7D39\u4F5C\u8005\u70BA Windows Live Writer \u958B\u767C\u7684 Code Formatter \u5916\u639B\u66F4\u65B0\u3002\u539F\u7248\u672C\u5DF2\u53EF\u5C07\u7A0B\u5F0F\u78BC\u4EE5\u6846\u7DDA\u683C\u5F0F\u8CBC\u4E0A\uFF0C\u9019\u6B21\u65B0\u589E\u5169\u9805\u5BE6\u7528\u529F\u80FD\u3002\u7B2C\u4E00\u662F\u300CCOPY CODE\u300D\uFF1A\u501F\u93E1 MSDN \u7684\u4F5C\u6CD5\uFF0C\u5728\u7BC4\u4F8B\u7A0B\u5F0F\u78BC\u5340\u584A\u52A0\u5165\u6309\u9215\uFF0C\u8B80\u8005\u6309\u4E00\u4E0B\u5373\u53EF\u5C07\u7A0B\u5F0F\u78BC\u8907\u88FD\u5230\u526A\u8CBC\u7C3F\uFF0C\u65B9\u4FBF\u76F4\u63A5\u8CBC\u7528\u3002\u6587\u4E2D\u4EE5\u4E00\u6BB5 C# \u7A0B\u5F0F\u78BC\u793A\u7BC4\u5176\u6548\u679C\u3002\u7B2C\u4E8C\u662F\u300CHTML PREVIEW\u300D\uFF1A\u91DD\u5C0D\u64B0\u5BEB HTML \u6559\u5B78\u6642\u540C\u6642\u9700\u8981\u986F\u793A\u539F\u59CB\u78BC\u8207\u5BE6\u969B\u5448\u73FE\u7684\u60C5\u5883\uFF0C\u5916\u639B\u73FE\u5728\u53EF\u5728\u540C\u4E00\u8655\u540C\u6642\u63D0\u4F9B\u4EE3\u78BC\u5340\u584A\u8207\u5373\u6642\u9810\u89BD\uFF0C\u7701\u53BB\u5207\u63DB\u5230 HTML \u6A21\u5F0F\u91CD\u8CBC\u4E00\u6B21\u7684\u9EBB\u7169\uFF0C\u4E26\u4EE5\u591A\u500B H3 \u6A19\u984C\u793A\u4F8B\u5C55\u793A\u9810\u89BD\u7D50\u679C\u3002\u4F5C\u8005\u8868\u793A\u6B64\u66F4\u65B0\u7D14\u5C6C\u81EA\u7528\u512A\u5316\uFF0C\u529F\u80FD\u7121\u7A81\u7834\u4F46\u63D0\u5347\u64B0\u5BEB\u6548\u7387\uFF0C\u66AB\u672A\u6574\u7406\u6253\u5305\u4E0A\u50B3\uFF0C\u6709\u9700\u8981\u8005\u53EF\u4E3B\u52D5\u5411\u4F5C\u8005\u7D22\u53D6\u3002"
 }

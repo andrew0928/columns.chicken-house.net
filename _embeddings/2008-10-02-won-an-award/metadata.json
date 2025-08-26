@@ -13,28 +13,40 @@
     "\u7269\u4EF6\u5C0E\u5411",
     "\u7576\u5E74\u52C7"
   ],
-  "generator": "BlogIndex.SyncPost v1.0.0.0, o3, https://app-azureopenai.openai.azure.com/",
   "tech-stacks": [
     ".NET",
     "C#",
-    "VSTS 2008",
-    "Microsoft",
-    "Cisco"
+    "Visual Studio Team System 2008",
+    "Multithreading",
+    "Thread Synchronization",
+    "C# yield return"
   ],
   "keywords": [
     "\u5F97\u734E",
+    "\u6BD4\u8CFD",
     "\u731C\u6578\u5B57",
     "Thread Sync",
+    "\u591A\u57F7\u884C\u7DD2",
     "yield return",
     "GameHost",
     "Player",
     "\u8A2D\u8A08\u6A21\u5F0F",
-    "\u591A\u57F7\u884C\u7DD2",
-    "\u6BD4\u8CFD",
-    "VSTS"
+    "VSTS 2008",
+    "Microsoft",
+    "Cisco",
+    "\u90E8\u843D\u683C",
+    "\u5FC3\u5F97",
+    "\u4E3B\u8FA6\u4EBA",
+    "\u51A0\u8ECD",
+    "\u7A0B\u5F0F\u78BC",
+    "\u540C\u6B65\u6A5F\u5236",
+    "\u4E92\u76F8\u7B49\u5F85",
+    "\u6548\u80FD",
+    "\u8A2D\u8A08\u601D\u7DAD"
   ],
+  "generator": "BlogIndex.SyncPost v0.3.0.0, gpt-5",
   "references": [
-    "/wp-content/be-files/WindowsLiveWriter/D_12C2/IMG_9142_1.jpg",
+    "/images/2008-10-02-won-an-award/IMG_9142_1.jpg",
     "http://blog.darkthread.net/blogs/darkthreadtw/archive/2008/09/23/vsts-winner.aspx",
     "http://blog.darkthread.net/blogs/darkthreadtw/archive/2008/07/21/win-a-vsts-2008.aspx",
     "http://blog.darkthread.net/blogs/darkthreadtw/archive/2008/09/02/coding-for-fun-contest-start.aspx",
@@ -43,5 +55,6 @@
     "http://columns.chicken-house.net/post/C-yield-return-1-How-It-Work-.aspx",
     "http://columns.chicken-house.net/post/YieldReturn2_ThreadSyncReplacement.aspx",
     "http://blog.darkthread.net/"
-  ]
+  ],
+  "summary": "\u4F5C\u8005\u5206\u4EAB\u53C3\u52A0\u300CCoding for Fun\u300D\u6027\u8CEA\u7684\u731C\u6578\u5B57\u7A0B\u5F0F\u7AF6\u8CFD\u4E26\u596A\u51A0\u7684\u5FC3\u5F97\u3002\u5F9E\u4E0A\u9031\u5F97\u77E5\u7372\u734E\u5230\u5BE6\u62FF\u5230\u734E\u54C1\u624D\u516C\u958B\uFF0C\u4E26\u5217\u51FA\u64B0\u5BEB\u904E\u7A0B\u4E2D\u5EF6\u4F38\u7684\u56DB\u7BC7\u6280\u8853\u6587\u7AE0\uFF0C\u805A\u7126\u65BC\u591A\u57F7\u884C\u7DD2\u540C\u6B65\uFF08Thread Sync\uFF09\u6982\u5FF5\u8207\u5BE6\u4F5C\u3001\u4EE5\u53CA C# \u7684 yield return \u6A5F\u5236\u8207\u5176\u4F5C\u70BA\u540C\u6B65\u66FF\u4EE3\u65B9\u6848\u3002\u4F5C\u8005\u5C0D\u9019\u7A2E\u91CD\u8996\u7A0B\u5F0F\u78BC\u901F\u5EA6\u8207\u54C1\u8CEA\u3001\u800C\u975E\u5EE0\u5546\u6280\u8853\u5C0E\u5411\u7684\u984C\u76EE\u611F\u5230\u6295\u5165\u4E14\u904E\u766E\uFF0C\u4E26\u63CF\u8FF0\u5728\u7CFB\u7D71\u8A2D\u8A08\u4E0A\u300C\u7531 GameHost \u4E3B\u5C0E\u6216\u7531 Player \u4E3B\u5C0E\u300D\u7684\u547C\u53EB\u95DC\u4FC2\u6289\u64C7\uFF0C\u6700\u5F8C\u6536\u6582\u70BA\u5169\u7A2E\u4E0D\u540C\u89E3\u6CD5\uFF0C\u7B49\u540C\u65BC\u5B78\u5230\u5169\u7A2E\u8A2D\u8A08\u6A21\u5F0F\uFF0C\u6536\u7A6B\u8C50\u5BCC\u3002\u6587\u672B\u611F\u8B1D\u4E3B\u8FA6\u4EBA\u5C08\u7A0B\u9812\u734E\uFF0C\u4E26\u63D0\u5230\u734E\u54C1\uFF08VSTS 2008 \u7B49\uFF09\u5BE6\u7528\uFF0C\u6E96\u5099\u6DFB\u8CFC\u65B0\u786C\u789F\u8207\u5347\u7D1A\u81EA\u5BB6\u4F3A\u670D\u5668\uFF0C\u5C0D\u9019\u6B21\u6BD4\u8CFD\u7D93\u9A57\u8207\u6210\u679C\u611F\u5230\u6EFF\u610F\u8207\u8208\u596E\u3002"
 }

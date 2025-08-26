@@ -1,22 +1,3 @@
----
-layout: post
-title: "平行處理的技術演進"
-categories:
-
-tags: [".NET","作業系統","多執行緒","技術隨筆"]
-published: true
-comments: true
-redirect_from:
-  - /2007/12/12/平行處理的技術演進/
-  - /columns/post/2007/12/12/e5b9b3e8a18ce89995e79086e79a84e68a80e8a193e6bc94e980b2.aspx/
-  - /post/2007/12/12/e5b9b3e8a18ce89995e79086e79a84e68a80e8a193e6bc94e980b2.aspx/
-  - /post/e5b9b3e8a18ce89995e79086e79a84e68a80e8a193e6bc94e980b2.aspx/
-  - /columns/2007/12/12/e5b9b3e8a18ce89995e79086e79a84e68a80e8a193e6bc94e980b2.aspx/
-  - /columns/e5b9b3e8a18ce89995e79086e79a84e68a80e8a193e6bc94e980b2.aspx/
-  - /blogs/chicken/archive/2007/12/12/2879.aspx/
-wordpress_postid: 131
----
-
 現在 CPU 廠商大打 "多核心" 的口號, 讓大家都知道多核心的好處了, 不過每個評論的人也都會補上一句, "要有專為多核心設計的軟體才能發恢效能". 到底什麼叫作專為多核設計的軟體?
 
 簡單的說, 就是程式不能再以單一流程來思考, 必需引用平行處理的概念. 就像工作分派一樣, 有十個人幫你做事, 一定比一個人好. 不過這也是考驗你分派及管理的能力. 做的不好, 可能工作還是都只有一個人在做, 另外九個在偷懶, 更糟的是還造成溝通的問題, 比只有一個人還糟.

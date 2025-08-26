@@ -6,14 +6,17 @@
     "\u6709\u7684\u6C92\u7684",
     "\u6C34\u96FB\u5DE5"
   ],
-  "generator": "BlogIndex.SyncPost v1.0.0.0, o3, https://app-azureopenai.openai.azure.com/",
-  "tech-stacks": null,
+  "tech-stacks": [],
   "keywords": [
     "\u505C\u6A5F",
     "\u642C\u5BB6",
+    "\u4E0A\u7DDA",
     "\u4E2D\u83EF\u96FB\u4FE1",
     "\u79FB\u6A5F",
-    "\u96FB\u8A71\u7DB2\u8DEF",
+    "\u96FB\u8A71",
+    "\u7DB2\u8DEF",
+    "\u88DD\u7BB1",
+    "\u62C6\u7BB1",
     "\u6C34\u96FB\u5DE5",
     "\u7DDA\u8DEF",
     "\u96FB\u8166",
@@ -21,8 +24,13 @@
     "\u91CD\u88DD",
     "\u6A5F\u6AC3",
     "\u7DB2\u7AD9",
-    "\u4E0A\u7DDA"
+    "Orz",
+    "\u671F\u5F85",
+    "2007/09/07",
+    "2007/09/08",
+    "2007/09/17"
   ],
+  "generator": "BlogIndex.SyncPost v0.3.0.0, gpt-5",
   "references": [
     "/2007/09/06/\u505C\u6A5F\u642C\u5BB6\u4E86-d/",
     "/columns/post/2007/09/07/e5819ce6a99fe690ace5aeb6e4ba86-D.aspx/",
@@ -31,5 +39,6 @@
     "/columns/2007/09/07/e5819ce6a99fe690ace5aeb6e4ba86-D.aspx/",
     "/columns/e5819ce6a99fe690ace5aeb6e4ba86-D.aspx/",
     "/blogs/chicken/archive/2007/09/07/2638.aspx/"
-  ]
+  ],
+  "summary": "\u4F5C\u8005\u516C\u544A\u5C07\u65BC 2007/09/07 \u65E9\u4E0A\u8D77\u9032\u884C\u505C\u6A5F\u8207\u642C\u5BB6\u4F5C\u696D\uFF0C\u5C46\u6642\u4E2D\u83EF\u96FB\u4FE1\u5C07\u8FA6\u7406\u79FB\u6A5F\uFF0C\u96FB\u8A71\u8207\u7DB2\u8DEF\u5C07\u66AB\u6642\u4E2D\u65B7\u30029/8 \u9032\u884C\u6B63\u5F0F\u642C\u5BB6\uFF0C\u5148\u628A\u6240\u6709\u7269\u54C1\u88DD\u7BB1\u642C\u904B\u518D\u62C6\u7BB1\uFF0C\u540C\u6642\u89AA\u81EA\u5145\u7576\u6C34\u96FB\u5DE5\u6574\u7406\u7DDA\u8DEF\u3002\u96FB\u8166\u4E5F\u9700\u8981\u66F4\u63DB\u6A5F\u6BBC\u3001\u91CD\u704C\u3001\u4E0A\u6A5F\u6AC3\u7B49\u4E00\u9023\u4E32\u5DE5\u4F5C\u3002\u7531\u65BC\u4E8B\u9805\u7E41\u591A\uFF0C\u9810\u4F30\u9700\u8981\u518D\u8017\u8CBB\u4E00\u500B\u9031\u672B\u624D\u80FD\u5168\u90E8\u5C31\u7DD2\uFF0C\u56E0\u6B64\u7DB2\u7AD9\u6700\u65E9\u9810\u8A08\u65BC 2007/09/17 \u5FA9\u7AD9\u4E0A\u7DDA\uFF0C\u8ACB\u8B80\u8005\u8010\u5FC3\u7B49\u5019\u4E26\u656C\u8ACB\u671F\u5F85\u3002"
 }

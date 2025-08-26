@@ -1,22 +1,3 @@
----
-layout: post
-title: "ThreadPool 實作 #1. 基本概念"
-categories:
-- "系列文章: Thread Pool 實作"
-tags: [".NET","多執行緒","技術隨筆"]
-published: true
-comments: true
-redirect_from:
-  - /2007/12/14/threadpool-實作-1-基本概念/
-  - /columns/post/2007/12/14/ThreadPool-e5afa6e4bd9c-1-e59fbae69cace6a682e5bfb5.aspx/
-  - /post/2007/12/14/ThreadPool-e5afa6e4bd9c-1-e59fbae69cace6a682e5bfb5.aspx/
-  - /post/ThreadPool-e5afa6e4bd9c-1-e59fbae69cace6a682e5bfb5.aspx/
-  - /columns/2007/12/14/ThreadPool-e5afa6e4bd9c-1-e59fbae69cace6a682e5bfb5.aspx/
-  - /columns/ThreadPool-e5afa6e4bd9c-1-e59fbae69cace6a682e5bfb5.aspx/
-  - /blogs/chicken/archive/2007/12/14/2880.aspx/
-wordpress_postid: 130
----
-
 既然都花了力氣回憶起過去學的 ThreadPool Implementation, 而且都用 C# 寫好了, 不如就整理一下好了. 其實寫起來 code 真的都不難, 難的是人腦天生就不適合思考這種 multithreading 的東西, 想多了腦筋真的會打結. 另外一個障礙是有些東西要唸過 Operation System 才會懂, 沒這基礎的話, 光看 API 說明會一個頭兩個大...
 
 這篇還不會貼完整的 code, 先把必要的基礎及認知說明一下. ThreadPool 的概念其實很簡單, 這 design pattern 目的是把過去的 multi-threading programming model 簡化, 把複雜的 threads control 拆到 thread pool implementation 裡封裝起來, 使用它的人只要把你的 job 封裝成一個 job object, 丟到 pool 裡面代為執行就可以了. 然後裡面就套用 "生產者 / 消費者" 的模式, User 不斷的生出 job 給 thread pool, 而 thread pool 不斷的消化掉 (執行 job) 它. 實作這些東西要面臨到的課題, 有這幾項:

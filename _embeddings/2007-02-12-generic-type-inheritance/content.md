@@ -1,21 +1,3 @@
----
-layout: post
-title: "Generic Type 的繼承..."
-categories:
-tags: [".NET","Tips","技術隨筆","物件導向"]
-published: true
-comments: true
-redirect_from:
-  - "/2007/02/12/generic-type-的繼承/"
-  - /columns/post/2007/02/12/Generic-Type-e79a84e7b9bce689bf.aspx/
-  - /post/2007/02/12/Generic-Type-e79a84e7b9bce689bf.aspx/
-  - /post/Generic-Type-e79a84e7b9bce689bf.aspx/
-  - /columns/2007/02/12/Generic-Type-e79a84e7b9bce689bf.aspx/
-  - /columns/Generic-Type-e79a84e7b9bce689bf.aspx/
-  - /blogs/chicken/archive/2007/02/12/2138.aspx/
-wordpress_postid: 188
----
-
 之前貼過一篇 Singleton 的文章 ([泛型 + Singleton Patterns](/post/e6b39be59e8b-2b-Singleton-Patterns.aspx), [泛型 + Singleton Patterns (II)](/post/e6b39be59e8b-2b-Singleton-Patterns-(II).aspx)), 就用到 base class 是 generic type 的作法, base class 可以是 generic type, 在繼承時直接給型別, 衍生出來的子類別就不再是 generic type 了.. 不過這種怪異的用法, 大概沒什麼書上的範例有講到, 也沒什麼書上有應用範例... 這完全是我自己亂配出來的藥方, 沒練過的人不要亂吃, 咳咳..
 
 除了 Singleton 那種例子之外, 我另外碰到一個例子... 某個用 asp.net 開發的 project, 需要準備一套輸入各種型別資料的 control, 如基本的型別: string, int, bool, DateTime, TimeSpan... 及較複雜的自定型別, 如 MemberInfo, RoleInfo, ..... 等.

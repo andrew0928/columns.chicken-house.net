@@ -1,27 +1,3 @@
----
-layout: post
-title: "Canon Raw Codec for Vista / XP x64 ..."
-categories:
-
-tags: ["技術隨筆","有的沒的"]
-published: true
-comments: true
-redirect_from:
-  - /2008/06/11/canon-raw-codec-for-vista-xp-x64/
-  - /columns/post/2008/06/11/Canon-Raw-Codec-for-Vista-XP-x64-.aspx/
-  - /post/2008/06/11/Canon-Raw-Codec-for-Vista-XP-x64-.aspx/
-  - /post/Canon-Raw-Codec-for-Vista-XP-x64-.aspx/
-  - /columns/2008/06/11/Canon-Raw-Codec-for-Vista-XP-x64-.aspx/
-  - /columns/Canon-Raw-Codec-for-Vista-XP-x64-.aspx/
-  - /columns/post/2008/06/11/Canon-Raw-Codec-for-Vista--XP-x64-.aspx/
-  - /post/2008/06/11/Canon-Raw-Codec-for-Vista--XP-x64-.aspx/
-  - /post/Canon-Raw-Codec-for-Vista--XP-x64-.aspx/
-  - /columns/2008/06/11/Canon-Raw-Codec-for-Vista--XP-x64-.aspx/
-  - /columns/Canon-Raw-Codec-for-Vista--XP-x64-.aspx/
-  - /blogs/chicken/archive/2008/06/11/3275.aspx/
-wordpress_postid: 100
----
-
 沒想到還真的有人在寫這東西...
 
 http://www.ardfry.com/cr2-codec/

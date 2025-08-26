@@ -1,20 +1,3 @@
----
-layout: post
-title: "很抱歉，本站不歡迎來自 [百度] (Baidu.com) 的訪客 !!"
-categories:
-
-tags: ["技術隨筆","有的沒的","火大"]
-published: true
-comments: true
-redirect_from:
-  - /2008/06/28/很抱歉，本站不歡迎來自-百度-baidu-com-的訪客/
-  - /columns/post/2008/06/28/e5be88e68ab1e6ad89efbc8ce69cace7ab99e4b88de6ada1e8bf8ee4be86e887aa-e799bee5baa6-(Baiducom)-e79a84e8a8aae5aea2-!!.aspx/
-  - /post/2008/06/28/e5be88e68ab1e6ad89efbc8ce69cace7ab99e4b88de6ada1e8bf8ee4be86e887aa-e799bee5baa6-(Baiducom)-e79a84e8a8aae5aea2-!!.aspx/
-  - /post/e5be88e68ab1e6ad89efbc8ce69cace7ab99e4b88de6ada1e8bf8ee4be86e887aa-e799bee5baa6-(Baiducom)-e79a84e8a8aae5aea2-!!.aspx/
-  - /columns/2008/06/28/e5be88e68ab1e6ad89efbc8ce69cace7ab99e4b88de6ada1e8bf8ee4be86e887aa-e799bee5baa6-(Baiducom)-e79a84e8a8aae5aea2-!!.aspx/
-  - /columns/e5be88e68ab1e6ad89efbc8ce69cace7ab99e4b88de6ada1e8bf8ee4be86e887aa-e799bee5baa6-(Baiducom)-e79a84e8a8aae5aea2-!!.aspx/
-wordpress_postid: 91
----
 沒什麼特別的，只是針對[這次的盜文事件](/post/e58f88e8a2abe79b9ce69687e4ba86-.aspx)，我很不滿意百度 (Baidu.com) 的處理方式而以。
 
 幾個月前曾[發生過](/post/e58fafe683a12c-e7ab9fe784b6e581b7e8b2bce68891e79a84e69687e7aba0-.aspx) BLOGGER.COM 有人直接把我的文章一字不漏的貼在他的 BLOG 上，沒有標示文章出處，最後用我破破的英文跟 GOOGLE 反映之後，GOOGLE 立即作了處理，[關閉那位使用者的網頁](/post/e981b2e4be86e79a84e6ada3e7bea9.aspx)。
@@ -33,7 +16,7 @@ wordpress_postid: 91
 
 身為渺小不起眼 BLOG 主人，我也只能用消極的抗議，來表示我的不滿。除了寫這篇文章以外，也順帶來個 ASP.NET HttpModule 教學...。針對這次事件，我特地在本站加上了這個 HttpModule，只要查出使用者是透過任何由百度提供的 LINK 而連到本站的話，都會顯示這頁抗議的畫面，如下:
 
-![image](/wp-content/be-files/WindowsLiveWriter/Baidu.com_BED/image_3.png)
+![image](/images/2008-06-28-sorry-baidu-visitors-not-welcome/image_3.png)
 
 顯示了 60 秒抗議畫面後，就會自動進如原本要連結的頁面。在透過正規的管道而得不到妥善的處置，我也只能用消極的抗意來表達我的不滿。請看到的人留個 MESSAGE 支持一下吧，或是有推推王帳號的人也幫忙推一下，一起對不重視智慧財產權的百度表答不滿 & 抗議!
 

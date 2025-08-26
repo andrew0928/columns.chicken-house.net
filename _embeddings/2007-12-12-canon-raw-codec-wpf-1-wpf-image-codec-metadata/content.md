@@ -1,22 +1,3 @@
----
-layout: post
-title: "Canon Raw Codec + WPF #1, WPF Image Codec, Metadata"
-categories:
-- "系列文章: Canon Raw Codec & WPF"
-tags: [".NET","WPF","作品集","多執行緒","技術隨筆","當年勇"]
-published: true
-comments: true
-redirect_from:
-  - /2007/12/11/canon-raw-codec-wpf-1-wpf-image-codec-metadata/
-  - /columns/post/2007/12/12/Canon-Raw-Codec-2b-WPF-12c-WPF-Image-Codec2c-Metadata.aspx/
-  - /post/2007/12/12/Canon-Raw-Codec-2b-WPF-12c-WPF-Image-Codec2c-Metadata.aspx/
-  - /post/Canon-Raw-Codec-2b-WPF-12c-WPF-Image-Codec2c-Metadata.aspx/
-  - /columns/2007/12/12/Canon-Raw-Codec-2b-WPF-12c-WPF-Image-Codec2c-Metadata.aspx/
-  - /columns/Canon-Raw-Codec-2b-WPF-12c-WPF-Image-Codec2c-Metadata.aspx/
-  - /blogs/chicken/archive/2007/12/12/2873.aspx/
-wordpress_postid: 133
----
-
 託 Canon G9 的福, 這一個月來的空閒時間都在研究 Windows Presentation Foundation 裡的 Image Codec 相關事項. 幹嘛買個相機還這麼辛苦? 因為原本算計好的計劃, 就差這一環啊... 雖然老早就有換機的計劃, 為什麼龜了那麼久 G9 一出來就跑去買? 除了之前講了一堆相機本身的考量之外, 剩下的關鍵因素是 RAW support. 因為:
 
 1. Canon G9 "又" 開始支援 RAW file

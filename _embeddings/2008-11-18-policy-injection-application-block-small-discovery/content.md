@@ -1,20 +1,3 @@
----
-layout: post
-title: "Policy Injection Application Block 小發現..."
-categories:
-
-tags: [".NET","C#","MSDN","Tips","技術隨筆","有的沒的","物件導向"]
-published: true
-comments: true
-redirect_from:
-  - /2008/11/18/policy-injection-application-block-小發現/
-  - /columns/post/2008/11/18/Policy-Injection-Application-Block-e5b08fe799bce78fbe.aspx/
-  - /post/2008/11/18/Policy-Injection-Application-Block-e5b08fe799bce78fbe.aspx/
-  - /post/Policy-Injection-Application-Block-e5b08fe799bce78fbe.aspx/
-  - /columns/2008/11/18/Policy-Injection-Application-Block-e5b08fe799bce78fbe.aspx/
-  - /columns/Policy-Injection-Application-Block-e5b08fe799bce78fbe.aspx/
-wordpress_postid: 50
----
 因為工作的關係，最近正在研究 [Enterprise Library](http://msdn.microsoft.com/en-us/library/dd203099.aspx) 裡整合的 [Patterns & Practices](http://msdn.microsoft.com/en-us/library/ms998572.aspx) 介紹的各式 Application Block... 撇開其它的發現，有個東西一定要提一下，就是 [Policy Injection](http://msdn.microsoft.com/en-us/library/dd139982.aspx) ...
 
 介紹文章我就不多說了，一樣網路一大堆，有興趣的可以看 [MSDN 官方的說明](http://msdn.microsoft.com/en-us/library/dd139982.aspx)。比較特別的是它的用法。當年剛開始研究 .NET 內建的 Role Based Security Control，才在讚嘆它的 code 寫起來真漂亮，只要加個 attribute, 就可以在 runtime 自動檢查呼叫時的身份是否滿足 attribute 的宣告，如下:

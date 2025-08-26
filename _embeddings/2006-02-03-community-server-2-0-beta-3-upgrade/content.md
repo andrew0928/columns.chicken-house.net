@@ -1,22 +1,3 @@
----
-layout: post
-title: "換新系統了!! CS 2.0 Beta 3"
-categories:
-
-tags: ["有的沒的"]
-published: true
-comments: true
-redirect_from:
-  - /2006/02/03/換新系統了-cs-2-0-beta-3/
-  - /columns/post/2006/02/03/e68f9be696b0e7b3bbe7b5b1e4ba86!!-CS-20-Beta-3.aspx/
-  - /post/2006/02/03/e68f9be696b0e7b3bbe7b5b1e4ba86!!-CS-20-Beta-3.aspx/
-  - /post/e68f9be696b0e7b3bbe7b5b1e4ba86!!-CS-20-Beta-3.aspx/
-  - /columns/2006/02/03/e68f9be696b0e7b3bbe7b5b1e4ba86!!-CS-20-Beta-3.aspx/
-  - /columns/e68f9be696b0e7b3bbe7b5b1e4ba86!!-CS-20-Beta-3.aspx/
-  - /blogs/chicken/archive/2006/02/03/1407.aspx/
-wordpress_postid: 234
----
-
 雖然平常啥軟體有新版, 我都會手癢的想換來看看, 不過這套 BLOG ( CommunityServer ) 倒是特例, 從 1.0 release 後就再也沒動過了, 為的當然就是我自己加的那堆功能...
 
 <!--more-->

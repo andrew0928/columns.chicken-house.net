@@ -1,21 +1,3 @@
----
-layout: post
-title: "該如何學好 \"寫程式\" #3. 進階應用 - 資料結構 + 問題分析"
-categories:
-- "系列文章: 如何學好寫程式"
-tags: [".NET","C#","Tips","作品集","專欄","技術隨筆","有的沒的"]
-published: true
-comments: true
-redirect_from:
-  - /2008/10/08/該如何學好-寫程式-3-進階應用-資料結構-問題分析/
-  - /columns/post/2008/10/08/e8a9b2e5a682e4bd95e5adb8e5a5bd-e5afabe7a88be5bc8f-3-e980b2e99a8ee68789e794a8-e8b387e69699e7b590e6a78b-2b-e5958fe9a18ce58886e69e90.aspx/
-  - /post/2008/10/08/e8a9b2e5a682e4bd95e5adb8e5a5bd-e5afabe7a88be5bc8f-3-e980b2e99a8ee68789e794a8-e8b387e69699e7b590e6a78b-2b-e5958fe9a18ce58886e69e90.aspx/
-  - /post/e8a9b2e5a682e4bd95e5adb8e5a5bd-e5afabe7a88be5bc8f-3-e980b2e99a8ee68789e794a8-e8b387e69699e7b590e6a78b-2b-e5958fe9a18ce58886e69e90.aspx/
-  - /columns/2008/10/08/e8a9b2e5a682e4bd95e5adb8e5a5bd-e5afabe7a88be5bc8f-3-e980b2e99a8ee68789e794a8-e8b387e69699e7b590e6a78b-2b-e5958fe9a18ce58886e69e90.aspx/
-  - /columns/e8a9b2e5a682e4bd95e5adb8e5a5bd-e5afabe7a88be5bc8f-3-e980b2e99a8ee68789e794a8-e8b387e69699e7b590e6a78b-2b-e5958fe9a18ce58886e69e90.aspx/
-wordpress_postid: 60
----
-
 這類文章還真不好寫，想了好幾天，才擠的出一篇文章。第一篇已經講了一堆教條了，第二篇也舉了簡單的例子，說明挑對資料結構的重要性，接下來這篇會把主題放在更複雜的例子上，到底那些地方該注重技術，而那些地方該把重點放在基礎的資料結構及演算法身上。
 
 <!--more-->
@@ -194,7 +176,7 @@ public string[] FindBestPath(string startName, string endName, out double cost)
 
 先來看看結果。主程式是要找出 "機場端" 跟 "基金" 交流道之間的最經濟路線，看看程式跑出來的結果:
 
-![](/wp-content/be-files/WindowsLiveWriter/3_13ACD/image_3.png)
+![](/images/2008-10-08-how-to-learn-programming-well-3-advanced-application-data-structures-problem-analysis/image_3.png)
 
 不相信的人就拿紙筆畫一畫算一算吧! 應該是沒算錯啦。這個例子我就不像上一個例子，放上千萬個節點來拼拼看速度到底多快了，因為我沒有現成的資料啊，這東西要產生假資料也麻煩的多，就略過這個步驟了。不過我們倒是可以回過頭來看看，目前這段程式有什麼可以改進的?
 

@@ -1,21 +1,3 @@
----
-layout: post
-title: "該如何學好 \"寫程式\" ??"
-categories:
-- "系列文章: 如何學好寫程式"
-tags: ["專欄","技術隨筆","有的沒的"]
-published: true
-comments: true
-redirect_from:
-  - /2008/09/27/該如何學好-寫程式/
-  - /columns/post/2008/09/27/GoodProgrammer1.aspx/
-  - /post/2008/09/27/GoodProgrammer1.aspx/
-  - /post/GoodProgrammer1.aspx/
-  - /columns/2008/09/27/GoodProgrammer1.aspx/
-  - /columns/GoodProgrammer1.aspx/
-wordpress_postid: 65
----
-
 會寫這篇是因為上禮拜，有個資深的同事問我個問題，如何把底下的 programmer 素質拉上來? 跟他講這問題害我那天拖到晚上十點才回家吃晚飯 @_@，不過我想這也是現在台灣軟體業普遍碰到的人才問題，就順手寫了這篇。這篇是打算要貼在公司的 BLOG 裡給同事看的，這裡先貼一下，到時整理好再搬過去...。
 
 <!--more-->

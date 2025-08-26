@@ -1,20 +1,3 @@
----
-layout: post
-title: "原來 System.Xml.XmlWellFormedWriter 有 Bug .."
-categories:
-
-tags: [".NET","C#","MSDN","Tips","有的沒的"]
-published: true
-comments: true
-redirect_from:
-  - /2008/12/07/原來-system-xml-xmlwellformedwriter-有-bug/
-  - /columns/post/2008/12/08/e58e9fe4be86-XmlWellFormedWriter-e4b99fe69c89-Bug-.aspx/
-  - /post/2008/12/08/e58e9fe4be86-XmlWellFormedWriter-e4b99fe69c89-Bug-.aspx/
-  - /post/e58e9fe4be86-XmlWellFormedWriter-e4b99fe69c89-Bug-.aspx/
-  - /columns/2008/12/08/e58e9fe4be86-XmlWellFormedWriter-e4b99fe69c89-Bug-.aspx/
-  - /columns/e58e9fe4be86-XmlWellFormedWriter-e4b99fe69c89-Bug-.aspx/
-wordpress_postid: 48
----
 果然沒啥人知道的 code, bug 也會比較慢被抓出來 ... 兩個小時前我才貼了找到 XmlNodeWriter 的替代品，用了一下就被我挖到一個 BUG ... @_@
 
 先來看看我的 Sample Code:
@@ -60,7 +43,7 @@ wordpress_postid: 48
 
 而這是程式的輸出畫面:
 
-![image](/wp-content/be-files/WindowsLiveWriter/XmlWellFormedWriterBug_E451/image_3.png)
+![image](/images/2008-12-08-system-xml-xmlwellformedwriter-bug/image_3.png)
 
  
 
@@ -209,7 +192,7 @@ xmldoc.Save(Console.Out);
 
 試了一下，果然如預期的執行了 :D，結果也沒錯，還好 XmlWellFormedWriter 的 Bug 只存在於 WriteRaw... 閃開就沒事了:
 
-![image](/wp-content/be-files/WindowsLiveWriter/XmlWellFormedWriterBug_E451/image_6.png)
+![image](/images/2008-12-08-system-xml-xmlwellformedwriter-bug/image_6.png)
 
  
 

@@ -1,21 +1,3 @@
----
-layout: post
-title: "還是換回 XP 了..."
-categories:
-tags: ["技術隨筆","有的沒的"]
-published: true
-comments: true
-redirect_from:
-  - /2007/06/20/還是換回-xp-了/
-  - /columns/post/2007/06/20/e98284e698afe68f9be59b9e-XP-e4ba86.aspx/
-  - /post/2007/06/20/e98284e698afe68f9be59b9e-XP-e4ba86.aspx/
-  - /post/e98284e698afe68f9be59b9e-XP-e4ba86.aspx/
-  - /columns/2007/06/20/e98284e698afe68f9be59b9e-XP-e4ba86.aspx/
-  - /columns/e98284e698afe68f9be59b9e-XP-e4ba86.aspx/
-  - /blogs/chicken/archive/2007/06/20/2454.aspx/
-wordpress_postid: 159
----
-
 哈哈, 隔了好長一段時間沒寫 blog 了, 自從幾個禮拜前終於受不了 vista, 決定換回 XP 後, 就被一堆小問題弄到現在...
 
 其實也沒啥大問題, 只不過換了 vista 一兩個月, 發現還是不到時後, 就決定換回來了, 因為:

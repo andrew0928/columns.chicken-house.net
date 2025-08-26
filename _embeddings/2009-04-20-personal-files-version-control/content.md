@@ -1,21 +1,3 @@
----
-layout: post
-title: "個人檔案 + 版本控制..."
-categories:
-
-tags: ["Tips","技術隨筆","有的沒的"]
-published: true
-comments: true
-redirect_from:
-  - /2009/04/20/個人檔案-版本控制/
-  - /columns/post/2009/04/20/e5808be4babae6aa94e6a188-2b-e78988e69cace68ea7e588b6.aspx/
-  - /post/2009/04/20/e5808be4babae6aa94e6a188-2b-e78988e69cace68ea7e588b6.aspx/
-  - /post/e5808be4babae6aa94e6a188-2b-e78988e69cace68ea7e588b6.aspx/
-  - /columns/2009/04/20/e5808be4babae6aa94e6a188-2b-e78988e69cace68ea7e588b6.aspx/
-  - /columns/e5808be4babae6aa94e6a188-2b-e78988e69cace68ea7e588b6.aspx/
-wordpress_postid: 40
----
-
 自從過年時換了 SERVER 的作業系統，加上過年前 NOTEBOOK 掛掉換 [X40 + SSD](http://columns.chicken-house.net/post/ThinkPadX40-SSD.aspx) 之後，這幾個月都陷在東換換西調調的狀態中 @_@, 好在換了 2008 之後，有 Hyper-V 的幫忙，問題簡化不少...。不過今天要講的倒是很不起眼的小東西: [SVN (Subversion)](http://subversion.tigris.org/)。
 
 SVN 這種[版本控制系統](http://en.wikipedia.org/wiki/Revision_control)，通常是用來作程式碼的版本管理。也對啦，除了軟體開發之外，其它場合好像也不大需要這麼複雜的版本機制。不過這類系統弄多了，平常在非軟體開發的場合，也發現其實很多時後都有檔案版本問題要處理。像是平常的文件 (WORD)，簡報 (PPT) 等等，都會作好一份通用的，碰到 A 客戶就改一改拿來用，B 客戶再改一改... 這不就是 brench / merge 之類的問題嘛? 所以我一直在找這樣的 solution，看看有沒有適合一般使用的。不過到現在，也換了好幾種作法，歷年來試過的作法有好幾種:

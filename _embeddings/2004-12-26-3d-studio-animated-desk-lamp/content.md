@@ -1,24 +1,4 @@
----
-layout: post
-title: "3D Studio 作品: 跳動的檯燈"
-categories:
-
-
-tags: ["作品集","有的沒的"]
-published: true
-comments: true
-redirect_from:
-  - /2004/12/26/3d-studio-作品-跳動的檯燈/
-  - /columns/post/2004/12/26/3D-Studio-e4bd9ce59381-e8b7b3e58b95e79a84e6aaafe78788.aspx/
-  - /post/2004/12/26/3D-Studio-e4bd9ce59381-e8b7b3e58b95e79a84e6aaafe78788.aspx/
-  - /post/3D-Studio-e4bd9ce59381-e8b7b3e58b95e79a84e6aaafe78788.aspx/
-  - /columns/2004/12/26/3D-Studio-e4bd9ce59381-e8b7b3e58b95e79a84e6aaafe78788.aspx/
-  - /columns/3D-Studio-e4bd9ce59381-e8b7b3e58b95e79a84e6aaafe78788.aspx/
-  - /blogs/chicken/archive/2004/12/26/226.aspx/
-wordpress_postid: 295
----
-
-![跳動的檯燈](/wp-content/be-files/artefact/LIGHT-160x120.gif)
+![跳動的檯燈](/images/2004-12-26-3d-studio-animated-desk-lamp/LIGHT-160x120.gif)
 
 這是大四去修資科系的"電腦圖學"的作業... 
 

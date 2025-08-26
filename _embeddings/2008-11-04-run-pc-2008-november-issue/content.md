@@ -1,21 +1,4 @@
----
-layout: post
-title: "[RUN! PC] 2008 十一月號"
-categories:
-- "RUN! PC 專欄文章"
-tags: [".NET","RUN! PC","作品集","多執行緒","技術隨筆"]
-published: true
-comments: true
-redirect_from:
-  - /2008/11/04/run-pc-2008-十一月號/
-  - /columns/post/2008/11/04/RUNPC-2008-11.aspx/
-  - /post/2008/11/04/RUNPC-2008-11.aspx/
-  - /post/RUNPC-2008-11.aspx/
-  - /columns/2008/11/04/RUNPC-2008-11.aspx/
-  - /columns/RUNPC-2008-11.aspx/
-wordpress_postid: 52
----
-![IMG_0208](/wp-content/be-files/WindowsLiveWriter/RUNPC2008_1D6E/IMG_0208_1.jpg)
+![IMG_0208](/images/2008-11-04-run-pc-2008-november-issue/IMG_0208_1.jpg)
 
 YA! 第四篇!! :D 還是一樣要先感謝一下編輯賞光，讓我有點空間寫些不一樣的東西。
 

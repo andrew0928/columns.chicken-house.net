@@ -13,34 +13,48 @@
     "\u6280\u8853\u96A8\u7B46",
     "\u6709\u7684\u6C92\u7684"
   ],
-  "generator": "BlogIndex.SyncPost v1.0.0.0, o3, https://app-azureopenai.openai.azure.com/",
   "tech-stacks": [
     ".NET",
     "C#",
     "Visual Studio",
     "XML",
     "System.Diagnostics",
-    "TRACE",
-    "ASSERT",
+    "JavaScript",
     "C",
-    "JavaScript"
+    "Trace",
+    "Assert",
+    "Debug/Release",
+    "Unit Testing",
+    "Microsoft",
+    "Windows",
+    "\u4F5C\u696D\u7CFB\u7D71",
+    "API",
+    "\u7CFB\u7D71\u670D\u52D9",
+    "\u8A18\u61B6\u9AD4\u7BA1\u7406"
   ],
   "keywords": [
     "\u8EDF\u9AD4\u5DE5\u7A0B\u5E2B",
     "programmer",
     "\u53EF\u9760\u6027",
+    "\u7A69\u5B9A\u6027",
+    "\u9632\u5446",
     "DEBUG",
     "RELEASE",
     "Trace",
     "Assert",
     "BUG",
-    "UnitTest",
-    "XML",
-    "Quiz",
-    "Score",
-    "Writing Solid Code",
-    "Steve Maguire"
+    "\u55AE\u5143\u6E2C\u8A66",
+    "\u6F14\u7B97\u6CD5",
+    "\u8CC7\u6599\u7D50\u69CB",
+    "\u985E\u5225\u8A2D\u8A08",
+    "\u7CFB\u7D71\u77E5\u8B58",
+    "XML \u8A66\u5377",
+    "\u7DDA\u4E0A\u6E2C\u9A57",
+    "\u8A08\u5206\u898F\u5247",
+    "\u4F8B\u5916\u8655\u7406",
+    "\u6700\u4F73\u5316\u6574\u5408"
   ],
+  "generator": "BlogIndex.SyncPost v0.3.0.0, gpt-5",
   "references": [
     "/2008/10/20/\u8A72\u5982\u4F55\u5B78\u597D-\u5BEB\u7A0B\u5F0F-4-\u4F60\u7684\u7A0B\u5F0F\u5920-\u53EF\u9760-\u55CE/",
     "/columns/post/2008/10/20/e8a9b2e5a682e4bd95e5adb8e5a5bd-e5afabe7a88be5bc8f-4-e4bda0e79a84e7a88be5bc8fe5a4a0-e58fafe99da0-e5978e.aspx/",
@@ -48,7 +62,8 @@
     "/post/e8a9b2e5a682e4bd95e5adb8e5a5bd-e5afabe7a88be5bc8f-4-e4bda0e79a84e7a88be5bc8fe5a4a0-e58fafe99da0-e5978e.aspx/",
     "/columns/2008/10/20/e8a9b2e5a682e4bd95e5adb8e5a5bd-e5afabe7a88be5bc8f-4-e4bda0e79a84e7a88be5bc8fe5a4a0-e58fafe99da0-e5978e.aspx/",
     "/columns/e8a9b2e5a682e4bd95e5adb8e5a5bd-e5afabe7a88be5bc8f-4-e4bda0e79a84e7a88be5bc8fe5a4a0-e58fafe99da0-e5978e.aspx/",
-    "/wp-content/be-files/WindowsLiveWriter/4.SoftwareEngineer_14CFC/image_5.png",
-    "/wp-content/be-files/WindowsLiveWriter/4.SoftwareEngineer_14CFC/image_6.png"
-  ]
+    "/images/2008-10-20-how-to-learn-programming-well-4-is-your-program-reliable-enough/image_5.png",
+    "/images/2008-10-20-how-to-learn-programming-well-4-is-your-program-reliable-enough/image_6.png"
+  ],
+  "summary": "\u6490\u4E86\u5F88\u4E45\uFF0C\u7E8C\u7BC7\u4F86\u4E86\u3002\u9019\u6B21\u8981\u9032\u968E\u4E00\u9EDE\uFF0C\u76F4\u63A5\u5F9E software engineer (\u8EDF\u9AD4\u5DE5\u7A0B\u5E2B) \u7684\u968E\u6BB5\u958B\u59CB\u3002\n\n\u6240\u8B02\u7684\u8EDF\u9AD4\u5DE5\u7A0B\u5E2B\uFF0C\u6211\u5C0D\u5B83\u7684\u5B9A\u7FA9\u662F\u5728\u9019\u500B\u9818\u57DF\u5DF2\u7D93\u7B97\u662F\u8CC7\u6DF1\u4EBA\u54E1\u4E86\u3002programmer \u8A72\u4F5C\u7684\u662F\u628A\u7A0B\u5F0F\u5BEB\u597D\uFF0C\u8981\u6311\u6B63\u78BA\u7684\u65B9\u5F0F\u53CA\u6280\u8853\u5BEB\u597D\u4F60\u7684\u7A0B\u5F0F (\u5982\u4E4B\u524D\u5E7E\u7BC7\u4ECB\u7D39\u7684\u6F14\u7B97\u6CD5\u53CA\u8CC7\u6599\u7D50\u69CB\u7B49\u7B49)\u3002\u800C\u8EDF\u9AD4\u5DE5\u7A0B\u5E2B\u5462? \u4E4B\u524D\u4ECB\u7D39\u7684\u90A3\u4E9B\u5DF2\u7D93\u4E0D\u5920\u4E86\uFF0C\u4F60\u8A72\u597D\u597D\u7684\u5B89\u6392\u4F60\u7684 code \u53CA\u5DE5\u5177\uFF0C\u8981\u80FD\u628A\u4F60\u7684 solution (\u5982\u6703\u7528\u5230\u7684\u6F14\u7B97\u6CD5\u53CA\u8CC7\u6599\u7D50\u69CB)\uFF0C\u8DDF\u4F60\u624B\u4E0A\u80FD\u904B\u7528\u7684\u8CC7\u6E90 (\u5982\u7A0B\u5F0F\u8A9E\u8A00\u3001\u958B\u767C\u5DE5\u5177\u53CA\u51FD\u5F0F\u5EAB) \u4F5C\u6700\u4F73\u5316\u7684\u642D\u914D\u53CA\u6574\u5408\u3002"
 }

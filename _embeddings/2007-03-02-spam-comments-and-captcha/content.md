@@ -1,22 +1,3 @@
----
-layout: post
-title: "Spam Comments And CAPTCHA..."
-categories:
-
-tags: [".NET","作品集","技術隨筆","有的沒的"]
-published: true
-comments: true
-redirect_from:
-  - /2007/03/01/spam-comments-and-captcha/
-  - /columns/post/2007/03/02/Spam-Comments-And-CAPTCHA.aspx/
-  - /post/2007/03/02/Spam-Comments-And-CAPTCHA.aspx/
-  - /post/Spam-Comments-And-CAPTCHA.aspx/
-  - /columns/2007/03/02/Spam-Comments-And-CAPTCHA.aspx/
-  - /columns/Spam-Comments-And-CAPTCHA.aspx/
-  - /blogs/chicken/archive/2007/03/02/2285.aspx/
-wordpress_postid: 177
----
-
 也許該值得高興吧, 本站都用 robots.txt 擋掉 google 等 search engine, 只因為目標只是放在給認識的人看的 blog, 不想太公開, 所以一直以來都相安無事. 一直到最近, 大概看的人變多了, 也被外面一堆不知名的 bot 盯上, 開始一直有一堆廣告的 comments 貼到 blog 上... [:@] 
 
 試了 community server 內建的 spam rule, 是檔掉了一些, 不過仍然有一堆漏網之魚... 想想還是跟各大網站一樣, 找個 CAPTCHA 的元件來用用. 在 community server 官方網站提供了一套, 在 msn 問了 [darkthread](http://www.darkthread.net) 前輩, 他也提供了兩個網址, 也研究了一下... 
@@ -49,4 +30,4 @@ Code 本身倒是很簡單, 完全沒有什麼特別的, 我就不講了. 為了
 
 效果如何? 大家捲到[底下試看看](#comments)就知道了, 網頁 refresh 一下就可以隨機換一題..., 靜態題目我目前都放腦筋急轉彎類的, 當然我都有附解答, 免的大家答不出來, 掛在那邊不能留言... Echo 型態則只是要大家無腦一點, 跟著打一些口號而以, 像 "叭樂雞萬歲" 之類的 [H] ..... 
 
-果然這樣看起來爽多了, 也比較有趣一點, 反正目的達到就好 [:D], 如果大家有啥有趣的腦筋急轉彎也提供一下, 看看這樣 page view 跟 comment 數會不會衝高一點 [H] 
+果然這樣看起來爽多了, 也比較有趣一點, 反正目的達到就好 [:D], 如果大家有啥有趣的腦筋急轉彎也提供一下, 看看這樣 page view 跟 comment 數會不會衝高一點 [H]

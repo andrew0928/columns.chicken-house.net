@@ -1,22 +1,3 @@
----
-layout: post
-title: "總算搬完了"
-categories:
-
-tags: ["家人","敗家","有的沒的","水電工"]
-published: true
-comments: true
-redirect_from:
-  - /2007/02/02/總算搬完了/
-  - /columns/post/2007/02/02/e7b8bde7ae97e690ace5ae8ce4ba86.aspx/
-  - /post/2007/02/02/e7b8bde7ae97e690ace5ae8ce4ba86.aspx/
-  - /post/e7b8bde7ae97e690ace5ae8ce4ba86.aspx/
-  - /columns/2007/02/02/e7b8bde7ae97e690ace5ae8ce4ba86.aspx/
-  - /columns/e7b8bde7ae97e690ace5ae8ce4ba86.aspx/
-  - /blogs/chicken/archive/2007/02/02/2106.aspx/
-wordpress_postid: 192
----
-
 server 跟我桌機要對調主機板的事, 其實早就有這打算了, 只因為一個懶字, 就摸到現在 (H)...
 
 幾個月前, 弄了套陽春的 MCE, 因為配了 Core2 Duo CPU, 又快又省電, 風扇也安靜的多, 就想把它換到 server 上, server 的 PentiumD 920 挪到桌機看電視等娛樂用途...

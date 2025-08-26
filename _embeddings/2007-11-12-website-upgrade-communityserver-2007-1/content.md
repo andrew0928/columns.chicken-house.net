@@ -1,22 +1,3 @@
----
-layout: post
-title: "網站升級: CommunityServer 2007.1"
-categories:
-
-tags: ["Community Server","技術隨筆","有的沒的","水電工"]
-published: true
-comments: true
-redirect_from:
-  - /2007/11/12/網站升級-communityserver-2007-1/
-  - /columns/post/2007/11/12/e7b6b2e7ab99e58d87e7b49a-CommunityServer-20071.aspx/
-  - /post/2007/11/12/e7b6b2e7ab99e58d87e7b49a-CommunityServer-20071.aspx/
-  - /post/e7b6b2e7ab99e58d87e7b49a-CommunityServer-20071.aspx/
-  - /columns/2007/11/12/e7b6b2e7ab99e58d87e7b49a-CommunityServer-20071.aspx/
-  - /columns/e7b6b2e7ab99e58d87e7b49a-CommunityServer-20071.aspx/
-  - /blogs/chicken/archive/2007/11/12/2806.aspx/
-wordpress_postid: 135
----
-
 周日下午趁小孩都回外婆家, 花了點時間把家裡該裝的裝一裝, 該接的接一接, 還有一點空檔, 就把拖了很久的網站升級處理一下... 原本的版本是 CS 2007 (3.0), 中間推出了 3.0 SP1, SP2, SP3 beta 都跳過去沒理它, 這次 2007.1 (3.1) 出來手又癢了起來...
 
 過程就沒啥好說了, 失敗了好幾次, 最後決定整個重裝... 抓了 2007.1 的官方版本, 把舊的 db 配上它的 upgrade script 執行完後掛上去, 基本功能就會動了, 最後再把 ~/blogs, ~/photos, ~/forums 等有 storage 的目錄搬過去, 再把我自己客制過的 themes 重改一次 ( my god, themes 裡的檔案全都調過, 原本的 themes 蓋過來可以跑, 不過心裡毛毛的 )... 總算大功告成. 事後順手也把同一台 server 另外兩套 CS 也順便升級了一下.

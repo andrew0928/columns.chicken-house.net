@@ -1,23 +1,3 @@
----
-layout: post
-title: "水電工日誌 5. 配接 cable 線"
-categories:
-- "系列文章: 水電工日誌"
-tags: ["有的沒的","水電工"]
-published: true
-comments: true
-redirect_from:
-  - /2007/10/03/水電工日誌-5-配接-cable-線/
-  - /2007/10/02/水電工日誌-5-配接-cable-線/
-  - /columns/post/2007/10/03/e6b0b4e99bbbe5b7a5e697a5e8aa8c-5-e9858de68ea5-cable-e7b79a.aspx/
-  - /post/2007/10/03/e6b0b4e99bbbe5b7a5e697a5e8aa8c-5-e9858de68ea5-cable-e7b79a.aspx/
-  - /post/e6b0b4e99bbbe5b7a5e697a5e8aa8c-5-e9858de68ea5-cable-e7b79a.aspx/
-  - /columns/2007/10/03/e6b0b4e99bbbe5b7a5e697a5e8aa8c-5-e9858de68ea5-cable-e7b79a.aspx/
-  - /columns/e6b0b4e99bbbe5b7a5e697a5e8aa8c-5-e9858de68ea5-cable-e7b79a.aspx/
-  - /blogs/chicken/archive/2007/10/03/2728.aspx/
-wordpress_postid: 142
----
-
 這次施工就只有佈兩種線材. 我用 UTP 用來佈電話及網路用的線路, 而有線電視(第四台), 無線數位台(DVB), 還有監控系統, 我就通通統一用 cable 線來佈. cable 線我直接挑 RG/6U (美規的說法, 日規是說 5C2V). 買了兩綑大通128編的線, 一綑 100m, 不過這個剩的比較多..
 
 開始印象最深的, 就是之前弄的裝牆上的第四台接頭, ouch, 訊號有夠糟, 來源訊號不算很棒, 不過至少普通電視看都還可以接受的程度, 一經過牆上的第四台插座, 整個雜訊糊到你想砸電視... 不過很明顯的問題是出在接頭.... 後來在Y拍看到[這個賣家](http://tw.f2.page.bid.yahoo.com/tw/auction/b35515845?u=oneherts)的說詞, 很想回它一句 "我實在不能同意你更多" ... 沒錯, 我之前用的就是他講的 "爛貨型" ... 哈哈, 真的很爛, 不過你真的到店裡看, 絕大部份還真的都是賣這種... Orz
@@ -28,15 +8,15 @@ wordpress_postid: 142
 
 因為 cable 線又硬又粗, 接頭要拔也比較麻煩 (要用轉的), 因此這堆線我就沒塞進機櫃, 直接堆在外面... 反正機櫃也不能靠牆, 否則就會檔到門了. 那個 10cm 左右的空間剛好扔這堆線 & UPS ... 機櫃裡就擺 PC 主機, Camera DVR, Phone Switch, ADSL modem, 24 ports Network Switch, Patch Panel...
 
-![CRW_3706(Canon PowerShot G2)](/wp-content/be-files/WindowsLiveWriter/5.cable_3E8A/CRW_3706(Canon%20PowerShot%20G2)_3.jpg)
+![CRW_3706(Canon PowerShot G2)](/images/2007-10-03-electrician-diary-5-cable-wiring/CRW_3706(Canon%20PowerShot%20G2)_3.jpg)_3.jpg)
 
 這我買的強波器, 右上是標 [OUT], 右下是 [OUT, -15dB], 放大增益較弱... 中間有兩個鈕可以調整放大的增益及斜率... 其實就是調整 frequency response 的高度及斜度, 控制你要放大高頻 or 低頻, 還有整體的放大率... 
 
-![CRW_3705(Canon PowerShot G2)](/wp-content/be-files/WindowsLiveWriter/5.cable_3E8A/CRW_3705(Canon%20PowerShot%20G2)_3.jpg)
+![CRW_3705(Canon PowerShot G2)](/images/2007-10-03-electrician-diary-5-cable-wiring/CRW_3705(Canon%20PowerShot%20G2)_3.jpg)_3.jpg)
 
 我買的四分配+一分歧器.. 右上有標 [IN], 代表訊號源, 左上標 [OUT] 代表分岐, 會保留大部份訊號強度... 讓你拉到比較遠的地方 or 串下一個分配器, 剩下四個標 [BR] 代表 branch, 訊號強度平均分配出去..
 
-![CRW_3707(Canon PowerShot G2)](/wp-content/be-files/WindowsLiveWriter/5.cable_3E8A/CRW_3707(Canon%20PowerShot%20G2)_6.jpg)
+![CRW_3707(Canon PowerShot G2)](/images/2007-10-03-electrician-diary-5-cable-wiring/CRW_3707(Canon%20PowerShot%20G2)_6.jpg)_6.jpg)
 
 第一張圖的 [Out -15dB], 就是接到這裡來... 一分二的就沒有什麼 out / br 的區別了...
 
@@ -46,4 +26,4 @@ wordpress_postid: 142
 
 這次沒放什麼照片... 哈哈, 就放張吳小皮的近照片好了 [H]
 
-![IMG_8456(Canon IXY DIGITAL 55)](/wp-content/be-files/WindowsLiveWriter/5.cable_3E8A/IMG_8456(Canon%20IXY%20DIGITAL%2055)_3.jpg)
+![IMG_8456(Canon IXY DIGITAL 55)](/images/2007-10-03-electrician-diary-5-cable-wiring/IMG_8456(Canon%20IXY%20DIGITAL%2055)_3.jpg)_3.jpg)

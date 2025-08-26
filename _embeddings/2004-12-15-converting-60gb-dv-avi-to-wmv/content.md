@@ -1,22 +1,3 @@
----
-layout: post
-title: "大工程: 60GB 的 DV avi 壓成 WMV"
-categories:
-
-tags: ["技術隨筆","有的沒的"]
-published: true
-comments: true
-redirect_from:
-  - /2004/12/15/大工程-60gb-的-dv-avi-壓成-wmv/
-  - /columns/post/2004/12/15/e5a4a7e5b7a5e7a88b-60GB-e79a84-DV-avi-e5a393e68890-WMV.aspx/
-  - /post/2004/12/15/e5a4a7e5b7a5e7a88b-60GB-e79a84-DV-avi-e5a393e68890-WMV.aspx/
-  - /post/e5a4a7e5b7a5e7a88b-60GB-e79a84-DV-avi-e5a393e68890-WMV.aspx/
-  - /columns/2004/12/15/e5a4a7e5b7a5e7a88b-60GB-e79a84-DV-avi-e5a393e68890-WMV.aspx/
-  - /columns/e5a4a7e5b7a5e7a88b-60GB-e79a84-DV-avi-e5a393e68890-WMV.aspx/
-  - /blogs/chicken/archive/2004/12/15/182.aspx/
-wordpress_postid: 317
----
-
 我一向不大喜歡馬上把檔案燒成 CD, 一來要用的時後還要翻 CD 很麻煩, 二來很多東西燒起來後就再也不會去動他了, 顯的"備份"的動作有點多餘...
 
 因此我的策略都是 "堆在硬碟裡", 然後再久久一次大掃除, 用不到就砍了, 還有本事留在我硬碟裡的檔案, 再燒起來備份.

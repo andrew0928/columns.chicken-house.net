@@ -1,20 +1,4 @@
----
-layout: post
-title: "[BlogEngine.NET] 改造工程 - CS2007 資料匯入"
-categories:
-
-tags: [".NET","ASP.NET","BlogEngine.NET","Community Server","技術隨筆","有的沒的"]
-published: true
-comments: true
-redirect_from:
-  - /2008/06/21/blogengine-net-改造工程-cs2007-資料匯入/
-  - /2008/06/21/blogengine-net-改造工程-cs2007-資料匯入/
-  - /columns/post/2008/06/21/BlogEngineNET-e694b9e980a0e5b7a5e7a88b-CS2007-e8b387e69699e58cafe585a5.aspx/
-  - /post/2008/06/21/BlogEngineNET-e694b9e980a0e5b7a5e7a88b-CS2007-e8b387e69699e58cafe585a5.aspx/
-  - /post/BlogEngineNET-e694b9e980a0e5b7a5e7a88b-CS2007-e8b387e69699e58cafe585a5.aspx/
-  - /columns/2008/06/21/BlogEngineNET-e694b9e980a0e5b7a5e7a88b-CS2007-e8b387e69699e58cafe585a5.aspx/
-  - /columns/BlogEngineNET-e694b9e980a0e5b7a5e7a88b-CS2007-e8b387e69699e58cafe585a5.aspx/
-  - /columns/post/2008/06/21/BlogEngineNET-e694b9e980a0e5b7a5e7a88b---CS2007-e8b387e69699e58cafe585a5.aspx/
+CS2007-e8b387e69699e58cafe585a5.aspx/
   - /post/2008/06/21/BlogEngineNET-e694b9e980a0e5b7a5e7a88b---CS2007-e8b387e69699e58cafe585a5.aspx/
   - /post/BlogEngineNET-e694b9e980a0e5b7a5e7a88b---CS2007-e8b387e69699e58cafe585a5.aspx/
   - /columns/2008/06/21/BlogEngineNET-e694b9e980a0e5b7a5e7a88b---CS2007-e8b387e69699e58cafe585a5.aspx/
@@ -30,7 +14,7 @@ wordpress_postid: 95
 
 就是心裡一直這樣想，所以... 重匯吧! 不然以後後悔也是補不回來的。首先當然是想先從 BlogEngine 匯入 BlogML 的工具下手，看了一下，沒提供 Source Code ? 再看一下，一篇文章一個 Web Service Call，一則回應也是一個 Web Service Call ... 感覺起來有點沒效率，不過不管了，我內容也不多 (兩百多篇文章) ... 既然有 Web Services，先看看它的 WSDL ...
 
-![image](/wp-content/be-files/WindowsLiveWriter/BlogEngine.NETCS2007_3ABA/image_3.png)
+![image](/images/2008-06-21-blogengine-net-transformation-project-cs2007-data-import/image_3.png)
 [http://columns.chicken-house.net/api/blogImporter.asmx](http://columns.chicken-house.net/api/blogImporter.asmx)
 
 沒幾個 WebMethod 嘛，不過看一看它的 Interface 就已經漏掉很多資訊沒轉進來了 (像是我要的原 CS PostID，事後作新舊網址對照表用，還有 PageViewCount... etc)，要改原程式也是個大工程，不但 CLIENT 要改，WEB METHOD 也要擴充... 我又不是非得遠端用 WEB SERVICES 執行匯入不可，就當下決定另外寫一個匯入程式還比較快...。重寫的話就得研究它的寫法，正好每個 WebMethod 都只作單一的動作，裡面的實作就是現成的範例... 省了不少熟悉 API 的時間 :P
@@ -76,7 +60,7 @@ for xml auto
 
 會看到這樣的畫面:
 
-![image](/wp-content/be-files/WindowsLiveWriter/BlogEngine.NETCS2007_3ABA/image_8.png)
+![image](/images/2008-06-21-blogengine-net-transformation-project-cs2007-data-import/image_8.png)
 
 點下去就是 XML 了，手到加上頭尾的 Root Element 存檔就搞定了。接下來補段 CODE 把我要的 Property 拆出來存 XML 檔，第一步驟收工!
 
@@ -214,4 +198,4 @@ public void ProcessRequest(HttpContext context)
 
 看程式說故事，大家都會吧 :D，結果就是上一篇各位看到的樣子... 已經沒力一行一行再說明下去了 :P
 
-寫到這邊真是大工程 @_@，動作都不困難，但是都是雜七雜八的工作，害我搞了一個禮拜... 不過到此為止搬家要處理的資料部份全部都完成了。下一篇就輕鬆多了，把網站的版面調整成我想要的樣式... 有興趣的人請多等一等吧 :D 主題會放在跟 [FunP 推推王](http://www.funp.com/)的密切整合上... 敬請期待 :D 
+寫到這邊真是大工程 @_@，動作都不困難，但是都是雜七雜八的工作，害我搞了一個禮拜... 不過到此為止搬家要處理的資料部份全部都完成了。下一篇就輕鬆多了，把網站的版面調整成我想要的樣式... 有興趣的人請多等一等吧 :D 主題會放在跟 [FunP 推推王](http://www.funp.com/)的密切整合上... 敬請期待 :D

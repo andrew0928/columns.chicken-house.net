@@ -1,22 +1,3 @@
----
-layout: post
-title: "MSDN Magazine 閱讀心得: Stream Pipeline"
-categories:
-- "系列文章: 多執行緒的處理技巧"
-tags: [".NET","多執行緒"]
-published: true
-comments: true
-redirect_from:
-  - /2008/01/19/msdn-magazine-閱讀心得-stream-pipeline/
-  - /columns/post/2008/01/19/MSDN-Magazine-e996b1e8ae80e5bf83e5be97-Stream-Pipeline.aspx/
-  - /post/2008/01/19/MSDN-Magazine-e996b1e8ae80e5bf83e5be97-Stream-Pipeline.aspx/
-  - /post/MSDN-Magazine-e996b1e8ae80e5bf83e5be97-Stream-Pipeline.aspx/
-  - /columns/2008/01/19/MSDN-Magazine-e996b1e8ae80e5bf83e5be97-Stream-Pipeline.aspx/
-  - /columns/MSDN-Magazine-e996b1e8ae80e5bf83e5be97-Stream-Pipeline.aspx/
-  - /blogs/chicken/archive/2008/01/19/2948.aspx/
-wordpress_postid: 125
----
-
 前一陣子研究了幾種可以在 .NET 善用多核心的作法之後, 最近剛好又在在 MSDN Magazine 看到這篇不錯的文章: [http://msdn.microsoft.com/msdnmag/issues/08/02/NETMatters/default.aspx](http://msdn.microsoft.com/msdnmag/issues/08/02/NETMatters/default.aspx) 裡面點出了另一種作法: 串流管線 (Stream Pipeline)...
 
 如果你是以多核心能有效利用為目標, 那這篇對你可能沒什麼用... 不過如果你要處理的資料必需經過幾個 Stream 處理的話, 這篇就派的上用場. 這篇是以一個常見的例子為起點: 資料壓縮 + 加密...

@@ -1,21 +1,3 @@
----
-layout: post
-title: "[設計案例] 生命遊戲#3, 時序的控制"
-categories:
-- "系列文章: 生命遊戲"
-tags: [".NET","C#","作業系統","多執行緒","技術隨筆","物件導向","系列文章: 生命遊戲"]
-published: true
-comments: true
-redirect_from:
-  - /2009/09/15/設計案例-生命遊戲3-時序的控制/
-  - /columns/post/2009/09/15/e8a8ade8a888e6a188e4be8b-e7949fe591bde9818ae688b23-e69982e5ba8fe79a84e68ea7e588b6.aspx/
-  - /post/2009/09/15/e8a8ade8a888e6a188e4be8b-e7949fe591bde9818ae688b23-e69982e5ba8fe79a84e68ea7e588b6.aspx/
-  - /post/e8a8ade8a888e6a188e4be8b-e7949fe591bde9818ae688b23-e69982e5ba8fe79a84e68ea7e588b6.aspx/
-  - /columns/2009/09/15/e8a8ade8a888e6a188e4be8b-e7949fe591bde9818ae688b23-e69982e5ba8fe79a84e68ea7e588b6.aspx/
-  - /columns/e8a8ade8a888e6a188e4be8b-e7949fe591bde9818ae688b23-e69982e5ba8fe79a84e68ea7e588b6.aspx/
-wordpress_postid: 32
----
-
 原本的範例，其實有些盲點，不知各位有沒看到? 一樣的起始狀態，一樣的遊戲規則，你不一定會得到一樣的結果。為什麼? 因為這會跟你程式 SCAN 的順序有關。怎麼說? 因為到目前為只，整個遊戲就好像下棋一樣，是 "回合制"，我下完了換你... 一路一直輪下去。
 
 這時先下後下就會影響結果了。現實世界的生命不是這樣的啊... 不知有沒有人玩過早期的太空戰士 (Final Fantasy) 系列遊戲? 當年 FF 有個很重要的突破，就是把 RPG 從傳統的 "回合制" 改成即時戰鬥... 每個人都有個倒數的碼錶，數到 0 你就可以發動下一次的攻擊... 這樣才接近現實世界啊。套用到我們的生命遊戲，這次我們想作的改變，就是把程式改成這種模式。
@@ -89,7 +71,7 @@ wordpress_postid: 32
 
 其實這卅幾行 code, 大都花在控制執行緒上面，有興趣的讀者可以翻翻我之前寫的那系列文章，我就不多作說明了。調整之後，這個世界變的更不可測了，一樣的起始環境，連上帝 (在這模擬世界裡，我就是上帝 XD) 都無法預測下一秒會發生什麼事...
 
-![image](/wp-content/be-files/WindowsLiveWriter/3/14B4CC9D/image.png)
+![image](/images/2009-09-15-design-case-study-game-of-life-3-timing-control/image.png)
 
  
 

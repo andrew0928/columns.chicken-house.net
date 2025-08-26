@@ -1,19 +1,4 @@
----
-layout: post
-title: "FlickrProxy #2 - 實作"
-categories:
-- "作品集: FlickrProxy"
-tags: [".NET","ASP.NET","作品集"]
-published: true
-comments: true
-redirect_from:
-  - /2008/05/19/flickrproxy-2-實作/
-  - /columns/post/2008/05/19/FlickrProxy-2-e5afa6e4bd9c.aspx/
-  - /post/2008/05/19/FlickrProxy-2-e5afa6e4bd9c.aspx/
-  - /post/FlickrProxy-2-e5afa6e4bd9c.aspx/
-  - /columns/2008/05/19/FlickrProxy-2-e5afa6e4bd9c.aspx/
-  - /columns/FlickrProxy-2-e5afa6e4bd9c.aspx/
-  - /columns/post/2008/05/19/FlickrProxy-2---e5afa6e4bd9c.aspx/
+e5afa6e4bd9c.aspx/
   - /post/2008/05/19/FlickrProxy-2---e5afa6e4bd9c.aspx/
   - /post/FlickrProxy-2---e5afa6e4bd9c.aspx/
   - /columns/2008/05/19/FlickrProxy-2---e5afa6e4bd9c.aspx/
@@ -40,7 +25,7 @@ wordpress_postid: 105
 
 這樣就完成了。我把它畫成 UML Sequency Diagram:
 
-![UML Diagram](/wp-content/be-files/WindowsLiveWriter/FlickrProxy2_EC39/1_3.png)
+![UML Diagram](/images/2008-05-19-flickrproxy-2-implementation/1_3.png)
 
 接下來就是看 Code 了，寫這樣的程式，關鍵有幾個，大部份都是 IIS / ASP.NET 的設定要正確，讓 IIS 能把 REQUEST 轉到你的程式，剩下的就沒什麼特別的了。對 HttpHandler 不熟的人可以先參考一下這幾篇 ( From MSDN ):
 
@@ -55,7 +40,7 @@ wordpress_postid: 105
 
 有兩個選擇，你心藏夠力的話可以把所有的 Request 都指到 .NET Framework，或是只指定 .JPG 就好。我這邊是以 .JPG 為例:
 
-![IIS 設定](/wp-content/be-files/WindowsLiveWriter/FlickrProxy2_EC39/image_thumb_2.png)
+![IIS 設定](/images/2008-05-19-flickrproxy-2-implementation/image_thumb_2.png)
 
 仔細看一下可以發現，其實所有 ASP.NET 的附檔名，通通都是指向同一個 ISAPI Filter: aspnet_isapi.dll。至於每一種附擋名會有什麼不同的行為，那是 .NET 自己關起門來解決的事，這邊不用傷腦筋... 直接 COPY 別的設定過來最快..
 
@@ -220,15 +205,15 @@ CheckFlickrUrlAvailability() 是我自己寫的，就是真正連到 Flickr 判�
 
 網頁上看到的結果:
 
-![測試結果](/wp-content/be-files/WindowsLiveWriter/FlickrProxy2_EC39/image_thumb_3.png)
+![測試結果](/images/2008-05-19-flickrproxy-2-implementation/image_thumb_3.png)
 
 這有啥好看的? 只是證明 USER 看起來完全正常而以... 哈哈，拿出 Fiddler 看一下:
 
-![Fiddler 結果](/wp-content/be-files/WindowsLiveWriter/FlickrProxy2_EC39/image_thumb_4.png)
+![Fiddler 結果](/images/2008-05-19-flickrproxy-2-implementation/image_thumb_4.png)
 
 #0 及 01 都是正常情況下就會有的 HTTP REQUEST，代表 IE 要下載 HTML 跟 JPG。不過在下載 JPG 檔，卻收到了 302 (OBJECT MOVE) 的重新導向的結果，因此 IE 就接著再到 Flickr 去下載照片，最後秀在網頁上。不過照片真的有出現在 Flickr 上嗎? 用我的帳號登入看看...
 
-![Flickr 帳號截圖](/wp-content/be-files/WindowsLiveWriter/FlickrProxy2_EC39/image_thumb_5.png)
+![Flickr 帳號截圖](/images/2008-05-19-flickrproxy-2-implementation/image_thumb_5.png)
 
 哈哈，果然出現了。看來這沒幾行的 CODE 真正發恢它的作用了。網站什麼都不用改，只要加上這 HttpHandler，配合調一些設定，馬上下載圖片的頻寬就省下來了。不過最少還是得花一次頻寬啦。BLOGGER把圖檔傳上來就不說了，圖檔第一次有人來看的時後，程式還是需要把檔案傳出去，放到 Flickr 上。不過一旦放成功了，以後第二次第三次.... 的頻寬就都省下來了。要花的只有 Fiddler 抓到的 #1 那少少的 302 REDIR 回應而以。
 

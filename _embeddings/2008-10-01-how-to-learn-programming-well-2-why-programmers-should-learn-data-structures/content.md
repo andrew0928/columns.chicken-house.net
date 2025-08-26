@@ -1,21 +1,3 @@
----
-layout: post
-title: "該如何學好 \"寫程式\" #2. 為什麼 programmer 該學資料結構 ??"
-categories:
-- "系列文章: 如何學好寫程式"
-tags: [".NET","C#","MSDN","Tips","作品集","專欄","技術隨筆","有的沒的","當年勇"]
-published: true
-comments: true
-redirect_from:
-  - /2008/10/01/該如何學好-寫程式-2-為什麼-programmer-該學資料結構/
-  - /columns/post/2008/10/01/e8a9b2e5a682e4bd95e5adb8e5a5bd-e5afabe7a88be5bc8f-2-e782bae4bb80e9babc-programmer-e8a9b2e5adb8e8b387e69699e7b590e6a78b-.aspx/
-  - /post/2008/10/01/e8a9b2e5a682e4bd95e5adb8e5a5bd-e5afabe7a88be5bc8f-2-e782bae4bb80e9babc-programmer-e8a9b2e5adb8e8b387e69699e7b590e6a78b-.aspx/
-  - /post/e8a9b2e5a682e4bd95e5adb8e5a5bd-e5afabe7a88be5bc8f-2-e782bae4bb80e9babc-programmer-e8a9b2e5adb8e8b387e69699e7b590e6a78b-.aspx/
-  - /columns/2008/10/01/e8a9b2e5a682e4bd95e5adb8e5a5bd-e5afabe7a88be5bc8f-2-e782bae4bb80e9babc-programmer-e8a9b2e5adb8e8b387e69699e7b590e6a78b-.aspx/
-  - /columns/e8a9b2e5a682e4bd95e5adb8e5a5bd-e5afabe7a88be5bc8f-2-e782bae4bb80e9babc-programmer-e8a9b2e5adb8e8b387e69699e7b590e6a78b-.aspx/
-wordpress_postid: 62
----
-
 自從貼了上一篇 [該如何學好 "寫程式"](/post/GoodProgrammer1.aspx) 一文，原本以為這種老生常談的內容沒什麼人會看，沒想到還有人給我回應.. :D 原來這種文章還是有市場的。接下來這篇，是延續上一篇，來談談要成為合格的 programmer, 我認為應該要俱備的 "內功" 是什麼。上篇我提到，我認知的 programmer，就是要有實作 (CODING) 的能力。要有能力把技術規格 (像是輸入格式，操作介面等等) 具體的寫成可以執行的程式碼。當然是要寫的又快又好，穩定不當機又沒 BUG ...。
 
 <!--more-->
@@ -106,7 +88,7 @@ private static void Sample1()
 憑良心說，寫的出這樣程式碼的人，已經算是高手了。因為這樣已經用到不少高級技巧，像是 delegate, anonums method, 還有知道 
 ```List<T>.Find( )``` 怎麼用等等... 以下是他的執行結果:
 
-![](/wp-content/be-files/WindowsLiveWriter/2.programmer_148DA/image_3.png)
+![](/images/2008-10-01-how-to-learn-programming-well-2-why-programmers-should-learn-data-structures/image_3.png)
 
 2. 更進階一點的人 (另外 25%)，也許會額外加上 ```Dictionary``` 當作索引，來改善 search A123456 這筆資料的效率:
 
@@ -143,7 +125,7 @@ timer.Start();
 
 會寫到這樣，也算強者了。不但對 C# 夠熟，也有用 ```Collection``` 物件來當作索引的觀念。程式碼只有兩行不同，一個是多宣告了 ```Dictionary``` 物件 (第3行)，另一個是搜尋的地方 (第21行)。來看看執行結果:
 
-![](/wp-content/be-files/WindowsLiveWriter/2.programmer_148DA/image_6.png)
+![](/images/2008-10-01-how-to-learn-programming-well-2-why-programmers-should-learn-data-structures/image_6.png)
 
 果然有效，建資料從 5151ms 變成 5843ms, 記憶體從 288MB 變成 340MB，不過 search(A123456) 卻快的嚇人， 0ms... 破錶了!
 
@@ -310,7 +292,7 @@ private static int BinarySearch<TKey, TValue>(SortedList<TKey, TValue> index, TK
 
 執行結果:
 
-![](/wp-content/be-files/WindowsLiveWriter/2.programmer_148DA/image_9.png)
+![](/images/2008-10-01-how-to-learn-programming-well-2-why-programmers-should-learn-data-structures/image_9.png)
 
 
 至於前面產品經理問的問題，各位就試著自己到 MSDN 找看看答案吧! 比較過之後，你就會瞭解為什麼我會挑選 SortedList .. 我只挑 SEARCH 時間來看，List 的搜尋是 O(n), 而 SortedList 的搜尋是排序過的資料作 BinarySearch, 找找書就知道是 O(log n), 分別來比較一下:

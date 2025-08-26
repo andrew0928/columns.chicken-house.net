@@ -1,22 +1,3 @@
----
-layout: post
-title: "Canon PowerShot G7 出現了..."
-categories:
-
-tags: ["有的沒的"]
-published: true
-comments: true
-redirect_from:
-  - /2006/09/25/canon-powershot-g7-出現了/
-  - /columns/post/2006/09/25/Canon-PowerShot-G7-e587bae78fbee4ba86.aspx/
-  - /post/2006/09/25/Canon-PowerShot-G7-e587bae78fbee4ba86.aspx/
-  - /post/Canon-PowerShot-G7-e587bae78fbee4ba86.aspx/
-  - /columns/2006/09/25/Canon-PowerShot-G7-e587bae78fbee4ba86.aspx/
-  - /columns/Canon-PowerShot-G7-e587bae78fbee4ba86.aspx/
-  - /blogs/chicken/archive/2006/09/25/1760.aspx/
-wordpress_postid: 222
----
-
 期待了半天的[G7](http://web.canon.jp/Imaging/psg7/index-e.html), 等著把用了多年的[G2換掉](/post/Canon-PowerShot-S2-IS.aspx)的新機, 沒想到這麼令人失望...
 
 早就有要換掉G2的打算了, 不過一直找不到合適的機種, G2其實我用的很滿意, 只是有些地方還是可以改進改進...

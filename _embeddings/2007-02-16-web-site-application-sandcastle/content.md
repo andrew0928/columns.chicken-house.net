@@ -1,21 +1,3 @@
----
-layout: post
-title: "Web Site Application + Sandcastle"
-categories:
-tags: [".NET","ASP.NET","Tips","技術隨筆"]
-published: true
-comments: true
-redirect_from:
-  - "/2007/02/16/web-site-application-sandcastle/"
-  - /columns/post/2007/02/16/Web-Site-Application-2b-Sandcastle.aspx/
-  - /post/2007/02/16/Web-Site-Application-2b-Sandcastle.aspx/
-  - /post/Web-Site-Application-2b-Sandcastle.aspx/
-  - /columns/2007/02/16/Web-Site-Application-2b-Sandcastle.aspx/
-  - /columns/Web-Site-Application-2b-Sandcastle.aspx/
-  - /blogs/chicken/archive/2007/02/16/2157.aspx/
-wordpress_postid: 185
----
-
 這次要解決的問題, 跟上次想要[在 Web Application 裡執行單元測試](/post/e588a9e794a8-NUnitLite2c-e59ca8-App_Code-e4b88be5afabe596aee58583e6b8ace8a9a6.aspx)的問題類似, C# 有跟 Java 類似的 comment help, 可以把寫在註解的文字萃取出來, 製作成一份文件...
 
 不過, 過去的 NDoc, 到現在新掘起的 [SandCastle](http://www.microsoft.com/downloads/details.aspx?FamilyID=E82EA71D-DA89-42EE-A715-696E3A4873B2&displaylang=en), 都要求兩個東西:

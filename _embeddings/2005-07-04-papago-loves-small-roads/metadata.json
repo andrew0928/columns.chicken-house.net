@@ -5,29 +5,32 @@
   "tags": [
     "\u6709\u7684\u6C92\u7684"
   ],
-  "generator": "BlogIndex.SyncPost v1.0.0.0, o3, https://app-azureopenai.openai.azure.com/",
   "tech-stacks": [
     "GPS",
     "PDA",
-    "PPG",
     "PaPaGo",
+    "PPG",
     "PC",
-    "IBM ThinkPad X31"
+    "ThinkPad X31"
   ],
   "keywords": [
     "GPS",
     "PDA",
     "PPG",
     "PaPaGo",
-    "\u5C0F\u5DF7\u5B50",
-    "\u5927\u99AC\u8DEF",
+    "\u5C0E\u822A",
+    "\u8DEF\u7DDA\u898F\u5283",
     "\u4E2D\u6B63\u6A4B",
     "\u5317\u4E8C\u9AD8",
     "\u6728\u67F5",
     "\u4E2D\u548C\u4EA4\u6D41\u9053",
+    "\u5FC5\u7D93\u5730\u9EDE",
+    "\u907F\u958B\u9053\u8DEF",
+    "PC \u7248",
     "X31",
     "PPG 9.0"
   ],
+  "generator": "BlogIndex.SyncPost v0.3.0.0, gpt-5",
   "references": [
     "/2005/07/04/\u611B\u947D\u5C0F\u8DEF\u7684-papago/",
     "/columns/post/2005/07/04/e6849be991bde5b08fe8b7afe79a84-PaPaGo-.aspx/",
@@ -36,8 +39,9 @@
     "/columns/2005/07/04/e6849be991bde5b08fe8b7afe79a84-PaPaGo-.aspx/",
     "/columns/e6849be991bde5b08fe8b7afe79a84-PaPaGo-.aspx/",
     "/blogs/chicken/archive/2005/07/04/787.aspx/",
-    "/Emoticons/emotion-21.gif",
-    "/Emoticons/emotion-9.gif",
-    "/Emoticons/emotion-11.gif"
-  ]
+    "/images/2005-07-04-papago-loves-small-roads/emotion-21.gif",
+    "/images/2005-07-04-papago-loves-small-roads/emotion-9.gif",
+    "/images/2005-07-04-papago-loves-small-roads/emotion-11.gif"
+  ],
+  "summary": "\u4F5C\u8005\u5206\u4EAB\u4EE5 GPS \u642D\u914D PDA \u4F7F\u7528 PaPaGo\uFF08PPG\uFF09\u5C0E\u822A\u7684\u7D93\u9A57\uFF0C\u89BA\u5F97\u5176\u5E36\u8DEF\u908F\u8F2F\u6709\u9EDE\u6975\u7AEF\uFF1A\u4E0D\u662F\u504F\u597D\u8D70\u5927\u99AC\u8DEF\uFF0C\u5C31\u662F\u611B\u947D\u5C0F\u5DF7\u3002\u5F9E\u5BB6\u88E1\u5230\u53CB\u4EBA\uFF08sea\uFF09\u4F4D\u65BC\u4E2D\u548C\u7684\u4F4F\u8655\uFF0C\u7ADF\u88AB\u898F\u5283\u7E5E\u5230\u6728\u67F5\u4E0A\u5317\u4E8C\u9AD8\uFF0C\u518D\u5F9E\u4E2D\u548C\u4EA4\u6D41\u9053\u4E0B\u4F86\uFF0C\u5168\u7A0B\u7D04 26 \u516C\u91CC\u3002\u82E5\u60F3\u6539\u8D70\u4E2D\u6B63\u6A4B\uFF0C\u9084\u5F97\u82B1\u529F\u592B\u8ABF\u6574\u8A2D\u5B9A\u3002\u884C\u524D\u82E5\u82B1\u6642\u9593\u5FAE\u8ABF\u898F\u5283\u8DEF\u5F91\uFF0C\u6574\u9AD4\u5C1A\u53EF\u7528\uFF0C\u4F46\u884C\u52D5\u7248\u6700\u5927\u907A\u61BE\u662F\u7121\u6CD5\u4E8B\u5148\u6307\u5B9A\u5FC5\u7D93\u5730\u9EDE\uFF0C\u53EA\u80FD\u5F85\u8DEF\u7DDA\u7B97\u51FA\u5F8C\u518D\u9010\u6BB5\u8A2D\u5B9A\u300C\u907F\u958B\u300D\uFF0C\u6D41\u7A0B\u8F03\u9EBB\u7169\u3002\u76F8\u8F03\u4E4B\u4E0B\uFF0CPC \u7248\u8A08\u7B97\u5FEB\u901F\u3001\u8DEF\u7DDA\u54C1\u8CEA\u4F73\uFF0C\u4E14\u53EF\u6307\u5B9A\u5FC5\u7D93\u5730\u9EDE\u3002\u4E0D\u904E\u4F5C\u8005\u4E5F\u4E0D\u53EF\u80FD\u5E36\u8457 ThinkPad X31 \u4E0A\u8DEF\uFF0C\u53EA\u80FD\u671F\u5F85\u65B0\u51FA\u7684 PPG 9.0 \u5728\u884C\u52D5\u7AEF\u80FD\u6539\u5584\u4E0A\u8FF0\u554F\u984C\u3002\u6574\u7BC7\u53CD\u6620\u7576\u5E74\u884C\u52D5\u5C0E\u822A\u5728\u8DEF\u7DDA\u898F\u5283\u8207\u4F7F\u7528\u6D41\u7A0B\u4E0A\u7684\u9650\u5236\u8207\u671F\u671B\u6539\u9032\u3002"
 }

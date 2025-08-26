@@ -1,19 +1,4 @@
----
-layout: post
-title: "CS 2.1 SP2 - MetaWeblog API / newMediaObject method support .."
-categories:
-
-tags: []
-published: true
-comments: true
-redirect_from:
-  - /2006/12/10/cs-2-1-sp2-metaweblog-api-newmediaobject-method-support/
-  - /columns/post/2006/12/10/CS-21-SP2-MetaWeblog-API-newMediaObject-method-support-.aspx/
-  - /post/2006/12/10/CS-21-SP2-MetaWeblog-API-newMediaObject-method-support-.aspx/
-  - /post/CS-21-SP2-MetaWeblog-API-newMediaObject-method-support-.aspx/
-  - /columns/2006/12/10/CS-21-SP2-MetaWeblog-API-newMediaObject-method-support-.aspx/
-  - /columns/CS-21-SP2-MetaWeblog-API-newMediaObject-method-support-.aspx/
-  - /columns/post/2006/12/10/CS-21-SP2---MetaWeblog-API--newMediaObject-method-support-.aspx/
+MetaWeblog-API--newMediaObject-method-support-.aspx/
   - /post/2006/12/10/CS-21-SP2---MetaWeblog-API--newMediaObject-method-support-.aspx/
   - /post/CS-21-SP2---MetaWeblog-API--newMediaObject-method-support-.aspx/
   - /columns/2006/12/10/CS-21-SP2---MetaWeblog-API--newMediaObject-method-support-.aspx/
@@ -26,4 +11,4 @@ wordpress_postid: 198
 
 貼張照片試看看...
 
-![](/wp-content/be-files/WindowsLiveWriter/CS2.1SP2MetaWeblogAPInewMediaObjectmeth_C2D6/IMG_5566%5B2%5D.jpg)
+![](/images/2006-12-10-cs-2-1-sp2-metaweblog-api-newmediaobject-method-support/IMG_5566%5B2%5D.jpg)

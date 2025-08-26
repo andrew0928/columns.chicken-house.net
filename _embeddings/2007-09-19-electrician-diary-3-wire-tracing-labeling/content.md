@@ -1,23 +1,3 @@
----
-layout: post
-title: "水電工日誌 3. 查線 & 標線"
-categories:
-- "系列文章: 水電工日誌"
-tags: ["有的沒的","水電工"]
-published: true
-comments: true
-redirect_from:
-  - /2007/09/19/水電工日誌-3-查線-標線/
-  - /2007/09/18/水電工日誌-3-查線-標線/
-  - /columns/post/2007/09/19/e6b0b4e99bbbe5b7a5e697a5e8aa8c-3-e69fa5e7b79a-amp3b-e6a899e7b79a.aspx/
-  - /post/2007/09/19/e6b0b4e99bbbe5b7a5e697a5e8aa8c-3-e69fa5e7b79a-amp3b-e6a899e7b79a.aspx/
-  - /post/e6b0b4e99bbbe5b7a5e697a5e8aa8c-3-e69fa5e7b79a-amp3b-e6a899e7b79a.aspx/
-  - /columns/2007/09/19/e6b0b4e99bbbe5b7a5e697a5e8aa8c-3-e69fa5e7b79a-amp3b-e6a899e7b79a.aspx/
-  - /columns/e6b0b4e99bbbe5b7a5e697a5e8aa8c-3-e69fa5e7b79a-amp3b-e6a899e7b79a.aspx/
-  - /blogs/chicken/archive/2007/09/19/2672.aspx/
-wordpress_postid: 144
----
-
 當初沒事先跟水電師傅講好, 要在線上面標號, 結果拉了一大把線, 查線就變苦差事了 [:'(] 後來想了半天, 每組面板都是一綑線 (有的三條有的四條), 共十一綑, 我要能找到是那一綑, 還要能對應到那一條是電話那一條是網路... 
 
 雖然有買測線器, 兩頭裝上去按個鈕就知道對不對, 不過測線器的前題是接頭都要裝好啊... 我拉到機櫃的線不要裝接頭, 直接接在 patch panel 上面, 如果接頭都壓上去再拔掉, 也太浪費了... 想來想去這樣最快...
@@ -28,19 +8,19 @@ wordpress_postid: 144
 
 2. 一條線有四對線, 我同一捆的線都沒超過四條, 因此做了三個 RJ-45 網路接頭, 以 586A 的規範, 做了三個接頭, 分別短路橘,綠,棕這三對線, 另外做了一個 RJ-11 電話接頭, 短路藍色那對線
    
-   ![CRW_3616(Canon PowerShot G2) (Custom)](/wp-content/be-files/WindowsLiveWriter/3_1078A/CRW_3616(Canon%20PowerShot%20G2)%20(Custom)_3.jpg)
+   ![CRW_3616(Canon PowerShot G2) (Custom)](/images/2007-09-19-electrician-diary-3-wire-tracing-labeling/CRW_3616(Canon%20PowerShot%20G2)%20(Custom)_3.jpg)%20(Custom)_3.jpg)
 
 3. 開始查線. 把剛才的接頭都裝上去, 然後另一頭用三用電錶一條一條量... 量到電阻很低的話 (大概 5 歐姆以內), 那就找到了, 一定是同一捆... 然後同一捆每一條都量一下, 看是那一對線短路, 就知道另一頭是那個插座了...
 
 4. TV cable 也差不多, 不過古早在交大宿舍用的網路線還是 BNC 接頭, 當時有幾個終端電阻還留著, 就直接拿來用了... 另一頭只要量到電阻是 50 歐姆就對了.. 第一張圖是合體的樣子, 因為 catv 的 f 頭跟 bnc 接不起來, 所以中間串了一個轉接頭, 為了插拔方便 (有十一條要測.. ), 多串了一個快速接頭. 第二張就是拆該的樣子..
    
-   ![CRW_3619(Canon PowerShot G2) (Custom)](/wp-content/be-files/WindowsLiveWriter/3_1078A/CRW_3619(Canon%20PowerShot%20G2)%20(Custom)_3.jpg)
+   ![CRW_3619(Canon PowerShot G2) (Custom)](/images/2007-09-19-electrician-diary-3-wire-tracing-labeling/CRW_3619(Canon%20PowerShot%20G2)%20(Custom)_3.jpg)%20(Custom)_3.jpg)
    
-   ![CRW_3620(Canon PowerShot G2) (Custom)](/wp-content/be-files/WindowsLiveWriter/3_1078A/CRW_3620(Canon%20PowerShot%20G2)%20(Custom)_3.jpg)
+   ![CRW_3620(Canon PowerShot G2) (Custom)](/images/2007-09-19-electrician-diary-3-wire-tracing-labeling/CRW_3620(Canon%20PowerShot%20G2)%20(Custom)_3.jpg)%20(Custom)_3.jpg)
 
 5. 事先作好的 excel 表, 先把每個插座編好號碼, 然後找到機櫃那頭對應的線之後, 就用號碼環標一下號碼... 
    
-   ![IMG_7769(Canon IXY DIGITAL 55) (Custom)](/wp-content/be-files/WindowsLiveWriter/3_1078A/IMG_7769(Canon%20IXY%20DIGITAL%2055)%20(Custom)_5.jpg)
+   ![IMG_7769(Canon IXY DIGITAL 55) (Custom)](/images/2007-09-19-electrician-diary-3-wire-tracing-labeling/IMG_7769(Canon%20IXY%20DIGITAL%2055)%20(Custom)_5.jpg)%20(Custom)_5.jpg)
 
 看起來蠻簡單的, 不過也是挺累的... 比如標號碼的原則怎麼標, 我也是想了好幾種編碼方式... 一盒號碼環買來是 0 ~ 9 各 10 個, 我那麼多條線一定要兩位數, 而一盒號碼環頂多標到 50 個號碼... 每條線兩端都要標個數字, 因此最多標 25 條線, 而我需要 25 對一樣的數字... 這時如何用有限的數字環標出足夠的數字, 就得先規劃一下了.. 如果直接 01 ~ 25 標下去一定不夠, 因為光是 01 ~ 09 就得用掉 20 個 0, 我那有那麼多 0 ... 
 

@@ -1,22 +1,3 @@
----
-layout: post
-title: "IQ test ..."
-categories:
-
-tags: ["有的沒的","當年勇"]
-published: true
-comments: true
-redirect_from:
-  - /2006/11/15/iq-test/
-  - /columns/post/2006/11/15/IQ-test-.aspx/
-  - /post/2006/11/15/IQ-test-.aspx/
-  - /post/IQ-test-.aspx/
-  - /columns/2006/11/15/IQ-test-.aspx/
-  - /columns/IQ-test-.aspx/
-  - /blogs/chicken/archive/2006/11/15/1947.aspx/
-wordpress_postid: 206
----
-
 同事給的 IQ test 網站: [http://web.tickle.com/tests/uiq/index-pop.jsp?sid=...](http://web.tickle.com/tests/uiq/index-pop.jsp?sid=...)
 
 只有 124 分 :'(

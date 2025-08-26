@@ -1,21 +1,3 @@
----
-layout: post
-title: "利用 WPF 讀取 CANON (.CR2) 的 EXIF 及縮圖 (C# 範例程式說明)"
-categories:
-
-tags: [".NET","WPF","技術隨筆","有的沒的"]
-published: true
-comments: true
-redirect_from:
-  - /2008/06/23/利用-wpf-讀取-canon-cr2-的-exif-及縮圖-c-範例程式說明/
-  - /columns/post/2008/06/23/e588a9e794a8-WPF-e8ae80e58f96-EXIF-e58f8ae7b8aee59c96.aspx/
-  - /post/2008/06/23/e588a9e794a8-WPF-e8ae80e58f96-EXIF-e58f8ae7b8aee59c96.aspx/
-  - /post/e588a9e794a8-WPF-e8ae80e58f96-EXIF-e58f8ae7b8aee59c96.aspx/
-  - /columns/2008/06/23/e588a9e794a8-WPF-e8ae80e58f96-EXIF-e58f8ae7b8aee59c96.aspx/
-  - /columns/e588a9e794a8-WPF-e8ae80e58f96-EXIF-e58f8ae7b8aee59c96.aspx/
-wordpress_postid: 93
----
-
 因為有人 [留話](/post/Canon-Raw-Codec-for-Vista--XP-x64-.aspx) 在詢問怎麼利用 WPF 處理這些動作，而這些又都是 Microsoft 文件及範例沒有寫的很清楚的部份... 有些範例有提到，但是 Microsoft 內建的 CODEC 正常，3RD PARTY 的 CODEC (像我碰到的 Canon Raw Codec) 就搞半天也搞不出來...。因為之前寫 [MediaFiler](/post/Canon-Digital-Camera-e79bb8e6a99fe78da8e4baab---e8a898e686b6e58da1e6adb8e6aa94e5b7a5e585b7.aspx) 正好都碰過這些釘子，就順手寫起來以免以後又忘掉.. :P
 
 

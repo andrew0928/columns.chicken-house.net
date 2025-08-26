@@ -1,23 +1,3 @@
----
-layout: post
-title: "原來 System.Net.Mail 也會有 Bug ..."
-categories:
-
-tags: [".NET","Tips","技術隨筆"]
-published: true
-comments: true
-redirect_from:
-  - /2007/04/06/原來-system-net-mail-也會有-bug/
-  - /2007/04/06/system-net-mail-bug-discovered/
-  - /columns/post/2007/04/06/e58e9fe4be86-SystemNetMail-e4b99fe69c83e69c89-Bug-.aspx/
-  - /post/2007/04/06/e58e9fe4be86-SystemNetMail-e4b99fe69c83e69c89-Bug-.aspx/
-  - /post/e58e9fe4be86-SystemNetMail-e4b99fe69c83e69c89-Bug-.aspx/
-  - /columns/2007/04/06/e58e9fe4be86-SystemNetMail-e4b99fe69c83e69c89-Bug-.aspx/
-  - /columns/e58e9fe4be86-SystemNetMail-e4b99fe69c83e69c89-Bug-.aspx/
-  - /blogs/chicken/archive/2007/04/06/2328.aspx/
-wordpress_postid: 169
----
-
 果然老外寫的程式, 就是容易忽略掉亞洲語系的需求... 為了這個 Bug, 足足浪費我兩天的時間 [:@], 既然糾出來了, 當然要講一下... 先來看這段 sample code:
 
 ```csharp

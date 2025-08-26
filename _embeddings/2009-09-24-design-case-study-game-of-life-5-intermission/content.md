@@ -1,21 +1,3 @@
----
-layout: post
-title: "[設計案例] 生命遊戲 #5, 中場休息"
-categories:
-- "系列文章: 生命遊戲"
-tags: [".NET","技術隨筆","有的沒的","物件導向","系列文章: 生命遊戲"]
-published: true
-comments: true
-redirect_from:
-  - /2009/09/24/設計案例-生命遊戲-5-中場休息/
-  - /columns/post/2009/09/24/e8a8ade8a888e6a188e4be8b-e7949fe591bde9818ae688b2-5-e4b8ade5a0b4e4bc91e681af.aspx/
-  - /post/2009/09/24/e8a8ade8a888e6a188e4be8b-e7949fe591bde9818ae688b2-5-e4b8ade5a0b4e4bc91e681af.aspx/
-  - /post/e8a8ade8a888e6a188e4be8b-e7949fe591bde9818ae688b2-5-e4b8ade5a0b4e4bc91e681af.aspx/
-  - /columns/2009/09/24/e8a8ade8a888e6a188e4be8b-e7949fe591bde9818ae688b2-5-e4b8ade5a0b4e4bc91e681af.aspx/
-  - /columns/e8a8ade8a888e6a188e4be8b-e7949fe591bde9818ae688b2-5-e4b8ade5a0b4e4bc91e681af.aspx/
-wordpress_postid: 29
----
-
 在繼續下去之前，先來講一下，我希望讓這個 "生命遊戲" 程式，發展到什麼程度吧。其實前面四篇都還只是基礎入門，跟準備動作而已，接下來才開始會有些有趣的。
 
 我希望這系列文章寫完後，這個程式要能扮演一個真正可運作的 Matrix … 沒錯，就是像電影駭客任務裡的母體一樣，這個程式會變成 Matrix 的主要架構，而各式各樣的 "生物" 可以在這個虛擬世界裡生活。為了讓它真的跑的動，所以前幾篇提到的效能問題，執行緒問題，就不能不考慮。為了讓這個虛擬世界能更擬真一點，它至少要是個依時間驅動的模式，而不是像 "生命遊戲" 最早定義的回合制，因此這個問題也要在基本架構裡解決掉。

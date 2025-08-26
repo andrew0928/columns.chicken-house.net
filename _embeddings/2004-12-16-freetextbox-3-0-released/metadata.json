@@ -7,11 +7,12 @@
     "\u6280\u8853\u96A8\u7B46",
     "\u6709\u7684\u6C92\u7684"
   ],
-  "generator": "BlogIndex.SyncPost v1.0.0.0, o3, https://app-azureopenai.openai.azure.com/",
   "tech-stacks": [
     "ASP.NET",
     ".NET",
+    "ASP.NET Web Control",
     "FreeTextBox",
+    "HTML Editor",
     ".TEXT"
   ],
   "keywords": [
@@ -19,9 +20,15 @@
     "ASP.NET",
     "Web Control",
     "HTML Editor",
+    ".TEXT",
+    "BLOG",
+    "1.6",
+    "3.0",
     "Image Gallery",
-    "online demo"
+    "online demo",
+    "\u5B98\u65B9\u7DB2\u7AD9"
   ],
+  "generator": "BlogIndex.SyncPost v0.3.0.0, gpt-5",
   "references": [
     "/2004/12/16/freetextbox-3-0-released/",
     "/columns/post/2004/12/16/FreeTextBox-30-Released-!.aspx/",
@@ -31,5 +38,6 @@
     "/columns/FreeTextBox-30-Released-!.aspx/",
     "/blogs/chicken/archive/2004/12/16/186.aspx/",
     "http://www.freetextbox.com"
-  ]
+  ],
+  "summary": "\u672C\u6587\u7C21\u77ED\u4ECB\u7D39\u4E00\u500B\u76F8\u7576\u597D\u7528\u7684 ASP.NET Web Control\u2500\u2500FreeTextBox\u3002\u5B83\u80FD\u5728\u7DB2\u9801\u4E2D\u76F4\u63A5\u5D4C\u5165 HTML \u7DE8\u8F2F\u5668\uFF0C\u8B93\u6587\u7AE0\u64B0\u5BEB\u8207\u6392\u7248\u66F4\u65B9\u4FBF\u3002\u4F5C\u8005\u7684\u90E8\u843D\u683C\u5F15\u64CE (.TEXT) \u76EE\u524D\u4ECD\u63A1\u7528\u8F03\u820A\u7684 1.6 \u7248\u4F86\u7DE8\u8F2F\u8CBC\u6587\u8207\u6587\u7AE0\uFF0C\u4F46\u6700\u65B0\u7248 3.0 \u5DF2\u5E36\u4F86\u8A31\u591A\u6539\u9032\u8207\u65B0\u529F\u80FD\uFF0C\u5176\u4E2D\u5305\u542B\u5167\u5EFA\u7684 Image Gallery\uFF0C\u53EF\u5728\u7DE8\u8F2F\u6642\u76F4\u63A5\u5F9E\u4F3A\u670D\u5668\u73FE\u6709\u7684\u5716\u6A94\u4E2D\u6311\u9078\u63D2\u5165\uFF0C\u63D0\u5347\u5167\u5BB9\u88FD\u4F5C\u6548\u7387\u3002\u6587\u672B\u63D0\u4F9B\u5B98\u65B9\u7DB2\u7AD9\u9023\u7D50\uFF0C\u4E26\u6709\u7DDA\u4E0A\u793A\u7BC4\u53EF\u4F9B\u8A66\u7528\u3002\u5C0D\u65BC\u4F7F\u7528 ASP.NET \u7684\u958B\u767C\u8005\u800C\u8A00\uFF0CFreeTextBox \u80FD\u7C21\u5316\u5F8C\u53F0\u5167\u5BB9\u7BA1\u7406\u8207\u5BCC\u6587\u5B57\u7DE8\u8F2F\u9700\u6C42\uFF0C\u503C\u5F97\u8A55\u4F30\u5347\u7D1A\u81F3 3.0 \u7248\u4EE5\u53D6\u5F97\u66F4\u5B8C\u6574\u7684\u529F\u80FD\u8207\u66F4\u6D41\u66A2\u7684\u7DE8\u8F2F\u9AD4\u9A57\u3002"
 }

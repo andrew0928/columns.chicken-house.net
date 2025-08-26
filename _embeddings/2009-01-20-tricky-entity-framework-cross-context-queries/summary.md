@@ -1,46 +1,105 @@
-# 難搞的 Entity Framework ‑ 跨越 Context 的查詢
+# 難搞的 Entity Framework - 跨越 Context 的查詢
 
 ## 摘要提示
-- Entity Framework 1.0: 第一版功能尚未成熟，與其他成熟 ORM 相比仍有落差。  
-- 設計工具缺陷: .edmx 拖拉或重建容易導致 build 失敗，VIEW 無法正確指定 Key。  
-- 大型資料庫難題: schema 龐大時無法把所有 Table/View 放在同一張 ER Model。  
-- 分割 .edmx 後遺症: 會衍生多個 ObjectContext，SaveChanges 與查詢都被限制在各自 Context 中。  
-- 跨 Context 查詢限制: LINQ 與 eSQL 都不支援跨越不同 ObjectContext 的 JOIN。  
-- 模組化需求: .edmx 與商業邏輯需封裝於各自 Assembly，且新增模組不應影響既有編譯。  
-- 微軟官方文章: “Working With Large Models In EF” 系列提供拆分模型的思路與 API。  
-- 關鍵解法: 在 EntityConnectionString 的 metadata 區段列出多組 *.csdl/*.ssdl/*.msl。  
-- 單一 ObjectContext: 透過合併後的連接字串即可存取多份模型並在 eSQL 中自由 JOIN。  
-- LINQ 使用方式: 需自行以 CreateQuery<T>() 產生 EntitySet，其他操作與原來無異。  
+- 大型模型挑戰: EF 在大型、複雜 schema 的專案中，面臨設計工具限制與跨 Context 查詢困難。
+- 設計工具問題: 視覺化設計器易出小錯，常需手改 .edmx，影響開發效率。
+- 模型切割動機: 為避免單一龐大 OR Mapping，需將模型切割為多個 .edmx 並模組化。
+- 跨 Context 限制: LINQ/eSQL 無法直接跨 ObjectContext 查詢，Navigation Property 也受限。
+- 多 Context 操作成本: 多個 ObjectContext 需分別 SaveChanges，協作複雜度提升。
+- 官方建議參考: 來自 ADO.NET Team 的 Large Models 系列提供模型分割與重用策略。
+- 核心解法線索: 透過單一 EntityConnection 在連線字串中合併多組 metadata 檔。
+- 單一 Context 聚合: 以一個 ObjectContext 載入多組 .csdl/.ssdl/.msl，達成跨模型 eSQL 查詢。
+- LINQ 使用方式: 需自行用 CreateQuery 生成 EntitySet，再進行 LINQ 查詢。
+- 模組化落地: 新增模組不需重編其他模組，支持跨模組資料查詢與維運擴充。
 
 ## 全文重點
-作者花了兩個月研究 Entity Framework (EF) 與 Enterprise Library，發現 EF 雖然背負微軟龐大的技術藍圖，但第一版功能與工具仍顯粗糙，尤其在處理大型、結構複雜的資料庫時問題特別多。  
-為了避免把上百張資料表全部塞進一個 .edmx，作者採取「多 .edmx、模組化」的方式；然而，這個做法馬上遇到三大瓶頸：  
-1) 產生多個 ObjectContext，必須分別呼叫 SaveChanges；  
-2) LINQ 與 eSQL 都不能跨越 Context JOIN；  
-3) AssociationSet 不能跨檔案，Navigation Property 無法跨模組使用。  
+作者分享在研究 Entity Framework 與 Enterprise Library 的過程中，面對大型資料庫架構下的實務難題。雖然 EF 的設計理念不錯，但第一代工具仍有不少小問題，例如將 TABLE/VIEW 拉入模型、刪除再加入、或無法正確設定 VIEW 主鍵，常導致建置失敗，開發者不得不手動修改 .edmx。真正的痛點在於大型系統的 O/R Mapping：當資料庫 schema 複雜、表數量龐大（動輒上百個），單一 ER 模型與映射設定會變得不可維護，因此必須將模型適度切割成多個 .edmx 並以模組化封裝。
 
-作者徵詢各種資料後，從 ADO.NET 團隊的官方部落格系列文章得到關鍵線索：在 Runtime 其實可以手動建立「包含多組模型定義」的 EntityConnectionString。只要把多個 .csdl、.ssdl、.msl 路徑用「|」串起來放進 metadata 參數，再以此字串構造 ObjectContext，就能把過去拆開的各 .edmx 在邏輯上縫合成「單一 Context」。  
-eSQL 立即可對跨模組 EntitySet 做 JOIN；LINQ 雖無法直接使用自動產生的屬性，但可透過 ObjectContext.CreateQuery<T>() 取回想要的集合，其他 CRUD 與交易控制流程皆與原本相同。  
-這個小技巧徹底解決了作者在大型系統模組化下「跨 Context 查詢」的痛點，既保留拆分 .edmx 的可維護性，又免除了多 Context 帶來的限制，也符合「新增模組無須重新編譯其他模組」的目標。
+然而模型分割帶來三大問題：一是多個 ObjectContext 必須分別 SaveChanges；二是 LINQ to Entities 與 eSQL 無法跨 Context 進行 join 查詢；三是 AssociationSet 無法跨越 Context，導致不同 .edmx 的實體無法用 Navigation Property 導覽關聯。作者的實際需求包括：每個模組（含 .edmx 與邏輯）需封裝於獨立組件；不同模組的 EntitySet 能用 eSQL join；支援基本 LINQ；新增模組時不需重新編譯其他模組。
+
+閱讀 ADO.NET Team Blog 的 Large Models 系列後，作者從 Part 2 的一段提示獲得關鍵解法：在執行階段透過一個 EntityConnection 的連線字串，於 Metadata 參數同時指定多組 .csdl/.ssdl/.msl，讓單一 ObjectContext 可以同時載入多個模型的中繼資料。如此，eSQL 可在單一 Context 內跨模型查詢；LINQ 則可先以 CreateQuery 產生 EntitySet 再進行查詢。此法使得模組化與跨模組查詢得以並存，也避免了重編譯依賴，最終解決作者長期以來的困擾。
 
 ## 段落重點
-### 一、研究近況與工具抱怨
-作者兩個月都在研究 EF 與 Enterprise Library；前者比後者難纏。EF 設計工具在拖拉 Table/View 時常出現 Key 不明、重複加入導致編譯錯誤的問題，迫使開發者直接修改 .edmx。
+### 研究背景與工具抱怨
+作者兩個月專注於 Entity Framework 與 Enterprise Library。後者入門相對容易，但 EF 因為架構宏大且仍是初版，學習與落地難度較高。EF 設計工具雖提升了映射工作的可視化體驗，但實務上常出現小問題，例如表或檢視重新加入後導致建置錯誤、VIEW 無法正確設定鍵、需手動調整 .edmx。這些瑕疵在大型專案中會被放大，拖慢開發節奏。作者指出，撇開工具瑕疵，EF 的概念與設計仍有其優點，但在現階段仍難與成熟 ORM 方案全面抗衡。
 
-### 二、大型資料庫的 OR Mapping 困境
-大型企業系統往往有數百張 Table/View，單一 .edmx 不易維護也造成效能與視覺化困難。常見做法是將資料模型切割為多個 .edmx，以符合模組化與團隊分工需求。
+### 大型資料庫的本質問題
+文章將「大型」定義為 schema 複雜、表與檢視繁多，而非資料量龐大。此類系統常因版本演進保留舊表且不斷加入新表，形成極其複雜的 ER 結構。所有 ORM 都需維護 O/R Mapping，若將上百個表集中在單一模型，維護極度困難且風險高。因此合理的策略是將模型切割成多個 .edmx，對應功能模組分而治之。然而，單純切割並非萬靈丹，會引出執行與查詢層面的新挑戰，特別是資料跨模組關聯的需求無可避免。
 
-### 三、多 .edmx 所衍生的跨 Context 障礙
-切割雖然易管理，但 EF 會為每份 .edmx 生成獨立 ObjectContext：  
-1) 每邊要各自 SaveChanges；  
-2) eSQL 與 LINQ 不允許跨 Context JOIN；  
-3) Navigation Property 受限於 AssociationSet，只能在單一模型內使用。這些限制在大型系統中難以接受。
+### 模型切割後的三大限制
+將模型分散到多個 .edmx 後，會產生：1) 多個 ObjectContext 並存，狀態管理與交易邏輯變複雜，需分別 SaveChanges；2) 查詢層面，無論 LINQ to Entities 或 eSQL，都不支援跨 Context 的 join，造成跨模組查資料受阻；3) 關聯導覽方面，AssociationSet 無法跨 Context，意味不同 .edmx 的實體之間無法透過 Navigation Property 導覽，削弱了 EF 的關聯導向優勢。這三點在大型系統中都會成為阻礙，必須另尋辦法統一查詢層並維持模組自治。
 
-### 四、需求列舉與官方文章探索
-作者列出四大需求：模組封裝、跨模組 JOIN、基本 LINQ 支援、增刪模組免重編。搜尋過程中發現 ADO.NET 團隊的 “Working With Large Models In EF” 系列，文章建議在 Runtime 以自訂 EntityConnectionString 合併多組 schema。
+### 實務需求與模組化目標
+作者明確列出需求：一是配合模組化，將每個 .edmx 與其商業邏輯封裝為各自的 assembly；二是不同模組的 EntitySet 能以 eSQL 進行跨模組 join 查詢；三是保有基本 LINQ 能力；四是後續擴充新模組不需重編其他模組，以降低耦合與部署成本。這些條件反映出企業級系統在演進式維護、跨界面資料整合與持續交付上的實際要求，也限定了解法必須在執行期具備彈性聚合能力，而非編譯期綁定。
 
-### 五、關鍵技巧與實作成效
-實作方法是在 metadata=res://*/… 參數後面依序加入多個 .csdl|.ssdl|.msl，再用此連接字串建立 ObjectContext。結果：  
-1) eSQL 能對多個 EntitySet 自由 JOIN；  
-2) LINQ 透過 CreateQuery<T>() 可取得集合；  
-3) 仍保持模組與程式碼分離，新增或修改 .edmx 不影響其他模組編譯。作者終於解決困擾已久的跨 Context 查詢問題，宣告任務完成。
+### 線索來源：官方 Large Models 系列
+雖然 Large Models 兩篇文章多數內容超出作者當下需求，但 Part 2 的一段關鍵說明提供了突破口：在執行階段可以建立一個 ObjectContext，使用帶有 EntityConnectionString 的建構子，並在連線字串的 Metadata 參數同時指定多組中繼資料檔路徑，讓單一 Context 同時「認得」多個模型。這個技巧將拆分設計與執行期聚合分離，既保留了模型切割的可維護性，也創造了跨模型操作的可能，正中作者的痛點。
+
+### 解法細節：合併多組 metadata
+EF 的 EntityConnection 連線字串除了資料庫連線外，還包含 .csdl、.ssdl、.msl 的中繼資料位置。一般是單組檔案；而依據官方說法，可以在 Metadata 段落串接多組檔案清單。如此，建立單一 ObjectContext 時，即可載入多個 .edmx 對應的中繼資料集合。結果是：eSQL 能在同一 Context 內跨模型進行 join 等查詢；LINQ 雖無法直接跨 Context，但在此情境中可透過 CreateQuery 建立對應的 EntitySet 再進行 LINQ 查詢。這種做法達成了查詢整合，同時不破壞模組邊界。
+
+### 成果與影響
+透過合併 metadata 的連線字串技巧，作者解決了跨 Context 查詢的瓶頸，保有模組化封裝並支援跨模組 eSQL 與基本 LINQ。這也緩解了多 Context 帶來的交易與查詢複雜度問題，讓大型 schema 能以多模型管理、單 Context 查詢的方式取得平衡。此外，此法相容於增量式擴充：新增模組只需提供其 .edmx 對應的中繼資料，不必重編其他模組。作者以此作結，表示困擾多時的問題終於落地，後續應用細節將再分享。
+
+## 資訊整理
+
+### 知識架構圖
+1. 前置知識：
+   - .NET 3.5 SP1 與 Visual Studio 2008 基本開發環境
+   - Entity Framework v1 基礎觀念（ObjectContext、EntitySet、Navigation Property）
+   - O/R Mapping 與 .edmx 檔結構（CSDL/SSDL/MSL）
+   - LINQ to Entities 與 eSQL 基本使用
+   - 連接字串與 EntityConnection 的概念
+
+2. 核心概念：
+   - 大型模型拆分：將龐大 schema 切成多個 .edmx 以便模組化與維護
+   - 跨 Context 限制：LINQ/eSQL/Navigation 無法直接跨多個 ObjectContext
+   - Metadata 併載：在單一 EntityConnection 的 Metadata 參數同時指向多組 CSDL/SSDL/MSL
+   - 單一 ObjectContext 遍歷多模型：透過併載後的單一 Context 進行 eSQL JOIN
+   - LINQ 的建置方式差異：跨模型時以 CreateQuery<T>() 明確對 EntitySet 開查詢
+
+3. 技術依賴：
+   - ObjectContext 依賴 EntityConnection
+   - EntityConnection 依賴 Metadata Workspace（CSDL/SSDL/MSL）
+   - eSQL/LINQ 查詢依賴於單一 Context 的可見模型範圍
+   - Navigation/AssociationSet 侷限於定義所在的單一模型（.edmx）
+
+4. 應用場景：
+   - 大型資料庫（大量 Table/View、複雜 schema）的企業級應用
+   - 模組化架構：各模組各自封裝 .edmx 與邏輯於獨立組件
+   - 跨模組查詢：需要在不同 .edmx 的 EntitySet 之間做 JOIN
+   - 增量擴充：新增模組時，不希望重建或重編譯既有模組
+
+### 學習路徑建議
+1. 入門者路徑：
+   - 學會 EF v1 基本組件：ObjectContext、EntitySet、EntityConnection
+   - 理解 .edmx 與 CSDL/SSDL/MSL 的角色與關係
+   - 練習基本 LINQ to Entities 與 eSQL 查詢
+
+2. 進階者路徑：
+   - 練習將大型模型切割為多個 .edmx，理解其優缺點
+   - 了解跨 Context 的限制（LINQ、eSQL、Navigation）
+   - 學會手動調整 .edmx 與設計工具限制下的修正（如 View Key、重匯入問題）
+
+3. 實戰路徑：
+   - 建立可併載多組 Metadata 的 EntityConnection 連接字串
+   - 以單一 ObjectContext 進行跨 .edmx 的 eSQL JOIN
+   - 使用 CreateQuery<T>() 在單一 Context 下對多模型的 EntitySet 建查詢
+   - 驗證 SaveChanges 流程簡化（相較多 Context 的多次保存）
+
+### 關鍵要點清單
+- 大型模型拆分：將巨量 schema 拆到多個 .edmx 以降低複雜度與編譯負擔 (優先級: 高)
+- 跨 Context 限制：EF v1 不支援跨 Context 的 LINQ/eSQL/Navigation 操作 (優先級: 高)
+- AssociationSet 範圍：關聯集無法跨 .edmx，因此 Navigation 無法跨模型 (優先級: 高)
+- 多組 Metadata 併載：在 EntityConnection 的 Metadata 參數同時指定多組 CSDL/SSDL/MSL (優先級: 高)
+- 單一 ObjectContext：用併載後的單一 Context 使 eSQL 可以跨多 .edmx 進行 JOIN (優先級: 高)
+- LINQ CreateQuery：跨模型時以 CreateQuery<T>() 明確建立對目標 EntitySet 的 LINQ 查詢 (優先級: 高)
+- SaveChanges 策略：多 Context 需多次 SaveChanges；合併後可由單一 Context 管控 (優先級: 中)
+- 設計工具限制：VS2008 EF 設計器可能有重匯入失敗、View Key 指定受限等問題 (優先級: 中)
+- 手動編修 .edmx：必要時直接修改 .edmx 以解決設計器無法處理的鍵與對應問題 (優先級: 中)
+- 模組化封裝：每個模組封裝自己的 .edmx 與邏輯於獨立組件，便於維護與部署 (優先級: 中)
+- 擴充不重編：新增模組時，透過併載 Metadata 避免重編舊模組 (優先級: 中)
+- eSQL 與 LINQ 差異：eSQL 在併載後能跨模型 JOIN；LINQ 需明確指定查詢來源 (優先級: 中)
+- 連接字串管理：EntityConnection 連接字串較長且易錯，需制定組裝與維護策略 (優先級: 低)
+- 版本與路線圖：EF v1 能力有限，了解未來版本方向與限制有助風險控管 (優先級: 低)
+- 參考資源：ADO.NET Team Blog「Working With Large Models In EF」Part 1/2 提供設計指引 (優先級: 中)

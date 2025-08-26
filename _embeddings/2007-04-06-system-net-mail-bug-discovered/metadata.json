@@ -1,38 +1,54 @@
 {
   "title": "\u539F\u4F86 System.Net.Mail \u4E5F\u6703\u6709 Bug ...",
   "published": true,
-  "categories": [],
+  "categories": null,
   "tags": [
     ".NET",
     "Tips",
     "\u6280\u8853\u96A8\u7B46"
   ],
-  "generator": "BlogIndex.SyncPost v1.0.0.0, o3, https://app-azureopenai.openai.azure.com/",
   "tech-stacks": [
+    ".NET",
     "C#",
-    ".NET Framework",
     "System.Net.Mail",
     "SmtpClient",
+    "MailMessage",
+    "MailAddress",
+    "System.Net.Mime.HeaderCollection",
+    "MIME",
     "Windows XP",
     "Windows Server 2003",
     "Windows Vista",
-    "Windows Update"
+    "Big5 (code page 950)",
+    "Console.WriteLine",
+    "FormatException",
+    "SmtpException"
   ],
   "keywords": [
     "System.Net.Mail",
+    "Bug",
     "MailMessage",
-    "SmtpClient",
     "MailAddress",
     "ToString",
     "ToEncodedString",
-    "FormatException",
     "HeaderCollection",
-    "Encoding",
-    "GetEncoding(950)",
-    "ANSI",
-    "Console.WriteLine",
-    "bug"
+    "FormatException",
+    "SmtpClient",
+    "Encoding 950",
+    "Big5",
+    "chtEnc",
+    "IsAnsi",
+    "MIME",
+    "MailBnfHelper",
+    "fullAddress",
+    "DisplayName",
+    "Address",
+    "Exception",
+    "call stack",
+    "\u53CD\u7D44\u8B6F",
+    ".NET"
   ],
+  "generator": "BlogIndex.SyncPost v0.3.0.0, gpt-5",
   "references": [
     "/2007/04/06/\u539F\u4F86-system-net-mail-\u4E5F\u6703\u6709-bug/",
     "/2007/04/06/system-net-mail-bug-discovered/",
@@ -42,5 +58,6 @@
     "/columns/2007/04/06/e58e9fe4be86-SystemNetMail-e4b99fe69c83e69c89-Bug-.aspx/",
     "/columns/e58e9fe4be86-SystemNetMail-e4b99fe69c83e69c89-Bug-.aspx/",
     "/blogs/chicken/archive/2007/04/06/2328.aspx/"
-  ]
+  ],
+  "summary": "\u4F5C\u8005\u5728\u4F7F\u7528 .NET \u7684 System.Net.Mail \u5BC4\u9001\u542B\u4E2D\u6587\u540D\u7A31\u7684\u90F5\u4EF6\u6642\uFF0C\u767C\u73FE\u52A0\u5165\u4E00\u884C Console.WriteLine(\u0022\u6E96\u5099\u5BC4\u4FE1 (From: {0})\u0022, mail.From) \u4E4B\u5F8C\uFF0C\u5BC4\u4FE1\u4FBF\u62CB\u51FA SmtpException/FormatException\uFF0C\u8A0A\u606F\u70BA\u300C\u6A19\u982D\u503C\u4E2D\u627E\u5230\u7121\u6548\u7684\u5B57\u5143\u300D\u3002\u5728\u4E0D\u540C Windows \u7248\u672C\u8207\u8A9E\u7CFB\u4E0B\u7686\u53EF\u91CD\u73FE\u3002\u7D93\u4EE5\u53CD\u7D44\u8B6F\u8FFD\u67E5\u547C\u53EB\u5806\u758A\uFF0C\u6E90\u982D\u51FA\u73FE\u5728 System.Net.Mime.HeaderCollection.Set\uFF0C\u7576\u5224\u5B9A\u90F5\u4EF6\u6A19\u982D\u503C\u975E ANSI \u6642\u4E1F\u51FA FormatException\u3002\u518D\u5F80\u4E0A\u8FFD\u5230 MailAddress \u7684\u7D44\u5B57\u908F\u8F2F\uFF0C\u767C\u73FE ToEncodedString \u8207 ToString \u7686\u6703\u8A2D\u5B9A\u540C\u4E00\u500B private \u6B04\u4F4D fullAddress\uFF1A\u524D\u8005\u6703\u5C0D\u986F\u793A\u540D\u7A31\u9032\u884C\u6B63\u78BA\u7684 MIME \u7DE8\u78BC\u4E26\u7522\u751F address\uFF0C\u800C\u5F8C\u8005\u5247\u76F4\u63A5\u4EE5\u672A\u7DE8\u78BC\u7684 DisplayName \u5305\u9032\u5F15\u865F\u8207 \u003C\u003E \u4E2D\uFF0C\u5C0E\u81F4\u9996\u6B21\u82E5\u5148\u547C\u53EB ToString\uFF0CfullAddress \u88AB\u586B\u5165\u672A\u7DE8\u78BC\u503C\uFF0C\u5F8C\u7E8C\u9001\u4FE1\u6642 Header \u6AA2\u67E5\u5373\u5224\u70BA\u7121\u6548\u5B57\u5143\u800C\u5931\u6557\u3002\u4E5F\u56E0\u6B64\uFF0C\u55AE\u7D14\u5217\u5370 mail.From\uFF08\u89F8\u767C ToString\uFF09\u5C31\u6703\u8B93\u5F8C\u7E8C\u5BC4\u9001\u5931\u6557\uFF1B\u82E5\u4E0D\u5217\u5370\u6216\u6539\u7528\u6B63\u78BA\u7DE8\u78BC\u6D41\u7A0B\u5247\u53EF\u6B63\u5E38\u5BC4\u51FA\u3002\u4F5C\u8005\u7E3D\u7D50\u9019\u662F Microsoft \u5728 MailAddress \u5BE6\u4F5C\u4E2D\u7684 Bug\uFF0C\u63D0\u9192\u6D89\u53CA\u4E9E\u6D32\u8A9E\u7CFB\uFF08Big5/950\uFF09\u6642\u8981\u7559\u610F\uFF0C\u4E26\u5206\u4EAB\u4E86\u5B9A\u4F4D\u554F\u984C\u7684\u904E\u7A0B\u8207\u5FC3\u5F97\u3002"
 }

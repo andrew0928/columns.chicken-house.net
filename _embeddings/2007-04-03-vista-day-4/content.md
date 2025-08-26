@@ -1,22 +1,3 @@
----
-layout: post
-title: "Vista Day 4..."
-categories:
-
-tags: ["技術隨筆","有的沒的"]
-published: true
-comments: true
-redirect_from:
-  - /2007/04/03/vista-day-4/
-  - /columns/post/2007/04/03/Vista-Day-4.aspx/
-  - /post/2007/04/03/Vista-Day-4.aspx/
-  - /post/Vista-Day-4.aspx/
-  - /columns/2007/04/03/Vista-Day-4.aspx/
-  - /columns/Vista-Day-4.aspx/
-  - /blogs/chicken/archive/2007/04/03/2323.aspx/
-wordpress_postid: 171
----
-
 升級 Vista 第四天, 來講幾個令我超不爽的地方.... 
 
 1. 內建的工具列, 現在竟然不能拉出工作列了... [:@] 
@@ -44,4 +25,4 @@ wordpress_postid: 171
 
 不過碰到 UAC 真是一肚子火, 嘖嘖, 對知道的人是幫倒忙, 對不知道的人他也只會通通按 YES -_-, 就像所有的精靈都是按下一步一樣, 哈哈... 不過至少還是有進步, 畢竟不是每個人都有嫌工夫像我一樣設 RUNAS ..., 不過不習慣就是不習慣, 試沒多久就把 UAC 給關了.. [:$]
 
-牢騷發完了, 謝謝收看 [:D], 下回來寫點正面的... 
+牢騷發完了, 謝謝收看 [:D], 下回來寫點正面的...

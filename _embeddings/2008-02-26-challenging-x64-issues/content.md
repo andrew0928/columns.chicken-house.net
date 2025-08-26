@@ -1,22 +1,3 @@
----
-layout: post
-title: "困難重重的 x64"
-categories:
-
-tags: ["技術隨筆","有的沒的","水電工"]
-published: true
-comments: true
-redirect_from:
-  - /2008/02/26/困難重重的-x64/
-  - /columns/post/2008/02/26/e59bb0e99ba3e9878de9878de79a84-x64.aspx/
-  - /post/2008/02/26/e59bb0e99ba3e9878de9878de79a84-x64.aspx/
-  - /post/e59bb0e99ba3e9878de9878de79a84-x64.aspx/
-  - /columns/2008/02/26/e59bb0e99ba3e9878de9878de79a84-x64.aspx/
-  - /columns/e59bb0e99ba3e9878de9878de79a84-x64.aspx/
-  - /blogs/chicken/archive/2008/02/26/3005.aspx/
-wordpress_postid: 121
----
-
 即使是做足了功課，還是敗下陣來... Orz 
 
 之前 Vista x64 用的都還不錯，直到加上 4GB 之後，才是惡夢的開始... 之前貼了一篇 6GB 很爽的 POST，之前插上去只偵測到4.8GB，想說小事情，一定是 BIOS Remap沒打開的關係，果然一開就是 6GB，一切正常，就貼了 POST .. 

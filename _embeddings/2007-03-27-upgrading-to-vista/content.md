@@ -1,22 +1,3 @@
----
-layout: post
-title: "升級 Vista ..."
-categories:
-
-tags: ["技術隨筆","有的沒的"]
-published: true
-comments: true
-redirect_from:
-  - /2007/03/27/upgrading-to-vista/
-  - /columns/post/2007/03/27/e58d87e7b49a-Vista-.aspx/
-  - /post/2007/03/27/e58d87e7b49a-Vista-.aspx/
-  - /post/e58d87e7b49a-Vista-.aspx/
-  - /columns/2007/03/27/e58d87e7b49a-Vista-.aspx/
-  - /columns/e58d87e7b49a-Vista-.aspx/
-  - /blogs/chicken/archive/2007/03/27/2311.aspx/
-wordpress_postid: 175
----
-
 家裡的 PC 決定改裝 vista 了. 原本的機器是跑 windows 2003 x64, 機器很閒, web site + file server 跟本用不到 5% 的 loading, 就決定改為桌機...
 
 計劃中這台 pc 要能處理這些事:

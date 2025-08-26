@@ -1,22 +1,3 @@
----
-layout: post
-title: "Microsoft Windows XP Media Center Edition 2005"
-categories:
-
-tags: ["有的沒的"]
-published: true
-comments: true
-redirect_from:
-  - /2006/09/25/microsoft-windows-xp-media-center-edition-2005/
-  - /columns/post/2006/09/25/Microsoft-Windows-XP-Media-Center-Edition-2005.aspx/
-  - /post/2006/09/25/Microsoft-Windows-XP-Media-Center-Edition-2005.aspx/
-  - /post/Microsoft-Windows-XP-Media-Center-Edition-2005.aspx/
-  - /columns/2006/09/25/Microsoft-Windows-XP-Media-Center-Edition-2005.aspx/
-  - /columns/Microsoft-Windows-XP-Media-Center-Edition-2005.aspx/
-  - /blogs/chicken/archive/2006/09/25/1763.aspx/
-wordpress_postid: 221
----
-
 最近裝了台 PC, 灌了 MCE 2005 ... 用起來只有一個字... 爽!!!
 
 最近台灣引進了 TiVo 這套系統, 應該不少人聽過吧? PC + TV card + MCE2005 就是像 TiVo 這樣子的東西, 只不過都是 Microsoft 靠一堆軟體弄的... 不用額外買專用的機器, 也不用像 TiVo 要付月租費...
@@ -36,19 +17,19 @@ wordpress_postid: 221
 
 抓幾張畫面...
 
-![MCE Screenshot 1](/wp-content/uploads/2006/09/MicrosoftWindowsXPMediaCenterEdition2005_2895/021.png)
+![MCE Screenshot 1](/images/2006-09-25-microsoft-windows-xp-media-center-edition-2005/021.png)
 
 預約錄影清單... 當然節目的相關資訊都在裡面.
 
-![MCE Screenshot 2](/wp-content/uploads/2006/09/MicrosoftWindowsXPMediaCenterEdition2005_2895/05.png)
+![MCE Screenshot 2](/images/2006-09-25-microsoft-windows-xp-media-center-edition-2005/05.png)
 
 節目表... 左下角會用PIP方式顯示目前正在播放的節目畫面..
 
-![MCE Screenshot 3](/wp-content/uploads/2006/09/MicrosoftWindowsXPMediaCenterEdition2005_2895/03.png)
+![MCE Screenshot 3](/images/2006-09-25-microsoft-windows-xp-media-center-edition-2005/03.png)
 
 播放畫面, 我錄的 "超人特攻隊" ... 它的操作界面都是特別針對電視能看的清楚的畫面, 還有都是能搭配搖控器操作... keyboard / mouse 不是必需品.
 
-![MCE Screenshot 4](/wp-content/uploads/2006/09/MicrosoftWindowsXPMediaCenterEdition2005_2895/06.png)
+![MCE Screenshot 4](/images/2006-09-25-microsoft-windows-xp-media-center-edition-2005/06.png)
 
 選台時下方會出現的頻道 and 節目資訊..
 

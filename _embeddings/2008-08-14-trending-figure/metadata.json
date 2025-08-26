@@ -6,33 +6,42 @@
     "\u6709\u7684\u6C92\u7684",
     "\u706B\u5927"
   ],
-  "generator": "BlogIndex.SyncPost v1.0.0.0, o3, https://app-azureopenai.openai.azure.com/",
   "tech-stacks": [
-    "Google",
     "Baidu",
+    "Google",
     "MSN",
-    "cnblogs",
-    "Windows Live Writer",
-    "WordPress"
+    "Cnblogs\uFF08\u535A\u5BA2\u5712\uFF09",
+    "Wretch\uFF08\u7121\u540D\u5C0F\u7AD9\uFF09",
+    "\u90E8\u843D\u683C\u5E73\u53F0",
+    "IP \u5C01\u9396"
   ],
   "keywords": [
+    "\u8A71\u984C\u4EBA\u7269",
     "\u88AB\u76DC\u6587",
+    "\u8F49\u8CBC",
+    "\u5C0D\u5CB8",
     "\u767E\u5EA6",
-    "CNBlogs",
+    "\u6279\u8A55",
+    "\u7C21\u9AD4\u4E2D\u6587",
+    "\u5168\u6587\u7167\u8CBC",
+    "\u95DC\u9375\u5B57",
     "Google",
     "MSN",
-    "IP\u5C01\u9396",
     "\u5169\u5CB8\u5C0D\u7ACB",
     "\u7B2C\u4E09\u6B21\u4E16\u754C\u5927\u6230",
-    "\u7C21\u9AD4\u4E2D\u6587",
-    "\u5168\u6587\u7167\u8CBC"
+    "IP \u88AB\u5C01\u9396",
+    "\u982D\u689D\u65B0\u805E",
+    "\u4EBA\u6C23"
   ],
+  "generator": "BlogIndex.SyncPost v0.3.0.0, gpt-5",
   "references": [
     "http://columns.chicken-house.net/post/e5be88e68ab1e6ad89efbc8ce69cace7ab99e4b88de6ada1e8bf8ee4be86e887aa-e799bee5baa6-(Baiducom)-e79a84e8a8aae5aea2-!!.aspx",
     "http://esserei.chicken-house.net/",
     "http://www.cnblogs.com/hullfqaz/archive/2008/07/28/1254315.html",
+    "http://www.wretch.cc/blog/kevinfan0908",
     "http://blog.const.net.cn/news/20080728/ec3b4ba924bde2b4.htm",
-    "/wp-content/be-files/WindowsLiveWriter/dc538ed1d5c3_1E4B/image_3.png",
-    "/wp-content/be-files/WindowsLiveWriter/dc538ed1d5c3_1E4B/image_6.png"
-  ]
+    "/images/2008-08-14-trending-figure/image_3.png",
+    "/images/2008-08-14-trending-figure/image_6.png"
+  ],
+  "summary": "\u4F5C\u8005\u56DE\u9867\u5148\u524D\u906D\u76DC\u6587\u7684\u7D93\u6B77\uFF0C\u539F\u4EE5\u70BA\u98A8\u6CE2\u5DF2\u904E\uFF0C\u537B\u56E0\u53CB\u4EBA\u5206\u4EAB\u9023\u7D50\uFF0C\u610F\u5916\u767C\u73FE\u5C0D\u5CB8\u7DB2\u53CB\u5728\u535A\u5BA2\u5712\u8F49\u8CBC\u4E26\u8A0E\u8AD6\u6B64\u4E8B\u4EF6\uFF0C\u7559\u8A00\u4E2D\u9084\u6709\u4EBA\u6279\u8A55\u767E\u5EA6\u7684\u4F5C\u6CD5\u3002\u96D6\u7136\u8A72\u6587\u672A\u7D93\u540C\u610F\u8F49\u8F09\uFF0C\u4F46\u9019\u6B21\u81F3\u5C11\u4FDD\u7559\u5168\u6587\u8207\u539F\u59CB\u9023\u7D50\uFF0C\u4E14\u672A\u88AB\u6A5F\u68B0\u5F0F\u7C21\u9AD4\u5316\u3002\u4F5C\u8005\u9032\u4E00\u6B65\u4EE5\u76F8\u95DC\u95DC\u9375\u5B57\u641C\u5C0B\uFF0C\u53C8\u767C\u73FE\u53E6\u4E00\u5247\u8F49\u8CBC\uFF0C\u4F46\u5176\u7DB2\u7AD9\u7591\u4F3C\u5C01\u9396\u4F5C\u8005\u7684 IP\uFF0C\u7121\u6CD5\u700F\u89BD\uFF0C\u4EE4\u4ED6\u54ED\u7B11\u4E0D\u5F97\u3002\u6587\u4E2D\u8207\u524D\u540C\u4E8B\u5728 MSN \u7684\u73A9\u7B11\uFF0C\u751A\u81F3\u63D0\u5230\u8A00\u8AD6\u53EF\u80FD\u88AB\u89E3\u8B80\u70BA\u6311\u8D77\u5169\u5CB8\u5C0D\u7ACB\uFF0C\u8A87\u5F35\u5230\u6703\u5F15\u767C\u300C\u7B2C\u4E09\u6B21\u4E16\u754C\u5927\u6230\u300D\u3002\u6700\u5F8C\u4F5C\u8005\u81EA\u5632\u4EBA\u6C23\u4E0D\u8DB3\uFF0C\u641C\u5C0B\u534A\u5929\u50C5\u627E\u5230\u5169\u7BC7\u8F49\u8CBC\uFF0C\u8DDD\u96E2\u6210\u70BA\u300C\u982D\u689D\u65B0\u805E\u300D\u9084\u6709\u5F88\u9577\u4E00\u6BB5\u8DEF\uFF0C\u8A9E\u6C23\u8F15\u9B06\u5730\u70BA\u9019\u6BB5\u63D2\u66F2\u4F5C\u7D50\u3002"
 }

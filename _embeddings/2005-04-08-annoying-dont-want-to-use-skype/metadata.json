@@ -1,11 +1,10 @@
 {
   "title": "\u771F\u53EF\u60E1, \u4E0D\u60F3\u7528 skype \u4E86..... :@",
   "published": true,
-  "categories": [],
+  "categories": null,
   "tags": [
     "\u6709\u7684\u6C92\u7684"
   ],
-  "generator": "BlogIndex.SyncPost v1.0.0.0, o3, https://app-azureopenai.openai.azure.com/",
   "tech-stacks": [
     "Skype"
   ],
@@ -13,11 +12,19 @@
     "Skype",
     "Skype International",
     "\u771F\u53EF\u60E1",
-    "\u4E0D\u60F3\u7528",
-    "skype"
+    "\u4E0D\u60F3\u7528"
   ],
+  "generator": "BlogIndex.SyncPost v0.3.0.0, gpt-5",
   "references": [
     "http://www.skype.com/intl/",
-    "/wp-content/be-files/skype-international.gif"
-  ]
+    "/images/2005-04-08-annoying-dont-want-to-use-skype/skype-international.gif",
+    "/2005/04/08/\u771F\u53EF\u60E1-\u4E0D\u60F3\u7528-skype-\u4E86/",
+    "/columns/post/2005/04/08/e79c9fe58fafe683a12c-e4b88de683b3e794a8-skype-e4ba86-.aspx/",
+    "/post/2005/04/08/e79c9fe58fafe683a12c-e4b88de683b3e794a8-skype-e4ba86-.aspx/",
+    "/post/e79c9fe58fafe683a12c-e4b88de683b3e794a8-skype-e4ba6-.aspx/",
+    "/columns/2005/04/08/e79c9fe58fafe683a12c-e4b88de683b3e794a8-skype-e4ba6-.aspx/",
+    "/columns/e79c9fe58fafe683a12c-e4b88de683b3e794a8-skype-e4ba6-.aspx/",
+    "/blogs/chicken/archive/2005/04/08/533.aspx/"
+  ],
+  "summary": "\u9019\u7BC7\u77ED\u6587\u8868\u9054\u4F5C\u8005\u5C0D Skype \u7684\u5F37\u70C8\u4E0D\u6EFF\u8207\u632B\u6298\u611F\uFF0C\u50C5\u4EE5\u300C\u5616....\u300D\u958B\u982D\uFF0C\u986F\u793A\u60C5\u7DD2\u4E0A\u7684\u4E0D\u6085\uFF0C\u4E26\u9644\u4E0A Skype International \u7684\u5B98\u65B9\u9023\u7D50\u8207\u4E00\u5F35\u76F8\u95DC\u5716\u7247\uFF0C\u6697\u793A\u7576\u4E0B\u554F\u984C\u8207 Skype \u670D\u52D9\u6216\u4F7F\u7528\u7D93\u9A57\u6709\u95DC\u3002\u96D6\u672A\u8A73\u8FF0\u5177\u9AD4\u72C0\u6CC1\uFF08\u5982\u9023\u7DDA\u54C1\u8CEA\u3001\u8EDF\u9AD4\u7A69\u5B9A\u6027\u3001\u4ECB\u9762\u6216\u5E33\u52D9\u554F\u984C\uFF09\uFF0C\u4F46\u6A19\u984C\u300C\u771F\u53EF\u60E1\uFF0C\u4E0D\u60F3\u7528 Skype \u4E86\u300D\u5DF2\u6E05\u695A\u50B3\u9054\u653E\u68C4\u4F7F\u7528\u7684\u5FF5\u982D\u3002\u6587\u7AE0\u6C92\u6709\u6280\u8853\u7D30\u7BC0\u6216\u89E3\u6C7A\u65B9\u6848\uFF0C\u4E3B\u8981\u4F5C\u70BA\u5373\u6642\u60C5\u7DD2\u6292\u767C\u8207\u6A19\u8A18\u4E8B\u4EF6\u7684\u8CBC\u6587\uFF0C\u63D0\u4F9B\u5F8C\u7E8C\u56DE\u9867\u6642\u7684\u53C3\u8003\u3002\u8B80\u8005\u53EF\u63A8\u77E5\u4F5C\u8005\u7576\u6642\u53EF\u80FD\u9047\u5230\u7121\u6CD5\u901A\u8A71\u6216\u570B\u969B\u7248\u672C\u76F8\u95DC\u7684\u56F0\u64FE\u3002"
 }

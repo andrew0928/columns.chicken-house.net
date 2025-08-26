@@ -1,23 +1,3 @@
----
-layout: post
-title: "前言: Canon Raw Codec 1.2 + .NET Framework 3.0 (WPF)"
-categories:
-- "系列文章: Canon Raw Codec & WPF"
-
-tags: [".NET","WPF","作品集","多執行緒","技術隨筆"]
-published: true
-comments: true
-redirect_from:
-  - /2007/11/26/前言-canon-raw-codec-1-2-net-framework-3-0-wpf/
-  - /columns/post/2007/11/26/e5898de8a880-Canon-Raw-Codec-12-2b-NET-Framework-30-(WPF).aspx/
-  - /post/2007/11/26/e5898de8a880-Canon-Raw-Codec-12-2b-NET-Framework-30-(WPF).aspx/
-  - /post/e5898de8a880-Canon-Raw-Codec-12-2b-NET-Framework-30-(WPF).aspx/
-  - /columns/2007/11/26/e5898de8a880-Canon-Raw-Codec-12-2b-NET-Framework-30-(WPF).aspx/
-  - /columns/e5898de8a880-Canon-Raw-Codec-12-2b-NET-Framework-30-(WPF).aspx/
-  - /blogs/chicken/archive/2007/11/26/2833.aspx/
-wordpress_postid: 134
----
-
 [搞了好幾天](/post/Canon-G9-e585a5e6898b2c-e4b88de9818e.aspx), 終於理出點頭緒了. 自從 [Canon 推出 1.2 版的 codec](http://software.canon-europe.com/software/0026049.asp) 之後, G9 拍的 .CR2 支援問題總算是往前跨了一大步, 至少在 XP / Vista 下可以直接顯示 .CR2 了. 接下來就是如何讓它[自動化](/wp-content/be-files/archive/2006/12/23/cr2-supported.aspx)等等問題.
 
 WPF寫起來很簡單, 效率的問題就先擺一邊了 (很理想的預期 canon 會在未來版本會改善... 咳...), 不過 EXIF 的問題還真是令我傷透腦筋... 前前後後碰到幾個問題, 加上官方文件很多細節沒有提供, 讓我碰了不少釘子... Orz. 先整理一下碰過的釘子有那些 (現在當然拔乾淨了才有心情打這篇.. 哈哈 [H]), 先列一下問題最大的 metadata:

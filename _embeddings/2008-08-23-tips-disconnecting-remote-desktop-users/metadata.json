@@ -1,35 +1,53 @@
 {
   "title": "Tips: \u8E22\u6389\u9060\u7AEF\u684C\u9762\u9023\u7DDA\u7684\u4F7F\u7528\u8005",
   "published": true,
-  "categories": null,
+  "categories": [],
   "tags": [
     "Tips",
     "\u6709\u7684\u6C92\u7684"
   ],
-  "generator": "BlogIndex.SyncPost v1.0.0.0, o3, https://app-azureopenai.openai.azure.com/",
   "tech-stacks": [
     "Windows 2000",
     "Windows Server",
     "Remote Desktop Protocol (RDP)",
-    "TSDISCON",
+    "\u9060\u7AEF\u684C\u9762",
+    "Console Session",
+    "TSDISCON.exe",
     "NET USE",
-    "NETBIOS"
+    "Terminal Services",
+    "NETBIOS",
+    "Windows \u9632\u706B\u7246",
+    "\u5DE5\u4F5C\u7BA1\u7406\u54E1 (Task Manager)"
   ],
   "keywords": [
-    "\u9060\u7AEF\u684C\u9762\u9023\u7DDA",
-    "TSDISCON",
+    "\u9060\u7AEF\u684C\u9762",
     "RDP",
-    "Remote Desktop",
+    "TSDISCON",
+    "NET USE",
     "SESSION ID",
-    "NETBIOS",
     "console session",
-    "server",
     "Windows 2000",
-    "\u8E22\u6389\u9060\u7AEF\u4F7F\u7528\u8005"
+    "Windows Server",
+    "NETBIOS",
+    "\u9632\u706B\u7246",
+    "\u5DE5\u4F5C\u7BA1\u7406\u54E1",
+    "\u4F7F\u7528\u8005\u9023\u7DDA",
+    "\u7BA1\u7406\u8005\u6B0A\u9650",
+    "\u9023\u7DDA\u4EBA\u6578",
+    "\u6388\u6B0A (License)"
   ],
+  "generator": "BlogIndex.SyncPost v0.3.0.0, gpt-5",
   "references": [
     "/post/Tips-e981a0e7abafe6a18ce99da2e980a3e7b79ae79a84e5b08fe68a80e5b7a7.aspx",
-    "/wp-content/be-files/WindowsLiveWriter/Tips_D86B/image_5.png",
-    "/wp-content/be-files/WindowsLiveWriter/Tips_D86B/image_6.png"
-  ]
+    "/images/2008-08-23-tips-disconnecting-remote-desktop-users/image_5.png",
+    "/images/2008-08-23-tips-disconnecting-remote-desktop-users/image_6.png",
+    "/2008/08/23/tips-\u8E22\u6389\u9060\u7AEF\u684C\u9762\u9023\u7DDA\u7684\u4F7F\u7528\u8005/",
+    "/2008/08/22/tips-\u8E22\u6389\u9060\u7AEF\u684C\u9762\u9023\u7DDA\u7684\u4F7F\u7528\u8005/",
+    "/columns/post/2008/08/23/Tips-TSDISCON.aspx/",
+    "/post/2008/08/23/Tips-TSDISCON.aspx/",
+    "/post/Tips-TSDISCON.aspx/",
+    "/columns/2008/08/23/Tips-TSDISCON.aspx/",
+    "/columns/Tips-TSDISCON.aspx/"
+  ],
+  "summary": "\u4F5C\u8005\u5206\u4EAB\u5728\u7121\u6CD5\u900F\u904E\u9060\u7AEF\u684C\u9762\u9023\u5165\u4F3A\u670D\u5668\u3001\u56E0\u9023\u7DDA\u540D\u984D\u5DF2\u6EFF\u6642\u7684\u8655\u7406\u65B9\u5F0F\u3002\u9996\u5148\u56DE\u9867\u4EE5\u5F80\u505A\u6CD5\uFF1A\u900F\u904E RDP \u52A0\u4E0A /console \u53C3\u6578\u9023\u5165\u4E3B\u63A7\u53F0\u5DE5\u4F5C\u968E\u6BB5\uFF0C\u907F\u958B\u4E00\u822C\u4F7F\u7528\u8005\u7684\u5169\u500B\u9060\u7AEF\u540D\u984D\uFF0C\u767B\u5165\u5F8C\u5728\u5DE5\u4F5C\u7BA1\u7406\u54E1\u7684\u4F7F\u7528\u8005\u9801\u7C64\u67E5\u770B\u9023\u7DDA\u5217\u8868\u8207\u5DE5\u4F5C\u968E\u6BB5 ID\uFF0C\u624B\u52D5\u767B\u51FA\u4E0D\u9700\u8981\u7684\u4F7F\u7528\u8005\u3002\u82E5\u9023\u4E3B\u63A7\u53F0\u540D\u984D\u4E5F\u88AB\u4F54\u7528\uFF0C\u5247\u6539\u7528\u7CFB\u7D71\u5167\u5EFA\u7684 TSDISCON.exe \u6307\u4EE4\u4E2D\u65B7\u6307\u5B9A\u7D42\u7AEF\u6A5F\u5DE5\u4F5C\u968E\u6BB5\u3002\u6B65\u9A5F\u70BA\uFF1A\u5148\u4EE5\u5177\u7BA1\u7406\u6B0A\u9650\u7684\u5E33\u865F\u7528 NET USE \u767B\u5165\u9060\u7AEF\u4E3B\u6A5F\uFF08\u9700\u672A\u5C01\u9396 NETBIOS \u8207\u76F8\u95DC\u9632\u706B\u7246\u901A\u8A0A\uFF09\uFF0C\u518D\u7528 TSDISCON \u003CSessionID\u003E /SERVER:\u003CServerName\u003E \u65B7\u7DDA\uFF1B\u5176\u4E2D SessionID \u53EF\u5C0D\u7167\u5DE5\u4F5C\u7BA1\u7406\u54E1\u7684 ID \u6B04\u4F4D\uFF0C0 \u4EE3\u8868 console\uFF0C\u5176\u9918\u70BA\u9060\u7AEF\u9023\u7DDA\u3002\u672A\u984D\u5916\u8CFC\u8CB7\u6388\u6B0A\u6642\uFF0CWindows \u5167\u5EFA\u50C5\u5141\u8A31\u5169\u500B\u9060\u7AEF\u7BA1\u7406\u9023\u7DDA\uFF0C\u5BE6\u52D9\u4E0A\u591A\u534A\u5728 1 \u6216 2 \u9593\u9078\u4E00\u500B\u4E2D\u65B7\u5373\u53EF\u3002\u6307\u4EE4\u6210\u529F\u5F8C\u5C0D\u65B9\u9023\u7DDA\u6703\u88AB\u5207\u65B7\uFF0C\u7BA1\u7406\u8005\u5373\u53EF\u628A\u63E1\u6642\u9593\u767B\u5165\u7CFB\u7D71\u3002"
 }

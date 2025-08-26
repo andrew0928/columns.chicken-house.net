@@ -1,27 +1,3 @@
----
-layout: post
-title: "ThreadPool 實作 #3. AutoResetEvent / ManualResetEvent"
-categories:
-- "系列文章: Thread Pool 實作"
-tags: [".NET","作業系統","多執行緒","技術隨筆"]
-published: true
-comments: true
-redirect_from:
-  - /2007/12/17/threadpool-實作-3-autoresetevent-manualresetevent/
-  - /columns/post/2007/12/17/ThreadPool-e5afa6e4bd9c-3-AutoResetEvent-ManualResetEvent.aspx/
-  - /post/2007/12/17/ThreadPool-e5afa6e4bd9c-3-AutoResetEvent-ManualResetEvent.aspx/
-  - /post/ThreadPool-e5afa6e4bd9c-3-AutoResetEvent-ManualResetEvent.aspx/
-  - /columns/2007/12/17/ThreadPool-e5afa6e4bd9c-3-AutoResetEvent-ManualResetEvent.aspx/
-  - /columns/ThreadPool-e5afa6e4bd9c-3-AutoResetEvent-ManualResetEvent.aspx/
-  - /columns/post/2007/12/17/ThreadPool-e5afa6e4bd9c-3-AutoResetEvent--ManualResetEvent.aspx/
-  - /post/2007/12/17/ThreadPool-e5afa6e4bd9c-3-AutoResetEvent--ManualResetEvent.aspx/
-  - /post/ThreadPool-e5afa6e4bd9c-3-AutoResetEvent--ManualResetEvent.aspx/
-  - /columns/2007/12/17/ThreadPool-e5afa6e4bd9c-3-AutoResetEvent--ManualResetEvent.aspx/
-  - /columns/ThreadPool-e5afa6e4bd9c-3-AutoResetEvent--ManualResetEvent.aspx/
-  - /blogs/chicken/archive/2007/12/17/2894.aspx/
-wordpress_postid: 128
----
-
 續上篇, 從眾多閒置的 worker thread 挑選一個起來接工作有兩種策略作法. 一種作法是 Thread Pool 自己決定, 最基本的就是誰等最久就叫誰起來, 或是 Thread Pool 有自己的演算法挑一個最菜的 worker thread 來做工都可以... 另一種作法就是不管它, 每個 worker thread 都靠運氣, 交給上天 (OS) 決定, 看誰搶到下一個 job. 看起來第一種好像比較好, 事實上不見得. 每個 thread 之間的排程是個學問, OS 多工的效率好不好就看這個. 舉例來說, 如果每個 worker thread 的優先順序不同, 或是某些 thread 正好碰到 GC, 或是正好被移到 virtaual memory 等等, 硬去叫它起來工作反而要花更多的時間. 而這些資訊都在 OS 的排程器裡才有足夠的資訊可以判斷, 以寫 AP 的角度很難顧級到這個層面. 這時最好的辦法就是不管它, 用齊頭式的平等, 把選擇權交給 OS 決定.
 
 又是一個說起來比 code 多的例子. 這兩種不同的策略, 寫成 code 其實只差一行... 就是選用 AutoResetEvent 跟 ManualResetEvent 的差別而以. .NET SDK 的 Class Reference 上這樣寫著:

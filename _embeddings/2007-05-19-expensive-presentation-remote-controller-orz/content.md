@@ -1,22 +1,3 @@
----
-layout: post
-title: "一個一萬多的簡報器... Orz.."
-categories:
-
-tags: ["Tips","技術隨筆","敗家","有的沒的"]
-published: true
-comments: true
-redirect_from:
-  - /2007/05/19/一個一萬多的簡報器-orz/
-  - /columns/post/2007/05/19/e4b880e5808be4b880e890ace5a49ae79a84e7b0a1e5a0b1e599a8-Orz.aspx/
-  - /post/2007/05/19/e4b880e5808be4b880e890ace5a49ae79a84e7b0a1e5a0b1e599a8-Orz.aspx/
-  - /post/e4b880e5808be4b880e890ace5a49ae79a84e7b0a1e5a0b1e599a8-Orz.aspx/
-  - /columns/2007/05/19/e4b880e5808be4b880e890ace5a49ae79a84e7b0a1e5a0b1e599a8-Orz.aspx/
-  - /columns/e4b880e5808be4b880e890ace5a49ae79a84e7b0a1e5a0b1e599a8-Orz.aspx/
-  - /blogs/chicken/archive/2007/05/19/2406.aspx/
-wordpress_postid: 162
----
-
 看到我 MSN 的 nickname 寫這句 "一個一萬多的簡報器... Orz.." 一定會想, 那個潘那花這個錢... 哈哈, 其實是我無意間發現這個軟體: [Salling Clicker for Windows 3.5](http://www.salling.com/Clicker/windows/)... 那什麼東西要一萬多? 當然是[我的 Dopod c720w](/wp-content/be-files/archive/2007/02/02/y.aspx) ... 
 
 之前一直很羨幕 Sony Ericsson 的使用者, 它們的藍芽手機總有一堆有趣的應用, 像是有人做出用手機搖控的藍芽搖控車之類的, 另外也有軟體可以讓手機透過藍芽當作無線鍵盤+滑鼠. 這個當然不大可能取代真的滑鼠, 不過拿來當簡報器倒是挺好用的, 反正手機一定會隨手帶著, 用慣 ThinkPad 的我也不會隨身再帶隻 mouse, 多方便...

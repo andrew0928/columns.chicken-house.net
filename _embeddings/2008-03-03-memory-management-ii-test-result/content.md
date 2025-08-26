@@ -1,19 +1,4 @@
----
-layout: post
-title: "Memory Management (II) - Test Result"
-categories:
-- "系列文章: Memory Management"
-tags: [".NET","作業系統","技術隨筆"]
-published: true
-comments: true
-permalink: "/2008/03/03/memory-management-ii-test-result/"
-redirect_from:
-  - /columns/post/2008/03/03/Memory-Management-(II)-Test-Result.aspx/
-  - /post/2008/03/03/Memory-Management-(II)-Test-Result.aspx/
-  - /post/Memory-Management-(II)-Test-Result.aspx/
-  - /columns/2008/03/03/Memory-Management-(II)-Test-Result.aspx/
-  - /columns/Memory-Management-(II)-Test-Result.aspx/
-  - /columns/post/2008/03/03/Memory-Management-(II)---Test-Result.aspx/
+Test-Result.aspx/
   - /post/2008/03/03/Memory-Management-(II)---Test-Result.aspx/
   - /post/Memory-Management-(II)---Test-Result.aspx/
   - /columns/2008/03/03/Memory-Management-(II)---Test-Result.aspx/
@@ -38,11 +23,11 @@ wordpress_postid: 118
 測試結果就直接抓畫面附在底下了。程式碼當然都是同一份。原始 project 放在 [這裡]。其實這次問題的關鍵，跟 windows / linux，32/64，都沒有直接關係，唯一有關的是，**你的 memory address space 到底有沒有用完**... 怎麼說? 先來看結果:
 
 1. x86 build (run under windows 2003 standard x64):  
-![](/wp-content/be-files/WindowsLiveWriter/b924c2e3d4b2_2526/image_11.png)
+![](/images/2008-03-03-memory-management-ii-test-result/image_11.png)
 1. x86 build + /LARGEADDRESSAWARE option (under 2003 x64)  
-![](/wp-content/be-files/WindowsLiveWriter/b924c2e3d4b2_2526/image3_1.png)
+![](/images/2008-03-03-memory-management-ii-test-result/image3_1.png)
 1. x64 build  
-![](/wp-content/be-files/WindowsLiveWriter/b924c2e3d4b2_2526/image6_1.png)
+![](/images/2008-03-03-memory-management-ii-test-result/image6_1.png)
 
 看不出個所以然? 簡單畫個表格整理一下測試結果:
 

@@ -1,21 +1,3 @@
----
-layout: post
-title: "[BlogEngine Extension] PostViewCount 1.0"
-categories:
-
-tags: [".NET","ASP.NET","BlogEngine Extension","BlogEngine.NET","作品集","技術隨筆"]
-published: true
-comments: true
-redirect_from:
-  - /2008/07/06/blogengine-extension-postviewcount-1-0/
-  - /columns/post/2008/07/06/BlogEngine-Extension-PostViewCount-10.aspx/
-  - /post/2008/07/06/BlogEngine-Extension-PostViewCount-10.aspx/
-  - /post/BlogEngine-Extension-PostViewCount-10.aspx/
-  - /columns/2008/07/06/BlogEngine-Extension-PostViewCount-10.aspx/
-  - /columns/BlogEngine-Extension-PostViewCount-10.aspx/
-wordpress_postid: 88
----
-
 這篇拖好久了，本來上禮拜要寫，結果正好碰到 [BlogEngine 1.4 RELEASE](http://www.codeplex.com/blogengine/Release/ProjectReleases.aspx?ReleaseId=9451)，就一直拖到現在...。之前找到一個給 BlogEngine 用的 [Counter Extension](http://mosesofegypt.net/?tag=/blogengine.net+extensions)，以功能來說還不錯用，不過用久了就開始不滿足了。正好翻到[這篇教學文章](http://rtur.net/blog/post/2008/07/04/Writing-extensions-for-BlogEngine-14-(part-1).aspx)，算是官方文章了吧 (BlogEngine 作者之一寫的教學文)? 所以就動起自己寫的念頭。舊的其實沒什麼不好，不過缺了這幾項我想要的功能:
 
 1. 只有計 Total Count (謎: 不然你要 counter 記什麼?)
@@ -150,7 +132,7 @@ public PostViewCounter()
 
 對應的設定頁面:
 
-![image](/wp-content/be-files/WindowsLiveWriter/BlogEngineExtensionCounter_1285/image_3.png)
+![image](/images/2008-07-06-blogengine-extension-postviewcount-1-0/image_3.png)
 
 最後講了半天，真正想自己動手寫的人應該不多吧 :D，只是想下載回去裝來用的人就不用聽我前面廢話一堆了，只要下載這檔案，放到 ~/App_Code/Extension 下，就安裝完成了... 咳咳，連安裝手冊都省了。檔案 COPY 好後就會在 Extension Manager 裡看到我寫的外掛，就可以開始用了。有任何意件歡迎留話給我 :D
 

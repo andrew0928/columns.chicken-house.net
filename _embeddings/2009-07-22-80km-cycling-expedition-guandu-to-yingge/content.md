@@ -1,21 +1,3 @@
----
-layout: post
-title: "拼了! 80公里長征... (關渡 - 鶯歌)"
-categories:
-
-tags: ["有的沒的","當年勇"]
-published: true
-comments: true
-redirect_from:
-  - /2009/07/21/拼了-80公里長征-關渡-鶯歌/
-  - /columns/post/2009/07/22/e68bbce4ba86!-80e585ace9878ce995b7e5be81-(e9979ce6b8a1-e9b6afe6ad8c).aspx/
-  - /post/2009/07/22/e68bbce4ba86!-80e585ace9878ce995b7e5be81-(e9979ce6b8a1-e9b6afe6ad8c).aspx/
-  - /post/e68bbce4ba86!-80e585ace9878ce995b7e5be81-(e9979ce6b8a1-e9b6afe6ad8c).aspx/
-  - /columns/2009/07/22/e68bbce4ba86!-80e585ace9878ce995b7e5be81-(e9979ce6b8a1-e9b6afe6ad8c).aspx/
-  - /columns/e68bbce4ba86!-80e585ace9878ce995b7e5be81-(e9979ce6b8a1-e9b6afe6ad8c).aspx/
-wordpress_postid: 37
----
-
 自從[上次騎了一次關渡到八里](/post/e9979ce6b8a1e9a88ee596aee8bb8a.aspx)之後，其實後來又去騎了幾次，發現也沒想像中的困難嘛，於是這次就計劃來拼長一點的路線... 關渡到鶯歌。會挑這路線，主要是上次騎到二重疏洪道時，有個路人問我:
 
 "**請問往鶯歌要怎麼騎?**"
@@ -30,7 +12,7 @@ wordpress_postid: 37
 
 不過這次騎完，開始改變想法了... 哈哈，最後面再講。先來看看這次計劃的路線:
 
-![image](/wp-content/be-files/WindowsLiveWriter/3656ac82c210/292C72CA/image.png)
+![image](/images/2009-07-22-80km-cycling-expedition-guandu-to-yingge/image.png)
 
 有 GOOGLE Maps 真是方便... 這次路線很簡單，前 1/3 是之前騎過的，之前是繞蘆洲三重一圈就回關渡了，這次會過重新橋，就改沿著大漢溪左岸，一路騎到鶯歌鎮...
 
@@ -42,7 +24,7 @@ wordpress_postid: 37
 
 2009/07/19 12:25
 
-![image](/wp-content/be-files/WindowsLiveWriter/3656ac82c210/13628A6D/image.png)
+![image](/images/2009-07-22-80km-cycling-expedition-guandu-to-yingge/image.png)
 
 過程就不多說了 :P，到了關渡捷運站後，東摸西摸，騎上車開始動身後，過了大度路就先拍一張。我懶的拿紙筆出來計了，就拿起相機拍一拍了事 (時間可以從 EXIF 查，正好省掉記錄的動作)，只可惜我的 G9 不支援 GPS ... 不然連地圖都不用標了 :D Canon 你什麼時後要出內建 GPS 的相機...
 
@@ -50,13 +32,13 @@ wordpress_postid: 37
 
 2009/07/19 13:37
 
-![image](/wp-content/be-files/WindowsLiveWriter/3656ac82c210/681DF365/image.png)
+![image](/images/2009-07-22-80km-cycling-expedition-guandu-to-yingge/image.png)
 
 悠哉的騎了一個小時，到了重新橋... 橋下有跳蚤市場，真熱鬧... 好多人 :D，不過騎著車不好人擠人，就沒進去逛了..
 
 2009/07/19 13:43
 
-![image](/wp-content/be-files/WindowsLiveWriter/3656ac82c210/07CCCD2E/image.png)
+![image](/images/2009-07-22-80km-cycling-expedition-guandu-to-yingge/image.png)
 
 雖然沒進去逛，不過也是要拍張照紀念。這邊的路標示實在不怎麼清楚，到了橋下就迷路了 :D 哈哈.. 在那邊摸了十幾分鐘，地圖拿出來，還看太陽在那邊認一認方向，硬著頭皮找了對的方向就騎下去... 沒有自行車道，只好走省道，自己識相一點靠邊邊騎...
 
@@ -66,7 +48,7 @@ wordpress_postid: 37
 
 2009/07/19 14:02
 
-![image](/wp-content/be-files/WindowsLiveWriter/3656ac82c210/798E543D/image.png)
+![image](/images/2009-07-22-80km-cycling-expedition-guandu-to-yingge/image.png)
 
 騎到一半，才發現，原來新莊的 IKEA 就在路邊耶 :D
 
@@ -74,19 +56,19 @@ wordpress_postid: 37
 
 2009/07/19 14:15
 
-![image](/wp-content/be-files/WindowsLiveWriter/3656ac82c210/39583AC3/image.png)
+![image](/images/2009-07-22-80km-cycling-expedition-guandu-to-yingge/image.png)
 
 騎到一半，看到一座天橋，上去後就可以在河提上面繼續騎，或是跨過河提到另一面的巷道裡。我也忘了看誰的文章介紹，他特別介紹了天橋兩側的鐵管... 我就糊理糊塗的跟著牽上去...
 
 (大家不要學啊，這條路是錯的 XD 請不要上橋，繼續沿著自行車道騎就好 …)
 
-![image](/wp-content/be-files/WindowsLiveWriter/3656ac82c210/1FF03789/image.png)
+![image](/images/2009-07-22-80km-cycling-expedition-guandu-to-yingge/image.png)
 
 都走錯了，不過走過總要留個記錄，還是貼一下好了，不要小看那兩根鐵管併起來的軌道，這樣子牽單車上橋還真的很輕鬆耶 (Y)(Y)(Y)，不但很輕鬆就推上去了，鐵管中間還能卡著腳踏車的輪胎，不會亂跑，連車子都不用特別去控制它的方向，只要花點力氣把車往前推就好，真是聰明的設計 (Y)
 
 2009/07/19 14:32
 
-![image](/wp-content/be-files/WindowsLiveWriter/3656ac82c210/5FBA1E0E/image.png)
+![image](/images/2009-07-22-80km-cycling-expedition-guandu-to-yingge/image.png)
 
 沿著河岸騎了一段之後，自行車道到這邊就結束了... 這邊下來把車扛上河提之後，就進入最後一段 [淡水-鶯歌] 10KM 的車道...
 
@@ -94,13 +76,13 @@ wordpress_postid: 37
 
 2009/07/19 14:49
 
-![image](/wp-content/be-files/WindowsLiveWriter/3656ac82c210/666D2791/image.png)
+![image](/images/2009-07-22-80km-cycling-expedition-guandu-to-yingge/image.png)
 
 遠遠看到這棟建築，還以為是什麼紀念館還是啥的... 原來是個抽水站...
 
 2009/07/19 15:05
 
-![image](/wp-content/be-files/WindowsLiveWriter/3656ac82c210/0A264F2C/image.png)
+![image](/images/2009-07-22-80km-cycling-expedition-guandu-to-yingge/image.png)
 
 路過看到的，覺的很有意思就拍一下 :D
 
@@ -108,13 +90,13 @@ wordpress_postid: 37
 
 2009/07/19 15:37
 
-![image](/wp-content/be-files/WindowsLiveWriter/3656ac82c210/29D528F4/image.png)
+![image](/images/2009-07-22-80km-cycling-expedition-guandu-to-yingge/image.png)
 
 一路都沒看到路標，也不知道到底還多久 @@，最後怎麼覺的那一公里好遠... 騎到這邊早就沒力氣了，都慢慢騎... 總算撐到了鶯歌。看看地圖，其實離火車站沒多遠，不過懶的過去照相了 @@，動身去找阿婆壽司..
 
 2009/07/19 16:12
 
-![image](/wp-content/be-files/WindowsLiveWriter/3656ac82c210/255EA82D/image.png)
+![image](/images/2009-07-22-80km-cycling-expedition-guandu-to-yingge/image.png)
 
 一開始問了一個媽媽，說往前騎，看到中正三路左轉就到了 (最後找到的地點是中正一路右轉)...
 
@@ -126,9 +108,9 @@ wordpress_postid: 37
 
 2009/07/19 19:00
 
-![image](/wp-content/be-files/WindowsLiveWriter/3656ac82c210/17202F3D/image.png)
+![image](/images/2009-07-22-80km-cycling-expedition-guandu-to-yingge/image.png)
 
-![image](/wp-content/be-files/WindowsLiveWriter/3656ac82c210/3DEE457D/image.png)
+![image](/images/2009-07-22-80km-cycling-expedition-guandu-to-yingge/image.png)
 
 回程的路線都一樣，就不再多介紹了，當然迷路過的地方就不會再走錯了 :P
 
@@ -142,7 +124,7 @@ wordpress_postid: 37
 
 2009/07/19 19:27
 
-![image](/wp-content/be-files/WindowsLiveWriter/3656ac82c210/5D9D1F45/image.png) ![image](/wp-content/be-files/WindowsLiveWriter/3656ac82c210/08758358/image.png)
+![image](/images/2009-07-22-80km-cycling-expedition-guandu-to-yingge/image.png) ![image](/images/2009-07-22-80km-cycling-expedition-guandu-to-yingge/image.png)
 
 騎到關渡大橋，那段上坡早就沒力了，連試著騎上來的念頭都沒有.. 當大家都往前衝時我就很沒面子的下來用牽的... 哈哈。一路上一直很納悶，怎麼那些身材嬌小的長腿正妹，每個體力都這麼好 =_= 騎在前面跟都跟不上.... 車子比較好的關係嘛 @@
 
@@ -150,7 +132,7 @@ wordpress_postid: 37
 
 2009/07/19 19:50
 
-![image](/wp-content/be-files/WindowsLiveWriter/3656ac82c210/762CBC95/image.png)
+![image](/images/2009-07-22-80km-cycling-expedition-guandu-to-yingge/image.png)
 
 總算... 我頭一次這麼期待進到捷運站... 哈哈，總算可以坐下來了... 不然騎一天下來，屁股還真的會痛 @@
 

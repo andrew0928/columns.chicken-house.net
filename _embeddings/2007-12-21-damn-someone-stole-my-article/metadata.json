@@ -1,36 +1,44 @@
 {
   "title": "\u53EF\u60E1, \u7ADF\u7136\u5077\u8CBC\u6211\u7684\u6587\u7AE0... :@",
   "published": true,
-  "categories": [],
+  "categories": null,
   "tags": [
     "\u6709\u7684\u6C92\u7684",
     "\u706B\u5927"
   ],
-  "generator": "BlogIndex.SyncPost v1.0.0.0, o3, https://app-azureopenai.openai.azure.com/",
   "tech-stacks": [
+    "Blogger",
+    "Blogspot",
     "RSS",
+    "Canon RAW Codec 1.2",
     ".NET Framework 3.0",
-    "WPF",
-    "Blogger"
+    "WPF"
   ],
   "keywords": [
-    "\u5C0F\u718A\u5B50",
-    "Blog",
+    "\u8F49\u8CBC",
+    "\u76DC\u6587",
+    "\u6587\u7AE0",
+    "\u5EE3\u544A",
     "Blogger",
     "RSS",
-    "Canon",
-    "Nikon",
+    "canon",
+    "nikon",
     "\u76F8\u6A5F",
-    "\u5EE3\u544A",
-    "search blog",
+    "\u7DB2\u7AD9",
+    "\u4E0B\u67B6",
     "\u6A19\u5E5FBLOG",
-    ".NET Framework 3.0",
-    "WPF",
-    "RAW Codec 1.2"
+    "\u56DE\u5831",
+    "\u6284\u8972",
+    "\u4FB5\u6B0A",
+    "\u90E8\u843D\u683C",
+    "\u9023\u7D50",
+    "\u66DD\u5149"
   ],
+  "generator": "BlogIndex.SyncPost v0.3.0.0, gpt-5",
   "references": [
     "http://canon-vs-nikon.blogspot.com/2007/11/canon-raw-codec-12-net-framework-30-wpf.html",
-    "/wp-content/be-files/WindowsLiveWriter/2edc8ffce949_2951/image_thumb_2.png",
+    "/images/2007-12-21-damn-someone-stole-my-article/image_thumb_2.png",
     "/admin/Pages/wp-content/be-files/WindowsLiveWriter/2edc8ffce949_2951/image_6.png"
-  ]
+  ],
+  "summary": "\u4F5C\u8005\u5728\u5C0F\u718A\u5B50\u63D0\u9192\u4E0B\u767C\u73FE\u81EA\u5DF1\u7684\u6587\u7AE0\u88AB\u53E6\u4E00\u500B Blog \u672A\u7D93\u540C\u610F\u5168\u6587\u8F49\u8CBC\uFF0C\u4E14\u5C0D\u65B9\u9801\u9762\u9084\u653E\u7F6E\u5EE3\u544A\uFF0C\u5F15\u767C\u4E0D\u6EFF\u3002\u8A72\u7DB2\u7AD9\u7591\u4F3C\u4EE5\u81EA\u52D5\u5316\u65B9\u5F0F\u904B\u4F5C\uFF0C\u900F\u904E\u641C\u5C0B\u8207 RSS \u6293\u6587\u5F8C\u5927\u91CF\u642C\u904B\u5167\u5BB9\uFF0C\u7AD9\u4E0A\u5DF2\u6709\u4E0A\u5343\u7BC7\u591A\u70BA Canon\uFF0FNikon \u76F8\u6A5F\u76F8\u95DC\u6587\u7AE0\u3002\u4F5C\u8005\u539F\u672C\u64D4\u5FC3\u8CBC\u51FA\u5C0D\u65B9\u7DB2\u5740\u7B49\u65BC\u66FF\u5C0D\u65B9\u6253\u5EE3\u544A\uFF0C\u4F46\u8A8D\u70BA\u4E0D\u63ED\u9732\u53EA\u6703\u8B93\u5C0D\u65B9\u5B58\u6D3B\u66F4\u4E45\uFF0C\u9042\u516C\u958B\u9023\u7D50\u4E26\u547C\u7C72\u8B80\u8005\u5354\u52A9\u9EDE\u64CA\u300C\u6A19\u5E5FBLOG\u300D\u9032\u884C\u6AA2\u8209\uFF0C\u5E0C\u671B\u4FC3\u4F7F\u5E73\u53F0\u76E1\u901F\u4E0B\u67B6\u8A72\u4FB5\u6B0A\u5167\u5BB9\u3002\u6587\u4E2D\u8868\u9054\u5C0D\u65BC\u5E73\u53F0\u56DE\u5831\u662F\u5426\u6709\u6548\u7684\u7591\u616E\uFF0C\u540C\u6642\u9EDE\u51FA\u6B64\u985E\u81EA\u52D5\u5316\u8F49\u8CBC\u8207\u7F6E\u5165\u5EE3\u544A\u7684\u4E0D\u7576\u725F\u5229\u554F\u984C\uFF0C\u53CD\u6620\u90E8\u843D\u683C\u5167\u5BB9\u88AB\u76DC\u7528\u3001\u7248\u6B0A\u906D\u4FB5\u5BB3\u7684\u5E38\u898B\u4E82\u8C61\u8207\u7121\u5948\uFF0C\u4E5F\u85C9\u6B64\u547C\u7C72\u793E\u7FA4\u4E00\u8D77\u7DAD\u8B77\u5275\u4F5C\u8005\u6B0A\u76CA\u3002"
 }

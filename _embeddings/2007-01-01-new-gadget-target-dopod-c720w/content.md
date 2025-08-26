@@ -1,23 +1,3 @@
----
-layout: post
-title: "敗家新目標... Dopod C720w"
-categories:
-
-tags: ["有的沒的"]
-published: true
-comments: true
-redirect_from:
-  - /2007/01/01/敗家新目標-dopod-c720w/
-  - /2006/12/31/敗家新目標-dopod-c720w/
-  - /columns/post/2007/01/01/e69597e5aeb6e696b0e79baee6a899-Dopod-C720w.aspx/
-  - /post/2007/01/01/e69597e5aeb6e696b0e79baee6a899-Dopod-C720w.aspx/
-  - /post/e69597e5aeb6e696b0e79baee6a899-Dopod-C720w.aspx/
-  - /columns/2007/01/01/e69597e5aeb6e696b0e79baee6a899-Dopod-C720w.aspx/
-  - /columns/e69597e5aeb6e696b0e79baee6a899-Dopod-C720w.aspx/
-  - /blogs/chicken/archive/2007/01/01/2030.aspx/
-wordpress_postid: 194
----
-
 好久沒敗手機了... 之前就一直在物色新手機, 因為快被現在這支氣炸了... 現在這支 SmartPhone (Mio 8390) 其實功能沒什麼好挑的, 就敗在當支手機實在太不稱職了...
 
 1. 待機太短, 新的時後只能待機 2.x 天, 只要某天話多一點就掛了

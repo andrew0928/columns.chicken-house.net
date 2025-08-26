@@ -1,22 +1,3 @@
----
-layout: post
-title: "新硬碟... Hitachi Travelstar 5K160..."
-categories:
-
-tags: ["有的沒的"]
-published: true
-comments: true
-redirect_from:
-  - /2006/10/31/新硬碟-hitachi-travelstar-5k160/
-  - /columns/post/2006/10/31/e696b0e7a1ace7a29f-Hitachi-Travelstar-5K160.aspx/
-  - /post/2006/10/31/e696b0e7a1ace7a29f-Hitachi-Travelstar-5K160.aspx/
-  - /post/e696b0e7a1ace7a29f-Hitachi-Travelstar-5K160.aspx/
-  - /columns/2006/10/31/e696b0e7a1ace7a29f-Hitachi-Travelstar-5K160.aspx/
-  - /columns/e696b0e7a1ace7a29f-Hitachi-Travelstar-5K160.aspx/
-  - /blogs/chicken/archive/2006/10/31/1907.aspx/
-wordpress_postid: 214
----
-
 敗家果然是需要衝動的啊... 大約半年前, X31 的硬碟 (7K60, 2.5", 7200 rpm, 60GB) 開始有壞軌了. 不過壞軌嘛, 還是可以用, 只是剛好讀到那個地方就會整台電腦都卡住 -_-, 要換硬碟又是大工程, 加上 notebook 是工作上需要的, 停掉一天重灌就很麻煩, 這個有問題的硬碟就一直沒去理它..
 
 不過每次看到硬碟燈在閃, 心裡就不大安穩, 很怕它不知啥時就給我罷工, 因此備份也做的很勤... 某天正好看到新硬碟的評比... 5K160 !! 真是夢幻的硬碟啊... [L], 垂直寫入 (那堆好處就不講了), 容量有 160GB, 嗯, 雖然只有 5400 rpm, 不過那個容量真是太誘人了... :D~~~ 現在的 60GB 每次都在忙著清檔案把空間騰出來..

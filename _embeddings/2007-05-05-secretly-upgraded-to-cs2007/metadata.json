@@ -1,33 +1,51 @@
 {
   "title": "\u5077\u5077\u5347\u7D1A\u5230 CS2007 ..",
   "published": true,
-  "categories": [],
+  "categories": null,
   "tags": [
     ".NET",
     "Community Server",
     "\u6280\u8853\u96A8\u7B46",
     "\u6709\u7684\u6C92\u7684"
   ],
-  "generator": "BlogIndex.SyncPost v1.0.0.0, o3, https://app-azureopenai.openai.azure.com/",
   "tech-stacks": [
     ".NET",
-    "CS2007",
-    "Community Server 2007",
+    ".NET Framework",
     "ASP.NET 2.0",
-    "ASP.NET User Control",
+    "Community Server",
+    "CS2007",
+    "User Control",
     "Master Page",
+    "DLL",
+    ".ascx",
+    ".cs",
+    "theme.master",
+    "theme.config",
     "Database"
   ],
   "keywords": [
     "CS2007",
-    "upgrade",
     "Community Server",
-    "theme",
+    "\u5347\u7D1A",
+    "DB upgrade",
+    "File upgrade",
+    "\u6A23\u7248\u7CFB\u7D71",
     "User Control",
-    "master page",
     "ASP.NET 2.0",
-    ".NET"
+    "master page",
+    "theme",
+    ".aspx",
+    ".ascx",
+    ".cs",
+    "API",
+    "DLL",
+    "\u90E8\u7F72",
+    "BLOG",
+    "\u7248\u9762\u914D\u7F6E",
+    "data",
+    "logic"
   ],
+  "generator": "BlogIndex.SyncPost v0.3.0.0, gpt-5",
   "references": [
     "/2007/05/05/\u5077\u5077\u5347\u7D1A\u5230-cs2007/",
     "/columns/post/2007/05/05/e581b7e581b7e58d87e7b49ae588b0-CS2007-.aspx/",
@@ -36,5 +54,6 @@
     "/columns/2007/05/05/e581b7e581b7e58d87e7b49ae588b0-CS2007-.aspx/",
     "/columns/e581b7e581b7e58d87e7b49ae588b0-CS2007-.aspx/",
     "/blogs/chicken/archive/2007/05/05/2378.aspx/"
-  ]
+  ],
+  "summary": "\u4F5C\u8005\u6084\u6084\u5C07\u672C\u7AD9\u65BC\u5169\u9031\u524D\u5347\u7D1A\u81F3 Community Server 2007\uFF08CS2007\uFF09\uFF0C\u70BA\u7DAD\u6301\u5916\u89C0\u4E00\u81F4\uFF0C\u5347\u7D1A\u5F8C\u5373\u8ABF\u56DE\u820A\u7248\u6A23\u5F0F\uFF0C\u56E0\u6B64\u4E0D\u6613\u88AB\u5BDF\u89BA\u3002\u529F\u80FD\u9762\u5DEE\u7570\u8ACB\u8B80\u8005\u53C3\u8003\u5B98\u65B9\u8CC7\u6599\uFF1B\u5BE6\u4F5C\u4E0A\u4E3B\u8981\u70BA\u8CC7\u6599\u5EAB\u8207\u6A94\u6848\u5347\u7D1A\uFF0C\u8F03\u82B1\u6642\u9593\u7684\u662F\u5148\u524D\u5BA2\u88FD\u7684 theme \u8207 user control \u8ABF\u6574\u3002\u820A\u7248\uFF081.0\uFF5E2.x\uFF09\u6A23\u7248\u7CFB\u7D71\u5927\u91CF\u4EE5\u52D5\u614B\u8F09\u5165 UserControl \u7684\u65B9\u5F0F\u5BE6\u4F5C\uFF0C\u7248\u9762\u914D\u7F6E\u5BEB\u5728 UC \u6A19\u7C64\u3001\u8CC7\u6599\u8207\u908F\u8F2F\u65BC\u5F8C\u7AEF\u7A0B\u5F0F\uFF0C\u4FEE\u6539\u9700\u5148\u7406\u89E3\u5176\u6A5F\u5236\u3002CS2007 \u6539\u63A1 ASP.NET 2.0 \u6A19\u6E96\uFF1A\u6BCF\u5957\u6A23\u7248\u4EE5 master page \u8207\u8A2D\u5B9A\u6A94\uFF08theme.master\u3001theme.config\uFF09\u7D44\u6210\uFF0C\u5404\u9801\u9762\u70BA\u55AE\u7D14 .aspx\uFF0C\u5B9A\u4F4D\u8207\u4FEE\u6539\u66F4\u76F4\u89BA\u3002\u90E8\u5206\u820A API \u5DF2\u4E0D\u53EF\u7528\uFF0C\u4F5C\u8005\u85C9\u6B64\u91CD\u5BEB\u5E7E\u500B\u81EA\u88FD User Control\uFF0C\u4E26\u7531\u539F\u672C\u9700\u7DE8\u8B6F DLL \u7684\u6A21\u5F0F\u6539\u70BA\u76F4\u63A5\u4EE5 .ascx \u002B .cs \u90E8\u7F72\uFF0C\u65B9\u4FBF\u4E0A\u7DDA\u7DAD\u8B77\u3002\u65B0\u529F\u80FD\u5C1A\u672A\u6DF1\u5165\u7814\u7A76\uFF0C\u4F46\u5E73\u53F0\u5DF2\u5B8C\u6210\u5347\u7D1A\u4E26\u53EF\u6301\u7E8C\u8ABF\u6821\u3002"
 }

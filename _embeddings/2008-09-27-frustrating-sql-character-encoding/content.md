@@ -1,37 +1,20 @@
----
-layout: post
-title: "令人火大的 SQL 字元編碼..."
-categories:
-
-tags: ["SQL","Tips","火大"]
-published: true
-comments: true
-redirect_from:
-  - /2008/09/27/令人火大的-sql-字元編碼/
-  - /columns/post/2008/09/27/SQL-BUFFER-OVERFLOW.aspx/
-  - /post/2008/09/27/SQL-BUFFER-OVERFLOW.aspx/
-  - /post/SQL-BUFFER-OVERFLOW.aspx/
-  - /columns/2008/09/27/SQL-BUFFER-OVERFLOW.aspx/
-  - /columns/SQL-BUFFER-OVERFLOW.aspx/
-wordpress_postid: 66
----
 今天同事有個問題搞不定，就找我去處理，越弄越火... 嘖嘖，這裡就來還原一下現場，記錄一下這個鳥問題...。
 
 最討厭處理這種問題了。現在客戶 IT 都委外，結果就變成 IT 本身不大管事，什麼事就交給外包商就好... 而這種 A 包商跟 B 包商之間的問題，往往就變成踢皮球... 除非有明確證據指出人就是他殺的，不然? 出問題的一方自己摸摸鼻子吧。幾年來吃了不少這種虧，這就是小廠的悲哀啊。
 
 這次碰到的例子是客戶 A 系統建的資料，需要整理後匯到我們負責維護的 B 系統。而中間資料需要作些修正，所以建了一個中繼資料庫，透過 LINKED SERVER，從 A 系統的 DB 把整個 TABLE SELECT 一份到中繼資料庫，然後再進行一連串的修正...
 
-![image](/wp-content/be-files/WindowsLiveWriter/SQL_11CC/image_7.png)
+![image](/images/2008-09-27-frustrating-sql-character-encoding/image_7.png)
 
 一開始問題很單純，就兩邊碰到中文字編碼不同，直接 SELECT 就碰到這樣的亂碼..
 
-![image](/wp-content/be-files/WindowsLiveWriter/SQL_11CC/image_8.png)
+![image](/images/2008-09-27-frustrating-sql-character-encoding/image_8.png)
 
 看起來是個小問題，請對方 IT 確認了編碼的問題後，我在中繼資料庫作了點調整，convert 成 ntext 就搞定了。已經可以跑出正確的中文資料了。
 
 正想把程式弄一弄就收工，然後很得意的回報問題搞定時，發現不大對勁，怎麼整個 BATCH 跑下來結果還是錯的? 還錯的不一樣? 真是奇了... 原本轉 UNICODE 問題，再怎麼樣也應該只是變亂碼，或是變 ? 而以，結果這次看到的是資料錯亂，跑出其它的字出來...
 
-![image](/wp-content/be-files/WindowsLiveWriter/SQL_11CC/image_9.png)
+![image](/images/2008-09-27-frustrating-sql-character-encoding/image_9.png)
 
 這張圖是我把問題簡化後抓到的，原本是有上百行的 SQL SCRIPT ... @_@ 被我抽絲撥繭剩這段。第 33 筆資料是有問題的，不過出現的資料不是原本 "馥瑈" 啊，原本是第二個字變成 ? 而以... 現在竟然變成上一筆資料 (第32筆) 的內容，而第三個字 '榮' 則是由前面好幾筆的 "XX榮" 留下來，第四個字 "子" 就真的不曉得從那裡來了...
 

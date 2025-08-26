@@ -1,15 +1,14 @@
 {
   "title": "Battlestar Galactica",
   "published": true,
-  "categories": null,
+  "categories": [],
   "tags": [
     "\u6709\u7684\u6C92\u7684"
   ],
-  "generator": "BlogIndex.SyncPost v1.0.0.0, o3, https://app-azureopenai.openai.azure.com/",
   "tech-stacks": [
+    "XBOX",
     "Google",
-    "DVD",
-    "Xbox"
+    "DVD"
   ],
   "keywords": [
     "Battlestar Galactica",
@@ -17,10 +16,31 @@
     "Cylon",
     "\u8CFD\u9686\u4EBA",
     "Starbuck",
-    "\u53F2\u5DF4\u514B"
+    "\u53F2\u5DF4\u514B",
+    "\u4E2D\u8996",
+    "\u5F71\u96C6",
+    "\u5B98\u65B9\u7DB2\u7AD9",
+    "DVD",
+    "XBOX",
+    "game",
+    "\u6230\u6A5F",
+    "\u91CD\u65B0\u767C\u884C",
+    "\u9739\u9742\u8ECA",
+    "\u6A5F\u5668\u4EBA",
+    "google",
+    "\u61F7\u820A"
   ],
+  "generator": "BlogIndex.SyncPost v0.3.0.0, gpt-5",
   "references": [
-    "/wp-content/be-files/battlestar_galactica.jpg",
-    "http://www.scifi.com/battlestar/classic/"
-  ]
+    "/images/2004-12-16-battlestar-galactica/battlestar_galactica.jpg",
+    "http://www.scifi.com/battlestar/classic/",
+    "/2004/12/15/battlestar-galactica/",
+    "/columns/post/2004/12/16/Battlestar-Galactica.aspx/",
+    "/post/2004/12/16/Battlestar-Galactica.aspx/",
+    "/post/Battlestar-Galactica.aspx/",
+    "/columns/2004/12/16/Battlestar-Galactica.aspx/",
+    "/columns/Battlestar-Galactica.aspx/",
+    "/blogs/chicken/archive/2004/12/16/185.aspx/"
+  ],
+  "summary": "\u4F5C\u8005\u61B6\u8D77\u7AE5\u5E74\u6642\u5728\u4E2D\u8996\u64AD\u6620\u7684\u5F71\u96C6\u300C\u661F\u969B\u5927\u722D\u9738\u300D\uFF08Battlestar Galactica\uFF09\uFF0C\u5176\u4E2D\u8CFD\u9686\u4EBA\uFF08Cylon\uFF09\u773C\u90E8\u5982\u9739\u9742\u8ECA\u822C\u4F86\u56DE\u9583\u720D\uFF0C\u4EE5\u53CA\u4EBA\u985E\u9663\u71DF\u4E2D\u611B\u800D\u5E25\u7684 Starbuck \u7B49\u7D93\u5178\u89D2\u8272\u3002\u8FD1\u65E5\u96A8\u624B\u7528 Google \u641C\u5C0B\uFF0C\u610F\u5916\u767C\u73FE\u5B98\u65B9\u7DB2\u7AD9\u4ECD\u7136\u5B58\u5728\uFF0C\u4E26\u4EE5\u300C\u9A62\u5B50\u300D\u5C0B\u627E\u8CC7\u6E90\u6642\uFF0C\u770B\u5230\u6709\u91CD\u65B0\u767C\u884C\u7684 DVD \u8207 XBOX \u904A\u6232\uFF0C\u4EE4\u4ED6\u500D\u611F\u9A5A\u559C\u8207\u61F7\u820A\u3002\u6587\u672B\u8868\u9054\u5C0D\u80FD\u89AA\u81EA\u99D5\u99DB\u5287\u4E2D\u6230\u6A5F\u7684\u671F\u5F85\u8207\u8208\u596E\uFF0C\u611F\u5606\u7D93\u5178\u4F5C\u54C1\u7684\u9B45\u529B\u6B77\u4E45\u5F4C\u65B0\uFF0C\u559A\u8D77\u4E86\u5C0D\u820A\u65E5\u5F71\u96C6\u7684\u6DF1\u523B\u8A18\u61B6\u8207\u71B1\u60C5\u3002"
 }

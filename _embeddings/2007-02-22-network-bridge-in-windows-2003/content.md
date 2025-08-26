@@ -1,21 +1,3 @@
----
-layout: post
-title: "Network Bridge in Windows 2003..."
-categories:
-tags: ["Tips","技術隨筆","有的沒的"]
-published: true
-comments: true
-redirect_from:
-  - "/2007/02/22/network-bridge-in-windows-2003/"
-  - /columns/post/2007/02/22/Network-Bridge-in-Windows-2003.aspx/
-  - /post/2007/02/22/Network-Bridge-in-Windows-2003.aspx/
-  - /post/Network-Bridge-in-Windows-2003.aspx/
-  - /columns/2007/02/22/Network-Bridge-in-Windows-2003.aspx/
-  - /columns/Network-Bridge-in-Windows-2003.aspx/
-  - /blogs/chicken/archive/2007/02/22/2199.aspx/
-wordpress_postid: 182
----
-
 又在沒事找事做了... 這次是搬硬碟, 外加把部份網路從 100Mbps --> GBE, 不過這次沒有要添購新配備... 
 
 我很迷信大廠的硬體, 自己有在開發軟體最清楚, 只有大廠才有那個本錢把軟體的 bug 都抓乾淨, driver 更是明顯... driver 寫不好鳥問題一堆, 到這種年紀已經沒力氣跟那堆 driver 慢慢奮鬥了, 只要穩定可以用不要出問題就好... 
@@ -28,11 +10,11 @@ wordpress_postid: 182
 
 麻煩的是網路設定的地方... 原本的架構是這樣, 有點小複雜, 除了基本的 NAT 之外, server 上的 RRAS 也設定了 demand-dial, 會自動連到公司的 VPN, 同時也是 VPN server, 接受我在外面撥到家裡的區域網路, 其它 DNS, DHCP, IIS, Net Share 等等的就不畫了.. 
 
-![](/wp-content/be-files/files/58684.gif)
+![](/images/2007-02-22-network-bridge-in-windows-2003/58684.gif)
 
 最初的想法是, 直接多增加一個網段, 專門放 GBE 的 node. 不過家裡也才幾台電腦, 這樣弄好像太小題大作了, 加上這麼一來設定就越來越複雜了, DHCP 要調, static routing 要改... [:'(], 後來放棄, 直接用最不用大腦的 solution ... software networking bridge! 架構如下: 
 
-![](/wp-content/be-files/files/37191.gif)
+![](/images/2007-02-22-network-bridge-in-windows-2003/37191.gif)
 
 還好 windows 2003 有內建 bridge, 正好把 LAN 的兩張網卡串起來, 邏輯上只有一張 network interface, 只是實體接的線路有兩條 (100mbps / 1000mbps), 啥軟體設定都不用改... 
 

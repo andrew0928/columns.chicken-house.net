@@ -1,22 +1,3 @@
----
-layout: post
-title: "世紀末軟體革命復刻版"
-categories:
-
-tags: ["技術隨筆","敗家","物件導向"]
-published: true
-comments: true
-redirect_from:
-  - /2008/08/23/世紀末軟體革命復刻版/
-  - /2008/08/22/世紀末軟體革命復刻版/
-  - /columns/post/2008/08/23/e4b896e7b480e69cabe8bb9fe9ab94e99da9e591bde5bea9e588bbe78988.aspx/
-  - /post/2008/08/23/e4b896e7b480e69cabe8bb9fe9ab94e99da9e591bde5bea9e588bbe78988.aspx/
-  - /post/e4b896e7b480e69cabe8bb9fe9ab94e99da9e591bde5bea9e588bbe78988.aspx/
-  - /columns/2008/08/23/e4b896e7b480e69cabe8bb9fe9ab94e99da9e591bde5bea9e588bbe78988.aspx/
-  - /columns/e4b896e7b480e69cabe8bb9fe9ab94e99da9e591bde5bea9e588bbe78988.aspx/
-wordpress_postid: 77
----
-
 ![世紀末軟體革命復刻版](http://addons.books.com.tw/G/001/8/0010334718.jpg)
 
 [http://www.books.com.tw/exep/prod/booksfile.php?item=0010334718](http://www.books.com.tw/exep/prod/booksfile.php?item=0010334718)

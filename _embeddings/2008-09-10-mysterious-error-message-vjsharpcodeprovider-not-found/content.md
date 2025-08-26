@@ -1,23 +1,3 @@
----
-layout: post
-title: "莫明奇妙的錯誤訊息: 找不到 VJSharpCodeProvider ?"
-categories:
-
-tags: [".NET","ASP.NET","BlogEngine.NET","Tips","技術隨筆","有的沒的"]
-published: true
-comments: true
-redirect_from:
-  - /2008/09/10/莫明奇妙的錯誤訊息-找不到-vjsharpcodeprovider/
-  - /columns/post/2008/09/10/e88eabe6988ee5a587e5a699e79a84e98cafe8aaa4e8a88ae681af-e689bee4b88de588b0-VJSharpCodeProvider-.aspx/
-  - /post/2008/09/10/e88eabe6988ee5a587e5a699e79a84e98cafe8aaa4e8a88ae681af-e689bee4b88de588b0-VJSharpCodeProvider-.aspx/
-  - /post/e88eabe6988ee5a587e5a699e79a84e98cafe8aaa4e8a88ae681af-e689bee4b88de588b0-VJSharpCodeProvider-.aspx/
-  - /columns/2008/09/10/e88eabe6988ee5a587e5a699e79a84e98cafe8aaa4e8a88ae681af-e689bee4b88de588b0-VJSharpCodeProvider-.aspx/
-  - /columns/e88eabe6988ee5a587e5a699e79a84e98cafe8aaa4e8a88ae681af-e689bee4b88de588b0-VJSharpCodeProvider-.aspx/Provider-.aspx/
-  - /columns/2008/09/10/e88eabe6988ee5a587e5a699e79a84e98cafe8aaa4e8a88ae681af-e689bee4b88de588b0-VJSharpCodeProvider-.aspx/
-  - /columns/e88eabe6988ee5a587e5a699e79a84e98cafe8aaa4e8a88ae681af-e689bee4b88de588b0-VJSharpCodeProvider-.aspx/
-wordpress_postid: 69
----
-
 話說前陣子處理了 [BlogEngine.NET 升級到 1.4.5.0](/post/upgrade-to-be1450.aspx)，另外也寫了[ SecurePost.cs](/post/BlogEngine-Extension-Secure-Post-v10.aspx) 這個 extension, 其時都碰過這個鳥問題，只是一直沒去理它而以。接下來為了要改 [PostViewCounter](/post/BlogEngine-Extension-PostViewCount-10.aspx).cs (BE extension, too), 又碰到... 於是就認真的研究了一下...。
 
 過程是這樣，為了建立 BlogEngine 的開發環境，首先我從[官方網站](http://www.codeplex.com/blogengine)下載了 source code, 解開後編譯都沒問題，OK。
@@ -46,4 +26,4 @@ wordpress_postid: 69
 
  
 
-結論是: 各位別太鐵齒，看來 ~/App_Data 下的檔案也是不能亂塞的... 
+結論是: 各位別太鐵齒，看來 ~/App_Data 下的檔案也是不能亂塞的...

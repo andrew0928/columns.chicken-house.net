@@ -1,22 +1,3 @@
----
-layout: post
-title: "IE6 縮放網頁: using css + htc"
-categories:
-
-tags: ["HTML/CSS","技術隨筆"]
-published: true
-comments: true
-redirect_from:
-  - /2006/11/11/ie6-縮放網頁-using-css-htc/
-  - /columns/post/2006/11/12/IE6-e7b8aee694bee7b6b2e9a081-using-css-2b-htc.aspx/
-  - /post/2006/11/12/IE6-e7b8aee694bee7b6b2e9a081-using-css-2b-htc.aspx/
-  - /post/IE6-e7b8aee694bee7b6b2e9a081-using-css-2b-htc.aspx/
-  - /columns/2006/11/12/IE6-e7b8aee694bee7b6b2e9a081-using-css-2b-htc.aspx/
-  - /columns/IE6-e7b8aee694bee7b6b2e9a081-using-css-2b-htc.aspx/
-  - /blogs/chicken/archive/2006/11/12/1936.aspx/
-wordpress_postid: 208
----
-
 之前在小熊子朋友 DarkThread 的網頁看到[一篇](http://feeds.feedburner.com/~r/Darkthread/~3/45804519/kb-ie6.html), 可以不用裝 IE7 / Firefox 等就可以有縮放網頁的功能.. 不過有個限制是要在網頁加上一段 html code, 逛的網頁不是自己能改的就頭痛了...
 
 之前這篇講到用 css 可以把所有的網頁縮放大小, 不過縮放比例是寫死在 css 裡的... 看到 DarkThread 的那篇, 就手癢了起來, 試試用 htc + css 的方式, 看看能不能藉著這個技巧把縮放網頁的功能散佈到所有的網站上...

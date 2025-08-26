@@ -1,21 +1,3 @@
----
-layout: post
-title: "[BlogEngine.NET] 改造工程 - 整合 FunP 推推王"
-categories:
-
-tags: [".NET","ASP.NET","BlogEngine.NET","有的沒的"]
-published: true
-comments: true
-redirect_from:
-  - /2008/06/30/blogengine-net-改造工程-整合-funp-推推王/
-  - /2008/06/29/blogengine-net-改造工程-整合-funp-推推王/
-  - /columns/post/2008/06/30/CustomizeBlogEngineNET-FunP.aspx/
-  - /post/2008/06/30/CustomizeBlogEngineNET-FunP.aspx/
-  - /post/CustomizeBlogEngineNET-FunP.aspx/
-  - /columns/2008/06/30/CustomizeBlogEngineNET-FunP.aspx/
-  - /columns/CustomizeBlogEngineNET-FunP.aspx/
-wordpress_postid: 90
----
 [古早以前](/post/e68ea8!!!.aspx)，曾替我的 BLOG 加上推推王的小貼紙，不過當時也僅止於把 CODE 加上去而以，成效不大好...。這次搬家搬到 BlogEngine 後，又開始一樣的循環了..，要不要加上這些共用書籤? 要加那一套? 目前台灣用的最多就是[黑米](http://www.hemidemi.com/)跟[推推王](http://www.funp.com/)了。
 
 原本挑了黑米，只因為它有提供 [黑米卡](http://www.hemidemi.com/blogtools/hemi_card)，正好取代掉 BlogEngine 右邊那塊 [關於作者] .. 不過試用的情況不怎麼理想，除了速度有點慢之外，同一頁放太多 (幾十個) 的速度也很慢，也許跟 BlogEngine 我選用的樣板有點不合，速度太慢時有時整個版面就毀了，下載到一半就掛掉...
@@ -37,15 +19,15 @@ BlogEngine 原本也有內建一些，不過被我拿掉了。底下列出我調
 
 原 CS 的樣式:
 
-![image](/wp-content/be-files/WindowsLiveWriter/BlogEngine.NETFunP_11CED/image_10.png)
+![image](/images/2008-06-30-blogengine-net-transformation-project-integrating-funp-social-bookmarking/image_10.png)
 
 修改前:
 
-![image](/wp-content/be-files/WindowsLiveWriter/BlogEngine.NETFunP_11CED/image_11.png)
+![image](/images/2008-06-30-blogengine-net-transformation-project-integrating-funp-social-bookmarking/image_11.png)
 
 修改後:
 
-![image](/wp-content/be-files/WindowsLiveWriter/BlogEngine.NETFunP_11CED/image_12.png)
+![image](/images/2008-06-30-blogengine-net-transformation-project-integrating-funp-social-bookmarking/image_12.png)
 
 看了一下推推王的[工具](http://funp.com/tools/buttongen.php)，不外乎都是插入一段 `<SCRIPT>` 標簽，然後用 document.write( ) 或是 eval 等等 client side script 的方式產生片 HTML Code, 缺點就是繞了一大圈，出了問題也常讓人搞不清楚問題在那裡。花了點時間追一下，追出最後插在網頁的 HTML CODE 長這樣:
 
@@ -96,7 +78,7 @@ BlogEngine 原本也有內建一些，不過被我拿掉了。底下列出我調
 
 果然效果好多了，也不會再碰到版面掛掉等等鳥問題，只不過載入 [封存] 頁面時，一次四五百個 `<IFRAME>` 同時在跑，IE也是跑的很吃力....
 
-![image](/wp-content/be-files/WindowsLiveWriter/BlogEngine.NETFunP_11CED/image_3.png)
+![image](/images/2008-06-30-blogengine-net-transformation-project-integrating-funp-social-bookmarking/image_3.png)
 
 同樣的技巧也拿來修改 ~/archive.aspx 這頁。這頁原本是把所有的文章按照分類一篇一篇列出來，捨棄原有的 RATING 機制不用，直接用推文的機制取代。因此這頁原本顯示 RATING 分數的地方就被我改成推推王的推薦次術了。我的文章有兩百多篇，出現過的地方都列一次，加一加總共會出現近五百個推文按鈕 @_@，自然也不可能用原本官方的作法產生按鈕，直接用上面挖出來的方法，修改 archive.aspx.cs:
 

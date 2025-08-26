@@ -1,21 +1,3 @@
----
-layout: post
-title: "該如何學好 \"寫程式\" #5. 善用 TRACE / ASSERT"
-categories:
-- "系列文章: 如何學好寫程式"
-tags: [".NET","C#","作品集","專欄","技術隨筆","有的沒的","物件導向"]
-published: true
-comments: true
-redirect_from:
-  - /2008/11/03/該如何學好-寫程式-5-善用-trace-assert/
-  - /2008/11/03/該如何學好-寫程式-5-善用-trace-assert/
-  - /columns/post/2008/11/03/e8a9b2e5a682e4bd95e5adb8e5a5bd-e5afabe7a88be5bc8f-5-e59684e794a8-debug-mode.aspx/
-  - /post/2008/11/03/e8a9b2e5a682e4bd95e5adb8e5a5bd-e5afabe7a88be5bc8f-5-e59684e794a8-debug-mode.aspx/
-  - /post/e8a9b2e5a682e4bd95e5adb8e5a5bd-e5afabe7a88be5bc8f-5-e59684e794a8-debug-mode.aspx/
-  - /columns/2008/11/03/e8a9b2e5a682e4bd95e5adb8e5a5bd-e5afabe7a88be5bc8f-5-e59684e794a8-debug-mode.aspx/
-  - /columns/e8a9b2e5a682e4bd95e5adb8e5a5bd-e5afabe7a88be5bc8f-5-e59684e794a8-debug-mode.aspx/
-wordpress_postid: 53
----
 哈哈，這篇拖的夠久了 :P
 
 上篇扯太多，寫到一半寫不完就留到這篇了。寫出可靠的程式，這是軟體工程師的基本要求。上篇提到了 TRACE / ASSERT 的應用，來複習一下:

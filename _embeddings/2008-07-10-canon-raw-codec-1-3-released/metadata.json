@@ -5,30 +5,40 @@
   "tags": [
     "\u6709\u7684\u6C92\u7684"
   ],
-  "generator": "BlogIndex.SyncPost v1.0.0.0, o3, https://app-azureopenai.openai.azure.com/",
   "tech-stacks": [
+    "Canon RAW Codec",
     "Windows Vista",
     "Windows Vista SP1",
+    "x64",
+    "Microsoft Pro Photo Tools",
     ".NET 3.0",
     "WPF",
-    "Microsoft Pro Photo Tools",
-    "Canon RAW Codec 1.3",
-    "Canon RAW Codec 1.2",
-    "x64"
+    "CR2"
   ],
   "keywords": [
     "Canon RAW Codec",
+    "Canon RAW Codec 1.3",
+    "Canon RAW Codec 1.2",
+    "Windows Vista",
+    "Vista SP1",
+    "x64",
     "EOS Kiss X2",
     "EOS DIGITAL REBEL XSi",
     "EOS 450D",
-    "Windows Vista SP1",
-    "x64",
-    "CR2",
+    "G9",
+    ".CR2",
     "Microsoft Pro Photo Tools",
+    "RC120UPD_7L.EXE",
+    "CRC120UPD_7L.EXE",
+    "RC130UPD_7L.EXE",
     ".NET 3.0",
-    "WPF"
+    "WPF",
+    "CODEC",
+    "RAW"
   ],
+  "generator": "BlogIndex.SyncPost v0.3.0.0, gpt-5",
   "references": [
     "http://www.microsoft.com/prophoto/downloads/tools.aspx"
-  ]
+  ],
+  "summary": "\u4F5C\u8005\u767C\u73FE Canon RAW Codec \u63A8\u51FA 1.3 \u7248\uFF0C\u4E3B\u8981\u66F4\u65B0\u70BA\u652F\u63F4\u65B0\u6A5F\u7A2E EOS Kiss X2 / EOS DIGITAL REBEL XSi / EOS 450D\uFF0C\u4E26\u5BA3\u7A31\u6B63\u5F0F\u652F\u63F4 Windows Vista SP1\uFF0C\u4F46\u672A\u63D0\u53CA\u6548\u80FD\u63D0\u5347\u8207 x64 \u652F\u63F4\u3002\u4F5C\u8005\u5148\u524D\u5728 Vista SP1 \u4E0B\u4F7F\u7528 1.2 \u4E00\u76F4\u904B\u4F5C\u826F\u597D\uFF1B\u5347\u7D1A 1.3 \u5F8C\u537B\u8207\u5176\u81EA\u5BB6\u6B78\u6A94\u7A0B\u5F0F\u4E0D\u76F8\u5BB9\u3002\u66F4\u65B0\u8AAA\u660E\u4E5F\u6307\u51FA 1.3 \u8207 Microsoft Pro Photo Tools \u4E0D\u76F8\u5BB9\uFF0C\u5EFA\u8B70\u4F7F\u7528\u8005\u66AB\u52FF\u5347\u7D1A\u3002\u4F5C\u8005\u56E0\u6B64\u56DE\u9000\u81F3 1.2\uFF0C\u4E26\u6307\u51FA\u7248\u672C\u6A94\u540D\u6DF7\u4E82\uFF1A1.2 \u6709 RC120UPD_7L.EXE\uFF08\u8F03\u65E9\u4E14\u53EF\u7528\uFF09\u8207\u8F03\u65B0\u7684 CRC120UPD_7L.EXE\uFF1B1.3 \u70BA RC130UPD_7L.EXE\u3002\u6E2C\u8A66\u7D50\u679C\u50C5\u6700\u65E9\u7684 RC120UPD_7L.EXE \u80FD\u8207\u5176\u61C9\u7528\u5171\u5B58\u3002\u5C0D\u4F7F\u7528 .NET 3.0 \u002B WPF \u7684\u4EBA\u7279\u5225\u63D0\u9192\u5148\u5225\u66F4\u65B0\uFF0C\u4EE5\u514D\u767C\u751F\u76F8\u5BB9\u6027\u554F\u984C\u3002"
 }

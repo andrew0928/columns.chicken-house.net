@@ -1,21 +1,3 @@
----
-layout: post
-title: "如何在執行檔 (.NET) 裡附加額外的資料?"
-categories:
-tags: [".NET","Tips","技術隨筆"]
-published: true
-comments: true
-redirect_from:
-  - "/2007/02/28/如何在執行檔-net-裡附加額外的資料/"
-  - /columns/post/2007/02/28/e5a682e4bd95e59ca8e59fb7e8a18ce6aa94-(NET)-e8a3a1e99984e58aa0e9a18de5a496e79a84e8b387e69699.aspx/
-  - /post/2007/02/28/e5a682e4bd95e59ca8e59fb7e8a18ce6aa94-(NET)-e8a3a1e99984e58aa0e9a18de5a496e79a84e8b387e69699.aspx/
-  - /post/e5a682e4bd95e59ca8e59fb7e8a18ce6aa94-(NET)-e8a3a1e99984e58aa0e9a18de5a496e79a84e8b387e69699.aspx/
-  - /columns/2007/02/28/e5a682e4bd95e59ca8e59fb7e8a18ce6aa94-(NET)-e8a3a1e99984e58aa0e9a18de5a496e79a84e8b387e69699.aspx/
-  - /columns/e5a682e4bd95e59ca8e59fb7e8a18ce6aa94-(NET)-e8a3a1e99984e58aa0e9a18de5a496e79a84e8b387e69699.aspx/
-  - /blogs/chicken/archive/2007/02/28/2268.aspx/
-wordpress_postid: 180
----
-
 離上一篇有營養的 post 已經隔好久了, 中間都是貼些五四三的, 哈哈... 今天再來貼點跟 .net development 有關的心得...
 
 這篇要講的, 就是想做的像一般壓縮軟體, 可以把壓縮檔包成一個可執行檔, 這個執行檔包含解壓縮的程式, 同時也包含你自己資料, 包成單一執行檔無論攜帶或保存, 甚至隨時要解開都很方便...

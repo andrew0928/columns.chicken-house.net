@@ -1,22 +1,3 @@
----
-layout: post
-title: "Canon PowerShot S5 IS 出來了"
-categories:
-
-tags: ["敗家","有的沒的"]
-published: true
-comments: true
-redirect_from:
-  - /2007/05/10/canon-powershot-s5-is-出來了/
-  - /columns/post/2007/05/10/Canon-PowerShot-S5-IS-e587bae4be86e4ba86.aspx/
-  - /post/2007/05/10/Canon-PowerShot-S5-IS-e587bae4be86e4ba86.aspx/
-  - /post/Canon-PowerShot-S5-IS-e587bae4be86e4ba86.aspx/
-  - /columns/2007/05/10/Canon-PowerShot-S5-IS-e587bae4be86e4ba86.aspx/
-  - /columns/Canon-PowerShot-S5-IS-e587bae4be86e4ba86.aspx/
-  - /blogs/chicken/archive/2007/05/10/2385.aspx/
-wordpress_postid: 163
----
-
 無意間逛了逛 Canon 網站，才發現 [S5 IS](http://web.canon.jp/Imaging/pss5is/index-e.html) 的消息 [:D]
 
 規格跟前一代 S3 IS 比起來沒差多少，除了相素從 600M 跳到 800M 之外，其它都差不多，除了 S5 終於多了熱靴... [:D]

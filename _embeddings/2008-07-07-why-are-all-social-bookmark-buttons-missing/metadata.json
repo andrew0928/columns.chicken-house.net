@@ -1,37 +1,46 @@
 {
   "title": "\u70BA\u4EC0\u9EBC\u4E00\u5806\u63A8\u6587\u7684\u6309\u9215\u90FD\u4E0D\u898B\u4E86?",
   "published": true,
-  "categories": null,
+  "categories": [],
   "tags": [
     ".NET",
     "BlogEngine.NET"
   ],
-  "generator": "BlogIndex.SyncPost v1.0.0.0, o3, https://app-azureopenai.openai.azure.com/",
   "tech-stacks": [
     ".NET",
     "BlogEngine.NET",
-    "Microsoft Visual SourceSafe (VSS)",
-    "Windows Live Writer"
+    "BlogEngine 1.4",
+    "BlogEngine 1.3",
+    "Microsoft Visual SourceSafe (VSS)"
   ],
   "keywords": [
     "\u63A8\u6587",
+    "\u63A8\u6587\u6309\u9215",
     "\u63A8\u63A8\u738B",
-    "SLUG",
     "\u7DB2\u5740",
-    "BE1.4",
-    "BE1.3",
-    "\u5347\u7D1A",
+    "URL",
+    "SLUG",
+    "POST",
     "\u9017\u865F",
-    "\u9023\u7E8C\u7B26\u865F",
+    "\u9023\u5B57\u865F",
+    "BE1.4",
+    "1.3",
     "VSS",
-    "\u7A0B\u5F0F\u4FEE\u6B63"
+    "\u5347\u7D1A",
+    "\u81EA\u52D5\u7522\u751F",
+    "\u898F\u5247",
+    "\u9023\u4E0D\u5230",
+    "FlickrProxy",
+    "\u793E\u7FA4\u66F8\u7C64"
   ],
+  "generator": "BlogIndex.SyncPost v0.3.0.0, gpt-5",
   "references": [
-    "/wp-content/be-files/WindowsLiveWriter/8dc7a0549a69_196F/image_12.png",
-    "/wp-content/be-files/WindowsLiveWriter/8dc7a0549a69_196F/image_14.png",
-    "/wp-content/be-files/WindowsLiveWriter/8dc7a0549a69_196F/image_13.png",
+    "/images/2008-07-07-why-are-all-social-bookmark-buttons-missing/image_12.png",
+    "/images/2008-07-07-why-are-all-social-bookmark-buttons-missing/image_14.png",
+    "/images/2008-07-07-why-are-all-social-bookmark-buttons-missing/image_13.png",
+    "/images/2008-07-07-why-are-all-social-bookmark-buttons-missing/image_3.png",
     "http://columns.chicken-house.net/post/FlickrProxy-1---Overview.aspx",
-    "http://columns.chicken-house.net/post/FlickrProxy-1-Overview.aspx",
-    "/wp-content/be-files/WindowsLiveWriter/8dc7a0549a69_196F/image_3.png"
-  ]
+    "http://columns.chicken-house.net/post/FlickrProxy-1-Overview.aspx"
+  ],
+  "summary": "\u4F5C\u8005\u767C\u73FE\u90E8\u843D\u683C\u591A\u7BC7\u6587\u7AE0\u539F\u672C\u986F\u793A\u7684\u63A8\u6587\u6578\u5B57\u8207\u6309\u9215\u7A81\u7136\u6D88\u5931\uFF0C\u7591\u4F3C\u7DB2\u7AD9\u6709\u72C0\u6CC1\uFF0C\u65BC\u662F\u5230\u300C\u63A8\u63A8\u738B\u300D\u67E5\u8A62\uFF0C\u767C\u73FE\u63A8\u6587\u7D00\u9304\u4ECD\u5728\u3002\u5F9E\u63A8\u63A8\u738B\u8FD4\u56DE\u6587\u7AE0\u537B\u51FA\u73FE\u627E\u4E0D\u5230\u9801\u9762\u7684\u60C5\u6CC1\uFF0C\u9032\u4E00\u6B65\u6BD4\u5C0D\u7DB2\u5740\u5F8C\u624D\u767C\u73FE\u81EA\u5DF1\u7684\u6587\u7AE0 URL \u8207\u63A8\u63A8\u738B\u7D00\u9304\u7684\u4E0D\u540C\u3002\u95DC\u9375\u5728\u65BC\u8FD1\u671F\u5C07 BlogEngine.NET \u5F9E 1.3 \u5347\u7D1A\u5230 1.4\uFF0C\u7CFB\u7D71\u81EA\u52D5\u7522\u751F SLUG \u7684\u898F\u5247\u6539\u8B8A\uFF1A\u4F8B\u5982\u79FB\u9664\u9017\u865F\u3001\u5C07\u9023\u7E8C\u591A\u500B\u9023\u5B57\u865F\u300C---\u300D\u5408\u4F75\u70BA\u55AE\u4E00\u300C-\u300D\u3002\u56E0\u6B64\u820A\u6587\u7AE0\u539F\u672C\u7684\u7DB2\u5740\u51FA\u73FE\u4E86\u8B8A\u66F4\uFF0C\u5C0E\u81F4\u5916\u90E8\u670D\u52D9\uFF08\u5982\u63A8\u63A8\u738B\uFF09\u6240\u8A18\u9304\u7684\u820A\u9023\u7D50\u6307\u56DE\u4F86\u6703\u5931\u6548\uFF0C\u9020\u6210\u63A8\u6587\u6309\u9215\u8207\u6578\u5B57\u7121\u6CD5\u5C0D\u61C9\u986F\u793A\u3002\u4F5C\u8005\u539F\u6253\u7B97\u5BEB\u7A0B\u5F0F\u6279\u6B21\u4FEE\u6B63\uFF0C\u4F46\u8003\u91CF\u53D7\u5F71\u97FF\u7BC7\u6578\u4E0D\u591A\uFF0C\u6700\u5F8C\u9078\u64C7\u76F4\u63A5\u5230\u63A8\u63A8\u738B\u66F4\u65B0\u9023\u7D50\uFF0C\u554F\u984C\u9042\u544A\u89E3\u6C7A\u3002\u6574\u8D77\u4E8B\u4EF6\u8AAA\u660E\u4E86\u5347\u7D1A\u5E73\u53F0\u6642 URL \u7522\u751F\u898F\u5247\u8B8A\u66F4\u5C07\u9020\u6210\u5916\u90E8\u9023\u7D50\u8207\u793E\u7FA4\u7D71\u8A08\u5931\u6548\u7684\u98A8\u96AA\uFF0C\u9700\u7279\u5225\u7559\u610F\u4E26\u63A1\u53D6\u5C0D\u61C9\u63AA\u65BD\uFF08\u5982\u7DAD\u6301\u76F8\u5BB9\u7684 SLUG \u6216\u8A2D\u5B9A\u8F49\u5740\uFF09\u3002"
 }

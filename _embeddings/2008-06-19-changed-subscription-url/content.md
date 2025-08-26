@@ -1,22 +1,3 @@
----
-layout: post
-title: "換訂閱的網址了!"
-categories:
-
-tags: ["技術隨筆","有的沒的"]
-published: true
-comments: true
-redirect_from:
-  - /2008/06/18/換訂閱的網址了/
-  - /columns/post/2008/06/19/e68f9be8a882e996b1e79a84e7b6b2e59d80e4ba86!.aspx/
-  - /post/2008/06/19/e68f9be8a882e996b1e79a84e7b6b2e59d80e4ba86!.aspx/
-  - /post/e68f9be8a882e996b1e79a84e7b6b2e59d80e4ba86!.aspx/
-  - /columns/2008/06/19/e68f9be8a882e996b1e79a84e7b6b2e59d80e4ba86!.aspx/
-  - /columns/e68f9be8a882e996b1e79a84e7b6b2e59d80e4ba86!.aspx/
-  - /2008/06/18/換訂閱的網址了/
-wordpress_postid: 97
----
-
 原本是把舊的訂閱網址都自動轉過來了, 不過想想這不是好方法, 舊的網址得一直掛在那邊.. 沒換的人一年後還是不會換, 因此還是提醒一下.
 
 1. FeedBufner ([http://feeds.feedburner.com/andrewwu](http://feeds.feedburner.com/andrewwu)):  
@@ -28,4 +9,4 @@ wordpress_postid: 97
 3. 新網址 ([http://columns.chicken-house.net/syndication.axd](http://columns.chicken-house.net/syndication.axd))  
    以後文章訂閱的來源就是這裡了... 也可以點網站上方的 [訂閱] 功能...
 
-大概就是這樣, 請大家繼續支持, 換到新網站, 繼續訂閱吧 :D 
+大概就是這樣, 請大家繼續支持, 換到新網站, 繼續訂閱吧 :D

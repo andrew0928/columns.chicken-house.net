@@ -1,22 +1,3 @@
----
-layout: post
-title: "如何透過命令列, 從手機搬檔案到電腦?"
-categories:
-
-tags: [".NET","Tips","技術隨筆","有的沒的"]
-published: true
-comments: true
-redirect_from:
-  - /2007/03/12/how-to-transfer-files-from-phone-via-command-line/
-  - /columns/post/2007/03/13/e5a682e4bd95e9808fe9818ee591bde4bba4e588972c-e5be9ee6898be6a99fe690ace6aa94e6a188e588b0e99bbbe885a6.aspx/
-  - /post/2007/03/13/e5a682e4bd95e9808fe9818ee591bde4bba4e588972c-e5be9ee6898be6a99fe690ace6aa94e6a188e588b0e99bbbe885a6.aspx/
-  - /post/e5a682e4bd95e9808fe9818ee591bde4bba4e588972c-e5be9ee6898be6a99fe690ace6aa94e6a188e588b0e99bbbe885a6.aspx/
-  - /columns/2007/03/13/e5a682e4bd95e9808fe9818ee591bde4bba4e588972c-e5be9ee6898be6a99fe690ace6aa94e6a188e588b0e99bbbe885a6.aspx/
-  - /columns/e5a682e4bd95e9808fe9818ee591bde4bba4e588972c-e5be9ee6898be6a99fe690ace6aa94e6a188e588b0e99bbbe885a6.aspx/
-  - /blogs/chicken/archive/2007/03/13/2295.aspx/
-wordpress_postid: 176
----
-
 這年頭了, 還有誰需要這種東西? 要搬檔案, 不就 active sync 連好, 檔案總管一開就好了?
 
 不過問題沒這麼簡單... 先列一下我的需求跟問題:

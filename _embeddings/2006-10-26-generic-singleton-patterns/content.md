@@ -1,22 +1,3 @@
----
-layout: post
-title: "泛型 + Singleton Patterns"
-categories:
-- "系列文章: 泛型 + Singleton Patterns"
-tags: [".NET"]
-published: true
-comments: true
-redirect_from:
-  - /2006/10/26/泛型-singleton-patterns/
-  - /columns/post/2006/10/26/e6b39be59e8b-2b-Singleton-Patterns.aspx/
-  - /post/2006/10/26/e6b39be59e8b-2b-Singleton-Patterns.aspx/
-  - /post/e6b39be59e8b-2b-Singleton-Patterns.aspx/
-  - /columns/2006/10/26/e6b39be59e8b-2b-Singleton-Patterns.aspx/
-  - /columns/e6b39be59e8b-2b-Singleton-Patterns.aspx/
-  - /blogs/chicken/archive/2006/10/26/1892.aspx/
-wordpress_postid: 219
----
-
 聽起來 singleton 跟 generic 好像搭不上邊, 不過搭配 .net framework 2.0 的 generic 機制, 倒是可以讓 singleton 好做很多... 我先簡單寫一下不使用 generic 時的做法...
 
 只有單一 class 要實作 singleton 很簡單, 只要寫這樣的 code 就可以:

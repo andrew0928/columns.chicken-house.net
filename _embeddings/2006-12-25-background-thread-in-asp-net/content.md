@@ -1,22 +1,3 @@
----
-layout: post
-title: "Background Thread in ASP.NET ..."
-categories:
-- "系列文章: 多執行緒的處理技巧"
-tags: [".NET"]
-published: true
-comments: true
-redirect_from:
-  - /2006/12/24/background-thread-in-asp-net/
-  - /columns/post/2006/12/25/Background-Thread-in-ASPNET-.aspx/
-  - /post/2006/12/25/Background-Thread-in-ASPNET-.aspx/
-  - /post/Background-Thread-in-ASPNET-.aspx/
-  - /columns/2006/12/25/Background-Thread-in-ASPNET-.aspx/
-  - /columns/Background-Thread-in-ASPNET-.aspx/
-  - /blogs/chicken/archive/2006/12/25/2022.aspx/
-wordpress_postid: 196
----
-
 Web Application 越做越大, 就會多了一堆不是網頁型態就能解決的功能需求... 舉例來說, 一般網頁就是你點了某個功能, server就會想盡辦法把結果輸出成網頁給你看. 但是這幾種型態的功能就非常不適合用這種模式來開發...
 
 1. 會輸出大量資料的功能 (像報表之類的, 或是列出一堆資料, 又不想分頁)

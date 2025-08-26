@@ -1,36 +1,47 @@
 {
   "title": "\u95DC\u4E0D\u6389\u7684 Vista UAC !?",
   "published": true,
-  "categories": [],
+  "categories": null,
   "tags": [
     "Tips"
   ],
-  "generator": "BlogIndex.SyncPost v1.0.0.0, o3, https://app-azureopenai.openai.azure.com/",
   "tech-stacks": [
-    "Windows Vista",
+    "Microsoft Windows Vista",
     "User Account Control (UAC)",
     "msconfig.exe",
     "Windows Registry",
-    "Process Monitor"
+    "Process Monitor (Sysinternals)",
+    "Windows Control Panel"
   ],
   "keywords": [
     "Vista",
+    "Windows",
     "UAC",
-    "msconfig",
+    "\u4F7F\u7528\u8005\u5E33\u6236\u63A7\u5236",
+    "msconfig.exe",
     "registry",
+    "\u767B\u9304\u6A94",
     "ProcessMonitor",
-    "patch",
-    "control panel",
-    "reboot",
-    "Windows"
+    "Process Monitor",
+    "\u63A7\u5236\u53F0",
+    "\u66F4\u65B0",
+    "PATCH",
+    "\u91CD\u958B\u6A5F",
+    "REBOOT",
+    "\u95DC\u6A5F",
+    "\u8A2D\u5B9A",
+    "\u6B0A\u9650",
+    "\u7CFB\u7D71\u5DE5\u5177"
   ],
+  "generator": "BlogIndex.SyncPost v0.3.0.0, gpt-5",
   "references": [
-    "/wp-content/be-files/WindowsLiveWriter/VistaUAC_1E70/image_3.png",
+    "/images/2008-10-31-vista-uac-wont-turn-off/image_3.png",
     "/2008/10/31/\u95DC\u4E0D\u6389\u7684-vista-uac/",
     "/columns/post/2008/10/31/e9979ce4b88de68e89e79a84-Vista-UAC-!.aspx/",
     "/post/2008/10/31/e9979ce4b88de68e89e79a84-Vista-UAC-!.aspx/",
     "/post/e9979ce4b88de68e89e79a84-Vista-UAC-!.aspx/",
     "/columns/2008/10/31/e9979ce4b88de68e89e79a84-Vista-UAC-!.aspx/",
     "/columns/e9979ce4b88de68e89e79a84-Vista-UAC-!.aspx/"
-  ]
+  ],
+  "summary": "\u4F5C\u8005\u5728\u516C\u53F8\u96FB\u8166\u7684 Windows Vista \u4E0A\u9047\u5230 UAC\uFF08\u4F7F\u7528\u8005\u5E33\u6236\u63A7\u5236\uFF09\u83AB\u540D\u5176\u5999\u88AB\u6253\u958B\u7684\u60C5\u6CC1\uFF0C\u4E14\u5728\u63A7\u5236\u53F0\u4E2D\u986F\u793A\u70BA\u5DF2\u95DC\u9589\uFF0C\u4E0D\u8AD6\u5982\u4F55\u5207\u63DB\u8A2D\u5B9A\u90FD\u4E0D\u751F\u6548\uFF0C\u61F7\u7591\u662F\u63A7\u5236\u53F0\u7684\u8A2D\u5B9A\u7A0B\u5F0F\u7121\u6CD5\u5C07\u503C\u5BEB\u5165\u767B\u9304\u6A94\u6240\u81F4\u3002\u70BA\u5C0B\u627E\u66FF\u4EE3\u65B9\u5F0F\uFF0C\u4F5C\u8005\u6539\u7528\u300C\u958B\u59CB \u2192 \u57F7\u884C\u300D\u8F38\u5165 msconfig.exe\uFF0C\u767C\u73FE\u5176\u4E2D\u63D0\u4F9B\u76F4\u63A5\u8ABF\u6574 UAC \u7684\u9078\u9805\uFF0C\u61C9\u70BA\u76F4\u63A5\u4FEE\u6539\u767B\u9304\u6A94\u3002\u5957\u7528\u8A2D\u5B9A\u4E26\u91CD\u65B0\u958B\u6A5F\u5F8C\u554F\u984C\u5373\u544A\u6392\u9664\uFF0CUAC \u72C0\u614B\u6062\u5FA9\u6B63\u5E38\u3002\u4F5C\u8005\u539F\u672C\u8003\u616E\u7528 Process Monitor \u8FFD\u8E64\u5BEB\u5165\u554F\u984C\uFF0C\u4F46\u6700\u7D42\u7121\u9808\u51FA\u52D5\u3002\u6587\u672B\u5EFA\u8B70\u82E5\u4ED6\u4EBA\u4E5F\u9047\u5230\u76F8\u540C\u60C5\u6CC1\uFF0C\u53EF\u5617\u8A66\u900F\u904E msconfig \u8B8A\u66F4 UAC \u8A2D\u5B9A\u4E26\u91CD\u958B\u6A5F\uFF0C\u4EE5\u7E5E\u904E\u63A7\u5236\u53F0\u4ECB\u9762\u53EF\u80FD\u7684\u7570\u5E38\u3002"
 }

@@ -1,20 +1,3 @@
----
-layout: post
-title: "Google 讓人越來越笨?"
-categories:
-
-tags: ["技術隨筆","有的沒的"]
-published: true
-comments: true
-redirect_from:
-  - /2008/09/28/google-讓人越來越笨/
-  - /columns/post/2008/09/28/Google-Effect.aspx/
-  - /post/2008/09/28/Google-Effect.aspx/
-  - /post/Google-Effect.aspx/
-  - /columns/2008/09/28/Google-Effect.aspx/
-  - /columns/Google-Effect.aspx/
-wordpress_postid: 63
----
 無意間在網站上看到這則新聞:
 
 GOOGLE 讓人變笨？網路便利後遺症  

@@ -1,22 +1,3 @@
----
-layout: post
-title: "利用 NUnitLite, 在 App_Code 下寫單元測試"
-categories:
-
-tags: [".NET"]
-published: true
-comments: true
-redirect_from:
-  - /2006/10/29/利用-nunitlite-在-app_code-下寫單元測試/
-  - /columns/post/2006/10/29/e588a9e794a8-NUnitLite2c-e59ca8-App_Code-e4b88be5afabe596aee58583e6b8ace8a9a6.aspx/
-  - /post/2006/10/29/e588a9e794a8-NUnitLite2c-e59ca8-App_Code-e4b88be5afabe596aee58583e6b8ace8a9a6.aspx/
-  - /post/e588a9e794a8-NUnitLite2c-e59ca8-App_Code-e4b88be5afabe596aee58583e6b8ace8a9a6.aspx/
-  - /columns/2006/10/29/e588a9e794a8-NUnitLite2c-e59ca8-App_Code-e4b88be5afabe596aee58583e6b8ace8a9a6.aspx/
-  - /columns/e588a9e794a8-NUnitLite2c-e59ca8-App_Code-e4b88be5afabe596aee58583e6b8ace8a9a6.aspx/
-  - /blogs/chicken/archive/2006/10/29/1903.aspx/
-wordpress_postid: 215
----
-
 繼上篇寫了些 543, 說 NUnitLite 可以用來測 Asp.Net 2.0 Web Application 後, 這次來個簡單的範例. 因為我公司主要開發的是 web based application, 因此常常碰到寫好的程式可能會被安裝到好幾個不同 site 的情況, 甚至安裝的人員也不見得是懂 coding 的人.. 因此確認 configuration 是否正確就是很重要的一環. 這個例子就來把 "configuration 是否正確" 這件事, 也當做 unit test 的一部份.
 
 也許有人會講, 這是環境的測試, 而 unit test 主要是要測程式的最小單元 - function 是否正常, 話是沒錯, config 之類的問題應該用 trace / assert 也許較恰當, 或是整個 system initialization 時就應該自我檢查一番. 這樣沒錯, 不過我的看法較實際一點, 除非你的開發人員很多, 或是你的產品量已經大到值得你這麼做, 否則大部份的專案, 我想這部份都是被呼略掉的一環...
@@ -100,7 +81,7 @@ public class ConfigurationTest
 
 Step 5. Deploy Web, 調整好各項 configuration, 啟用前先點一下 NUnitLiteTestRunner.aspx, 看看結果如何... 但是我的 IE 很怪, 明明 Step 3 的 code 都已經把 content type 都標示為 text/plain 了, 我的 IE 硬要把它當 xml 來開, 然後才唉唉叫說 xml 有問題.... 結果就變這樣:
 
-![NUnitLite Test Result](/wp-content/uploads/2006/10/NUnitLiteApp_Code_2935/image010.png)
+![NUnitLite Test Result](/images/2006-10-29-using-nunitlite-in-app-code-for-unit-testing/image010.png)
 
 如果你剛好也碰到, 就直接按右鍵選 view source 就好...
 

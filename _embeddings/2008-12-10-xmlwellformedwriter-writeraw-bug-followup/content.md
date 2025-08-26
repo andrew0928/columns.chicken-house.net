@@ -1,20 +1,3 @@
----
-layout: post
-title: "XmlWellFormedWriter.WriteRaw( ) 的 Bug 後續發展"
-categories:
-
-tags: [".NET","C#","MSDN","Tips","技術隨筆","有的沒的"]
-published: true
-comments: true
-redirect_from:
-  - /2008/12/10/xmlwellformedwriter-writeraw-的-bug-後續發展/
-  - /columns/post/2008/12/10/XmlWellFormedWriterWriteRaw(-)-e79a84-Bug-e5be8ce7ba8ce799bce5b195.aspx/
-  - /post/2008/12/10/XmlWellFormedWriterWriteRaw(-)-e79a84-Bug-e5be8ce7ba8ce799bce5b195.aspx/
-  - /post/XmlWellFormedWriterWriteRaw(-)-e79a84-Bug-e5be8ce7ba8ce799bce5b195.aspx/
-  - /columns/2008/12/10/XmlWellFormedWriterWriteRaw(-)-e79a84-Bug-e5be8ce7ba8ce799bce5b195.aspx/
-  - /columns/XmlWellFormedWriterWriteRaw(-)-e79a84-Bug-e5be8ce7ba8ce799bce5b195.aspx/
-wordpress_postid: 47
----
 一時順手，就按下 Visual Studio 2008 上面的 [Report Bug] 回報[上一篇](http://columns.chicken-house.net/post/e58e9fe4be86-XmlWellFormedWriter-e4b99fe69c89-Bug-.aspx)發現的 Bug, 沒想到 Microsoft 真的有回應耶... :D
 
 反正 Microsoft 在 connect 裡的回應本來就公開的，我就順手貼一下:

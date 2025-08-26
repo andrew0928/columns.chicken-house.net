@@ -1,21 +1,3 @@
----
-layout: post
-title: "JPEG XR (就是 Microsoft HD Photo 啦) 已經是 ISO 正式標準了..."
-categories:
-
-tags: [".NET","WPF","技術隨筆","有的沒的"]
-published: true
-comments: true
-redirect_from:
-  - /2009/08/05/jpeg-xr-就是-microsoft-hd-photo-啦-已經是-iso-正式標準了/
-  - /columns/post/2009/08/05/JPEG-XR-(e5b0b1e698af-Microsoft-HD-Photo-e595a6)-e5b7b2e7b693e698af-ISO-e6ada3e5bc8fe6a899e6ba96e4ba86.aspx/
-  - /post/2009/08/05/JPEG-XR-(e5b0b1e698af-Microsoft-HD-Photo-e595a6)-e5b7b2e7b693e698af-ISO-e6ada3e5bc8fe6a899e6ba96e4ba86.aspx/
-  - /post/JPEG-XR-(e5b0b1e698af-Microsoft-HD-Photo-e595a6)-e5b7b2e7b693e698af-ISO-e6ada3e5bc8fe6a899e6ba96e4ba86.aspx/
-  - /columns/2009/08/05/JPEG-XR-(e5b0b1e698af-Microsoft-HD-Photo-e595a6)-e5b7b2e7b693e698af-ISO-e6ada3e5bc8fe6a899e6ba96e4ba86.aspx/
-  - /columns/JPEG-XR-(e5b0b1e698af-Microsoft-HD-Photo-e595a6)-e5b7b2e7b693e698af-ISO-e6ada3e5bc8fe6a899e6ba96e4ba86.aspx/
-wordpress_postid: 36
----
-
 先寫在前面，這篇不是什麼技術的探討或是評論，純脆是我個人看到這消息的想法而已。很久沒貼些軟體相關的文章了，最近比較少在動手寫 Code, 自然就沒什麼新題材好寫 @@，不過這兩天倒是看到一個蠻令人興奮的新聞，就是:
 
 **JPEG XR 已經正式通過 ISO 標準了!!**
@@ -43,4 +25,4 @@ JPEG 應該已經無人不知，無人不曉了吧? 不過當年還是有朋友�
 
 現在看到 JPEG XR 的標準化，正好是我要的東西啊 :D 我需要的正是個能妥善保存這些影像資料細節的方式，同時能讓我輕鬆愉快的使用，不用耽心工具支不支援，或是其它五四三等問題困擾...。這些問題對阿宅來說，一點都不困難，有一缸子的工具辦的到，不過... 如果隨變看個照片，或是要 COPY 給家人朋友看，還要動用一堆雞絲，那也太辛苦了一點... 能有個通用的標準格式及大廠背書，那是再好也不過了 :D
 
-所以，接下來要做什麼? 我突然慶興我一直都有留著這幾年拍下來的 RAW file (.CRW / .CR2) 檔案... 該是替我的歸檔程式翻新的時後了，下一步是開始嘗試用 .WDP 來取代現在放兩份 RAW + JPEG 的方式... 
+所以，接下來要做什麼? 我突然慶興我一直都有留著這幾年拍下來的 RAW file (.CRW / .CR2) 檔案... 該是替我的歸檔程式翻新的時後了，下一步是開始嘗試用 .WDP 來取代現在放兩份 RAW + JPEG 的方式...

@@ -7,40 +7,43 @@
     "\u6280\u8853\u96A8\u7B46",
     "\u6709\u7684\u6C92\u7684"
   ],
-  "generator": "BlogIndex.SyncPost v1.0.0.0, o3, https://app-azureopenai.openai.azure.com/",
   "tech-stacks": [
     "Microsoft Virtual Server 2005 R2 SP1",
-    "Virtual PC",
-    "VHDMount",
-    "VMware",
-    "Windows XP",
-    "Hardware Assisted Virtualization"
-  ],
-  "keywords": [
-    "Microsoft Virtual Server 2005 R2 SP1",
-    "Hardware Assisted Virtualization",
+    "Virtual PC (VPC)",
     "VHDMount",
     ".vhd",
+    ".iso",
+    "VMware",
+    "Windows XP",
+    "Host OS",
+    "Guest OS",
+    "Hardware Assisted Virtualization",
+    "Undo Disk",
+    "Virtual Machine"
+  ],
+  "keywords": [
+    "VHDMount",
     "Virtual PC",
+    "Microsoft Virtual Server 2005 R2 SP1",
+    "Hardware Assisted Virtualization",
     "virtual cd-rom",
     ".iso",
-    "vmware",
+    ".vhd",
+    "VMware",
     "undo disk",
     "mount",
     "dismount",
-    "commit",
-    "host OS",
+    "commit changes",
     "guest OS",
+    "host OS",
+    "VPC",
+    "VS2005 R2 SP1",
     "Windows XP",
-    "virtual machine"
+    "VHD \u683C\u5F0F",
+    "\u865B\u64EC\u6A5F",
+    "\u865B\u64EC\u71D2\u9304\u5668"
   ],
-  "references": [
-    "/2007/06/23/using-vhdmount-with-virtual-pc/",
-    "/columns/post/2007/06/23/Using-VHDMount-with-Virtual-PC.aspx/",
-    "/post/2007/06/23/Using-VHDMount-with-Virtual-PC.aspx/",
-    "/post/Using-VHDMount-with-Virtual-PC.aspx/",
-    "/columns/2007/06/23/Using-VHDMount-with-Virtual-PC.aspx/",
-    "/columns/Using-VHDMount-with-Virtual-PC.aspx/",
-    "/blogs/chicken/archive/2007/06/23/2462.aspx/"
-  ]
+  "generator": "BlogIndex.SyncPost v0.3.0.0, gpt-5",
+  "references": [],
+  "summary": "\u672C\u6587\u4ECB\u7D39 Microsoft Virtual Server 2005 R2 SP1 \u65B0\u589E\u7684 VHDMount \u5DE5\u5177\u8207\u5176\u5728 Virtual PC\uFF08VPC\uFF09\u60C5\u5883\u4E0B\u7684\u5BE6\u7528\u6027\u3002\u4F5C\u8005\u6307\u51FA\u65B0\u7248\u9664\u4E86\u652F\u63F4\u786C\u9AD4\u8F14\u52A9\u865B\u64EC\u5316\u5916\uFF0C\u4EA6\u63D0\u4F9B\u53EF\u5728\u4E3B\u6A5F\u4F5C\u696D\u7CFB\u7D71\u76F4\u63A5\u639B\u8F09 VHD \u7684\u5DE5\u5177 VHDMount\uFF0C\u985E\u4F3C\u5E38\u898B\u7684\u865B\u64EC\u5149\u789F\u6A5F\u5C07 .iso \u639B\u8F09\u7684\u65B9\u5F0F\uFF0C\u4F46\u5C0D\u8C61\u6539\u70BA VPC \u7684 .vhd \u78C1\u789F\u6620\u50CF\u3002\u76F8\u8F03 VMware \u65E9\u6709\u985E\u4F3C\u529F\u80FD\uFF0C\u5FAE\u8EDF\u6B64\u6B21\u4E26\u52A0\u5165\u555F\u7528 Undo Disk \u7684\u8A2D\u8A08\uFF1A\u639B\u8F09\u6642\u6703\u555F\u7528\u8B8A\u66F4\u8FFD\u8E64\uFF0C\u5378\u8F09\u53EF\u9078\u64C7\u662F\u5426\u63D0\u4EA4\u8B8A\u66F4\uFF0C\u7701\u53BB\u70BA\u4FEE\u6539 VHD \u800C\u5FC5\u9808\u555F\u52D5 Guest OS \u7684\u9EBB\u7169\u3002\u7531\u65BC VPC \u8207 VS2005 R2 SP1 \u7684 VHD \u683C\u5F0F\u76F8\u5BB9\uFF0C\u5EFA\u8B70\u5728 Windows XP \u4E0A\u53EA\u5B89\u88DD Virtual Server 2005 R2 SP1 \u7684 VHDMount \u5143\u4EF6\uFF0C\u5373\u53EF\u5728\u50C5\u4F7F\u7528 VPC \u7684\u74B0\u5883\u4EAB\u53D7\u639B\u8F09 VHD \u7684\u4FBF\u5229\u3002\u6587\u672B\u4E5F\u611F\u5606\u96D6\u7136\u865B\u64EC\u5316\u76DB\u884C\uFF0C\u4F46\u4ECD\u7F3A\u4E4F\u53EF\u6A21\u64EC\u71D2\u9304\u5668\u7684\u865B\u64EC\u5149\u789F\u6216\u865B\u64EC\u6A5F\u652F\u63F4\u3002"
 }

@@ -1,22 +1,3 @@
----
-layout: post
-title: "Code Formatter 更新: 複製CODE及HTML預覽"
-categories:
-
-tags: [".NET","HTML/CSS","作品集","有的沒的"]
-published: true
-comments: true
-redirect_from:
-  - /2008/03/31/code-formatter-更新-複製code及html預覽/
-  - /columns/post/2008/03/31/Code-Formatter-e69bb4e696b0-e8a487e8a3bdCODEe58f8aHTMLe9a090e8a6bd.aspx/
-  - /post/2008/03/31/Code-Formatter-e69bb4e696b0-e8a487e8a3bdCODEe58f8aHTMLe9a090e8a6bd.aspx/
-  - /post/Code-Formatter-e69bb4e696b0-e8a487e8a3bdCODEe58f8aHTMLe9a090e8a6bd.aspx/
-  - /columns/2008/03/31/Code-Formatter-e69bb4e696b0-e8a487e8a3bdCODEe58f8aHTMLe9a090e8a6bd.aspx/
-  - /columns/Code-Formatter-e69bb4e696b0-e8a487e8a3bdCODEe58f8aHTMLe9a090e8a6bd.aspx/
-  - /blogs/chicken/archive/2008/03/31/3133.aspx/
-wordpress_postid: 114
----
-
 無聊的宅男沒事又改起這個Live Writer的外掛程式了。原本的版本還不錯用，不過就是覺的少了點什麼... 除了加個框之外，跟網站版本也沒什麼差別嘛。用了一陣子，又加了兩個小功能上去... 
 
 **COPY CODE**

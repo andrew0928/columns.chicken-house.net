@@ -1,20 +1,3 @@
----
-layout: post
-title: "NGenerics - DataStructure / Algorithm Library"
-categories:
-
-tags: [".NET","C#","MSDN","Tips","技術隨筆","有的沒的"]
-published: true
-comments: true
-redirect_from:
-  - /2008/10/14/ngenerics-datastructure-algorithm-library/
-  - /columns/post/2008/10/14/NGenerics-DataStructure-Algorithm-Library.aspx/
-  - /post/2008/10/14/NGenerics-DataStructure-Algorithm-Library.aspx/
-  - /post/NGenerics-DataStructure-Algorithm-Library.aspx/
-  - /columns/2008/10/14/NGenerics-DataStructure-Algorithm-Library.aspx/
-  - /columns/NGenerics-DataStructure-Algorithm-Library.aspx/
-wordpress_postid: 58
----
 其實本來沒打算寫這篇的，不過之前在寫第二篇: [[該如何學好 "寫程式" #2. 為什麼 programmer 該學資料結構 ??](/post/e8a9b2e5a682e4bd95e5adb8e5a5bd-e5afabe7a88be5bc8f-2-e782bae4bb80e9babc-programmer-e8a9b2e5adb8e8b387e69699e7b590e6a78b-.aspx)] 時，寫的太高興，忘了查 System.Collections.Generics.SortedList 的 KEY 能不能重複... 結果貼出來後同事才提醒我，SortedList 的 KEY 一樣得是唯一的... Orz
 
 實在是不想自己再去寫這種資料結構的作業... 一來我寫不會比較好，二來自己寫的沒支援那堆 ICollection, IEnumerable 等 interface 的話，用起來也是很難用... 就到 [www.codeplex.com](http://www.codeplex.com) 找了找，沒想到還真的找到一個: [NGenerics](http://www.codeplex.com/NGenerics) :D 找到之後才發現挖到寶了，裡面實作的資料結構還真完整，Heap, BinaryTree, CircularQueue, PriorityQueue... 啥的一應俱全，好像看到資料結構課本的解答本一樣 @_@，有興趣研究的人可以抓它的 Source Code 來看..

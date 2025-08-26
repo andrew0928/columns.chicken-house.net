@@ -1,20 +1,3 @@
----
-layout: post
-title: "該如何學好 \"寫程式\" #4. 你的程式夠 \"可靠\" 嗎?"
-categories:
-- "系列文章: 如何學好寫程式"
-tags: [".NET","C#","Tips","作品集","專欄","技術隨筆","有的沒的"]
-published: true
-comments: true
-redirect_from:
-  - /2008/10/20/該如何學好-寫程式-4-你的程式夠-可靠-嗎/
-  - /columns/post/2008/10/20/e8a9b2e5a682e4bd95e5adb8e5a5bd-e5afabe7a88be5bc8f-4-e4bda0e79a84e7a88be5bc8fe5a4a0-e58fafe99da0-e5978e.aspx/
-  - /post/2008/10/20/e8a9b2e5a682e4bd95e5adb8e5a5bd-e5afabe7a88be5bc8f-4-e4bda0e79a84e7a88be5bc8fe5a4a0-e58fafe99da0-e5978e.aspx/
-  - /post/e8a9b2e5a682e4bd95e5adb8e5a5bd-e5afabe7a88be5bc8f-4-e4bda0e79a84e7a88be5bc8fe5a4a0-e58fafe99da0-e5978e.aspx/
-  - /columns/2008/10/20/e8a9b2e5a682e4bd95e5adb8e5a5bd-e5afabe7a88be5bc8f-4-e4bda0e79a84e7a88be5bc8fe5a4a0-e58fafe99da0-e5978e.aspx/
-  - /columns/e8a9b2e5a682e4bd95e5adb8e5a5bd-e5afabe7a88be5bc8f-4-e4bda0e79a84e7a88be5bc8fe5a4a0-e58fafe99da0-e5978e.aspx/
-wordpress_postid: 56
----
 撐了很久，續篇來了。這次要進階一點，直接從 software engineer (軟體工程師) 的階段開始。
 
 所謂的軟體工程師，我對它的定義是在這個領域已經算是資深人員了。programmer 該作的是把程式寫好，要挑正確的方式及技術寫好你的程式 (如之前幾篇介紹的演算法及資料結構等等)。而軟體工程師呢? 之前介紹的那些已經不夠了，你該好好的安排你的 code 及工具，要能把你的 solution (如會用到的演算法及資料結構)，跟你手上能運用的資源 (如程式語言、開發工具及函式庫) 作最佳化的搭配及整合。
@@ -418,11 +401,11 @@ public static int ComputeQuestionScore(XmlElement quiz_question, XmlElement pape
 那真的不正常的話會怎樣? 我特地拿掉倒扣扣到 0 分為止的 check, 用新版的 code 執行看看。
 
 
-![](/wp-content/be-files/WindowsLiveWriter/4.SoftwareEngineer_14CFC/image_5.png)
+![](/images/2008-10-20-how-to-learn-programming-well-4-is-your-program-reliable-enough/image_5.png)
 
 在 .NET 裡 ASSERT 觸動後就是這個樣子。那 TRACE 呢? 我們進 DEBUG MODE 來看看:
 
-![](/wp-content/be-files/WindowsLiveWriter/4.SoftwareEngineer_14CFC/image_6.png)
+![](/images/2008-10-20-how-to-learn-programming-well-4-is-your-program-reliable-enough/image_6.png)
 
 TRACE Message 直接被收到 Visual Studio 的 Output 視窗內。不過在 .NET 環境下，這兩者的行為已經跟書上講的廿年前作法有很多不同了。這些機制仍然可以開關，不過已經不是靠 DEBUG / RELEASE MODE 來切換，而是在 .NET configuration 裡用設定檔的方式來切換。
 

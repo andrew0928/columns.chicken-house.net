@@ -1,23 +1,4 @@
----
-layout: post
-title: "3D Studio 作品"
-categories:
-
-tags: ["作品集"]
-published: true
-comments: true
-redirect_from:
-  - /2004/12/18/3d-studio-作品/
-  - /columns/post/2004/12/18/3D-Studio-e4bd9ce59381.aspx/
-  - /post/2004/12/18/3D-Studio-e4bd9ce59381.aspx/
-  - /post/3D-Studio-e4bd9ce59381.aspx/
-  - /columns/2004/12/18/3D-Studio-e4bd9ce59381.aspx/
-  - /columns/3D-Studio-e4bd9ce59381.aspx/
-  - /blogs/chicken/archive/2004/12/18/195.aspx/
-wordpress_postid: 310
----
-
-[![3D Studio 作品](/wp-content/be-files/artefact/light-icon.jpg)](/wp-content/be-files/artefact/light.jpg) ![3D 動畫](/wp-content/be-files/artefact/LIGHT-160x120.gif)
+[![3D Studio 作品](/images/2004-12-18-3d-studio-artwork/light-icon.jpg)](/wp-content/be-files/artefact/light.jpg) ![3D 動畫](/images/2004-12-18-3d-studio-artwork/LIGHT-160x120.gif)
 
 這是大四去修資科系的"電腦圖學"的作業... 期中的作業是左邊靜態的 3D 電腦, 期末的作業才是右邊的 3D 動畫.
 

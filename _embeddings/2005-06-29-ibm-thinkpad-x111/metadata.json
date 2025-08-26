@@ -5,29 +5,37 @@
   "tags": [
     "\u6709\u7684\u6C92\u7684"
   ],
-  "generator": "BlogIndex.SyncPost v1.0.0.0, o3, https://app-azureopenai.openai.azure.com/",
   "tech-stacks": [
-    "IBM ThinkPad X31",
     "IBM ThinkPad X40",
-    "Pentium M",
+    "IBM ThinkPad X31",
+    "Pentium M LV 1.1 GHz",
     "SD Card",
-    "1.8\u0022 HDD",
-    "Combo Drive",
+    "1.8\u0022 HDD 40GB",
+    "Onboard 256MB RAM \u002B 512MB RAM",
+    "Combo \u5149\u789F\u6A5F\uFF08\u7D71\u5F37\uFF09",
     "IBM \u5C0F\u9ED1\u9F20"
   ],
   "keywords": [
-    "\u6557\u5BB6",
+    "IBM",
+    "ThinkPad",
     "X31",
     "X40",
     "X111",
-    "ThinkPad",
-    "Pentium M",
     "SD Card",
-    "IBM",
-    "\u7B46\u8A18\u578B\u96FB\u8166",
     "\u5149\u83EF",
-    "Combo"
+    "Pentium M",
+    "1.1 GHz",
+    "256MB RAM",
+    "512MB RAM",
+    "40GB",
+    "1.8\u540B\u786C\u789F",
+    "Combo",
+    "\u5C0F\u9ED1\u9F20",
+    "\u8CFC\u8CB7",
+    "\u50F9\u683C",
+    "\u7B46\u96FB"
   ],
+  "generator": "BlogIndex.SyncPost v0.3.0.0, gpt-5",
   "references": [
     "/2005/06/28/ibm-thinkpad-x111/",
     "/columns/post/2005/06/29/IBM-ThinkPad-X111-.aspx/",
@@ -36,6 +44,7 @@
     "/columns/2005/06/29/IBM-ThinkPad-X111-.aspx/",
     "/columns/IBM-ThinkPad-X111-.aspx/",
     "/blogs/chicken/archive/2005/06/29/708.aspx/",
-    "/Emoticons/emotion-11.gif"
-  ]
+    "/images/2005-06-29-ibm-thinkpad-x111/emotion-11.gif"
+  ],
+  "summary": "\u4F5C\u8005\u53D7\u5169\u4F4D\u59CA\u59CA\u59D4\u8A17\u9078\u8CFC\u7B46\u96FB\uFF0C\u56E0\u5979\u5011\u5C0D\u4F5C\u8005\u7684 ThinkPad X31 \u4F7F\u7528\u9AD4\u9A57\u5370\u8C61\u4E0D\u932F\uFF0C\u4E14\u4E00\u4F4D\u5C07\u51FA\u570B\u5538\u66F8\u3001\u53E6\u4E00\u4F4D\u8981\u6C70\u63DB\u684C\u6A5F\uFF0C\u6700\u5F8C\u6C7A\u5B9A\u5165\u624B\u5169\u53F0 ThinkPad X40\u3002\u8003\u91CF\u5169\u4EBA\u76F8\u6A5F\u7686\u4F7F\u7528 SD \u5361\uFF0CX40 \u5167\u5EFA SD \u8B80\u5361\u6A5F\u8F03\u70BA\u5408\u9069\u3002\u4F5C\u8005\u5230\u5149\u83EF\u5546\u5834\u4E00\u6B21\u62B1\u56DE\u5169\u53F0\uFF0C\u5BB6\u4E2D\u73FE\u6210\u4E86 X31 \u002B X40 \u002B X40 = X111 \u7684\u7D44\u5408\u3002\u50F9\u683C\u65B9\u9762\u5169\u53F0\u5171\u300C\u4E5D\u842C\u51FA\u982D\u300D\uFF0C\u7B97\u662F\u5212\u7B97\uFF0C\u4E0D\u904E\u8CFC\u8CB7\u904E\u7A0B\u7565\u6709\u4E9B\u4E0D\u6109\u5FEB\u7684\u63D2\u66F2\u3002\u6587\u4E2D\u4E5F\u5217\u51FA\u5176\u4E2D\u4E00\u53F0\u7684\u898F\u683C\uFF1APentium M LV 1.1 GHz\u3001\u5167\u5EFA 256MB \u52A0\u88DD 512MB \u8A18\u61B6\u9AD4\u300140GB 1.8 \u540B\u786C\u789F\u3001\u7D71\u5F37 Combo \u5149\u789F\u6A5F\uFF0C\u4E26\u9644 IBM \u5C0F\u9ED1\u9F20\u3002\u5BE6\u969B\u4F7F\u7528\u611F\u53D7\u826F\u597D\uFF0C\u96D6\u7136\u4F5C\u8005\u539F\u672C\u5C0D X40 \u6C92\u7279\u5225\u597D\u611F\uFF0C\u4F46\u767C\u73FE\u624B\u611F\u8207\u6548\u80FD\u4E0D\u8F38 X31\uFF0C\u751A\u81F3\u8B93\u4F5C\u8005\u672C\u4EBA\u4E5F\u5FC3\u52D5\u60F3\u63DB\u6A5F\u3002"
 }

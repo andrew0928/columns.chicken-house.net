@@ -1,21 +1,3 @@
----
-layout: post
-title: "停機搬家了 :D"
-categories:
-tags: ["有的沒的","水電工"]
-published: true
-comments: true
-redirect_from:
-  - /2007/09/06/停機搬家了-d/
-  - /columns/post/2007/09/07/e5819ce6a99fe690ace5aeb6e4ba86-D.aspx/
-  - /post/2007/09/07/e5819ce6a99fe690ace5aeb6e4ba86-D.aspx/
-  - /post/e5819ce6a99fe690ace5aeb6e4ba86-D.aspx/
-  - /columns/2007/09/07/e5819ce6a99fe690ace5aeb6e4ba86-D.aspx/
-  - /columns/e5819ce6a99fe690ace5aeb6e4ba86-D.aspx/
-  - /blogs/chicken/archive/2007/09/07/2638.aspx/
-wordpress_postid: 148
----
-
 明天早上 (2007/09/07)就要停機了, 從停機到上線, 要忙的事還真不少...
 
 2007/09/07 早上, 中華電信移機, 電話網路都不通  

@@ -1,22 +1,3 @@
----
-layout: post
-title: "升級失敗... Orz"
-categories:
-
-tags: ["有的沒的"]
-published: true
-comments: true
-redirect_from:
-  - /2006/12/09/升級失敗-orz/
-  - /columns/post/2006/12/10/e58d87e7b49ae5a4b1e69597-Orz.aspx/
-  - /post/2006/12/10/e58d87e7b49ae5a4b1e69597-Orz.aspx/
-  - /post/e58d87e7b49ae5a4b1e69597-Orz.aspx/
-  - /columns/2006/12/10/e58d87e7b49ae5a4b1e69597-Orz.aspx/
-  - /columns/e58d87e7b49ae5a4b1e69597-Orz.aspx/
-  - /blogs/chicken/archive/2006/12/10/1997.aspx/
-wordpress_postid: 201
----
-
 看到 community server 官方網站, 有 CS 2.1 SP2 可以下載, 想說跟我當初裝的 2.0 RTM 也隔了好久, 想說來升級看看...
 
 順手先做了 shadow copy, 然後照說明, 更新檔案, 執行 2.x -> 2.1 upgrade sql script ...

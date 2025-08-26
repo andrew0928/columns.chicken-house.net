@@ -1,20 +1,3 @@
----
-layout: post
-title: "[C# yield return] #2. 另類的應用 - Thread Sync 替代方案"
-categories:
-- "系列文章: Inside C# Yield Return"
-tags: [".NET","C#","Tips","作品集","多執行緒","技術隨筆","有的沒的"]
-published: true
-comments: true
-redirect_from:
-  - /2008/09/22/c-yield-return-2-另類的應用-thread-sync-替代方案/
-  - /columns/post/2008/09/22/YieldReturn2_ThreadSyncReplacement.aspx/
-  - /post/2008/09/22/YieldReturn2_ThreadSyncReplacement.aspx/
-  - /post/YieldReturn2_ThreadSyncReplacement.aspx/
-  - /columns/2008/09/22/YieldReturn2_ThreadSyncReplacement.aspx/
-  - /columns/YieldReturn2_ThreadSyncReplacement.aspx/
-wordpress_postid: 67
----
 繼[上篇](/post/C-yield-return-1-How-It-Work-.aspx)，講了一些 yield return 編譯後產生的 Code, 說明了 C# compiler 如何用簡單的語法替你實作了 IEnumerator 介面，而完全不會增加程式的複雜度，這是我認為 C# 提供最讚的 Syntax Sugar ...。
 
 不過無意間我想到了 yield return 還有另一種應用方式。靈感來自之前 [Darkthread](http://blog.darkthread.net/) 舉辦的 [[黑暗盃程式魔人賽](http://blog.darkthread.net/blogs/darkthreadtw/archive/2008/09/02/coding-for-fun-contest-start.aspx)]。因為參賽題目 [xAxB猜數字遊戲] 原本就是考驗演算法，邏輯就不大簡單了，加上要配合 GameHost 的呼叫方式，難度更提高不少。因此之前貼了兩篇文章 [ThreadSync [#1. 概念篇 - 如何化被動為主動?](/post/Thread-Sync-1-e6a682e5bfb5e7af87-e5a682e4bd95e58c96e8a2abe58b95e782bae4b8bbe58b95.aspx), [#2. 實作篇 - 互相等待的兩個執行緒](/post/Thread-Sync-2-e5afa6e4bd9ce7af87-e4ba92e79bb8e7ad89e5be85e79a84e585a9e5808be59fb7e8a18ce7b792.aspx)]，介紹了我改寫的 AsyncPlayer，讓程式可以分別以獨立的執行緒執行 GameHost 及 Player 的程式碼。藉著這方式讓兩者都可以 "獨立思考"，邏輯不會中斷，讓程式能夠簡單一些。
@@ -27,11 +10,11 @@ wordpress_postid: 67
 
 不多說，先看看之前畫的兩張時序圖:
 
-![image](/wp-content/be-files/WindowsLiveWriter/Cyieldreturn2.ThreadSync_FE89/image_6.png)
+![image](/images/2008-09-22-csharp-yield-return-2-alternative-application-thread-sync-replacement/image_6.png)
 
 先看之前 ThreadSync #1 裡提到的圖，我這次加上紅線當 "輔助線"，紅線代表執行 GameHost 的主程式，這個執行序必需反反覆覆的在 GameHost / Player 兩份類別的程式碼跑來跑去，主程式是 GameHost 發起的，當然被強迫切成好幾段的就只有 Player 了。
 
-![image](/wp-content/be-files/WindowsLiveWriter/Cyieldreturn2.ThreadSync_FE89/image_5.png)
+![image](/images/2008-09-22-csharp-yield-return-2-alternative-application-thread-sync-replacement/image_5.png)
 
 這是修改過後的版本，GameHost / Player 有各自的執行緒，紅色是 GameHost，藍色是 Player。當執行緒跑到中間時代表它在等待了，等另一方也跑到中間把執行結果放到共用變數，同時叫醒對方之後才交換過來。兩方都各自照著自己的邏輯跑，不過這種等待 & 喚醒的動作，相較於一般的 function call / return 而言，實在是太慢了...。我就是從這張圖得來的靈感，這個解決方式不就跟 yield return 很像嘛? 都是為了避免多次呼叫之間，被呼叫的另一方的邏輯被破切斷的問題... 因此我就開始思考 AsyncPlayer 是不是有機會用 yield return 寫出另一個版本...。
 

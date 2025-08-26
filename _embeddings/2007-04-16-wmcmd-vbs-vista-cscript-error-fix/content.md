@@ -1,23 +1,3 @@
----
-layout: post
-title: "WMCmd.vbs 在 VISTA 下執行會導至 cscript.exe 發生錯誤..."
-categories:
-
-tags: ["Tips","技術隨筆","有的沒的"]
-published: true
-comments: true
-redirect_from:
-  - /2007/04/15/wmcmd-vbs-vista-cscript-error-fix/
-  - /2007/04/15/wmcmd-vbs-在-vista-下執行會導至-cscript-exe-發生錯誤/
-  - /columns/post/2007/04/16/WMCmdvbs-e59ca8-VISTA-e4b88be59fb7e8a18ce69c83e5b08ee887b3-cscriptexe-e799bce7949fe98cafe8aaa4.aspx/
-  - /post/2007/04/16/WMCmdvbs-e59ca8-VISTA-e4b88be59fb7e8a18ce69c83e5b08ee887b3-cscriptexe-e799bce7949fe98cafe8aaa4.aspx/
-  - /post/WMCmdvbs-e59ca8-VISTA-e4b88be59fb7e8a18ce69c83e5b08ee887b3-cscriptexe-e799bce7949fe98cafe8aaa4.aspx/
-  - /columns/2007/04/16/WMCmdvbs-e59ca8-VISTA-e4b88be59fb7e8a18ce69c83e5b08ee887b3-cscriptexe-e799bce7949fe98cafe8aaa4.aspx/
-  - /columns/WMCmdvbs-e59ca8-VISTA-e4b88be59fb7e8a18ce69c83e5b08ee887b3-cscriptexe-e799bce7949fe98cafe8aaa4.aspx/
-  - /blogs/chicken/archive/2007/04/16/2344.aspx/
-wordpress_postid: 167
----
-
 我用的冷門工具在 vista 裡又碰到問題了 [:S]
 
 Windows Media Encoder 9 附的 script: WMCmd.vbs, 在 vista 下執行時, cscript.exe 就會因為 DEP 的原因發生問題, 被攔下來, 看來 Microsoft 自己的 code 也是到處都藏著地雷, 隨便也碰到 data segment 被執行的狀況, 然後 DEP 就啟動了...

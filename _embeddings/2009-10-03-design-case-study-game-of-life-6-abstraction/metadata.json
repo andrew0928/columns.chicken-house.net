@@ -11,30 +11,40 @@
     "\u7269\u4EF6\u5C0E\u5411",
     "\u7CFB\u5217\u6587\u7AE0: \u751F\u547D\u904A\u6232"
   ],
-  "generator": "BlogIndex.SyncPost v1.0.0.0, o3, https://app-azureopenai.openai.azure.com/",
   "tech-stacks": [
     "C#",
-    ".NET",
     "UML",
-    "PowerPoint",
-    "Microsoft Word",
-    "Windows",
-    "OOP"
+    "Microsoft PowerPoint",
+    "Microsoft Word"
   ],
   "keywords": [
     "\u62BD\u50CF\u5316",
     "Abstraction",
+    "\u7269\u4EF6\u5C0E\u5411",
+    "\u7E7C\u627F",
+    "\u4ECB\u9762",
+    "\u4E00\u822C\u5316",
+    "\u7279\u6B8A\u5316",
+    "\u52D5\u614B\u806F\u7D50",
     "\u751F\u547D\u904A\u6232",
     "World",
     "Life",
     "Cell",
-    "\u7E7C\u627F",
-    "generalization",
-    "specialization",
-    "\u52D5\u614B\u806F\u7D50",
+    "UML \u985E\u5225\u5716",
     "\u75C5\u6BD2\u611F\u67D3",
-    "\u7D30\u80DE"
+    "\u6A5F\u7387",
+    "\u9130\u5C45",
+    "\u751F\u6B7B\u72C0\u614B",
+    "\u6A21\u64EC",
+    "\u751F\u614B\u7CFB\u7D71",
+    "\u8349\u539F",
+    "\u8349",
+    "\u7F8A",
+    "\u864E",
+    "\u7A0B\u5F0F\u8A2D\u8A08",
+    "\u91CD\u69CB"
   ],
+  "generator": "BlogIndex.SyncPost v0.3.0.0, gpt-5",
   "references": [
     "/2009/10/03/\u8A2D\u8A08\u6848\u4F8B-\u751F\u547D\u904A\u6232-6-\u62BD\u50CF\u5316-abstraction/",
     "/columns/post/2009/10/03/e8a8ade8a888e6a188e4be8b-6-e68abde5838fe58c96.aspx/",
@@ -44,8 +54,8 @@
     "/columns/e8a8ade8a888e6a188e4be8b-6-e68abde5838fe58c96.aspx/",
     "/post/e8a8ade8a888e6a188e4be8b-e7949fe591bde9818ae688b2-4-e69c89e69588e78e87e79a84e4bdbfe794a8e59fb7e8a18ce7b792.aspx",
     "/post/e4b896e7b580e69cabe8bb9fe9ab94e99da9e591bde5bea9e588bbe78988.aspx",
-    "/wp-content/be-files/WindowsLiveWriter/6/540DA0FC/image.png",
-    "/wp-content/be-files/WindowsLiveWriter/6/48E416B2/ClassDiagram1.png",
-    "/wp-content/be-files/WindowsLiveWriter/6/0FB7A1AD/image.png"
-  ]
+    "/images/2009-10-03-design-case-study-game-of-life-6-abstraction/image.png",
+    "/images/2009-10-03-design-case-study-game-of-life-6-abstraction/ClassDiagram1.png"
+  ],
+  "summary": "\u672C\u6587\u4EE5\u751F\u547D\u904A\u6232\u70BA\u4F8B\uFF0C\u8AAA\u660E\u7269\u4EF6\u5C0E\u5411\u4E2D\u7684\u62BD\u50CF\u5316\u6982\u5FF5\u53CA\u5176\u5728\u7A0B\u5F0F\u8A2D\u8A08\u4E2D\u7684\u50F9\u503C\u3002\u4F5C\u8005\u5148\u4EE5\u300C\u99D5\u7167\u8207\u958B\u8ECA\u300D\u7684\u6BD4\u55BB\uFF0C\u5C0D\u7167\u8EDF\u9AD4\u4E16\u754C\u4E2D\u7248\u672C\u4E0D\u76F8\u5BB9\u7684\u56F0\u5883\uFF0C\u6307\u51FA\u4EE5\u62BD\u50CF\u5316\u4ECB\u9762\u6E9D\u901A\u3001\u96B1\u85CF\u5BE6\u4F5C\u7D30\u7BC0\uFF0C\u80FD\u8B93\u4E3B\u7A0B\u5F0F\u5C0D\u672A\u4F86\u8B8A\u5316\u4FDD\u6301\u5F48\u6027\u3002\u63A5\u8457\u5C07\u539F\u5148\u5177\u9AD4\u7684 Cell \u62BD\u96E2\u70BA\u4E0A\u5C64 Life\uFF0CWorld \u50C5\u8207\u62BD\u50CF\u7684 Life \u4E92\u52D5\uFF1BCell \u4F5C\u70BA Life \u7684\u7279\u6B8A\u5316\u5BE6\u4F5C\uFF0C\u8CA0\u8CAC\u5404\u7A2E\u5177\u9AD4\u884C\u70BA\u3002\u6587\u4E2D\u5C55\u793A UML \u985E\u5225\u5716\u8207 C# \u7A0B\u5F0F\u78BC\uFF0C\u4E26\u5728\u7D93\u5178\u56DB\u689D\u751F\u547D\u904A\u6232\u898F\u5247\u4E0A\u65B0\u589E\u300C\u75C5\u6BD2\u611F\u67D3\u300D\u6A5F\u5236\uFF08\u4F9D\u9130\u5C45\u6578\u5F71\u97FF\u611F\u67D3\u6A5F\u7387\u3001\u611F\u67D3\u4E09\u56DE\u5408\u5F8C\u75CA\u7652\u3001\u611F\u67D3\u671F\u6709\u6B7B\u4EA1\u6A5F\u7387\uFF09\uFF0C\u8B49\u660E\u5728\u4E0D\u4FEE\u6539 World/Life \u67B6\u69CB\u4E0B\u5373\u53EF\u52A0\u5165\u65B0\u898F\u5247\u8207\u884C\u70BA\uFF0C\u9AD4\u73FE\u52D5\u614B\u806F\u7D50\u8207\u64F4\u5145\u6027\u3002\u4F5C\u8005\u4EA6\u63D0\u9192\u904E\u5EA6\u9810\u5148\u8A2D\u8A08\u7684\u98A8\u96AA\uFF0C\u4E3B\u5F35\u4EE5\u6B63\u78BA\u62BD\u50CF\u5316\u7DAD\u6301\u5F48\u6027\uFF0C\u540C\u6642\u907F\u514D\u4E0D\u5FC5\u8981\u7684\u8907\u96DC\u5EA6\uFF1B\u4E0B\u4E00\u7BC7\u5C07\u628A\u540C\u4E00\u6846\u67B6\u5957\u7528\u81F3\u8349\u539F\u751F\u614B\uFF08\u8349\u3001\u7F8A\u3001\u864E\uFF09\u4EE5\u9A57\u8B49\u53EF\u91CD\u7528\u6027\u3002"
 }

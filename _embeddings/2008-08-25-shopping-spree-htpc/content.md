@@ -1,22 +1,4 @@
----
-layout: post
-title: "敗家: HTPC"
-categories:
-
-tags: ["敗家","有的沒的"]
-published: true
-comments: true
-redirect_from:
-  - /2008/08/25/敗家-htpc/
-  - /columns/post/2008/08/25/e69597e5aeb6-HTPC.aspx/
-  - /post/2008/08/25/e69597e5aeb6-HTPC.aspx/
-  - /post/e69597e5aeb6-HTPC.aspx/
-  - /columns/2008/08/25/e69597e5aeb6-HTPC.aspx/
-  - /columns/e69597e5aeb6-HTPC.aspx/
-wordpress_postid: 76
----
-
-![HTPC Setup](/wp-content/be-files/WindowsLiveWriter/HTPC_1475F/image_3.png)
+![HTPC Setup](/images/2008-08-25-shopping-spree-htpc/image_3.png)
 
 沒錯，我又敗家了... :D
 
@@ -50,7 +32,7 @@ wordpress_postid: 76
 
 另一個比較特別的也要講一下。過去曾貼過一篇 [[一萬多塊錢的簡報器](/post/e4b880e5808be4b880e890ace5a49ae79a84e7b0a1e5a0b1e599a8-Orz.aspx)]，提到有軟體 ([Salling Clicker for Windows 3.5](http://www.salling.com/Clicker/windows/))可以當簡報器，搖控 PPT 播放，也能搖控 Media Player ...，現在這些東西有內建在 VISTA 的版本了，主要就是透過 SlideShow。在 Vista 推出一年多之後，Microsoft 總算推出 [Preview](http://www.microsoft.com/downloads/details.aspx?FamilyID=79f19684-f862-4e02-a2b0-0003b4565f34&displaylang=en) 版的軟體，可以讓你的 Windows Mobile 5 / 6 的手機及PDA，搖身一變成為 Vista SlideShow Device。再搭配上 Microsoft 才開發到 BETA 版的 SlideShow Gadget for MCE... 耶! 手機可以變成 MCE 搖控器了!
 
-![SideShow Device 1](/wp-content/be-files/WindowsLiveWriter/HTPC_1475F/image_8.png) ![SideShow Device 2](/wp-content/be-files/WindowsLiveWriter/HTPC_1475F/image_9.png)
+![SideShow Device 1](/images/2008-08-25-shopping-spree-htpc/image_8.png) ![SideShow Device 2](/images/2008-08-25-shopping-spree-htpc/image_9.png)
 
 這跟 MCE 搖控器有什麼不一樣? [這篇文章](http://www.theunwired.net/?item=beta-microsoft-releases-beta-windows-media-center-sideshow-gadget)有簡單的介紹... [這裡](http://www.cepro.com/article/microsoft_demos_sideshow_for_media_center_remote/)也找到另一篇...。首先，TV 的節目表都可以直接秀在手機上，播放的曲目也都會顯示在手機上，如果你不希望中斷影片的播放，這就很有用。這些功能是沒有螢幕的搖控器作不到的。不過... 大部份時間，還是搖控器好用。
 

@@ -1,22 +1,3 @@
----
-layout: post
-title: "替 App_Code 目錄下的 code 寫單元測試 ?"
-categories:
-
-tags: [".NET","技術隨筆"]
-published: true
-comments: true
-redirect_from:
-  - /2006/10/29/替-app_code-目錄下的-code-寫單元測試/
-  - /columns/post/2006/10/29/e69bbf-App_Code-e79baee98c84e4b88be79a84-code-e5afabe596aee58583e6b8ace8a9a6-.aspx/
-  - /post/2006/10/29/e69bbf-App_Code-e79baee98c84e4b88be79a84-code-e5afabe596aee58583e6b8ace8a9a6-.aspx/
-  - /post/e69bbf-App_Code-e79baee98c84e4b88be79a84-code-e5afabe596aee58583e6b8ace8a9a6-.aspx/
-  - /columns/2006/10/29/e69bbf-App_Code-e79baee98c84e4b88be79a84-code-e5afabe596aee58583e6b8ace8a9a6-.aspx/
-  - /columns/e69bbf-App_Code-e79baee98c84e4b88be79a84-code-e5afabe596aee58583e6b8ace8a9a6-.aspx/
-  - /blogs/chicken/archive/2006/10/29/1901.aspx/
-wordpress_postid: 216
----
-
 有在寫 .net / java 的人, 大概都聽過這套很有名的 framework ... JUnit / NUnit. NUnit 是從 JUnit 那套移過來的, 用法觀念大同小異, 不過 porting 到 .net 卻是充份的應用到了 .net 提供的優點...
 
 Microsoft 在 ASP.NET 2.0 提供了一個很有用的機制, 就是在你的 web application 下, ~/App_Code 目錄下的所有 code 都會被視為 source code, 在 ASP.NET Hosting 環境下會自動的編譯及執行. 意思就是 source code 丟進去這目錄就 ok 了, 不需要手動執行 compile 的動作.

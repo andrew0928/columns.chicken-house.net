@@ -1,20 +1,3 @@
----
-layout: post
-title: "原來 .NET 早就內建 XmlNodeWriter 了..."
-categories:
-
-tags: [".NET","C#","Tips","作品集","技術隨筆","物件導向"]
-published: true
-comments: true
-redirect_from:
-  - /2008/12/07/原來-net-早就內建-xmlnodewriter-了/
-  - /columns/post/2008/12/07/e58e9fe4be86-NET-FX-e697a9e5b0b1e69c89-XmlNodeWriter-e4ba86.aspx/
-  - /post/2008/12/07/e58e9fe4be86-NET-FX-e697a9e5b0b1e69c89-XmlNodeWriter-e4ba86.aspx/
-  - /post/e58e9fe4be86-NET-FX-e697a9e5b0b1e69c89-XmlNodeWriter-e4ba86.aspx/
-  - /columns/2008/12/07/e58e9fe4be86-NET-FX-e697a9e5b0b1e69c89-XmlNodeWriter-e4ba86.aspx/
-  - /columns/e58e9fe4be86-NET-FX-e697a9e5b0b1e69c89-XmlNodeWriter-e4ba86.aspx/
-wordpress_postid: 49
----
 最近事情一堆，上班忙上班的事，下班還在忙著研究 Enterprise Library, Entity Framework, 還有一堆五四三的，文章寫的就少了... 先跟有訂閱我 BLOG 的朋友們說聲道歉...。 不過在寫新專案的過程中，意外的發現這東西，一定要提一下...
 
  
@@ -23,7 +6,7 @@ wordpress_postid: 49
 
 無奈 Microsoft 內建的 XmlWriter 少的可憐，只能寫到檔案或是 TextWriter ... 看看權威的 MSDN 告訴我們[有那些 XmlWriter 可以用](http://msdn.microsoft.com/zh-tw/library/system.xml.xmlwriter.aspx)?
 
-![image](/wp-content/images/2008-12-07-dotnet-built-in-xmlnodewriter-discovery/image_9.png)
+![image](/images/2008-12-07-dotnet-built-in-xmlnodewriter-discovery/image_9.png)
 
 老實說除了 XmlTextWriter 之外，另外兩個很少用的到。XmlWriter 在輸出 XML 時很好用 (如果你只作輸出的話)，複雜的 XML 輸出用 XmlWriter 比用 XmlDocument 簡單多了，不過最常碰到的情況是我還是想用 XmlDocument 來操作 XML，不過其中一部份的 NODE 想用 XmlWriter 來更新內容...
 
@@ -144,7 +127,7 @@ public override string LookupPrefix(string ns)
 
  
 
-![image](/wp-content/images/2008-12-07-dotnet-built-in-xmlnodewriter-discovery/image_10.png)
+![image](/images/2008-12-07-dotnet-built-in-xmlnodewriter-discovery/image_10.png)
 
  
 
@@ -196,7 +179,7 @@ public abstract class XmlWriterFactory : XmlWriter
 
 沒事還繼承原本的 XmlWriter 只有一個目的，就是要延用它原來的 10 種 Create method 啊... 貼張圖為証，繼承之後我就有 13 種不同的 Create method 可以用... 不用再兩頭跑 (只是不能加在原本的 XmlWriter 上真是殘念， C# 什麼時後會支援 static method extension ?):
 
-![image](/wp-content/images/2008-12-07-dotnet-built-in-xmlnodewriter-discovery/image_11.png)
+![image](/images/2008-12-07-dotnet-built-in-xmlnodewriter-discovery/image_11.png)
 
  
 

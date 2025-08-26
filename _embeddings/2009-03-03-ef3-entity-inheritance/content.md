@@ -1,21 +1,3 @@
----
-layout: post
-title: "EF#3. Entity & Inheritance"
-categories:
-- "系列文章: Entity Framework 與 物件導向設計"
-tags: [".NET","C#","SQL","技術隨筆","物件導向", "Entity Framework"]
-published: true
-comments: true
-permalink: "/2009/03/03/ef3-entity-inheritance/"
-redirect_from:
-  - /columns/post/2009/03/03/EF3-Entity-Inheritance.aspx/
-  - /post/2009/03/03/EF3-Entity-Inheritance.aspx/
-  - /post/EF3-Entity-Inheritance.aspx/
-  - /columns/2009/03/03/EF3-Entity-Inheritance.aspx/
-  - /columns/EF3-Entity-Inheritance.aspx/
-wordpress_postid: 42
----
-
 繼承 (inheritance) 是物件技術的核心，就是這個特性提供了 OOP 絕大部份的特色。這東西被拿掉的話，OOP就沒這麼迷人了。繼然談到了 ORM，就不能不來看看 R(關聯式資料庫) 怎麼被對應到 O(物件)，同時還能處理好繼承關係。
 
 RDBMS 連基本的物件 (Object Base) 都不支援了，更別說物件導向 (Object Oriented) 了。因此要搞懂 ORM 及繼承的關係，就得先瞭解基本的 OO 是怎麼實作 "繼承" 這個動作。這些知識是古早以前學 C++ 時唸到的，現在的 CLR 不知道有沒有新的作法? 不過應該大同小異吧! C++ 主要是靠 [virtual table](http://en.wikipedia.org/wiki/Virtual_table) 來實作繼承關係，當子類別繼承父類別時，父類別定義的 data member 跟 method 就全都遺傳到子類別身上了，這動作就是靠 virtual table 作到的。細節我就不多說了，有興趣的讀者們請先上網找找相關資訊看一看。

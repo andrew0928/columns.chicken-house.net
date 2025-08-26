@@ -1,21 +1,3 @@
----
-layout: post
-title: "電腦時鐘越來越慢..."
-categories:
-
-tags: ["Tips","技術隨筆"]
-published: true
-comments: true
-redirect_from:
-  - /2009/09/29/電腦時鐘越來越慢/
-  - /columns/post/2009/09/29/e99bbbe885a6e69982e99098e8b68ae4be86e8b68ae685a2.aspx/
-  - /post/2009/09/29/e99bbbe885a6e69982e99098e8b68ae4be86e8b68ae685a2.aspx/
-  - /post/e99bbbe885a6e69982e99098e8b68ae4be86e8b68ae685a2.aspx/
-  - /columns/2009/09/29/e99bbbe885a6e69982e99098e8b68ae4be86e8b68ae685a2.aspx/
-  - /columns/e99bbbe885a6e69982e99098e8b68ae4be86e8b68ae685a2.aspx/
-wordpress_postid: 28
----
-
 最近這兩個禮拜，很扯... 我的[手機](http://columns.chicken-house.net/post/e696b0e6898be6a99fe79c9fe698afe8ae9a-(y).aspx)時鐘越來越不準，竟然每天會晚個幾分鐘，不到兩個禮拜，竟然跟正常時間比起來已經差了廿分鐘...
 
 天那，這什麼時代了，一個五十塊的電子錶都比我這隻五為數價位 (幾年前的價位啦 =_=) 的手機準時... 怪的是，白天再公司又是準的 !? 越看越怪，難不成這時代，連看個時鐘都得先 DEBUG 一番... 今天就花了點心思追一下問題 @@
@@ -28,6 +10,6 @@ wordpress_postid: 28
 
 這樣的架構，機車的地方就在於: Hyper-V 本身 VM 會跟 Host 做 time sync ... 而 Host 有加入 AD, Host 又會跟 Guest 同步時間，Hyper 又替 Guest 跟 Host 同步時間... 每次誤差一點，幾週下來就變這樣了 @@ 害我的手機莫名奇妙就晚了快半小時...
 
-![image](/wp-content/be-files/WindowsLiveWriter/f45cd5a15979/727116E0/image.png)
+![image](/images/2009-09-29-computer-clock-getting-slower/image.png)
 
 果然，這選項移除後，就一切正常了 @@，頂多就讓 DC 脫褲子放屁，到外面的 server 去對時吧... 嗯，這年頭，真的什麼怪事都會發生... 還好這次有抓到問題，哈哈... 這篇就給跟我一樣宅的人參考吧 :D

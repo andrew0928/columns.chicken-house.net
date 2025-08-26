@@ -1,21 +1,3 @@
----
-layout: post
-title: "Canon Raw Codec 1.3 Released !"
-categories:
-
-tags: ["有的沒的"]
-published: true
-comments: true
-redirect_from:
-  - /2008/07/10/canon-raw-codec-1-3-released/
-  - /columns/post/2008/07/10/Canon-Raw-Codec-13-Released-!.aspx/
-  - /post/2008/07/10/Canon-Raw-Codec-13-Released-!.aspx/
-  - /post/Canon-Raw-Codec-13-Released-!.aspx/
-  - /columns/2008/07/10/Canon-Raw-Codec-13-Released-!.aspx/
-  - /columns/Canon-Raw-Codec-13-Released-!.aspx/
-wordpress_postid: 86
----
-
 不知為何突然想到要上網看看，有沒有新版的...，沒想到還真的有，嚇...
 
 不過都是無關痛癢的 update (對我來說啦)，除了新機種的支援之外，更新說明裡沒有提到效能的增進，也沒提到 x64 的支援什麼時後才會有，嘖嘖...。

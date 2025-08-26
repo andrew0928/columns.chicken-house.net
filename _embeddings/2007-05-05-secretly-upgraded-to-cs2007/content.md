@@ -1,22 +1,3 @@
----
-layout: post
-title: "偷偷升級到 CS2007 .."
-categories:
-
-tags: [".NET","Community Server","技術隨筆","有的沒的"]
-published: true
-comments: true
-redirect_from:
-  - /2007/05/05/偷偷升級到-cs2007/
-  - /columns/post/2007/05/05/e581b7e581b7e58d87e7b49ae588b0-CS2007-.aspx/
-  - /post/2007/05/05/e581b7e581b7e58d87e7b49ae588b0-CS2007-.aspx/
-  - /post/e581b7e581b7e58d87e7b49ae588b0-CS2007-.aspx/
-  - /columns/2007/05/05/e581b7e581b7e58d87e7b49ae588b0-CS2007-.aspx/
-  - /columns/e581b7e581b7e58d87e7b49ae588b0-CS2007-.aspx/
-  - /blogs/chicken/archive/2007/05/05/2378.aspx/
-wordpress_postid: 164
----
-
 好像沒啥人發現的樣子, 哈哈, 本站兩個禮拜前升級到 CS2007 了, 升級完面版馬上就調成舊的, 外觀看起來一模一樣...
 
 功能當然有差, 不過我就不提了, 請直接到官方網站看就好. 升級很簡單, DB upgrade + File upgrade 就好了. 比較麻煩的是我自己客製過的 theme 跟 control ..

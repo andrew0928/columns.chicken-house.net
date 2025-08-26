@@ -6,36 +6,45 @@
     "\u6557\u5BB6",
     "\u6709\u7684\u6C92\u7684"
   ],
-  "generator": "BlogIndex.SyncPost v1.0.0.0, o3, https://app-azureopenai.openai.azure.com/",
   "tech-stacks": [
     "Windows Mobile 6",
-    "HTC",
-    "Dopod",
-    "WM6"
-  ],
-  "keywords": [
-    "C720W",
-    "Windows Mobile 6",
     "WM6",
-    "Dopod",
+    "ROM",
     "HTC",
+    "Dopod",
+    "\u591A\u666E\u9054",
     "T-Mobile",
     "U1000",
     "P800W",
     "CHT9000",
     "CHT9100",
-    "Rom Code",
-    "\u5347\u7D1A"
+    "C720W"
   ],
+  "keywords": [
+    "Dopod",
+    "\u591A\u666E\u9054",
+    "Windows Mobile 6",
+    "WM6",
+    "\u5347\u7D1A",
+    "\u514D\u8CBB\u5347\u7D1A",
+    "U1000",
+    "P800W",
+    "CHT9000",
+    "CHT9100",
+    "C720W",
+    "T-Mobile",
+    "HTC",
+    "\u5B98\u65B9\u7DB2\u7AD9",
+    "\u5347\u7D1A\u7A0B\u5F0F",
+    "Rom Code",
+    "\u4FDD\u56FA",
+    "\u9084\u539F",
+    "\u5167\u5EFA\u8EDF\u9AD4"
+  ],
+  "generator": "BlogIndex.SyncPost v0.3.0.0, gpt-5",
   "references": [
     "http://www.dopodasia.com/global/tw/news/20070503_NR_Dopod_WM6_Upgrade_TW.html",
-    "http://www.t-mobile.com/wmupgrade/",
-    "/2007/05/19/ouch-\u70BA\u4EC0\u9EBC\u6C92\u6709-c720w/",
-    "/columns/post/2007/05/19/Ouch2c-e782bae4bb80e9babce6b292e69c89-c720w-.aspx/",
-    "/post/2007/05/19/Ouch2c-e782bae4bb80e9babce6b292e69c89-c720w-.aspx/",
-    "/post/Ouch2c-e782bae4bb80e9babce6b292e69c89-c720w-.aspx/",
-    "/columns/2007/05/19/Ouch2c-e782bae4bb80e9babce6b292e69c89-c720w-.aspx/",
-    "/columns/Ouch2c-e782bae4bb80e9babce6b292e69c89-c720w-.aspx/",
-    "/blogs/chicken/archive/2007/05/19/2407.aspx/"
-  ]
+    "http://www.t-mobile.com/wmupgrade/"
+  ],
+  "summary": "\u4F5C\u8005\u5206\u4EAB\u591A\u666E\u9054\u5B98\u65B9\u516C\u544A\u63D0\u4F9B Windows Mobile 6 \u514D\u8CBB\u5347\u7D1A\u7684\u6A5F\u578B\u540D\u55AE\uFF08U1000\u3001P800W\u3001CHT9000\u3001CHT9100\uFF09\uFF0C\u62B1\u6028\u81EA\u5DF1\u7684 C720W \u4E26\u4E0D\u5728\u5176\u5217\u3002\u66F4\u4EE4\u4EBA\u6C23\u9912\u7684\u662F\uFF0C\u570B\u5916\u540C\u6B3E\u6A5F\u5668\u7531 T-Mobile \u537B\u53EF\u5347\u7D1A\u5230 WM6\uFF0C\u8B93\u4EBA\u4E0D\u5E73\u8861\u3002\u4F5C\u8005\u96D6\u5DF2\u5F9E\u4E0D\u65B9\u4FBF\u660E\u8AAA\u7684\u4F86\u6E90\u53D6\u5F97\u5347\u7D1A\u7A0B\u5F0F\uFF0C\u4F46\u64D4\u5FC3\u52D5\u624B\u5347\u7D1A\u5F8C\u6703\u5931\u53BB\u4FDD\u56FA\u3001\u5167\u5EFA\u8EDF\u9AD4\u7121\u6CD5\u91CD\u704C\u3001\u6C92\u6709\u53EF\u7528\u7684\u9084\u539F\u5DE5\u5177\uFF0C\u4E00\u65E6\u5931\u6557\u5C07\u6B32\u54ED\u7121\u6DDA\uFF0C\u56E0\u6B64\u9072\u9072\u4E0D\u6562\u5617\u8A66\u3002\u6587\u672B\u5FB5\u6C42\u662F\u5426\u6709\u4EBA\u5DF2\u6210\u529F\u5347\u7D1A\u7684\u6D88\u606F\u8207\u7D93\u9A57\u5206\u4EAB\uFF0C\u540C\u6642\u4E5F\u547C\u7C72 HTC\uFF0FDopod \u65E2\u7136\u5DF2\u5C6C\u540C\u4E00\u5BB6\uFF0C\u61C9\u5118\u5FEB\u91CB\u51FA C720W \u5347\u7D1A\u5230 WM6 \u7684\u5B98\u65B9 ROM\uFF08Rom Code\uFF09\uFF0C\u4EE5\u514D\u540C\u6A5F\u4E0D\u540C\u547D\u7684\u60C5\u6CC1\u6301\u7E8C\uFF0C\u8B93\u4F7F\u7528\u8005\u8655\u65BC\u60F3\u5347\u4E0D\u6562\u5347\u7684\u56F0\u5883\u3002"
 }

@@ -1,21 +1,3 @@
----
-layout: post
-title: "x64 programming #1: 環境變數及特殊目錄.."
-categories:
-
-tags: [".NET","技術隨筆"]
-published: true
-comments: true
-redirect_from:
-  - /2008/07/25/x64-programming-1-環境變數及特殊目錄/
-  - /columns/post/2008/07/25/x64-programming-1-e792b0e5a283e8ae8ae695b8e58f8ae789b9e6ae8ae79baee98c84.aspx/
-  - /post/2008/07/25/x64-programming-1-e792b0e5a283e8ae8ae695b8e58f8ae789b9e6ae8ae79baee98c84.aspx/
-  - /post/x64-programming-1-e792b0e5a283e8ae8ae695b8e58f8ae789b9e6ae8ae79baee98c84.aspx/
-  - /columns/2008/07/25/x64-programming-1-e792b0e5a283e8ae8ae695b8e58f8ae789b9e6ae8ae79baee98c84.aspx/
-  - /columns/x64-programming-1-e792b0e5a283e8ae8ae695b8e58f8ae789b9e6ae8ae79baee98c84.aspx/
-wordpress_postid: 84
----
-
 被 X64 折騰了這麼久，總要留些戰蹟下來... 先從每個人都會碰到的目錄路徑調整開始吧...
 
 有些目錄大家都耳熟能詳，像是 c:\Program Files\ 之類的，不過如果你的程式把這種路徑寫死了，你就要注意了... 因為到了 x64 位元下的 x86 相容模式，路徑就完全不一樣了... 先來看這一段程式執行結果是啥? 別急著看解答，猜一下..

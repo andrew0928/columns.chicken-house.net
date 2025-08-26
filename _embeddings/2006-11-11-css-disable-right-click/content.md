@@ -1,22 +1,3 @@
----
-layout: post
-title: "CSS 擋右鍵"
-categories:
-
-tags: ["HTML/CSS","技術隨筆"]
-published: true
-comments: true
-redirect_from:
-  - /2006/11/11/css-擋右鍵/
-  - /columns/post/2006/11/11/CSS-e6938be58fb3e98db5.aspx/
-  - /post/2006/11/11/CSS-e6938be58fb3e98db5.aspx/
-  - /post/CSS-e6938be58fb3e98db5.aspx/
-  - /columns/2006/11/11/CSS-e6938be58fb3e98db5.aspx/
-  - /columns/CSS-e6938be58fb3e98db5.aspx/
-  - /blogs/chicken/archive/2006/11/11/1939.aspx/
-wordpress_postid: 209
----
-
 先講在前面, 我是很不喜歡這種無聊的網站... 擋右鍵幹嘛? 也許站長真的覺的他的內容很了不起大家都想偷... 不過右鍵按下去一堆功能, 又不是每個人點右鍵都是要偷內容... 被當小偷看待的感覺真的挺不爽.. 真的要看, fillder 開下去什麼都看的到..
 
 好, 牢騷發完了 (H), 今天不是要講這個.. 因為工作的關係, 開發的系統是處理企業內部的 web content, 免不了有這種檔右鍵的需求, 這種 code 大家或多或少都寫過, 不過都寫的很煩吧...

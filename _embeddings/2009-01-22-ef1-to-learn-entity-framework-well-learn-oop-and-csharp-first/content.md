@@ -1,21 +1,3 @@
----
-layout: post
-title: "EF#1. 要學好 Entity Framework? 請先學好 OOP 跟 C# ..."
-categories:
-- "系列文章: Entity Framework 與 物件導向設計"
-tags: [".NET","C#","技術隨筆","物件導向", "Entity Framework"]
-published: true
-comments: true
-redirect_from:
-  - /2009/01/21/ef1-要學好-entity-framework-請先學好-oop-跟-c/
-  - /columns/post/2009/01/22/EF1-e8a681e5adb8e5a5bd-Entity-Framework-e8ab8be58588e5adb8e5a5bd-OOP-e8b79f-C-.aspx/
-  - /post/2009/01/22/EF1-e8a681e5adb8e5a5bd-Entity-Framework-e8ab8be58588e5adb8e5a5bd-OOP-e8b79f-C-.aspx/
-  - /post/EF1-e8a681e5adb8e5a5bd-Entity-Framework-e8ab8be58588e5adb8e5a5bd-OOP-e8b79f-C-.aspx/
-  - /columns/2009/01/22/EF1-e8a681e5adb8e5a5bd-Entity-Framework-e8ab8be58588e5adb8e5a5bd-OOP-e8b79f-C-.aspx/
-  - /columns/EF1-e8a681e5adb8e5a5bd-Entity-Framework-e8ab8be58588e5adb8e5a5bd-OOP-e8b79f-C-.aspx/
-wordpress_postid: 44
----
-
 這次為了能順利的學好 Entity Framework，花了不少工夫在研究它的作法。不過有一大半不是在 Entity Framework 本身，而是在 C# 的一些特別的語法跟 LINQ 身上...。也因為這樣，我深切的體認到一個 ORM 技術能不能成功，其實都是在 Hosting 這個 Framework 的環境夠不夠成熟...。
 
 不過在摸索的過程中，找到的資訊都是片斷的，每一篇都是講實作，範例程式，操作步驟... 等等，而當時我最需要的反而是幫助我決定，Entity Framework 到底值不值得我押在上面投資五年開發計劃使用的 ORM 技術? 它跟 NHibernate (考慮中的另一項 ORM framework) 的優缺點為何? 未來發展的優缺點又是什麼? 架構上的差異在那? 另外 Linq to SQL 呢? 這些較偏架構性跟本質的討論及比較資訊，反而少之又少...。

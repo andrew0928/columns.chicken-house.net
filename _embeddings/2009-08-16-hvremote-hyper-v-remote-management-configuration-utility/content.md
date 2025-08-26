@@ -1,21 +1,3 @@
----
-layout: post
-title: "HVRemote (Hyper-V Remote Management Configuration Utility)"
-categories:
-
-tags: ["MSDN","Tips","有的沒的"]
-published: true
-comments: true
-permalink: "/2009/08/16/hvremote-hyper-v-remote-management-configuration-utility/"
-redirect_from:
-  - /columns/post/2009/08/16/HVRemote-(Hyper-V-Remote-Management-Configuration-Utility).aspx/
-  - /post/2009/08/16/HVRemote-(Hyper-V-Remote-Management-Configuration-Utility).aspx/
-  - /post/HVRemote-(Hyper-V-Remote-Management-Configuration-Utility).aspx/
-  - /columns/2009/08/16/HVRemote-(Hyper-V-Remote-Management-Configuration-Utility).aspx/
-  - /columns/HVRemote-(Hyper-V-Remote-Management-Configuration-Utility).aspx/
-wordpress_postid: 35
----
-
 被這東西搞了半天，過了幾個月後發現有善心人事寫了個工具，今天看到了特地來記一篇... 免的以後又忘了 @@
 
 話說 Microsoft 從幾年前開始被一堆 security 的問題苦惱後，決定所有產品都把安全視為第一優先... 這是件好事啦，不過為了 security 問題，真的會把 MIS 及 DEV 的相關工作難度加上好幾倍... 今天這個就是一例: 在沒有 AD 環境下，如何遠端的管理 Hyper-V server ?
@@ -42,12 +24,12 @@ http://technet.microsoft.com/en-us/library/ee256062(WS.10).aspx
 
 C:\Program Files\Hyper-V\vmconnect.exe
 
-![image](/wp-content/be-files/WindowsLiveWriter/HVRemoteHyperVRemoteManagementConfigurat/425ECE48/image.png)
+![image](/images/2009-08-16-hvremote-hyper-v-remote-management-configuration-utility/image.png)
 
 搞什麼，連登入視窗都弄的跟 Remote Desktop Client 一模一樣，有時不小心還真會弄錯 =_=
 
 開起來後就是大家熟悉的 Hyper-V 遠端管理的畫面了。這工具只是讓你省掉從 MMC 去 connect VM 這些步驟而以，像 RDP 一樣開了就能用:
 
-![image](/wp-content/be-files/WindowsLiveWriter/HVRemoteHyperVRemoteManagementConfigurat/61A1751B/image.png)
+![image](/images/2009-08-16-hvremote-hyper-v-remote-management-configuration-utility/image.png)
 
 當然透過這工具，上面那堆設定步驟也要照做才會通啦，只是順帶提一下這個 tips 而已。有了 HVRemote 這工具，要設定遠端管理 Hyper-V VM 就更輕鬆了，有需要的人就參考看看吧!

@@ -1,21 +1,3 @@
----
-layout: post
-title: "換到 BlogEngine.Net 了!"
-categories:
-
-tags: [".NET","BlogEngine.NET","Community Server","技術隨筆"]
-published: true
-comments: true
-redirect_from:
-  - /2008/06/17/換到-blogengine-net-了/
-  - /columns/post/2008/06/17/e68f9be588b0-BlogEngineNet-e4ba86!.aspx/
-  - /post/2008/06/17/e68f9be588b0-BlogEngineNet-e4ba86!.aspx/
-  - /post/e68f9be588b0-BlogEngineNet-e4ba86!.aspx/
-  - /columns/2008/06/17/e68f9be588b0-BlogEngineNet-e4ba86!.aspx/
-  - /columns/e68f9be588b0-BlogEngineNet-e4ba86!.aspx/
-wordpress_postid: 99
----
-
 也許有人只是覺的換版面而以... 原本是打算升級到 [CommunityServer 2008](http://communityserver.org) 的，不過自從 Community Server 商業化之後，個人版限制越來越多，整套系統也越來越大，常常出了一些問題都沒辦法自己解決 (連 Error Message 都藏的很隱密 -_-)...
 
 其實上面這些也不算缺點，不然我也不會一路從 .Text 時代就用到現在，一用就用了四年多... 上禮拜無意間聽同時講到 [BlogEngine.Net](http://www.codeplex.com/blogengine)，一時好奇抓下來看看，馬上就被它的簡易安裝嚇到了.. 有多簡單? 步驟如下:

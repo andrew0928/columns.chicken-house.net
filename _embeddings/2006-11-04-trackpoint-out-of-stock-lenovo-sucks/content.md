@@ -1,22 +1,3 @@
----
-layout: post
-title: "小紅點缺料? Lenovo Sucks..."
-categories:
-
-tags: ["有的沒的"]
-published: true
-comments: true
-redirect_from:
-  - /2006/11/04/小紅點缺料-lenovo-sucks/
-  - /columns/post/2006/11/04/e5b08fe7b485e9bb9ee7bcbae69699-Lenovo-Sucks.aspx/
-  - /post/2006/11/04/e5b08fe7b485e9bb9ee7bcbae69699-Lenovo-Sucks.aspx/
-  - /post/e5b08fe7b485e9bb9ee7bcbae69699-Lenovo-Sucks.aspx/
-  - /columns/2006/11/04/e5b08fe7b485e9bb9ee7bcbae69699-Lenovo-Sucks.aspx/
-  - /columns/e5b08fe7b485e9bb9ee7bcbae69699-Lenovo-Sucks.aspx/
-  - /blogs/chicken/archive/2006/11/04/1919.aspx/
-wordpress_postid: 211
----
-
 難道 thinkpad 換東家之後真的要走下坡了嘛... 小紅點缺料? ouch ...
 
 從我之前的 X23, 到現在的 X31, 總共五年有了吧, 這倒是第一次碰到要索取還缺料的... 雖然小紅點的定價並不便宜, 不過也不用這樣吧, 東西小又不佔空間, 放了也不會壞, 全系列 ThinkPad 都通用的小紅點, 應該是很好控制庫存才對, 會用到缺料, 那真是 costdown 過頭了吧? 不然就是 lenovo 覺的三個月索取一次太便宜 user 了, 就用缺料來控制 user 消耗速度? hmmm...

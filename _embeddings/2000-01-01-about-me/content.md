@@ -1,17 +1,3 @@
----
-layout: post
-title: 安德魯是誰?
-categories:
-- "系列文章: 架構師觀點"
-tags: ["架構師觀點","技術隨筆"]
-published: true
-comments_disqus: false
-comments_facebook: false
-comments_gitalk: true
-redirect_from: /about/
-logo:
----
-
 ## 講師介紹：Andrew Wu
 
 現任職於大型軟體開發團隊的架構師，負責核心產品的服務化，與內部產品開發團隊的架構改善等任務。在過去的 20 年工作經驗，主要都專注於 Microsoft .NET Framework 開發 SaaS , B2B2C 的雲端服務。我專長的領域包括: 軟體工程，物件導向設計，分散式系統架構設計，平行處理，API 設計 及 微服務導向架構設計 (microservices) 等。
@@ -105,5 +91,3 @@ logo:
 ### 架構師觀點 [清單](/categories/#%E7%B3%BB%E5%88%97%E6%96%87%E7%AB%A0:%20%E6%9E%B6%E6%A7%8B%E5%B8%AB%E8%A7%80%E9%BB%9E)
  
 {% include series-2019-archview.md mode="no_header" %}
-
-

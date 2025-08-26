@@ -1,21 +1,3 @@
----
-layout: post
-title: "難搞的 Entity Framework - 跨越 Context 的查詢"
-categories:
-
-tags: [".NET","C#", "Entity Framework"]
-published: true
-comments: true
-redirect_from:
-  - /2009/01/20/難搞的-entity-framework-跨越-context-的查詢/
-  - /columns/post/2009/01/20/e99ba3e6909ee79a84-Entity-Framework-e8b7a8e8b68a-Context-e79a84e69fa5e8a9a2.aspx/
-  - /post/2009/01/20/e99ba3e6909ee79a84-Entity-Framework-e8b7a8e8b68a-Context-e79a84e69fa5e8a9a2.aspx/
-  - /post/e99ba3e6909ee79a84-Entity-Framework-e8b7a8e8b68a-Context-e79a84e69fa5e8a9a2.aspx/
-  - /columns/2009/01/20/e99ba3e6909ee79a84-Entity-Framework-e8b7a8e8b68a-Context-e79a84e69fa5e8a9a2.aspx/
-  - /columns/e99ba3e6909ee79a84-Entity-Framework-e8b7a8e8b68a-Context-e79a84e69fa5e8a9a2.aspx/
-wordpress_postid: 45
----
-
 咳，沒錯... 兩個月都沒寫什麼東西出來，就是都在研究 Entity Framework 跟 Enterprise Library... Enterprise Library 倒還好，看看範例，看看 Key Scenario 大概就能入門了，不過 Entity Framework 就沒這麼簡單...
 
 Microsoft 對 Entity Framework 的 Roadmap 規劃的很大，不過再怎麼樣附在 .NET 3.5 SP1 的也還只是第一版而已。背負著龐大的架構，而現在卻還不一定能拼過其它成熟的 ORM solution, 這就是辛苦的地方。

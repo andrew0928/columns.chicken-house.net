@@ -1,21 +1,3 @@
----
-layout: post
-title: "Using VHDMount with Virtual PC"
-categories:
-tags: ["Tips","技術隨筆","有的沒的"]
-published: true
-comments: true
-redirect_from:
-  - /2007/06/23/using-vhdmount-with-virtual-pc/
-  - /columns/post/2007/06/23/Using-VHDMount-with-Virtual-PC.aspx/
-  - /post/2007/06/23/Using-VHDMount-with-Virtual-PC.aspx/
-  - /post/Using-VHDMount-with-Virtual-PC.aspx/
-  - /columns/2007/06/23/Using-VHDMount-with-Virtual-PC.aspx/
-  - /columns/Using-VHDMount-with-Virtual-PC.aspx/
-  - /blogs/chicken/archive/2007/06/23/2462.aspx/
-wordpress_postid: 157
----
-
 Microsoft Virtual Server 2005 R2 SP1 (好長的名字...) 在兩個禮拜前出來了. 這版本總算支援了 Hardware Assisted Virtualization, 也支援了直接在 Host OS 掛上 VHD 用的工具: VHDMount...
 
 這年頭應該不少人用過各種的 virtual cd-rom 軟體, 可以把 .iso 檔當成光碟片, "塞" 進 virtual cd-rom 來使用. VHDMount 也是一樣, 只不過它的對相是 vpc 用的硬碟映象檔 *.vhd, 而不是光碟的映象檔 *.iso ...

@@ -7,22 +7,28 @@
   "tags": [
     ".NET"
   ],
-  "generator": "BlogIndex.SyncPost v1.0.0.0, o3, https://app-azureopenai.openai.azure.com/",
   "tech-stacks": [
+    "C#",
     ".NET",
-    "C#"
+    "Generics",
+    "Singleton Pattern"
   ],
   "keywords": [
-    "singleton",
-    "generic",
+    "\u6CDB\u578B",
+    "Singleton",
+    "Singleton Pattern",
     "base class",
-    "library",
-    "Singleton pattern",
+    "lib",
+    "class",
+    "Instance",
+    "constructor",
+    "casting",
+    "\u7E7C\u627F",
     "GenericSingletonBase",
     "GenericSingletonImpl1",
-    "instance",
-    "casting"
+    "C#"
   ],
+  "generator": "BlogIndex.SyncPost v0.3.0.0, gpt-5",
   "references": [
     "/2006/10/27/\u6CDB\u578B-singleton-patterns-ii/",
     "/columns/post/2006/10/27/e6b39be59e8b-2b-Singleton-Patterns-(II).aspx/",
@@ -31,5 +37,6 @@
     "/columns/2006/10/27/e6b39be59e8b-2b-Singleton-Patterns-(II).aspx/",
     "/columns/e6b39be59e8b-2b-Singleton-Patterns-(II).aspx/",
     "/blogs/chicken/archive/2006/10/27/1894.aspx/"
-  ]
+  ],
+  "summary": "\u4E0A\u7BC7\u56E0\u70BA\u8CBC code , \u653E\u4E00\u8D77\u5BE6\u5728\u592A\u9577\u4E86, \u53EA\u597D\u5206\u5169\u7BC7... \u540A\u5B8C\u80C3\u53E3, \u4E0D\u56C9\u5506\u4E86, \u76F4\u63A5\u770B\u6211\u60F3\u51FA\u4F86\u7684\u89E3\u6CD5. \u539F\u5247\u9084\u662F\u8DDF\u4E00\u822C\u7684\u51FD\u5F0F\u5EAB\u4E00\u6A23, \u6211\u5E0C\u671B\u5148\u505A\u51FA\u4E00\u500B base class, \u628A singleton \u7684\u5BE6\u4F5C\u7D30\u7BC0\u90FD\u8655\u7406\u6389, \u51FD\u5F0F\u5EAB\u7684\u76EE\u7684\u662F\u8B93\u4F7F\u7528\u4F60 lib \u7684\u4EBA\u6703\u5F88\u5FEB\u6A02\u624D\u5C0D, \u56E0\u6B64 base class \u53EF\u4EE5\u8F9B\u82E6\u9EDE\u6C92\u95DC\u4FC2, \u4F46\u662F\u7D55\u4E0D\u80FD\u8B93\u7528\u4F60 code \u7684\u4EBA\u5F97\u505A\u82E6\u5DE5...\n\n\u597D\u4E86, \u6211\u5BE6\u505A\u51FA\u4F86\u7684\u7248\u672C, code \u5982\u4E0B:\n\n\u0060\u0060\u0060csharp\npublic class GenericSingletonBase\u003CT\u003E\n    where T: GenericSingletonBase\u003CT\u003E,\n    new()\n{\n    public readonly static T Instance = new T();\n}\n\u0060\u0060\u0060"
 }

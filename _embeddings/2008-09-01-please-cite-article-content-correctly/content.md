@@ -1,21 +1,3 @@
----
-layout: post
-title: "請正確的引用文章內容!"
-categories:
-
-tags: ["有的沒的","火大"]
-published: true
-comments: true
-redirect_from:
-  - /2008/09/01/請正確的引用文章內容/
-  - /columns/post/2008/09/01/reference-how-to.aspx/
-  - /post/2008/09/01/reference-how-to.aspx/
-  - /post/reference-how-to.aspx/
-  - /columns/2008/09/01/reference-how-to.aspx/
-  - /columns/reference-how-to.aspx/
-wordpress_postid: 73
----
-
 在開始講 "為什麼" 之前，先講一下該如何正確的引用我的文章。
 
 1. **明確的提供本站及該文的網址**。例如:

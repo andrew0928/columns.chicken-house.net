@@ -1,18 +1,4 @@
----
-layout: post
-title: "Canon CR2 --> .JPEG 速度加倍.. 該換 Core2 Quad 了嘛?"
-categories:
-tags: [".NET","WPF","作品集","多執行緒","技術隨筆","有的沒的"]
-published: true
-comments: true
-redirect_from:
-  - "/2008/04/10/canon-cr2-jpeg-速度加倍-該換-core2-quad-了嘛/"
-  - /columns/post/2008/04/10/Canon-CR2-gt3b-JPEG-e9809fe5baa6e58aa0e5808d-e8a9b2e68f9b-Core2-Quad-e4ba86e5989b.aspx/
-  - /post/2008/04/10/Canon-CR2-gt3b-JPEG-e9809fe5baa6e58aa0e5808d-e8a9b2e68f9b-Core2-Quad-e4ba86e5989b.aspx/
-  - /post/Canon-CR2-gt3b-JPEG-e9809fe5baa6e58aa0e5808d-e8a9b2e68f9b-Core2-Quad-e4ba86e5989b.aspx/
-  - /columns/2008/04/10/Canon-CR2-gt3b-JPEG-e9809fe5baa6e58aa0e5808d-e8a9b2e68f9b-Core2-Quad-e4ba86e5989b.aspx/
-  - /columns/Canon-CR2-gt3b-JPEG-e9809fe5baa6e58aa0e5808d-e8a9b2e68f9b-Core2-Quad-e4ba86e5989b.aspx/
-  - /columns/post/2008/04/10/Canon-CR2---gt3b-JPEG-e9809fe5baa6e58aa0e5808d-e8a9b2e68f9b-Core2-Quad-e4ba86e5989b.aspx/
+gt3b-JPEG-e9809fe5baa6e58aa0e5808d-e8a9b2e68f9b-Core2-Quad-e4ba86e5989b.aspx/
   - /post/2008/04/10/Canon-CR2---gt3b-JPEG-e9809fe5baa6e58aa0e5808d-e8a9b2e68f9b-Core2-Quad-e4ba86e5989b.aspx/
   - /post/Canon-CR2---gt3b-JPEG-e9809fe5baa6e58aa0e5808d-e8a9b2e68f9b-Core2-Quad-e4ba86e5989b.aspx/
   - /columns/2008/04/10/Canon-CR2---gt3b-JPEG-e9809fe5baa6e58aa0e5808d-e8a9b2e68f9b-Core2-Quad-e4ba86e5989b.aspx/

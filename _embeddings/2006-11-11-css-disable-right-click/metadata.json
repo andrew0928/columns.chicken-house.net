@@ -1,43 +1,50 @@
 {
   "title": "CSS \u64CB\u53F3\u9375",
   "published": true,
-  "categories": [],
+  "categories": null,
   "tags": [
     "HTML/CSS",
     "\u6280\u8853\u96A8\u7B46"
   ],
-  "generator": "BlogIndex.SyncPost v1.0.0.0, o3, https://app-azureopenai.openai.azure.com/",
   "tech-stacks": [
     "CSS",
-    "HTML",
+    "DHTML Behaviors",
+    "HTC (HTML Components)",
+    ".htc",
+    "Internet Explorer",
+    "IE5",
+    "IE5.5",
+    "IE7",
     "JavaScript",
-    "DHTML Behaviors (.htc)",
-    "Internet Explorer (IE5 / IE5.5 / IE7)",
-    "Fiddler"
+    "HTML",
+    "oncontextmenu"
   ],
   "keywords": [
-    "CSS",
-    "\u53F3\u9375",
     "\u64CB\u53F3\u9375",
-    "contextmenu",
-    "behavior",
-    "DHTML Behaviors",
-    "htc",
+    "\u53F3\u9375\u505C\u7528",
+    "\u7981\u7528\u53F3\u9375",
+    "context menu",
     "oncontextmenu",
-    "Internet Explorer",
-    "Microsoft",
-    "disable",
-    "web content"
+    "CSS behavior",
+    "DHTML Behaviors",
+    "HTC",
+    "Microsoft IE",
+    "IE5",
+    "IE5.5",
+    "IE7",
+    "disable right click",
+    "\u7DB2\u7AD9\u6A23\u5F0F",
+    "script \u7D81\u5B9A",
+    "\u6A19\u7C64\u7D81\u5B9A",
+    "\u4E8B\u4EF6\u6514\u622A",
+    "\u4F01\u696D\u5167\u90E8\u7CFB\u7D71",
+    "web content",
+    "\u53D6\u6D88\u4E8B\u4EF6"
   ],
+  "generator": "BlogIndex.SyncPost v0.3.0.0, gpt-5",
   "references": [
     "http://www.chicken-house.net/files/chicken/htc-sample.zip/index.html",
-    "http://www.chicken-house.net/files/chicken/htc-sample.zip",
-    "/2006/11/11/css-\u64CB\u53F3\u9375/",
-    "/columns/post/2006/11/11/CSS-e6938be58fb3e98db5.aspx/",
-    "/post/2006/11/11/CSS-e6938be58fb3e98db5.aspx/",
-    "/post/CSS-e6938be58fb3e98db5.aspx/",
-    "/columns/2006/11/11/CSS-e6938be58fb3e98db5.aspx/",
-    "/columns/CSS-e6938be58fb3e98db5.aspx/",
-    "/blogs/chicken/archive/2006/11/11/1939.aspx/"
-  ]
+    "http://www.chicken-house.net/files/chicken/htc-sample.zip"
+  ],
+  "summary": "\u4F5C\u8005\u5410\u69FD\u300C\u64CB\u53F3\u9375\u300D\u7DB2\u7AD9\u7684\u4F7F\u7528\u9AD4\u9A57\uFF0C\u4F46\u56E0\u5DE5\u4F5C\u4E0A\u9700\u5728\u4F01\u696D\u5167\u90E8\u7684 Web \u5167\u5BB9\u4E2D\u5BE6\u4F5C\u6B64\u9700\u6C42\uFF0C\u5206\u4EAB\u4E00\u500B\u7701\u4E8B\u4F5C\u6CD5\uFF1A\u5229\u7528 IE \u81EA IE5 \u8D77\u63D0\u4F9B\u7684 DHTML Behaviors\uFF0C\u5C07\u53F3\u9375\u529F\u80FD\u7684\u6514\u622A\u5BEB\u6210 .htc \u6A94\uFF0C\u4E26\u4EE5 CSS \u7D81\u5B9A\u81F3\u7279\u5B9A\u6A19\u7C64\u5373\u53EF\u5168\u7AD9\u5957\u7528\u3002\u7BC4\u4F8B\u4E2D\u4EE5 body { behavior:url(\u0027context-menu-blocker.htc\u0027); } \u5C07 .htc \u5957\u5230 body\uFF0C.htc \u5167\u53EA\u9700\u6514\u622A oncontextmenu \u4E8B\u4EF6\u4E26\u53D6\u6D88\u9810\u8A2D\u884C\u70BA\uFF0C\u7121\u9700\u5728\u6BCF\u9801\u52A0\u5165 script \u6216\u984D\u5916\u8F09\u5165\u7A0B\u5F0F\uFF0C\u5373\u80FD\u9054\u5230\u7981\u7528\u53F3\u9375\u7684\u6548\u679C\u3002\u4F5C\u8005\u6307\u51FA\u6B64\u6280\u8853\u80FD\u512A\u96C5\u5730\u628A\u300C\u7A0B\u5F0F\u884C\u70BA\u300D\u50CF\u6A23\u5F0F\u4E00\u6A23\u6279\u6B21\u6563\u4F48\u5230\u6574\u7AD9\uFF0C\u96D6\u7136\u7C21\u55AE\u537B\u5BE6\u7528\u3002\u6587\u672B\u63D0\u5230 IE5.5 \u5C0D HTC \u66FE\u6709\u6539\u9032\uFF0C\u4F46\u5F8C\u7E8C\u767C\u5C55\u6709\u9650\uFF0C\u4E26\u597D\u5947 IE7 \u662F\u5426\u5E36\u4F86\u66F4\u65B0\u3002"
 }

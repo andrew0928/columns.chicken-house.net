@@ -1,22 +1,3 @@
----
-layout: post
-title: "新手機真是讚 (y)"
-categories:
-
-tags: ["敗家","有的沒的"]
-published: true
-comments: true
-redirect_from:
-  - /2007/02/02/新手機真是讚-y/
-  - /columns/post/2007/02/02/e696b0e6898be6a99fe79c9fe698afe8ae9a-(y).aspx/
-  - /post/2007/02/02/e696b0e6898be6a99fe79c9fe698afe8ae9a-(y).aspx/
-  - /post/e696b0e6898be6a99fe79c9fe698afe8ae9a-(y).aspx/
-  - /columns/2007/02/02/e696b0e6898be6a99fe79c9fe698afe8ae9a-(y).aspx/
-  - /columns/e696b0e6898be6a99fe79c9fe698afe8ae9a-(y).aspx/
-  - /blogs/chicken/archive/2007/02/02/2107.aspx/
-wordpress_postid: 191
----
-
 哇哈哈, 用了半個多月, 覺的這支新手機 (dopod c720w) 真是不錯啊... (Y) 
 
 這支手機果然沒有辜負我對它的期望, $$果然沒有白花, 喜歡用 smartphone 的人可以考慮一下... 首先對於一支手機, 它是還蠻稱職的, 雖然這些要求可能幾百塊的手機就擺的平, 不過被舊手機折磨了兩年多, 我一定要講一下... 

@@ -1,21 +1,3 @@
----
-layout: post
-title: "電腦也要過年.."
-categories:
-tags: ["技術隨筆","有的沒的"]
-published: true
-comments: true
-redirect_from:
-  - "/2007/02/25/電腦也要過年/"
-  - /columns/post/2007/02/25/e99bbbe885a6e4b99fe8a681e9818ee5b9b4.aspx/
-  - /post/2007/02/25/e99bbbe885a6e4b99fe8a681e9818ee5b9b4.aspx/
-  - /post/e99bbbe885a6e4b99fe8a681e9818ee5b9b4.aspx/
-  - /columns/2007/02/25/e99bbbe885a6e4b99fe8a681e9818ee5b9b4.aspx/
-  - /columns/e99bbbe885a6e4b99fe8a681e9818ee5b9b4.aspx/
-  - /blogs/chicken/archive/2007/02/25/2246.aspx/
-wordpress_postid: 181
----
-
 沒想到過個年, Microsoft 也有一堆更新 & 新版發行...
 
 1. SQL 2005 SP2  

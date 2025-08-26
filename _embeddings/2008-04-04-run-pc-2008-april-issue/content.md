@@ -1,23 +1,4 @@
----
-layout: post
-title: "[RUN! PC] 2008 四月號"
-categories:
-- "RUN! PC 專欄文章"
-tags: [".NET","ASP.NET","RUN! PC","技術隨筆","有的沒的"]
-published: true
-comments: true
-redirect_from:
-  - /2008/04/03/run-pc-2008-四月號/
-  - /columns/post/2008/04/04/RUNPC-2008-04.aspx/
-  - /post/2008/04/04/RUNPC-2008-04.aspx/
-  - /post/RUNPC-2008-04.aspx/
-  - /columns/2008/04/04/RUNPC-2008-04.aspx/
-  - /columns/RUNPC-2008-04.aspx/
-  - /blogs/chicken/archive/2008/04/04/3061.aspx/
-wordpress_postid: 112
----
-
-![IMG_6727 (Canon PowerShot G9)](/wp-content/be-files/WindowsLiveWriter/RUNPCApril2008ASP.NET1_1DCB/IMG_6727%20(Canon%20PowerShot%20G9).jpg)
+![IMG_6727 (Canon PowerShot G9)](/images/2008-04-04-run-pc-2008-april-issue/IMG_6727%20(Canon%20PowerShot%20G9).jpg).jpg)
 
 沒錯，我的文章在四月號的 RUN! PC 刊出來了，之前花了些時間在研究執行緒跟 ASP.NET 搭配起來用的技術問題，有點小心得，就整理了一下投稿了，運氣還不錯，雜誌社也願意刊出。初次投稿花了不少時間，花在重新思考 sample code 怎麼寫比較能突顯主題，圖表要怎麼畫才清楚明瞭等等瑣事上面，原來當個專欄作家 (我沒有專欄啦，只是投稿而以) 也不是這麼簡單的...
 

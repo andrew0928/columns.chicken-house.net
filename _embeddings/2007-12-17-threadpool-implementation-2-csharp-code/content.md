@@ -1,22 +1,3 @@
----
-layout: post
-title: "ThreadPool 實作 #2. 程式碼 (C#)"
-categories:
-- "系列文章: Thread Pool 實作"
-tags: [".NET","作業系統","多執行緒","技術隨筆"]
-published: true
-comments: true
-redirect_from:
-  - /2007/12/17/threadpool-實作-2-程式碼-c/
-  - /columns/post/2007/12/17/ThreadPool-e5afa6e4bd9c-2-e7a88be5bc8fe7a2bc-(C).aspx/
-  - /post/2007/12/17/ThreadPool-e5afa6e4bd9c-2-e7a88be5bc8fe7a2bc-(C).aspx/
-  - /post/ThreadPool-e5afa6e4bd9c-2-e7a88be5bc8fe7a2bc-(C).aspx/
-  - /columns/2007/12/17/ThreadPool-e5afa6e4bd9c-2-e7a88be5bc8fe7a2bc-(C).aspx/
-  - /columns/ThreadPool-e5afa6e4bd9c-2-e7a88be5bc8fe7a2bc-(C).aspx/
-  - /blogs/chicken/archive/2007/12/17/2893.aspx/
-wordpress_postid: 129
----
-
 既然上一篇都把 pseudo code 寫出來了, 現在就可以開始來寫真正的 Thread Pool 了. 開始之前, 我先把目標定一下. 這次寫的 Thread Pool 必需俱備這些能力:
 
 1. 要能由使用者控制 thread pool 的組態:

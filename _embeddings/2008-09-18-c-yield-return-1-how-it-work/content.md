@@ -1,21 +1,3 @@
----
-layout: post
-title: "[C#: yield return] #1. How It Work ?"
-categories:
-- "系列文章: Inside C# Yield Return"
-tags: [".NET","C#","Tips","多執行緒","技術隨筆","物件導向"]
-published: true
-comments: true
-permalink: "/2008/09/18/c-yield-return-1-how-it-work/"
-redirect_from:
-  - /columns/post/2008/09/18/C-yield-return-1-How-It-Work-.aspx/
-  - /post/2008/09/18/C-yield-return-1-How-It-Work-.aspx/
-  - /post/C-yield-return-1-How-It-Work-.aspx/
-  - /columns/2008/09/18/C-yield-return-1-How-It-Work-.aspx/
-  - /columns/C-yield-return-1-How-It-Work-.aspx/
-wordpress_postid: 68
----
-
 C# 常常拿來跟 Java 比較，在 .NET 1.1 時常常是不相上下，而 .NET 又因為較年輕 & 頂著 Microsoft 的名號，往往被當成玩具一樣，不過
 Microsoft 的確是在 .NET 及 C# 下了很多功夫，作了很多 Sun 不願意在 Java 身上作的事，這次要探討
 的 [yield return](http://msdn.microsoft.com/en-us/library/9k7k7cf0(VS.80).aspx) 及 [```IEnumerable<T>```](http://msdn.microsoft.com/en-us/library/9eekhta0.aspx) 這搭配的 Interface 就是一例...。

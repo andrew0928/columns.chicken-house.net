@@ -1,21 +1,3 @@
----
-layout: post
-title: "[設計案例] Login With SSL ?"
-categories:
-- "設計案例: Login With SSL"
-tags: []
-published: true
-comments: true
-redirect_from:
-  - /2009/09/17/設計案例-login-with-ssl/
-  - /columns/post/2009/09/18/e8a8ade8a888e6a188e4be8b-Login-With-SSL-.aspx/
-  - /post/2009/09/18/e8a8ade8a888e6a188e4be8b-Login-With-SSL-.aspx/
-  - /post/e8a8ade8a888e6a188e4be8b-Login-With-SSL-.aspx/
-  - /columns/2009/09/18/e8a8ade8a888e6a188e4be8b-Login-With-SSL-.aspx/
-  - /columns/e8a8ade8a888e6a188e4be8b-Login-With-SSL-.aspx/
-wordpress_postid: 31
----
-
 Game Of Life 那一系列的，先暫停一期 :D，先穿插一篇不相干的內容...。這篇要講的是網站的登入部份要改用 SSL 的作法。這是很常見的問題，不過對怎麼作搞不清楚的人，仍然大有人在... 所以興起了寫這篇的念頭。
 
 先從 "為什麼" 來說好了。實際碰到的客戶，常常會把 "SSL" 跟 "加密" 劃上等號... 以為網站加上 SSL 就固若金湯了。這樣講是沒錯啦，不過 SSL ( Secure Socket Layer。Wiki 有說明) 再安全，也只是個 "加密" 的傳輸方式，只有對外人 (竊聽者) 是加密的... 正所謂內賊難防... SSL 可以防外賊，但是防不了內賊。因此 SSL 是不等於 DRM 這類技術的...
@@ -42,11 +24,11 @@ Game Of Life 那一系列的，先暫停一期 :D，先穿插一篇不相干的�
 
 剩下的就跟你怎麼設計，怎麼規劃有關了。概念上來說，一般網站就像這張圖一樣:
 
-![image](/wp-content/be-files/WindowsLiveWriter/LoginWithSSL_109B9/image_5.png)
+![image](/images/2009-09-18-design-case-study-login-with-ssl/image_5.png)
 
 所有資訊都在橘色 (不安全) 的部份傳輸。為了確保重要資訊不被竊聽，我們至少要改成這樣:
 
-![image](/wp-content/be-files/WindowsLiveWriter/LoginWithSSL_109B9/image_6.png)
+![image](/images/2009-09-18-design-case-study-login-with-ssl/image_6.png)
 
 如果把 HTTP / HTTPS 當成兩個網站，則帳號密碼一定要在綠色(安全)部份傳輸。而兩台SERVER之間可以用HTTPS，或是其它管道傳輸，不一定要加密，不過至少可以把外面的駭客檔在門外。
 

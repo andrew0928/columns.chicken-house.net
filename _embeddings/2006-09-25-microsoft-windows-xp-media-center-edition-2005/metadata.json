@@ -1,50 +1,49 @@
 {
   "title": "Microsoft Windows XP Media Center Edition 2005",
   "published": true,
-  "categories": null,
+  "categories": [],
   "tags": [
     "\u6709\u7684\u6C92\u7684"
   ],
-  "generator": "BlogIndex.SyncPost v1.0.0.0, o3, https://app-azureopenai.openai.azure.com/",
   "tech-stacks": [
     "Microsoft Windows XP Media Center Edition 2005",
     "Windows XP",
-    "Windows XP Media Center Edition",
+    "MCE 2005",
     "TiVo",
-    "PC",
     "TV card",
     "LCD monitor",
-    "LCD TV"
+    "LCD TV",
+    "PIP",
+    "Keyboard",
+    "Mouse"
   ],
   "keywords": [
     "Microsoft",
-    "MCE",
-    "MCE2005",
+    "Windows XP",
+    "Media Center Edition",
+    "MCE 2005",
     "TiVo",
     "PC",
     "TV card",
+    "LCD monitor",
+    "LCD TV",
     "\u7BC0\u76EE\u8868",
     "\u9810\u7D04\u9304\u5F71",
     "Time Shift",
-    "LCD monitor",
-    "LCD TV",
-    "\u786C\u789F",
-    "\u5F85\u6A5F",
     "PIP",
-    "\u983B\u9053",
-    "\u7BC0\u76EE\u8CC7\u8A0A"
+    "\u5F85\u6A5F",
+    "\u9304\u5230\u786C\u789F",
+    "\u6416\u63A7\u5668",
+    "\u9375\u76E4",
+    "\u6ED1\u9F20",
+    "\u8D85\u4EBA\u7279\u653B\u968A"
   ],
+  "generator": "BlogIndex.SyncPost v0.3.0.0, gpt-5",
   "references": [
-    "/2006/09/25/microsoft-windows-xp-media-center-edition-2005/",
-    "/columns/post/2006/09/25/Microsoft-Windows-XP-Media-Center-Edition-2005.aspx/",
-    "/post/2006/09/25/Microsoft-Windows-XP-Media-Center-Edition-2005.aspx/",
-    "/post/Microsoft-Windows-XP-Media-Center-Edition-2005.aspx/",
-    "/columns/2006/09/25/Microsoft-Windows-XP-Media-Center-Edition-2005.aspx/",
-    "/columns/Microsoft-Windows-XP-Media-Center-Edition-2005.aspx/",
-    "/blogs/chicken/archive/2006/09/25/1763.aspx/",
-    "/wp-content/uploads/2006/09/MicrosoftWindowsXPMediaCenterEdition2005_2895/021.png",
-    "/wp-content/uploads/2006/09/MicrosoftWindowsXPMediaCenterEdition2005_2895/05.png",
-    "/wp-content/uploads/2006/09/MicrosoftWindowsXPMediaCenterEdition2005_2895/03.png",
-    "/wp-content/uploads/2006/09/MicrosoftWindowsXPMediaCenterEdition2005_2895/06.png"
-  ]
+    "/images/2006-09-25-microsoft-windows-xp-media-center-edition-2005/021.png",
+    "/images/2006-09-25-microsoft-windows-xp-media-center-edition-2005/05.png",
+    "/images/2006-09-25-microsoft-windows-xp-media-center-edition-2005/03.png",
+    "/images/2006-09-25-microsoft-windows-xp-media-center-edition-2005/06.png"
+  ],
+  "summary": "\u6700\u8FD1\u88DD\u4E86\u53F0 PC, \u704C\u4E86 MCE 2005 ... \u7528\u8D77\u4F86\u53EA\u6709\u4E00\u500B\u5B57... \u723D!!!\n\n\u6700\u8FD1\u53F0\u7063\u5F15\u9032\u4E86 TiVo \u9019\u5957\u7CFB\u7D71, \u61C9\u8A72\u4E0D\u5C11\u4EBA\u807D\u904E\u5427? PC \u002B TV card \u002B MCE2005 \u5C31\u662F\u50CF TiVo \u9019\u6A23\u5B50\u7684\u6771\u897F, \u53EA\u4E0D\u904E\u90FD\u662F Microsoft \u9760\u4E00\u5806\u8EDF\u9AD4\u5F04\u7684... \u4E0D\u7528\u984D\u5916\u8CB7\u5C08\u7528\u7684\u6A5F\u5668, \u4E5F\u4E0D\u7528\u50CF TiVo \u8981\u4ED8\u6708\u79DF\u8CBB...\n\n\u7528\u8D77\u4F86\u5982\u4F55? \u5C31\u662F\u7528\u96FB\u8166\u770B\u96FB\u8996\u800C\u4EE5, \u6211\u6C92\u6709\u63A5\u5728\u96FB\u8996\u4E0A, \u800C\u662F\u76F4\u63A5\u7528 LCD monitor \u770B, \u723D\u5EA6\u5DEE\u4E86\u9EDE, \u4E0D\u904E\u6211\u4E5F\u7FD2\u6163\u4E86, \u6211\u5011\u5BB6\u90FD\u662F\u7528 monitor \u5728\u770B\u96FB\u8996... \u54C8\u54C8. \u7528 MCE \u8DDF\u4E00\u822C TV card \u4ED8\u7684\u8EDF\u9AD4\u770B\u96FB\u8996, \u5DEE\u5225\u883B\u5927\u7684... \u6211\u5217\u5E7E\u500B\u6211\u89BA\u7684\u7279\u5225\u597D\u7528\u7684\u5730\u65B9:"
 }

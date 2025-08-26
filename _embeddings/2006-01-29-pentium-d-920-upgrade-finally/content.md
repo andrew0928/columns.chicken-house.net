@@ -1,22 +1,3 @@
----
-layout: post
-title: "Pentium D 920, 早該換了 (Y)"
-categories:
-
-tags: ["有的沒的"]
-published: true
-comments: true
-redirect_from:
-  - /2006/01/29/pentium-d-920-早該換了-y/
-  - /columns/post/2006/01/29/Pentium-D-9202c-e697a9e8a9b2e68f9be4ba86-(Y).aspx/
-  - /post/2006/01/29/Pentium-D-9202c-e697a9e8a9b2e68f9be4ba86-(Y).aspx/
-  - /post/Pentium-D-9202c-e697a9e8a9b2e68f9be4ba86-(Y).aspx/
-  - /columns/2006/01/29/Pentium-D-9202c-e697a9e8a9b2e68f9be4ba86-(Y).aspx/
-  - /columns/Pentium-D-9202c-e697a9e8a9b2e68f9be4ba86-(Y).aspx/
-  - /blogs/chicken/archive/2006/01/29/1393.aspx/
-wordpress_postid: 235
----
-
 話說八年前斯董讚助了張主機板 (P2B-DS), 架的 server 讓我用到現在, 大概很少人的主機可以用這麼久吧 [H], 一直不肯換的主要原因就是它可以裝兩顆 CPU... 我是看不慣電腦閒在那邊的人, 總是會在背景排一堆工作讓 server 忙一點... 所以有兩顆 CPU 對我的吸引力遠大於其它因素...
 
 總算現在雙核 CPU 已經買的下手了, 想了很久終於在過年前換了 Intel PentiumD 920 這顆 CPU, 主機板用 945P chipset, 外加 2GB DDR2-533 的 RAM...
@@ -45,11 +26,11 @@ Server 只做幾件事, 沒有太多軟體相容的問題, 跑起來很滿意...
 
 換機之後, 100M 的網路終於有被塞爆的一天... 特地貼圖紀念一下, 看來下次該換 GBE 了 [H]
 
-![Network 100M](/wp-content/be-files/network-100.gif)
+![Network 100M](/images/2006-01-29-pentium-d-920-upgrade-finally/network-100.gif)
 
 貼貼其它的圖, 自己爽一下 [H]
 
-![Pentium D](/wp-content/be-files/PentiumD.gif)
-![CPU ID 1](/wp-content/be-files/CPUID_01.gif)
-![CPU ID 2](/wp-content/be-files/CPUID_02.gif)
-![CPU ID 3](/wp-content/be-files/CPUID_03.gif)
+![Pentium D](/images/2006-01-29-pentium-d-920-upgrade-finally/PentiumD.gif)
+![CPU ID 1](/images/2006-01-29-pentium-d-920-upgrade-finally/CPUID_01.gif)
+![CPU ID 2](/images/2006-01-29-pentium-d-920-upgrade-finally/CPUID_02.gif)
+![CPU ID 3](/images/2006-01-29-pentium-d-920-upgrade-finally/CPUID_03.gif)
