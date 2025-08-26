@@ -1,0 +1,50 @@
+{
+  "title": "Community Server 2007 Beta 1 Available Now",
+  "published": true,
+  "categories": [],
+  "tags": [
+    ".NET",
+    "Community Server",
+    "\u6280\u8853\u96A8\u7B46",
+    "\u6709\u7684\u6C92\u7684"
+  ],
+  "tech-stacks": [
+    ".NET",
+    "Community Server",
+    "ASP.NET",
+    "ASP.NET Membership Provider",
+    "Web Service",
+    "Cassini",
+    "IIS",
+    "Visual Studio 2005",
+    "MHTML (.mht)",
+    "Browser"
+  ],
+  "keywords": [
+    "Community Server 2007",
+    "Beta 1",
+    "theme engine",
+    "UI \u8ABF\u6574",
+    "\u6548\u80FD\u63D0\u5347",
+    "share membership store",
+    "\u6703\u54E1\u8CC7\u6599\u5EAB\u5171\u4EAB",
+    "web service",
+    "membership provider",
+    ".mht \u532F\u51FA",
+    "demo.exe",
+    "Cassini",
+    "ASP.NET",
+    "IIS",
+    "VS2005",
+    "\u532F\u51FA\u6587\u7AE0",
+    "\u55AE\u4E00\u6A94\u6848",
+    "\u5716\u7247\u532F\u51FA"
+  ],
+  "generator": "BlogIndex.SyncPost v0.3.0.0, gpt-5",
+  "references": [
+    "http://scottwater.com/blog/archive/community-server-2007-beta-1-available/",
+    "http://communityserver.org/forums/568417/ShowThread.aspx#568417",
+    "/post/ASPNET-Tips-Launch-ASPNET-Web-Sites-without-IIS--VS2005.aspx"
+  ],
+  "summary": "\u4F5C\u8005\u5F9E Scott \u7684\u90E8\u843D\u683C\u5F97\u77E5 Community Server 2007 Beta 1 \u5DF2\u91CB\u51FA\uFF0C\u4E26\u63D0\u4F9B\u5B98\u65B9\u8A0E\u8AD6\u5340\u7684\u4E0B\u8F09\u9023\u7D50\u3002\u65B0\u7248\u6700\u5927\u4EAE\u9EDE\u662F\u66F4\u63DB\u4E86 theme engine\uFF0C\u53EF\u76F4\u63A5\u5728\u700F\u89BD\u5668\u4E2D\u8ABF\u6574 UI\uFF0C\u4E14\u5BA3\u7A31\u6548\u80FD\u66F4\u4F73\u3002\u6587\u4E2D\u9EDE\u51FA\u5E7E\u9805\u503C\u5F97\u6CE8\u610F\u7684\u6539\u9032\uFF1A\u5176\u4E00\u662F share membership store\uFF0C\u8B93\u591A\u500B\u53CB\u7AD9\u53EF\u5171\u7528\u540C\u4E00\u5957\u6703\u54E1\u8CC7\u6599\u5EAB\uFF0C\u4F5C\u8005\u63A8\u6E2C\u53EF\u80FD\u900F\u904E Web Service \u4E26\u4EE5\u81EA\u8A02 membership provider \u5BE6\u4F5C\uFF1B\u5176\u4E8C\u662F\u53EF\u5C07\u6587\u7AE0\uFF08\u542B\u5716\u7247\uFF09\u532F\u51FA\u70BA\u55AE\u4E00\u6A94\u6848\uFF0C\u63A8\u6E2C\u53EF\u80FD\u662F .mht \u683C\u5F0F\uFF1B\u5176\u4E09\u662F\u63D0\u4F9B demo.exe\uFF0C\u7121\u9700\u5B89\u88DD\u5373\u53EF\u8A66\u7528\uFF0C\u61C9\u8A72\u5167\u5EFA\u985E\u4F3C Cassini \u7684\u8F15\u91CF\u4F3A\u670D\u5668\u3002\u4F5C\u8005\u4E5F\u63D0\u5230\u81EA\u5DF1\u5148\u524D\u7528\u6279\u6B21\u6A94\u555F\u52D5 ASP.NET \u7DB2\u7AD9\uFF08\u7121\u9700 IIS\u3001VS2005\uFF09\u7684\u4F5C\u6CD5\u66F4\u9806\u624B\u3002\u6700\u5F8C\u8868\u793A\u5F85\u5B89\u88DD\u5F8C\u518D\u6DF1\u5165\u7814\u7A76\uFF0C\u4E26\u5411\u8B80\u8005\u62DC\u65E9\u5E74\u3002"
+}

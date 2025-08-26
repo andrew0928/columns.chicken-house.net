@@ -1,0 +1,30 @@
+---
+layout: post
+title: "Ouch, 為什麼沒有 c720w ..."
+categories:
+
+tags: ["敗家","有的沒的"]
+published: true
+comments: true
+redirect_from:
+  - /2007/05/19/ouch-為什麼沒有-c720w/
+  - /columns/post/2007/05/19/Ouch2c-e782bae4bb80e9babce6b292e69c89-c720w-.aspx/
+  - /post/2007/05/19/Ouch2c-e782bae4bb80e9babce6b292e69c89-c720w-.aspx/
+  - /post/Ouch2c-e782bae4bb80e9babce6b292e69c89-c720w-.aspx/
+  - /columns/2007/05/19/Ouch2c-e782bae4bb80e9babce6b292e69c89-c720w-.aspx/
+  - /columns/Ouch2c-e782bae4bb80e9babce6b292e69c89-c720w-.aspx/
+  - /blogs/chicken/archive/2007/05/19/2407.aspx/
+wordpress_postid: 161
+---
+
+Dopod 官方網站: [http://www.dopodasia.com/global/tw/news/20070503_NR_Dopod_WM6_Upgrade_TW.html](http://www.dopodasia.com/global/tw/news/20070503_NR_Dopod_WM6_Upgrade_TW.html)
+
+多普達提供Windows Mobile 6升級計畫: U1000、P800W、CHT9000與CHT9100免費升級
+
+很好很好, 沒有我這台 C720W 就算了, 但是同一台機器, 一模一樣, 為什麼國外的 T-Mobile 就提供升級到 WM6 啊啊啊啊...
+
+[http://www.t-mobile.com/wmupgrade/](http://www.t-mobile.com/wmupgrade/)
+
+雖然已經從XXX扛回這份升級程式了, 不過沒膽升級... 哈哈, 怕升級之後一些內建的軟體灌不回去, 升級後一定是沒保固了, 也沒有還原的軟體可以用, 如果升級升壞了不就欲哭無淚...
+
+有人聽過誰有膽量升級的消息嘛? 提供一下... :D, 不過 HTC / DOPOD 你也爭氣點, 都變一家人了, 快點提供 C720W 升級到 WM6 的 Rom Code 吧...

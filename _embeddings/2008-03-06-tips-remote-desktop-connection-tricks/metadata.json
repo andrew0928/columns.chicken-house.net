@@ -1,0 +1,50 @@
+{
+  "title": "Tips: \u9060\u7AEF\u684C\u9762\u9023\u7DDA\u7684\u5C0F\u6280\u5DE7",
+  "published": true,
+  "categories": null,
+  "tags": [
+    "Tips",
+    "\u6280\u8853\u96A8\u7B46"
+  ],
+  "tech-stacks": [
+    "Windows",
+    "Remote Desktop Connection",
+    "RDP",
+    "MSTSC",
+    "Command Prompt (cmd)",
+    "Windows Server"
+  ],
+  "keywords": [
+    "\u9060\u7AEF\u684C\u9762",
+    "\u9060\u7AEF\u684C\u9762\u9023\u7DDA",
+    "Remote Desktop",
+    "RDP",
+    "MSTSC",
+    "\u89E3\u6790\u5EA6",
+    "\u5BEC\u87A2\u5E55",
+    "1440x900",
+    "/w /h \u53C3\u6578",
+    "/console",
+    "DOS \u8996\u7A97",
+    "Command Prompt",
+    "\u4E3B\u63A7\u53F0\u756B\u9762",
+    "\u5132\u5B58\u8A2D\u5B9A",
+    "\u81EA\u52D5\u767B\u5165",
+    "\u96D9\u87A2\u5E55"
+  ],
+  "generator": "BlogIndex.SyncPost v0.3.0.0, gpt-5",
+  "references": [
+    "/images/2008-03-06-tips-remote-desktop-connection-tricks/image_3.png",
+    "/images/2008-03-06-tips-remote-desktop-connection-tricks/image_6.png",
+    "/wp-content/be-files/WindowsLiveWriter/Tips_1082C/image_8.png",
+    "/images/2008-03-06-tips-remote-desktop-connection-tricks/image_11.png",
+    "/2008/03/05/tips-\u9060\u7AEF\u684C\u9762\u9023\u7DDA\u7684\u5C0F\u6280\u5DE7/",
+    "/columns/post/2008/03/06/Tips-e981a0e7abafe6a18ce99da2e980a3e7b79ae79a84e5b08fe68a80e5b7a7.aspx/",
+    "/post/2008/03/06/Tips-e981a0e7abafe6a18ce99da2e980a3e7b79ae79a84e5b08fe68a80e5b7a7.aspx/",
+    "/post/Tips-e981a0e7abafe6a18ce99da2e980a3e7b79ae79a84e5b08fe68a80e5b7a7.aspx/",
+    "/columns/2008/03/06/Tips-e981a0e7abafe6a18ce99da2e980a3e7b79ae79a84e5b08fe68a80e5b7a7.aspx/",
+    "/columns/Tips-e981a0e7abafe6a18ce99da2e980a3e7b79ae79a84e5b08fe68a80e5b7a7.aspx/",
+    "/blogs/chicken/archive/2008/03/06/3035.aspx/"
+  ],
+  "summary": "\u672C\u6587\u5206\u4EAB\u5E7E\u500B\u4F7F\u7528 Windows \u9060\u7AEF\u684C\u9762\u9023\u7DDA\u7684\u5BE6\u7528\u6280\u5DE7\uFF0C\u89E3\u6C7A\u5E38\u898B\u7684\u4E09\u500B\u56F0\u64FE\uFF1A1) \u6BCF\u6B21\u90FD\u8981\u8F38\u5165 IP \u8207\u8A2D\u5B9A\u3002\u505A\u6CD5\u662F\u5148\u958B\u555F\u9060\u7AEF\u684C\u9762\u9023\u7DDA\u8996\u7A97\uFF0C\u5C07\u9023\u7DDA\u8A2D\u5B9A\u4EE5 Save As \u5132\u5B58\u70BA .rdp \u6A94\uFF0C\u4E4B\u5F8C\u53EA\u8981\u96D9\u64CA\u8A72\u6A94\u5373\u53EF\u5FEB\u901F\u9023\u7DDA\u30022) \u5167\u5EFA\u89E3\u6790\u5EA6\u9078\u9805\u4E0D\u8DB3\u3002\u53EF\u5148\u958B\u555F\u547D\u4EE4\u63D0\u793A\u5B57\u5143\uFF0C\u4F7F\u7528 mstsc \u6307\u4EE4\u52A0\u4E0A\u81EA\u8A02\u53C3\u6578\uFF0C\u4F8B\u5982 mstsc /w:1440 /h:900 \u4EE5 1440\u00D7900 \u5BEC\u87A2\u5E55\u89E3\u6790\u5EA6\u9023\u7DDA\uFF0C\u4EA6\u53EF\u914D\u5408\u96D9\u87A2\u5E55\u9700\u6C42\u30023) \u9700\u8981\u770B\u5230\u4E3B\u6A5F\u672C\u6A5F\uFF08console\uFF09\u4E0A\u7684\u8A0A\u606F\uFF0C\u4F8B\u5982\u90E8\u5206\u670D\u52D9\u7684\u932F\u8AA4\u8A0A\u606F\u53EA\u986F\u793A\u5728\u4E3B\u63A7\u53F0\u3002\u53EF\u5728\u6307\u4EE4\u5F8C\u52A0\u5165 /console \u53C3\u6578\u4EE5\u9023\u5230\u4E3B\u63A7\u53F0\u5DE5\u4F5C\u968E\u6BB5\u3002\u6587\u4E2D\u4E26\u4EE5\u622A\u5716\u793A\u7BC4\u8AAA\u660E\uFF0C\u63D0\u4F9B\u60F3\u8981\u63D0\u5347\u9060\u7AEF\u64CD\u4F5C\u6548\u7387\u8207\u8996\u91CE\u7684\u4F7F\u7528\u8005\u53C3\u8003\u3002"
+}

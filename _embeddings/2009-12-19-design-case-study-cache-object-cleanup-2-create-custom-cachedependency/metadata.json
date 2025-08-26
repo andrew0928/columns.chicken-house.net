@@ -1,0 +1,67 @@
+{
+  "title": "[\u8A2D\u8A08\u6848\u4F8B] \u6E05\u9664Cache\u7269\u4EF6 #2. Create Custom CacheDependency",
+  "published": true,
+  "categories": [
+    "\u8A2D\u8A08\u6848\u4F8B: \u6E05\u9664 Cache \u7269\u4EF6"
+  ],
+  "tags": [
+    ".NET",
+    "C#",
+    "MSDN",
+    "Tips",
+    "\u6280\u8853\u96A8\u7B46",
+    "\u6709\u7684\u6C92\u7684",
+    "\u7269\u4EF6\u5C0E\u5411"
+  ],
+  "tech-stacks": [
+    ".NET Framework",
+    ".NET",
+    "C#",
+    "ASP.NET",
+    "System.Web.Caching",
+    "CacheDependency",
+    "HttpRuntime.Cache",
+    "Visual Studio 2008",
+    "BCL",
+    "Dictionary",
+    "List"
+  ],
+  "keywords": [
+    "Cache",
+    "\u5FEB\u53D6",
+    "CacheDependency",
+    "TaggingCacheDependency",
+    "tags",
+    "\u6A19\u7C64",
+    "cache item",
+    "\u79FB\u9664\u5FEB\u53D6",
+    "\u5931\u6548",
+    "HttpRuntime.Cache",
+    "Cache.Remove",
+    "CacheItemRemovedReason",
+    "Uri",
+    "hostname",
+    "scheme",
+    "callback",
+    "Console",
+    "DownloadData",
+    "constructor",
+    "Dictionary",
+    "List",
+    "NoAbsoluteExpiration",
+    "CacheItemPriority",
+    "TimeSpan",
+    "Visual Studio 2008",
+    "\u7BC4\u4F8B\u7A0B\u5F0F",
+    "\u4E0B\u8F09\u7DB2\u5740",
+    "\u7AD9\u53F0\u4E3B\u6A5F\u540D\u7A31"
+  ],
+  "generator": "BlogIndex.SyncPost v0.3.0.0, gpt-5",
+  "references": [
+    "http://columns.chicken-house.net/",
+    "/images/2009-12-19-design-case-study-cache-object-cleanup-2-create-custom-cachedependency/image.png",
+    "/wp-content/be-files/WindowsLiveWriter/Cache2.CreateCustomCacheDependency/192B4E9C/tmp22EC.zip",
+    "/wp-content/be-files/WindowsLiveWriter/Cache2.CreateCustomCacheDependency/32271EE1/tmpB405.zip"
+  ],
+  "summary": "\u672C\u6587\u793A\u7BC4\u4EE5\u81EA\u8A02 CacheDependency \u5BE6\u4F5C\u300C\u4EE5\u6A19\u7C64\u63A7\u5236\u5FEB\u53D6\u7FA4\u7D44\u300D\u7684\u8A2D\u8A08\u3002\u60C5\u5883\u662F\u6709\u4E00\u6279\u7DB2\u5740\u9700\u8981\u4E0B\u8F09\u4E26\u5FEB\u53D6\uFF0C\u50B3\u7D71\u505A\u6CD5\u9700\u8A18\u4F4F\u5404\u500B cache key \u9010\u4E00\u79FB\u9664\u3002\u4F5C\u8005\u6539\u4EE5 TaggingCacheDependency \u5C07\u5FEB\u53D6\u9805\u76EE\u52A0\u4E0A\u591A\u500B tag\uFF08\u4F8B\u5982\u4F86\u6E90\u7DB2\u5740\u7684\u4E3B\u6A5F\u540D\u7A31\u8207\u901A\u8A0A\u5354\u5B9A\uFF09\uFF0C\u4E26\u4EE5\u975C\u614B\u5B57\u5178\u7DAD\u8B77 tag \u8207\u76F8\u4F9D\u7269\u4EF6\u6E05\u55AE\u3002\u7576\u9700\u8981\u8B93\u67D0\u4E00\u985E\u5FEB\u53D6\u5931\u6548\u6642\uFF0C\u53EA\u8981\u547C\u53EB DependencyDispose(tag)\uFF0C\u9010\u4E00\u901A\u77E5\u76F8\u4F9D\u7684 CacheDependency\uFF0C\u4FBF\u53EF\u89F8\u767C .NET Cache \u5C07\u5C0D\u61C9\u7684\u5FEB\u53D6\u9805\u76EE\u79FB\u9664\uFF0C\u4E14\u80FD\u900F\u904E callback \u89C0\u5BDF\u79FB\u9664\u4E8B\u4EF6\u3002\u793A\u4F8B\u7A0B\u5F0F\u5728\u52A0\u5165\u5FEB\u53D6\u6642\u4EE5 new TaggingCacheDependency(sourceURL.Host, sourceURL.Scheme) \u5EFA\u7ACB\u76F8\u4F9D\uFF0C\u6700\u5F8C\u4EE5 TaggingCacheDependency.DependencyDispose(\u0022funp.com\u0022) \u4E00\u6B21\u6E05\u9664\u6240\u6709\u540C\u4E3B\u6A5F\u7684\u5FEB\u53D6\u3002\u6B64\u4F5C\u6CD5\u6BD4\u4EE5 key \u79FB\u9664\u66F4\u5F48\u6027\uFF0C\u53EF\u4F9D\u591A\u91CD\u689D\u4EF6\u5FEB\u901F\u5931\u6548\uFF0C\u4EA6\u53EF\u5EF6\u4F38\u5BE6\u4F5C\u4E0D\u540C\u898F\u5247\u7684\u81EA\u8A02 CacheDependency\u3002\u6587\u672B\u63D0\u4F9B\u7DB2\u5740\u6E05\u55AE\u8207 VS2008 \u7BC4\u4F8B\u5C08\u6848\u4E0B\u8F09\u3002"
+}

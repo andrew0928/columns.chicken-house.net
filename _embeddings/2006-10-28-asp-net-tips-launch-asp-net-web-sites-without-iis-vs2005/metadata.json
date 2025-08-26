@@ -1,0 +1,53 @@
+{
+  "title": "ASP.NET Tips: Launch ASP.NET Web Sites without IIS / VS2005",
+  "published": true,
+  "categories": [],
+  "tags": [
+    ".NET"
+  ],
+  "tech-stacks": [
+    "ASP.NET",
+    ".NET Framework 2.0",
+    "IIS",
+    "Visual Studio 2005",
+    "Windows",
+    "ASP.NET Development Server",
+    "WebDev.WebServer.EXE",
+    "Batch file",
+    "NUnitLite"
+  ],
+  "keywords": [
+    "ASP.NET",
+    "IIS",
+    "Visual Studio 2005",
+    "Develop Web Server",
+    "NUnitLite",
+    "Web Application",
+    "sample code",
+    "\u6279\u6B21\u6A94",
+    "SendTo",
+    "WebDev.WebServer.EXE",
+    "localhost",
+    "\u9023\u63A5\u57E0",
+    "\u700F\u89BD\u5668",
+    "\u958B\u767C",
+    "\u6E2C\u8A66"
+  ],
+  "generator": "BlogIndex.SyncPost v0.3.0.0, gpt-5",
+  "references": [
+    "/2006/10/27/asp-net-tips-launch-asp-net-web-sites-without-iis-vs2005/",
+    "/columns/post/2006/10/28/ASPNET-Tips-Launch-ASPNET-Web-Sites-without-IIS-VS2005.aspx/",
+    "/post/2006/10/28/ASPNET-Tips-Launch-ASPNET-Web-Sites-without-IIS-VS2005.aspx/",
+    "/post/ASPNET-Tips-Launch-ASPNET-Web-Sites-without-IIS-VS2005.aspx/",
+    "/columns/2006/10/28/ASPNET-Tips-Launch-ASPNET-Web-Sites-without-IIS-VS2005.aspx/",
+    "/columns/ASPNET-Tips-Launch-ASPNET-Web-Sites-without-IIS-VS2005.aspx/",
+    "/columns/post/2006/10/28/ASPNET-Tips-Launch-ASPNET-Web-Sites-without-IIS--VS2005.aspx/",
+    "/post/2006/10/28/ASPNET-Tips-Launch-ASPNET-Web-Sites-without-IIS--VS2005.aspx/",
+    "/post/ASPNET-Tips-Launch-ASPNET-Web-Sites-without-IIS--VS2005.aspx/",
+    "/columns/2006/10/28/ASPNET-Tips-Launch-ASPNET-Web-Sites-without-IIS--VS2005.aspx/",
+    "/columns/ASPNET-Tips-Launch-ASPNET-Web-Sites-without-IIS--VS2005.aspx/",
+    "/blogs/chicken/archive/2006/10/28/1904.aspx/",
+    "http://localhost:%DEVWEB_PORT%/"
+  ],
+  "summary": "\u6069, \u984C\u76EE\u5B9A\u7684\u5F88\u5049\u5927\u7684\u6A23\u5B50.. \u5176\u5BE6\u53EA\u662F\u500B\u4E0D\u8D77\u773C\u7684\u5C0F\u6280\u5DE7\u800C\u4EE5.. \u4EE5\u5F80\u958B\u767C\u7DB2\u7AD9\u7A0B\u5F0F\u90FD\u8981\u88DD IIS, \u5230 visual studio 2005 \u5F8C\u5C31\u6709\u5167\u5EFA\u7684 Develop Web Server \u53EF\u4EE5\u7528.\n\n\u4E0D\u904E\u9084\u662F\u5F88\u9EBB\u7169, \u6BD4\u65B9\u8AAA\u6211\u53E6\u5916\u4E00\u7BC7\u6587\u7AE0\u8B1B\u5230 NUnitLite \u5728 Web Application \u4E0A\u7684\u61C9\u7528, \u6211\u6709\u63D0\u4F9B sample code, \u6293\u4E0B\u4F86\u5F8C, \u4F60\u53EF\u80FD\u6703\u628A\u5B83\u653E\u5230 iis \u505A\u4E9B\u8A2D\u5B9A\u8DD1\u770B\u770B, \u6216\u662F\u76F4\u63A5\u7528 visual studio 2005 \u958B web site \u5F8C\u6309 f5 \u8DD1\u770B\u770B... \u5169\u7A2E\u65B9\u5F0F\u770B\u4F86\u90FD\u5F88\u9EBB\u7169, \u5C24\u5176\u6211\u7528 notebook, \u958B\u500B visual studio 2005 \u8981\u7B49\u534A\u5929, \u4E0D\u662F\u5F88\u6709\u5438\u5F15\u529B\u7684 code \u6211\u53EF\u80FD\u5C31\u61F6\u7684\u958B\u4E86, \u54C8\u54C8.."
+}

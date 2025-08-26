@@ -1,0 +1,188 @@
+評論數,標題,鏈接
+33,ThreadPool 實作 #3. AutoResetEvent / ManualResetEvent,http://columns.chicken-house.net/2007/12/17/threadpool-%e5%af%a6%e4%bd%9c-3-autoresetevent-manualresetevent/
+31,"該如何學好 ""寫程式"" #2. 為什麼 programmer 該學資料結構 ??",http://columns.chicken-house.net/2008/10/01/%e8%a9%b2%e5%a6%82%e4%bd%95%e5%ad%b8%e5%a5%bd-%e5%af%ab%e7%a8%8b%e5%bc%8f-2-%e7%82%ba%e4%bb%80%e9%ba%bc-programmer-%e8%a9%b2%e5%ad%b8%e8%b3%87%e6%96%99%e7%b5%90%e6%a7%8b/
+23,"該如何學好 ""寫程式"" ??",http://columns.chicken-house.net/2008/09/27/%e8%a9%b2%e5%a6%82%e4%bd%95%e5%ad%b8%e5%a5%bd-%e5%af%ab%e7%a8%8b%e5%bc%8f/
+22,"Canon G9 入手, 不過...",http://columns.chicken-house.net/2007/11/05/canon-g9-%e5%85%a5%e6%89%8b-%e4%b8%8d%e9%81%8e/
+11,"架構師觀點 - 面試題分享 #1, 線上交易的正確性",http://0.0.0.0:4000/2018/03/25/interview01-transaction/
+10,敗家新目標... Dopod C720w,http://columns.chicken-house.net/2006/12/31/%e6%95%97%e5%ae%b6%e6%96%b0%e7%9b%ae%e6%a8%99-dopod-c720w/
+10,Google 讓人越來越笨?,http://columns.chicken-house.net/2008/09/28/google-%e8%ae%93%e4%ba%ba%e8%b6%8a%e4%be%86%e8%b6%8a%e7%ac%a8/
+10,"該如何學好 ""寫程式"" #4. 你的程式夠 ""可靠"" 嗎?",http://columns.chicken-house.net/2008/10/20/%e8%a9%b2%e5%a6%82%e4%bd%95%e5%ad%b8%e5%a5%bd-%e5%af%ab%e7%a8%8b%e5%bc%8f-4-%e4%bd%a0%e7%9a%84%e7%a8%8b%e5%bc%8f%e5%a4%a0-%e5%8f%af%e9%9d%a0-%e5%97%8e/
+9,Canon PowerShot S2 IS,http://columns.chicken-house.net/2005/08/13/canon-powershot-s2-is/
+9,[RUN! PC] 2008 四月號,http://columns.chicken-house.net/2008/04/03/run-pc-2008-%e5%9b%9b%e6%9c%88%e8%99%9f/
+9,利用 WPF 讀取 CANON (.CR2) 的 EXIF 及縮圖 (C# 範例程式說明),http://columns.chicken-house.net/2008/06/23/%e5%88%a9%e7%94%a8-wpf-%e8%ae%80%e5%8f%96-canon-cr2-%e7%9a%84-exif-%e5%8f%8a%e7%b8%ae%e5%9c%96-c-%e7%af%84%e4%be%8b%e7%a8%8b%e5%bc%8f%e8%aa%aa%e6%98%8e/
+9,Thread Sync #2. 實作篇 - 互相等待的兩個執行緒,http://columns.chicken-house.net/2008/08/15/thread-sync-2-%e5%af%a6%e4%bd%9c%e7%af%87-%e4%ba%92%e7%9b%b8%e7%ad%89%e5%be%85%e7%9a%84%e5%85%a9%e5%80%8b%e5%9f%b7%e8%a1%8c%e7%b7%92/
+9,生產者 vs 消費者 - BlockQueue 實作,http://columns.chicken-house.net/2008/10/18/%e7%94%9f%e7%94%a2%e8%80%85-vs-%e6%b6%88%e8%b2%bb%e8%80%85-blockqueue-%e5%af%a6%e4%bd%9c/
+9,"該如何學好 ""寫程式"" #5. 善用 TRACE / ASSERT",http://columns.chicken-house.net/2008/11/03/%e8%a9%b2%e5%a6%82%e4%bd%95%e5%ad%b8%e5%a5%bd-%e5%af%ab%e7%a8%8b%e5%bc%8f-5-%e5%96%84%e7%94%a8-trace-assert/
+9,"微服務架構 #4, 如何強化微服務的安全性? API Token / JWT 的應用",http://columns.chicken-house.net/2016/12/01/microservice7-apitoken/
+8,原來 System.Net.Mail 也會有 Bug ...,http://columns.chicken-house.net/2007/04/06/%e5%8e%9f%e4%be%86-system-net-mail-%e4%b9%9f%e6%9c%83%e6%9c%89-bug/
+8,水電工日誌 2. 資訊插座 + 面板,http://columns.chicken-house.net/2007/09/14/%e6%b0%b4%e9%9b%bb%e5%b7%a5%e6%97%a5%e8%aa%8c-2-%e8%b3%87%e8%a8%8a%e6%8f%92%e5%ba%a7-%e9%9d%a2%e6%9d%bf/
+8,很抱歉，本站不歡迎來自 [百度] (Baidu.com) 的訪客 !!,http://columns.chicken-house.net/2008/06/28/%e5%be%88%e6%8a%b1%e6%ad%89%ef%bc%8c%e6%9c%ac%e7%ab%99%e4%b8%8d%e6%ad%a1%e8%bf%8e%e4%be%86%e8%87%aa-%e7%99%be%e5%ba%a6-baidu-com-%e7%9a%84%e8%a8%aa%e5%ae%a2/
+8,架構師觀點: 你需要什麼樣的 CI / CD ?,http://0.0.0.0:4000/2017/08/05/what-cicd-do-you-need/
+8,微服務基礎建設 - 線上購物排隊機制設計,http://0.0.0.0:4000/2018/12/12/microservice11-lineup/
+7,Fiddler 跟 TFS 相衝的問題解決 - II,http://columns.chicken-house.net/2007/04/24/fiddler-%e8%b7%9f-tfs-%e7%9b%b8%e8%a1%9d%e7%9a%84%e5%95%8f%e9%a1%8c%e8%a7%a3%e6%b1%ba-ii/
+7,水電工日誌 3. 查線 & 標線,http://columns.chicken-house.net/2007/09/18/%e6%b0%b4%e9%9b%bb%e5%b7%a5%e6%97%a5%e8%aa%8c-3-%e6%9f%a5%e7%b7%9a-%e6%a8%99%e7%b7%9a/
+7,水電工日誌 4. 配接電話線 & 網路線,http://columns.chicken-house.net/2007/09/26/%e6%b0%b4%e9%9b%bb%e5%b7%a5%e6%97%a5%e8%aa%8c-4-%e9%85%8d%e6%8e%a5%e9%9b%bb%e8%a9%b1%e7%b7%9a-%e7%b6%b2%e8%b7%af%e7%b7%9a/
+7,遲來的正義,http://columns.chicken-house.net/2008/01/14/%e9%81%b2%e4%be%86%e7%9a%84%e6%ad%a3%e7%be%a9/
+7,處理大型資料的技巧 – Async / Await,http://columns.chicken-house.net/2013/04/14/%e8%99%95%e7%90%86%e5%a4%a7%e5%9e%8b%e8%b3%87%e6%96%99%e7%9a%84%e6%8a%80%e5%b7%a7-async-await/
+7,Docker 初體驗 - Synology DSM 上面架設 WordPress / Redmine / Reverse Proxy,http://columns.chicken-house.net/2015/10/13/docker-%e5%88%9d%e9%ab%94%e9%a9%97-synology-dsm-%e4%b8%8a%e9%9d%a2%e6%9e%b6%e8%a8%ad-wordpress-redmine-reverse-proxy/
+7,後端工程師必備: CLI + PIPELINE 開發技巧,http://columns.chicken-house.net/2019/06/15/netcli-pipeline/
+7,後端工程師必備: 排程任務的處理機制練習,http://columns.chicken-house.net/2019/08/30/scheduling-practices/
+7,"架構面試題 - 抽象化設計, 折扣規則的設計機制",http://columns.chicken-house.net/2020/03/10/interview-abstraction/
+6,新手機真是讚 (y) - II,http://columns.chicken-house.net/2007/02/03/%e6%96%b0%e6%89%8b%e6%a9%9f%e7%9c%9f%e6%98%af%e8%ae%9a-y-ii/
+6,換到 BlogEngine.Net 了!,http://columns.chicken-house.net/2008/06/17/%e6%8f%9b%e5%88%b0-blogengine-net-%e4%ba%86/
+6,x64 programming #2: ASP.NET + ODBC (讀取 CSV),http://columns.chicken-house.net/2008/07/26/x64-programming-2-asp-net-odbc-%e8%ae%80%e5%8f%96-csv/
+6,"[設計案例] 生命遊戲 #4, 有效率的使用執行緒",http://columns.chicken-house.net/2009/09/19/%e8%a8%ad%e8%a8%88%e6%a1%88%e4%be%8b-%e7%94%9f%e5%91%bd%e9%81%8a%e6%88%b2-4-%e6%9c%89%e6%95%88%e7%8e%87%e7%9a%84%e4%bd%bf%e7%94%a8%e5%9f%b7%e8%a1%8c%e7%b7%92/
+6,"架構面試題 #3, RDBMS 處理樹狀結構的技巧",http://columns.chicken-house.net/2019/06/01/nested-query/
+5,三個好用的 ASP.NET HttpHandler,http://columns.chicken-house.net/2004/12/15/%e4%b8%89%e5%80%8b%e5%a5%bd%e7%94%a8%e7%9a%84-asp-net-httphandler/
+5,機器又要討錢了:~,http://columns.chicken-house.net/2005/06/08/%e6%a9%9f%e5%99%a8%e5%8f%88%e8%a6%81%e8%a8%8e%e9%8c%a2%e4%ba%86/
+5,又敗家了... SONY HREM4,http://columns.chicken-house.net/2005/12/01/%e5%8f%88%e6%95%97%e5%ae%b6%e4%ba%86-sony-hrem4/
+5,浩劫重生的 X31 ...,http://columns.chicken-house.net/2006/07/20/%e6%b5%a9%e5%8a%ab%e9%87%8d%e7%94%9f%e7%9a%84-x31/
+5,如何在執行檔 (.NET) 裡附加額外的資料?,http://columns.chicken-house.net/2007/02/28/%e5%a6%82%e4%bd%95%e5%9c%a8%e5%9f%b7%e8%a1%8c%e6%aa%94-net-%e8%a3%a1%e9%99%84%e5%8a%a0%e9%a1%8d%e5%a4%96%e7%9a%84%e8%b3%87%e6%96%99/
+5,Canon PowerShot S5 IS 出來了,http://columns.chicken-house.net/2007/05/10/canon-powershot-s5-is-%e5%87%ba%e4%be%86%e4%ba%86/
+5,WLW Plugins: Code Formatter,http://columns.chicken-house.net/2008/03/07/wlw-plugins-code-formatter/
+5,Thread Sync #1. 概念篇 - 如何化被動為主動?,http://columns.chicken-house.net/2008/08/14/thread-sync-1-%e6%a6%82%e5%bf%b5%e7%af%87-%e5%a6%82%e4%bd%95%e5%8c%96%e8%a2%ab%e5%8b%95%e7%82%ba%e4%b8%bb%e5%8b%95/
+5,[RUN! PC] 2008 九月號,http://columns.chicken-house.net/2008/09/02/run-pc-2008-%e4%b9%9d%e6%9c%88%e8%99%9f/
+5,重生的 IBM ThinkPad X40 ...,http://columns.chicken-house.net/2008/11/06/%e9%87%8d%e7%94%9f%e7%9a%84-ibm-thinkpad-x40/
+5,Policy Injection Application Block 小發現...,http://columns.chicken-house.net/2008/11/18/policy-injection-application-block-%e5%b0%8f%e7%99%bc%e7%8f%be/
+5,[CODE] 可以輸出到 TextBox 的 TextWriter: TextBoxWriter!,http://columns.chicken-house.net/2011/01/03/code-%e5%8f%af%e4%bb%a5%e8%bc%b8%e5%87%ba%e5%88%b0-textbox-%e7%9a%84-textwriter-textboxwriter/
+5,[架構師觀點] 資安沒有捷徑，請從根本做起!,https://columns.chicken-house.net/2020/11/23/security-talk/
+4,Paint.NET 2.0,http://columns.chicken-house.net/2004/12/22/paint-net-2-0/
+4,老鼠的繁殖力真強... [H],http://columns.chicken-house.net/2006/01/28/%e8%80%81%e9%bc%a0%e7%9a%84%e7%b9%81%e6%ae%96%e5%8a%9b%e7%9c%9f%e5%bc%b7-h/
+4,Ya!! Community.Chicken-House.Net 滿兩週年了 :D,http://columns.chicken-house.net/2006/11/19/ya-community-chicken-house-net-%e6%bb%bf%e5%85%a9%e9%80%b1%e5%b9%b4%e4%ba%86-d/
+4,推!!!,http://columns.chicken-house.net/2007/07/24/%e6%8e%a8/
+4,水電工日誌 1. Cable TV 面板,http://columns.chicken-house.net/2007/09/12/%e6%b0%b4%e9%9b%bb%e5%b7%a5%e6%97%a5%e8%aa%8c-1-cable-tv-%e9%9d%a2%e6%9d%bf/
+4,"可惡, 竟然偷貼我的文章... :@",http://columns.chicken-house.net/2007/12/21/%e5%8f%af%e6%83%a1-%e7%ab%9f%e7%84%b6%e5%81%b7%e8%b2%bc%e6%88%91%e7%9a%84%e6%96%87%e7%ab%a0/
+4,Memory Management (II) - Test Result,http://columns.chicken-house.net/2008/03/03/memory-management-ii-test-result/
+4,Code Formatter 更新: 複製CODE及HTML預覽,http://columns.chicken-house.net/2008/03/31/code-formatter-%e6%9b%b4%e6%96%b0-%e8%a4%87%e8%a3%bdcode%e5%8f%8ahtml%e9%a0%90%e8%a6%bd/
+4,Next Ten Years...,http://columns.chicken-house.net/2008/05/12/next-ten-years/
+4,Canon Raw Codec for Vista / XP x64 ...,http://columns.chicken-house.net/2008/06/11/canon-raw-codec-for-vista-xp-x64/
+4,BlogEngine Extension: Secure Post v1.0,http://columns.chicken-house.net/2008/09/06/blogengine-extension-secure-post-v1-0/
+4,[C#: yield return] #1. How It Work ?,http://columns.chicken-house.net/2008/09/18/c-yield-return-1-how-it-work/
+4,得獎了 :D~~~,http://columns.chicken-house.net/2008/10/01/%e5%be%97%e7%8d%8e%e4%ba%86-d/
+4,難搞的 Entity Framework - 跨越 Context 的查詢,http://columns.chicken-house.net/2009/01/20/%e9%9b%a3%e6%90%9e%e7%9a%84-entity-framework-%e8%b7%a8%e8%b6%8a-context-%e7%9a%84%e6%9f%a5%e8%a9%a2/
+4,關渡騎單車,http://columns.chicken-house.net/2009/05/05/%e9%97%9c%e6%b8%a1%e9%a8%8e%e5%96%ae%e8%bb%8a/
+4,拼了! 80公里長征... (關渡 - 鶯歌),http://columns.chicken-house.net/2009/07/21/%e6%8b%bc%e4%ba%86-80%e5%85%ac%e9%87%8c%e9%95%b7%e5%be%81-%e9%97%9c%e6%b8%a1-%e9%b6%af%e6%ad%8c/
+4,"[Tips] 用 “磁碟鏡像"" 更換硬碟 #2, Windows 2003 的跨距磁區",http://columns.chicken-house.net/2010/03/11/tips-%e7%94%a8-%e7%a3%81%e7%a2%9f%e9%8f%a1%e5%83%8f-%e6%9b%b4%e6%8f%9b%e7%a1%ac%e7%a2%9f-2-windows-2003-%e7%9a%84%e8%b7%a8%e8%b7%9d%e7%a3%81%e5%8d%80/
+4,Blog as code !! · 安德魯的部落格,http://columns.chicken-house.net/2016/09/16/blog-as-code/
+4,水電工日誌 7. 事隔 12 年的家用網路架構大翻新,http://columns.chicken-house.net/2019/12/12/home-networking/
+3,ThinkPad? 聯想墊子? My god...,http://columns.chicken-house.net/2004/12/14/thinkpad-%e8%81%af%e6%83%b3%e5%a2%8a%e5%ad%90-my-god/
+3,Battlestar Galactica,http://columns.chicken-house.net/2004/12/15/battlestar-galactica/
+3,鐵弗龍膠帶,http://columns.chicken-house.net/2004/12/31/%e9%90%b5%e5%bc%97%e9%be%8d%e8%86%a0%e5%b8%b6/
+3,Hash 的妙用,http://columns.chicken-house.net/2005/06/08/hash-%e7%9a%84%e5%a6%99%e7%94%a8/
+3,終於買了 GPS,http://columns.chicken-house.net/2005/06/28/%e7%b5%82%e6%96%bc%e8%b2%b7%e4%ba%86-gps/
+3,CS Control: Recent Comments,http://columns.chicken-house.net/2006/05/21/cs-control-recent-comments/
+3,Canon Digital Camera 記憶卡歸檔工具 - RAW Support Update,http://columns.chicken-house.net/2006/11/04/canon-digital-camera-%e8%a8%98%e6%86%b6%e5%8d%a1%e6%ad%b8%e6%aa%94%e5%b7%a5%e5%85%b7-raw-support-update/
+3,IQ test ...,http://columns.chicken-house.net/2006/11/15/iq-test/
+3,終於升級上來了...,http://columns.chicken-house.net/2006/12/10/%e7%b5%82%e6%96%bc%e5%8d%87%e7%b4%9a%e4%b8%8a%e4%be%86%e4%ba%86/
+3,換新版面了 :D,http://columns.chicken-house.net/2007/03/01/%e6%8f%9b%e6%96%b0%e7%89%88%e9%9d%a2%e4%ba%86-d/
+3,水電工日誌 6. 機櫃設備展示,http://columns.chicken-house.net/2007/10/05/%e6%b0%b4%e9%9b%bb%e5%b7%a5%e6%97%a5%e8%aa%8c-6-%e6%a9%9f%e6%ab%83%e8%a8%ad%e5%82%99%e5%b1%95%e7%a4%ba/
+3,"Canon Raw Codec + WPF #2, ThreadPool",http://columns.chicken-house.net/2007/12/11/canon-raw-codec-wpf-2-threadpool/
+3,"爽一下, 6GB RAM ...",http://columns.chicken-house.net/2008/02/13/%e7%88%bd%e4%b8%80%e4%b8%8b-6gb-ram/
+3,BotCheck 改版...,http://columns.chicken-house.net/2008/04/01/botcheck-%e6%94%b9%e7%89%88/
+3,FlickrProxy #3 - 終於搞定大圖網址錯誤的問題,http://columns.chicken-house.net/2008/05/21/flickrproxy-3-%e7%b5%82%e6%96%bc%e6%90%9e%e5%ae%9a%e5%a4%a7%e5%9c%96%e7%b6%b2%e5%9d%80%e9%8c%af%e8%aa%a4%e7%9a%84%e5%95%8f%e9%a1%8c/
+3,[BlogEngine.NET] 改造工程 - 整合 FunP 推推王,http://columns.chicken-house.net/2008/06/29/blogengine-net-%e6%94%b9%e9%80%a0%e5%b7%a5%e7%a8%8b-%e6%95%b4%e5%90%88-funp-%e6%8e%a8%e6%8e%a8%e7%8e%8b/
+3,終於升速了!,http://columns.chicken-house.net/2008/10/10/%e7%b5%82%e6%96%bc%e5%8d%87%e9%80%9f%e4%ba%86/
+3,NGenerics - DataStructure / Algorithm Library,http://columns.chicken-house.net/2008/10/14/ngenerics-datastructure-algorithm-library/
+3,個人檔案 + 版本控制...,http://columns.chicken-house.net/2009/04/20/%e5%80%8b%e4%ba%ba%e6%aa%94%e6%a1%88-%e7%89%88%e6%9c%ac%e6%8e%a7%e5%88%b6/
+3,"[設計案例] 生命遊戲#1, 前言",http://columns.chicken-house.net/2009/09/12/%e8%a8%ad%e8%a8%88%e6%a1%88%e4%be%8b-%e7%94%9f%e5%91%bd%e9%81%8a%e6%88%b21-%e5%89%8d%e8%a8%80/
+3,"[Tips] 用 “磁碟鏡像"" 無痛更換硬碟",http://columns.chicken-house.net/2010/03/06/tips-%e7%94%a8-%e7%a3%81%e7%a2%9f%e9%8f%a1%e5%83%8f-%e7%84%a1%e7%97%9b%e6%9b%b4%e6%8f%9b%e7%a1%ac%e7%a2%9f/
+3,Tips: 在 .NET Console Application 中處理 Shutdown 事件,http://0.0.0.0:4000/2018/05/10/tips-handle-shutdown-event/
+2,.TEXT 的編輯介面補強 (自己爽一下)..,http://columns.chicken-house.net/2005/01/09/text-%e7%9a%84%e7%b7%a8%e8%bc%af%e4%bb%8b%e9%9d%a2%e8%a3%9c%e5%bc%b7-%e8%87%aa%e5%b7%b1%e7%88%bd%e4%b8%80%e4%b8%8b/
+2,古董 12X CDRW 終於壽終正寢...,http://columns.chicken-house.net/2005/01/25/%e5%8f%a4%e8%91%a3-12x-cdrw-%e7%b5%82%e6%96%bc%e5%a3%bd%e7%b5%82%e6%ad%a3%e5%af%a2/
+2,"新 17"" LCD monitor",http://columns.chicken-house.net/2005/03/06/%e6%96%b0-17-lcd-monitor/
+2,晶片卡讀卡機,http://columns.chicken-house.net/2005/03/06/%e6%99%b6%e7%89%87%e5%8d%a1%e8%ae%80%e5%8d%a1%e6%a9%9f/
+2,Photo Gallery 啟用 !!,http://columns.chicken-house.net/2005/03/27/photo-gallery-%e5%95%9f%e7%94%a8/
+2,愛鑽小路的 PaPaGo ...,http://columns.chicken-house.net/2005/07/04/%e6%84%9b%e9%91%bd%e5%b0%8f%e8%b7%af%e7%9a%84-papago/
+2,該來的終於來了 :~~~,http://columns.chicken-house.net/2005/08/19/%e8%a9%b2%e4%be%86%e7%9a%84%e7%b5%82%e6%96%bc%e4%be%86%e4%ba%86/
+2,ASP.NET Tips: Launch ASP.NET Web Sites without IIS / VS2005,http://columns.chicken-house.net/2006/10/27/asp-net-tips-launch-asp-net-web-sites-without-iis-vs2005/
+2,Canon Digital Camera 相機獨享 - 記憶卡歸檔工具,http://columns.chicken-house.net/2006/11/02/canon-digital-camera-%e7%9b%b8%e6%a9%9f%e7%8d%a8%e4%ba%ab-%e8%a8%98%e6%86%b6%e5%8d%a1%e6%ad%b8%e6%aa%94%e5%b7%a5%e5%85%b7/
+2,小紅點缺料? Lenovo Sucks...,http://columns.chicken-house.net/2006/11/04/%e5%b0%8f%e7%b4%85%e9%bb%9e%e7%bc%ba%e6%96%99-lenovo-sucks/
+2,CSS 擋右鍵,http://columns.chicken-house.net/2006/11/11/css-%e6%93%8b%e5%8f%b3%e9%8d%b5/
+2,皮哥皮妹的年齡 user control ...,http://columns.chicken-house.net/2007/01/18/%e7%9a%ae%e5%93%a5%e7%9a%ae%e5%a6%b9%e7%9a%84%e5%b9%b4%e9%bd%a1-user-control/
+2,Vista Day 4...,http://columns.chicken-house.net/2007/04/03/vista-day-4/
+2,WMCmd.vbs 在 VISTA 下執行會導至 cscript.exe 發生錯誤...,http://columns.chicken-house.net/2007/04/15/wmcmd-vbs-%e5%9c%a8-vista-%e4%b8%8b%e5%9f%b7%e8%a1%8c%e6%9c%83%e5%b0%8e%e8%87%b3-cscript-exe-%e7%99%bc%e7%94%9f%e9%8c%af%e8%aa%a4/
+2,一個一萬多的簡報器... Orz..,http://columns.chicken-house.net/2007/05/19/%e4%b8%80%e5%80%8b%e4%b8%80%e8%90%ac%e5%a4%9a%e7%9a%84%e7%b0%a1%e5%a0%b1%e5%99%a8-orz/
+2,"Ouch, 為什麼沒有 c720w ...",http://columns.chicken-house.net/2007/05/19/ouch-%e7%82%ba%e4%bb%80%e9%ba%bc%e6%b2%92%e6%9c%89-c720w/
+2,還是換回 XP 了...,http://columns.chicken-house.net/2007/06/20/%e9%82%84%e6%98%af%e6%8f%9b%e5%9b%9e-xp-%e4%ba%86/
+2,又變成水電工了..,http://columns.chicken-house.net/2007/08/18/%e5%8f%88%e8%ae%8a%e6%88%90%e6%b0%b4%e9%9b%bb%e5%b7%a5%e4%ba%86/
+2,不用再龜了... Canon PowerShot G9 現身...,http://columns.chicken-house.net/2007/08/22/%e4%b8%8d%e7%94%a8%e5%86%8d%e9%be%9c%e4%ba%86-canon-powershot-g9-%e7%8f%be%e8%ba%ab/
+2,Finally...,http://columns.chicken-house.net/2007/09/11/finally/
+2,水電工日誌 5. 配接 cable 線,http://columns.chicken-house.net/2007/10/02/%e6%b0%b4%e9%9b%bb%e5%b7%a5%e6%97%a5%e8%aa%8c-5-%e9%85%8d%e6%8e%a5-cable-%e7%b7%9a/
+2,Memory Management (III) - .NET CLR ?,http://columns.chicken-house.net/2008/03/03/memory-management-iii-net-clr/
+2,Tips: 遠端桌面連線的小技巧,http://columns.chicken-house.net/2008/03/05/tips-%e9%81%a0%e7%ab%af%e6%a1%8c%e9%9d%a2%e9%80%a3%e7%b7%9a%e7%9a%84%e5%b0%8f%e6%8a%80%e5%b7%a7/
+2,Canon CR2 --> .JPEG 速度加倍.. 該換 Core2 Quad 了嘛?,http://columns.chicken-house.net/2008/04/10/canon-cr2-jpeg-%e9%80%9f%e5%ba%a6%e5%8a%a0%e5%80%8d-%e8%a9%b2%e6%8f%9b-core2-quad-%e4%ba%86%e5%98%9b/
+2,[RUN! PC] 2008 六月號,http://columns.chicken-house.net/2008/06/03/run-pc-2008-%e5%85%ad%e6%9c%88%e8%99%9f/
+2,換了四核心，MCE就掛了...,http://columns.chicken-house.net/2008/06/08/%e6%8f%9b%e4%ba%86%e5%9b%9b%e6%a0%b8%e5%bf%83%ef%bc%8cmce%e5%b0%b1%e6%8e%9b%e4%ba%86/
+2,從 CommunityServer 2007 到 BlogEngine.NET,http://columns.chicken-house.net/2008/06/19/%e5%be%9e-communityserver-2007-%e5%88%b0-blogengine-net/
+2,請正確的引用文章內容!,http://columns.chicken-house.net/2008/09/01/%e8%ab%8b%e6%ad%a3%e7%a2%ba%e7%9a%84%e5%bc%95%e7%94%a8%e6%96%87%e7%ab%a0%e5%85%a7%e5%ae%b9/
+2,令人火大的 SQL 字元編碼...,http://columns.chicken-house.net/2008/09/27/%e4%bb%a4%e4%ba%ba%e7%81%ab%e5%a4%a7%e7%9a%84-sql-%e5%ad%97%e5%85%83%e7%b7%a8%e7%a2%bc/
+2,"該如何學好 ""寫程式"" #3. 進階應用 - 資料結構 + 問題分析",http://columns.chicken-house.net/2008/10/08/%e8%a9%b2%e5%a6%82%e4%bd%95%e5%ad%b8%e5%a5%bd-%e5%af%ab%e7%a8%8b%e5%bc%8f-3-%e9%80%b2%e9%9a%8e%e6%87%89%e7%94%a8-%e8%b3%87%e6%96%99%e7%b5%90%e6%a7%8b-%e5%95%8f%e9%a1%8c%e5%88%86%e6%9e%90/
+2,EF#1. 要學好 Entity Framework? 請先學好 OOP 跟 C# ...,http://columns.chicken-house.net/2009/01/21/ef1-%e8%a6%81%e5%ad%b8%e5%a5%bd-entity-framework-%e8%ab%8b%e5%85%88%e5%ad%b8%e5%a5%bd-oop-%e8%b7%9f-c/
+2,EF#3. Entity & Inheritance,http://columns.chicken-house.net/2009/03/03/ef3-entity-inheritance/
+2,"[設計案例] 生命遊戲#3, 時序的控制",http://columns.chicken-house.net/2009/09/15/%e8%a8%ad%e8%a8%88%e6%a1%88%e4%be%8b-%e7%94%9f%e5%91%bd%e9%81%8a%e6%88%b23-%e6%99%82%e5%ba%8f%e7%9a%84%e6%8e%a7%e5%88%b6/
+2,[RUN! PC] 2010 四月號 - 生產者vs消費者– 執行緒的供需問題,http://columns.chicken-house.net/2010/04/05/run-pc-2010-%e5%9b%9b%e6%9c%88%e8%99%9f-%e7%94%9f%e7%94%a2%e8%80%85vs%e6%b6%88%e8%b2%bb%e8%80%85-%e5%9f%b7%e8%a1%8c%e7%b7%92%e7%9a%84%e4%be%9b%e9%9c%80%e5%95%8f%e9%a1%8c/
+2,Extension Methods 的應用: Save DataSet as Excel file...,http://columns.chicken-house.net/2010/11/06/extension-methods-%e7%9a%84%e6%87%89%e7%94%a8-save-dataset-as-excel-file/
+2,[CODE] LINQ to Object - 替物件加上索引!,http://columns.chicken-house.net/2011/10/25/code-linq-to-object-%e6%9b%bf%e7%89%a9%e4%bb%b6%e5%8a%a0%e4%b8%8a%e7%b4%a2%e5%bc%95/
+2,在 Docker 上面執行 .NET (CoreCLR) Console App,http://columns.chicken-house.net/2015/10/31/coreclr-helloworld-consoleapp/
+2,".NET Core 跨平台 #4, 記憶體管理大考驗 – Docker @ Ubuntu / Boot2Docker",http://columns.chicken-house.net/2015/12/29/dnxcore50_04_linux_and_summary/
+2,".NET Core 跨平台 #1, 我真的需要在 Linux 上跑 .NET 嗎?",http://columns.chicken-house.net/2015/12/26/dnxcore50_01_should_i_run_dotnet_on_linux/
+2,"[敗家] 對岸的迷你 PC (i5-5250U), 當自用 server 的好選擇",http://columns.chicken-house.net/2016/02/07/buy_minipc_server/
+2,"[設計案例] 生命遊戲#2, OOP版的範例程式",http://columns.chicken-house.net/2009/09/14/%e8%a8%ad%e8%a8%88%e6%a1%88%e4%be%8b-%e7%94%9f%e5%91%bd%e9%81%8a%e6%88%b22-oop%e7%89%88%e7%9a%84%e7%af%84%e4%be%8b%e7%a8%8b%e5%bc%8f/
+2,大工程: 60GB 的 DV avi 壓成 WMV,http://columns.chicken-house.net/2004/12/15/%e5%a4%a7%e5%b7%a5%e7%a8%8b-60gb-%e7%9a%84-dv-avi-%e5%a3%93%e6%88%90-wmv/
+2,"微服務架構 #2, 按照架構，重構系統",http://columns.chicken-house.net/2016/10/03/microservice2/
+2,架構師觀點 - 轉移到微服務架構的經驗分享 (Part 3),http://0.0.0.0:4000/2017/07/11/microservice8-case-study-p3/
+2,Azure Labs: Mixed OS Swarm,http://0.0.0.0:4000/2017/07/25/wc-swarm-labs2/
+2,"微服務基礎建設: 使用斷路器的準備作業, 服務負載的控制",http://0.0.0.0:4000/2018/06/10/microservice10-throttle/
+2,有雷! 使用 LCOW 掛載 Volume 的效能陷阱,http://0.0.0.0:4000/2018/07/28/labs-lcow-volume/
+2,高可靠度的微服務通訊 - Message Queue,http://columns.chicken-house.net/2019/01/01/microservice12-mqrpc/
+2,後端工程師必備: CLI 傳遞物件的處理技巧,http://columns.chicken-house.net/2019/06/20/netcli-tips/
+1,垃圾資訊...,http://columns.chicken-house.net/2005/01/08/%e5%9e%83%e5%9c%be%e8%b3%87%e8%a8%8a/
+1,修改 Community Server 的 blog editor ( Part II ),http://columns.chicken-house.net/2005/03/20/%e4%bf%ae%e6%94%b9-community-server-%e7%9a%84-blog-editor-part-ii/
+1,"優秀青年, 329 不放假",http://columns.chicken-house.net/2005/03/29/%e5%84%aa%e7%a7%80%e9%9d%92%e5%b9%b4-329-%e4%b8%8d%e6%94%be%e5%81%87/
+1,"真可惡, 不想用 skype 了..... :@",http://columns.chicken-house.net/2005/04/08/%e7%9c%9f%e5%8f%af%e6%83%a1-%e4%b8%8d%e6%83%b3%e7%94%a8-skype-%e4%ba%86/
+1,ChickenHouse.Web.CommunityServerExtension 新功能 之 2,http://columns.chicken-house.net/2005/07/02/chickenhouse-web-communityserverextension-%e6%96%b0%e5%8a%9f%e8%83%bd-%e4%b9%8b-2/
+1,共振...,http://columns.chicken-house.net/2005/10/15/%e5%85%b1%e6%8c%af/
+1,水電工,http://columns.chicken-house.net/2005/12/06/%e6%b0%b4%e9%9b%bb%e5%b7%a5/
+1,Windows Live Writer...,http://columns.chicken-house.net/2006/08/16/windows-live-writer/
+1,Microsoft Windows XP Media Center Edition 2005,http://columns.chicken-house.net/2006/09/25/microsoft-windows-xp-media-center-edition-2005/
+1,泛型 + Singleton Patterns (II),http://columns.chicken-house.net/2006/10/27/%e6%b3%9b%e5%9e%8b-singleton-patterns-ii/
+1,"利用 NUnitLite, 在 App_Code 下寫單元測試",http://columns.chicken-house.net/2006/10/29/%e5%88%a9%e7%94%a8-nunitlite-%e5%9c%a8-app_code-%e4%b8%8b%e5%af%ab%e5%96%ae%e5%85%83%e6%b8%ac%e8%a9%a6/
+1,又來了...,http://columns.chicken-house.net/2006/12/10/%e5%8f%88%e4%be%86%e4%ba%86/
+1,歸檔工具更新 - .CR2 Supported,http://columns.chicken-house.net/2006/12/23/%e6%ad%b8%e6%aa%94%e5%b7%a5%e5%85%b7%e6%9b%b4%e6%96%b0-cr2-supported/
+1,新手機真是讚 (y),http://columns.chicken-house.net/2007/02/02/%e6%96%b0%e6%89%8b%e6%a9%9f%e7%9c%9f%e6%98%af%e8%ae%9a-y/
+1,新手機真是讚 (y) - III,http://columns.chicken-house.net/2007/02/28/%e6%96%b0%e6%89%8b%e6%a9%9f%e7%9c%9f%e6%98%af%e8%ae%9a-y-iii/
+1,Canon RAW Codec for Vista 出來了..,http://columns.chicken-house.net/2007/04/03/canon-raw-codec-for-vista-%e5%87%ba%e4%be%86%e4%ba%86/
+1,手癢亂裝 MyATM...,http://columns.chicken-house.net/2007/04/09/%e6%89%8b%e7%99%a2%e4%ba%82%e8%a3%9d-myatm/
+1,偷偷升級到 CS2007 ..,http://columns.chicken-house.net/2007/05/05/%e5%81%b7%e5%81%b7%e5%8d%87%e7%b4%9a%e5%88%b0-cs2007/
+1,Using VHDMount with Virtual PC,http://columns.chicken-house.net/2007/06/23/using-vhdmount-with-virtual-pc/
+1,網站升級: CommunityServer 2007.1,http://columns.chicken-house.net/2007/11/12/%e7%b6%b2%e7%ab%99%e5%8d%87%e7%b4%9a-communityserver-2007-1/
+1,前言: Canon Raw Codec 1.2 + .NET Framework 3.0 (WPF),http://columns.chicken-house.net/2007/11/26/%e5%89%8d%e8%a8%80-canon-raw-codec-1-2-net-framework-3-0-wpf/
+1,ThreadPool 實作 #1. 基本概念,http://columns.chicken-house.net/2007/12/14/threadpool-%e5%af%a6%e4%bd%9c-1-%e5%9f%ba%e6%9c%ac%e6%a6%82%e5%bf%b5/
+1,困難重重的 x64,http://columns.chicken-house.net/2008/02/26/%e5%9b%b0%e9%9b%a3%e9%87%8d%e9%87%8d%e7%9a%84-x64/
+1,Memory Management - (I). Fragment ?,http://columns.chicken-house.net/2008/02/26/memory-management-i-fragment/
+1,FF3 Download Day...,http://columns.chicken-house.net/2008/06/18/ff3-download-day/
+1,又被盜文了... :@,http://columns.chicken-house.net/2008/06/22/%e5%8f%88%e8%a2%ab%e7%9b%9c%e6%96%87%e4%ba%86/
+1,Bot Checker 回來了!,http://columns.chicken-house.net/2008/06/25/bot-checker-%e5%9b%9e%e4%be%86%e4%ba%86/
+1,[BlogEngine.NET] Widgets,http://columns.chicken-house.net/2008/07/02/blogengine-net-widgets/
+1,Canon Raw Codec 1.3 Released !,http://columns.chicken-house.net/2008/07/10/canon-raw-codec-1-3-released/
+1,Tips: 踢掉遠端桌面連線的使用者,http://columns.chicken-house.net/2008/08/22/tips-%e8%b8%a2%e6%8e%89%e9%81%a0%e7%ab%af%e6%a1%8c%e9%9d%a2%e9%80%a3%e7%b7%9a%e7%9a%84%e4%bd%bf%e7%94%a8%e8%80%85/
+1,敗家: HTPC,http://columns.chicken-house.net/2008/08/25/%e6%95%97%e5%ae%b6-htpc/
+1,Canon G9 害我沒睡好... 相片自動轉正的問題,http://columns.chicken-house.net/2008/08/28/canon-g9-%e5%ae%b3%e6%88%91%e6%b2%92%e7%9d%a1%e5%a5%bd-%e7%9b%b8%e7%89%87%e8%87%aa%e5%8b%95%e8%bd%89%e6%ad%a3%e7%9a%84%e5%95%8f%e9%a1%8c/
+1,好酷的漆彈陣列...,http://columns.chicken-house.net/2008/09/02/%e5%a5%bd%e9%85%b7%e7%9a%84%e6%bc%86%e5%bd%88%e9%99%a3%e5%88%97/
+1,莫明奇妙的錯誤訊息: 找不到 VJSharpCodeProvider ?,http://columns.chicken-house.net/2008/09/10/%e8%8e%ab%e6%98%8e%e5%a5%87%e5%a6%99%e7%9a%84%e9%8c%af%e8%aa%a4%e8%a8%8a%e6%81%af-%e6%89%be%e4%b8%8d%e5%88%b0-vjsharpcodeprovider/
+1,原來 .NET 早就內建 XmlNodeWriter 了...,http://columns.chicken-house.net/2008/12/07/%e5%8e%9f%e4%be%86-net-%e6%97%a9%e5%b0%b1%e5%85%a7%e5%bb%ba-xmlnodewriter-%e4%ba%86/
+1,555555 人次紀念!,http://columns.chicken-house.net/2009/05/13/555555-%e4%ba%ba%e6%ac%a1%e7%b4%80%e5%bf%b5/
+1,終於突破單日 100KM 了 :D (台北  大溪),http://columns.chicken-house.net/2009/11/22/%e7%b5%82%e6%96%bc%e7%aa%81%e7%a0%b4%e5%96%ae%e6%97%a5-100km-%e4%ba%86-d-%e5%8f%b0%e5%8c%97-%e5%a4%a7%e6%ba%aa/
+1,升級到 BlogEngine.NET 1.6.0.0 了!,http://columns.chicken-house.net/2010/02/19/%e5%8d%87%e7%b4%9a%e5%88%b0-blogengine-net-1-6-0-0-%e4%ba%86/
+1,Windows Container FAQ - 官網沒有說的事,http://columns.chicken-house.net/2016/09/05/windows-container-faq/
+1,[架構師觀點] .NET 開發人員該如何看待 Open Source Solutions?,http://columns.chicken-house.net/2016/05/05/archview-net-open-source/
+1,".NET Core 跨平台 #5, 多工運算效能大考驗 – 計算圓周率測試",http://columns.chicken-house.net/2016/01/15/dnxcore50_05_compute_pi_test/
+1,"[設計案例] ""授權碼"" 如何實作? #1, 需求與問題",http://columns.chicken-house.net/2016/02/17/casestudy_license_01_requirement/
+1,"微服務架構 #1, WHY and HOW?",http://columns.chicken-house.net/2016/09/15/microservice-case-study-01/
+1,"LINQ to Object #2, Indexes for Objects",http://columns.chicken-house.net/2011/10/30/linq-to-object-2-indexes-for-objects/
+1,掃雷回憶錄 - Windows Container Network & Docker Compose,http://columns.chicken-house.net/2017/01/15/docker-networks/
+1,從 LeetCode 探討: 如何精進 coding 的基本功?,http://columns.chicken-house.net/2017/01/30/leetcode1-tdd/
+1,架構師觀點 - 轉移到微服務架構的經驗分享 (Part 1),http://0.0.0.0:4000/2017/04/15/microservice8-case-study/
+1,"架構面試題 #2, 持續產生的資料統計",http://0.0.0.0:4000/2018/04/01/interview02-stream-statistic/
+1,"容器化的微服務開發 #2, API Service 容器化的選擇: IIS or Self Host ?",http://0.0.0.0:4000/2018/05/12/msa-labs2-selfhost/
+1,架構面試題: 非同步任務的處理機制 - Process Pool,http://columns.chicken-house.net/2020/02/09/process-pool/

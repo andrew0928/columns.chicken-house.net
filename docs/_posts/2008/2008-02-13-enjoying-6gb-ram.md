@@ -1,0 +1,28 @@
+---
+layout: post
+title: "爽一下, 6GB RAM ..."
+categories:
+
+tags: ["技術隨筆","有的沒的"]
+published: true
+comments: true
+redirect_from:
+  - /2008/02/13/爽一下-6gb-ram/
+  - /columns/post/2008/02/13/e788bde4b880e4b88b2c-6GB-RAM-.aspx/
+  - /post/2008/02/13/e788bde4b880e4b88b2c-6GB-RAM-.aspx/
+  - /post/e788bde4b880e4b88b2c-6GB-RAM-.aspx/
+  - /columns/2008/02/13/e788bde4b880e4b88b2c-6GB-RAM-.aspx/
+  - /columns/e788bde4b880e4b88b2c-6GB-RAM-.aspx/
+  - /blogs/chicken/archive/2008/02/13/2983.aspx/
+wordpress_postid: 122
+---
+
+![image](/images/2008-02-13-enjoying-6gb-ram/image_7.png)
+
+哇哈哈, 雖然現在RAM便宜到翻掉, 不過要突破4GB的先天限制, 還真花了不少功夫... 不想用 Server 版的 OS, 也不想用 PAE 等等其它不乾不脆的方式, 走的是換 64 Bits OS 這條路, 總算成功了, 當然要貼來紀念一下. 
+
+原本有 2GB RAM, 想趁過年加個 4G 來用用... 過年期間跑了光華商場, 無奈帶了小皮問了好幾家店, 每家都說沒貨 @_@, 說是大盤過年前一周就因為盤點, 都停止出貨, 買不到 2GB DDR2 ... 只好等過完年了... 
+
+回想才幾年前, 想說4GB這麼大, 對於當時的RAM容量 (4MB算很奢侈了) 跟本是天文數字, 跟本沒在想那天 RAM 超過 4GB 怎麼辦... 沒想到現在隨便就超過了... 我看未來會帶動 x64 升級的理由不是效率也不是安全性... 完全只是為了能用超過 4GB 的 RAM 吧... 反正 RAM 這麼便宜... 
+
+扯遠了, 這篇純脆是突破多年來的限制, 紀念一下而以 [H], 想敗的人快點去敗吧, 很值得的... [:D]

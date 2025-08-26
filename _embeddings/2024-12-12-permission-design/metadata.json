@@ -1,0 +1,62 @@
+{
+  "title": "(TBD) \u6B0A\u9650\u7BA1\u7406\u6A5F\u5236\u7684\u8A2D\u8A08",
+  "published": false,
+  "categories": [
+    "\u7CFB\u5217\u6587\u7AE0: \u67B6\u69CB\u5E2B\u7684\u4FEE\u7DF4"
+  ],
+  "tags": [
+    "\u7CFB\u5217\u6587\u7AE0",
+    "\u67B6\u69CB\u5E2B\u7684\u4FEE\u7DF4",
+    "\u67B6\u69CB\u5E2B\u89C0\u9EDE",
+    "\u523B\u610F\u7DF4\u7FD2",
+    "\u62BD\u8C61\u5316"
+  ],
+  "tech-stacks": [
+    "Microsoft Kernel Memory",
+    "Azure AI Search",
+    "Qdrant",
+    "Pinecone",
+    "RAG",
+    "Vector Database",
+    "Relational Database",
+    "NoSQL",
+    "SQL",
+    "Azure",
+    "GitHub"
+  ],
+  "keywords": [
+    "RAG",
+    "Microsoft Kernel Memory",
+    "Retrieval",
+    "\u5411\u91CF\u8CC7\u6599\u5EAB",
+    "record-level \u6388\u6B0A",
+    "\u6A19\u7C64",
+    "\u904E\u6FFE",
+    "tags \u002B filter",
+    "\u5411\u91CF\u6AA2\u7D22",
+    "\u6388\u6B0A\u6A5F\u5236",
+    "RBAC",
+    "ABAC",
+    "PBAC",
+    "\u8CC7\u6599\u6AA2\u7D22",
+    "\u76F8\u4F3C\u6027\u6AA2\u7D22",
+    "\u8CC7\u8A0A\u5B89\u5168",
+    "Database schema",
+    "Relational Database",
+    "NoSQL Database",
+    "Vector Database",
+    "Azure AI Search",
+    "Qdrant",
+    "Pinecone",
+    "\u7D22\u5F15",
+    "\u500B\u4EBA\u5316",
+    "\u6388\u6B0A",
+    "\u5206\u985E",
+    "\u89D2\u8272"
+  ],
+  "generator": "BlogIndex.SyncPost v0.3.0.0, gpt-5",
+  "references": [
+    "https://github.com/microsoft/kernel-memory/blob/main/docs/security/security-filters.md"
+  ],
+  "summary": "\u9019\u6B21\u5728 .NET Conf \u6211\u5206\u4EAB\u4E86 RAG \u7684\u4E3B\u984C, \u4E3B\u8981\u662F\u904B\u7528 Microsoft Kernel Memory \u9019\u5957\u670D\u52D9\u7684\u7D93\u9A57\u5206\u4EAB\u3002\u9019\u5957\u670D\u52D9\u5176\u5BE6\u5C31\u662F\u628A RAG \u5E38\u7528\u5230\u7684 \u0022Retrieval\u0022 \u7684\u64CD\u4F5C\uFF0C\u5C01\u88DD\u6210\u7368\u7ACB\u670D\u52D9\u7684\u958B\u6E90\u5C08\u6848\u3002\n\n\u6211\u4E4B\u6240\u4EE5\u6703\u5206\u4EAB\u9019\u984C\u76EE\uFF0C\u56E0\u70BA\u9019\u5C08\u6848\u7684\u6587\u4EF6\uFF0C\u63D0\u5230\u4E86\u4E00\u4EF6\u6211\u611F\u8208\u8DA3\u7684\u5C0F\u4E8B\uFF0C\u5411\u91CF\u8CC7\u6599\u5EAB\u901A\u5E38\u90FD\u4E0D\u63D0\u4F9B record-level \u7684\u6388\u6B0A\u6A5F\u5236 (\u5C31\u7B97\u662F\u95DC\u806F\u5F0F\u8CC7\u6599\u5EAB\u4E5F\u5F88\u5C11\u9019\u6A23\u7528...)\uFF0C\u4E0D\u904E\u5B98\u65B9\u537B\u6B63\u5F0F\u7684\u6559\u4F60\u600E\u9EBC\u5584\u7528 tags \u002B filter \u4F86\u505A\u5230\u9019\u9700\u6C42 (ie: \u5411\u91CF\u6AA2\u7D22\u6642\uFF0C\u8981\u5982\u4F55\u5728\u4F60\u88AB\u6388\u6B0A\u7684\u7BC4\u570D\u5167\u627E\u5230\u76F8\u95DC\u6027\u9AD8\u7684\u8CC7\u8A0A)\u3002"
+}

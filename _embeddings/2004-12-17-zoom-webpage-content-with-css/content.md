@@ -1,0 +1,3 @@
+平時工作時, 常上 MSDN 查資料, 無意間剛好看到一個很有趣的 CSS Attribute: ZOOM.. 一般網頁都只能針對字體, 或是圖片等分別指定大小, 但是當你想把某個區塊整個一起放大或縮小, 就不是那麼簡單. 這個 CSS 正好可以解決這個問題. 只要在任何 html element 加上這個 style 就可以達成目的........ 
+
+全文: [http://community.chicken-house.net/wp-content/be-files/articles/188.aspx](/wp-content/be-files/articles/188.aspx)

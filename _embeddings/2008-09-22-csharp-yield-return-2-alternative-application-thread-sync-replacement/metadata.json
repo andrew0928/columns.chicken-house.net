@@ -1,0 +1,66 @@
+{
+  "title": "[C# yield return] #2. \u53E6\u985E\u7684\u61C9\u7528 - Thread Sync \u66FF\u4EE3\u65B9\u6848",
+  "published": true,
+  "categories": [
+    "\u7CFB\u5217\u6587\u7AE0: Inside C# Yield Return"
+  ],
+  "tags": [
+    ".NET",
+    "C#",
+    "Tips",
+    "\u4F5C\u54C1\u96C6",
+    "\u591A\u57F7\u884C\u7DD2",
+    "\u6280\u8853\u96A8\u7B46",
+    "\u6709\u7684\u6C92\u7684"
+  ],
+  "tech-stacks": [
+    "C#",
+    ".NET",
+    "yield return",
+    "IEnumerable",
+    "IEnumerator",
+    "Iterator",
+    "AutoResetEvent",
+    "\u591A\u57F7\u884C\u7DD2",
+    "\u57F7\u884C\u7DD2\u540C\u6B65",
+    "C# compiler"
+  ],
+  "keywords": [
+    "yield return",
+    "C#",
+    ".NET",
+    "ThreadSync",
+    "GameHost",
+    "Player",
+    "Iterator",
+    "IEnumerable",
+    "IEnumerator",
+    "\u57F7\u884C\u7DD2",
+    "\u540C\u6B65",
+    "AutoResetEvent",
+    "StartGuess",
+    "GuessNext",
+    "Stop",
+    "HintRecord",
+    "Hint",
+    "DummyYieldPlayer",
+    "AsyncPlayer",
+    "Darkthread",
+    "xAxB\u731C\u6578\u5B57",
+    "GameHostAnswer",
+    "Syntax Sugar",
+    "\u6642\u5E8F\u5716",
+    "\u7DE8\u8B6F\u5668"
+  ],
+  "generator": "BlogIndex.SyncPost v0.3.0.0, gpt-5",
+  "references": [
+    "/post/C-yield-return-1-How-It-Work-.aspx",
+    "http://blog.darkthread.net/",
+    "http://blog.darkthread.net/blogs/darkthreadtw/archive/2008/09/02/coding-for-fun-contest-start.aspx",
+    "/post/Thread-Sync-1-e6a682e5bfb5e7af87-e5a682e4bd95e58c96e8a2abe58b95e782bae4b8bbe58b95.aspx",
+    "/post/Thread-Sync-2-e5afa6e4bd9ce7af87-e4ba92e79bb8e7ad89e5be85e79a84e585a9e5808be59fb7e8a18ce7b792.aspx",
+    "/images/2008-09-22-csharp-yield-return-2-alternative-application-thread-sync-replacement/image_6.png",
+    "/images/2008-09-22-csharp-yield-return-2-alternative-application-thread-sync-replacement/image_5.png"
+  ],
+  "summary": "\u672C\u6587\u627F\u63A5\u4E0A\u7BC7 yield return \u539F\u7406\uFF0C\u63D0\u51FA\u4EE5 yield return \u53D6\u4EE3\u50B3\u7D71\u57F7\u884C\u7DD2\u540C\u6B65\uFF08Thread Sync\uFF09\u5728\u904A\u6232\u4E3B\u63A7\uFF08GameHost\uFF09\u8207\u73A9\u5BB6\uFF08Player\uFF09\u4E92\u52D5\u4E2D\u7684\u61C9\u7528\u3002\u4F5C\u8005\u5148\u56DE\u9867\u4EE5\u5169\u57F7\u884C\u7DD2\u8207 AutoResetEvent \u540C\u6B65\u7684\u4F5C\u6CD5\uFF1AGameHost \u8207 Player \u4E92\u76F8\u7B49\u5F85\u3001\u559A\u9192\u4EE5\u4EA4\u63DB\u8CC7\u6599\uFF0C\u4F46\u540C\u6B65\u958B\u92B7\u52D5\u8F12 10ms\uFF0C\u8FED\u4EE3\u5927\u91CF\u56DE\u5408\u6642\u6548\u80FD\u53D7\u9650\u3002\u53D7\u5230\u6642\u5E8F\u5716\u555F\u767C\uFF0C\u4F5C\u8005\u6539\u4EE5 Iterator \u601D\u7DAD\u91CD\u69CB\uFF1APlayer \u7684 Think \u4EE5 IEnumerable\u003CHintRecord\u003E \u9010\u6B21 yield \u554F\u984C\uFF0CGameHost \u53D6\u5F97\u554F\u984C\u8A08\u7B97\u5F8C\uFF0C\u518D\u900F\u904E GuessNext \u5C07\u4E0A\u4E00\u56DE\u5408\u7684\u7B54\u6848\u56DE\u586B\u81F3\u7576\u524D\u679A\u8209\u9805\u76EE\uFF0C\u85C9\u7531 MoveNext \u5C07\u63A7\u5236\u6B0A\u9001\u56DE Think \u7684\u4E0A\u4E00\u500B yield return \u8655\u7E8C\u884C\uFF0C\u5F62\u6210\u55AE\u57F7\u884C\u7DD2\u3001\u4EA4\u66FF\u63A8\u9032\u7684\u6D41\u7A0B\u3002\u6587\u4E2D\u7D66\u51FA YieldPlayer \u62BD\u8C61\u5BE6\u4F5C\u8207 DummyYieldPlayer \u7BC4\u4F8B\uFF0C\u8AAA\u660E\u5982\u4F55\u4EE5 GameHost_AskQuestion \u9001\u51FA\u984C\u76EE\u3001\u4EE5 GameHostAnswer \u8B80\u56DE\u7B54\u6848\u3002\u4F5C\u8005\u6307\u51FA yield return \u5FC5\u9808\u5B58\u5728\u65BC\u56DE\u50B3 IEnumerable\u003CT\u003E \u7684\u65B9\u6CD5\u4E2D\uFF0C\u7121\u6CD5\u88AB\u4E00\u822C\u51FD\u5F0F\u5305\u88F9\u8FD4\u56DE\uFF0C\u5426\u5247\u9700\u81EA\u884C\u5BE6\u4F5C IEnumerator\u3002\u5BE6\u6E2C\u986F\u793A\u65B0\u4F5C\u6CD5\u6548\u80FD\u63A5\u8FD1\u76F4\u63A5\u624B\u5BEB\u908F\u8F2F\uFF0C\u512A\u65BC Thread Sync \u7248\u672C\uFF0C\u4E14\u908F\u8F2F\u9023\u7E8C\u3001\u6613\u65BC\u7DAD\u8B77\uFF0C\u6700\u5F8C\u4F5C\u8005\u4EE5\u6B64\u7248\u672C\u53C3\u8CFD\u4E26\u9F13\u52F5\u8B80\u8005\u63A2\u7D22 yield return \u7684\u53E6\u985E\u7528\u6CD5\u3002"
+}

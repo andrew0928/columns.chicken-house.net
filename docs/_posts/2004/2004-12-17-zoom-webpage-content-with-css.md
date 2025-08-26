@@ -1,0 +1,22 @@
+---
+layout: post
+title: "任意放大/縮小網頁的內容"
+categories:
+
+tags: ["HTML/CSS","技術隨筆"]
+published: true
+comments: true
+redirect_from:
+  - /2004/12/17/任意放大縮小網頁的內容/
+  - /columns/post/2004/12/17/zoom-overview.aspx/
+  - /post/2004/12/17/zoom-overview.aspx/
+  - /post/zoom-overview.aspx/
+  - /columns/2004/12/17/zoom-overview.aspx/
+  - /columns/zoom-overview.aspx/
+  - /blogs/chicken/archive/2004/12/17/189.aspx/
+wordpress_postid: 313
+---
+
+平時工作時, 常上 MSDN 查資料, 無意間剛好看到一個很有趣的 CSS Attribute: ZOOM.. 一般網頁都只能針對字體, 或是圖片等分別指定大小, 但是當你想把某個區塊整個一起放大或縮小, 就不是那麼簡單. 這個 CSS 正好可以解決這個問題. 只要在任何 html element 加上這個 style 就可以達成目的........ 
+
+全文: [http://community.chicken-house.net/wp-content/be-files/articles/188.aspx](/wp-content/be-files/articles/188.aspx)

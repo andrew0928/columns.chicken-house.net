@@ -1,0 +1,3 @@
+這年頭, 連領帶都變 iPod Namo 的配件... [^o)]rz...
+
+[http://japanese.engadget.com/2006/02/24/ipod-tie/](http://japanese.engadget.com/2006/02/24/ipod-tie/)

@@ -1,0 +1,84 @@
+---
+layout: post
+title: "水電工日誌 6. 機櫃設備展示"
+categories:
+- "系列文章: 水電工日誌"
+tags: ["有的沒的","水電工"]
+published: true
+comments: true
+redirect_from:
+  - /2007/10/05/水電工日誌-6-機櫃設備展示/
+  - /columns/post/2007/10/05/e6b0b4e99bbbe5b7a5e697a5e8aa8c-6-e6a99fe6ab83e8a8ade58299e5b195e7a4ba.aspx/
+  - /post/2007/10/05/e6b0b4e99bbbe5b7a5e697a5e8aa8c-6-e6a99fe6ab83e8a8ade58299e5b195e7a4ba.aspx/
+  - /post/e6b0b4e99bbbe5b7a5e697a5e8aa8c-6-e6a99fe6ab83e8a8ade58299e5b195e7a4ba.aspx/
+  - /columns/2007/10/05/e6b0b4e99bbbe5b7a5e697a5e8aa8c-6-e6a99fe6ab83e8a8ade58299e5b195e7a4ba.aspx/
+  - /columns/e6b0b4e99bbbe5b7a5e697a5e8aa8c-6-e6a99fe6ab83e8a8ade58299e5b195e7a4ba.aspx/
+  - /blogs/chicken/archive/2007/10/05/2732.aspx/
+wordpress_postid: 141
+---
+
+寫到這裡, 該弄的都差不多了... 撇開還沒完全搞定的幾台 PC, 先來看看機櫃的設備... [:D]. 裡面的東西大部份都網拍買的, 我貼網址只是讓大家參考一下而以, 賣家我都不認識, 報我的名號沒有打折... 哈哈..
+
+## 0. 雜物間
+
+![CRW_3710(Canon PowerShot G2)](/images/2007-10-05-electrician-diary-6-rack-equipment-showcase/CRW_3710(Canon%20PowerShot%20G2)_3.jpg)_3.jpg)
+
+不要以為我家雜物間這麼乾淨, 只是還沒開始擺東西而以 [H]. 這是間只有一坪左右的小房間, 因為空間規劃的關系不好利用, 就直接隔起來當作小儲藏室, 就優先被我佔下來當作機房了... 因為初期弄線很麻煩, 所以其它雜物都還沒擺進來. 之後這間前方跟左方的牆就都會去特力屋買鉻鐵架來擺, 堆滿東西後就真的變 "雜物間" 了...
+
+## 1. 機櫃本體 [[Y拍網址](http://tw.f2.page.bid.yahoo.com/tw/auction/b35639309?u=rack115402)]
+
+![CRW_3711(Canon PowerShot G2)](/images/2007-10-05-electrician-diary-6-rack-equipment-showcase/CRW_3711(Canon%20PowerShot%20G2)_3.jpg)_3.jpg)![CRW_3715(Canon PowerShot G2)](/images/2007-10-05-electrician-diary-6-rack-equipment-showcase/CRW_3715(Canon%20PowerShot%20G2)_3.jpg)_3.jpg)
+
+登登登登, 主角來了. 這就是我的機櫃, 高 15U, 本來還想會不會太大了? 沒想到擺進去剛剛好... 好險當初沒有買小一號的. 機櫃送來才發現怎麼有點大... 所幸尺寸都在預料之中, 沒有發生什麼擺不進去之類的問題. 這個機櫃我在網拍逛了半年有吧? 最早只是想買個小機櫃把吵人的PC還有一堆線的HUB收起來就好, 不過剛好有可能搬家, 就開始認真的逛了起來... 最後挑到這款.
+
+這款算是很完整的了, 該有的都有. 前門是透明壓克力, 上面的照片就是關起門的樣子, 背面也有一扇 (全金屬的), 不過我就拔掉了... 底下有輪子及支撐腳架, 底層老闆也幫我開了三個防虫線孔... 就是線可以穿過去, 但是蟑螂螞蟻之類的爬不進去... 內側有一個排插, 提供內部設備電力, 上方還有裝兩個抽風風扇, 不過開起來實在太吵... 最後我是捨棄背面的門, 沒有開風扇...
+
+整體來說品質還不錯啦, 還蠻堅固的, 也不會鬆鬆垮垮搖搖晃晃的, 要買的人可以考慮一下. 當初為了省錢, 沒有多買一個層板 (就中間放東西的鐵架), 後來才事後追加補買的... 要買的人切記不要省這些, 一定會用的到 :~~  
+
+## 2. 機架式機殼 [[Y拍網址](http://tw.f3.page.bid.yahoo.com/tw/auction/c31066996?u=aaa4308)]
+
+![CRW_3713(Canon PowerShot G2)](/images/2007-10-05-electrician-diary-6-rack-equipment-showcase/CRW_3713(Canon%20PowerShot%20G2)_3.jpg)_3.jpg)
+
+哈, 這個就沒特地拍照了. 沒啥特別的, 就一般機殼, 只是外型配合機架的尺寸, 高度是 4U, 內部就是裝標準的ATX主機板. 放硬碟的空間蠻夠用的, 我放了四顆HDD, 一顆光碟機... 這個機殼遠比我想像的重. 整個裝好至少有十公斤以上吧? 每次把機器扛上去我都在耽心, 一個不小心掉下來, 其它設備大概就全毀了, 因此我都會先把門給鎖起來, 以防小孩進來亂...
+
+左方都是擺硬碟的空間, 裡面藏了一個 8cm 風扇對著硬碟吹... 效果還不錯, 溫度大概都沒超過 40 度... 裡面有藏一片濾網, 灰塵不會直接全跑到裡面去... 這台電腦可是身負重任, 負責家裡的 NAT service ( 就是 ip 分響器 ), 同時包含對外的網路服務 ( web, dns, vpn .. ), 還有家裡的共用資料夾 ( RAID1 ), 傳真機...
+
+看起來裡面的配備好像很高級? 其實不是, 這台是之前一度被汰換下來, 後來又敗部復活的主機板, ASUS P2B-DS, 可以裝兩顆 Slot-1 的 CPU... 夠古董了吧? 我當兵前就在用的電腦, 可以想像年紀到底有多大了...
+
+## 3. 電話總機 [[Y拍網址](http://tw.f5.page.bid.yahoo.com/tw/auction/e21725797?u=buzz11192000)] & 監控錄影機 [[Y拍網址](http://tw.f3.page.bid.yahoo.com/tw/auction/c31356141?u=mokoyo2004)]
+
+[![CRW_3716(Canon PowerShot G2)](/images/2007-10-05-electrician-diary-6-rack-equipment-showcase/CRW_3716(Canon%20PowerShot%20G2)_2.jpg)_thumb.jpg)](/images/2007-10-05-electrician-diary-6-rack-equipment-showcase/CRW_3716(Canon%20PowerShot%20G2)_2.jpg)_2.jpg)
+
+電話總機 (上, 灰黑色的那台) 是我想好久, 終於有機會裝的東西. 我爸有兩線電話, 之前弄的每個地方都擺兩隻話機, 桌面空間都佔掉了, 而且話機太多, 有時電話線內的電力也推不動, 有雜音等等缺點... 加上這次搬回家, 多了一條電話線. 不弄分機不行了... 裝了之後可以一口氣解決掉上面的問題.
+
+本來原屋主有一套舊的Panasonic總機系統, 不過一來話機太舊, 只有兩隻來電顯示, 二來完全找不到手冊, 那堆功能跟本不知道怎麼用... 三來專用的系統話機有夠貴, 總機很舊, 佔的空間也很大.. 最後放棄. 新的我就完全以價位為考量, 挑了這款. 它沒啥特點, 唯一特點就是很簡單 & 便宜. 話機用的是普通的電話, 這是優點也是缺點, 優點是你可以找到你喜歡的話機, 也不貴, 到處都有賣. 缺點則是普通話機絕對不會有專用分機的一些燈號及功能. 像是轉接, 或是這是第幾線等等的燈號. 你得完全靠記指令的方式, 像是拿起電話按 #11 用一線打出去, 按 ## 掛斷是保留等等...
+
+除此之外還真是蠻好用的, 第一, 安裝很簡單, 背後就三個 RJ11 讓你插外線, 另外八個 RJ11 就讓你插內線, 完全就跟 IP 分響器一樣簡單... 開電就可以用了. 它的燈號只有四個, 藍色是電源, 有開電就會亮, 另外三個紅色的則是外線使用狀況, 那一線正在講話燈就會亮... 不過, 都關在機櫃內我也不會去叮著看...
+
+監控錄影機則是我爸要裝的. 之前他找人來裝, 用電腦錄, 結果被它搞的快瘋了. 這種軟體寫的都爛爛的, 如果你電腦還兼日常用途, 同時錄監控畫面就真的很麻煩. 何況軟體 & driver 還常常出小問題, 最後決定花點小錢, 直接買這種現成的. 這一台主機約 5000 左右, 裡面要另外加一顆 IDE 硬碟. 我把一顆舊的 160GB 裝進去... 它只有在畫面有動靜時才會開始錄影, 160GB 夠錄好幾天...
+
+![image](/images/2007-10-05-electrician-diary-6-rack-equipment-showcase/image_3.png)
+
+操作介面就不用提了, 實在是不怎麼好用. 各位可以想一下, 比大陸的DVD player選單還難懂, 就知道有多難用了. 我從來都搞不懂面版那堆按鈕要怎麼用... 我都是用網路搭它附的軟體來操作... 它的軟體還堪用, 該有的功能都有. 另外值得一題的是, 它也有 web interface. 沒有裝它的軟體也是可以看, 只要開 browser 就好. 不過它是用 java applet 寫的, browser 要先安裝好 JRE ..
+
+![image](/images/2007-10-05-electrician-diary-6-rack-equipment-showcase/image_6.png)
+
+## 4. 網路交換器 [[Y拍網址](http://tw.f2.page.bid.yahoo.com/tw/auction/b33739766?r=1137967708)]
+
+![CRW_3717(Canon PowerShot G2)](/images/2007-10-05-electrician-diary-6-rack-equipment-showcase/CRW_3717(Canon%20PowerShot%20G2)_3.jpg)_3.jpg)
+
+這就沒啥特別了, 一台普通的 D-Link 24port switch hub 而以. 二手的, 網咖關門拿來拍賣的舊設備. 本來想買台 GBE 的, 不過實在是太貴了... 以後真的有需要再換...
+
+上面是 ADSL modem, 下面的只是 Patch Panel, 不是啥電子設備...
+
+## 5. 乖乖 [這不是Y拍買的... [家裡大人的網址](http://community.chicken-house.net/blogs/sea/)]
+
+![CRW_3718(Canon PowerShot G2)](/images/2007-10-05-electrician-diary-6-rack-equipment-showcase/CRW_3718(Canon%20PowerShot%20G2)_3.jpg)_3.jpg)
+
+上圖 ADSL modem 左上方有沒有看到一包怪東西? 其實是我塞了一包小包乖乖... [H]
+
+待過機房的大概都聽過玩笑話, 就是 server 要擺一包乖乖才不會當機... 哈哈. 我真的請我家大人去超市時買了一包小包的回來. 我只愛吃五香的, 不過這次則是買椰子口味. 為什麼? 因為椰子口味包裝是綠的, 電腦的燈號綠色都是代表一切正常, 黃色就是警告要出問題了, 紅色通常都是有啥東西掛掉了... 買五香 or 巧克力的還得了? 哈哈... 
+
+以前還聽過, 有的公司新來的菜鳥 MIS 不懂事, 到機房作業時就把乖乖吃了, 結果造成大當機... Orz. 反正放一包好玩, 搞不好真的有效也說不定... 我真迷信, 哈哈...
+
+沒想到忙了幾個禮拜, 也真的把這堆雜事給弄完了... 有興趣的人可以開始報名來我家參觀了... 哈哈 [:D]

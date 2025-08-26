@@ -1,0 +1,47 @@
+{
+  "title": "Volume Shadow Copy Service ...",
+  "published": true,
+  "categories": null,
+  "tags": [
+    "\u6280\u8853\u96A8\u7B46",
+    "\u6709\u7684\u6C92\u7684"
+  ],
+  "tech-stacks": [
+    "Microsoft Volume Shadow Copy Service (VSS)",
+    "Windows Server 2003",
+    "Windows XP",
+    "Windows Vista",
+    "Microsoft SQL Server 2005",
+    "Microsoft Exchange Server 2007",
+    "System Center Data Protection Manager 2006",
+    "vssadmin.exe",
+    "WinRAR (RAR.exe)",
+    "UNC \u8DEF\u5F91/SMB \u5171\u4EAB",
+    "Shadow Copy Provider \u67B6\u69CB"
+  ],
+  "keywords": [
+    "Volume Shadow Copy Service",
+    "VSS",
+    "\u5F71\u5B50\u8907\u88FD",
+    "\u5FEB\u7167",
+    "snapshot",
+    "Copy on Write",
+    "\u5099\u4EFD",
+    "UNC \u8DEF\u5F91",
+    "@GMT \u6642\u9593\u6233",
+    "vssadmin.exe",
+    "RAR.exe",
+    "\u9396\u5B9A\u6A94\u6848",
+    "\u6279\u6B21\u6A94",
+    "Windows 2003",
+    "Windows XP",
+    "Vista",
+    "SQL2005",
+    "Exchange2007",
+    "Data Protection 2006",
+    "Provider"
+  ],
+  "generator": "BlogIndex.SyncPost v0.3.0.0, gpt-5",
+  "references": [],
+  "summary": "\u672C\u6587\u4ECB\u7D39 Windows Server 2003 \u7684 Volume Shadow Copy Service\uFF08VSS\uFF09\u53CA\u5176 Copy-on-Write \u6A5F\u5236\uFF1A\u4EE5\u6975\u77ED\u6642\u9593\u5EFA\u7ACB\u5FEB\u7167\uFF0C\u50C5\u5728\u8CC7\u6599\u88AB\u4FEE\u6539\u6642\u624D\u8907\u88FD\u5DEE\u7570\uFF0C\u56E0\u6B64\u8207\u50B3\u7D71\u5099\u4EFD\u4E0D\u540C\u3001\u901F\u5EA6\u6975\u5FEB\u3002VSS \u5177 Provider \u67B6\u69CB\uFF0C\u8B93 SQL Server 2005\u3001Exchange 2007\u3001Data Protection 2006 \u7B49\u9032\u4E00\u6B65\u5229\u7528\u5FEB\u7167\u505A\u9032\u968E\u5099\u4EFD/\u9084\u539F\u3002\u4F5C\u8005\u5C07\u5176\u61C9\u7528\u65BC\u89E3\u6C7A\u65E5\u5E38\u5099\u4EFD\u5E38\u9047\u5230\u7684\u6A94\u6848\u9396\u5B9A\u8207\u4E00\u81F4\u6027\u554F\u984C\uFF1A\u5148\u5EFA\u7ACB\u5FEB\u7167\uFF0C\u518D\u5F9E\u5FEB\u7167\u4F86\u6E90\u9032\u884C\u5099\u4EFD\uFF0C\u6700\u5F8C\u8996\u9700\u8981\u522A\u9664\u5FEB\u7167\u3002\u5BE6\u4F5C\u4E0A\u6709\u5169\u500B\u95DC\u9375\uFF1A1) \u4F7F\u7528 vssadmin.exe \u4EE5\u547D\u4EE4\u5217\u5EFA\u7ACB/\u522A\u9664\u5FEB\u7167\uFF1B2) \u900F\u904E VSS \u63D0\u4F9B\u7684 UNC \u8DEF\u5F91\uFF08\u5E36 @GMT-\u6642\u9593\u6233\uFF09\u8B93\u5099\u4EFD\u5DE5\u5177\u76F4\u63A5\u8B80\u53D6\uFF0C\u4F8B\u5982\u4EE5 RAR.exe \u5F9E \\nest\\Home\\@GMT-YYYY.MM.DD-HH.MM.SS \u6253\u5305\uFF0C\u907F\u514D\u8207\u7576\u524D\u6A94\u6848\u7684\u66F4\u65B0\u6216\u9396\u5B9A\u885D\u7A81\u3002\u6587\u672B\u6307\u51FA\u6B64\u4F5C\u6CD5\u5728 Windows 2003 \u53EF\u884C\uFF0CWindows XP \u652F\u63F4\u8F03\u4E0D\u5B8C\u6574\uFF0C\u4E26\u597D\u5947 Vista \u662F\u5426\u63D0\u4F9B\u985E\u4F3C\u80FD\u529B\u3002"
+}

@@ -1,0 +1,59 @@
+{
+  "title": "Windows Live Writer - Plugin \u8655\u5973\u4F5C...",
+  "published": true,
+  "categories": null,
+  "tags": [
+    ".NET",
+    "\u4F5C\u54C1\u96C6",
+    "\u6280\u8853\u96A8\u7B46"
+  ],
+  "tech-stacks": [
+    ".NET",
+    "Windows Live Writer",
+    "WLW SDK",
+    "MetaBlogAPI",
+    "FTP",
+    "UNC",
+    "JPEG",
+    "Microsoft",
+    "Open File Dialog",
+    "Plugin",
+    ".dll"
+  ],
+  "keywords": [
+    "Windows Live Writer",
+    "WLW",
+    "Plugin",
+    "\u5916\u639B",
+    "JPEG",
+    "\u54C1\u8CEA",
+    "\u58D3\u7E2E",
+    "\u6A94\u6848\u5927\u5C0F",
+    "MetaBlogAPI",
+    "FTP",
+    "UNC",
+    "\u7DB2\u5740",
+    "URL",
+    "Open File DialogBox",
+    "Tools -\u003E Preferences",
+    "Plugins",
+    "Insert Picture From Web",
+    "Weblog Account",
+    "Blog URL",
+    "account",
+    "password",
+    "\u7DB2\u8DEF\u82B3\u9130",
+    "Microsoft",
+    ".NET",
+    "SDK"
+  ],
+  "generator": "BlogIndex.SyncPost v0.3.0.0, gpt-5",
+  "references": [
+    "/images/2007-02-07-windows-live-writer-plugin-first-work/10502.jpg",
+    "/images/2007-02-07-windows-live-writer-plugin-first-work/CRW_0465(Canon%20PowerShot%20G2)%5B4%5D.jpg",
+    "/images/2007-02-07-windows-live-writer-plugin-first-work/23218.gif",
+    "/images/2007-02-07-windows-live-writer-plugin-first-work/35291.gif",
+    "/images/2007-02-07-windows-live-writer-plugin-first-work/17535.gif"
+  ],
+  "summary": "\u4F5C\u8005\u5206\u4EAB\u4F7F\u7528 Windows Live Writer\uFF08WLW\uFF09\u7684\u7D93\u9A57\u8207\u7F3A\u9EDE\uFF1AWLW \u900F\u904E MetaBlogAPI \u6216 FTP \u4E0A\u50B3\u5716\u7247\u6642\uFF0C\u6703\u91CD\u65B0\u4EE5 JPEG \u5132\u5B58\uFF0C\u5C6C\u7834\u58DE\u6027\u58D3\u7E2E\uFF0C\u4E0D\u4F46\u756B\u8CEA\u53EF\u80FD\u8B8A\u5DEE\uFF0C\u6A94\u6848\u4E5F\u5E38\u8B8A\u5927\u3002\u70BA\u89E3\u6C7A\u6B64\u554F\u984C\uFF0C\u4F5C\u8005\u4EE5 .NET \u642D\u914D WLW SDK \u52D5\u624B\u5BEB\u4E86\u5916\u639B\uFF08Plugin\uFF09\uFF0C\u4F5C\u6CD5\u985E\u4F3C\u300CInsert Picture From Web\u300D\uFF0C\u5148\u5728\u5916\u639B\u9078\u9805\u4E2D\u8A2D\u5B9A UNC \u8DEF\u5F91\u8207\u5C0D\u61C9 URL\uFF0C\u63D2\u5165\u5716\u7247\u6642\u5F9E\u9078\u55AE\u9078\u64C7\u5916\u639B\u529F\u80FD\uFF0C\u6311\u6A94\u5F8C\u5916\u639B\u81EA\u52D5\u8907\u88FD\u6A94\u6848\u4E26\u63D2\u5165\u5C0D\u61C9\u7DB2\u5740\uFF0C\u907F\u514D WLW \u91CD\u5B58 JPEG\u3002\u6587\u4E2D\u5C55\u793A\u5916\u639B\u5728 WLW \u7684 Plugins \u8207 Options \u4ECB\u9762\u8A2D\u5B9A\u6D41\u7A0B\u8207\u793A\u610F\u5716\u3002\u4F5C\u8005\u66FE\u5617\u8A66\u8D70 MetaBlogAPI \u4E0A\u50B3\u8DEF\u5F91\uFF0C\u4F46\u56E0 WLW \u63D2\u4EF6\u7121\u6CD5\u53D6\u5F97\u5E33\u865F\u5BC6\u78BC\u7B49 Weblog Account \u8CC7\u8A0A\u800C\u4F5C\u7F77\u3002\u76EE\u524D\u7248\u672C\u50C5\u81EA\u7528\u3001\u529F\u80FD\u967D\u6625\u4E14\u7121\u9632\u5446\uFF1B\u672A\u4F86\u82E5\u518D\u6539\u5BEB\uFF0C\u6253\u7B97\u6539\u4EE5 MetaBlogAPI \u53C3\u6578\uFF08Blog URL\u3001account\u3001password\uFF09\u8A2D\u5B9A\uFF0C\u63D0\u5347\u5BE6\u7528\u6027\u3002"
+}

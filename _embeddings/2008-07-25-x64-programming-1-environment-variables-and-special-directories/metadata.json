@@ -1,0 +1,57 @@
+{
+  "title": "x64 programming #1: \u74B0\u5883\u8B8A\u6578\u53CA\u7279\u6B8A\u76EE\u9304..",
+  "published": true,
+  "categories": [],
+  "tags": [
+    ".NET",
+    "\u6280\u8853\u96A8\u7B46"
+  ],
+  "tech-stacks": [
+    "C#",
+    ".NET",
+    "Visual Studio 2008",
+    "Microsoft Visual Studio 9.0",
+    "Windows Vista x64",
+    "Windows 64-bit",
+    "Windows x86",
+    "Win32 API",
+    "IIS6",
+    "AMD64",
+    "Windows"
+  ],
+  "keywords": [
+    "x64",
+    "x86",
+    "\u74B0\u5883\u8B8A\u6578",
+    "Environment.SpecialFolder",
+    "SpecialFolder",
+    "Program Files",
+    "CommonProgramFiles",
+    "system32",
+    "syswow64",
+    "Vista",
+    "Windows",
+    "C#",
+    "Visual Studio",
+    "MSDN",
+    "Registry",
+    "Win32 API",
+    "\u91CD\u65B0\u5C0E\u5411",
+    "\u6A94\u6848\u7CFB\u7D71",
+    "Registry Key",
+    "Any CPU",
+    "ProgramFiles(x86)",
+    "ProgramW6432",
+    "PROCESSOR_ARCHITECTURE",
+    "PROCESSOR_ARCHITEW6432",
+    "CommonProgramFiles(x86)",
+    "ApplicationData",
+    "LocalApplicationData"
+  ],
+  "generator": "BlogIndex.SyncPost v0.3.0.0, gpt-5",
+  "references": [
+    "http://msdn.microsoft.com/en-us/library/bb427430(VS.85).aspx",
+    "file://\\\\NTREL202.ntdev.corp.microsoft.com\\34FB5F65-FFEB-4B61-BF0E-A6A76C450FAA\\TraceFormat"
+  ],
+  "summary": "\u672C\u6587\u4EE5\u5728 Windows Vista x64 \u4E0A\u4EE5 x86 \u8207 x64/Any CPU \u5169\u7A2E\u7D44\u614B\u57F7\u884C .NET \u7A0B\u5F0F\u70BA\u4F8B\uFF0C\u5BE6\u6E2C\u4E26\u5217\u5370 Environment.SpecialFolder \u8207\u6240\u6709\u74B0\u5883\u8B8A\u6578\uFF0C\u5C0D\u7167\u51FA 32 \u4F4D\u5143\u76F8\u5BB9\u6A21\u5F0F\u8207\u539F\u751F 64 \u4F4D\u5143\u4E0B\u5404\u76EE\u9304\u8207\u8B8A\u6578\u7684\u5DEE\u7570\uFF0C\u7279\u5225\u662F Program Files\u3001Common Program Files \u8DEF\u5F91\u5728 x86 \u8207 x64 \u7684\u4E0D\u540C\uFF0C\u8207 PROCESSOR_ARCHITECTURE\u3001ProgramW6432\u3001PROCESSOR_ARCHITEW6432 \u7B49\u74B0\u5883\u8B8A\u6578\u7684\u5DEE\u7570\u3002\u4F5C\u8005\u63D0\u9192\u4E0D\u8981\u5728\u7A0B\u5F0F\u4E2D\u786C\u5BEB\u8DEF\u5F91\u6216\u81EA\u884C\u6E4A\u8DEF\u5F91\uFF0C\u56E0\u70BA\u5728 64 \u4F4D\u5143\u7CFB\u7D71\u4E2D\uFF0CWin32 API\u3001Registry\u3001\u6A94\u6848\u7CFB\u7D71\u5747\u53EF\u80FD\u767C\u751F 32/64 \u4F4D\u7684\u91CD\u65B0\u5C0E\u5411\u3002\u6587\u4E2D\u4EA6\u6307\u51FA system32 \u76EE\u9304\u5728 x64 \u4E0A\u5C0D x86 \u7A0B\u5F0F\u6703\u88AB\u5C0E\u5411\u81F3 syswow64\uFF1A\u96D6\u7136\u53D6\u5F97\u7684\u5B57\u4E32\u4ECD\u53EF\u80FD\u986F\u793A\u70BA system32\uFF0C\u5BE6\u969B\u8F09\u5165 DLL/EXE \u6642\u6703\u8F49\u5411\u5230 syswow64 \u7684 32 \u4F4D\u5143\u7248\u672C\u3002\u6700\u5F8C\u5EFA\u8B70\u958B\u767C\u8005\u52D9\u5FC5\u95B1\u8B80 MSDN \u7684 Programming Guide for 64-bit Windows\uFF0C\u4EE5\u6B63\u78BA\u7406\u89E3\u8207\u8655\u7406 64 \u4F4D\u5143\u958B\u767C\u4E2D\u7684\u5DEE\u7570\u8207\u9677\u9631\u3002"
+}
