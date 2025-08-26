@@ -21,6 +21,6 @@ wordpress_postid: 226
 
 像 e-mail 一樣, 打完之後直接傳到網站上... Web based HTML editor 做的再好, 就是不如一個簡單的 editor ap 方便..
 
-補張圖爽一下... [H]
+補張圖爽一下...
 
-[![Windows Live Writer](http://community.chicken-house.net/blogs/images/WindowsLiveWriter_B0AB/writer_thumb3.jpg)](http://community.chicken-house.net/blogs/images/WindowsLiveWriter_B0AB/writer7.jpg)
+![Windows Live Writer](/images/2006-08-16-windows-live-writer/writer7.jpg)

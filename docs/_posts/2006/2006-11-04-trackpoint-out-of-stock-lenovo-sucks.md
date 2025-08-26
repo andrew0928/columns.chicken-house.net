@@ -23,4 +23,5 @@ wordpress_postid: 211
 
 也許只是真的 "剛好" 缺料而以, 我也不差晚一陣子拿到小紅點, 只不過單純不爽發發牢騷... 下一台 notebook 還要不要買 ThinkPad 真的該好好考慮了, 購買動機好像真的只剩 keyboard ... :~~
 
-[![TrackPoint Out of Stock](/blogs/images/Orz_23F8/image05.png)](http://www-8.ibm.com/lenovoinfo/pc/support/tw/maintenance/trackpoint.html)
+![TrackPoint Out of Stock](/images/2006-11-04-trackpoint-out-of-stock-lenovo-sucks/image05.png)
+(http://www-8.ibm.com/lenovoinfo/pc/support/tw/maintenance/trackpoint.html)
