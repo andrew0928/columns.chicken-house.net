@@ -34,6 +34,8 @@ find docs/_posts -type f -name "*_mvBK.md" -exec rm "{}" \;
 
 預計收尾:
 - [ ] 移除 /docs/wp-content
+- [ ] 擴充 docker-compose.yml, 除了 jekyll 之外, 加入 mcp, km, qdrant (run and build image), 而 application image 則由 BlogIndex 來 build
+- [ ] 壓縮 git repo (https://chatgpt.com/share/68ad898b-aaf0-800d-94ed-be67cd609576)
 - [ ] 將 github pages 的發行 branch 從 develop 改回 master
 
 這些動作都完成後, 會刪除這份紀錄檔案, 以及 _migration 資料夾.
