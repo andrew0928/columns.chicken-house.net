@@ -1,17 +1,3 @@
----
-layout: post
-title: "[設計案例] 授權碼 如何實作? #3 (補) - 金鑰的保護"
-categories:
-- "設計案例: 授權碼 如何實作?"
-tags: [".NET","C#","專欄","技術隨筆"]
-published: true
-comments: true
-permalink: "/2016/03/19/casestudy_license_03_appendix_key_management/"
-redirect_from:
-wordpress_postid: 915
----
-
-
 前一篇 #3 介紹了[如何利用 "數位簽章" 簡單又可靠的做好 "授權碼" 的驗證](/2016/02/24/casestudy_license_03_digital_signature/)，主要都在說明程式架構的實作，沒有對實際運作的情況做太多補充，這篇就來補足這些遺漏的部分。運用這些公開的加密演算法，既安全又可靠，不過這些東西大家都拿的到啊，因此安全與否，完全取決於你的金鑰是否有妥善的被管理。
 
 <!--more-->
@@ -25,7 +11,7 @@ wordpress_postid: 915
 
 我就針對 "授權碼" 的產生及驗證，畫一張簡單的關係圖，然後再來說明:
 
-![](/wp-content/uploads/2016/02/img_56d335959b5d9.png)
+![](/images/2016-03-19-casestudy_license_03_appendix_key_management/img_56d335959b5d9.png)
 
 實際的運作架構，原廠 (我) 應該在內部，有我自己的授權碼產生器，可以產生出我需要的組態，發放給我的客戶使用。有幾個重點是維運時必須注意的:
 
@@ -53,7 +39,7 @@ wordpress_postid: 915
 
 同樣的，憑證也有類似的架構。發給你的憑證，裡面就包含了你的 PUBLIC / PRIVATE KEY, 除此之外也還包含了你的基本資訊，如註冊名稱，公司，等等... PRIVATE KEY 仍然一樣只有你自己手上才有，但是其他客戶要驗證時，會到 CA 調出你的 PUBLIC KEY 來驗證。改進過的架構如下:
 
-![](/wp-content/uploads/2016/02/img_56d339b7403b6.png)
+![](/images/2016-03-19-casestudy_license_03_appendix_key_management/img_56d339b7403b6.png)
 
 雖然這樣更安全可靠了，不過把 CA 納進來之後，系統的建置就更複雜了。採用公正的第三方 CA，通常憑證都是需要費用的 (年費)。你自己架設 CA 的話，要確保所有會用到的客戶都在你管轄範圍內，否則也是沒用。另外 CA 的建制也是個大工程，系統要正常運作，這也是個額外的管理及營運成本。
 

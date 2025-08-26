@@ -1,22 +1,4 @@
----
-layout: post
-title: "[RUN! PC] 2010 五月號 - TxF讓檔案系統也能達到交易控制"
-categories:
-- "RUN! PC 專欄文章"
-tags: [".NET","RUN! PC","Transactional NTFS","作品集","作業系統","技術隨筆","物件導向"]
-published: true
-comments: true
-redirect_from:
-  - /2010/05/05/run-pc-2010-五月號-txf讓檔案系統也能達到交易控制/
-  - /columns/post/2010/05/05/RUNPC-2010-05.aspx/
-  - /post/2010/05/05/RUNPC-2010-05.aspx/
-  - /post/RUNPC-2010-05.aspx/
-  - /columns/2010/05/05/RUNPC-2010-05.aspx/
-  - /columns/RUNPC-2010-05.aspx/
-wordpress_postid: 15
----
-
-![image](/wp-content/be-files/image_10.png)
+![image](/images/2010-05-05-run-pc-2010-may-txf-enables-file-system-transaction-control/image_10.png)
 
 五月號就刊出來，還真有點意外 :D，這次稿件趕不及，晚了幾天才交出去，編輯大人還是讓我上五月號啦，真是感謝 :D
 

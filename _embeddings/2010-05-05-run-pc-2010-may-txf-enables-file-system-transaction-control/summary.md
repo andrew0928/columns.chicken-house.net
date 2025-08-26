@@ -1,36 +1,88 @@
-# [RUN! PC] 2010 五月號 ─ TxF 讓檔案系統也能達到交易控制
+# [RUN! PC] 2010 五月號 - TxF讓檔案系統也能達到交易控制
 
 ## 摘要提示
-- 刊登時程: 稿件延遲數日仍順利刊登五月號，作者對編輯表達感謝。  
-- 主題轉換: 由原先的多執行緒系列轉向介紹 Transactional NTFS (TxF)。  
-- 動機說明: .NET 4.0 釋出後，大量同步化 API 被簡化，促使作者改寫新題材。  
-- 系列規畫: 以分篇文章探討 TxF 概念，輔以 Blog 張貼 P/Invoke 等細節。  
-- 首篇定位: 著重觀念入門與基礎範例，填補國內資訊不足的空缺。  
-- 範例程式: 提供 Visual Studio 2008 C# 範例專案 TransactionDemo.zip。  
-- 參考資源: 蒐羅 AlphaFS、MSDN Magazine、CodeProject 等七項連結。  
-- 感謝致詞: 再次感謝讀者與編輯支持，歡迎讀者取用範例與連結。  
-- 技術焦點: TxF 透過系統交易機制，為檔案操作提供 ACID 保證。  
-- 撰寫策略: 分離「概念/完整實作」與「零散技巧」，前者投稿雜誌，後者寫 Blog。  
+- 出刊與感謝: 作者文章雖延遲交稿仍刊於五月號，向編輯與讀者致謝。
+- 主題轉換: 從「執行緒系列」轉向介紹 Transactional NTFS（TxF）。
+- .NET 4.0 影響: .NET Framework 4.0 簡化了多執行緒與同步技巧，降低自行用 Thread 處理的必要。
+- TxF 概念入門: 本系列第一篇聚焦於 TxF 的觀念與入門，補足國內資訊稀缺。
+- 寫作規劃: 細節如 P/Invoke 會發表於部落格，完整概念與實作整理投向專欄。
+- 實務應用: 透過 TxF 讓檔案操作也具備交易控制，提升一致性與可靠性。
+- 範例提供: 提供 VS2008 C# 範例專案 TransactionDemo.zip 供讀者實作。
+- 延伸資源: 彙整 MSDN、CodeProject、部落格文章等學習連結。
+- 系列目標: 以實作與理論並行方式，引導讀者掌握 TxF 的用法與情境。
+- 社群交流: 鼓勵讀者取用資源並持續關注後續文章。
 
 ## 全文重點
-本文為作者在《RUN! PC》雜誌 2010 年五月號所刊之專欄導言，主要說明新系列「Transactional NTFS」(TxF) 開筆的背景、動機與規畫。作者坦言稿件因故延遲數日才繳交，仍獲編輯收錄而備感意外與感謝；同時回顧先前撰寫的多執行緒演算法系列，由於 .NET Framework 4.0 推出後提供 Parallel Library 與各式高階同步 API，過往必須親自操作 Thread 物件的技巧已不再必要，故決定收束該系列並開啟新主題。
+本文為作者在 RUN! PC 雜誌 2010 年五月號專欄的新作發表通知與內容導讀。原本連載的「執行緒系列」暫告一段落，主因在於 .NET Framework 4.0 推出後，大量簡化了多執行緒與同步相關的實作細節，使得以 Thread 物件「硬幹」的價值下降；除非遇到特殊演算法需求，否則不再是主流建議。因此作者轉換主題到 Transactional NTFS（TxF），希望以檔案系統層級的交易控制為核心，帶讀者理解如何在檔案操作中達到類似資料庫交易的一致性與可回復性。
 
-TxF 為 Vista/Windows 7 之後內建的檔案系統交易機制，可讓檔案、目錄及登錄檔操作納入 ACID 交易流程，在應用程式層便能確保「全部成功或全部復原」的原子性，對於安裝程式、批次檔案搬移或需強健錯誤復原的場景極具價值。國內相關中文技術文章稀少，因此作者以「觀念導入＋入門範例」的方式撰成此系列第一篇；針對較零碎卻實務的 P/Invoke、Interop 與效能考量等內容，則另置於個人 Blog，讓讀者可按需查閱。
+本系列第一篇著重於 TxF 的觀念介紹與入門實作，彌補國內相關資料匱乏的現況。作者規劃以雙軌方式分享：較為瑣碎、貼近 API 細節（如 P/Invoke）的技巧會直接發表在部落格；而較完整的概念說明、實作探討與案例，則會整理成雜誌專欄文章。文末提供一個 Visual Studio 2008（C#）的示範專案下載，幫助讀者快速上手；同時附上多篇參考連結，涵蓋 MSDN Magazine 的 TxF 介紹、Bart De Smet 的三篇 C# TxF 範例與 System.Transactions/DTC 整合、CodeProject 的 TxF/TxR 資源、以及微軟官方對 TxF 效能考量與使用情境的建議等。
 
-文章最後提供一份 Visual Studio 2008 C# 範例專案 (TransactionDemo.zip)，示範如何在 .NET 環境使用 System.Transactions 結合 P/Invoke 呼叫 CreateFileTransacted 等 Win32 API，以最小可行範例突顯 TxF 的基本操作流程。配合 AlphaFS 函式庫與 MSDN Magazine、CodeProject 等七筆延伸閱讀連結，讀者得以進一步深入原始技術文件、範例程式與最佳實務。整體而言，本文不僅為新系列揭開序幕，也說明未來「大型概念→雜誌、實作細節→Blog」的寫作策略，最後再度向支持者致意，邀請大家下載範例並持續關注後續文章。
+作者也分享了此次出刊的小插曲：稿件趕不及仍獲編輯安排於五月號見刊，並向讀者與編輯表達感謝。整體來看，本文是一篇導讀與資源導航：宣告新系列主題、說明選題背景與技術脈絡、提供可操作的範例與扎實的延伸閱讀，為後續更深入的 TxF 應用鋪路。
 
 ## 段落重點
-### 刊登時程與意外驚喜
-作者坦承本期稿件因個人行程延遲數日才送達，但仍被《RUN! PC》五月號收錄，對編輯的包容與效率表達「又驚又喜」的感謝。藉此開場，帶出本文屬於雜誌正式出版內容的身份，也向讀者說明文章時程與心路歷程，營造輕鬆而感恩的氛圍。
+### 出刊與投稿背景
+作者表示本期文章雖晚交仍順利刊於 RUN! PC 五月號，感謝編輯的彈性與讀者支持。文中先回顧前一個連載主題「執行緒系列」，提到原計畫介紹多種應用型演算法，但寫到五篇後靈感告一段落。此段落主要傳達兩件事：其一，本篇是新系列的開場；其二，從創作流程和時程的角度，讓讀者了解專欄調整的背景與作者對社群的回饋心情。
 
-### 從多執行緒到 Transactional NTFS 的主題轉換
-回顧先前五篇多執行緒演算法專欄，作者指出 .NET 4.0 之後 Parallel Library、Task 與各式同步原語大幅降低低階鎖定需求，許多「硬幹 Thread」的技巧已被抽象化封裝，因此選擇暫停該系列，轉而投入自身長期關注卻中文資料稀缺的「Transactional NTFS」領域，替讀者帶來更具新穎度與實用性的內容。
+### 主題轉換的技術脈絡：.NET 4.0 與多執行緒
+作者指出 .NET Framework 4.0 出現後，許多以往需要手工處理的多執行緒與同步技巧已大幅簡化，像是以 Thread 物件直接控制的「硬幹」方式，不再是一般情境下的首選。除非遇到特定演算法或高客製化需求，否則應善用框架提供的較高階抽象與並行模型。這樣的環境變化，使作者決定把專欄重心從微觀的執行緒技巧，轉向另一個實務價值高、且較少被中文資料完整介紹的主題：Transactional NTFS（TxF）。
 
-### 系列首篇的內容定位與目標
-首篇文章以「觀念導向＋入門實作」為核心，先從架構層級說明 TxF 透過 Kernel Transaction Manager (KTM) 將檔案操作納入 ACID 交易、與 System.Transactions 互動方式等基礎概念，再以最簡單的範例程式展示交易化的檔案建立、複製與刪除，幫助讀者在最短時間內「會用、敢用」，為日後更深入的效能、併發與失敗復原探討奠定基礎。
+### 新系列開場：介紹 Transactional NTFS 的觀念與入門
+本系列第一篇以 TxF 的基本觀念與入門實作為主軸，強調在檔案系統層級導入交易控制，可為檔案操作帶來類似資料庫事務的一致性、原子性與可回滾能力。作者自述國內相關資料仍不多，因此以「野人獻曝」的態度啟動系列：較瑣碎、貼近 API 的技術細節（如 P/Invoke）將以部落格短文分享；較完整的概念、架構與實作分析，則在雜誌專欄中成文，提供讀者系統化理解路徑，並為後續更深入的案例探討預作鋪陳。
 
-### 撰寫策略與後續規畫
-作者提出雙軌寫作策略：凡屬完整架構、設計考量與整合示範，將整理為系列文章投稿雜誌；至於 P/Invoke 宣告細節、Interop 陷阱或小型效能測試等零散資訊，則即時張貼於個人 Blog。此舉兼顧雜誌閱讀體驗與網路快速更新，並鼓勵讀者透過留言互動，共同擴充中文 TxF 社群的知識基礎。
+### 範例程式與延伸資源
+文末提供 VS2008 C# 範例專案 TransactionDemo.zip，方便讀者即刻動手練習。此外彙整多個權威與實務取向的延伸閱讀：包含 MSDN Magazine 的 TxF 應用介紹、Bart De Smet 的三篇以 C# 演示 TxF（涵蓋交易刪檔、System.Transactions 與 DTC 整合、CreateFileTransacted 範例）、CodeProject 關於 Vista 時期 TxF/TxR 的文章、微軟部落格「Because we can」對 Longhorn 時期 TxF 的討論，以及官方文件中對 TxF 效能考量與使用時機的指引。作者鼓勵讀者取用資源、實作練習並關注後續文章，以在理論與實務間建立有效連結。
 
-### 範例程式與參考資源索引
-文末集中介紹資源：1) 提供 Visual Studio 2008 C# 範例專案 TransactionDemo.zip，示範使用 CreateFileTransacted 和 System.Transactions 協調操作；2) 收錄 AlphaFS 函式庫、MSDN Magazine 2007 年 7 月號專文、Bart De Smet 的三篇系列 Blog、CodeProject 教學、MSDN 官方文件等共七筆延伸連結。作者鼓勵讀者先下載範例實測，再循序閱讀外部資源，以全面理解 TxF 的技術細節、效能考量與適用情境，並再次感謝讀者與社群的支持。
+## 資訊整理
+
+### 知識架構圖
+1. 前置知識：
+   - 檔案系統與基本 I/O 操作（開檔、寫入、刪除、移動）
+   - 交易（Transaction）與 ACID 基本概念
+   - .NET/C# 基礎、P/Invoke 基本用法
+   - Windows 平台知識（Vista/Server 2008 起提供 TxF 與 Kernel Transaction Manager）
+2. 核心概念：
+   - Transactional NTFS（TxF）：讓檔案系統操作（建立、寫入、移動、刪除）具備交易性，可 Commit/Rollback
+   - Kernel Transaction Manager（KTM）：Windows 內核的交易協調層，TxF 依賴其進行交易管理
+   - System.Transactions/DTC：.NET 的交易模型與分散式交易協調，可將檔案 I/O 與其他資源（如資料庫）納入同一交易
+   - P/Invoke 與 TxF API：.NET 需透過 Win32 API（如 CreateFileTransacted、MoveFileTransacted）或使用現成封裝（如 AlphaFS）
+   - 效能與適用性：何時使用 TxF、效能考量與限制
+3. 技術依賴：
+   - TxF 依賴 Windows 的 KTM 實現交易
+   - .NET 端可透過 System.Transactions 將 TxF 交易納入 ambient transaction，必要時由 DTC 升級為分散式交易
+   - 若無內建封裝，需以 P/Invoke 呼叫 TxF 相關 Win32 API；或使用 AlphaFS 等函式庫簡化
+4. 應用場景：
+   - 檔案寫入需原子性與一致性的情境（例如設定檔更新、批次檔案搬移/刪除）
+   - 將檔案操作與資料庫操作放在同一交易中（成功一起成功、失敗一起回滾）
+   - 安裝程式、部署流程中需要可回復的檔案操作
+   - 高可靠需求的批次作業（避免部分成功造成狀態不一致）
+
+### 學習路徑建議
+1. 入門者路徑：
+   - 先理解交易與 ACID 概念，以及基本的檔案 I/O
+   - 閱讀 MSDN Magazine: Enhance Your Apps With File System Transactions
+   - 下載並跑文中提供的 VS2008 C# 範例（TransactionDemo.zip），體驗 Commit/Rollback 效果
+2. 進階者路徑：
+   - 研讀 MSDN 文件：When to Use Transactional NTFS、Performance Considerations for TxF，了解限制與效能
+   - 研究 Bart De Smet 的 TxF 系列（Transacted File Delete、System.Transactions 與 DTC、CreateFileTransacted Demo）
+   - 嘗試用 System.Transactions 將檔案操作與資料庫操作整合在同一交易
+3. 實戰路徑：
+   - 以 P/Invoke 或 AlphaFS 封裝常用 TxF 操作（建立、寫入、刪除、搬移），建立可重用元件
+   - 為關鍵檔案流程加入交易控制與回滾測試，設計失敗注入測試確保一致性
+   - 依據效能文件進行量測與調校，決定在何種情境啟用 TxF，並撰寫降級策略（無法使用 TxF 時的替代方案）
+
+### 關鍵要點清單
+- Transactional NTFS（TxF）概念: 讓 NTFS 檔案操作具備交易行為（可提交與回滾）以確保一致性 (優先級: 高)
+- Kernel Transaction Manager（KTM）: Windows 交易核心，TxF 建立於其上以管理交易生命週期 (優先級: 高)
+- System.Transactions 整合: 以 .NET ambient transaction 將檔案 I/O 與其他資源納入同一交易 (優先級: 高)
+- 分散式交易（DTC）: 當跨多資源/進程時升級為 DTC，由其協調提交/回滾 (優先級: 中)
+- TxF Win32 API 基礎: 常見 API 如 CreateFileTransacted、MoveFileTransacted、DeleteFileTransacted (優先級: 高)
+- P/Invoke 在 .NET 的角色: 以平台呼叫方式存取 TxF API，或使用現成封裝避免重複造輪子 (優先級: 中)
+- AlphaFS 函式庫: 提供進階檔案系統支援與對 TxF 的封裝，簡化 .NET 開發 (優先級: 中)
+- 何時使用 TxF: 依 MSDN 指南，在需要原子性且跨資源一致性的關鍵情境才採用 (優先級: 高)
+- 效能考量: 交易帶來額外開銷，需依工作負載量測與權衡 (優先級: 高)
+- 失敗與回滾策略: 設計與驗證各種失敗情境下的回滾，避免部分寫入造成不一致 (優先級: 高)
+- 範例程式與實作參考: 善用提供的 VS2008 範例與 MSDN/Bart De Smet/CodeProject 教學 (優先級: 中)
+- 測試與診斷: 為交易性檔案操作建立單元測試、整合測試與失敗注入 (優先級: 中)
+- 與資料庫交易的協同: 示範將檔案變更與 DB Transaction 綁定達成整體一致性 (優先級: 中)
+- 平台相依性: TxF 為 Windows Vista/Server 2008 時期技術，部署前需確認目標環境支援 (優先級: 高)
+- 替代方案思考: 在無法使用 TxF 或成本過高時，考慮臨時檔＋原子替換、日誌式寫入等方案 (優先級: 中)

@@ -1,15 +1,4 @@
----
-layout: post
-title: "使用 LCOW 掛載 Volume 的效能陷阱"
-categories: 
-tags: ["docker","LCOW","windows container","microservice", "azure"]
-published: true
-comments: true
-redirect_from:
-logo: /wp-content/images/2018-07-28-labs-LCOW-volume/2018-08-12-01-42-58.png
----
-
-![](/wp-content/images/2018-07-28-labs-LCOW-volume/2018-08-12-01-42-58.png)
+![](/images/2018-07-28-labs-LCOW-volume/2018-08-12-01-42-58.png)
 
 
 有時候，無知就是福啊... 沒想到我也默默忍受了這個地雷一年多了都沒發現。Container 透過 volume 掛載儲存空間到容器內部，會有一定的效能折損是一定的。然而 container 本身透過 [AUFS](https://philipzheng.gitbooks.io/docker_practice/content/underly/ufs.html) 也有一定的效能折損啊。原本很天真的想: 我都在本機使用，想想應該不會差到哪裡去，直到膝蓋中了一箭... 
@@ -25,20 +14,20 @@ logo: /wp-content/images/2018-07-28-labs-LCOW-volume/2018-08-12-01-42-58.png
 我決定改掉過去都會講一堆故事的習慣了，這次直接從結果開始看。我測試的標的，就用我自己的部落格，用 Jekyll 官方的 [docker image](https://hub.docker.com/r/jekyll/jekyll/):2.4.0。測試的紀錄跟數據有點囉嗦，我列在這段的最後面，有興趣的讀者們再去看就好。我直接先來解讀 LAB1 的測試結果。
 
 
-![](/wp-content/images/2018-07-28-labs-LCOW-volume/2018-08-12-18-07-31.png)
+![](/images/2018-07-28-labs-LCOW-volume/2018-08-12-18-07-31.png)
 
 測試的方式很簡單，用 Jekyll 官方版本 docker image, 將網站的 source code 編譯成 destination web sites, 輸出成靜態檔案 (如下圖)。執行的環境分別用 docker for windows 與 LCOW (linux container on windows) 兩種，並且把 source 與 destination 分別放在 volume 與 container 內部不同的組合來進行測試。
 
 
 我測試了這三種組態:
 1. source 擺在 volume, destination 擺在 volume (volume -> volume)
-![](/wp-content/images/2018-07-28-labs-LCOW-volume/2018-08-12-18-09-18.png)
+![](/images/2018-07-28-labs-LCOW-volume/2018-08-12-18-09-18.png)
 
 1. source 擺在 volume, destination 擺在 container (volume -> container)
-![](/wp-content/images/2018-07-28-labs-LCOW-volume/2018-08-12-18-09-47.png)
+![](/images/2018-07-28-labs-LCOW-volume/2018-08-12-18-09-47.png)
 
 1. source 擺在 container, destination 擺在 container (container -> container)
-![](/wp-content/images/2018-07-28-labs-LCOW-volume/2018-08-12-18-10-09.png)
+![](/images/2018-07-28-labs-LCOW-volume/2018-08-12-18-10-09.png)
 
 這樣安排的目的，就是先前踩了一堆雷之後，我想觀察不同的 container engine 對於不同的 storage 處理方式，對 Jekyll build website 的效能差異到底有多大?
 
@@ -482,4 +471,3 @@ Network Card(s):           3 NIC(s) Installed.
                                  IP address(es)
 Hyper-V Requirements:      A hypervisor has been detected. Features required for Hyper-V will not be displayed.
 ```
-

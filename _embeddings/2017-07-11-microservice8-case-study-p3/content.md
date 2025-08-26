@@ -1,18 +1,4 @@
----
-layout: post
-title: "架構師觀點 - 轉移到微服務架構的經驗分享 (Part 3)"
-categories:
-- "系列文章: .NET + Windows Container, 微服務架構設計"
-- "系列文章: 架構師觀點"
-tags: ["microservice", "系列文章", "ASP.NET", "架構師", "infra", "message queue", "api gateway", "service discovery"]
-published: true
-comments: true
-redirect_from:
-logo: /wp-content/uploads/2017/07/bridge.jpg
----
-
-
-![](/wp-content/uploads/2017/07/bridge.jpg)
+![](/images/2017-07-11-microservice8-case-study-p3/bridge.jpg)
 
 前面兩篇，分別介紹了微服務架構的規劃方向，還有實際切割的案例探討。這篇 (Part 3) 的重點就要擺在微服務到底該在甚麼樣的基礎建設上面
 運行? 維運過去單體式架構的 application, 所需要的基礎建設，會跟微服務架構下可能會有數十個 service instances 同時執行，甚至上百個
@@ -57,7 +43,7 @@ service instances 一樣嗎?
 * Communication & Event-Driven System
 * Log
 
-![](/wp-content/uploads/2017/07/2017-06-18-01-41-32.png)
+![](/images/2017-07-11-microservice8-case-study-p3/2017-06-18-01-41-32.png)
 
 簡單的話張圖，順序我就由外到內來談吧。這幾個部分，可以說是微服務架構必備的基礎了，就像人體的重要器官一樣，各有各的功能，只要
 其中一個環節運作不正常，就會受到影響。
@@ -91,7 +77,7 @@ log 的目的不只是記下來而已，更重要的是在問題發生的當下�
 以上這些就是導入微服務架構前，我認為應該要先評估好的基礎環境建設必要的幾個項目。
 在逐一深入介紹之前，我先大力推薦這本 Nginx 的電子書給大家看:
 
-![](/wp-content/uploads/2017/07/2017-06-06-02-07-00.png)
+![](/images/2017-07-11-microservice8-case-study-p3/2017-06-06-02-07-00.png)
 [Microservices: From Design to Deployment, a Free Ebook from NGINX](https://www.nginx.com/blog/microservices-from-design-to-deployment-ebook-nginx/)
 
 會推薦這本電子書的的原因，主要是它的內容長度，內容深度跟講解的複雜度，都拿捏得剛剛好。沒有深入到太多實作細節，也沒有
@@ -112,7 +98,7 @@ log 的目的不只是記下來而已，更重要的是在問題發生的當下�
 這時最基本的防火牆 (Firewall), 反向代理 (Reverse Proxy), 以及負載平衡 (Load Balancer) 等等我就略過不談了。我們先來談談
 API 特有的對外關卡: API Gateway
 
-![](/wp-content/uploads/2017/07/2017-06-07-00-50-18.png)
+![](/images/2017-07-11-microservice8-case-study-p3/2017-06-07-00-50-18.png)
 
 先來看看實際的使用情境: 假設 Amazon 網站已經微服務化了 (實際上也真的是沒錯)，來想像一下這個 APP 為了實現畫面上的所有功能，
 進入這個購物 APP 首頁時，究竟要從後端呼叫多少微服務的 API 才能湊齊這個畫面所需的所有資訊?
@@ -129,7 +115,7 @@ API 特有的對外關卡: API Gateway
 如果這個 APP 真的這樣寫，我看打開 APP 時，轉圈圈至少會轉個半分鐘以上吧。用 fiddler 錄製中間的 http traffic, 會看到好幾條。
 微服務要解決的是內部軟體開發架構的維護，擴展等等架構問題，這些對外面的客戶及系統是非必要的。對外界來說，只要把整套系統當成單一應用程式就好了。這時要知道這麼多服務的 API 在哪裡，還要呼叫這麼多次 API 才能湊齊足夠的資訊，這做法還蠻蠢的...
 
-![](/wp-content/uploads/2017/07/2017-06-07-01-00-44.png)
+![](/images/2017-07-11-microservice8-case-study-p3/2017-06-07-01-00-44.png)
 
 於是... 開始出現了 API Gateway 這樣的處理模式，額外建立一個 API Gateway, 放在 APP 與 Microservices 之間，用來轉發及合併多次
 API 呼叫。APP 只要對 API Gateway 做一次 API call, 由 API Gateway 代勞，到後端各個服務個別取得所需資訊之後，統一匯集起來傳回前端 APP。這麼一來，對於 APP 來說，他只要一次的呼叫就能取得所有的資訊。
@@ -162,7 +148,7 @@ A -> B 有一套轉移認證資訊的作法，B -> C 又一套... 有 N 套服�
 
 ## Service Discovery
 
-![](/wp-content/uploads/2017/07/2017-06-07-00-28-21.png)
+![](/images/2017-07-11-microservice8-case-study-p3/2017-06-07-00-28-21.png)
 
 再來是服務發現的機制。這張圖就說明了 Service Discovery 想要解決的問題。服務那麼多，你如何知道你要的服務在哪裡? 替每個服務解決
 這個問題，就是 Service Discovery 主要的目的了。服務發現的機制是微服務架構的核心，基礎建設裡的其他服務也離不開它，包括前面提到的
@@ -176,7 +162,7 @@ Service Discovery 的目的很明確，就是處理好整套微服務架構內�
 身上，每個服務大概只要準備最基本的憑證資訊，還有如何找到 Service Discovery 的最基本設定註冊資訊就夠了。剩下的組態都等到註冊
 完畢之後再說..
 
-![](/wp-content/uploads/2017/07/2017-06-07-00-28-22.png)
+![](/images/2017-07-11-microservice8-case-study-p3/2017-06-07-00-28-22.png)
 
 這張圖，就是最典型的 Service Discovery 的運作機制了。如果搭配的服務註冊 (Service Registry) 有搭配
 的用戶端 (Registry Client) 的話，每個服務在啟動時，執行一次 Registry Client, 這時 
@@ -185,7 +171,7 @@ Service Registry 去查詢，就可以知道該服務的 IP 跟 PORT 了。
 
 這流程幾乎跟 DNS 是一模一樣的，所以我才會說有些狀況下，直接採用 DNS 就足以應付 Service Discovery 的需求。
 
-![](/wp-content/uploads/2017/07/2017-06-07-00-28-31.png)
+![](/images/2017-07-11-microservice8-case-study-p3/2017-06-07-00-28-31.png)
 
 再來看個進階一點的架構。前面講的做法，負載平衡或是高可用性的機制，是由呼叫端決定的 (左側的 service instance a) 但是大部分情況下，由後端來決定是比較好的選擇。因此有了這個改善過的架構圖。
 
@@ -193,7 +179,7 @@ Service Registry 去查詢，就可以知道該服務的 IP 跟 PORT 了。
 要求服務就好了。Load Balancer 再執行前面說明的動作: 查詢 Service Registry 後挑出一台把 request
 轉給他。由於這些都是服務端管控決定的，萬一出了甚麼意外，維運人員能夠很妥善的處理，不會影響到前端的運作。
 
-![](/wp-content/uploads/2017/07/2017-06-07-00-28-41.png)
+![](/images/2017-07-11-microservice8-case-study-p3/2017-06-07-00-28-41.png)
 
 接著再來看服務健康狀態的監控吧! 這兩張圖就一起看了。
 上圖是基本的架構，每個服務啟動時會跟 Service Registry 回報服務已啟動，除此之外啟動過程中也會定期
@@ -207,7 +193,7 @@ Service Registry 去查詢，就可以知道該服務的 IP 跟 PORT 了。
 其實這些點歸納起來，關鍵應該在 Service Registry 最好也能夠有 "主動" 偵測該服務是否正常運作的機制，
 而不是只能被動地等服務自己回報。這時調整過的架構 (下圖) 就派上用場了。
 
-![](/wp-content/uploads/2017/07/2017-06-07-00-28-42.png)
+![](/images/2017-07-11-microservice8-case-study-p3/2017-06-07-00-28-42.png)
 
 除了服務 10.4.3.1:8756 主動跟 Service Registry 回報之外，多了 Registrar, 會代表偵測服務本身
 是否正常運作? 通常這樣的偵測會比較精確，因為它會真的呼叫 API 來驗證，比如 PingAPI(), 或是服務會專門
@@ -282,13 +268,13 @@ Message Bus 這樣的服務來處理。
 
 在 Event-Driven 那篇文章裡，講到這個例子:
 
-![](/wp-content/uploads/2017/07/2017-07-11-23-29-15.png)
+![](/images/2017-07-11-microservice8-case-study-p3/2017-07-11-23-29-15.png)
 
 交易剛被受理時，訂購服務 (Order Services, 也就是我們案例提到的 BANK1) 先在自己的 storage 內新增一筆交易紀錄，但是交易尚未完成，
 因此將狀態標記為 "NEW"，同時在 Message Broker (或是 Message Queue, Message Bus 等名詞都是指類似功能的服務) 送出這筆訊息 (Message, or Event)。
 
 
-![](/wp-content/uploads/2017/07/2017-07-11-23-34-46.png)
+![](/images/2017-07-11-microservice8-case-study-p3/2017-07-11-23-34-46.png)
 
 另一個服務 (Custom Services, 也就是我們案例提到的 GAME1) 對這個訊息有興趣，系統啟動之初早已先行註冊，訂閱這些交易相關的訊息。
 因此當訂購事件被送出時，他會收到由訂購服務傳來的訊息。這時 Custom Services 就在自己的 storage 內也新增一筆交易紀錄，確認收到
@@ -296,7 +282,7 @@ Message Bus 這樣的服務來處理。
 的訊息。
 
 
-![](/wp-content/uploads/2017/07/2017-07-11-23-37-21.png)
+![](/images/2017-07-11-microservice8-case-study-p3/2017-07-11-23-37-21.png)
 
 最後，原本的 Order Services 也訂閱了這訊息，會收到來自 Custom Services 送出來的交易確認訊息，確認這筆交易成功執行，因此更新
 自己的 storage, 將該筆交易的狀態從 "NEW" 改為 "OPEN"，確認交易成功執行完畢。
@@ -348,4 +334,3 @@ pub / sub 略嫌麻煩了點，也不夠靈活。同時部署還要依賴 AD ...
 的好不好也是個關鍵，這邊如何拿捏就看你的經驗與判斷了!
 
 原本想在這篇一起講的微服務部署，看來得等下一篇了 @@, 敬請期待...
-

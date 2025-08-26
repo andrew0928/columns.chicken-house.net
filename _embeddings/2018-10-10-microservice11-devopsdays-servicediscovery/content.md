@@ -1,15 +1,3 @@
----
-layout: post
-title: "DevOpsDays 專刊: Service Discovery, 微服務架構的基礎建設"
-categories:
-- "系列文章: 架構師觀點"
-tags: []
-published: false
-comments: true
-redirect_from:
-logo: 
----
-
 其實，類似的主題 ([微服務基礎建設 - Service Discovery](/2017/12/31/microservice9-servicediscovery/)) 去年底就已經寫過一篇了。不過這次有幸投稿 DevOpsDays Taipei 2018 有幸榮獲大會青睞，能上台講這個主題，加上目前工作需要，我們自己也開始有計畫逐步導入 service discovery。因此關注 Consul 也有一陣子，對於 Service Discovery 的看法又有些進化了。於是決定趁著準備這次演講，除了 Slides 之外，也來個文字版的文章吧! 比起演講，文章的形式還是比較有組織，比較能深入一些。
 
 這次我換個角度，介紹 Service Discovery 的基本觀念，以及應用的方式，最後帶到如何逐步演進到 sidecar / service mesh。我分三個部分進行:
@@ -45,7 +33,7 @@ logo:
 
 微服務架構的第一個難題，就是你該如何管理好為數眾多的服務? 在這架構下，團隊會面臨越來越多樣的服務 (大型應用程式拆解之後的結果)，隨著規模的擴大，每個服務也會由越來越多的小型 instances 組成 (如 container)。
 
-![](/wp-content/images/2018-10-10-microservice11-devopsdays-servicediscovery/2018-10-14-15-26-49.png)
+![](/images/2018-10-10-microservice11-devopsdays-servicediscovery/2018-10-14-15-26-49.png)
 
 服務的種類及數量都不斷的在增加，服務的異動也越來越頻繁 (也許幾秒鐘就會有變化)。過去簡單的管理方式 (或是不管理? XD) 都會變成系統發展的瓶頸。回想一下，你的團隊目前都怎麼管理內外部的服務?
 
@@ -91,7 +79,7 @@ logo:
 
 這時來看看 Service Discovery 的 Service Definition 資料庫 (registry) 能如何運用吧! 先來看看 Slack 提供的服務方案:
 
-![](/wp-content/images/2018-10-10-microservice11-devopsdays-servicediscovery/2018-11-05-02-22-51.png)
+![](/images/2018-10-10-microservice11-devopsdays-servicediscovery/2018-11-05-02-22-51.png)
 
 不同方案，有不同的服務內容。File storage 的控制是小菜一碟，按照規格開發即可。Support 則是人工的服務，按照 SOP 即可。最難理解怎麼辦到的，則是 SLA 99.99% 保證這件事。我大膽的假設一下，這件事背後可能有幾種做法:
 
@@ -109,8 +97,3 @@ SLA 是要用錢燒出來的，最基本的就是每個資源都至少要有兩�
 如果你用的是 DNS + LB, 不是做不到，只是這樣可能會搞死開發人員跟運維人員了。要建立兩個 domain name 嗎? 還是兩組 LB ? 會員屬於哪種方案，通常要登入後查詢資料庫，在 runtime 才能得知這個 request 該走哪一群...，靠一般的 IT 手段難以解決這類問題。
 
 BUT! 如果你採用的，是前面提到的，Client Side Discovery Patterns, 那問題就簡單多了。Service Discovery 在一開始建立 service registry database 時, 如果預先替這 100 個 nodes 標好 tags, 是先標記那些是 PLUS_ONLY 的 nodes... Client Side 在查詢時就能根據目前 request context, 來決定要不要過濾不是和它的 nodes ..
-
-
-
-
-

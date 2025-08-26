@@ -1,21 +1,8 @@
----
-layout: post
-title: "架構師觀點 - 轉移到微服務架構的經驗分享 (Part 2)"
-categories:
-- "系列文章: .NET + Windows Container, 微服務架構設計"
-- "系列文章: 架構師觀點"
-tags: ["microservice", "系列文章", "ASP.NET", "架構師", "Docker", "Windows Container", "DevOps"]
-published: true
-comments: true
-redirect_from:
-logo: /wp-content/uploads/2017/05/darthvader_starwars.jpg
----
-
 前情提要: [(Part 1)](/2017/04/15/microservice8-case-study/)
 
 補上欠很久的第二篇~
 
-![](/wp-content/uploads/2017/05/darthvader_starwars.jpg)
+![](/images/2017-05-20-microservice8-case-study-p2/darthvader_starwars.jpg)
 
 上一篇聊了進入微服務架構前，架構師本身的心理建設、為何要用微服務的原因，以及導入這些美好的架構背後的代價。
 這篇開始拿我過去負責過的實際案例，來聊聊我如何把典型的商用大型軟體 (單體式架構)，逐步調整為微服務架構的過程跟決策。
@@ -50,7 +37,7 @@ logo: /wp-content/uploads/2017/05/darthvader_starwars.jpg
 
 在開始之前，先來看看我面臨的舊架構系統概況跟規模吧! 我試著盡量具體的量化 "規模" :
 
-![](/wp-content/uploads/2017/05/2017-05-14-00-48-13.png)
+![](/images/2017-05-20-microservice8-case-study-p2/2017-05-14-00-48-13.png)
 
 這服務是人資領域相關的系統，用於數位學習及人才發展的管理。這類系統的特色就是表單特多，流程複雜，每一頁都是滿滿的表單跟欄位要填寫
 或是顯示。這系統的特性造成程式碼之間的耦合度過高，維護的成本居高不下，因此降低維護的複雜度是主要目標。傳統的作法，例如模組化等等其實
@@ -58,7 +45,7 @@ logo: /wp-content/uploads/2017/05/darthvader_starwars.jpg
 建置 (private cloud), 同時也提供雲端服務及代管模式 (SaaS, public cloud)。讓軟體架構同時適應這兩種 hosting 環境也是改版
 的目標之一。
 
-![](/wp-content/uploads/2017/05/2017-05-14-00-58-51.png)
+![](/images/2017-05-20-microservice8-case-study-p2/2017-05-14-00-58-51.png)
 
 這是改變之前的系統架構圖。基本上就是很傳統的設計，主要是由 WEB + DB 兩種角色組成的典型架構。其中商業邏輯的部分雖然有適當的切割
 (用 library 與 component 的型態)，但是在執行期間仍然是被放在同一個 process，部署的架構上並沒有明確的將之獨立出來。除此之外，
@@ -70,7 +57,7 @@ logo: /wp-content/uploads/2017/05/darthvader_starwars.jpg
 
 在當時，我歸納了整個系統架構上有四項主要的問題等著被解決:
 
-![](/wp-content/uploads/2017/05/2017-05-14-02-23-59.png)
+![](/images/2017-05-20-microservice8-case-study-p2/2017-05-14-02-23-59.png)
 
 即使如此，微服務架構仍然不是萬靈丹，因為前面有提到，微服務架構是有進入門檻與代價的啊! 經過評估之後，我們決定按照實際問題的影響程度，
 逐步進行改善。對我們當時的狀況而言，最優先處理的是 **維護困難**、還有 **雲端化困難** 這兩項。而 **部署困難** 則是緊接著雲端化
@@ -84,13 +71,13 @@ logo: /wp-content/uploads/2017/05/darthvader_starwars.jpg
 ## 一窩蜂驅動開發!!
 
 
-![](/wp-content/uploads/2017/05/2017-05-14-02-30-48.png)
+![](/images/2017-05-20-microservice8-case-study-p2/2017-05-14-02-30-48.png)
 
 原文: [一窩蜂驅動開發](https://blog.chunfuchao.com/?p=656&variant=zh-tw)  
 
 我只能說，這篇文章講的實在太傳神，太到位了! 甚至文內舉了幾個常見的例子，就包含了微服務架構 XD，根本完全命中我擔心的狀況啊...
 
-![](/wp-content/uploads/2017/05/2017-05-14-02-32-22.png)
+![](/images/2017-05-20-microservice8-case-study-p2/2017-05-14-02-32-22.png)
 
 其實多看看別人的解決方案，多看看新的技術，並不是壞事。糟糕的地方在於對自己過度自信，聽到很棒的新技術就相信自己能 100% 駕馭，
 不顧後果的就往前衝，往往會讓自己 (及團隊) 陷入進退兩難的困境。通常會陷入這種 "一窩蜂" 的困境的人，都有幾種特質:
@@ -188,7 +175,7 @@ webapi 來實作。這部分的過程，我會在之後另外寫一篇文章介�
 
 一窩蜂完畢，回到主題: 微服務化。回頭來看看我面臨到的問題與當時的系統架構，還有我對新架構的期望。原本的架構我再重貼一次:
 
-![](/wp-content/uploads/2017/05/2017-05-14-00-58-51.png)
+![](/images/2017-05-20-microservice8-case-study-p2/2017-05-14-00-58-51.png)
 
 典型的 WEB + DB 架構，WEB 可以 scale out, 配合數位學習有大量內容管理需要，後端搭配 file server，與類似 CDN 的分散式部署
 方式 (file sync based) 來解決流量問題。
@@ -206,7 +193,7 @@ webapi 來實作。這部分的過程，我會在之後另外寫一篇文章介�
 
 這裡每一項拆開都可以再寫個一兩篇文章 @@，我先跳到結果，這張圖是調整後第一步要進行的架構:
 
-![](/wp-content/uploads/2017/05/2017-05-19-02-17-04.png)
+![](/images/2017-05-20-microservice8-case-study-p2/2017-05-19-02-17-04.png)
 
 這是我初步規劃，調整後的架構。主要的改變有幾個地方:
 

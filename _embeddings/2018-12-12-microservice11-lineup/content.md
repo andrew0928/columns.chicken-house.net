@@ -1,20 +1,6 @@
----
-layout: post
-title: "微服務基礎建設 - 線上購物排隊機制設計"
-categories:
-- "系列文章: .NET + Windows Container, 微服務架構設計"
-- "系列文章: 架構師觀點"
-tags: ["microservice", "系列文章", "架構師"]
-published: true
-comments: true
-redirect_from:
-logo: /wp-content/images/2018-12-12-microservice11-lineup/logo.jpg
----
-
-
 轉到電商後，經歷過第一次雙十一的洗禮，總算是親身體驗大流量的刺激與震撼了 :D，其中的辛苦我就不多說了，這次都還是仰賴經驗老到的同事們渡過難關的。不過這次我們能安然渡過，先前開發的排隊機制功不可沒。但是這次我們也發現到排隊機制其實還有些優化改善的空間，可以讓排隊中的消費者有更好的體驗。
 
-![](/wp-content/images/2018-12-12-microservice11-lineup/logo.jpg)
+![](/images/2018-12-12-microservice11-lineup/logo.jpg)
 > 圖片出處: https://tw.appledaily.com/new/realtime/20181124/1472338/
 
 雙十一過後，我試著在思考如何改善排隊的做法... 不過很少看到有文章在探討這類機制該如何開發的細節? (大多是高流量高併發，淘寶雙十一超大規模架構之類的) 於是我試著研究這個議題，也簡單的寫了 POC 來驗證想法，就順手寫了這篇...。
@@ -105,7 +91,7 @@ logo: /wp-content/images/2018-12-12-microservice11-lineup/logo.jpg
 
 ## 開店 (初始狀態)
 
-![](/wp-content/images/2018-12-12-microservice11-lineup/SLIDE-03.png)
+![](/images/2018-12-12-microservice11-lineup/SLIDE-03.png)
 
 如果店內只有 7 個座位，店外排隊隊伍長度最多只設定為 15 (走道空間有限)，超過就直接請他不用排隊了的話，那麼初始值應該如上圖所示:
 
@@ -122,7 +108,7 @@ logo: /wp-content/images/2018-12-12-microservice11-lineup/logo.jpg
 
 ## 開始營業 (使用者湧入)
 
-![](/wp-content/images/2018-12-12-microservice11-lineup/SLIDE-04.png)
+![](/images/2018-12-12-microservice11-lineup/SLIDE-04.png)
 
 如果開張之後，有第一位使用者進來了，那麼...
 
@@ -138,7 +124,7 @@ logo: /wp-content/images/2018-12-12-microservice11-lineup/logo.jpg
 
 
 
-![](/wp-content/images/2018-12-12-microservice11-lineup/SLIDE-05.png)
+![](/images/2018-12-12-microservice11-lineup/SLIDE-05.png)
 
 接著，又一位使用者來排隊，重複上述動作，結果如上圖，此時數據為:
 
@@ -148,7 +134,7 @@ logo: /wp-content/images/2018-12-12-microservice11-lineup/logo.jpg
 號碼機:   3  
 
 
-![](/wp-content/images/2018-12-12-microservice11-lineup/SLIDE-06.png)
+![](/images/2018-12-12-microservice11-lineup/SLIDE-06.png)
 
 再來，陸陸續續又來了 7 位，重複上述動作，結果應該如上圖，數據為:
 
@@ -164,7 +150,7 @@ logo: /wp-content/images/2018-12-12-microservice11-lineup/logo.jpg
 
 ## 營業中 (使用者結帳)
 
-![](/wp-content/images/2018-12-12-microservice11-lineup/SLIDE-07.png)
+![](/images/2018-12-12-microservice11-lineup/SLIDE-07.png)
 
 使用者進去店內用餐後，token(3) 使用者吃得比較快，決定先結帳離開，於是就起身到櫃檯去結帳了 (粉紅色)。
 
@@ -176,7 +162,7 @@ logo: /wp-content/images/2018-12-12-microservice11-lineup/logo.jpg
 號碼機:   10  
 
 
-![](/wp-content/images/2018-12-12-microservice11-lineup/SLIDE-08.png)
+![](/images/2018-12-12-microservice11-lineup/SLIDE-08.png)
 
 結帳過程需要一些時間，從使用者起身去櫃檯付款，直到服務生清理完這座位後，這個位子才能空出來繼續服務。這過程結束後，還在排隊的使用者就可以再放一位進來店內用餐了。因此座位清理好這瞬間，整個隊伍的狀態應該變成上圖所示。紅色空心的數字代表這位使用者已經離開，不過號碼機不會發放重複的 token, 因此 3 號不會從圖上移除，但是它已經不占位子了，替代作法是把 [排隊起點] 往後移一位，下一位使用者就符合能進入用餐的條件了，下一秒這位使用者在確認能否用餐時就會通過，就能進來店面用餐。
 
@@ -194,7 +180,7 @@ logo: /wp-content/images/2018-12-12-microservice11-lineup/logo.jpg
 
 
 
-![](/wp-content/images/2018-12-12-microservice11-lineup/SLIDE-09.png)
+![](/images/2018-12-12-microservice11-lineup/SLIDE-09.png)
 
 此時，如果又有一位使用者 token(2) 用餐完畢，重複上述的步驟，結果如上圖所示。這時 token(9) 也可以進入用餐了。[排隊起點] 及 [排隊終點] 的指標再次右移一位。
 
@@ -210,13 +196,13 @@ logo: /wp-content/images/2018-12-12-microservice11-lineup/logo.jpg
 
 ## 營業中 (清除隊伍不必要的資訊)
 
-![](/wp-content/images/2018-12-12-microservice11-lineup/SLIDE-10.png)
+![](/images/2018-12-12-microservice11-lineup/SLIDE-10.png)
 
 不知各位有無留意到，即使陸續有人排隊，也有人結帳離開，但是隊伍資訊的 [結帳起點] 卻一直沒有變化，因為開店後第一位進入用餐的 token(1) 其實都還沒離開，因此 [結帳起點] 都還維持為 0。簡單的紀錄，方便店家知道，如果他要查閱目前所有隊伍的資訊，只要從 [結帳起點]: 0 開始往後找就好。
 
 如果這時， token(1) 也要結帳離開了的話... 結果會變成下圖:
 
-![](/wp-content/images/2018-12-12-microservice11-lineup/SLIDE-11.png)
+![](/images/2018-12-12-microservice11-lineup/SLIDE-11.png)
 
 整個的結帳處理程序，都跟前面一樣。唯獨不同的是，隊伍最前面 1, 2, 3 都已經結完帳走人了，有連續的一塊區塊都已完成結帳，這時 [結帳起點] 還從 0 開始紀錄已經沒有意義了，下次要維護隊伍資料，或有任何目的要掃描一次所有隊伍資訊時，不再需要從 0 開始，下次直接從 3 開始即可，因此若偵測到原本的 [結帳起點] 後的使用者已經離開，這個指標就能夠往右移動，直到一到下一個還沒離開隊伍的使用者為止。以這個情境為例，新的 [結帳起點] 應該是 3 才對，請參考上圖所示。
 
@@ -240,7 +226,7 @@ logo: /wp-content/images/2018-12-12-microservice11-lineup/logo.jpg
 
 隨著排隊隊伍越來越長，這類資訊的需求及更新頻率會越來越高，因此排隊機制最好在設計之初就考慮好這個問題。處理得當可以避免很多後端不必要的運算。延續這個案例，繼續看一下，如果排隊隊伍越來越長，[號碼牌] 領到 token(18) 的狀況:
 
-![](/wp-content/images/2018-12-12-microservice11-lineup/SLIDE-12.png)
+![](/images/2018-12-12-microservice11-lineup/SLIDE-12.png)
 
 此時，隊伍的數據為:
 
@@ -275,7 +261,7 @@ QPS = 8 / 1 sec = 8 次/sec;
 
 ## 避免不必要的排隊
 
-![](/wp-content/images/2018-12-12-microservice11-lineup/SLIDE-13.png)
+![](/images/2018-12-12-microservice11-lineup/SLIDE-13.png)
 
 接下來看個極端的狀況，你的店生意實在太好，排隊排到下條街去了。排隊人數遠遠超過你能服務的數量 (例如餐點的數量有限，賣完就沒有了)。雖然有些人可能會中途放棄排隊會空出一些位置出來；不過按照經驗，總是可以抓個包含候補的範圍出來，超過這個範圍，不用等到真的賣完，當下就可以直接告訴使用者不用排隊了。這個舉動，不但能節省使用者端的時間與資源，店員 (server) 的工作份量也可以降低。
 
@@ -356,7 +342,7 @@ QPS = 8 / 1 sec = 8 次/sec;
 這裡的核心問題，就是排隊。我就拿結帳的排隊行為來命名吧! 不論之後是實做成 library / component / services, 是單機版，還是分散式的微服務版本，API 不外乎都要提供這幾個操作。每個隊伍至少要呈現四個指標數字 (號碼機，結帳起點，排隊起點，排隊終點)，以及幾個基本的操作 (取號、詢問、離開、確認失聯的使用者)，我就直接用 C# 的 (abstract) class 來表達:
 
 
-![](/wp-content/images/2018-12-12-microservice11-lineup/SLIDE-17.png)
+![](/images/2018-12-12-microservice11-lineup/SLIDE-17.png)
 > class diagram
 
 
@@ -868,19 +854,19 @@ foreach (var w in workers)
 看看實際的 code 吧! 比照 recycle_worker 的做法，我也寫了 ```MonitorWorker()```, 每隔固定時間就輸出一行 CSV 資料，按照格式把這些 metrics 資料匯出。同時為了方便執行過程觀察，我也稍做整理直接把這些資訊顯示在 console 上，想像一下這是 dashboard, 讓我可以看到即時數據的變化。
 
 
-![](/wp-content/images/2018-12-12-microservice11-lineup/console.gif)
+![](/images/2018-12-12-microservice11-lineup/console.gif)
 
 
 
 來看看匯出的 CSV 能給我們什麼資訊?
 
-![](/wp-content/images/2018-12-12-microservice11-lineup/chart-01.jpg)
+![](/images/2018-12-12-microservice11-lineup/chart-01.jpg)
 
 上圖我只打開兩筆數據: 排隊中(綠線) 與 結帳中(藍線) 兩筆數據，橫軸是時間軸，縱軸是數值(單位: 人)。可以看到結帳中的人數都維持在 400 ~ 480 之間跳動 (我設定的上限是 500), 可見一些隨機的因素，沒有辦法隨時都 100% 維持在最佳的效率上，不過這也是個不錯的指標，也許後續演算法能持續改善優化，我就能從這樣統計圖表比較，哪種做法的結帳人數能比現在這版更逼近理論值上限 500 ?
 
 
 
-![](/wp-content/images/2018-12-12-microservice11-lineup/chart-02.jpg)
+![](/images/2018-12-12-microservice11-lineup/chart-02.jpg)
 
 再來看另一組數據，這次我把隊伍的四個指標都秀出來。號碼機(紅)，結帳起點(灰)，排隊起點(黃)，排隊終點(藍)...
 想像一下，這四個數值隨著時間不斷的往右移，號碼機不斷地發出新的號碼牌。中間大部分的情況，號碼牌發放的位置都超過排隊起點，代表這家店都維持再客滿的狀態。值到後段號碼牌發放變慢了，逐步被黃線超越，這就代表店面內開始有座位空出來了。值到要結束營業為止，號碼牌跟結帳起點重疊了，代表所有領了牌子的客人都已經結帳完畢了，這家店這時已經沒有半個客人了。

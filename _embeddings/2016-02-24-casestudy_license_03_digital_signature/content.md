@@ -1,16 +1,3 @@
----
-layout: post
-title: "[設計案例]  授權碼 如何實作?  #3, 數位簽章"
-categories:
-- "設計案例: 授權碼 如何實作?"
-tags: [".NET","ASP.NET","C#","專欄","技術隨筆","物件導向"]
-published: true
-comments: true
-permalink: "/2016/02/24/casestudy_license_03_digital_signature/"
-redirect_from:
-wordpress_postid: 871
----
-
 ![](/wp-content/uploads/2014/04/shutterstock_160680575-Certified-Stamp-Small1.jpg)
 
 ## 資料的封條: 數位簽章 原理說明
@@ -62,7 +49,7 @@ wordpress_postid: 871
 
 我只要先編輯好一份設定檔 (不論格式是 XML、JSON、或是其他自訂格式都可)，把設定檔附上數位簽章，放到網站的 configuration 裡。網站在啟動執行時，先驗證一次簽章是否正確，通過驗證網站就可以放心按照授權碼的指示啟用網站! 這樣的做法簡單又有效，不用像以前一樣擔心序號被盜用或是破解。整個程式運作的流程，我簡單畫下來，大概像這樣:
 
-![](/wp-content/uploads/2016/02/img_56c49acfd56e7.png)
+![](/images/2016-02-24-casestudy_license_03_digital_signature/img_56c49acfd56e7.png)
 
 實作的部分，其實前面都貼過了。其實這種加解密的演算法，金鑰的管理是很重要的基礎。正規的方式是透過 OS 提供的 [Key Container](https://blogs.msdn.microsoft.com/alejacma/2007/12/13/key-containers-basics/) 來管理，KEY 的產生及散布就透過 CA 來進行。金鑰放在 Key Container 有各種防護機制，我這邊的 Sample Code 為了便於 DEMO，沒有把這段列入考慮，暫時用指定的目錄，或是自行匯入 RSACryptoService XML 來替代。切記! 實際環境下這樣是很不安全的作法，金鑰沒保護好，別人也不用破解了，看完這篇文章就知道怎麼破解了，連駭客都不用找...
 
@@ -330,11 +317,11 @@ OK，經過這麼大費周章的說明 (只是說明的部分很多而已，CODE
 
 除了 Init 所需的資訊，改成從 appsettings.json 取得之外，其他沒有太大的不同。各位可以自行編譯試看看。若授權正常的話，會順利執行 MVC 預設的示範網站。若失敗的話，會顯示 MVC ERROR 畫面，同時會列出出問題的 Exception 內容:
 
-![授權一切正常時，可以正確地進入 MVC Web](/wp-content/uploads/2016/02/img_56c9629bc2f62.png)
+![授權一切正常時，可以正確地進入 MVC Web](/images/2016-02-24-casestudy_license_03_digital_signature/img_56c9629bc2f62.png)
 
-![已經超出授權的日期，會引發 TokenNotValidateException，超過正常使用期限，則無法正常啟動網站。](/wp-content/uploads/2016/02/img_56c9625fc4d28.png)
+![已經超出授權的日期，會引發 TokenNotValidateException，超過正常使用期限，則無法正常啟動網站。](/images/2016-02-24-casestudy_license_03_digital_signature/img_56c9625fc4d28.png)
 
-![如果 TokenData 遭到損毀或是竄改偽造，則會辨識出這個 TokenData 的來源有問題，系統會發出 TokenNotSecureException](/wp-content/uploads/2016/02/img_56c9630d7d101.png)
+![如果 TokenData 遭到損毀或是竄改偽造，則會辨識出這個 TokenData 的來源有問題，系統會發出 TokenNotSecureException](/images/2016-02-24-casestudy_license_03_digital_signature/img_56c9630d7d101.png)
 
 完整的 Code 我就不貼了，整個完整的 Solution 有興趣的讀者們可以到我的 GitHub 上面 Clone 所有的 Source Code 下來慢慢研究~
 

@@ -1,14 +1,3 @@
----
-layout: post
-title: "Blogging as code !!"
-categories:
-
-tags: ["Jekyll", "Liquid", "Wordpress", "Blogging", "GitHub", "VSCode"]
-published: true
-comments: true
-logo: /wp-content/uploads/2016/09/blog-as-code-workflow.png
----
-
 # TL;DR 
 
 想想我開始寫 blog 的這十幾年 (Orz, 這麼久了)，用的部落格系統也換了不少套了, 從最早我自己土炮寫的 asp.net 1.1 blog 開始算, 中間光是系統就換了 5 套, 還不包括
@@ -112,7 +101,7 @@ GitHub Pages 是 GitHub 在 Repository 上面提供的附加服務，原本目�
 這不就是 [visual studio code](http://code.visualstudio.com/) 嗎? 看來太完美了，都是 for developer 用的黃金組合... github + vscode
 用過的就知道了，不用我多介紹啦~ 貼張 vscode 寫 markdown 的圖意思一下就好:  
 
-[![用 visual studio code 編輯 markdown, 同步預覽](/wp-content/uploads/2016/09/blog-as-code-vscode.PNG)](/wp-content/uploads/2016/09/blog-as-code-vscode.PNG)  
+[![用 visual studio code 編輯 markdown, 同步預覽](/images/2016-09-16-blog-as-code/blog-as-code-vscode.PNG)](/images/2016-09-16-blog-as-code/blog-as-code-vscode.PNG)  
 
 
 
@@ -123,7 +112,7 @@ GitHub Pages 是 GitHub 在 Repository 上面提供的附加服務，原本目�
 既然要認真轉移系統，那麼平常寫作的方式，還有搭配的環境跟設施，就要好好的來規劃一下。我還是習慣在 windows 下工作，不過這些
 solution 並非 windows 的原住民, 總是有些小地方要處理.. 這邊紀錄一下我的作法:
 
-[![blogging as code workflow](/wp-content/uploads/2016/09/blog-as-code-workflow.png)](/wp-content/uploads/2016/09/blog-as-code-workflow.png)
+[![blogging as code workflow](/images/2016-09-16-blog-as-code/blog-as-code-workflow.png)](/images/2016-09-16-blog-as-code/blog-as-code-workflow.png)
 
 流程很簡單，就是按照圖上的標示，由 1, 2, 3, 4, 2, 3, 4, 2, 3, 4 ...., 5 的順序不斷重複而以。這邊 GitHub Pages 跟 VS Code
 都不會有什麼大問題，裝了就是了。問題最大在 local 要架設 jekyll 的話會是個大工程 (尤其是在 windows 下) ... 我試過這三種作法，
@@ -161,10 +150,10 @@ docker run -ti --rm -p 4000:4000 -v D:\Blog:/srv/jekyll jekyll/jekyll:pages jeky
 
 貼張圖就結束這回合了 XD, 以我的 case, build 一次 website 約需要 70 sec, 效能受限於我分配給 docker 的資源 (2 cpu, 2048 mb ram).
 偵測到異動後的 rebuild 則要花上近 20 min...
-[![jekyll on docker-for-windows, screenshot](/wp-content/uploads/2016/09/blog-as-code-dfw-screenshot.png)](/wp-content/uploads/2016/09/blog-as-code-dfw-screenshot.png)
+[![jekyll on docker-for-windows, screenshot](/images/2016-09-16-blog-as-code/blog-as-code-dfw-screenshot.png)](/images/2016-09-16-blog-as-code/blog-as-code-dfw-screenshot.png)
 
 執行時間的 CPU usage 果然也慘不忍睹..
-[![jekyll on docker-for-windows, docker stats](/wp-content/uploads/2016/09/blog-as-code-dfw-stats.png)](/wp-content/uploads/2016/09/blog-as-code-dfw-stats.png)
+[![jekyll on docker-for-windows, docker stats](/images/2016-09-16-blog-as-code/blog-as-code-dfw-stats.png)](/images/2016-09-16-blog-as-code/blog-as-code-dfw-stats.png)
 
 如果你想省事，打算採用 docker for windows 來執行 jekyll 的話，給你一個良心的建議... 別用 ```--watch``` 模式了，有異動的話手動 restart container
 會比較簡單，或是你有辦法的話，用 powershell 寫段簡單的 script, 在檔案有異動時 restart container ..
@@ -211,12 +200,12 @@ jekyll s --draft -w
 ```
 
 沒啥畫面，就是這兩個程式執行的 console 訊息而以:
-[![jekyll on windows screenshot](/wp-content/uploads/2016/09/blog-as-code-win-screenshot.png)](/wp-content/uploads/2016/09/blog-as-code-win-screenshot.png)
+[![jekyll on windows screenshot](/images/2016-09-16-blog-as-code/blog-as-code-win-screenshot.png)](/images/2016-09-16-blog-as-code/blog-as-code-win-screenshot.png)
 
 畫面上可以看到，Jekyll for Windows 的效能明顯好很多 (其實 docker 版也不差，只是敗在 polling, 還有平常使用的模式，我不想開太多 CPU / RAM 的資源給 docker for window), 初次 build 大約在 40 sec 上下
 異動後的 rebuild 也在 30 sec 上下就能完成。這邊我啟用了 ```--drafts``` 參數，因此 jekyll 會替我把未發布的 drafts post 也產生出來。
 這種模式方便我自己測試，不用擔心還沒寫好的 POST 不小心就發佈出去..
-[![Jekyll Preview](/wp-content/uploads/2016/09/blog-as-code-local-preview.png)](/wp-content/uploads/2016/09/blog-as-code-local-preview.png)
+[![Jekyll Preview](/images/2016-09-16-blog-as-code/blog-as-code-local-preview.png)](/images/2016-09-16-blog-as-code/blog-as-code-local-preview.png)
 
 
 ## Wordpress to GitHub Pages Migration

@@ -1,17 +1,4 @@
----
-layout: post
-title: "微服務架構 #4, 如何強化微服務的安全性? API Token / JWT 的應用"
-categories:
-- "系列文章: .NET + Windows Container, 微服務架構設計"
-- "系列文章: 架構師觀點"
-tags: ["API", "Token", "microservice", "系列文章", "ASP.NET", "架構師", "Swagger"]
-published: true
-comments: true
-redirect_from:
-logo: /wp-content/uploads/2016/12/apitoken-logo.jpg
----
-
-![洛基的權杖 - Token](/wp-content/uploads/2016/12/apitoken-logo.jpg)
+![洛基的權杖 - Token](/images/2016-12-01-microservice7-apitoken/apitoken-logo.jpg)
 
 其實本來就有打算寫這篇了，聊聊微服務架構下的安全機制該怎麼做? 微服務把整套系統切割成很多套獨立的服務，這些
 獨立的服務就必須有機制去識別其他的服務是否是安全的? 有沒有很簡單的方法解決他? 這類越是基礎的問題，越需要
@@ -82,7 +69,7 @@ url rewrite, 實作 MVC 架構) 等等，當然也包括這次的主題: API Tok
 收取貨款。這種情況下如果資訊的傳遞沒有保護好，client 在 A 付了 100 元，卻可以在 B 訂購 1000 元的商品，這樣你還
 敢做生意嗎?
 
-![API Token 要解決的難題](/wp-content/uploads/2016/12/apitoken-slides04.png)
+![API Token 要解決的難題](/images/2016-12-01-microservice7-apitoken/apitoken-slides04.png)
 
 簡單的用一張圖來代表這個情境，你必須想一個方式來確保這些資訊的傳遞是安全的，否則賠錢的生意絕對做不久的...
 
@@ -108,12 +95,12 @@ url rewrite, 實作 MVC 架構) 等等，當然也包括這次的主題: API Tok
 數位的世界怎麼重現這樣的情境? 那就是密碼學裡常講到的 "數位簽章" (digital signature) 了。
 講到密碼學，我想大家頭就開始痛了，我點到為止就好，我們常聽到的 RSA 加密，各位只要記得三個原則:
 
-![RSA基本概念](/wp-content/uploads/2016/12/apitoken-slides05.png)
+![RSA基本概念](/images/2016-12-01-microservice7-apitoken/apitoken-slides05.png)
 
 這原則你就暫時把它當作鐵律，別再去懷疑他了。他是有數學的原理在背後支持的，當這三條鐵律在有限的時間內不可能被
 破解的話，我們能怎麼用它來解決問題? 先來看看 RSA 怎麼做到數位簽章的效果?
 
-![RSA基本概念-產生數位簽章](/wp-content/uploads/2016/12/apitoken-slides06.png)
+![RSA基本概念-產生數位簽章](/images/2016-12-01-microservice7-apitoken/apitoken-slides06.png)
 
 **Hint**: Hash
 > 在這產生簽章的過程中，Hash 是個必須要懂得技巧。你可以用特定演算法，把一連串的資料算出他的 Hash。如果原始資料
@@ -124,7 +111,7 @@ url rewrite, 實作 MVC 架構) 等等，當然也包括這次的主題: API Tok
 
 
 
-![RSA基本概念-驗證數位簽章](/wp-content/uploads/2016/12/apitoken-slides07.png)
+![RSA基本概念-驗證數位簽章](/images/2016-12-01-microservice7-apitoken/apitoken-slides07.png)
 
 由 A 送出的簽章過的資料，送到 B 手上，B 只要用相反的程序驗證就可以了。其中的關鍵就是，經過 private key 加密的
 Hash, 只有對應的 public key 能解開。若你用特定對象的 public key 解開後驗證無誤，你就能確認手上的資料是他的
@@ -460,7 +447,7 @@ device unique ID, 或是電話號碼等等，都是個值得考慮的作法。
 JWT 是什麼? 能幹嘛? 其實前面你都看懂的話，那就都講完了! 唯一不同的是他的格式是有 RFC 規範的。我從官網
 截一張圖來說明:
 
-![示意圖](/wp-content/uploads/2016/12/apitoken-slides20.png)
+![示意圖](/images/2016-12-01-microservice7-apitoken/apitoken-slides20.png)
 
 他的格式區分為 header, payload, signature 三段, 有標準的套件可以產生 & 解碼，其中加密演算法及強度等
 也都可以自由控制。
@@ -490,7 +477,7 @@ JWT 是什麼? 能幹嘛? 其實前面你都看懂的話，那就都講完了! �
 苦了合法的使用者...。其實用了數位簽章，序號本身就很難破解了啊，強度夠的話理論上是不可能的，除非有人把
 private key 流出來..
 
-![示意圖](/wp-content/uploads/2016/12/apitoken-slides23.png)
+![示意圖](/images/2016-12-01-microservice7-apitoken/apitoken-slides23.png)
 
 做法很簡單，你把授權的資訊當作 ```TokenData```, 最後加上簽章，整串就是啟動序號了。軟體啟動時只要驗證過無誤
 再按照 ```TokenData``` 上的描述，啟用對應的功能跟期限就可以了。Public Key 怎麼拿? 既然都是 publc key, 那就
@@ -520,7 +507,7 @@ private key 產生新的授權...
 
 畫張示意圖，如下, 紅字代表 token 裡面要存放的資訊:
 
-![示意圖](/wp-content/uploads/2016/12/apitoken-slides25.png)
+![示意圖](/images/2016-12-01-microservice7-apitoken/apitoken-slides25.png)
 
 每個 site 都有自己的 site token, 綁定 site id 跟 site url, 因此 site id 就是無法偽造的了，也無法把這服務架在
 未被授權的 URL。服務端被呼叫前，只要先檢查 service token 的兩端 site id 是否正確 (身分驗證)? 通過後再

@@ -1,18 +1,4 @@
----
-layout: post
-title: "不只是 TDD #1, 單元測試, 寫出高品質 code 的基本功夫"
-categories:
-- "系列文章: 如何學好寫程式"
-- "系列文章: .NET + Windows Container, 微服務架構設計"
-- "系列文章: 架構師觀點"
-tags: ["專欄","技術隨筆","TDD","Microservices","架構師"]
-published: true
-comments: true
-redirect_from:
-logo: /wp-content/uploads/2017/01/leetcode-logo.png
----
-
-![LeetCode Logo](/wp-content/uploads/2017/01/leetcode-logo.png)
+![LeetCode Logo](/images/2017-01-30-leetcode1-tdd/leetcode-logo.png)
 
 其實在這十幾年的工作期間，不時地都有人問我 coding 能力怎樣才能更上一層樓? 我的答案都是一樣的老生常談，就是 "要打好基礎"。
 不過這實在很抽象啊! 最近有空就會上 [LeetCode.com](https://leetcode.com/) 來練習一下 coding 技巧，這其實是個練功的好方法，
@@ -107,7 +93,7 @@ LeetCode.com 其實只是眾多 Online Judge Service 之一，這類網站目標
 題目很簡單，給你一個陣列 (```int[] nums```)，外加預期的結果 (```int target```), 你要從陣列中找出哪兩個數字加起來會等於 ```target```。
 該題題目的畫面，大致上就長這個樣子:
 
-![sample](/wp-content/uploads/2017/01/leetcode-sample.png)
+![sample](/images/2017-01-30-leetcode1-tdd/leetcode-sample.png)
 
 頁面上半就是題目及範例的測試案例，右上則是統計，你可以知道這題有多少人次上傳 code (total submissions), 有多少上傳 code 通過測試 (total accepted),
 這題的難度以及題目的提供者等資訊。
@@ -115,7 +101,7 @@ LeetCode.com 其實只是眾多 Online Judge Service 之一，這類網站目標
 下半就是一個簡單的 online source code editor, 支援 syntax highlight, 也會自動配對括號, **[Run Code]** 則會用預設的 test case
 在 server side 編譯並執行你的 code, 按 **[Submit Solution]** 則會正式提交你的 code 去執行所有的 test case, 並且給你評估的結果:
 
-![submission detail](/wp-content/uploads/2017/01/leetcode-submission-details.png)
+![submission detail](/images/2017-01-30-leetcode1-tdd/leetcode-submission-details.png)
 
 
 
@@ -208,7 +194,7 @@ Test Case 裡面的兩組測試數據，我是直接拿題目上的 Example 貼�
 就能直接執行我的 code 了，如果你願意多打幾行 code, 也可以把測試拆成兩個，或是改成 Data Driven Test, 透過外部的資料檔
 來驅動測試，你就可以用 visual studio 的 Test Manager 直接看到每一筆測試的結果:
 
-![test result](/wp-content/uploads/2017/01/leetcode-result.png)
+![test result](/images/2017-01-30-leetcode1-tdd/leetcode-result.png)
 
 從這個測試結果，我們可以看到幾個資訊，都忠實的呈現出來了:
 

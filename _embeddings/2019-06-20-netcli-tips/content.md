@@ -1,15 +1,4 @@
----
-layout: post
-title: "後端工程師必備: CLI 傳遞物件的處理技巧"
-categories:
-tags: ["系列文章", "架構師", "CLI", "C#", "PIPELINE", "串流處理", "TIPS"]
-published: true
-comments: true
-redirect_from:
-logo: /wp-content/images/2019-06-20-netcli-tips/2019-06-20-23-35-14.png
----
-
-![](/wp-content/images/2019-06-20-netcli-tips/2019-06-20-23-35-14.png)
+![](/images/2019-06-20-netcli-tips/2019-06-20-23-35-14.png)
 
 延續[前一篇](/2019/06/15/netcli-pipeline/)，在寫 demo code 的時候想到的小技巧，但是文章內容時在塞不下了，所以另外補了個番外篇，就當作日常開發的小技巧分享吧 (搞不好這種短篇的還比較受歡迎 T_T)。[前一篇](/2019/06/15/netcli-pipeline/)介紹的是 CLI + PIPELINE 的開發技巧。我就以這為主軸，分享一下幾個相關的開發技巧吧。其中一個就是如何透過 pipeline 傳遞物件，另一個就是善用 LINQ 來處理 pipeline 傳來的物件。
 
@@ -403,6 +392,3 @@ C:\> dotnet CLI-DATA.dll | gzip.exe -9 -c -f | gzip.exe -d | dotnet CLI-P1.dll >
 # 小結
 
 難得最近能有這種一個晚上就寫完的內容 XDD, 我還是同樣的論點，很多問題都不需要搬出大部頭的框架或是工具出來，只要你邏輯清楚，基礎知識有札實的打好，很多問題只要靈活的運用手邊現成的技巧就能漂亮解決的。這篇分享的 tips 就屬於這類, 各位就當我野人獻曝, 分享我覺得還不錯用的小技巧。有任何意見歡迎再我的粉絲團留言討論 :)
-
-
-

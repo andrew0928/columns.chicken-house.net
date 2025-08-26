@@ -11,16 +11,16 @@
     "\u6280\u8853\u96A8\u7B46",
     "\u7269\u4EF6\u5C0E\u5411"
   ],
-  "generator": "BlogIndex.SyncPost v1.0.0.0, o3, https://app-azureopenai.openai.azure.com/",
   "tech-stacks": [
     ".NET",
     "C#",
+    "Newtonsoft.Json",
     "JSON",
     "BSON",
-    "Newtonsoft.Json",
-    "RSA",
-    "Base64",
     "NuGet",
+    "RSA",
+    "\u6578\u4F4D\u7C3D\u7AE0",
+    "Base64",
     "GitHub"
   ],
   "keywords": [
@@ -28,27 +28,35 @@
     "\u5E8F\u5217\u5316",
     "TokenData",
     "TokenHelper",
-    "SiteLicenseToken",
     "\u6578\u4F4D\u7C3D\u7AE0",
+    "\u9A57\u8B49",
     "JSON",
     "BSON",
-    "Factory Pattern",
-    "Polymorphism",
+    "SiteID",
+    "SiteLicenseToken",
     "IsValidate",
     "EncodeToken",
     "DecodeToken",
-    "Init",
-    "CreateToken"
+    "Base64",
+    "Factory Pattern",
+    "\u591A\u5F62",
+    "\u7269\u4EF6\u5C0E\u5411",
+    "Keystore",
+    "Private Key",
+    "Public Key",
+    "\u91D1\u9470\u7BA1\u7406"
   ],
+  "generator": "BlogIndex.SyncPost v0.3.0.0, gpt-5",
   "references": [
+    "/images/2016-02-24-casestudy_license_02_serialization/img_56cc8c9caafc8.png",
     "/2016/02/17/casestudy_license_01_requirement/",
     "/2016/02/24/casestudy_license_02_serialization/",
     "/2016/02/24/casestudy_license_03_digital_signature/",
     "/2016/03/19/casestudy_license_03_appendix_key_management/",
-    "/wp-content/uploads/2016/02/img_56cc8c9caafc8.png",
-    "/wp-content/uploads/2016/02/img_56c4a40001a60.png",
+    "/images/2016-02-24-casestudy_license_02_serialization/img_56c4a40001a60.png",
     "https://www.nuget.org/packages/Newtonsoft.Json/",
     "https://en.wikipedia.org/wiki/Base64",
     "https://github.com/andrew0928/ApiDemo"
-  ]
+  ],
+  "summary": "\u9019\u6B21\u76F4\u63A5\u8DF3\u5230\u4E3B\u984C: \u7DB2\u7AD9\u5B89\u88DD\u6388\u6B0A\u958B\u59CB\u5427\u3002\u9019\u6771\u897F\u7684\u7528\u9014\uFF0C\u5C31\u8DDF\u904E\u53BB\u5B89\u88DD\u8EDF\u9AD4\u8981\u8F38\u5165\u5E8F\u865F\u4E00\u6A23\u7684\u76EE\u7684\uFF0C\u8F38\u5165\u5E8F\u865F\u4E4B\u5F8C\uFF0C\u8EDF\u9AD4\u4E0D\u7528\u4E0A\u7DB2\u5C31\u8981\u80FD\u77E5\u9053\u4F60\u8CFC\u8CB7\u7684\u662F\u4EC0\u9EBC\u7248\u672C\uFF0C\u6709\u54EA\u4E9B\u529F\u80FD\u8981\u88AB\u555F\u7528? \u5728\u4E0D\u9023\u5230 internet \u7684\u60C5\u6CC1\u4E0B\uFF0C\u8981\u55AE\u9760\u4E00\u6BB5\u6388\u6B0A\u8CC7\u6599\u5C31\u9054\u5230\u9019\u76EE\u7684\uFF0C\u6700\u597D\u662F\u80FD\u7C21\u55AE\u660E\u77AD\uFF0C\u8CC7\u6599\u7D50\u69CB\u6E05\u695A\u5BB9\u6613\u64F4\u5145\u7DAD\u8B77\uFF0C\u540C\u6642\u5B89\u5168\u5F37\u5EA6\u9084\u8981\u5920\u5F37 (\u9632\u6B62\u507D\u9020)\uFF0C\u9019\u5C31\u662F\u9019\u6B21\u8981\u89E3\u6C7A\u7684\u554F\u984C\u3002\n\n\u6211\u7684\u76EE\u7684\uFF0C\u4E0D\u4F46\u8981\u9867\u53CA\u529F\u80FD\u6027(\u5B89\u5168\u5F37\u5EA6)\uFF0C\u540C\u6642\u4E5F\u8981\u9867\u53CA\u7A0B\u5F0F\u78BC\u53CA\u7CFB\u7D71\u67B6\u69CB\u7684\u5C64\u9762\uFF0C\u56E0\u6B64\u6211\u62C6\u6210\u5169\u500B\u90E8\u4EFD\u4F86\u63A2\u8A0E\uFF0C\u4E00\u500B\u5C31\u662F\u6700\u95DC\u9375\u7684\u8CC7\u6599\u5B89\u5168\u554F\u984C\uFF0C\u53E6\u4E00\u500B\u5C31\u662F\u5982\u4F55\u7528\u7A0B\u5F0F\u78BC\u4F86\u8868\u9054\u53CA\u5C01\u88DD\u9019\u4E9B\u529F\u80FD?"
 }

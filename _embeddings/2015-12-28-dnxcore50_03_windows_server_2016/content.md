@@ -1,15 +1,3 @@
----
-layout: post
-title: ".NET Core 跨平台 #3, 記憶體管理大考驗 - Windows Container (2016 TP)"
-categories:
-- "系列文章: .NET Core 跨平台"
-tags: [".NET",".Net Core","Docker","作業系統","專欄"]
-published: true
-comments: true
-permalink: "/2015/12/28/dnxcore50_03_windows_server_2016/"
-redirect_from:
-wordpress_postid: 630
----
 &nbsp;
 
 <hr />

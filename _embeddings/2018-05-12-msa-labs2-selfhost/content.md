@@ -1,18 +1,4 @@
----
-layout: post
-title: "容器化的微服務開發 #2, IIS or Self Host ?"
-categories:
-- "系列文章: .NET + Windows Container, 微服務架構設計"
-- "系列文章: 架構師觀點"
-tags: ["microservice", "系列文章", "ASP.NET", "架構師", "Docker", "Windows Container", "DevOps", "Service Discovery", "Consul"]
-published: true
-comments: true
-redirect_from:
-logo: /wp-content/images/2018-05-12-msa-labs2-selfhost/how_would_you_solve_the_icing_problem.jpg
----
-
-
-![](/wp-content/images/2018-05-12-msa-labs2-selfhost/how_would_you_solve_the_icing_problem.jpg)
+![](/images/2018-05-12-msa-labs2-selfhost/how_would_you_solve_the_icing_problem.jpg)
 
 雖然微服務跟容器化是兩回事，不過兩者的搭配是絕佳組合啊，所以我決定先花點篇幅，先交代如何將 web api 容器化部署的問題 (self-host or IIS host)。部署這件事，過去都是 operation team 解決掉了，不需要 development team 傷腦筋。現在微服務需要更密切的整合，必須要同時能掌握 development 跟 operation 的 know how, 才能正確的拿捏該捨掉那些東西。這篇就是從這角度，告訴你 IIS 與 Self Host 兩種開發與部署的模式該如何取捨。我先說明一下採用 Self-Host 的考量，同時也會示範一下如何開發一個通用的 Self-Host class library, 微服務的應用上，你勢必會有很多大量的服務需要開發，先把這個通用的 Self-Host 架構搞定，接著統一處理其他微服務的各種 infrastructure (如下篇介紹的 consul) 的整合，可以替整個團隊省下不少功夫。
 
@@ -77,7 +63,7 @@ logo: /wp-content/images/2018-05-12-msa-labs2-selfhost/how_would_you_solve_the_i
 
 **IIS host**:
 
-![](/wp-content/images/2018-05-12-msa-labs2-selfhost/2018-05-17-17-42-57.png)
+![](/images/2018-05-12-msa-labs2-selfhost/2018-05-17-17-42-57.png)
 
 這張是目前 Microsoft 官方提供的 ASPNET container image 為基礎，我把啟動到結束的過程畫成 time diagram 。由左到右是時間，每個藍色的 Bar 代表一個 process, 下列的敘述中的 (n) 就代表圖內的綠色數字。IIS 有良好的 app pool management 能力，每個 asp.net application 都會在 app pool 內執行。IIS 啟動之後，會等到第一個 http request (1) 進來後才會啟動該 web application (2)。這時定義在 asp.net global.asax 內的 application_start event (3) 就會被觸發。App pool 有各種情況可能會被回收或是終止(4) (如 idle 超過指定時間，使用資源如 CPU 或是 MEMORY 超過限制等等)，這時會觸發 application_end event (5), 等待下一個 http request, 或是主動啟動另一個新的 app pool 來替代。
 
@@ -100,7 +86,7 @@ logo: /wp-content/images/2018-05-12-msa-labs2-selfhost/how_would_you_solve_the_i
 
 如果換個角度，我們跳出 IIS 的框架，改用 self host 的角度重新思考這問題的話...
 
-![](/wp-content/images/2018-05-12-msa-labs2-selfhost/2018-05-17-21-25-51.png)
+![](/images/2018-05-12-msa-labs2-selfhost/2018-05-17-21-25-51.png)
 
 整個處理程序都變的超級簡單了啊，就是單一一個 process, 直接指定為 docker container 的 entrypoint, 能夠很精準的讓開發人員掌握 start / end 的時間點；同時只有一個 process, 也沒有多個 app pool 同時並行的困擾。至於原本 IIS 幫我們做的同時多個 app pool 管理呢? 這交給 container orchestration 不也是對 container 在做一樣的事情嗎? 交給 orchestration 統一管理就好了 (下一段說明)。
 
@@ -256,7 +242,7 @@ IIS 7 的數據我就不貼了，效能差異更大。在 IIS 8 的測試基準�
 
 開始之前，看一下 time diagram, 然後再來看各個部分的 code:
 
-![](/wp-content/images/2018-05-12-msa-labs2-selfhost/2018-05-20-04-42-41.png)
+![](/images/2018-05-12-msa-labs2-selfhost/2018-05-20-04-42-41.png)
 
 
 
@@ -312,7 +298,7 @@ public class Startup
 
 絕大部分的 code, 你會 ASP.NET MVC 就看的懂了，不再贅述。我只挑特別修改過的地方說明。當你定義完 routing 之後，第一個碰到的，就是 ASP.NET 有可能會找不到你的 controller 在哪裡 (如下圖)。
 
-![](/wp-content/images/2018-04-06-aspnet-msa-labs2-consul/2018-05-07-21-01-35.png)
+![](/images/2018-05-12-msa-labs2-selfhost/2018-05-07-21-01-35.png)
 
 > No type was found that matches the controller named 'ip2c'.
 

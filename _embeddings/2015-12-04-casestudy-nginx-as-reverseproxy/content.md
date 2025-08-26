@@ -1,18 +1,6 @@
----
-layout: post
-title: "CaseStudy: 網站重構, NGINX (REVERSE PROXY) + 文章連結轉址 (Map)"
-categories:
-
-tags: ["BlogEngine.NET","Docker","Tips"]
-published: true
-comments: true
-permalink: "/2015/12/03/casestudy-nginx-as-reverseproxy/"
-redirect_from:
-wordpress_postid: 543
----
 網站架構調整後有感: 要學習另一個陣營的技術，還真是條不歸路，越挖越覺得要摸索的東西越多 @@ 照例前面先來點碎碎念，正題後面再來。這年頭，大型的佈署是少不了 Linux + OpenSource Solution 的，再加上我吃飯的傢伙 ASP.NET 的下一版 (vNext, .NET Core) 也要正式跨各種平台了，不熟悉一下 Linux 以後怎麼會有能力把寫出來的 code 搬到 Linux 上面執行? 不過，要跨到完全另一個生態體系的環境，還真要下點決心才跨得過去... 所幸，我挑對了切入點 (把自己的 BLOG 從 BlogEngine 轉移到 WordPress, 架設在 NAS + DOCKER 環境)，這幾個月下來，也算累積了不少的心得 :D 要在 Linux 的世界裡打滾，最痛苦的就是安裝各種軟體了，只能說那真是地獄... @@，尤其是對於不熟 Linux 的人來說更是如此。現在有各種套件安裝的工具，向是 APT-GET 之類的，其實已經簡化很多了，但是難的在後頭，各種的 configuration 都要自己編 conf 檔，而每套系統用的語法都不一樣... 我不論是在 Coding 或是 System Admin 時，都很講究系統架構。因此往往預設的安裝我都不滿意，我都會想盡辦法用最基礎的模組，搭建出我認為最理想最適合的架構。很多組態都必須自己研究摸索，都需要碰到進階的安裝設定，這也是要開始認真用 Linux 的我最大的障礙... 然而我的目的不是要熟悉這些 configuration 啊，我目的是架設出期望的系統，來解決後續的問題，這些繁瑣的安裝設定機制 (除非必要，像是這篇要講的 Rewrite ) 就能省則省... 所幸 Docker 的出現，正好給了我這種人一個機會，我只要搞定最基本的 Docker 執行環境，其他安裝就簡單了，找到正確的 container image 就一切搞定。加上我用的 NAS 內建 Docker 的支援，連 Linux + Docker 架設都免了... 至於為何要這麼大費周章的熟悉 Linux ? 轉貼一則最近看到的新聞... 連 Microsoft CEO Satya Nadella 都公開表示 "Linux is Best for Cloud" 了，多年的 Microsoft 信徒軟絲當然要花時間去研究一下.. XD
 
-# ![](/wp-content/uploads/2015/11/microsoft_loves_linux-300x199.jpg)  
+# ![](/images/2015-12-04-casestudy-nginx-as-reverseproxy/microsoft_loves_linux-300x199.jpg)  
 [Microsoft Agrees Linux is Best for Cloud](http://technochords.com/microsoft-agrees-linux-is-best-for-cloud/)
 
 Ever since the new CEO, Satya Nadella, has taken the place of the Linux-hater Steve Balmer, the change in Microsoft’s rhetoric regarding Linux has been clear.<span id="more-833"></span> Now, Microsoft is officially recommending Linux on Twitter.
@@ -31,7 +19,7 @@ Ever since the new CEO, Satya Nadella, has taken the place of the Linux-hater St
 
 ![](http://columns.chicken-house.net/wp-content/uploads/2015/12/img_5660723bd1e09.png)
 
-先來看看這次我想調整的架構圖。第一張圖是現有的架構，就是[兩個月前剛轉移 BLOG](http://columns.chicken-house.net/2015/10/13/docker-%e5%88%9d%e9%ab%94%e9%a9%97-synology-dsm-%e4%b8%8a%e9%9d%a2%e6%9e%b6%e8%a8%ad-wordpress-redmine-reverse-proxy/) 用的架構: [![NETWORK](/wp-content/uploads/2015/10/NETWORK.png)](/wp-content/uploads/2015/10/NETWORK.png) 第二張是我想調整的新架構，也就是這次要做的:
+先來看看這次我想調整的架構圖。第一張圖是現有的架構，就是[兩個月前剛轉移 BLOG](http://columns.chicken-house.net/2015/10/13/docker-%e5%88%9d%e9%ab%94%e9%a9%97-synology-dsm-%e4%b8%8a%e9%9d%a2%e6%9e%b6%e8%a8%ad-wordpress-redmine-reverse-proxy/) 用的架構: [![NETWORK](/images/2015-12-04-casestudy-nginx-as-reverseproxy/NETWORK.png)](/images/2015-12-04-casestudy-nginx-as-reverseproxy/NETWORK.png) 第二張是我想調整的新架構，也就是這次要做的:
 
 ![](http://columns.chicken-house.net/wp-content/uploads/2015/12/img_56608a1da440e.png)
 

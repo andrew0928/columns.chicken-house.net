@@ -1,21 +1,3 @@
----
-layout: post
-title: "[Azure] Multi-Tenancy Application #1, 設計概念"
-categories:
-- "系列文章: Multi-Tenancy Application"
-tags: ["AZURE","MSDN","SQL","技術隨筆"]
-published: true
-comments: true
-redirect_from:
-  - /2013/03/12/azure-multi-tenancy-application-1-設計概念/
-  - /columns/post/2013/03/12/Azure-Multi-Tenancy-Application-1-e8a8ade8a888e6a682e5bfb5.aspx/
-  - /post/2013/03/12/Azure-Multi-Tenancy-Application-1-e8a8ade8a888e6a682e5bfb5.aspx/
-  - /post/Azure-Multi-Tenancy-Application-1-e8a8ade8a888e6a682e5bfb5.aspx/
-  - /columns/2013/03/12/Azure-Multi-Tenancy-Application-1-e8a8ade8a888e6a682e5bfb5.aspx/
-  - /columns/Azure-Multi-Tenancy-Application-1-e8a8ade8a888e6a682e5bfb5.aspx/
-wordpress_postid: 9
----
-
 對，各位你沒看錯，我的部落格在隔了一年半之後又有新文章了 XD
 
 好久沒寫了，這年頭什麼東西都流行加個 "微" ... BLOG 有微博，Messenger 有微信... MV有微電影... 連我們在做的數位學習也出現 "微型課件" ... 什麼都微型化的後果，就是越來越懶的 POST 這種 "大型" 的文章在 BLOG 上了.. 常常想到一些東西，還沒成熟到一個完整概念，就貼到 FB 上，越來越速食的結果就越來越沒顧到 BLOG... Orz…
@@ -56,7 +38,7 @@ wordpress_postid: 9
 
 當然，這篇是 MSDN 的文章，自然也提到了 Microsoft 的技術 (SQL server) 如何因應這三種不同的需求。這張表格是整篇文章的精華了，很清楚的講到三種模式，對各種問題的最佳處理方式。表格貼不過來 @@，我直接用截圖來說明:
 
-![image](/wp-content/be-files/image_15.png)
+![image](/images/2013-03-12-azure-multi-tenancy-application-1-design-concepts/image_15.png)
 
 簡單舉個例子，Extensibility Patterns 這欄說明的是如何擴充你的資料? 這裡指的擴充不是指效能，是只你要如何增加新的資料型態?
 

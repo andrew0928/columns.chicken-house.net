@@ -1,18 +1,4 @@
----
-layout: post
-title: "API & SDK Design #4, API 上線前的準備 - Swagger + Azure API Apps"
-categories:
-- "系列文章: .NET + Windows Container, 微服務架構設計"
-- "系列文章: API & SDK Design"
-- "系列文章: 架構師觀點"
-tags: ["API", "SDK", "microservice", "系列文章", "ASP.NET", "架構師", "Azure", "API Apps", "Swagger", "DX"]
-published: true
-comments: true
-redirect_from:
-logo: /wp-content/uploads/2016/11/apisdk04-logo.jpg
----
-
-![](/wp-content/uploads/2016/11/apisdk04-logo.jpg)
+![](/images/2016-11-27-microservice6/apisdk04-logo.jpg)
 
 寫到這邊，寫了那麼多 code, 你的 API 總該要上線了吧! 這篇就來探討一下，除了寫好 Code 之外，API 上線還要
 注意什麼? API 這種東西不比一般的系統，API 的開發者是 developer, 使用者也是 developer，溝通可以用更有效率
@@ -98,7 +84,7 @@ DX 包含哪些東西?
 
 ---
 
-![Facebook "讚" 按鈕配置工具](/wp-content/uploads/2016/11/apisdk04-fblike.png)
+![Facebook "讚" 按鈕配置工具](/images/2016-11-27-microservice6/apisdk04-fblike.png)
 
 ---
 
@@ -267,7 +253,7 @@ C# 支援你在程式碼裡面，用 ```///``` 的方式寫註解，編譯器會
 這邊有指定的話，Swagger UI 就可以直接呈現你在程式碼的註解，非常方便!
 
 首先，去 project property page 的 output 設定中，啟用 Xml documentation file:  
-![project settings](/wp-content/uploads/2016/11/apisdk04-xmlcommentoutput.png)
+![project settings](/images/2016-11-27-microservice6/apisdk04-xmlcommentoutput.png)
 
 
 接著，在 ```~/App_Start/SwaggerConfig.cs``` 啟用這段 code, 指定 xml documentation file 路徑:
@@ -324,7 +310,7 @@ https://github.com/domaindrivendev/Swashbuckle
 
 上述動作改完，重新編譯後就可以執行了。原本的 webapi 網站的網址，後面加上 /swagger/ 就可以看到畫面了:
 
-![swagger ui](/wp-content/uploads/2016/11/apisdk04-swagger-ui.png)
+![swagger ui](/images/2016-11-27-microservice6/apisdk04-swagger-ui.png)
 
 果然我們在程式碼上面對 API 寫的註解，都被同步顯示到 swagger ui 上了，這些 API 你也可以直接在 swagger ui 上面
 直接輸入參數，按下 [Try it out!] 當場就能看到呼叫的結果，非常方便。
@@ -380,7 +366,7 @@ https://github.com/domaindrivendev/Swashbuckle
 
 先連到這個網址，[swagger editor online](http://editor.swagger.io/)
 
-![](/wp-content/uploads/2016/11/apisdk04-swagger-editor.png)
+![](/images/2016-11-27-microservice6/apisdk04-swagger-editor.png)
 
 把剛才從我們自己的 code 產生出來的 swagger definitions json 貼上來就可以用了。跳過各種編輯提示及預覽的功能，直接
 跳到選單: Home > Generate Server > Aspnet5, 網站會讓我們下載一包 ASP.NET MVC5 WebAPI 的空白 project:
@@ -435,7 +421,7 @@ public class BirdsApiController : Controller
 接下來，看看 client code generator 吧，一樣用 swagger editor, 選單 Home > Generate Client > C# .NET 2.0, 完成後會讓你
 下載整個 project. 這次不看 code 了 (好多行...), 看 project 的結構:
 
-![](/wp-content/uploads/2016/11/apisdk04-client-code-gen.png)
+![](/images/2016-11-27-microservice6/apisdk04-client-code-gen.png)
 
 其實 gen 出來的 code 架構很有水準喔，我們前面講的 SDK 要注意的細節通通考慮到了。幫你把 API 還有 Model 都 Gen 出對應的
 class, 如果你懶得像我一樣手工自己慢慢刻 SDK, 用 swagger editor gen 出來當作起點是個不錯的選擇。
@@ -517,12 +503,12 @@ SSL 對於 API 服務來說，遠比一般網站還重要。在 Azure App Servic
 在 Azure Portal 上面，對於 API Apps 有專屬的 API settings 設定畫面。目前支援兩個相關設定，分別是:
 
 1. API Definition:
-![](/wp-content/uploads/2016/11/apisdk04-azure-apisettings.png)
+![](/images/2016-11-27-microservice6/apisdk04-azure-apisettings.png)
 直接讓你指定 swagger definition 的位址。如果你有用前面說明的 swashbuckle 套件，那你直接貼網址進來就好了。
 這個設定不是給你用的，而是其他服務如果需要 discover api services, 那 azure 的環境就會知道要到這邊取得你的 API 定義。
 你可以透過 swashbuckle 套件產生，或是另外指定預先產生的 json file 都可以。
 1. CORS:
-![](/wp-content/uploads/2016/11/apisdk04-azure-cors.png)
+![](/images/2016-11-27-microservice6/apisdk04-azure-cors.png)
 如果你的 API 是拿來讓網頁上的 script 呼叫使用的話，那麼瀏覽器會遵循多源政策，參考 CORS 的宣告，決定允不允許
 其他網站的 script 來你這邊呼叫 API。這其實不靠 Azure 也做得到，不過 Azure 把他從 web.config 解放出來，你要調整
 CORS 設定不需要重新 deploy api apps, 只要來 portal 更改設定即可。
@@ -532,11 +518,11 @@ CORS 設定不需要重新 deploy api apps, 只要來 portal 更改設定即可�
 API 沒有畫面，要追查問題及除錯更需要後端管理的支援。如果我自己的 code 都沒有埋任何 log or error handling 機制，那 Azure
 websites 仍然提供這些機制讓我查問題。舉個例來說，這個 sample code 我第一次佈署上去就出問題:
 
-![](/wp-content/uploads/2016/11/apisdk04-azure-nopermission.png)
+![](/images/2016-11-27-microservice6/apisdk04-azure-nopermission.png)
 
 當我摸不著頭腦時，我想到了 azure websites diagnoistic 的功能:
 
-![](/wp-content/uploads/2016/11/apisdk04-azure-diagsettings.png)
+![](/images/2016-11-27-microservice6/apisdk04-azure-diagsettings.png)
 
 這些選項打開就會有 log files 了。我只是 demo 用，沒有 scale out 的需求，就直接把 log file 放在 VM 的 file system 上了。
 省掉再開一組 storage 的功夫。
@@ -544,7 +530,7 @@ websites 仍然提供這些機制讓我查問題。舉個例來說，這個 samp
 接下來發生的事件，就會被記錄在 file system 底下的 log file 了。不過要查閱 log 還有更方便的介面，就是直接用 log stream,
 可以直接像 console 一樣，即時看到從開啟 log stream 畫面後的即時訊息:
 
-![](/wp-content/uploads/2016/11/apisdk04-azure-logstream.png)
+![](/images/2016-11-27-microservice6/apisdk04-azure-logstream.png)
 
 當然你想查閱過去的 log 也行, 直接把 logfile 下載回來看就是了。從這些 log 發現，原來我先前只在 debug build 啟用 xml documentation,
 佈署到 azure 上面的是 release build, 沒有 xml documentation, 所以 swagger ui 抓不到就丟出 exception 了。解決後
@@ -569,12 +555,12 @@ switch, 就在幾秒內將兩者對調，就切換上線了。一旦碰到問題
 
 這邊我額外建立了 test 的 slot:
 
-![](/wp-content/uploads/2016/11/apisdk04-azure-deployslot.png)
+![](/images/2016-11-27-microservice6/apisdk04-azure-deployslot.png)
 
 
 針對這個 test slot, 有一組獨立的 URL 跟組態設定畫面:
 
-![](/wp-content/uploads/2016/11/apisdk04-azure-testslot.png)
+![](/images/2016-11-27-microservice6/apisdk04-azure-testslot.png)
 
 正式服務的網址應該是: http://demoapiweb.azurewebsites.net
 
@@ -609,4 +595,4 @@ Azure 已經最大幅度的把操作的門檻降低了，讓專注於開發的 d
 就會事倍功半。這麼一來你的 API 也開始有國際大廠的服務水準了。
 
 寫到這裡，API 終於上線了! 接下來面臨的挑戰就是從 ver 1.0 升級到 1.1, 1.2, 2.0 了。
-下一篇來談談: 在升級的過程中該如何確保你的服務能同時顧及所有應該要支援的 client ? 
+下一篇來談談: 在升級的過程中該如何確保你的服務能同時顧及所有應該要支援的 client ?

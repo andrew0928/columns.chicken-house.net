@@ -1,15 +1,3 @@
----
-layout: post
-title: "如何在 VM 裡面使用 Docker Toolbox ?"
-categories:
-
-tags: ["Docker","Tips","作業系統","技術隨筆"]
-published: true
-comments: true
-permalink: "/2016/04/03/docker-toolbox-under-vm/"
-redirect_from:
-wordpress_postid: 1015
----
 這篇一樣是意料之外的文章，不在原本的寫作計畫內 XD
 
 上個禮拜是 Docker 三周年的生日，很難想像一個才剛滿三歲的技術，就已經在整個資訊業界掀起一陣風潮了.. 這次剛好無意間在 FB 的 Docker 社團，看到[保哥問了個問題](https://www.facebook.com/groups/docker.taipei/permalink/1739265086308847/) (借保哥的圖用一下):
@@ -18,7 +6,7 @@ wordpress_postid: 1015
 
 > *請問有人知道如何在 Hyper-V 下執行 Docker Toolbox 嗎？*
 
-![](/wp-content/uploads/2016/04/12898285_10209340119290278_6988112908761034670_o.jpg)
+![](/images/2016-04-03-docker-toolbox-under-vm/12898285_10209340119290278_6988112908761034670_o.jpg)
 
 一時手又癢了起來，於是就多了這篇意料之外的文章 XD
 
@@ -81,7 +69,7 @@ Invoke-WebRequest https://raw.githubusercontent.com/Microsoft/Virtualization-Doc
 
 在我的範例裡面，我的 VM name 是: WIN10, 附上我的執行結果:
 
-![](/wp-content/uploads/2016/04/img_57000bc9912e2.png)
+![](/images/2016-04-03-docker-toolbox-under-vm/img_57000bc9912e2.png)
 
 Nested virtualization 有些地方要注意，VM memory 至少要 4GB, Mac Address Spoofing 必須啟用，還有一些 blah blah 的警告... 像是不支援 dynamic memory, 也不支援 checkpoints 等等。
 
@@ -89,23 +77,23 @@ Nested virtualization 有些地方要注意，VM memory 至少要 4GB, Mac Addre
 
 Script 執行完畢後，Host OS 這段的任務就結束了，接下來替這個 VM "開機"，在裡面開始安裝 Docker Toolbox:
 
-![](/wp-content/uploads/2016/04/img_57000cba58b2c.png)
+![](/images/2016-04-03-docker-toolbox-under-vm/img_57000cba58b2c.png)
 
 安裝過程就不多說了，全部都照預設值安裝... (後面會說明要注意的地方)，一路下一步跑完就結束了。安裝好之後，直到我按下 Docker Quickstart Terminal 才發現不對勁...
 
 前面的 initialization 還算順利，啟用 nested virtualization 後，建立 VM 不再像之前保哥碰到的狀況，無法支援 VT-x .. 看起來都順利的 init:
 
-![](/wp-content/uploads/2016/04/img_5700124ea57ca.png)
+![](/images/2016-04-03-docker-toolbox-under-vm/img_5700124ea57ca.png)
 
 不過跑到後面，看來 Virtual Box 還是不買帳，重新測試幾次後 (該不會被我玩壞了吧?) 連建立都有問題了 @@
 
 在 VM 內就是無法成功的用 Virtual Box 啟用已建立 VM ...
 
-![](/wp-content/uploads/2016/04/img_57000f4120a6a.png)
+![](/images/2016-04-03-docker-toolbox-under-vm/img_57000f4120a6a.png)
 
 直接開 Virtual Box 來看，也是碰到一樣的問題:
 
-![](/wp-content/uploads/2016/04/img_57000f651308d.png)
+![](/images/2016-04-03-docker-toolbox-under-vm/img_57000f651308d.png)
 
 我就把他當作 Nested Virtualizalization 的 Known Issues 吧，preview 階段的技術，跟對手的技術不相容應該也算正常... 跟自家的 Hyper-V 總不會有問題了吧?
 
@@ -137,7 +125,7 @@ docker-machine create -d hyperv boot2docker
 
 這次建立過程就很順利，等了一兩分鐘就完成了。
 
-![](/wp-content/uploads/2016/04/img_570012eaeeb95.png)
+![](/images/2016-04-03-docker-toolbox-under-vm/img_570012eaeeb95.png)
 
 看來除了建立 VM，連 VM 必要的設定也都準備好了。VM準備好後，直接用 boot2docker.iso 這光碟映像檔開機。Boot2Docker.iso 是個針對 Docker Host 設計的 Linux 開機光碟，目的是 Diskless 的環境下，只要用 CD BOOT 就可以使用 DOCKER 環境的特化版 Linux. 這邊可以看到，VM 開好 BOOT LINUX 後，連 SSH 憑證等等都幫你設定好了...
 
@@ -147,7 +135,7 @@ docker-machine create -d hyperv boot2docker
 run: docker-machine env boot2docker
 ```
 
-![](/wp-content/uploads/2016/04/img_570014665a7e3.png)
+![](/images/2016-04-03-docker-toolbox-under-vm/img_570014665a7e3.png)
 
 設定好這幾個環境變數，我就可以直接在這台 windows vm 上面使用 docker 了。
 
@@ -157,7 +145,7 @@ run: docker-machine env boot2docker
 docker run hello-world
 ```
 
-![](/wp-content/uploads/2016/04/img_570014b3b1c69.png)
+![](/images/2016-04-03-docker-toolbox-under-vm/img_570014b3b1c69.png)
 
 用過 Docker 的人看了就懂了，我就不用多說... Docker Client 直接跟 Docker Host 溝通，去 Docker Hub Pull 這個 container image 回來執行... 印出來的那堆 message 就是執行的結果，代表你已經成功的執行這個 container
 

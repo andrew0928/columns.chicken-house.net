@@ -1,15 +1,3 @@
----
-layout: post
-title: ".NET Core 跨平台 #4, 記憶體管理大考驗 – Docker @ Ubuntu / Boot2Docker"
-categories:
-- "系列文章: .NET Core 跨平台"
-tags: [".Net Core","C#","Docker","專欄"]
-published: true
-comments: true
-permalink: "/2015/12/29/dnxcore50_04_linux_and_summary/"
-redirect_from:
-wordpress_postid: 640
----
 &nbsp;
 
 <hr />

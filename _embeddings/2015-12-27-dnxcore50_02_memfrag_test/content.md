@@ -1,18 +1,4 @@
----
-layout: post
-title: ".NET Core 跨平台 #2, 記憶體管理大考驗 - setup environment"
-categories:
-- "系列文章: .NET Core 跨平台"
-tags: [".Net Core","AZURE","C#","Docker","專欄","技術隨筆"]
-published: true
-comments: true
-permalink: "/2015/12/27/dnxcore50_02_memfrag_test/"
-redirect_from:
-logo: /wp-content/uploads/2015/12/img_567f9c9e811a9.png
-wordpress_postid: 620
----
-
-![](/wp-content/uploads/2015/12/img_567f9c9e811a9.png)
+![](/images/2015-12-27-dnxcore50_02_memfrag_test/img_567f9c9e811a9.png)
 
 
 記憶體管理，是跟底層平台高度相關的議題。對於 developer 來說，能掌控的部分很有限，developer 能做的動作，不外乎是 allocate / free memory, 頂多對於 GC (garbage collection) 的機制更明確的掌握而已。超出這個範圍以外的部分，就真的只剩下好好處理 exception 的份了...

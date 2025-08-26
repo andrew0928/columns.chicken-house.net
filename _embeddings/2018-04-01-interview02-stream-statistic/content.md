@@ -1,17 +1,4 @@
----
-layout: post
-title: "架構面試題 #2, 連續資料的統計方式"
-categories:
-- "系列文章: 架構師觀點"
-- "系列文章: 架構面試題"
-tags: ["架構師", "面試經驗", "microservices", "azure stream analytics"]
-published: true
-comments: true
-redirect_from:
-logo: /wp-content/uploads/2018/04/datastream.png
----
-
-![](/wp-content/uploads/2018/04/datastream.png)
+![](/images/2018-04-01-interview02-stream-statistic/datastream.png)
 
 面試題這系列來到第二篇，這次來點靈活一點的應用題: 連續資料的統計方式。
 
@@ -30,7 +17,7 @@ logo: /wp-content/uploads/2018/04/datastream.png
 
 我先定義一下題目的系統架構。假設既有的系統架構如下:
 
-![](/wp-content/uploads/2018/04/architecture.png)
+![](/images/2018-04-01-interview02-stream-statistic/architecture.png)
 
 其中虛線框的部分都是現有的處理流程，從 [WebAPI] 接收到訂單之後，有既有的 [Processing] 程序，也有既有的資料庫去儲存交易結果。這些都不用在這次測驗中額外處理。這次的重點在於，如果收到訂單建立的通知時，會即時的把這些資訊轉發到 [Statistic] 統計的模組時，統計模組該怎麼做到上述的要求?? 設計出這個統計模組內部的做法，就是這個題目要考的範圍。
 
@@ -278,7 +265,7 @@ Press any key to continue . . .
 
 越想越容易了，這些問題其實最花時間的都是思考而已，想通了之後寫出來其實都不值錢... 大概資工系剛畢業就能寫得出來了... 來看看我的版本，我先把這整個程序說明清楚吧! 我分成幾個步驟來完成這整個程序，可以參考下面這張圖來對照著看:
 
-![](/wp-content/uploads/2018/04/inmemory-procedure.png)
+![](/images/2018-04-01-interview02-stream-statistic/inmemory-procedure.png)
 > 綠色的數字代表下列的項目，灰色的數字則代表 3-N 子項目
 
 1. 宣告 ```buffer``` 變數，存放所有未被 worker 處理的訂單金額暫存區。任何新訂單進來，唯一的一個動作就是把訂單的金額累加到 ```buffer``` 這個變數身上。
@@ -802,7 +789,7 @@ Press any key to continue . . .
 
 這邊的實作我就不弄了，已經遠遠超出面試題與 POC 的範圍了，這個解法容我嘴砲一下，用講的就好... 既然身為 [Azure MVP](https://mvp.microsoft.com/zh-tw/PublicProfile/5002155?fullName=Andrew%20%20Wu), 拿 [Azure Stream Analystic](https://docs.microsoft.com/zh-tw/azure/stream-analytics/stream-analytics-introduction) 當作例子也是很合理的... 來看看 Azure 串流分析的介紹與架構:
 
-![](/wp-content/uploads/2018/04/stream_analytics_intro_pipeline.png)
+![](/images/2018-04-01-interview02-stream-statistic/stream_analytics_intro_pipeline.png)
 
 
 其實跟我們這篇講的模式很接近啊，只是 Azure 這邊的架構完整的多。前端都是有個 Queue 集中收集所有的資料來源，後端有個引擎在資料流入的過程中即時進行 (串流) 分析，之後把原始資料及分析資料往後端的 storage 丟，儲存起來供後續使用。

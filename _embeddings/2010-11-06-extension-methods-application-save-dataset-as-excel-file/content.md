@@ -1,21 +1,3 @@
----
-layout: post
-title: "Extension Methods 的應用: Save DataSet as Excel file..."
-categories:
-
-tags: [".NET","C#","MSDN","Tips","有的沒的","技術隨筆"]
-published: true
-comments: true
-redirect_from:
-  - /2010/11/06/extension-methods-的應用-save-dataset-as-excel-file/
-  - /columns/post/2010/11/06/SaveDataSetAsExcelFile.aspx/
-  - /post/2010/11/06/SaveDataSetAsExcelFile.aspx/
-  - /post/SaveDataSetAsExcelFile.aspx/
-  - /columns/2010/11/06/SaveDataSetAsExcelFile.aspx/
-  - /columns/SaveDataSetAsExcelFile.aspx/
-wordpress_postid: 13
----
-
 好久沒寫東西了，趁著還記得 C# 怎麼寫的時後多補幾篇 =_=
 
 要靠程式輸出Excel已經是個FAQ級的問題了，看過我之前文章的大概都知到，我很懶的寫那種FAQ級的東西，不是說寫了沒用，而是太多人寫，一定有寫的比我好的... 到最後連我自己忘了都會去查別人寫的，那我寫了還有啥用?

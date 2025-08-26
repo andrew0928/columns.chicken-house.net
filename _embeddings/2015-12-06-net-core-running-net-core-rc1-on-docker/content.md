@@ -1,18 +1,4 @@
----
-layout: post
-title: "[.NET Core] Running .NET Core RC1 on Docker - DOTNET CLI"
-categories:
-
-
-tags: [".Net Core","C#","Docker"]
-published: true
-comments: true
-permalink: "/2015/12/06/net-core-running-net-core-rc1-on-docker/"
-redirect_from:
-wordpress_postid: 560
----
-
-[![Microsoft Connect 2015](/wp-content/uploads/2015/12/connect14-300x170.jpg)](/wp-content/uploads/2015/12/connect14-e1449308872383.jpg)
+[![Microsoft Connect 2015](/images/2015-12-06-net-core-running-net-core-rc1-on-docker/connect14-300x170.jpg)](/wp-content/uploads/2015/12/connect14-e1449308872383.jpg)
 
 在半個月前，Microsoft Connect 2015 大會上正式宣布 .NET Core / ASP.NET 5 正式推出 RC1. RC 代表開發已經到了準備 release 的階段 (RC: release candidate), 功能都已完備 (FF: feature freeze), 品質也到一定的階段，RC 推出後若沒碰到重大問題，那接下來應該就是 RTM 了。
 
@@ -22,7 +8,7 @@ wordpress_postid: 560
 
 # *[Announcing .NET Core and ASP.NET 5 RC1](http://blogs.msdn.com/b/dotnet/archive/2015/11/18/announcing-net-core-and-asp-net-5-rc.aspx)*
 
-[![image_3](/wp-content/uploads/2015/12/image_3.png)](http://blogs.msdn.com/b/dotnet/archive/2015/11/18/announcing-net-core-and-asp-net-5-rc.aspx)
+[![image_3](/images/2015-12-06-net-core-running-net-core-rc1-on-docker/image_3.png)](http://blogs.msdn.com/b/dotnet/archive/2015/11/18/announcing-net-core-and-asp-net-5-rc.aspx)
 
 *Today, we are announcing .NET Core and ASP.NET 5 Release Candidate, supported on Windows, OS X and Linux. This release is "Go Live", meaning you can deploy apps into production and call Microsoft Support if you need help. Please check out the [Announcing ASP.NET 5 RC blog post](http://blogs.msdn.com/b/webdev/archive/2015/11/18/announcing-asp-net-5-release-candidate-1.aspx) to learn more about the updates to ASP.NET 5.*
 
@@ -85,7 +71,7 @@ $ docker run --rm -v "$PWD":/myapp -w /myapp microsoft/dotnet:0.0.1-alpha dotnet
 chicken@localhost:~$ sudo docker pull microsoft/dotnet
 ```
 
-![](/wp-content/uploads/2015/12/img_5663dc4cc3f35.png)
+![](/images/2015-12-06-net-core-running-net-core-rc1-on-docker/img_5663dc4cc3f35.png)
 
 完成後，用下列指令啟動 Container 內的 shell, 並且進入這個 shell:
 
@@ -102,7 +88,7 @@ root@6b021f6be610:/#
 root@6b021f6be610:/# dotnet -h
 ```
 
-![](/wp-content/uploads/2015/12/img_5663dc8742088.png)
+![](/images/2015-12-06-net-core-running-net-core-rc1-on-docker/img_5663dc8742088.png)
 
 就 compile , publish , run 三個，不過查了 Microsoft 的官方文件及範例，才發現原來還有好幾個指令列出來 @@, 第一個就是 dotnet init, 它可以幫你 init project, 有點類似 Visual Studio 在你 Create New Project 的時候做的事情一樣，指不過這個比較陽春。直接來試試:
 
@@ -110,9 +96,9 @@ root@6b021f6be610:/# dotnet -h
 root@6b021f6be610:/tmp/HelloWorld# dotnet init
 ```
 
-![](/wp-content/uploads/2015/12/img_5663dcdf06f93.png)
+![](/images/2015-12-06-net-core-running-net-core-rc1-on-docker/img_5663dcdf06f93.png)
 
-![](/wp-content/uploads/2015/12/img_5663dd38b9c82.png)
+![](/images/2015-12-06-net-core-running-net-core-rc1-on-docker/img_5663dd38b9c82.png)
 
 執行過 dotnet init 後，就會在目前目錄下建立 Program.cs 及 project.json 兩個檔案。預設的內容我就直接列給大家看了。若你另外有搭配開發工具，例如 visual studio 2015 等等，其實這個步驟就可以省掉了，整個資料夾直接搬過來就好。
 
@@ -122,11 +108,11 @@ root@6b021f6be610:/tmp/HelloWorld# dotnet init
 root@6b021f6be610:/tmp/HelloWorld# dotnet restore
 ```
 
-![](/wp-content/uploads/2015/12/img_5663dd60820d4.png)
+![](/images/2015-12-06-net-core-running-net-core-rc1-on-docker/img_5663dd60820d4.png)
 
 中間還一堆... 我就不貼了，直接跳到最後面:
 
-![](/wp-content/uploads/2015/12/img_5663dd8af0c94.png)
+![](/images/2015-12-06-net-core-running-net-core-rc1-on-docker/img_5663dd8af0c94.png)
 
 沒想到一個 Hello World 就這麼多相依的套件要處理... 完成後就可以進行下一步，編譯你的程式! 我特地把 --help 顯示出來，其實看的到這個版本開始支援 compiles source to native machine code 了。看看後面的文章有沒有機會寫到這部分 :D
 
@@ -134,7 +120,7 @@ root@6b021f6be610:/tmp/HelloWorld# dotnet restore
 root@6b021f6be610:/tmp/HelloWorld# dotnet compile -h
 ```
 
-![](/wp-content/uploads/2015/12/img_5663ddd168151.png)
+![](/images/2015-12-06-net-core-running-net-core-rc1-on-docker/img_5663ddd168151.png)
 
 直接開始編譯，碰上兩個警告訊息，應該是相依的 assemblies 版本衝突，這問題暫時略過，下次再回頭探討:
 
@@ -142,7 +128,7 @@ root@6b021f6be610:/tmp/HelloWorld# dotnet compile -h
 root@6b021f6be610:/tmp/HelloWorld# dotnet compile
 ```
 
-![](/wp-content/uploads/2015/12/img_5663de26333f3.png)
+![](/images/2015-12-06-net-core-running-net-core-rc1-on-docker/img_5663de26333f3.png)
 
 編譯完成之後不執行它的話，不然要幹嘛? 接下來可以用 dotnet run 來啟動:
 
@@ -150,7 +136,7 @@ root@6b021f6be610:/tmp/HelloWorld# dotnet compile
 root@6b021f6be610:/tmp/HelloWorld# dotnet run
 ```
 
-![](/wp-content/uploads/2015/12/img_5663de78d60d9.png)
+![](/images/2015-12-06-net-core-running-net-core-rc1-on-docker/img_5663de78d60d9.png)
 
 走到這邊，總算大功告成! 各位的 .net code 若想 porting 到 linux 上面，就這麼簡單.. 當然這邊指的是操作程序的部分而已，我想 porting 最大的門檻應該是在那些只有 windows 版的 .net framework 才支援的 BCL (basic class library) 以及尚未支援 .net core 而無法在 linux 上執行的 3rd party 套件吧，那部分的 code 改寫才是最痛苦的.. 這種問題好像隔幾年就會來一次，當年轉移到 win32 api, 轉移到 x64, COM 轉移到 .NET, ... etc..
 

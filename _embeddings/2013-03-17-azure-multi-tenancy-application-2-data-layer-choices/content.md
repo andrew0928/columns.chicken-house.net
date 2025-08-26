@@ -1,21 +1,3 @@
----
-layout: post
-title: "[Azure] Multi-Tenancy Application #2, 資料層的選擇"
-categories:
-- "系列文章: Multi-Tenancy Application"
-tags: ["AZURE","MSDN","SQL","技術隨筆"]
-published: true
-comments: true
-redirect_from:
-  - /2013/03/17/azure-multi-tenancy-application-2-資料層的選擇/
-  - /columns/post/2013/03/17/Azure-Multi-Tenancy-Application-2-e8b387e69699e5b1a4e79a84e981b8e69387.aspx/
-  - /post/2013/03/17/Azure-Multi-Tenancy-Application-2-e8b387e69699e5b1a4e79a84e981b8e69387.aspx/
-  - /post/Azure-Multi-Tenancy-Application-2-e8b387e69699e5b1a4e79a84e981b8e69387.aspx/
-  - /columns/2013/03/17/Azure-Multi-Tenancy-Application-2-e8b387e69699e5b1a4e79a84e981b8e69387.aspx/
-  - /columns/Azure-Multi-Tenancy-Application-2-e8b387e69699e5b1a4e79a84e981b8e69387.aspx/
-wordpress_postid: 8
----
-
 其實上一篇設計概念還沒寫完，只不過很晚了想睡覺就先貼了，本篇繼續..
 
 之前介紹 MSDN 的那篇[文章](http://msdn.microsoft.com/en-us/library/aa479086.aspx)，作者很精確的分析了資料層面的三種設計方式。不過仔細研究之後，真正能搬上台面的，也只有最後一種 "Shared Schema" 而已。我從系統實際運作的角度，來分別考量這三種方式的可行性，各位就知道我為何這樣說了..。上篇介紹了各種可行的方案，這篇則會說明我認為的最佳方案。

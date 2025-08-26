@@ -1,19 +1,4 @@
----
-layout: post
-title: "API & SDK Design #1, 資料分頁的處理方式"
-categories:
-- "系列文章: .NET + Windows Container, 微服務架構設計"
-- "系列文章: API & SDK Design"
-- "系列文章: 架構師觀點"
-tags: ["API", "SDK", "系列文章", "ASP.NET", "架構師", "C#", "yield return"]
-published: true
-comments: true
-# redirect_from:
-logo: /wp-content/uploads/2016/10/microservice-webapi-design.jpg
----
-  
-    
-![](/wp-content/uploads/2016/10/microservice-webapi-design.jpg)  
+![](/images/2016-10-10-microservice3/microservice-webapi-design.jpg)  
 (圖片來源: [http://hamidarebai.blogspot.tw/2016/09/building-restful-api-with-aspnet-core.html](http://hamidarebai.blogspot.tw/2016/09/building-restful-api-with-aspnet-core.html))
 
 這篇算是 "微服務架構" 系列文章的外傳... 所以標題稍微改一下 XD!
@@ -473,13 +458,3 @@ Press any key to continue . . .
 看的出來，實作 ```IEnumerable``` interface, 就只能 looping 掃描每一筆資料 (類似 SQL table scan)。而前端的 Linq, Microsoft 也有特別處理，
 能夠把 Linq Query 的條件，透過 OData 定義的參數送到後端，直接在 server side query 就過濾掉不必要的
 資料，連傳遞到前端都不用了，效率更佳! 因此要是你的使用環境能配合，有機會使用 OData, 不用考慮了, 用就對了!
-
-
-
-
-
-
-
-
-
-

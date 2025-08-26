@@ -1,18 +1,4 @@
----
-layout: post
-title: ".NET Core 跨平台 #1, 我真的需要在 Linux 上跑 .NET 嗎?"
-categories:
-- "系列文章: .NET Core 跨平台"
-tags: [".NET",".Net Core","AZURE","C#","Docker","專欄","技術隨筆"]
-published: true
-comments: true
-permalink: "/2015/12/26/dnxcore50_01_should_i_run_dotnet_on_linux/"
-redirect_from:
-wordpress_postid: 608
-logo: /wp-content/uploads/2015/12/img_567e9b3cb3f8f.png
----
-
-![](/wp-content/uploads/2015/12/img_567e9b3cb3f8f.png)
+![](/images/2015-12-26-dnxcore50_01_should_i_run_dotnet_on_linux/img_567e9b3cb3f8f.png)
 
 最近這幾篇 .NET Core / Docker 相關的文章貼出來之後，最常聽到有人問我的問題就是:
 

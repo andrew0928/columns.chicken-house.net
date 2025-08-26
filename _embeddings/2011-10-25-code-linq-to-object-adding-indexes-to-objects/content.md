@@ -1,22 +1,3 @@
----
-layout: post
-title: "[CODE] LINQ to Object - 替物件加上索引!"
-categories:
-
-tags: ["C#","技術隨筆","物件導向"]
-published: true
-comments: true
-redirect_from:
-  - /2011/10/25/code-linq-to-object-替物件加上索引/
-  - /columns/post/2011/10/25/indexed_linq.aspx/
-  - /post/2011/10/25/indexed_linq.aspx/
-  - /post/indexed_linq.aspx/
-  - /columns/2011/10/25/indexed_linq.aspx/
-  - /columns/indexed_linq.aspx/
-wordpress_postid: 11
----
-
-
 好久沒寫文章了，看了一下[上一篇](/post/2011/01/03/CODE-e58fafe4bba5e8bcb8e587bae588b0-TextBox-e79a84-TextWriter-TextBoxWriter!.aspx)的日期... 嚇，再撐幾天就 10 個月了 =_=,  週末看了 darkthread 的[這篇文章: 當心LINQ搜尋的效能陷阱](http://blog.darkthread.net/post-2011-10-20-linq-search-performance-issue.aspx)，想說 LINQ to SQL, LINQ to Entity Framework, LINQ to … 都支援索引, 沒道理 LINQ to Object 不行啊, 一定只是沒人補上實作而已.. 動了這個念頭之後, 接下來的時間就都在研究這些...
 
 回到主題，年紀夠大的網友，大概都還聽過 [Embedded SQL](http://en.wikipedia.org/wiki/Embedded_SQL) 吧? 當年用 C/C++ 要存取資料庫，實在不是件簡單的事... 光是那堆 initial database connection 的動作就搞死人了，因此有些開發工具廠商，就搞出了 Embedded SQL 這種內嵌在程式語言內的 SQL .. 貼一段 CODE，看起來大概像這樣:
@@ -228,7 +209,7 @@ class Program
 
 而程式執行的結果:
 
-![](/wp-content/be-files/image_13.png)
+![](/images/2011-10-25-code-linq-to-object-adding-indexes-to-objects/image_13.png)
 
 貼一下參考配備 (這是炫耀文...)，給大家體會一下速度...
 

@@ -1,43 +1,107 @@
-# CaseStudy: 網站重構─NGINX Reverse Proxy 與文章連結轉址 (Map)
+# CaseStudy: 網站重構, NGINX (REVERSE PROXY) + 文章連結轉址 (Map)
 
 ## 摘要提示
-- 轉換動機: 從 BlogEngine 移轉到 WordPress，順勢練功 Linux 與 Docker。
-- Docker 價值: 透過 Container 免除繁複安裝與設定，快速複製環境。
-- 硬體更新: NAS 效能不足，改以舊 NB + Ubuntu Server 取代。
-- 架構升級: 前端改用 NGINX Reverse Proxy，後端多個 Container 共用 80 埠。
-- URL 轉址: 400 篇 × 6 種格式＝2400 筆舊連結，需一次性 301 對應。
-- NGINX Map: 以 map 指令及外部對照檔取代 Apache RewriteMap。
-- Volume-Container: 依官方建議將資料獨立至專用 Container，方便備份與搬遷。
-- 效能考量: NGINX 本身輕量，配合新硬體後較 Apache+NAS 明顯提升。
-- 實作心得: Map 語法精簡但不易懂，需掌握「變數對應」的隱性機制。
-- 跨界反思: 從 .NET → Linux 的過程，重點在「架構思維」而非工具本身。
+- 跨平台趨勢：.NET Core 跨平台與雲端時代，使熟悉 Linux/Open Source 成為必然。
+- Docker 切入：以 Docker 簡化安裝與配置，降低在 Linux 生態的進入門檻。
+- 架構瓶頸：Synology NAS 硬體受限（Atom + 2GB RAM），多容器後效能顯著下降。
+- 重構目標：將部屬從 NAS 轉到 Ubuntu Server（舊 NB），提升效能與可控性。
+- Reverse Proxy 策略：前端以 NGINX 取代 Apache，統一對外 IP:80 並承擔轉址邏輯。
+- 舊文轉址：將 Apache RewriteMap 的 2400 種網址組合改寫為 NGINX map 機制。
+- Volume-Container：依 Docker 建議切分資料層，改用 volume container 管理持久化。
+- NGINX map 原理：以變數觸發查表（$slug → $slugwpid），達成高效且簡潔的轉址。
+- 對照表設計：採外部文字檔 key/value 對應，支援註解，易維護與批次產生。
+- 效能與取捨：NGINX 效能佳，Map 彈性高；在固定 400 篇規模下無明顯效能顧慮。
 
 ## 全文重點
-作者原以 BlogEngine.NET 經營部落格，搬遷至 WordPress 並部署於 Synology NAS 上的 Docker 容器。隨著文章量上升與 Docker 容器增多，Atom-級 NAS 效能成為瓶頸，因此決定改用舊筆電裝 Ubuntu Server，繼續以 Docker 容器方式營運；筆電內建電池順勢充當 UPS，耗電亦低，硬體成本幾乎為零。
+作者從個人學習與實務需求出發，因應 .NET Core 跨平台與雲端環境盛行，決定跨入 Linux/Open Source 生態。初期以 Synology NAS + Docker 快速搭建 WordPress，並以 Apache Httpd 作為前端 Reverse Proxy，同時用 RewriteMap 解決從舊系統 BlogEngine.NET 過來的大量舊文網址轉址需求。然而 NAS 的硬體受限，當容器數量增加時明顯感受性能瓶頸，促成將整體環境遷移至 Ubuntu Server（以一台舊 NB 部署）以獲得更穩定的計算與記憶體資源。
 
-新架構延續「反向代理＋多容器」模式，但把前端由 Apache 換成 NGINX。原因一是 Ubuntu Server 不再被 NAS 內建的 httpd 侷限；原因二是 NGINX 在併發與記憶體占用上較優。主要技術挑戰是「舊網址轉新網址」：BlogEngine 產生的 URL 與 WordPress 相異，400 多篇文章又衍生出 6 種路徑樣式，共 2400 種組合，必須確保 SEO 及使用者書籤不失效。先前在 Apache 透過 RewriteMap（靜態 key/value 對照檔）已驗證可行，如今需以 NGINX 重寫。
+在新架構中，作者延續「前端 Reverse Proxy + 後端多個 Web/DB 容器」的拓撲，改以 NGINX 取代 Apache 作為反向代理。一方面統一對外服務入口（IP:80）以映射多個 Docker 容器，一方面把複雜的舊網址轉新網址邏輯置於代理層，避免加重 WordPress 的負擔。容器分層方面，依 Docker 官方建議引入 volume container 管理資料持久化，將資料層與應用容器職責分離，利於後續擴展與維護。
 
-NIGNX 的 map 機制用兩個變數定義 key 與 value，於行為發生時自動查表並把結果指派給新變數。作者示範先以正則式抽取 slug 置入 $slug，map 區段負責將 $slug 轉為對應的 WordPress 文章 ID 再填入 $slugwpid，最後以 return 301 /?p=$slugwpid 完成永久轉址。對照表放在獨立檔 slugmap.txt，格式為「舊 slug 空格 新 ID;」並可加註解。雖然 NGINX map 還支援萬用字元與正則式，作者以靜態表即可滿足需求；配合硬體升級與 NGINX 的高效能，並未觀察到延遲問題。
+核心技術調整在於將 Apache 的 RewriteMap 遷移至 NGINX 的 map 機制。NGINX 配置以 C-like 語法呈現，透過正規表達式擷取舊網址中的 slug 片段，指派給變數 $slug，並藉由 map 宣告把 $slug 對應查表至 $slugwpid，最後以 301 轉址到 /?p=$slugwpid 的新網址。其關鍵是「隱性觸發」：一旦設定 $slug，NGINX 會自動依 map 規則查表填入 $slugwpid，使轉址規則與對照表分離而簡潔清晰。
 
-資料層方面，採用官方推薦的 Volume-Container，把 MySQL 資料及 WordPress 上傳檔分開管理，未來搬遷或備份更單純。作者亦分享心得：Docker 讓系統部署真正落實 UML Deployment Diagram 的理念，工程師能「按照設計圖」組裝服務，而不再被繁瑣的 OS 安裝與設定拖累。
+對照表採外部檔案維護，每行以「key value;」表示新舊對應，支援 # 註解，便於閱讀與批次處理。相較 Apache，NGINX 的 map 還支援萬用字元與正規表達式，具更高彈性；作者推估這可能使其難以像 Apache 一樣將 Map 預編成二進位 Hash，但在 NGINX 本身效能優勢、資料量僅 400 篇且不再成長的新部屬環境下，實測無明顯影響，故不再深究基準測試。
 
-結語強調跨陣營學習的重要性：微軟新任 CEO Satya Nadella 坦言「Linux is best for Cloud」，.NET Core 也將多平台化；身為長期使用 Microsoft 技術的開發者，投入 Linux、生態系是必經之路。透過本次實作，作者累積了 NGINX、Docker、Volume-Container 與 URL 重寫的經驗，並鼓勵同樣想從 Windows 轉向開放原始碼世界的讀者，從小型且具體的專案切入，邊做邊學效果最佳。
+整體而言，此次重構達成數個目標：在保留既有容器化與反向代理策略的前提下，藉由更強的主機資源與 NGINX 高效能，改善了回應延遲；以 volume container 強化資料持久化與部署一致性；以 NGINX map 取代 Apache RewriteMap，維持大量舊文轉址的可維護性與可讀性。最後，作者以個案經驗鼓勵從 Microsoft 生態跨入 Linux 的開發者，重點在於以實戰需求導向選擇技術與切入點（如 Docker/Reverse Proxy），用能快速產生價值的成果驅動學習，而非深陷於不必要的配置細節。
 
 ## 段落重點
-### 前言：從 Windows 到 Linux 的必要之路
-作者自嘲「學另一個陣營是一條不歸路」，指出大型雲端部署離不開 Linux 與開源方案；隨著 .NET Core 跨平台，他開始以自家部落格作為實驗場，學習 Linux、Docker 與 WordPress。安裝設定雖繁瑣，但 Docker 的出現大幅降低門檻，使他能專注在系統架構而非細節。Satya Nadella「Linux is Best for Cloud」的言論，更強化了他跨界的決心。
+### 動機與背景：跨入 Linux/Open Source 與 Docker 的實戰切點
+作者因 .NET Core 跨平台和雲端普及的趨勢，意識到熟悉 Linux 與開源方案已是必要技能。過往在 Linux 上安裝配置的痛點在於套件安裝容易、配置難度高且各異，與其深陷設定細節，不如以 Docker 作為切入點，先建立能快速複製的執行環境。初期選擇在 Synology NAS 上運行 Docker，迅速把個人部落格從 BlogEngine.NET 遷至 WordPress，並以 Apache Httpd 作為前端 Reverse Proxy，利用 RewriteMap 承接大量舊文轉址需求。這一階段的目標是以最小學習曲線取得可用成果，逐步將學習重心放在架構層次與部署模式，而非被繁瑣的 Linux 組態綁死，為後續的全面重構鋪路。
 
-### 架構演進：從 NAS + Docker 到 Ubuntu Server
-原先部落格部署於 Synology NAS（Atom CPU＋2 GB RAM）。因硬體孱弱，多開兩個容器即明顯卡頓；作者遂把舊筆電改裝成 Ubuntu Server，CPU、記憶體雖不頂尖卻已優於 NAS，再加上電池可兼 UPS，成為省錢又實用的私有伺服器。新的 Deployment Diagram 仍採「前端反向代理＋後端多容器」概念，但硬體、OS 與服務皆獨立控制，彈性更高。
+### 架構重構：從 NAS 到 Ubuntu Server，反向代理與資料分層
+隨容器數量增長，NAS 的硬體限制（Atom CPU、2GB RAM）導致明顯延遲，促使作者將系統遷移至 Ubuntu Server。新主機雖是舊 NB（Pentium P6100 + 4GB），但在 CPU 與記憶體上仍大幅優於 NAS，且筆電的電池等同內建 UPS，兼顧省電與可靠性。新架構延續前端 Reverse Proxy 聚合多個容器服務的策略，同時把繁複的轉址責任集中在代理層，避免污染後端應用。關鍵技術調整包括：1) 以 NGINX 取代 Apache 作為反向代理，解放於 NAS 綁定與取得更佳效能；2) 採用 Docker volume container 管理資料持久化與掛載，實現應用與資料分離、部署可重現。這樣的拓撲不僅與 UML/Deployment Diagram 的設計精神相符，也讓「按圖佈署」真正落地。
 
-### 技術重點一：NGINX 取代 Apache 作 Reverse Proxy
-在 NAS 時期，80 埠已被內建 Apache 佔用，故沿用 httpd 作反向代理；改用 Ubuntu 後不再受限，作者選擇 NGINX。理由包含：記憶體輕量、併發能力佳、設定檔 C-like 易讀等。透過 Docker Hub 取得官方 NGINX 映像，僅需少量設定即能攔截外部請求，依 Host 或 URI 轉發到對應的 WordPress、Redmine 等容器。
+### NGINX 轉址實作：map 機制、正規表達式與對照表維護
+重構的技術核心在於把 Apache RewriteMap 的 2400 組轉址規則改寫為 NGINX map。做法是用 if 判斷 URI 與正規表達式抓出 slug 片段，指派給變數 $slug；map 區塊則宣告 $slug 與 $slugwpid 的對應，一旦 $slug 被設定，NGINX 便自動查表填入 $slugwpid；最後以 return 301 將請求導向 /?p=$slugwpid 的新格式。此模式將「抽取規則」與「對照表」解耦，規則簡潔、變更成本低。對照表採外部檔案，每行以「key value;」定義新舊對應，支援 # 註解，既易閱讀也利於批次處理，和 Apache 的 TXT RewriteMap 格式非常相近，從舊環境遷移的成本低。值得注意的是，NGINX map 另支援萬用字元與正規表達式，具更高表現力，為未來複雜場景預留擴充空間。
 
-### 技術重點二：大量舊網址轉址的 Map 實作
-最大的挑戰是 BlogEngine 舊網址（.aspx＋slug）要 301 到 WordPress 新網址（/?p=ID）。共 400 篇文章 × 6 種路徑格式＝2400 筆需一次對應，既要 SEO 友善又要維護簡易。Apache 時期以 RewriteMap 搭配純文字對照表已驗證可行，如今在 NGINX 透過 map 指令重寫；流程為：正則式擷取 slug → 指派給 $slug → map 區段自動查表 → 產生 $slugwpid → return 301。對照檔可置於外部並支援註解，維護成本低。
+### 成果、效能與心得：取捨與給跨生態開發者的建議
+作者推估 NGINX 的 map 因為支援更動態的匹配，可能不若 Apache 可將 Map 預編為二進位 Hash；但在 NGINX 本身高效能、硬體升級、舊文固定規模（約 400 篇）且不再成長的前提下，實測並無明顯效能影響，因而不再進一步進行基準測試。重構後，系統在回應速度、維護性與部署一致性上均有提升：前端代理更輕量、轉址邏輯清楚可維護、資料層分離利於備份與遷移。對於想從 Microsoft 生態跨入 Linux/Open Source 的開發者，作者建議以實戰需求驅動學習，優先挑選能快速產生價值的工具（如 Docker、NGINX Reverse Proxy），用可量化的成果鞏固學習動機；同時把繁複配置責任下沉到容器與基礎元件，將心力集中在架構決策與服務邏輯，才能在跨生態的過程中走得穩且長。
 
-### Volume-Container 與其他效能考量
-按照 Docker 官方建議，作者新增 Volume-Container 專責資料與上傳檔，使資料與應用解耦，後續備份、搬家只需搬 Volume 即可。雖然 NGINX map 支援萬用字與 regex，可能無法像 Apache 將表編譯成二進位 Hash，但在 400 筆×查詢量下並無明顯延遲；加上新硬體與 NGINX 的高效能，整體回應速度優於 NAS 時代。
+## 資訊整理
 
-### 結語：跨界學習的架構思維
-透過本次遷移，作者不僅掌握了 NGINX Map 與 Volume-Container，也體會到 Docker 讓 UML 部署圖終於落地——架構師的構想能被工程師迅速實踐。而從 Microsoft 陣營跨向 Linux 的核心價值，在於理解架構與流程，工具只是手段；期盼分享能為同樣從 Windows 轉至開源世界的讀者提供實務指引與信心。
+### 知識架構圖
+1. 前置知識：學習本主題前需要掌握什麼？
+- 基礎 Linux 操作與檔案系統觀念
+- 網頁伺服器基礎（HTTP、反向代理、虛擬主機）
+- Docker 基本概念（容器、映像、Volume）
+- 正則表達式與 URL 重寫概念
+- 基本網路與部署概念（DNS、Port、UML Deployment Diagram 讀圖）
+
+2. 核心概念：本文的 3-5 個核心概念及其關係
+- 反向代理層：以 NGINX 取代 Apache，統一入口處理多容器服務與 URL 轉址
+- URL 轉址策略：利用 NGINX map 機制維護大量舊文連結對應（Key-Value 對照表）
+- 容器化部署：以 Docker 組合 Web、DB、與 Volume-Container 分離資料
+- 遷移架構：從 NAS（Synology + Docker）轉到專用 Ubuntu Server 提升效能與可控性
+- 架構思維導向：以部署圖抽象設計，透過容器對應落地實作
+
+3. 技術依賴：相關技術之間的依賴關係
+- 硬體/OS：舊 NB（Ubuntu Server）或 NAS → 提供 Docker 執行環境
+- Docker：承載 WordPress（Web）、Database、Volume-Container（資料）
+- NGINX（前端）：反向代理至後端容器，負責路由、SSL（可擴充）、URL Map 轉址
+- URL Map 檔：外部文字檔維護 slug → postId 對應，被 NGINX map 指令引用
+- 網域/DNS：指向前端 NGINX 公網 IP（或 NAS/伺服器 IP）
+
+4. 應用場景：適用於哪些實際場景？
+- 舊部落格/網站遷移且需大規模舊網址長期有效
+- 一機多服務（多容器）共用 80/443 埠的流量聚合
+- 想減少在應用端（如 WordPress）實作重寫邏輯，改在邊界層集中治理
+- 家用/中小規模自架站點，從 NAS 過渡到輕型伺服器優化效能與維運
+- 以文本維護映射表，對 SEO 友善的永久 301 轉址
+
+### 學習路徑建議
+1. 入門者路徑：零基礎如何開始？
+- 了解反向代理與基本 HTTP 狀態碼（特別是 301）
+- 安裝 Docker、啟動簡單的 Web 容器（如 Nginx Hello World）
+- 在本機安裝 NGINX，配置最基本的反向代理到單一容器
+- 學習簡單正則表達式，嘗試 NGINX rewrite 與 map 的最小示例
+- 理解 Volume 與 Bind Mount 基礎，備份與還原資料夾
+
+2. 進階者路徑：已有基礎如何深化？
+- 建立多容器（Web、DB）與 Volume-Container 拆分資料的部署
+- 將 URL 對照維護改為外部檔案（包含註解與版本控管）
+- 規劃 NGINX 的站點分離、Include 結構與環境參數化
+- 比較 Apache RewriteMap 與 NGINX map 的差異與性能考量
+- 導入監控與日誌輪替，驗證轉址命中率與效能
+
+3. 實戰路徑：如何應用到實際專案？
+- 將既有站點的舊 URL（多種格式）清點，產生 slug → postId 對映表
+- 在 NGINX 前端實作 map + return 301 的規則，並以外部檔案 include
+- 使用 Docker Compose 建立前端（NGINX）+ 後端（WordPress、DB、Volume）拓撲
+- 進行灰度遷移（小流量切換），監看 404、301 命中、回應時間
+- 撰寫遷移與回滾手冊（資料備份、DNS 切換、容器重建流程）
+
+### 關鍵要點清單
+- NGINX 作為反向代理：集中處理多容器流量與入口治理（SSL/路由/轉址）(優先級: 高)
+- URL 永久轉址（301）：維護 SEO 與使用者書籤，確保舊連結長期有效 (優先級: 高)
+- NGINX map 機制：以 Key-Value 查表自動對應變數，搭配正則抽取 slug (優先級: 高)
+- 外部映射檔維護：以文字檔管理大量對照（含註解），便於版本控制與擴充 (優先級: 高)
+- Apache RewriteMap vs NGINX map：語法差異、可用性與性能取捨 (優先級: 中)
+- 容器分層設計：Web/DB 與資料（Volume-Container）分離，降低耦合 (優先級: 高)
+- 從 NAS 遷移到 Ubuntu Server：提升運算與記憶體資源，改善效能 (優先級: 中)
+- 單 IP 多服務共用 80/443：以反向代理實現服務聚合與清晰路由 (優先級: 高)
+- 正則表達式抽取參數：以 $1/$5 等群組取得 slug 等路由參數 (優先級: 中)
+- 配置結構化：使用 include 拆分 NGINX 設定，提升可維護性 (優先級: 中)
+- 部署圖思維：用 UML 部署圖規劃，容器化使設計與實作對齊 (優先級: 低)
+- 效能與擴充考量：Nginx 本身高效，映射量適中可不必過度最佳化 (優先級: 中)
+- 災難復原與回滾：Volume 備份、容器重建、DNS 切換預案 (優先級: 高)
+- 本機快速驗證：可用 Windows 版 NGINX 測設定與規則後再上線 (優先級: 低)
+- 漸進式遷移策略：先行小規模導流監測 404/301 命中，再全面切換 (優先級: 中)

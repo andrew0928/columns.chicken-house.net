@@ -1,17 +1,4 @@
----
-layout: post
-title: "[設計案例] \"授權碼\" 如何實作? #1, 需求與問題"
-categories:
-- "設計案例: “授權碼” 如何實作?"
-tags: ["專欄","技術隨筆","物件導向"]
-published: true
-comments: true
-permalink: "/2016/02/17/casestudy_license_01_requirement/"
-redirect_from:
-wordpress_postid: 833
----
-
-![](/wp-content/uploads/2016/02/img_56c431d4ac75a-e1455698460913.png)  
+![](/images/2016-02-17-casestudy_license_01_requirement/img_56c431d4ac75a-e1455698460913.png)  
 The Architect, The Source (電影: The Matrix 3)  
 
 好久沒寫 [設計案例] 這系列的文章了。其實我一直注意到台灣的部落格 & 社群分享，講 "How To" 的遠多過講 "Why" ，過於注重 coding 的技巧，卻忽略了問題的思考。能挑選正確的技術與架構來解決 business 上碰到的問題，這才是 software / system architect 的核心能力啊... 這次我碰到適合的案例，就來補給篇文章吧，我想從我如何思考這問題的 solution, 到如何實作出解決方案的過程，從頭到尾交待一次，讓有興趣在軟體業走進 system architect 這角色的讀者們，有個可以參考的案例!
@@ -55,7 +42,7 @@ The Architect, The Source (電影: The Matrix 3)
 
 ## [本文開始]
 
-![](/wp-content/uploads/2016/02/img_56c350dc74e6a.png)  
+![](/images/2016-02-17-casestudy_license_01_requirement/img_56c350dc74e6a.png)  
 
 我直接舉一個具體的情境，來描述要解決的問題。這個案例裡我把 "授權碼" 運用到網站的安裝上。我在公司開發的是商用系統，提供客戶 Install Based 的佈署模式，把系統安裝在客戶的 Data Center 內。以上圖為例，Service #B 及 Service #C 分別裝在不同客戶的 Data Center 內，而我們自行維護的 Cloud Service 則分別授權不同的功能給 Service #B 及 Service #C 呼叫 API 使用。這架構下碰到的問題是，無法保證能隨時連上 Internet，當然無法連上 Internet 就無法呼叫 Service #A 這些 Cloud Service，但是即使如此，授權的功能仍然要能發揮功效，無法被客戶的 IT 或是系統整合廠商的夥伴，未經過 Service Administrator 的許可就啟用。
 

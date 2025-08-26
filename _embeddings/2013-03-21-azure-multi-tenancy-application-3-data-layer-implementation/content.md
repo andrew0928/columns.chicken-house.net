@@ -1,21 +1,3 @@
----
-layout: post
-title: "[Azure] Multi-Tenancy Application #3, (資料層)實作案例"
-categories:
-- "系列文章: Multi-Tenancy Application"
-tags: ["ASP.NET","AZURE","C#","作品集","技術隨筆"]
-published: true
-comments: true
-redirect_from:
-  - /2013/03/21/azure-multi-tenancy-application-3-資料層實作案例/
-  - /columns/post/2013/03/21/Azure-Multi-Tenancy-Application-3-e5afa6e4bd9ce6a188e4be8b.aspx/
-  - /post/2013/03/21/Azure-Multi-Tenancy-Application-3-e5afa6e4bd9ce6a188e4be8b.aspx/
-  - /post/Azure-Multi-Tenancy-Application-3-e5afa6e4bd9ce6a188e4be8b.aspx/
-  - /columns/2013/03/21/Azure-Multi-Tenancy-Application-3-e5afa6e4bd9ce6a188e4be8b.aspx/
-  - /columns/Azure-Multi-Tenancy-Application-3-e5afa6e4bd9ce6a188e4be8b.aspx/
-wordpress_postid: 7
----
-
 上篇花了一堆口水，說明各種 data layer 的設計方式，這回不噴口水了，直接來實作...。
 
 開始前先說明一下我的期望，我先假設各位都用過 Entity Framework 或是這類的 solution, 我希望在 data context 這層，就能處理掉所有隔離 tenancy data 的問題，也就是我可以用一般 application 的開發概念來開發 multi-tenancy 的 application。換另一個說法，我希望在一個 storage 內，模擬出讓每個 tenancy 都有獨立的 storage 可運用的介面。

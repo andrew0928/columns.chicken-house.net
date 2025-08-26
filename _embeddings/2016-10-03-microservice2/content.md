@@ -1,16 +1,3 @@
----
-layout: post
-title: "微服務架構 #2, 按照架構，重構系統"
-categories:
-- "系列文章: .NET + Windows Container, 微服務架構設計"
-- "系列文章: 架構師觀點"
-tags: ["Microservice"]
-published: true
-comments: true
-# redirect_from:
-logo: /wp-content/uploads/2016/10/microservice-refactoring.gif
----
-
 上一篇說明了微服務架構的好處，這篇來談談該如何做。其實說穿了很簡單，不就把大型的單體式
 應用程式，拆成幾個獨立的服務不就行了? 這樣講沒錯，不過關鍵就在於你這刀應該怎麼切，該往哪邊切?
 切出來的服務能不能再繼續切? 有沒有哪些服務是切過頭的，需要重新合併成一個大的?
@@ -25,7 +12,7 @@ logo: /wp-content/uploads/2016/10/microservice-refactoring.gif
 
 <!--more-->
 
-![refactoring](/wp-content/uploads/2016/10/microservice-refactoring.gif)  
+![refactoring](/images/2016-10-03-microservice2/microservice-refactoring.gif)  
 圖片出處: [http://blogs.perpetuumsoft.com/dotnet/to-refactor-or-not-to-refactor-part-i/](http://blogs.perpetuumsoft.com/dotnet/to-refactor-or-not-to-refactor-part-i/)
 
 {% include series-2016-microservice.md %}
@@ -433,4 +420,3 @@ Debug.Assert 很多地方，其實跟 UnitTest 的 Assert 有很多相似的地�
 
 接下來，下一篇來談談: 該如何決定要將那些模組，切割為獨立服務?
 敬請期待 :D
-

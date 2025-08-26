@@ -1,22 +1,4 @@
----
-layout: post
-title: "[RUN! PC] 2010 七月號 - 結合檔案及資料庫的交易處理"
-categories:
-- "RUN! PC 專欄文章"
-tags: [".NET","RUN! PC","Transactional NTFS","作品集","作業系統","技術隨筆","物件導向"]
-published: true
-comments: true
-redirect_from:
-  - /2010/07/09/run-pc-2010-七月號-結合檔案及資料庫的交易處理/
-  - /columns/post/2010/07/09/RUN!-PC-2010-e4b883e69c88e8999f-e7b590e59088e6aa94e6a188e58f8ae8b387e69699e5baabe79a84e4baa4e69893e89995e79086.aspx/
-  - /post/2010/07/09/RUN!-PC-2010-e4b883e69c88e8999f-e7b590e59088e6aa94e6a188e58f8ae8b387e69699e5baabe79a84e4baa4e69893e89995e79086.aspx/
-  - /post/RUN!-PC-2010-e4b883e69c88e8999f-e7b590e59088e6aa94e6a188e58f8ae8b387e69699e5baabe79a84e4baa4e69893e89995e79086.aspx/
-  - /columns/2010/07/09/RUN!-PC-2010-e4b883e69c88e8999f-e7b590e59088e6aa94e6a188e58f8ae8b387e69699e5baabe79a84e4baa4e69893e89995e79086.aspx/
-  - /columns/RUN!-PC-2010-e4b883e69c88e8999f-e7b590e59088e6aa94e6a188e58f8ae8b387e69699e5baabe79a84e4baa4e69893e89995e79086.aspx/
-wordpress_postid: 14
----
-
-![IMG_3972](/wp-content/be-files/IMG_3972_1.jpg)
+![IMG_3972](/images/2010-07-09-run-pc-2010-july-combining-file-and-database-transaction-processing/IMG_3972_1.jpg)
 
 再次感謝編輯大人 :D，Transactional NTFS #2 也刊出來了!
 

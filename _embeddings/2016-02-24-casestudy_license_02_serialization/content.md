@@ -1,17 +1,4 @@
----
-layout: post
-title: "[設計案例] 授權碼 如何實作?  #2, 序列化"
-categories:
-- "設計案例: 授權碼 如何實作?"
-tags: [".NET","C#","專欄","技術隨筆","物件導向"]
-published: true
-comments: true
-permalink: "/2016/02/24/casestudy_license_02_serialization/"
-redirect_from:
-wordpress_postid: 855
----
-
-![](/wp-content/uploads/2016/02/img_56cc8c9caafc8.png)
+![](/images/2016-02-24-casestudy_license_02_serialization/img_56cc8c9caafc8.png)
 
 這次直接跳到主題: 網站安裝授權開始吧。這東西的用途，就跟過去安裝軟體要輸入序號一樣的目的，輸入序號之後，軟體不用上網就要能知道你購買的是什麼版本，有哪些功能要被啟用? 在不連到 internet 的情況下，要單靠一段授權資料就達到這目的，最好是能簡單明瞭，資料結構清楚容易擴充維護，同時安全強度還要夠強 (防止偽造)，這就是這次要解決的問題。
 
@@ -33,7 +20,7 @@ wordpress_postid: 855
 
 先從簡單的開始吧! 我這次的想法是，先由原廠提供授權碼 (一段編碼過的外星文)，裡面包含兩大部分，分別是設定的資訊 (存放原廠讓你啟用那些功能)，另一段則是數位簽章 (確認這份資訊是原廠提供的)。我想要讓這樣的授權碼很容易的被產生、驗證、及讀取資訊。授權的內容對我而言並不是機密，可以公開沒有問題，然而真正的問題是我希望我能夠驗證這段授權是不是真的由原廠 (我們公司) 發出來的? 我需要驗證的是它的來源。為了能同時解決這兩個問題 (容易編碼解碼、驗證來源) 因此我設計了兩個類別，彼此搭配來完成這個任務:
 
-![- Class Diagram](/wp-content/uploads/2016/02/img_56c4a40001a60.png)
+![- Class Diagram](/images/2016-02-24-casestudy_license_02_serialization/img_56c4a40001a60.png)
 
 兩大主角分別是 TokenData, 以及 TokenHelper。 TokenData 代表授權的設定，任何自訂的授權資料，都應該繼承這個類別，擴充設定資訊，同時定義 (override) 你自己的驗證邏輯，例如授權是否過期等等。跟他搭配的，則是 TokenHelper，專門負責產生、編碼、解碼 TokenData 用的靜態類別 (static class)。公開的介面只有 Init, Create / Encode / Decode Token 這組 static method. 這樣的設計，其實是參考了 Factory 這個 Design Pattern, 可以有效的把 TokenData 的生成方是從本身的 constructor 獨立出來，集中在 TokenHelper 一起控制。待會會講到的數位簽章的部分，也會在那邊介紹。
 

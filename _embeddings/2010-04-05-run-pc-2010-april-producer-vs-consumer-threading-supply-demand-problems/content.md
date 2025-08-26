@@ -1,22 +1,4 @@
----
-layout: post
-title: "[RUN! PC] 2010 四月號 - 生產者vs消費者– 執行緒的供需問題"
-categories:
-- "RUN! PC 專欄文章"
-tags: [".NET","RUN! PC","作品集","多執行緒","技術隨筆","物件導向"]
-published: true
-comments: true
-redirect_from:
-  - /2010/04/05/run-pc-2010-四月號-生產者vs消費者-執行緒的供需問題/
-  - /columns/post/2010/04/05/RUNPC-2010-04.aspx/
-  - /post/2010/04/05/RUNPC-2010-04.aspx/
-  - /post/RUNPC-2010-04.aspx/
-  - /columns/2010/04/05/RUNPC-2010-04.aspx/
-  - /columns/RUNPC-2010-04.aspx/
-wordpress_postid: 16
----
-
-![image](/wp-content/be-files/image_9.png)
+![image](/images/2010-04-05-run-pc-2010-april-producer-vs-consumer-threading-supply-demand-problems/image_9.png)
 
 隔了足足一年，趁著過年，生出第五篇了 :D，再次感謝編輯賞光啦，願意刊登我寫的題材...
 

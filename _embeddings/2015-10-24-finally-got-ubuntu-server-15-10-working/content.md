@@ -1,17 +1,4 @@
----
-layout: post
-title: "終於搞定 Ubuntu Server 15.10 @@"
-categories:
-
-tags: ["Docker","技術隨筆","有的沒的"]
-published: true
-comments: true
-redirect_from:
-  - /2015/10/24/終於搞定-ubuntu-server-15-10/
-wordpress_postid: 375
----
-
-![Ubuntu Server Setup](/wp-content/uploads/2015/11/img_5635a1568329d.jpeg)
+![Ubuntu Server Setup](/images/2015-10-24-finally-got-ubuntu-server-15-10-working/img_5635a1568329d.jpeg)
 
 原本只是想在 NAS 上簡單玩玩 Docker, 為了接下來的 ASP.NET 5 做準備.. 不過實在太好用，還沒開始做正事 (ASP.NET 5), 就先把原本的 BLOG 從 GoDaddy 的 hosting 搬回來放 NAS 了，順手也架了 reverse proxy ... 現在 NAS Docker 有正式用途了, 而 NAS 的運算能力又很有限 (我的是 DS-412+, CPU 只是 atom d2700, 雙核而已, 1GB RAM), 裝沒幾個就跑開始擔心了，於是就開始想另外搞一個可以隨便玩得 docker engine 環境..
 
@@ -39,11 +26,11 @@ wordpress_postid: 375
 現在終於把基本環境搞定了，特此留念 :D
 過程解決的問題對於熟 linux 的人來說應該都是小兒科吧? 我就不貼了，自己記載我私人的 onenote 就好.. 貼幾張照片作紀念:
 
-![雙螢幕安裝畫面](/wp-content/uploads/2015/10/IMG_8271-Canon-PowerShot-S110-Medium-e1445685690586.jpg)
+![雙螢幕安裝畫面](/images/2015-10-24-finally-got-ubuntu-server-15-10-working/IMG_8271-Canon-PowerShot-S110-Medium-e1445685690586.jpg)
 
 我用雙螢幕，旁邊的螢幕是轉成直的，方便看文件。因為有現成的 D-SUB，想說裝一裝就可以改用 SSH ，就懶得把他轉正了，結果搞了半天 =_=
 
-[![筆電螢幕已拆除](/wp-content/uploads/2015/10/IMG_8272-Canon-PowerShot-S110-Medium.jpg)](/wp-content/uploads/2015/10/IMG_8272-Canon-PowerShot-S110-Medium.jpg)
+[![筆電螢幕已拆除](/images/2015-10-24-finally-got-ubuntu-server-15-10-working/IMG_8272-Canon-PowerShot-S110-Medium.jpg)](/images/2015-10-24-finally-got-ubuntu-server-15-10-working/IMG_8272-Canon-PowerShot-S110-Medium.jpg)
 
 這張照片可以看到，螢幕已經被我用暴力拆掉了 XD。
 這次用 Microsoft 的隨身碟來裝 Linux ... 裝起來的 Linux 又要跑 Microsoft 的 ASP.NET 5 ... 你搞得我好亂啊..

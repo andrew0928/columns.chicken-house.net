@@ -1,13 +1,3 @@
----
-layout: post
-title: "Windows Container FAQ - 官網沒有說的事"
-categories:
-
-tags: ["Docker", "Windows Container", "作業系統", "技術隨筆"]
-published: true
-comments: true
----
-
 原本，Windows Container 單純就我自己研究而已，因為工作上用到的都是 ASP.NET Web Form 居多 (有部分早已轉移
 到 MVC，但是主要還是 WebForm)，加上商用軟體，用到一堆外面的第三方套件，想要藉由升級到 [.NET Core](https://www.microsoft.com/net/core#windows), 然後直接
 享用 [Docker](https://www.docker.com/) 帶來的一堆好處，那真的是想都不用想了... 所以前陣子研究完 .NET Core, 把我想搞懂的

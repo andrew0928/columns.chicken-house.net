@@ -1,20 +1,7 @@
----
-layout: post
-title: "容器化的微服務開發 #1, IP查詢架構與開發範例"
-categories:
-- "系列文章: .NET + Windows Container, 微服務架構設計"
-- "系列文章: 架構師觀點"
-tags: ["microservice", "系列文章", "ASP.NET", "架構師", "Docker", "Windows Container", "DevOps"]
-published: true
-comments: true
-redirect_from:
-logo: /wp-content/uploads/2017/05/containerize-all-your-apps-meme.jpg
----
-
 總算把包含架構與觀念的實際案例篇寫完了，前面也寫完了微服務化一定會面臨的 API 開發設計問題，那接下來可以開始
 進入有趣一點的部分了。微服務架構是由很多獨立的小型服務組合而成的，這次我們直接來看看每一個服務本身應該怎麼開發。
 
-![](/wp-content/uploads/2017/05/containerize-all-your-apps-meme.jpg)
+![](/images/2017-05-28-aspnet-msa-labs1/containerize-all-your-apps-meme.jpg)
 * 這張圖真是百搭啊...
 
 這篇既然要講到實作，那就不能不提讓微服務可以實現的容器技術。我一直覺得很可惜的是，不管國內或國外的文章，以開發者的
@@ -55,7 +42,7 @@ Container Driven Development (我自己亂掰的名詞，不過竟然還 google 
 綜合這些需求，我規劃了這樣的架構，如果都能實作出來，應該就能同時滿足上述這幾項了吧? 既然 container 這麼好用，能透過
 容器化解決的事情我就不用自己做了。在能夠極度利用容器化的優點為前提，來看看這份設計圖:
 
-![](/wp-content/uploads/2017/05/2017-05-23-23-25-51.png)
+![](/images/2017-05-28-aspnet-msa-labs1/2017-05-23-23-25-51.png)
 * Deployment diagram of IP2C service
 
 很典型的架構，前端用一組 reverse proxy, 來把流量平均分配到後端的多組 IP2C.WebAPI, 來達到 HA + Scale out 的要求。
@@ -83,7 +70,7 @@ Azure 上面現成的環境，篇幅有限，請見諒 :D
 
 這篇既然是 Hands-On Labs, 就直接來寫 code 吧! 這次的 solution 裡面有這些東西，先說明一下:
 
-![](/wp-content/uploads/2017/05/2017-05-23-23-37-16.png)
+![](/images/2017-05-28-aspnet-msa-labs1/2017-05-23-23-37-16.png)
 
 
 
@@ -524,7 +511,7 @@ D:\>
 
 剛啟動時，要等一會兒，讓 worker 更新資料檔之後就可以使用了。簡單用瀏覽器測試:
 
-![](/wp-content/uploads/2017/05/2017-05-24-01-21-10.png)
+![](/images/2017-05-28-aspnet-msa-labs1/2017-05-24-01-21-10.png)
 
 我測試的是 Google DNS 的 IP (8.8.8.8)，用十六進位表示這 IP 對應的 int 數值是: 0x08080808, 拿小算盤敲一敲，
 換成十進位就是 134744072 ... 湊成 URL 就可以直接丟給 webapi 查詢了。

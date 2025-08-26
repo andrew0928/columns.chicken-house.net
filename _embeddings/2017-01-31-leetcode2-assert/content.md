@@ -1,18 +1,4 @@
----
-layout: post
-title: "不只是 TDD #2, 兩個版本自我驗證 + 執行期驗證"
-categories:
-- "系列文章: 如何學好寫程式"
-- "系列文章: .NET + Windows Container, 微服務架構設計"
-- "系列文章: 架構師觀點"
-tags: ["專欄","技術隨筆","TDD","Microservices","架構師"]
-published: true
-comments: true
-redirect_from:
-logo: /wp-content/uploads/2017/01/leetcode2-logo.jpg
----
-
-![LeetCode Logo](/wp-content/uploads/2017/01/leetcode2-logo.jpg)
+![LeetCode Logo](/images/2017-01-31-leetcode2-assert/leetcode2-logo.jpg)
 
 接續 [上一篇](/2017/01/30/leetcode1-tdd/)，如果你以為要在本機解 LeetCode 的題目，只是把 test cases 改成 unit test 就結束的話，那
 我就不需要寫這幾篇文章了。如果你的目標只擺在 "解題"，那的確看第一篇就夠了。如果這是老闆或是客戶給你的 "需求"，那
@@ -242,7 +228,7 @@ ZumaGame, 就類似 Candy Crush 一樣，是個只有一維的消去遊戲 (Cand
 1. 搭配 Debugger, 自訂 ```ToString()``` 準備隨時要印出訊息的 code:
 覆寫 (override) 物件的 ```ToString()```, 我就能在 debugger 上面直接看到對我有意義的物件狀態。如下圖，紅線的部分就是 ```ToString()``` 產生的
 
-![debugger](/wp-content/uploads/2017/01/leetcode2-tostring.png)
+![debugger](/images/2017-01-31-leetcode2-assert/leetcode2-tostring.png)
 
 但是這些 code, 在真正 submit 時又是多餘的, 因此我用 ```#if (...)``` 來控制他。我不用原本內建的 Debug / Release, 因為我不曉得
 上傳後的 code, LeetCode 到底是用什麼模式編譯的? 因此為了保險起見，我自己宣告了一個 ```#define LOCAL_DEBUG```, 這樣就能確保
@@ -336,9 +322,3 @@ LeetCode 那邊絕對沒有這筆定義，上傳上去的 code, 這些 ```#if (.
 
 又是碎碎念的兩篇文章，過年期間趁空檔整理這陣子玩 LeetCode 的心得，也分享我的經驗給想繼續在軟體業發展的朋友們!
 祝大家新年快樂 :)
-
-
-
-
-
-

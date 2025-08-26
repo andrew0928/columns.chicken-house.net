@@ -1,21 +1,3 @@
----
-layout: post
-title: "[CODE] 可以輸出到 TextBox 的 TextWriter: TextBoxWriter!"
-categories:
-
-tags: [".NET","ASP.NET","C#","多執行緒","技術隨筆"]
-published: true
-comments: true
-redirect_from:
-  - /2011/01/03/code-可以輸出到-textbox-的-textwriter-textboxwriter/
-  - /columns/post/2011/01/03/CODE-e58fafe4bba5e8bcb8e587bae588b0-TextBox-e79a84-TextWriter-TextBoxWriter!.aspx/
-  - /post/2011/01/03/CODE-e58fafe4bba5e8bcb8e587bae588b0-TextBox-e79a84-TextWriter-TextBoxWriter!.aspx/
-  - /post/CODE-e58fafe4bba5e8bcb8e587bae588b0-TextBox-e79a84-TextWriter-TextBoxWriter!.aspx/
-  - /columns/2011/01/03/CODE-e58fafe4bba5e8bcb8e587bae588b0-TextBox-e79a84-TextWriter-TextBoxWriter!.aspx/
-  - /columns/CODE-e58fafe4bba5e8bcb8e587bae588b0-TextBox-e79a84-TextWriter-TextBoxWriter!.aspx/
-wordpress_postid: 12
----
-
 吃葡萄不吐葡萄皮... 對，這不是繞口令... 哈哈...。
 
 先祝各位 2011 新年快樂!! 這幾個月忙翻了, 一方面系統要移轉到 windows azure, 另一方面要改善原本系統的排程 (原本是 console app + scheduler task service), 現在要用 windows service 來取代, 突然之間之前覺的工作上用不到的 multi-threading 技巧, 現在都派上用場了...
@@ -57,7 +39,7 @@ private void Form1_Load(object sender, EventArgs e)
 
 建立好 TextWriter 之後，後面只管用這 writer 輸出訊息，對應的 TextBox 自然就會像 terminal 般，不斷的跑出訊息出來...
 
-![image](/wp-content/be-files/image_11.png)
+![image](/images/2011-01-03-code-textwriter-that-outputs-to-textbox-textboxwriter/image_11.png)
 
 基本要求達到了，這就是我要的功能。其實這東西上網 [GOOGLE](http://www.google.com.tw/search?hl=zh-TW&source=hp&biw=1024&bih=1219&q=textboxwriter&aq=f&aqi=g2&aql=&oq=&gs_rfai=) 一下, 類似的例子也有, 不過一來寫起來沒幾行, 二來功能跟我要的有點出入... 想想還是自己寫一個。先來看看這個 writer 是怎麼實作的?
 
@@ -107,7 +89,7 @@ public class TextBoxWriter : TextWriter
 
 如果不遵守這個規則，執行時就會被警告:
 
-![image](/wp-content/be-files/image_12.png)
+![image](/images/2011-01-03-code-textwriter-that-outputs-to-textbox-textboxwriter/image_12.png)
 
 解法就參考 line 14 ~ 21 的部份就好，說明的話 darkthread 這篇講的很清楚, 我就不客氣直接引用了 :D
 

@@ -1,52 +1,34 @@
----
-layout: post
-title: "[Tips] 用 磁碟鏡像 更換硬碟 #2, Windows 2003 的跨距磁區"
-categories:
-
-tags: ["Tips","技術隨筆","有的沒的"]
-published: true
-comments: true
-redirect_from:
-  - /2010/03/11/tips-用-磁碟鏡像-更換硬碟-2-windows-2003-的跨距磁區/
-  - /columns/post/2010/03/11/Tips-e794a8-e2809ce7a381e7a29fe98fa1e5838f-e69bb4e68f9be7a1ace7a29f-2-Windows-2003-e79a84e8b7a8e8b79de7a381e58d80.aspx/
-  - /post/2010/03/11/Tips-e794a8-e2809ce7a381e7a29fe98fa1e5838f-e69bb4e68f9be7a1ace7a29f-2-Windows-2003-e79a84e8b7a8e8b79de7a381e58d80.aspx/
-  - /post/Tips-e794a8-e2809ce7a381e7a29fe98fa1e5838f-e69bb4e68f9be7a1ace7a29f-2-Windows-2003-e79a84e8b7a8e8b79de7a381e58d80.aspx/
-  - /columns/2010/03/11/Tips-e794a8-e2809ce7a381e7a29fe98fa1e5838f-e69bb4e68f9be7a1ace7a29f-2-Windows-2003-e79a84e8b7a8e8b79de7a381e58d80.aspx/
-  - /columns/Tips-e794a8-e2809ce7a381e7a29fe98fa1e5838f-e69bb4e68f9be7a1ace7a29f-2-Windows-2003-e79a84e8b7a8e8b79de7a381e58d80.aspx/
-wordpress_postid: 19
----
-
 繼[上一篇](/post/Tips-e794a8-e2809ce7a381e7a29fe98fa1e5838f-e784a1e7979be69bb4e68f9be7a1ace7a29f.aspx)，介紹了如何用windows server内建的磁碟鏡像 (Mirror) 更換硬碟後，這次剛好有windows 2003，就拿來試了一下...
 
 廢話就不多說了，先來看一下 2003 的步驟，再來看看跟 2008 / 2008R2 差在那裡:
 
 1. 原本的樣子，磁碟1 (8.00GB) 是舊的硬碟，磁碟2 (16.00GB) 是要換上來的新硬碟:
 
-   ![image001](/wp-content/be-files/image001.png)
+   ![image001](/images/2010-03-11-tips-disk-mirroring-hard-drive-replacement-2-windows-2003-spanned-volumes/image001.png)
 
 2. 磁碟1 + 磁碟2 做成鏡像 (MIRROR):
 
-   ![image002](/wp-content/be-files/image002.png)
+   ![image002](/images/2010-03-11-tips-disk-mirroring-hard-drive-replacement-2-windows-2003-spanned-volumes/image002.png)
 
    等待重新同步化 (Resync) 完成:
 
-   ![image003](/wp-content/be-files/image003.png)
+   ![image003](/images/2010-03-11-tips-disk-mirroring-hard-drive-replacement-2-windows-2003-spanned-volumes/image003.png)
 
 3. Resync 完成後，移除鏡像:
 
-   ![image004](/wp-content/be-files/image004.png)
+   ![image004](/images/2010-03-11-tips-disk-mirroring-hard-drive-replacement-2-windows-2003-spanned-volumes/image004.png)
 
    移除鏡像完成後的狀態:
 
-   ![image005](/wp-content/be-files/image005.png)
+   ![image005](/images/2010-03-11-tips-disk-mirroring-hard-drive-replacement-2-windows-2003-spanned-volumes/image005.png)
 
 4. 用 2003 的延伸磁區，把磁碟2後面沒用到的空間也併進 D: 來
 
-   ![image006](/wp-content/be-files/image006.png)
+   ![image006](/images/2010-03-11-tips-disk-mirroring-hard-drive-replacement-2-windows-2003-spanned-volumes/image006.png)
 
    合併之後的狀態:
 
-   ![image007](/wp-content/be-files/image007.png)
+   ![image007](/images/2010-03-11-tips-disk-mirroring-hard-drive-replacement-2-windows-2003-spanned-volumes/image007.png)
 
 整個步驟跟前一篇都差不多，主要都是靠鏡像(MIRROR)搬完資料後，再把新硬碟多的可用空間併進來。唯一的差別就在這裡: 2003 的 "延伸磁區" (英文: extend volume) 是可以把兩個硬碟，或是兩個分割區併在一起使用。在磁碟管理員還是看的到這些分割區的存在。這就有點像 [JBOD](http://en.wikipedia.org/wiki/Non-RAID_drive_architectures#JBOD) (Just a Bunch Of Disks) 的模式。
 

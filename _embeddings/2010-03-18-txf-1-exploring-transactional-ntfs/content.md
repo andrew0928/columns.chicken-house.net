@@ -1,21 +1,3 @@
----
-layout: post
-title: "[TxF] #1. 初探 Transactional NTFS"
-categories:
-- "系列文章: 交易式 (Transactional) NTFS"
-tags: [".NET","C#","MSDN","SQL","Transactional NTFS","作業系統"]
-published: true
-comments: true
-redirect_from:
-  - /2010/03/18/txf-1-初探-transactional-ntfs/
-  - /columns/post/2010/03/18/TxF-1-Transactional-NTFS-e5889de9ab94e9a997.aspx/
-  - /post/2010/03/18/TxF-1-Transactional-NTFS-e5889de9ab94e9a997.aspx/
-  - /post/TxF-1-Transactional-NTFS-e5889de9ab94e9a997.aspx/
-  - /columns/2010/03/18/TxF-1-Transactional-NTFS-e5889de9ab94e9a997.aspx/
-  - /columns/TxF-1-Transactional-NTFS-e5889de9ab94e9a997.aspx/
-wordpress_postid: 18
----
-
 其實想用 TxF (Transactional NTFS, 交易式的 NTFS) 已經很久了，不過老是被一些雜事卡著，到過年期間才有空好好研究一下。這篇主要是介紹而已，就不講太多 Code, 先以瞭解 TxF 是什麼，及如何善用它等等方面為主。詳細的用法，就等後面幾篇吧!
 
 Transactional NTFS, 中文是 "交易式NTFS"，或是常見到的縮寫 "TxF"，早期的相關文章也有人寫 "TxFS"。這是在 Windows Vista / 2008 推出時，首次正式提供的功能。雖然它叫作 Transactional **NTFS**, 實際上它並不是一個新的檔案系統，而是一組新的 API (跟原有的檔案處理 API 幾乎是一對一的對應),  支援你用交易的方式操作檔案。一起推出的還有 Transactional Registry (TxR)，一樣是有對應的 windows API，只不過它處理的對像是 windows registry，不是檔案...。

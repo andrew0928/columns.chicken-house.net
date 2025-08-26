@@ -1,17 +1,4 @@
----
-layout: post
-title: "暌違多年的獎盃 - Microsoft MVP Award Get!"
-categories:
-
-tags: ["MVP", "自HIGH"]
-published: true
-comments: true
-redirect_from:
-logo: /wp-content/uploads/2016/10/mvp-mvpkit3.jpg
----
-
-
-![MVP Banner](/wp-content/uploads/2016/10/MVP_Banner_logo.png)
+![MVP Banner](/images/2016-10-25-microsoft-mvp-award-get/MVP_Banner_logo.png)
 
 其實拿到這獎項時，我比其他人還意外 XD, 每個人都只跟我說..  
   
@@ -33,7 +20,7 @@ logo: /wp-content/uploads/2016/10/mvp-mvpkit3.jpg
   
 > 年輕人可能聽都沒聽過 Turbo C, 給你們瞧瞧，這就是 Turbo C ...
 >   
-> ![screen caputre](/wp-content/uploads/2016/10/mvp-award-turboc.png)  
+> ![screen caputre](/images/2016-10-25-microsoft-mvp-award-get/mvp-award-turboc.png)  
 > [竟然還有人 porting 到 windows 7](https://turboc.codeplex.com/)
   
 
@@ -80,7 +67,7 @@ HotKey, 也沒人看的懂我在案什麼，程式就跑完了 XDD，從那時�
 
 ----
 
-![MVP Email](/wp-content/uploads/2016/10/mvp-award.png)
+![MVP Email](/images/2016-10-25-microsoft-mvp-award-get/mvp-award.png)
 
 好，故事講完了，在 Microsoft 領域擔任開發者的角色這麼久了，拿到 MVP 這獎項應該也對得起這頭銜吧~ 雖然來的晚了一點...
 其實這篇主要的目的就是開箱而已... XD，十月初意外的收到 MVP 通知信件，隔了幾天就收到初次當選會收到的 MVP KIT..
@@ -88,9 +75,9 @@ HotKey, 也沒人看的懂我在案什麼，程式就跑完了 XDD，從那時�
 
 所以，還是貼個照片紀念一下..
 
-![MVP KIT](/wp-content/uploads/2016/10/mvp-mvpkit2.jpg)
+![MVP KIT](/images/2016-10-25-microsoft-mvp-award-get/mvp-mvpkit2.jpg)
 
-![MVP KIT](/wp-content/uploads/2016/10/mvp-mvpkit3.jpg)
+![MVP KIT](/images/2016-10-25-microsoft-mvp-award-get/mvp-mvpkit3.jpg)
 
 看到 [Darkthread 的獎盃，都已經湊到 10 年了](http://blog.darkthread.net/post-2016-02-22-mvp-for-10yr.aspx)，我的才
 第一年... Orz, 繼續努力!! 也請大家繼續支持 [安德魯的部落格](https://www.facebook.com/andrew.blog.0928)

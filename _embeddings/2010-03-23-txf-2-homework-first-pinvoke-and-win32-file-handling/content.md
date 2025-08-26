@@ -1,21 +1,3 @@
----
-layout: post
-title: "[TxF] #2. 先作功課 - 熟悉 P/Invoke 及 Win32 檔案處理..."
-categories:
-- "系列文章: 交易式 (Transactional) NTFS"
-tags: [".NET","C#","MSDN","Transactional NTFS"]
-published: true
-comments: true
-redirect_from:
-  - /2010/03/23/txf-2-先作功課-熟悉-pinvoke-及-win32-檔案處理/
-  - /columns/post/2010/03/23/TxF-2-e58588e4bd9ce58a9fe8aab2-e7869fe68289-PInvoke-e58f8a-Win32-e6aa94e6a188e89995e79086.aspx/
-  - /post/2010/03/23/TxF-2-e58588e4bd9ce58a9fe8aab2-e7869fe68289-PInvoke-e58f8a-Win32-e6aa94e6a188e89995e79086.aspx/
-  - /post/TxF-2-e58588e4bd9ce58a9fe8aab2-e7869fe68289-PInvoke-e58f8a-Win32-e6aa94e6a188e89995e79086.aspx/
-  - /columns/2010/03/23/TxF-2-e58588e4bd9ce58a9fe8aab2-e7869fe68289-PInvoke-e58f8a-Win32-e6aa94e6a188e89995e79086.aspx/
-  - /columns/TxF-2-e58588e4bd9ce58a9fe8aab2-e7869fe68289-PInvoke-e58f8a-Win32-e6aa94e6a188e89995e79086.aspx/
-wordpress_postid: 17
----
-
 其實這篇是多寫的，因為[前一篇](/post/TxF-1-Transactional-NTFS-e5889de9ab94e9a997.aspx)提到的 Transactional NTFS 官方只提供 Win32 API 而已，不提供包裝好的 managed code 用的 library... 因此現階段想始用它，[P/Invoke](http://msdn.microsoft.com/en-us/library/aa446536.aspx) 是逃不掉的... 這篇就先來複習一下，想要在 C# 裡呼叫 unmanaged code 該怎麼用吧。這邊的例子為了配合後面幾篇，就同樣的以檔案處理為例。
 
 這篇我不想去長篇大論的討論 P/Invoke 那堆規則及語法，也不想去討論那堆 Marshal 的觀念等等... 想學好 P/Invoke 就別看我這篇了，應該去 MSDN 看... 這篇我只想交待一下該如何配合 windows api 來作檔案處理而已。因為這些是往後要用到 Transactional NTFS 必要的技巧，TxF 新的 API 都是跟 win32 標準檔案處理的 API 一一對應的，弄懂了如何用 win32 api 操作檔案，你大概就學會八成的 TxF 了... 想用 TxF ... 熟悉點 P/Invoke 是應該的...
@@ -66,15 +48,15 @@ public class PInvokeTest
 
 程式執行前，看一下 C:\ 的 DIR *.TXT 指令執行結果:
 
-![image](/wp-content/be-files/image_6.png)
+![image](/images/2010-03-23-txf-2-homework-first-pinvoke-and-win32-file-handling/image_6.png)
 
 沒錯，有 c:\file1.txt 這檔案... 接著來執行範例程式:
 
-![image](/wp-content/be-files/image_7.png)
+![image](/images/2010-03-23-txf-2-homework-first-pinvoke-and-win32-file-handling/image_7.png)
 
 執行成功。再重新看一下 C:\ 的 DIR *.TXT 指令執行結果:
 
-![image](/wp-content/be-files/image_8.png)
+![image](/images/2010-03-23-txf-2-homework-first-pinvoke-and-win32-file-handling/image_8.png)
 
 看來程式很順利的呼叫了 win32 api 裡定義的 MoveFile( ... ) ... 這種範例有點不入流，要處理檔案總不可能只有這樣吧? 接著我們再來看看需要 Open File 加上讀寫檔案內容的應用。
 

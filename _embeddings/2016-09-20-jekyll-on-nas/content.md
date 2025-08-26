@@ -1,14 +1,3 @@
----
-layout: post
-title: "Running Jekyll on NAS - 高效率的新選擇"
-categories:
-
-tags: ["Jekyll", "NAS", "Docker", "Tips"]
-published: true
-comments: true
-logo: /wp-content/uploads/2016/09/run-jekyll-on-nas-logo.png
----
-
 自從發現了 GitHub Pages 這好用的服務，原來是源自 Jekyll 這 open source project 後，想說靜態網站產生器這麼好的東西，
 怎麼沒人拿來用在 NAS 上? 與其在 NAS 貧弱的硬體上面，安裝 wordpress, 還不如在上面放靜態的 HTML 來的快速且安全。不過順手
 Google 了一下，還真的沒什麼人這樣用，於是一時手癢，就...
@@ -44,7 +33,7 @@ Google 了一下，還真的沒什麼人這樣用，於是一時手癢，就...
 
 [MSDN - Windows Containers Document](https://msdn.microsoft.com/en-US/virtualization/windowscontainers/deployment/deployment_nano?f=255&MSPPError=-2147217396)  
 
-![](/wp-content/uploads/2016/09/run-jekyll-on-nas-msdn.png)
+![](/images/2016-09-20-jekyll-on-nas/run-jekyll-on-nas-msdn.png)
 
 右上角的 "contribute" 點進去後，就會連到 GitHub.com 對應的 markdown 檔案。很有意思的是，你要投稿或是建議，直接 po issues, 或是
 直接 pull request, 把你的修正丟上去，Microsoft 負責的人自然會替你 merge 上去，Jekyll 就自動接手發布內容的動作了。
@@ -84,17 +73,17 @@ Build 的 website 我也不需要再透過 Jekyll 發佈了，直接採用 NAS �
 
 # STEP 1. 架設 Jekyll (使用 docker)
 
-![docker pull jekyll/jekyll:latest](/wp-content/uploads/2016/09/run-jekyll-on-nas-docker-pull.png)  
+![docker pull jekyll/jekyll:latest](/images/2016-09-20-jekyll-on-nas/run-jekyll-on-nas-docker-pull.png)  
 打開 S 牌的 DSM，打開 Docker 套件，先到 Registry 搜尋 Jekyll 官方的 container image: jekyll/jekyll:latest  
 
-![docker volume setting](/wp-content/uploads/2016/09/run-jekyll-on-nas-volume-mapping.png)
+![docker volume setting](/images/2016-09-20-jekyll-on-nas/run-jekyll-on-nas-volume-mapping.png)
 下載完成後就可以用它建立 container 了，只要設定 volume 對應，把 NAS 的 /docker/jekyll 對應到 container 內的 /srv/jekyll 就可以了。
 其他 network ports 都用預設值即可
 
 
 # STEP 2. 把你的網站樣板 (含內容檔案) 複製到 NAS:/docker/jekyll
 
-![jekyll template files](/wp-content/uploads/2016/09/run-jekyll-on-nas-files.png)
+![jekyll template files](/images/2016-09-20-jekyll-on-nas/run-jekyll-on-nas-files.png)
 這步驟蠻無腦的，就是把檔案 COPY 過來 NAS 的目錄而已。
 這邊的實作沒有像 GitHub Pages 一樣，搭配 Git Repository 當作 storage, 就是用一搬的 file system 而已。
 當然你需要的話，還是可以把它放在 Git ，或是其他版本控制系統。或是你要用 NAS 內建的 backup 來保護它，甚至適用 Brtfs / ZFS
@@ -107,7 +96,7 @@ Build 的 website 我也不需要再透過 Jekyll 發佈了，直接採用 NAS �
 
 # STEP 3. 設定 NAS web station (對應目錄: /docker/jekyll/_site)
 
-![web station](/wp-content/uploads/2016/09/run-jekyll-on-nas-webstation.png)
+![web station](/images/2016-09-20-jekyll-on-nas/run-jekyll-on-nas-webstation.png)
 啟動 web station, 看你是要指定 domain name or port, 在 web station 建立你的 virtual host。
 網站目錄請對應到 /docker/jekyll/**_site**, web server 我用 Nginx (個人喜好, 速度快)
 
@@ -133,11 +122,11 @@ Configuration file: /srv/jekyll/_config.yml
 
 有看到 Generating... done in xxxxx seconds. 字樣，就代表已經完成了。這時，如果你想在區網內用 Jekyll 自帶的 web server
 驗證結果，可以看看 container 的 4000 port 被對應到 host 的哪個 port:
-![ports](/wp-content/uploads/2016/09/run-jekyll-on-nas-ports-mapping.png)
+![ports](/images/2016-09-20-jekyll-on-nas/run-jekyll-on-nas-ports-mapping.png)
 
 用 Jekyll 自帶的 web server 測試，請用 http://{nas ip}:{host-map-port}
 若你想用 web station 來測試，請用 http://{your domain name}
-![result](/wp-content/uploads/2016/09/run-jekyll-on-nas-result.png)
+![result](/images/2016-09-20-jekyll-on-nas/run-jekyll-on-nas-result.png)
 
 結果你會發現，過去 NAS 為了省電，總是只給剛剛好夠用的 CPU / RAM (尤其 S 牌)，跑起 wordpress 之類的應用程式，是跑得動，但是
 就是沒有 **飛快** 的感覺，現在這個是單純靜態的 HTML 網站，我想應該沒有比他更快的了吧? 所有內容都是點一下就出現... (Y)
@@ -160,4 +149,4 @@ Configuration file: /srv/jekyll/_config.yml
   
   
 沒想到 CPU 差了這麼多檔次，結果效能也沒有差很多嘛，這對我來說其實已經可以接受了。真的有需要用 Jekyll, 不想放在 GitHub 上，想要自己
-Hosting 在 NAS 的朋友可以試試喔。Blog 改用靜態網站，嫌以前用 wordpress 跑太慢的話，換這個你一定會滿意的 :D 
+Hosting 在 NAS 的朋友可以試試喔。Blog 改用靜態網站，嫌以前用 wordpress 跑太慢的話，換這個你一定會滿意的 :D

@@ -1,19 +1,6 @@
----
-layout: post
-title: "架構面試題 #1, 線上交易的正確性"
-categories:
-- "系列文章: 架構師觀點"
-- "系列文章: 架構面試題"
-tags: ["架構師", "面試經驗", "microservices"]
-published: true
-comments: true
-redirect_from:
-logo: /wp-content/uploads/2018/03/whiteboard-interviews.png
----
-
 最近一直在思考，團隊裡的後端工程師能力是否到位，是微服務架構能否成功的關鍵之一。我該怎麼鑑別出面試者有沒有這樣的能力? 最有用的就是出幾個實際的應用題，讓面試者在白板上面說明。最近這一輪面試，談了不下幾十位吧，索性就把我幾個常問的白板考題整理起來，歸在微服務系列的文章裡的開發團隊篇，改善團隊成員的問題，也算是朝向微服務化的目標跨出一大步。
 
-![](/wp-content/uploads/2018/03/whiteboard-interviews.png)
+![](/images/2018-03-25-interview01-transaction/whiteboard-interviews.png)
 > 這書應該是惡搞的吧? 竟然還有恰恰 XD
 
 <!--more-->
@@ -234,10 +221,10 @@ Test Result for WithoutLockAccount: FAIL!
 
 Wiki 有篇文章: [Racing Condition](https://en.wikipedia.org/wiki/Race_condition#Example) 其實講的很清楚，看看文章內的範例就知道了。
 
-![](/wp-content/uploads/2018/03/racing-condition-01.PNG)
+![](/images/2018-03-25-interview01-transaction/racing-condition-01.PNG)
 > 正確的狀況，交易的結果正確
 
-![](/wp-content/uploads/2018/03/racing-condition-02.PNG)
+![](/images/2018-03-25-interview01-transaction/racing-condition-02.PNG)
 > 有問題的狀況，交易的過程發生交錯的讀取與寫入，交易結果不正確
 
 各位讀者，這關你通過了嗎? :D
@@ -455,11 +442,11 @@ docker run --rm -d --name mongo -p 27017:27017 mongo:3.4-windowsservercore
 
 
 執行 (2) 之前查看 mongo db 的狀態, 帳戶餘額 **33574** 元
-![](/wp-content/uploads/2018/03/mongo-before.png)
+![](/images/2018-03-25-interview01-transaction/mongo-before.png)
 
 
 執行 (2) 之後查看 mongo db 的狀態, 帳戶餘額 **233574** 元
-![](/wp-content/uploads/2018/03/mongo-before.png)
+![](/images/2018-03-25-interview01-transaction/mongo-before.png)
 
 
 雖然前後大約執行了 7 分鐘，總共平行的處理掉 200000 筆交易，分成 10 process x 20 concurrent threads 平行處理，在
@@ -471,7 +458,7 @@ docker run --rm -d --name mongo -p 27017:27017 mongo:3.4-windowsservercore
 
 至於運作的原理，用上面講 racing condition 的兩張圖就足夠說明了。
 
-![](/wp-content/uploads/2018/03/racing-condition-01.PNG)
+![](/images/2018-03-25-interview01-transaction/racing-condition-01.PNG)
 
 執行的關鍵，就是在上圖中，執行 "read value" 之前先取得鎖定，在 "write back" 後再釋放鎖定就可以了。鎖定可能會取得失敗，因此需要 retry (上述 sample code 的 wait / retry 就是處理這件事)。如果你的 code 取得鎖定後就掛掉了，納為了避免這個鎖定永遠被占住，因此也會有所訂的時間限制，超過就會被強制釋放 (上述 sample code 的 expire 就是處理這件事)。
 
@@ -492,4 +479,3 @@ docker run --rm -d --name mongo -p 27017:27017 mongo:3.4-windowsservercore
 對這篇文章提到的範例程式，可以到這邊下載:
 
 [InterviewQuiz, tag:publish-2018-0325](https://github.com/andrew0928/InterviewQuiz/releases/tag/publish-2018-0325)
-

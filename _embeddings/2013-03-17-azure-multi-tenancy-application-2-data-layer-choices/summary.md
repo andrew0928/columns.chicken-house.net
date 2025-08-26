@@ -1,33 +1,100 @@
-# [Azure] Multi-Tenancy Application #2 ‑ 資料層的選擇
+# [Azure] Multi-Tenancy Application #2, 資料層的選擇
 
 ## 摘要提示
-- 資料切割模式: Multi-Tenancy 常見三種資料切割方式為 Separated DB、Separated Schema 與 Shared Schema。
-- 容量瓶頸: SQL Server 每實例僅能建立 32,767 個 Database，對 Separated DB 架構形成用戶數硬上限。
-- 物件上限: Separated Schema 雖可撐到約 40 萬租戶，但仍受單庫 20 億 objects 限制。
-- Shared Schema 優勢: 不受 Database 與 objects 數量限制，只要硬體資源足夠即可橫向擴充。
-- 效能對比: Separated DB 容易 Scale-Out 卻浪費資源；Shared Schema 執行效率佳但需面對巨表優化。
-- Partition 策略: 良好的 Partition 設計是突破單表龐大資料筆數瓶頸的關鍵。
-- NoSQL 崛起: 為解決 RDBMS 天生限制，可考慮 Azure Table Storage 等 NoSQL 服務。
-- PartitionKey/RowKey: Azure Table Storage 以雙鍵驅動資料分散與快取，是實作 Multi-Tenancy 的理想機制。
-- 查詢限制: Azure Table Storage 缺乏多重索引與 JOIN，須以程式與平行查詢來彌補。
-- 取捨原則: 系統須在查詢彈性與高延展性之間抉擇，巨量 SaaS 服務宜優先考慮 Shared Schema＋NoSQL。
+- 多租戶資料模型比較: Separated DB、Separated Schema 與 Shared Schema 三方案各有侷限，作者主張最終走向 Shared Schema 或改採 NoSQL。
+- 規模門檻: 當租戶數超過數十個，分庫/分綱要付出高昂維運與上限成本，不宜長期採用。
+- SQL Server 上限: 單實例最多約 32767 databases、2G objects，限制分庫/分綱可承載的租戶數。
+- 可承載量估算: 以每租戶 500 tables、5GB 資料估，分綱約可至 40 萬租戶，分庫僅約 3 萬。
+- 擴充性取捨: 分庫易 Scale Out 但資源浪費、共用資料難查；共綱效能佳但單表數量暴增需嚴格優化與分割。
+- 單表壓力: 共綱在億級資料下，索引維護與 join 成本高，需依賴分割與效能調校。
+- 難以水平擴展: RDBMS 相較於 Web 層不易水平擴張，資料分割與分區代價高。
+- Azure Table Storage: 以 NoSQL Key-Value 為基底，具高度延展性，PartitionKey/RowKey 是設計核心。
+- 查詢限制: 僅對 PartitionKey/RowKey 叢集索引，無排序、無 join、無 count 等傳統能力，需以程式側補足。
+- 多租戶完美對應: Partition 概念天生符合租戶切割，Azure 背後自動分散與負載均衡有利海量成長。
 
 ## 全文重點
-本文延續前篇設計討論，聚焦在 SaaS／Multi-Tenancy 應用的資料層選型。作者先引用 MSDN 提出的三類切割模型，並以「用戶數 5 萬、每戶 500 張表、10 萬筆資料」的情境做容量估算。結果顯示 Separated DB 受限於 SQL Server 單實例 32,767 個 database 的天花板，實務上僅適合租戶數極少的系統；Separated Schema 雖能提升至約 40 萬租戶，仍無法支撐面向大眾市場的服務，而且動態建立資料庫／資料表在維運與效能上都並非長久之計。Shared Schema 將所有租戶資料儲於同一結構，消弭了物件數量上限問題，但單表筆數極大帶來索引、查詢與維護挑戰，必須依賴精細的分割與調校手段。
+本文延續多租戶系統設計，聚焦資料層選型。作者指出，MSDN 提及的三種模式中，若租戶規模超過數十，分庫（Separated DB）與分綱（Separated Schema）多屬過渡方案；原因在於 SQL Server 存在資料庫數量與物件數量的硬限制，且在系統運作期動態建立資料庫/資料表並不理想。以 5 萬租戶、每租戶 500 tables、5GB 資料等假設估算：分庫受限於每實例最多 32767 databases，實務上很快受限；分綱則受制於每資料庫 20 億個物件上限，約可容納 40 萬租戶，雖較寬鬆但仍有邊界。相較之下，共綱（Shared Schema）不受這類物理上限影響，但會面對單表筆數爆量與索引維護成本大增的挑戰，需嚴格的資料庫優化與可能的資料分割策略。
 
-接著作者從 Scale-Out 角度比較三者：Separated DB 由於資料已天然分散，對水平擴充最友善，但多實例管理與資源浪費明顯；Shared Schema 相反，計算成本最低，卻容易陷入單庫瓶頸，需要資料分區（Partition）或更進一步的資料服務拆分。傳統 RDBMS 強調一致性，對高擴充性設計造成桎梏，於是作者引介 NoSQL 思維，特別是 Azure Table Storage。該服務以 Key-Value 模型組合結構化表格語意，核心的 PartitionKey 與 RowKey 既提供唯一索引，也讓平台能自動依存取熱度跨節點重新分布資料，達到幾近無限的延展，極度契合租戶隔離需求。
+在效能擴充上，分庫容易水平擴張，但為大量小租戶帶來顯著資源浪費，且跨租戶共用資料查詢困難；共綱執行負擔小、效能潛力高，但隨用戶增長，單表億級資料導致索引更新與 join 成本上升，對查詢設計與調校要求甚高。傳統 RDBMS 不易像 Web 一樣 Scale Out，較合適的做法是分區/分割，然而複雜與成本不容小覷。
 
-文章並列舉 Azure Table Storage 的限制：無排序、缺乏二級索引、無 Join、Count、報表困難等；然而對比其高可用、高平行吞吐與低成本特性，在追求大規模租戶與巨量資料時，這些缺點往往可以藉由應用層計算、預聚合或快取策略補足。最終作者下結論：若租戶規模已超越傳統 RDBMS 所能承載，採 Shared Schema 搭配 Azure Table Storage 等 NoSQL 技術，是打造雲端 SaaS 的最佳方案，下一篇將示範實作細節。
+作者進一步轉向雲端 NoSQL 選擇，以 Azure Table Storage 為例。NoSQL 以 Key-Value 為本，結構簡單、天然易水平擴張，能在多節點自動分散與負載均衡。Azure Table Storage 的關鍵在 PartitionKey 與 RowKey：它們同時決定資料分佈、查詢效率與唯一性，微軟平台會依分區熱度自動拆分到多個節點，既保證同分區資料的區域性與快取效果，又兼顧整體擴展性。然而該服務缺乏傳統 RDBMS 的排序、額外索引、join 與 count 等能力，查詢必須圍繞 PartitionKey/RowKey 規劃，其他欄位查詢效能會顯著下滑，報表與統計需透過應用層、批次計算或外部分析管線補足。
+
+總結來看，若目標是大規模多租戶且預期高成長，分庫/分綱不易長久；共綱在嚴格優化下可行，但需面對單表巨量資料的風險。Azure Table Storage 以分區為核心，天生契合多租戶切割與彈性擴展，代價是放棄部分關聯能力，改以程式與批處理補齊複雜查詢與報表。作者預告下一篇將以程式碼示範如何用 Azure Table Storage 打造多租戶資料層。
 
 ## 段落重點
-### 導言：設計理念與方案篩選
-作者延續上一回合的設計概念，先回顧 MSDN 三種資料隔離模式，指出 Separated DB／Schema 本質只是過渡方案，僅當租戶規模在「幾十」量級時才具可行性；若 SaaS 服務面向的是上萬租戶市場，光靠動態建立資料庫或資料表就會碰到數量上限與維運複雜度，故本文將鎖定能長期支撐成長的 Shared Schema 與新型儲存技術作為討論重心。
+### 前言與評估前提
+作者延續前文，從實務運作面檢視多租戶資料層設計。指出 MSDN 三方案中，若租戶超過數十，分庫與分綱只是讓傳統系統快速過渡為多租戶的權宜之計，受制於資料庫/資料表的數量上限與維運複雜度，且在系統執行期動態建立 DB/TABLE 並不理想。本文設定情境：預估 5 萬租戶，每租戶平均 500 tables、5000 DB 物件、每表 10 萬筆、總量 5GB，作為不同資料層策略的容量與效能評估基準。
 
-### 能容納的用戶量限制
-以 5 萬租戶、每租戶 500 張表等假設，對照 SQL Server 2012 上限可知：Separated DB 受制於 3.2 萬 database 天花板而提早出局；Separated Schema 雖能撐到約 40 萬租戶，但對以部門或家庭為單位的微型租戶仍顯不足；Shared Schema 則只受磁碟與效能限制，不會被物件數量卡住，在容量面最具彈性。
+### 1. 能容納的用戶量限制
+引述 SQL Server 2012 官方上限：單實例最多 32767 databases、使用者連線 32767、資料庫物件總數 21 億。以此推估：分庫受限最嚴重，一實例上限約 3 萬租戶，連試用/測試帳戶都計入，容易提前觸頂；分綱改以物件數控制，上限約 40 萬租戶，對企業級（以公司為租戶）或許足夠，但若面向部門/團隊/家庭等更細粒度租戶，仍可能逼近上限。共綱則不受 DB/物件數硬限制，主要受儲存容量與效能所限，更具長期彈性。
 
-### 效能擴充（Scale-Out）的限制
-Separated DB 因每租戶獨立資料庫，執行負擔大且資源浪費，但搬遷或複製資料庫即可水平擴充；Shared Schema 單庫最省資源，卻易產生超大表，引發索引調整、查詢延遲與跨租戶資料衝突風險，若需擴充通常得導入 Partition 或拆分服務，成本與技術門檻較高。故無論採哪種模式，都必須在資源利用率與擴充便利性之間取得平衡。
+### 2. 效能擴充（Scale Out）的限制
+分庫每租戶一庫，執行負擔與資源開銷大，對大量小租戶情境特別浪費；但好處是天然易做水平擴展。跨租戶共用資料的查詢在分庫架構極難，可能需橫跨上千資料庫。共綱相反：沒有多庫負擔、效能起點佳，但所有資料集中導致單表筆數爆量，十萬/租戶、千租戶即達億級，索引維護成本與 join 查詢負擔急遽上升，需高度重視資料庫設計、索引策略與查詢最佳化。相較 Web，RDBMS 水平擴展困難，常以分區/分割應對，但成本高、複雜度大，是重大工程決策。
 
-### RDBMS 之外的選擇：Azure Table Storage
-為突破 RDBMS 天生的固定 Schema 與一致性負擔，作者介紹 NoSQL 與 Azure Table Storage。該服務將 Key-Value 儲存與表格 API 結合，透過 PartitionKey/RowKey 實現資料定位、熱區分散與自動負載均衡，非常適合拿來當作租戶隔離的切割維度。文章引述多篇技術文獻，解析其可線性擴充的原因，同時說明缺乏排序、索引與 Join 的限制，強調在設計時必須以查詢模式導向 Partition 策略。總結而言，Azure Table Storage 以成本低、延展性高彌補查詢靈活度的不足，是大型 Multi-Tenancy 應用值得考慮的核心資料層方案。
+### 3. RDBMS 之外的選擇：Azure Table Storage
+面對雲端時代與巨量數據，作者轉向 NoSQL 解法。Azure Table Storage 以 Key-Value 為本，結構簡單、易水平擴展，並將非關聯資料與表格式開發體驗作出折衷。設計核心是 PartitionKey/RowKey：兩者合組為主鍵與唯一性，也是唯一叢集索引。Azure 會依 Partition 自動分散與負載均衡，確保同分區的資料區域性與查詢效率，並平衡整體流量以提升可擴展性。限制也非常明確：無自訂排序、無額外索引、非分區查詢效能大幅下滑、無 join、無原生 count，分頁與報表具挑戰。若無法接受這些限制，Table Storage 並不適合；但在超大規模場景，為擴展性與效能而放棄部分關聯能力，已是業界常見取捨。作者認為其極強的擴展性可透過平行查詢與程式端彌補查詢不足，且分區天然契合多租戶切割，下一篇將示範實作多租戶資料層。
+
+## 資訊整理
+
+### 知識架構圖
+1. 前置知識：學習本主題前需要掌握什麼？
+- 了解 Multi-Tenancy 基本概念與三種常見資料隔離方式（Separated DB、Separated Schema、Shared Schema）
+- 基本 RDBMS（特別是 SQL Server）的限制與擴展方式（索引、分割區、物件數量上限）
+- NoSQL 與 RDBMS 的差異（特別是查詢能力 vs 可伸縮性）
+- Azure Table Storage 的基本模型（PartitionKey/RowKey、最終一致性、查詢限制）
+
+2. 核心概念：本文的 3-5 個核心概念及其關係
+- 資料隔離策略：Separated DB、Separated Schema、Shared Schema 的可擴展性與實務限制
+- 可伸縮性與上限：SQL Server 物件/連線/DB 數量上限對多租戶規模的影響
+- Scale-out 與 Partition：RDBMS 難以橫向擴展，需依賴分割區；NoSQL（Azure Table）原生以分割（Partition）達成
+- Azure Table Storage 鍵設計：PartitionKey/RowKey 決定效能、可伸縮性與查詢模式
+- 能力權衡：以查詢彈性（JOIN、排序、複雜聚合）換取巨量資料的水平擴展與效能
+
+3. 技術依賴：相關技術之間的依賴關係
+- SaaS Multi-Tenancy 架構 → 資料隔離策略選型（DB/Schema/Shared）→ 受限於 SQL Server 上限與效能
+- 若採 NoSQL（Azure Table Storage）→ 依賴良好的 PartitionKey/RowKey 設計 → 系統可自動分散負載、提升可伸縮性
+- 由於 NoSQL 查詢受限 → 需搭配應用層（ORM/LINQ/程式碼）補齊聚合、報表、跨表整併
+- 大數據/高併發情境 → 可考慮平行查詢、分散式處理（MapReduce 思維、Hadoop 生態系概念）
+
+4. 應用場景：適用於哪些實際場景？
+- 目標租戶數量龐大（數萬以上）的 SaaS 系統
+- 需要高可用、高擴展、全球分散的應用
+- 單租戶資料量中到大，總體資料量極大，且查詢可被設計為以鍵為核心的存取模式
+- 對資料一致性/交易要求相對寬鬆、但對水平擴展與低成本擴容要求高的服務
+- 以公司/團隊/社群為租戶，且有共享全域資料與租戶專屬資料的混合需求
+
+### 學習路徑建議
+1. 入門者路徑：零基礎如何開始？
+- 了解 Multi-Tenancy 基本模型與三種資料隔離方式的差異與限制
+- 熟悉 SQL Server 的常見上限（DB 數量、連線數、物件數）與基本效能觀念（索引、JOIN 成本）
+- 認識 Azure Table Storage 基本概念、資料模型與 API（PartitionKey/RowKey、基本 CRUD、查詢語法）
+- 小型實作：以 Shared Schema 或 Azure Table 建一個簡單多租戶樣板（以 TenantId 作為 PartitionKey）
+
+2. 進階者路徑：已有基礎如何深化？
+- 針對實際查詢需求設計 PartitionKey/RowKey（熱區分散、查詢局部性、時間序併設計）
+- 深入 Azure Table 的查詢限制與最佳化（Server-side filtering、Continuation Tokens、並行查詢）
+- 研究 RDBMS Partition 與 Index 調校，在 Shared Schema 下做大型表的優化策略
+- 規劃混合存儲（Polyglot Persistence）：RDBMS 承擔交易一致與複雜查詢，Table Storage 承擔高吞吐事件流/寬表
+
+3. 實戰路徑：如何應用到實際專案？
+- 以 Tenant 為 PartitionKey 的實作範式：租戶隔離、批次操作（同分割區事務）、快取策略
+- 設計讀寫路徑：熱資料在 Table Storage，分析/報表透過離線管線彙整（例如匯入 SQL DW/湖）
+- 聚合與報表計算的應用層補足：預計算、事件溯源、物化檢視/快取
+- 預防查詢反模式：避免非鍵欄位掃描、提供二級索引表（冪等維護的對映表）支援常用查詢
+
+### 關鍵要點清單
+- 多租戶資料隔離策略（DB/Schema/Shared）: 三種做法的擴展性與維運成本差異，Shared Schema更利於大規模 (優先級: 高)
+- SQL Server 上限與容量規劃: 單實例最多 32767 DB/連線，物件上限影響 Schema 隔離可用租戶數 (優先級: 高)
+- Scale-out 困難與 Partition 需求: RDBMS 難水平擴展，需依靠分割區與調校，成本高 (優先級: 高)
+- Shared Schema 的效能挑戰: 大表索引維護與 JOIN 成本高，需嚴格最佳化 (優先級: 中)
+- Azure Table Storage 定位: NoSQL Key-Value 儲存，主打可伸縮性與高吞吐 (優先級: 高)
+- PartitionKey/RowKey 設計原則: 鍵決定效能、擴展與唯一性，查詢模式需圍繞鍵設計 (優先級: 高)
+- Azure 自動分散分割區: 熱分割區自動擴散至多節點，兼顧局部性與負載均衡 (優先級: 中)
+- 查詢限制與對策: 僅能依 PK/RK 高效查詢，無 JOIN/排序/COUNT，需平行查詢與二級索引表 (優先級: 高)
+- 聚合與報表策略: 以應用層/離線批處理（ORM/LINQ/ETL）補齊 SUM/COUNT/AVG 等 (優先級: 中)
+- 二級索引/對映表設計: 為常用非鍵查詢建立去正規化索引表，保持冪等更新 (優先級: 中)
+- 熱點與時間序鍵: 以時間片段或隨機鹽值避免單一分割區熱點 (優先級: 中)
+- 租戶與全域資料協同: 多租戶隔離同時支援共用資料，需設計跨租戶存取與一致性策略 (優先級: 中)
+- 混合存儲（Polyglot）: RDBMS 負責交易與複雜關聯，Table Storage 處理高吞吐與海量寬表 (優先級: 中)
+- 併發與批次操作: 善用同分割區批次、併行查詢與續傳權杖提升吞吐 (優先級: 低)
+- 成本與維運考量: Separated DB/Schema 維運開銷高且有上限，Shared/NoSQL 更利規模經濟 (優先級: 中)
