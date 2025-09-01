@@ -6,7 +6,7 @@ _site/
 .DS_Store
 Gemfile.lock
 .jekyll-metadata
-~$*.pptx
+
 
 # SpecStory artifacts - keep locally but don't commit
 .specstory/
