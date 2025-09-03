@@ -1,7 +1,8 @@
 {
     "markdown.copyFiles.destination": {
-        "/docs/_posts/**/*": "/images/${documentBaseName}/${fileName}"
-    }
+        "/docs/_posts/**/*": "/docs/images/${documentBaseName}/${fileName}"
+    },
+    "markdown.occurrencesHighlight.enabled": true
 }
 // 2023/05, VSCode New Version (1.79) Supports Pasting Images in Markdown
 // https://code.visualstudio.com/docs/languages/markdown#_path-completions
