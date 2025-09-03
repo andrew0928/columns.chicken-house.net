@@ -144,14 +144,99 @@ Resources:
 
 這次的環境我用 Claude Desktop, 因為他的門檻最低 (雖然會看我文章的人應該都有 AI coding agent 能用吧), Claude Desktop 是我認定目前能使用 MCP 門檻最低的使用環境了, 雖然他要安裝 streamable http mcp server 有點囉嗦就是了..
 
-安裝另外再說, 裝好了之後開始跟他聊:
+安裝另外再說, 在 Claude Desktop 裝好我的 MCP server, 確認有啟用必要的 tools 之後開始跟他聊:
+
+
+```
+安德魯的部落格 您好,
+
+開發分散式的系統, 想要時作微服務架構
+面臨到跨服務的交易問題
+
+身為開發人員，我有哪些基礎的底層知識需要具備?
+```
+
+Claude 看到關鍵字 "安德魯的部落格"，跟 tools description 上面敘述的一致, 就能聯想到要回答這些問題, 應該要來用我的 MCP tools 了。在回答我的過程中, AI 呼叫了兩次 tools:
+
+GetInstructions, 不需要參數
+
+SearchChunks, 帶了下列查詢要求:
+
+```json
+{
+  `limit`: 10,
+  `query`: `分散式交易 distributed transaction saga 兩階段提交 2PC 微服務 跨服務交易`,
+  `synthesis`: [
+    `origin`,
+    `solution`,
+    `faq`
+  ]
+}
+```
+
+之後果然 AI 就給了我有模有樣的回應。結果有一大段，我就不全部貼出來了，我有全程錄影，有興趣的可以看這段 demo 錄影檔。我沒有一一去查核，但是看完之後都有印象，是我寫過的內容沒錯 (不過都不是一字不差，而是 AI 自己彙整過重寫的答案)。為了驗證 AI 是不是瞎掰，通常我會多下一個 prompt 來方便 review, 那就是叫 AI 把他給我的答案，跟實際上的參考資訊對照列出來:
+
+```
+上面這些主題, 出自安德魯的哪幾篇文章?
+給我文章標題, 網址對照表
+```
+
+不管你用哪一家的模型，這樣做的效果都還不錯。這次輸出的對照結果如下:
+
+```
+
+根據剛才的搜尋結果，以下是相關主題在安德魯部落格的文章對照表：
+
+## 分散式交易與 Saga Pattern
+
+| 主題 | 文章標題 | 網址 |
+|------|---------|------|
+| Saga Pattern 實作 | 微服務架構設計 - Event Sourcing | https://columns.chicken-house.net/2020/01/01/microservice13-event-sourcing/ |
+| 分散式交易處理 | 微服務架構設計 - 資料庫的選擇, RDBMS or NOSQL? | https://columns.chicken-house.net/2020/07/01/microservice14-database/ |
+| 微服務轉移經驗 | 架構師觀點 - 轉移到微服務架構的經驗分享 (Part 3) | https://columns.chicken-house.net/2017/07/11/microservice8-case-study-p3/ |
+
+## 交易正確性與一致性
+
+| 主題 | 文章標題 | 網址 |
+|------|---------|------|
+| 線上交易正確性 | 架構面試題 #1, 線上交易的正確性 | https://columns.chicken-house.net/2018/03/25/interview01-transaction/ |
+
+## 關於安德魯
+
+| 主題 | 文章標題 | 網址 |
+|------|---------|------|
+| 背景介紹 | 安德魯是誰? | https://columns.chicken-house.net/2000/01/01/about-me/ |
+
+這些文章涵蓋了：
+
+1. **Saga Pattern 與補償交易** - 在 Event Sourcing 文章中詳細介紹了如何用 Saga 取代 2PC，包含實作範例
+2. **Outbox Pattern** - 在資料庫選擇文章中說明了如何確保事件與資料變更的原子性
+3. **分散式交易的 2PC 思維** - 在轉移經驗分享中解釋了傳統 2PC 的運作方式
+4. **訊息順序與冪等性** - Event Sourcing 文章提到了使用 Kafka 的 Partition Key 保證順序
+5. **CQRS 與讀寫分離** - 資料庫選擇文章討論了 Polyglot Persistence 策略
+
+建議您可以從這幾篇文章開始深入閱讀，特別是 Event Sourcing 和資料庫選擇這兩篇，有較完整的解決方案與程式碼範例。
+
+```
+
+之後，我還出了題目 (我確定我沒寫過的主題 XDD)，就是訂票 (需要劃位) 類型的交易。這要鎖定控制的是每個座位的狀態，遠比單純鎖定交易金額，或是可賣數量的情境複雜得多。面對這種問題，AI 仍然能按照我文章的脈絡，用同樣原則，回答我沒有寫過的主題 (最後 AI 給了說明跟 PoC code)..
+
+內容很長，我就貼我問的問題就好，其他輸出請看影片。我接著問了這段話:
+
+```
+我想從案例中學習這些 design concept 的運用
+如果我的交易較複雜, 除了金額庫存等數據必須完全一致之外, 在演唱會購票的場景中, 甚至需要精確到特定的座位是否已經賣掉的問題
+
+安德魯的哪幾篇文章有提到相關問題? 給我網址連結與相關的片段資訊
+
+另外，我看過他文章都會用架構面試題，用很精準到位的 POC 來貫穿整個核心想法，能否用同樣方式給我一段 sample code 來說明分散式交易，處理演唱會購票的 POC ?
+```
+
+展示先到這邊為止，其實就 "chat with my blog" 的要求來說, 這結果其實很不錯啊, 某種程度來說你真的用 slack 來問我一樣的問題, 我的回答也就差不多是這樣而已 (要我真的現場寫一段 code 給你的話，我大概只會寫 psuedo code ...然後給你一堆參考連結讓你自己去看我寫過的東西)。
 
 
 
-
-// 問問題 ( Question ), 問解決方案 ( Problem ), 大範圍搜尋檢索 ( Summary ), 這些內容的 RAG 再應用
-
-### 案例 3, 寫 code 的時候想參考我的做法
+### 案例 2, 參考我的文章來 vibe coding
 
 第一個拿 vibe coding 示範的案例，我就說明完整一點好了。我拿一篇我還挺自豪的文章當案例, 我曾經寫過一系列平行處理的文章, 也包含用 code 怎麼做好生產者消費者的控制。而講了那麼多，最經典的案例是用 pipeline 來實作, OS 的 stdio 跟 pipeline 幾乎都替你解掉絕大部分這些通訊問題, 剩下的部分簡單到在 shell script 用 pipeline 就能搞定的案例..
 
@@ -292,7 +377,7 @@ AI agent 透過 MCP 拿到這三段資訊放入 context 後, 後面就都是 cod
 
 其實技術細節都交代的蠻清楚的 (廢話，都照著我文章的提示寫的)，更重要的是兩篇直接相關的文章，也很精準的附上參考連結。如果每個讀我文章的人最後都能這樣使用的話，我應該可以在各大 GitHub Repo 看到有文件參考我的部落格才對 XDDD, 我期待的是我寫的內容真正對大家有幫助，而這參考註記只是個證明而已。
 
-### 案例 2, 寫文章 / 文件的時候想引用我的觀點
+### 案例 3, 寫文章時引用我的觀點
 
 接續上一個案例 (這是連續的操作): Code 寫完，我想補上一份說明程式碼架構的文件，於是我接續 agent 的對話，給了他這段要求:
 
@@ -307,154 +392,156 @@ AI agent 透過 MCP 拿到這三段資訊放入 context 後, 後面就都是 cod
 看起來，前面透過 MCP 查詢的內容還留在 context 內，這次寫文件就沒有再查詢一次了，所以沒看到 MCP 的調用紀錄。而按照要求，Agent 替我寫了這段敘述:
 
 ```markdown
-# Pipeline CLI 架構說明
 
-本專案基於安德魯「CLI + PIPELINE 開發技巧」文章的設計理念，實現了一個高效的串流資料處理框架。
+    # Pipeline CLI 架構說明
 
-## 核心設計理念
+    本專案基於安德魯「CLI + PIPELINE 開發技巧」文章的設計理念，實現了一個高效的串流資料處理框架。
 
-### 串流處理優於批次處理
+    ## 核心設計理念
 
-> 任何串流處理的原則都一樣，你要預期你的資料筆數是無限大，從頭到尾每個環節都需要接受這種處理模式 (接收一部份，處理一部份，輸出一部份)。
+    ### 串流處理優於批次處理
 
-本程式採用 `IAsyncEnumerable` 實現真正的串流處理，避免了批次處理可能造成的記憶體暴增問題。每筆資料讀取後立即進入處理流程，而非等待全部載入。
+    > 任何串流處理的原則都一樣，你要預期你的資料筆數是無限大，從頭到尾每個環節都需要接受這種處理模式 (接收一部份，處理一部份，輸出一部份)。
 
-### STDIN/STDOUT 作為 Stream 處理
+    本程式採用 `IAsyncEnumerable` 實現真正的串流處理，避免了批次處理可能造成的記憶體暴增問題。每筆資料讀取後立即進入處理流程，而非等待全部載入。
 
-> 以 .NET 的觀點來看，STDIN / STDOUT 其實是 Stream 層級的東西啊，不是 TextReader / TextWriter 層級的東西...，因此你其實可以拿來處理 binary data 的。
+    ### STDIN/STDOUT 作為 Stream 處理
 
-程式將標準輸入輸出視為資料流，而非單純的文字介面：
-- 使用 `Console.OpenStandardInput()` 直接操作 Stream
-- 支援二進位資料傳遞（透過 JSON 序列化）
-- 資料與日誌分離：資料走 STDOUT，日誌走 STDERR
+    > 以 .NET 的觀點來看，STDIN / STDOUT 其實是 Stream 層級的東西啊，不是 TextReader / TextWriter 層級的東西...，因此你其實可以拿來處理 binary data 的。
 
-### JSONL 格式的串流友善性
+    程式將標準輸入輸出視為資料流，而非單純的文字介面：
+    - 使用 `Console.OpenStandardInput()` 直接操作 Stream
+    - 支援二進位資料傳遞（透過 JSON 序列化）
+    - 資料與日誌分離：資料走 STDOUT，日誌走 STDERR
 
-> 我刻意一筆物件就輸出一次 JSON, 最上層不用物件或是陣列包起來, 我不希望下一關要完整的 parsing 所有的 data 才能使用。
+    ### JSONL 格式的串流友善性
 
-採用 JSONL (JSON Lines) 格式實現逐行處理：
-```csharp
-// 輸出端：每筆資料一行
-json.Serialize(Console.Out, model);
-Console.Out.WriteLine();
+    > 我刻意一筆物件就輸出一次 JSON, 最上層不用物件或是陣列包起來, 我不希望下一關要完整的 parsing 所有的 data 才能使用。
 
-// 接收端：逐行反序列化
-while ((line = await reader.ReadLineAsync()) != null)
-{
-    var item = JsonSerializer.Deserialize<UserItem>(line);
-}
-```
+    採用 JSONL (JSON Lines) 格式實現逐行處理：
+    ```csharp
+    // 輸出端：每筆資料一行
+    json.Serialize(Console.Out, model);
+    Console.Out.WriteLine();
 
-## 架構組件
+    // 接收端：逐行反序列化
+    while ((line = await reader.ReadLineAsync()) != null)
+    {
+        var item = JsonSerializer.Deserialize<UserItem>(line);
+    }
+    ```
 
-### 生產者-消費者模式
+    ## 架構組件
 
-基於文章中的 BlockingCollection 概念，本程式使用現代的 `Channel<T>` 實現：
+    ### 生產者-消費者模式
 
-```csharp
-var channel = System.Threading.Channels.Channel.CreateBounded<UserItem>(100);
-```
+    基於文章中的 BlockingCollection 概念，本程式使用現代的 `Channel<T>` 實現：
 
-這種設計提供了：
-- 有界緩衝區避免記憶體無限制增長
-- 非同步背壓控制
-- 自然的生產者消費者解耦
+    ```csharp
+    var channel = System.Threading.Channels.Channel.CreateBounded<UserItem>(100);
+    ```
 
-### 平行處理策略
+    這種設計提供了：
+    - 有界緩衝區避免記憶體無限制增長
+    - 非同步背壓控制
+    - 自然的生產者消費者解耦
 
-> DEMO 4, 管線處理 (async) 在每階段以 Task 將「等待當前」與「索取下一筆」並行化，讓階段間出現交錯、實現有限度平行。
+    ### 平行處理策略
 
-程式實現了類似的平行策略：
-- 單一生產者負責讀取資料
-- 多個消費者平行處理資料
-- 使用 async/await 實現非阻塞並行
+    > DEMO 4, 管線處理 (async) 在每階段以 Task 將「等待當前」與「索取下一筆」並行化，讓階段間出現交錯、實現有限度平行。
 
-### 錯誤處理與容錯性
+    程式實現了類似的平行策略：
+    - 單一生產者負責讀取資料
+    - 多個消費者平行處理資料
+    - 使用 async/await 實現非阻塞並行
 
-> 逐筆處理便於跳過壞件與持續前進
+    ### 錯誤處理與容錯性
 
-實現了優雅的錯誤處理機制：
-```csharp
-try
-{
-    item = JsonSerializer.Deserialize<UserItem>(line);
-}
-catch (JsonException ex)
-{
-    Console.Error.WriteLine($"解析第 {lineNumber} 行 JSON 時發生錯誤: {ex.Message}");
-    continue; // 跳過錯誤行，繼續處理
-}
-```
+    > 逐筆處理便於跳過壞件與持續前進
 
-### 資源管理
+    實現了優雅的錯誤處理機制：
+    ```csharp
+    try
+    {
+        item = JsonSerializer.Deserialize<UserItem>(line);
+    }
+    catch (JsonException ex)
+    {
+        Console.Error.WriteLine($"解析第 {lineNumber} 行 JSON 時發生錯誤: {ex.Message}");
+        continue; // 跳過錯誤行，繼續處理
+    }
+    ```
 
-> yield \[返回的資料\] 僅保留當前（或少量上下游）資料，內存穩定。
+    ### 資源管理
 
-透過串流處理和適時的資源釋放，確保記憶體使用穩定：
-- 使用 `yield return` 實現惰性求值
-- 及時釋放已處理的資料
-- 避免大量中間結果積累
+    > yield \[返回的資料\] 僅保留當前（或少量上下游）資料，內存穩定。
 
-## 效能特性
+    透過串流處理和適時的資源釋放，確保記憶體使用穩定：
+    - 使用 `yield return` 實現惰性求值
+    - 及時釋放已處理的資料
+    - 避免大量中間結果積累
 
-### 記憶體使用
+    ## 效能特性
 
-> 串流處理: 單一 foreach 對每筆資料依序做 P1→P2→P3。第一筆回應快（ΣMi），總時間仍為 N x ΣMi。因逐筆生成與處理（yield return），記憶體占用接近常數。
+    ### 記憶體使用
 
-本程式實現了 O(1) 的記憶體複雜度：
-- Channel 緩衝區大小固定（100）
-- 每個 Worker 同時最多處理一筆資料
-- 處理完成後立即輸出並釋放
+    > 串流處理: 單一 foreach 對每筆資料依序做 P1→P2→P3。第一筆回應快（ΣMi），總時間仍為 N x ΣMi。因逐筆生成與處理（yield return），記憶體占用接近常數。
 
-### 吞吐量優化
+    本程式實現了 O(1) 的記憶體複雜度：
+    - Channel 緩衝區大小固定（100）
+    - 每個 Worker 同時最多處理一筆資料
+    - 處理完成後立即輸出並釋放
 
-通過平行處理實現了接近理想的管線吞吐：
-- 多個 Worker 同時處理不同資料
-- 非同步 I/O 避免阻塞等待
-- 管線化設計讓讀取、處理、輸出並行進行
+    ### 吞吐量優化
 
-## 與 Unix 哲學的整合
+    通過平行處理實現了接近理想的管線吞吐：
+    - 多個 Worker 同時處理不同資料
+    - 非同步 I/O 避免阻塞等待
+    - 管線化設計讓讀取、處理、輸出並行進行
 
-### 管線友善設計
+    ## 與 Unix 哲學的整合
 
-> CLI 的處理方式: 將 P1~P3 拆為獨立 CLI，以 OS 的 STDIO 與管線管理緩衝與背壓，保留程式碼簡潔與職責分離。
+    ### 管線友善設計
 
-雖然本程式將所有處理整合在單一 CLI 中，但仍遵循管線設計原則：
-- 標準輸入輸出介面
-- 可與其他 Unix 工具組合
-- 支援重導向與管線操作
+    > CLI 的處理方式: 將 P1~P3 拆為獨立 CLI，以 OS 的 STDIO 與管線管理緩衝與背壓，保留程式碼簡潔與職責分離。
 
-### 工具組合性
+    雖然本程式將所有處理整合在單一 CLI 中，但仍遵循管線設計原則：
+    - 標準輸入輸出介面
+    - 可與其他 Unix 工具組合
+    - 支援重導向與管線操作
 
-```bash
-# 與壓縮工具組合
-cat data.jsonl | dotnet run --project pipeline-cli/ | gzip > result.gz
+    ### 工具組合性
 
-# 與過濾工具組合  
-grep "pattern" data.jsonl | dotnet run --project pipeline-cli/
+    ```bash
+    # 與壓縮工具組合
+    cat data.jsonl | dotnet run --project pipeline-cli/ | gzip > result.gz
 
-# 遠端處理
-ssh remote "dotnet run --project pipeline-cli/" < data.jsonl
-```
+    # 與過濾工具組合  
+    grep "pattern" data.jsonl | dotnet run --project pipeline-cli/
 
-## 設計權衡
+    # 遠端處理
+    ssh remote "dotnet run --project pipeline-cli/" < data.jsonl
+    ```
 
-### 複雜度 vs 效能
+    ## 設計權衡
 
-相比文章中展示的 DEMO 2（純串流）和 DEMO 5（BlockingCollection），本實作選擇了中等複雜度的方案：
-- 比純串流複雜，但獲得了並行處理能力
-- 比完整的多階段管線簡單，但仍保持了高吞吐量
+    ### 複雜度 vs 效能
 
-### 一致性 vs 性能
+    相比文章中展示的 DEMO 2（純串流）和 DEMO 5（BlockingCollection），本實作選擇了中等複雜度的方案：
+    - 比純串流複雜，但獲得了並行處理能力
+    - 比完整的多階段管線簡單，但仍保持了高吞吐量
 
-使用 `SemaphoreSlim` 確保輸出順序的一致性，這會犧牲一些並行度，但確保了結果的可預測性。
+    ### 一致性 vs 性能
 
----
+    使用 `SemaphoreSlim` 確保輸出順序的一致性，這會犧牲一些並行度，但確保了結果的可預測性。
 
-## 參考來源
+    ---
 
-- [後端工程師必備: CLI + PIPELINE 開發技巧](https://columns.chicken-house.net/2019/06/15/netcli-pipeline/)
-- [後端工程師必備: CLI 傳遞物件的處理技巧](https://columns.chicken-house.net/2019/06/20/netcli-tips/)
+    ## 參考來源
+
+    - [後端工程師必備: CLI + PIPELINE 開發技巧](https://columns.chicken-house.net/2019/06/15/netcli-pipeline/)
+    - [後端工程師必備: CLI 傳遞物件的處理技巧](https://columns.chicken-house.net/2019/06/20/netcli-tips/)
+
 ```
 
 內容長了點, 不過我仔細一行一行的看過，我會給他這些評價:
@@ -466,9 +553,17 @@ ssh remote "dotnet run --project pipeline-cli/" < data.jsonl
 5. 其餘生成的 code 背後的意圖 ( 包含策略，特性等等 ) 也都有說明到位
 6. 應用的方式也補充了 Unix 使用 pipeline 的慣例，這些都是正確且超出我原本文章範圍的資訊
 
-### 案例 4, 在編輯器中直接取得文章 (包含生成) 的內容
+### 案例 4, 直接取得文章內容 (resources)
+
+有時候 AI 輸出的東西也會看膩的 (咦?)，有時候就是想直接拿到原始內容就好。透過部落格可能是個好方式，但是如果我操作的不是瀏覽器 而是 IDE，透過 MCP 可能是另一個整合度更高的作法。
+
+// demo: home
 
 ### 案例 5, 生成訓練計畫, 測驗題 ( Quiz ), 實作題 ( Hands On Labs )
+
+// demo: home
+
+
 
 ## 2. 內容正規化 - 生成特定格式的內容
 
