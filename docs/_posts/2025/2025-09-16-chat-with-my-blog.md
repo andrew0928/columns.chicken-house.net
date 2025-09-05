@@ -616,10 +616,9 @@ while ((line = await reader.ReadLineAsync()) != null)
 
 前年年底我在談 "安德魯小舖" 的時候，當時我談的是 API 的設計是否對 AI 友善? 所謂的 "友善"，談的是以後 API 是讓 AI 呼叫的，你的設計是不是簡單易懂? 你的 API 設計是否夠穩固可靠，即使 AI 用了錯的方式呼叫，你都能阻止他做錯事等等...
 
-(有開發這個 MCP 實在是太棒了, 以下這段由 github copilot + 安德魯的部落格 mcp 聯合提供, 這些 prompt 我應該要收錄進 prompts / copilot-instructions.md 才對)
-
-
 以下是我過去兩年談論相關問題的摘要:
+
+(有開發這個 MCP 實在是太棒了, 以下也是靠 agent + mcp 整理的)
 
 --
 
@@ -659,7 +658,7 @@ while ((line = await reader.ReadLineAsync()) != null)
 - [iHower 電子報 #31](https://ihower.tw/blog/13197-aie-openai-gpt-5)
 - 原始文章 - [Block's Playbook for Designing MCP Servers](https://engineering.block.xyz/blog/blocks-playbook-for-designing-mcp-servers)
 
-文章導讀跟介紹我就不寫在這邊了, 我在 FB 也 PO 了一篇讀書心得。這邊我直接針對部落格的 MCP 設計來探討: 何謂 "使用部落格的工作流程" ??
+這邊我直接針對部落格的 MCP 設計來探討: 何謂 "使用部落格的工作流程" ??
 
 前面有提到，我設想過大家會怎麼使用我的部落格? 不外乎:
 
@@ -668,19 +667,23 @@ while ((line = await reader.ReadLineAsync()) != null)
 - 解題, 有特定的難題 ( problem ), 想要來我的部落格找找有無合適的解決方案。例如我常常寫的架構師觀點，或是架構面試題就屬於這類。我都會定義常見但是很棘手的情境，然後分析背後關鍵因素，並且提供範例跟整個開發過程來示範如何解題。
 - 學習, 想要學習怎樣才能當個架構師，想要學好特定的主題，或是某個特定的技術或是概念, 例如我寫過一系列的 .NET CLI + Pipeline 的文章, 以及平行處理的文章, 這些都是針對特定技術的學習內容
 
-而我先前也常常比喻，我現在都把 AI 當作 "真人" 看待，因此很多工作流程的設計，我會先思考 "如果是真人會怎麼做" ? 而 AI，我只是把這些工作流程寫進 Prompt 而已。我就拿 "解題" 當作案例吧，同時拿一篇我覺得經典的文章來示範:
+上面的每一項需求，展開來都是一個完成任務的工作流程 ( workflow )。我也常常比喻: 我現在都把 AI 當作 "真人" 看待，因此很多工作流程的設計，我會先思考 "如果是真人會怎麼做" ? 而 AI，我只是把這些工作流程寫進 Prompt 引導 Agent 照著執行。我就拿 "解題" 這需求當作案例吧，同時拿一篇我覺得經典的文章來示範:
 
-"排程處理", 這是我實際在工作上碰到的問題。假設時間回溯再來一次，我還不懂這題怎麼解，而當時有懂得這技巧的前輩在身邊，那我會怎麼做?
 
-首先，我一定會先了解這前輩的工作習性，喜好，以及他的專長等等 ( GetInstructions )。簡單的說我會先了解怎麼跟他溝通。如果有人寫好 "如何好好運用前輩" 的使用說明書，那就太好了。其實這不是我瞎掰的，當年在做 HR 系統，就有這樣的概念, 工作說明書 ( Job Description ), 職能說明 ( Competency ) 等等, 這些都是在描述一個角色該怎麼工作, 以及該怎麼被運用。
 
-接下來，我應該不夠專業，因此我只能敘述 (query) 我碰到的問題。若再完整一點，我會多敘述一些我碰到的問題的背景 (context)。我期待這位前輩，能給我一些指點 ( Search Chunks ) ，任何相關的資訊，即使只有片段 ( chunks ) 也可以，對我來說都可能是能救命的浮木。
+"微服務的排程處理", 這是我實際在工作上碰到的問題。假設時間回溯再來一次，我還不懂這題怎麼解，而當時如果有個懂得這技巧的 "前輩" 在身邊，那我會怎麼做?
 
-有了線索之後，我會期待逐步找到原始的第一手資訊。前輩有自己的筆記跟知識庫的話 (部落格?)，能給我 (GetPostDetails) 原始的文章資訊 (PostId, Metadata) 就再好不過了。有了文章連結，我也會希望多看看有沒有類似主題，或是相關的其他文章等 (GetRelatedPosts)。
+我腦袋中會開始 "敘述" 這個過程，而 ( ) 中間則是抽出來的關鍵，稍後會對應到 MCP 的三大原語 ( Primitives ) - Prompts, Tools, Resources.
+
+首先，我一定會先了解這前輩的工作習性，喜好，以及他的專長等等 ( GetInstructions )。簡單的說我會先了解怎麼跟他溝通。如果有人寫好 "如何好好運用前輩" 的使用說明書，那就太好了。其實這不是我瞎掰的，當年在做 HR 系統，就有這樣的概念, 工作說明書 - Job Description, 職能說明 - Competency 等等, 這些都是在描述一個角色該怎麼工作, 以及該怎麼被運用。
+
+接下來，我應該不夠專業，因此我只能跟前輩尋求指點 ( Search Chunks ), 我會把問題描述 (query) 給他聽, 如果需要, 我會額外交代清楚我是在什麼前提或是情境下 ( context ) 碰到這問題的。我期待這位前輩，在我尋求協助 ( Search Chunks ) 之後，能盡量給我任何對我有幫助的線索，即使是片段資訊都沒關係 ( chunks ) ，對我來說都可能是能救命的浮木。
+
+有了線索之後，我可以開始逐步找到對我有用的原始資訊 (通常都是第一手資訊)。前輩如果有自己的筆記跟知識庫的話 (部落格?)，能給我 (GetPostDetails) 原始的文章資訊 (PostId, Metadata) 就再好不過了。有了文章連結，我也會希望多看看有沒有類似主題，或是相關的其他文章等 (GetRelatedPosts)。
 
 --
 
-當我對問題已經有眉目了，代表我對問題的脈絡 ( context ) 已經有所掌握，接下來就可以真正來解決我的問題 ( problem ) 了。我生再有 AI coding 工具的年代, 我只需要跟 coding agent 說明清楚我的需求, 我要的結果, 更重要的是處理的問題脈絡 ( context ) 的第一手資訊都來自前輩的提點, 上面那些資訊都應該當作我給 coding agent 的參考資訊 ( add context ) 才對, 於是 coding agent 就能幫我完成任務。
+當我對問題已經有眉目了，代表我對問題的脈絡 ( context ) 已經有所掌握，接下來就可以真正來解決我的問題 ( problem, solution ) 了。我生再有 AI coding 工具的年代, 我只需要跟 coding agent 說明清楚我的需求, 我要的結果, 更重要的是處理的問題脈絡 ( context ) 的第一手資訊都來自前輩的提點, 上面那些資訊都應該當作我給 coding agent 的參考資訊 ( add context ) 才對, 於是 coding agent 就能幫我完成任務。
 
 ( 接下來就是一連串 coding agent 的使用技巧跟操作過程了，略過 )
 
@@ -716,11 +719,7 @@ while ((line = await reader.ReadLineAsync()) != null)
 
 所以，有了基本概念後，我推薦大家可以來看這段影片，他很清楚的交代了 MCP 為何會設計出這些協定?
 
-Anthropic 今年 (2025/05/22) 的研討會 - Code w/ Claude, MCP201 這場, 短短的 25min 影片, 值得一聽。你很少有機會看到第一手資訊 (講者就是 MCP 團隊的一員)。
-
-如果你覺得內容太硬了，我在 Facebook 也有貼了一則心得評論:
-
-
+// 影片: MCP201 - Code w/ Claude
 
 
 
@@ -728,11 +727,249 @@ Anthropic 今年 (2025/05/22) 的研討會 - Code w/ Claude, MCP201 這場, 短�
 
 ## MCP 應用的想像
 
-## Tools
 
-## Resources
 
-## Prompts
+我覺得最關鍵的就是軟體產業的轉型。我最近在幾個場合, 都在聊這個想法。軟體發展, 從 "套裝軟體" (工具買斷，安裝使用)，進展到 "服務訂閱" (工具訂閱，立即可用)，而未來會是什麼? 我大膽亂猜一下，我會覺得是 "工作流程訂閱" (賦能使用者的 AI Agent，立即可用)。
+
+前提是使用者的習慣，已經轉移成 Agent 導向的工作方式了。到目前為止 ( 2025/09 ), 這變革在軟體開發領域已經發生了, 其他領域還沒這麼徹底。我舉幾個事實來說明軟體產業已經走到什麼地步了，正好也可以當作其他領域未來發展的預測基礎:
+
+開發工具的快速轉移:
+直到兩三年前，不管你是不是 Microsoft 生態系的使用者，這句話大概都有聽過: 
+
+> Visual Studio 是地表最強的 IDE, 沒有之一
+
+不過，這一年完全沒有人在談論 Visual Studio 了, 大家都在談 AI IDE ( vscode + github copilot, cursor, windsurf 等等 )。大家的開發方式, 談論主題已經不是怎麼寫，用哪個工具或套件了，談的是怎麼 vibe coding, 怎麼讓 agent 能正確的替你工作...
+
+為了讓 agent 能發揮最大效益, 過去沒有動機寫的文件, 現在大家都願意接受了, 因為好處是 AI 會看得懂並且會照做...
+
+我的結論是: 軟體產業的主要生產力工具 ( IDE ) 已經轉移到 AI Agent 了, 這是個已發生的事實。Visual Studio 在手寫程式碼的領域仍然是王者，但是改變的是大家不再熱衷手寫程式碼了，改用 Vibe Coding，而主流的工具是 Cursor, Claude Code 這些兩年前完全不存在的東西。
+
+我認為其他產業的主流生產力工具，遲早也會往這方向進展，只是軟體開發領域是海嘯第一排，最早發生而已。身處這個產業，正好讓我親眼見證她的轉移過程，可以當作其他領域會怎麼變化的參考。
+
+
+因此，回到主題，軟體開發領域的工具轉移，已經證明 Agentic 是有效的改變，也是 AI 驅動的應用程式改變方向。如果未來使用者都習慣跟 agent 協作了，而且 agent 應該會是使用者挑選的，不是其他軟體服務業者提供或內建的 ( ex: 你會先決定使用 cursor, 決定 model, 才會決定你要掛上那些 mcp )。我在去年寫這篇文章時就預測，未來最有可能佔領使用者直接面對的 agent 的廠商, 我猜會是作業系統廠商 ( microsoft, apple, google )，或是 AI 入口網站 (ex: chat.openai.com, claude.ai 等等) 來主導，而其他軟體服務的生存空間，就是讓它們的服務 (以及提供的工作流程) 能夠在這些 agent 上面順利運作。
+
+// 摘要過去文章的片段
+
+因此，未來的軟體服務，該用甚麼形式提供服務? 對比過去，SaaS 最重要的服務提供方式就是 API 了。有了 API 才能深入的整合，讓使用者能順利的 "跨系統" 使用應用程式。
+
+現在，"整合" 的角色已經被 Agent 替代了，他會代替你去使用各個服務。而 Agent 該如何代表使用者來使用這些服務? 我覺得 MCP 就是為了這個目的而定義出來的通訊協定，重點在 MCP 最後一個字 "Protocol". 這協定規範了服務廠商，該如何提供讓 Agent 能好好利用他的 Prompts, Tools, Resources 的規格。
+
+所以簡單的對比，SaaS 的時代 API 是軟體服務最重要的資產，那未來 Agent 時代，軟體服務最重要的介面就是 MCP 了。
+
+
+因此，最後來回顧一下我在 Facebook 貼的這兩篇 PO 文, 講的是同一件事, 只是在 FB 我沒有空間談前面這些觀察，只是講出我的看法。現在我把這些心得補在這裡，正好交代完整個思考脈絡:
+
+// 2025/08/20 post
+// 2025/09/04 post
+
+
+
+## Shopify.Dev MCP
+
+
+<!-- 
+最後，就直接展開我的 MCP 規格設計吧。按照前面的流程拆解，我列出了幾個 Agent 會需要的 Tools:
+
+**Tools**:
+- ```GetInstructions()```
+- ```GetPostContent(postid, synthesis, position, length)```
+- ```GetRelatedPosts(postid, limit)```
+- ```SearchChunks(query, synthesis, limit)```
+- ```SearchPosts(query, synthesis, limit)```
+
+
+第一個 Tool: GetInstructions() , 完全沒有任何參數, 就是回應一段給 Agent 的 Instruction. 目前固定回應的內容如下:
+
+```markdown
+
+# Instructions
+
+使用 "安德魯的部落格" MCP 之前，請先閱讀這份 instructions 的說明，並且按照建議的流程來選擇使用 tools:
+
+
+## Tools Overview
+
+SearchChunks:  
+可以讓你按照你的需求 (query) 來查詢文章的片段內容，並且會回傳相關的片段內容，這些內容可以直接用來生成後續的回應。
+這工具會直接傳回符合查詢的片段內容，並且會附上文章的標題、摘要和相關資訊。因此當你需要類似內容檢索的用途時，或是 RAG 的應用，請使用這個工具。
+
+由於內容涵蓋範圍廣大，建議搭配 context 提及的情境作查詢的過濾。建議從幾個角度來過濾:
+- 按照年份 (years) 過濾 (所有可用的年份都列在下面)
+- 按照標籤 (tags) / 分類 (categories) 過濾 (所有可用的標籤與分類都列在下面)
+- 按照生成類別 (synthesis types) 過濾。我的檢索範圍包含原始文章，文章摘要，FAQ 常見問題集，解決方案與範例程式碼等。若你有特定用途，高度建議先指定生成類別，就能找到更貼近你期待的內容 (所有可用的生成類別都列在下面)。
+    舉例來說, 如果你碰到問題 (problem) 要尋求解決方案, 就可以指定 synthesis type 為 solution, 這樣就能找到更多相關的解決方案與使用案例 (包含 problem, root cause, solution, example, case study ... )，範例程式碼。
+    如果你需要的是名詞解釋, 或是已知的問題 (question) 要找答案, 就可以指定 synthesis type 為 faq, 這樣就能找到更多相關的常見問題與答案 (包含 question, answer, difficulty, relevance ... )。
+    如果你需要的是大範圍的主題檢索，從文章的重點摘要來搜尋會更精準, 就可以指定 synthesis type 為 summary
+    最後, 如果你需要的是文章的完整內容, 就可以指定 synthesis type 為 origin
+
+SearchPosts:
+同 SearchChunks, 但是搜尋的結果是符合的部落格文章清單。這些文章可以用來引導使用者閱讀完整內容 (搭配 GetPostContent)。
+這工具會傳回符合查詢的文章列表，並且會附上文章的標題、摘要和相關資訊。因此當你需要讓使用者閱讀完整內容，或是進一步應用 (編輯、摘要、改寫、翻譯等) 時，請使用這個工具。
+
+GetRelatedPosts:
+當你需要取得某篇文章相關的文章時，請用這個工具。
+你必須先用其他工具取得 postid
+
+GetPostContent:
+當你需要取得某篇文章的完整內文時，請用這個工具。
+你必須先用其他工具取得 postid, 另外你也可以指定生成類別 (synthesis type) 來取得不同的內容。
+若沒有指定會傳回原始文章內容 (synthesis type = origin)。
+
+
+## Format and Available Filters
+
+標準 postid 的格式為 `year-month-day-name`, 例如 `2000-01-01-about-me` 
+你能透過前後文，或是透過 SearchPosts / SearchChunks / GetRelatedPosts 來取得 postid。
+
+可用的年份 (years) 有:
+2000, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2013, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025
+
+可用的標籤 (tags) 有:
+架構師觀點, 技術隨筆, 有的沒的, .NET, HTML/CSS, 作品集, Community Server, 水電工, 敗家, ASP.NET, 家人, 當年勇, Tips, 物件導向, WPF, 多執行緒, 作業系統, 火大, RUN! PC, BlogEngine.NET, BlogEngine Extension, C#, SQL, 專欄, MSDN, Entity Framework, 系列文章: 生命遊戲, 腳踏車, Transactional NTFS, AZURE, Docker, .Net Core, Windows Container, Microservices, Monolithic, Container, Jekyll, Liquid, Wordpress, Blogging, GitHub, VSCode, NAS, Microservice, API, SDK, 系列文章, 架構師, yield return, MVP, 自HIGH, microservice, Azure, API Apps, Swagger, DX, Token, container, windows container, docker, TDD, DevOps, infra, message queue, api gateway, service discovery, Swarm, CI, CD, 軟體工程, 開發流程, LCOW, LABS, service mesh, 面試經驗, microservices, azure stream analytics, Service Discovery, Consul, circuit breaker, 斷路器, azure, POC, MessageQueue, RPC, ASYNC, CLI, PIPELINE, 串流處理, thread, TIPS, Practices, OOP, 資安, 架構師的修練, 刻意練習, SLO, UnitTest, PoC, 有的沒有的, UniFi, 抽象化, AI, Semantic Kernel, DevOpsDays, WSL
+
+可用的分類 (categories) 有:
+系列文章: 架構師觀點, 系列文章: 泛型 + Singleton Patterns, 系列文章: 多執行緒的處理技巧, 系列文章: 水電工日誌, 系列文章: Canon Raw Codec & WPF, 系列文章: Thread Pool 實作, 系列文章: Memory Management, RUN! PC 專欄文章, 作品集: FlickrProxy, 系列文章: Inside C# Yield Return, 系列文章: 如何學好寫程式, 系列文章: Entity Framework 與 物件導向設計, 系列文章: 生命遊戲, 設計案例: Login With SSL, 腳踏車, 設計案例: 清除 Cache 物件, 系列文章: 交易式 (Transactional) NTFS, 系列文章: Multi-Tenancy Application, 系列文章: .NET Core 跨平台, 設計案例: “授權碼” 如何實作?, 設計案例: 授權碼 如何實作?, 系列文章: .NET + Windows Container, 微服務架構設計, 系列文章: API & SDK Design, 系列文章: 架構面試題, 系列文章: 架構師的修練, 系列文章: 微服務架構, 技術隨筆
+
+可用的生成類別 (synthesis types) 有:
+- origin: 原始文章內容
+- summary: 由原始文章內容整理的文章摘要 與 學習重點
+- faq: 由原始文章內容整理生成的 FAQ 常見問題集, 並且會區分難易度, 問題之間的相關性, 簡易回答以及詳細回答等資訊
+- solution: 由原始文章內容整理生成的解決方案與範例程式碼
+- metadata: 文章的結構化資料 (JSON 格式)
+
+
+```
+
+這些，其實就是對應到我前面講的，"如果有如何跟前輩有效溝通的說明書" ... 。至於這些 instruction, 為何不直接放在 description, 要大費周章額外寫個 Tools 來暴露，其實我是從 Shopify 的 MCP 設計中得到啟發的。他們的 MCP 也有類似的設計，會提供一個說明書給 Agent 看。
+
+我先列一下我這樣做的原因:
+
+1. 包含動態內容, 例如可用的年份, 標籤, 分類, 生成類別等。我不希望另外再追加好幾個 Tools 去查詢這些資訊，就 Agent 的視角來說，"查詢" 可用分類根本不是他在意的工作流程主要任務啊，只是為了完成任務過程中需要取得的資訊而已。是不是動態的說實在對 Agent 也沒有那麼重要。因此我換個方式，再 Agent 開始執行任務前，請他來索取一份 "最新的" 使用說明書就好了，哪些是動態哪些是靜態我就自己處理了。這樣會有一些缺點，例如 prompt cache 命中率就變低了，不過... (略) XDD
+
+2. 未來我希望能擴展到不同 "任務" 要求能有更精準的行動提示。我先把架構打好以後就容易擴充了。例如我想要 "解題" 的話，可能傳回的 instruction 就會完全不一樣。當然這些目的我透過 Prompts 也可以做到，不過我覺得這樣的設計更清楚一些，也更容易針對特定使用情境微調或是個人化。
+-->
+
+
+談到 MCP 的設計, 我自己覺得我的設計還不夠到位, 只有雛型而已, 因此這段我先來聊聊 Shopify 的作法, 之後再對應到我採用了哪些想法。當初我看完 Shopify 的設計之後，突然領悟到 "MCP 不是 API" 這回事，也才真正領悟到 "要對著 workflow 設計" 這句話背後的意義。
+
+話不多說, 直接來看看 Shopify 提供給開發人員使用的 MCP 吧! 有興趣的可以看官網介紹，網址在這邊:
+
+https://shopify.dev/docs/apps/build/devmcp
+
+我直接摘要前面的簡介:
+
+
+**Shopify Dev MCP server**
+
+Connect your AI assistant to Shopify's development resources. The Shopify Dev Model Context Protocol (MCP) server enables your AI assistant to search Shopify docs, explore API schemas, build Functions, and get up-to-date answers about Shopify APIs.
+
+
+**How it works**
+
+Your AI assistant uses the MCP server to read and interact with Shopify's development resources:
+
+1. Ask your AI assistant to build something or help with Shopify development tasks.
+1. The assistant searches Shopify documentation and API schemas based on your prompt.
+1. The MCP server gives your AI assistant access to Shopify's development resources, so it can provide accurate code, solutions, and guidance based on current APIs and best practices.
+
+用途跟我想做的很接近, Shopify 透過這個 MCP 封裝了整個 Dev Docs 的內容存取, 同時也進一步做了一些設計, 輔助你直接產出 Shopify 平台四大類開發型態的 source code, 包括 admin api ( graphql ), shopify functions, hydrogen (react), storefront web components (html).
+
+令我意外的是, 如果照這需求來設計 API, 應該要幾十個 API 以上吧, 結果令我意外的是, 最終 MCP 只開出 5 個 tools 而已, 而且其中還包括一個沒什麼實質用途的 tool: Learn Shopify API (就是只傳回說明書的用途而已)。
+
+不過實際體驗過之後, 我改觀了。很簡潔的設計卻有很好的效果。首先先來看看底一個 tool: learn_shopify_api(api, conversationId)
+
+第一個參數, 就是選擇你要 "學習" 哪一種模組的開發, 基本上這 tool 只是回傳你選定的 api 類型對應的 instructions (也就是 workflo) 而已。而這樣簡單的需求為何還要弄一個 tool 出來? 有趣的地方在他的第二個參數，以及它的傳回內容都提及的 conversationId ..
+
+首先, 如果你第一次使用, 則只要傳第一個參數就好, 它會在回應的 instruction 內 (就是一段 markdown) 給你一串 id, 而 agent 必須靠這個 id 才能調用後續的其他 tools, 算是流程控制的一環。你要是沒給正確的 id, 則其他 tools 會拒絕執行。
+
+其實, 這就是 Shopify 強迫 agent 一定要先閱讀過說明書的手段啊, 看的出來很刻意, 這 id 還特地不用好處理的結構化方式 ( json ) 回傳, 而是藏在 instruction 內... 我貼一下回應的前幾行:
+
+> 
+> 🔗 **IMPORTANT - SAVE THIS CONVERSATION ID:** 22b2b79f-e368-4310-83d0-7bce893a341c  
+> ⚠️  CRITICAL: You MUST use this exact conversationId in ALL subsequent Shopify tool calls in this conversation.  
+>  
+> 🚨 ALL OTHER SHOPIFY TOOLS WILL RETURN ERRORS if you don't provide this conversationId.  
+>
+
+當你的 agent 看到了這段, 也理解後, 後面的 function calling 自然會知道要帶上這 id, 就代表這段回應已經存留在 context windows 內了。
+
+
+
+
+```markdown
+
+🚨 MANDATORY FIRST STEP: This tool MUST be called before any other Shopify tools.
+
+⚠️  ALL OTHER SHOPIFY TOOLS WILL FAIL without a conversationId from this tool.
+This tool generates a conversationId that is REQUIRED for all subsequent tool calls. After calling this tool, you MUST extract the conversationId from the response and pass it to every other Shopify tool call.
+
+🔄 MULTIPLE API SUPPORT: You MUST call this tool multiple times in the same conversation when you need to learn about different Shopify APIs. THIS IS NOT OPTIONAL. Just pass the existing conversationId to maintain conversation continuity while loading the new API context.
+
+For example, a user might ask a question about the Admin API, then switch to the Functions API, then ask a question about polaris UI components. In this case I would expect you to call learn_shopify_api three times with the following arguments:
+
+- learn_shopify_api(api: "admin") -> conversationId: "123"
+- learn_shopify_api(api: "functions", conversationId: "123")
+- learn_shopify_api(api: "polaris", conversationId: "123")
+
+This is because the conversationId is used to maintain conversation continuity while loading the new API context.
+
+🚨 Valid arguments for `api` are:
+    - admin: The Admin GraphQL API lets you build apps and integrations that extend and enhance the Shopify admin.
+- functions: Shopify Functions allow developers to customize the backend logic that powers parts of Shopify. Here are all the available APIs: Discount, Cart and Checkout Validation, Cart Transform, Pickup Point Delivery Option Generator, Delivery Customization, Fulfillment Constraints, Local Pickup Delivery Option Generator, Order Routing Location Rule, Payment Customization
+- hydrogen: Shopify Hydrogen store feature implementation guides. Here are all the available feature guides: Bundles, Subscriptions, Combined Listings, Markets. Always use this tool first when implementing one of these features in a Hydrogen store. Keywords: hydrogen, localization, markets, subscriptions, selling plans, combined listings, bundles. 
+- storefront-web-components: How to create storefronts using Storefront Web Components. Storefront Web Components let you bring Shopify-powered commerce capabilities to any website. Shopify Storefront Web Components are a set of web components that enable developers to build customizable storefronts using only HTML and Shopify's APIs. Keywords: web components, html, shopify-store, shopify-context, shopify-list-context, shopify-data, shopify-media, shopify-money, shopify-cart, shopify-variant-selector
+
+🔄 WORKFLOW:
+1. Call learn_shopify_api first with the initial API
+2. Extract the conversationId from the response
+3. Pass that same conversationId to ALL other Shopify tools
+4. If you need to know more about a different API at any point in the conversation, call learn_shopify_api again with the new API and the same conversationId
+
+
+DON'T SEARCH THE WEB WHEN REFERENCING INFORMATION FROM THIS DOCUMENTATION. IT WILL NOT BE ACCURATE.
+PREFER THE USE OF THE fetch_full_docs TOOL TO RETRIEVE INFORMATION FROM THE DEVELOPER DOCUMENTATION SITE.
+
+```
+
+簡單的說，很嚴格的規定。它控制的是流程，不是內容。Shopify 提供四種不同的功能支援，包含 admin, functions, hydrogen, shopify-web-components 的開發支援。你給了這參數, 它會回應使用說明, 同時會給你一個 operation id, 其他 tools 會認這 id, 確認 Agent "真的看過使用說明書" 之後，才會讓 Agent 使用 tools. 這設計變態到... operation id 還刻意藏在回應的 instruction 內，而不是一班 API 用的 json 結構化輸出... 做到這個程度真是佩服。
+
+我就試著用 "admin" 來測試了一下，會得到這回應:
+
+
+
+```markdown
+
+🔗 **IMPORTANT - SAVE THIS CONVERSATION ID:** 22b2b79f-e368-4310-83d0-7bce893a341c
+⚠️  CRITICAL: You MUST use this exact conversationId in ALL subsequent Shopify tool calls in this conversation.
+
+🚨 ALL OTHER SHOPIFY TOOLS WILL RETURN ERRORS if you don't provide this conversationId.
+
+---
+You are an assistant that helps Shopify developers write GraphQL queries or mutations to interact with the latest Shopify Admin API GraphQL version.
+
+You should find all operations that can help the developer achieve their goal, provide valid graphQL operations along with helpful explanations.
+Always add links to the documentation that you used at the end of the response by using the `url` information inside search results.
+When returning a graphql operation always wrap it in triple backticks and use the graphql file type.
+
+THIS IS IMPORTANT: Graphql operations you generate should ALWAYS be validated with the `validate_graphql_codeblocks` MCP tool. This tool will parse the operation with the GQL schema and give you feedback of errors if any were detected. If errors are detected from this validation tool, make the necessary changes and then call this tool again.
+
+Think about all the steps required to generate a GraphQL query or mutation for the Admin API:
+
+1. First think about what I am trying to do with the API
+2. Search through the developer documentation to find similar examples. THIS IS IMPORTANT.
+3. Then think about which top level queries or mutations you need to use and in case of mutations which input type to use
+4. For queries think about which fields you need to fetch and for mutations think about which arguments you need to pass as input
+5. Then think about which fields to select from the return type. In general, don't select more than 5 fields
+6. If there are nested objects think about which fields you need to fetch for those objects
+7. If the user is trying to do advanced filtering with the query parameter then fetch the documentation from /docs/api/usage/search-syntax
+8. Be sure to pass the code into the `validate_graphql_codeblocks` tool and make any necessary corrections that tool indicates are needed. This removes LLM hallucinations from GQL operations.
+
+
+```
+
+
+
 
 
 <!-- 
