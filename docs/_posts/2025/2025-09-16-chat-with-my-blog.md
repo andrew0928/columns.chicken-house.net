@@ -65,7 +65,9 @@ logo:
 
 我希望善用 AI 幫我處理內容，但是我也不希望把 token 花在這些鳥事身上啊! 雖然也是靠 AI 來處理，但是我選擇 "一次性" 的重構來搞定這些問題。我同時處理了 repo 的結構, 清理了不再需要的圖檔, 也把路徑跟驗證的環境 ( local run - github pages ) 通通都整理好了, 現在寫文章感覺舒暢多了, 這部分有很多實際操作的心得, 也包含 vibe coding, 這段我會當作心得分享的角度來寫。對實際操作或工作流程沒興趣的可以跳過這段。
 
-好，簡介都寫完了，接下來就直接進入正題 (有三個主題)，來聊聊我這次的 side project - chat with my blog 吧~
+好，簡介都寫完了，接下來就直接進入正題 (有三個主題)，我預計拆成兩篇來談，第一篇 (這篇) 要談談我想要把部落格轉化成什麼樣的 "服務"? 主題以 "服務的設計為主"，轉化的主角則是 MCP server 以及使用的示範案例。第二篇我則想談談做到這件事背後的準備，包含內容的重新生成，以及原本部落格做了多少重構才能達到這目標。
+
+
 
 —
 
@@ -610,7 +612,7 @@ while ((line = await reader.ReadLineAsync()) != null)
 
 
 
-# 3, MCP 的設計
+# 3, MCP 的設計 
 
 看完整個部落格的服務方式想像，也看完這些事情做好後能運用的情境，現在可以回過頭來看看這樣的 MCP 是怎麼被設計出來的了。這邊我大推 iHower 的電子報, 還有他的粉專, 如果你沒時間去追一堆第一手資料來源, 那看他的整理就對了, 很多 Agentic 的設計理念, MCP 的發展資訊, 我都是從這邊找到對我有用的第一手資訊。
 
@@ -651,29 +653,30 @@ while ((line = await reader.ReadLineAsync()) != null)
 當時我還沒辦法講得很清楚 (當時連要做出來都有點困難了 XDD)，不過現在對照這些大師們歸納的原則，再回頭對照著看我當時寫的敘述，其實我都踩在對的軌道上啊，果然這些累積都沒有浪費。當時我都還把關注點擺在: 如何設計對 AI 友善的 API (當時我心裡想的還是 API), 而現在 MCP 出現了, MCP (尤其是 tools) 不必要再跟 API 畫上等號, 兩者可以正式脫鉤了 (當然你要做那種套 API 殼的 MCP 也不是不行, 沒必要而已)。現在的原則是: 
 
 > "  
-> 別從 API 端點開始設計，而是從工作流程來設計 ( MCP )
+> 別從 API 端點開始設計，而是從工作流程來設計 ( MCP )  
 > "
 
 有興趣的可以參考這段:
 - [iHower 電子報 #31](https://ihower.tw/blog/13197-aie-openai-gpt-5)
 - 原始文章 - [Block's Playbook for Designing MCP Servers](https://engineering.block.xyz/blog/blocks-playbook-for-designing-mcp-servers)
 
-這邊我直接針對部落格的 MCP 設計來探討: 何謂 "使用部落格的工作流程" ??
+這邊我直接針對部落格的 MCP 設計來探討: 何謂 "使用部落格的工作流程" ?? 前面有提到，我設想過大家會怎麼使用我的部落格? 不外乎:
 
-前面有提到，我設想過大家會怎麼使用我的部落格? 不外乎:
+> - **訂閱**, 當作雜誌來看, 我寫什麼就看什麼。這個現在就做得很好了，不大需要額外處理。
+> - **新知**, 有特定問題 ( question ) 時想要來我部落格找相關資訊。例如幾個我長期關注的主題, 像是分散式系統、平行處理、微服務架構、AI 應用開發等主題, 有時只有模糊的印象, 想要來我這邊找到明確且專業的說明
+> - **解題**, 有特定的難題 ( problem ), 想要來我的部落格找找有無合適的解決方案。例如我常常寫的架構師觀點，或是架構面試題就屬於這類。我都會定義常見但是很棘手的情境，然後分析背後關鍵因素，並且提供範例跟整個開發過程來示範如何解題。
+> - **學習**, 想要學習怎樣才能當個架構師，想要學好特定的主題，或是某個特定的技術或是概念, 例如我寫過一系列的 .NET CLI + Pipeline 的文章, 以及平行處理的文章, 這些都是針對特定技術的學習內容
 
-- 訂閱, 當作雜誌來看, 我寫什麼就看什麼。這個現在就做得很好了，不大需要額外處理。
-- 新知, 有特定問題 ( question ) 時想要來我部落格找相關資訊。例如幾個我長期關注的主題, 像是分散式系統、平行處理、微服務架構、AI 應用開發等主題, 有時只有模糊的印象, 想要來我這邊找到明確且專業的說明
-- 解題, 有特定的難題 ( problem ), 想要來我的部落格找找有無合適的解決方案。例如我常常寫的架構師觀點，或是架構面試題就屬於這類。我都會定義常見但是很棘手的情境，然後分析背後關鍵因素，並且提供範例跟整個開發過程來示範如何解題。
-- 學習, 想要學習怎樣才能當個架構師，想要學好特定的主題，或是某個特定的技術或是概念, 例如我寫過一系列的 .NET CLI + Pipeline 的文章, 以及平行處理的文章, 這些都是針對特定技術的學習內容
+上面的每一項需求，展開來都是一個完成任務的工作流程 ( workflow )。如果都把 AI 當作 "真人" 看待，因此很多工作流程的設計，我會先思考 "如果是真人會怎麼做" ? 然後再把這些工作流程寫進 Prompt 引導 Agent 照著執行。
 
-上面的每一項需求，展開來都是一個完成任務的工作流程 ( workflow )。我也常常比喻: 我現在都把 AI 當作 "真人" 看待，因此很多工作流程的設計，我會先思考 "如果是真人會怎麼做" ? 而 AI，我只是把這些工作流程寫進 Prompt 引導 Agent 照著執行。我就拿 "解題" 這需求當作案例吧，同時拿一篇我覺得經典的文章來示範:
+我就拿 "解題" 這需求當作案例吧，同時拿一篇我覺得經典的文章來示範:
 
+> "  
+> "微服務的排程處理", 這是我實際在工作上碰到的問題。假設時間回溯再來一次，我還不懂這題怎麼解，而當時如果有個懂得這技巧的 "前輩" 在身邊，那我會怎麼做?  
+> "
 
+我腦袋中會開始 "敘述" 這個過程，而 ( ) 中間則是抽出來的關鍵，稍後會對應到 MCP 的三大原語 ( Primitives ) - Prompts, Tools, Resources, 最後就變成我實作 MCP 的規格草案。
 
-"微服務的排程處理", 這是我實際在工作上碰到的問題。假設時間回溯再來一次，我還不懂這題怎麼解，而當時如果有個懂得這技巧的 "前輩" 在身邊，那我會怎麼做?
-
-我腦袋中會開始 "敘述" 這個過程，而 ( ) 中間則是抽出來的關鍵，稍後會對應到 MCP 的三大原語 ( Primitives ) - Prompts, Tools, Resources.
 
 首先，我一定會先了解這前輩的工作習性，喜好，以及他的專長等等 ( GetInstructions )。簡單的說我會先了解怎麼跟他溝通。如果有人寫好 "如何好好運用前輩" 的使用說明書，那就太好了。其實這不是我瞎掰的，當年在做 HR 系統，就有這樣的概念, 工作說明書 - Job Description, 職能說明 - Competency 等等, 這些都是在描述一個角色該怎麼工作, 以及該怎麼被運用。
 
@@ -693,16 +696,11 @@ while ((line = await reader.ReadLineAsync()) != null)
 
 
 **Tools**:
-- ```GetInstructions()```,  
-給 AI 看得 MCP 使用說明書, 包含部分動態生成的資訊在內, 因此特地獨立成一個 tool
-- ```GetPostContent(postid, synthesis, position, length)```,  
-查詢指定文章 (須提供 postid) 的資訊
-- ```GetRelatedPosts(postid, limit)```,  
-查詢指定文章的相關文章清單 (須提供 postid)
-- ```SearchChunks(query, synthesis, limit)```,  
-按照條件 (query), 指定應用方式 (synthesis) 查詢符合的文字片段
-- ```SearchPosts(query, synthesis, limit)```,  
-按照條件 (query), 指定應用方式 (synthesis) 查詢符合的文章清單
+- ```GetInstructions()```, 使用說明書, 給 agent 參考的 instructions. 因為需要包含動態資訊, 同時也參考了 Shopify 的 MCP 設計方法, 因此我特地做成 Tool, 而不是只放在 Description 裡。
+- ```GetPostContent(postid, synthesis, position, length)```,   查詢指定文章 (須提供 postid) 的資訊
+- ```GetRelatedPosts(postid, limit)```,  查詢指定文章的相關文章清單 (須提供 postid)
+- ```SearchChunks(query, synthesis, limit)```,  按照條件 (query), 指定應用方式 (synthesis) 查詢符合的文字片段
+- ```SearchPosts(query, synthesis, limit)```,  按照條件 (query), 指定應用方式 (synthesis) 查詢符合的文章清單
 
 **Resources**:
 - ```posts://{id}.md```, (原始文章內容)
@@ -710,8 +708,6 @@ while ((line = await reader.ReadLineAsync()) != null)
 - ```posts://synthesis/{id}.faq.md``` (文章常見問答, 適合用來做名詞解釋等有明確答案的問題回應)
 - ```posts://synthesis/{id}.solution.md``` (文章解決方案, 適合用來做技術應用方式說明, 無標準做法的問題解決方案引導)
 - ```posts://synthesis/{id}.metadata.md``` (文章 metadata, 包含標籤, 分類, 發表日期等資訊)
-
-這不就是原封不動的把我想像的工作流程，跟擬人化的 "前輩" 互動過程，實際透過 MCP 的銜接，讓我想像的情境能真實發生在現在已經可以使用的 AI Agent 了嗎?
 
 這的確就是我第一版 MCP 運作中的規格。有興趣的人不要只是安裝我的 MCP server 直接使用, 你也可以用 MCP 官方的 MCP 測試工具 - @modelcontextprotocol/inspector 來實際測試一下 MCP server, 你會更清楚的掌握他背後做了什麼事情。
 
@@ -721,11 +717,11 @@ while ((line = await reader.ReadLineAsync()) != null)
 
 // 影片: MCP201 - Code w/ Claude
 
+做到這邊，我就可以在 Agent 上, 重現上述這段 workflow 了, 而 agent 能正確地跟我的 MCP 互動來完成任務。我不禁開始思考，未來能設計好的 MCP 規格的人，到底是有 coding 能力的 developer? 還是懂得業務流程及客戶需求的 product owner? 抑或是懂得最大化安排團隊人力與工作流程的 manager? 挺有意思的, 我覺得這不會是選擇題, 而是看誰能最快掌握這三種能力。
 
 
 
-
-## MCP 應用的想像
+## MCP 應用的想像 - 下個世代的 API
 
 
 
@@ -765,7 +761,7 @@ while ((line = await reader.ReadLineAsync()) != null)
 
 
 
-## Shopify.Dev MCP
+
 
 
 <!-- 
@@ -851,49 +847,38 @@ GetPostContent:
 -->
 
 
-談到 MCP 的設計, 我自己覺得我的設計還不夠到位, 只有雛型而已, 因此這段我先來聊聊 Shopify 的作法, 之後再對應到我採用了哪些想法。當初我看完 Shopify 的設計之後，突然領悟到 "MCP 不是 API" 這回事，也才真正領悟到 "要對著 workflow 設計" 這句話背後的意義。
+## MCP 設計參考: Shopify.Dev MCP
 
-話不多說, 直接來看看 Shopify 提供給開發人員使用的 MCP 吧! 有興趣的可以看官網介紹，網址在這邊:
+整個改版的過程中 ( 大約兩個月, 2025/07 ~ 2025/09 ), 其實我花了不少時間, 用 vibe coding 寫了很多很雜亂無章的 code, 目的就是 prototype 實際體驗一下效果, 不滿意就砍掉重來。這過程中我嘗試過不少設計方式, 也看了很多設計的 guidelines, 但是最後回頭看, 最有用的還是直接參考其他優良的 MCP 設計。以我的案例來說，我找了個不錯的範例, 就是 Shopify.Dev MCP。
 
-https://shopify.dev/docs/apps/build/devmcp
+這段，我先來聊聊 Shopify 的作法。當初我看完 Shopify 的設計之後，突然領悟到 "MCP 不是 API" 這回事，也才真正領悟到 "要對著 workflow 設計" 這句話背後的意義。對 Shopify.Dev MCP 有興趣的可以直接看官網介紹，網址在 [這邊](https://shopify.dev/docs/apps/build/devmcp), 我直接摘要前面的簡介:
 
-我直接摘要前面的簡介:
-
-
-**Shopify Dev MCP server**
-
-Connect your AI assistant to Shopify's development resources. The Shopify Dev Model Context Protocol (MCP) server enables your AI assistant to search Shopify docs, explore API schemas, build Functions, and get up-to-date answers about Shopify APIs.
-
-
-**How it works**
-
-Your AI assistant uses the MCP server to read and interact with Shopify's development resources:
-
-1. Ask your AI assistant to build something or help with Shopify development tasks.
-1. The assistant searches Shopify documentation and API schemas based on your prompt.
-1. The MCP server gives your AI assistant access to Shopify's development resources, so it can provide accurate code, solutions, and guidance based on current APIs and best practices.
-
-用途跟我想做的很接近, Shopify 透過這個 MCP 封裝了整個 Dev Docs 的內容存取, 同時也進一步做了一些設計, 輔助你直接產出 Shopify 平台四大類開發型態的 source code, 包括 admin api ( graphql ), shopify functions, hydrogen (react), storefront web components (html).
-
-令我意外的是, 如果照這需求來設計 API, 應該要幾十個 API 以上吧, 結果令我意外的是, 最終 MCP 只開出 5 個 tools 而已, 而且其中還包括一個沒什麼實質用途的 tool: Learn Shopify API (就是只傳回說明書的用途而已)。
-
-不過實際體驗過之後, 我改觀了。很簡潔的設計卻有很好的效果。首先先來看看底一個 tool: learn_shopify_api(api, conversationId)
-
-第一個參數, 就是選擇你要 "學習" 哪一種模組的開發, 基本上這 tool 只是回傳你選定的 api 類型對應的 instructions (也就是 workflo) 而已。而這樣簡單的需求為何還要弄一個 tool 出來? 有趣的地方在他的第二個參數，以及它的傳回內容都提及的 conversationId ..
-
-首先, 如果你第一次使用, 則只要傳第一個參數就好, 它會在回應的 instruction 內 (就是一段 markdown) 給你一串 id, 而 agent 必須靠這個 id 才能調用後續的其他 tools, 算是流程控制的一環。你要是沒給正確的 id, 則其他 tools 會拒絕執行。
-
-其實, 這就是 Shopify 強迫 agent 一定要先閱讀過說明書的手段啊, 看的出來很刻意, 這 id 還特地不用好處理的結構化方式 ( json ) 回傳, 而是藏在 instruction 內... 我貼一下回應的前幾行:
-
-> 
-> 🔗 **IMPORTANT - SAVE THIS CONVERSATION ID:** 22b2b79f-e368-4310-83d0-7bce893a341c  
-> ⚠️  CRITICAL: You MUST use this exact conversationId in ALL subsequent Shopify tool calls in this conversation.  
->  
-> 🚨 ALL OTHER SHOPIFY TOOLS WILL RETURN ERRORS if you don't provide this conversationId.  
 >
+> **Shopify Dev MCP server**
+>
+> Connect your AI assistant to Shopify's development resources. The Shopify Dev Model Context Protocol (MCP) server enables your AI assistant to search Shopify docs, explore API schemas, build Functions, and get up-to-date answers about Shopify APIs.
+>
+>
+> **How it works**
+> 
+> Your AI assistant uses the MCP server to read and interact with Shopify's development resources:
+> 
+> 1. Ask your AI assistant to build something or help with Shopify development tasks.
+> 1. The assistant searches Shopify documentation and API schemas based on your prompt.
+> 1. The MCP server gives your AI assistant access to Shopify's development resources, so it can provide accurate code, solutions, and guidance based on current APIs and best practices.
+> 
 
-當你的 agent 看到了這段, 也理解後, 後面的 function calling 自然會知道要帶上這 id, 就代表這段回應已經存留在 context windows 內了。
+實際上我用 MCP Inspector 來看他的 Tools 定義, 寫這段的當下 (2025/09/06) 它提供了這些 tools:
 
+- learn_shopify_api(api, conversationId)
+- search_docs_chunks (conversationId, prompt, max_num_results)
+- fetch_full_docs(conversationId, paths)
+- introspect_graphql_schema(conversationId, query, filter, api, version)
+- validate_graphql_codeblocks(conversationId, api, version, codeblocks)
+
+其中特別說明一下 api 這個參數, 它代表的是你想要開發 shopify 哪種形式的應用? 可用的數值有: admin, functions, hydrogen, storefront-web-components. 這算是 shopify-dev 的最上層分類, 包含文件, 規格, 應用範圍等等都有所差異。而這 MCP, 你可以想像成他的開發資源網站 https://shopify.dev 的 MCP 版本。過去是開發人員自己要來這網站查資料回去自己寫 code, 而現在都由 coding agent 代勞, 而這 MCP 就是 agent 時代的開發資源服務了。
+
+直接來看看第一個 tool: learn_shopify_api(api, conversationId). 很有意思的設計, 過去我看的都是工具類型的 MCP, 大概就是 API 套殼的應用, 沒有甚麼特別的, 而第一次看到這種設計, 算是讓我大開眼界。在 MCP tools description 上, 它是這樣描述這 tools 的用途的 (內容很長，我只擷取頭尾):
 
 
 
@@ -903,6 +888,33 @@ Your AI assistant uses the MCP server to read and interact with Shopify's develo
 
 ⚠️  ALL OTHER SHOPIFY TOOLS WILL FAIL without a conversationId from this tool.
 This tool generates a conversationId that is REQUIRED for all subsequent tool calls. After calling this tool, you MUST extract the conversationId from the response and pass it to every other Shopify tool call.
+
+🔄 MULTIPLE API SUPPORT: You MUST call this tool multiple times in the same conversation when you need to learn about different Shopify APIs. THIS IS NOT OPTIONAL. Just pass the existing conversationId to maintain conversation continuity while loading the new API context.
+
+// 中間略過
+
+```
+
+看完這些敘述, 加上過程中我踩過的各種坑, 我開始佩服 Shopify 的設計了, 我踩過的坑, Shopify 都漂亮的閃避過去了, 我相信背後應該花了比我更多功夫才對。我解讀一下這些 description 背後的意圖:
+
+
+如何讓 Agent 照你想要的方式使用工具?  
+
+這邊 Shopify 就做了個示範, 軟硬兼施。一方面 tool description 很明確地敘述他的規則 (一定要先 call learn_shopify_api), 同時工具的設計也強制要求必須帶上 conversationId, 若沒照做 shopify 的 tools 會拒絕提供服務。而更厲害的設計是, conversationId 也刻意藏在 markdown 內 (要是我我應該會直接放 json 用結構化的方式輸出)，隱含了要從文字抽取內容的不確定性，但是一旦能成功抽取，就代表 agent 真正的把這段內容放進 context window 了。簡單的設計，一次解了三個難題:
+
+- 確保 agent 聽你的流程
+- 拒絕行為不良, 不按照指示操作的 agent
+- 確保 agent 將 instruction 放進 context window
+
+
+
+明確告知 agent 服務範圍
+
+前面提到 api 是個很關鍵的上層分類, shopify 直接在 description 明確的列舉了所有的分類跟使用情境 (我列在下方), 這敘述不放在 argument 說明, 而是選擇往上提到 description, 代表這是更廣域的敘述。我覺得這麼做的意義, 已經不只是參數的列舉而已了, 也把整個規則跟情境交代清楚了。
+
+節錄片段敘述 (就是上面省略的部分):
+
+```markdown
 
 🔄 MULTIPLE API SUPPORT: You MUST call this tool multiple times in the same conversation when you need to learn about different Shopify APIs. THIS IS NOT OPTIONAL. Just pass the existing conversationId to maintain conversation continuity while loading the new API context.
 
@@ -920,53 +932,79 @@ This is because the conversationId is used to maintain conversation continuity w
 - hydrogen: Shopify Hydrogen store feature implementation guides. Here are all the available feature guides: Bundles, Subscriptions, Combined Listings, Markets. Always use this tool first when implementing one of these features in a Hydrogen store. Keywords: hydrogen, localization, markets, subscriptions, selling plans, combined listings, bundles. 
 - storefront-web-components: How to create storefronts using Storefront Web Components. Storefront Web Components let you bring Shopify-powered commerce capabilities to any website. Shopify Storefront Web Components are a set of web components that enable developers to build customizable storefronts using only HTML and Shopify's APIs. Keywords: web components, html, shopify-store, shopify-context, shopify-list-context, shopify-data, shopify-media, shopify-money, shopify-cart, shopify-variant-selector
 
+```
+
+前段說明了使用規則, learn_shopify_api 一次只能取得一種 api 的使用授權, 你要用全部的 api, 那請照規矩來, agent 請務必每種 api 都先好好學習過一次 XDDD (真的像是老師在教學生一樣)。
+
+而後段，則是單純的列舉所有 api 可用的數值, 以及使用說明。
+
+
+
+最後，則是工作流程說明。這段 description 直接告訴 agent 明確的步驟跟規矩:
+
+```markdown
+
+
 🔄 WORKFLOW:
 1. Call learn_shopify_api first with the initial API
 2. Extract the conversationId from the response
 3. Pass that same conversationId to ALL other Shopify tools
 4. If you need to know more about a different API at any point in the conversation, call learn_shopify_api again with the new API and the same conversationId
 
-
 DON'T SEARCH THE WEB WHEN REFERENCING INFORMATION FROM THIS DOCUMENTATION. IT WILL NOT BE ACCURATE.
 PREFER THE USE OF THE fetch_full_docs TOOL TO RETRIEVE INFORMATION FROM THE DEVELOPER DOCUMENTATION SITE.
 
 ```
 
-簡單的說，很嚴格的規定。它控制的是流程，不是內容。Shopify 提供四種不同的功能支援，包含 admin, functions, hydrogen, shopify-web-components 的開發支援。你給了這參數, 它會回應使用說明, 同時會給你一個 operation id, 其他 tools 會認這 id, 確認 Agent "真的看過使用說明書" 之後，才會讓 Agent 使用 tools. 這設計變態到... operation id 還刻意藏在回應的 instruction 內，而不是一班 API 用的 json 結構化輸出... 做到這個程度真是佩服。
-
-我就試著用 "admin" 來測試了一下，會得到這回應:
 
 
+看完 learn_shopify_api 的設計後, 剩下另外四個 tools 的用意就明確的多，這邊我摘要重點就好。對於特定技術規格的功能開發，我們通常會:
 
-```markdown
+1. 先 google 找看看相關資訊 (片段), 從中間找尋是否有需要的線索
+1. 找到對的方向後, 接下來就會從特定主題去找完整說明文件來參考，決定該怎麼寫出程式碼
 
-🔗 **IMPORTANT - SAVE THIS CONVERSATION ID:** 22b2b79f-e368-4310-83d0-7bce893a341c
-⚠️  CRITICAL: You MUST use this exact conversationId in ALL subsequent Shopify tool calls in this conversation.
+這些事前的研究作業, 正好就對應了這兩個 tools, 名稱都取的夠直接清楚, 說明我就略過了 (直接貼 tool description):
 
-🚨 ALL OTHER SHOPIFY TOOLS WILL RETURN ERRORS if you don't provide this conversationId.
+- search_docs_chunks (conversationId, prompt, max_num_results)
+> This tool will take in the user prompt, search shopify.dev, and return relevant documentation and code examples that will help answer the user's question.
+- fetch_full_docs(conversationId, paths)
+> Use this tool to retrieve a list of full documentation pages from shopify.dev.
 
----
-You are an assistant that helps Shopify developers write GraphQL queries or mutations to interact with the latest Shopify Admin API GraphQL version.
+同樣的，看了文件後，你應該能將需求寫出第一版 source code 了 ( coding agent 的工作 )。而其中最複雜的 code, 大概就屬於要寫出 GraphQL 的查詢了吧。寫查詢，最煩的就是弄清楚來源資料有哪些欄位可以用 ( schema ), 以及要滿足使用者的要求, 到底該挑出那些欄位才對?
 
-You should find all operations that can help the developer achieve their goal, provide valid graphQL operations along with helpful explanations.
-Always add links to the documentation that you used at the end of the response by using the `url` information inside search results.
-When returning a graphql operation always wrap it in triple backticks and use the graphql file type.
+而要讓 agent 弄清楚這些資訊, Shopify 提供了這個 tool:
 
-THIS IS IMPORTANT: Graphql operations you generate should ALWAYS be validated with the `validate_graphql_codeblocks` MCP tool. This tool will parse the operation with the GQL schema and give you feedback of errors if any were detected. If errors are detected from this validation tool, make the necessary changes and then call this tool again.
+- introspect_graphql_schema(conversationId, query, filter, api, version)
+> This tool introspects and returns the portion of the Shopify Admin API GraphQL schema relevant to the user prompt. Only use this for the Shopify Admin API, and not any other APIs like the Shopify Storefront API or the Shopify Functions API.
 
-Think about all the steps required to generate a GraphQL query or mutation for the Admin API:
-
-1. First think about what I am trying to do with the API
-2. Search through the developer documentation to find similar examples. THIS IS IMPORTANT.
-3. Then think about which top level queries or mutations you need to use and in case of mutations which input type to use
-4. For queries think about which fields you need to fetch and for mutations think about which arguments you need to pass as input
-5. Then think about which fields to select from the return type. In general, don't select more than 5 fields
-6. If there are nested objects think about which fields you need to fetch for those objects
-7. If the user is trying to do advanced filtering with the query parameter then fetch the documentation from /docs/api/usage/search-syntax
-8. Be sure to pass the code into the `validate_graphql_codeblocks` tool and make any necessary corrections that tool indicates are needed. This removes LLM hallucinations from GQL operations.
+細節我就不往下挖了, 基本上 MCP 提供了文件, 這個 tools 又進一步提供了 schema 的查詢, 這些資訊都能讓 agent 有足夠的 context 來寫出符合需求的 query 了。
 
 
-```
+最後一步, 需要有方法來檢驗寫出來的 code / query 是否 "合格"? 要能驗證 "是否正確" 是很困難的，但是要驗證是否能執行或編譯就簡單得多。這點我覺得很重要，讓 agent 能對自己的輸出有基本驗證能力的話，明顯的問題就不需要使用者介入，agent 自己能按照錯誤訊息重新調整。然而在 shopify mcp 的案例內，這些東西都只存在文件上，因此 shopify 也額外提供了基本的驗證機制:
+
+- validate_graphql_codeblocks(conversationId, api, version, codeblocks)  
+> This tool validates GraphQL code blocks against the Shopify GraphQL schema to ensure they don't contain hallucinated fields or operations. If a user asks for an LLM to generate a GraphQL operation, this tool should always be used to ensure valid code was generated.
+>
+>    It returns a comprehensive validation result with details for each code block explaining why it was valid or invalid. This detail is provided so LLMs know how to modify code snippets to remove errors.
+
+如此一來，我覺得流程上必要的要素都完備了。一開始交代好這組工具 (MCP) 的遊戲規則，告訴 agent 必須先學好才能開始使用 tools, 而查完文件, 查完規格, 寫了 code / query 後, 檢驗看看是否符合規範。這整個過程，以 agent 現在的能力，其實是能夠完全自己處理的。不得不說 Shopify.Dev MCP 的設計者很懂 developer 的流程與需要, 這 MCP 完全就是按照 workflow 而設計出來的。
+
+看完這個案例，清楚什麼叫做 "依照 workflow 設計 MCP" 了吧? 我自己的 MCP, 使用場景其實跟 Shopify.Dev MCP 類似, 我也參考了不少他的做法, 才能完成上面的案例。我自己的 MCP tools 就不多說明了, 基本上很類似, 有興趣的朋友可以拿 MCP Inspector 來看我的 MCP server 的 tools 定義。
+
+
+
+
+
+
+
+
+
+
+
+
+給了明確的步驟，也清楚交代了別上網搜尋 (只能透過 tools 來取得資訊)。看完之後，你會發現，Shopify 根本不是在設計一個 "服務"，或是一個 "API"，而是在設計 agent 該如何配合 shopify mcp 完成開發者任務的 "工作流程"。從理想的開發流程中，逐步分解 + 推導，最終落實到 MCP 的規格設計。
+
+
 
 
 
