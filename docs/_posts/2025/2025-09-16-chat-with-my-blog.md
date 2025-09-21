@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Chat with My Blog #1, 內容服務化的設計(MCP)"
+title: "Chat with My Blog #1, 內容服務化的 MCP 設計"
 categories:
 - "系列文章: 架構師觀點"
 tags: ["架構師觀點","技術隨筆"]
@@ -21,17 +21,25 @@ logo:
 
 雖然我拿我的部落格當例子, 不過我覺得文件類型的應用, 其實都有同樣的問題。最初有這念頭，我最早想的是:
 
-"以後有了 AI, 我還該不該自己手寫文章” ? 
+"以後有了 AI, 我還該不該自己手寫文章 ? 尤其是這種花時間的長文 ? ”
 
 <!--more-->
 
 最後我的答案是 "當然要!"
 
-不過，重點跟使用技巧應該都會有變化了。AI 改變大家的使用習慣，因此向 stackoverflow.com 這種網站, 流量腰斬, 大家不再到上面問問題, 也不到上面找答案了, 因為上面匯聚的內容已經高度被 AI 替代。AI 時代需要的是有價值的內容，或是能被 AI 運用的內容。我的構想是，能否合併兩者的優點? 我的文章本來就有我自己的風格，也有很獨特的見解，不用擔心會被生成式 AI 取代。但是很多人抱怨過我文章太長看不完 (XDD)，這點 AI 倒是可以幫上忙。如果我能準備一個我部落格的代理人，當你不想直接看文章時，就直接找他聊天，若這樣能順利解決你的問題，甚至能用我的文章完成你的 code，那 AI 等於大大提升我文章的附加價值了。這時你就可以 "Chat with My Blog!" ，這就是我這次改版想要嘗試的。
+不過，重點跟使用技巧應該都會有變化了。AI 改變大家的使用習慣，因此像 stackoverflow.com 這種網站, 這兩年的流量腰斬, 大家不再到上面問問題, 也不到上面找答案了, 因為上面匯聚的內容已經高度被 AI 替代。AI 時代需要的是有獨特價值 & 見解的內容，並且能被 AI 妥善運用的內容。我這次的 side project 就是要做這件事, 如果做得到, 那我應該不用擔心以後沒人看我的部落格 (咦? 。過去最多的 feedback, 就是很多人跟我抱怨過我文章太長看不完 (XDD)，我覺得重點不是文章長度, 而是從 "看完" 文章，到消化理解我的想法，再到實戰 & 問題解決，這過程太長了。我想善用 AI 來縮短這過程。
 
-於是, 背後一堆思考過程我先跳過, 後面再慢慢聊。我最終的答案就是, 我想弄一個我部落格的 mcp server, 來協助讀者們解決這些問題。我希望有個神奇的 mcp 能掛上大家自己的 AI agent ( ex: ChatGPT ), 大家就可以從 "閱讀" 我的部落格文章，變成跟我的部落格 "聊天"，你的難題不再是自己讀完文章再動手處理, 而是透過你的 agent + mcp 來連結我的文章, 來完成你的任務 (不管是回答問題, 寫 code, 或是學習都一樣)。
+如果我能準備一個我部落格的代理人，直接找他聊天，若這樣能順利解決你的問題，能用我的文章完成你的 code，那 AI 等於大大提升我文章的附加價值了。這時你就可以 "Chat with My Blog!" ，這就是我這次改版想要嘗試的。
+
+
+於是, 背後一堆思考過程我先跳過, 後面再慢慢聊。我最終的答案就是, 我想弄一個我部落格的 mcp server, 同時好好的把我的文章整理一下, 發布時就做好各種內容的處理, 做好 RAG 這件事, 來協助讀者們解決這些問題。我希望有個神奇的 mcp 能掛上大家自己的 AI agent ( ex: ChatGPT ), 大家就可以從 "閱讀" 我的部落格文章，變成跟我的部落格 "聊天"，你的難題不再是自己讀完文章再動手處理, 而是透過你的 agent + mcp 來連結我的文章, 來完成你的任務 (不管是回答問題, 寫 code, 或是學習都一樣)。
 
 這就是我想做的事情，而實現他的 MCP server, 現在有第一版可以給大家體驗看看了! 後面有示範的案例, 有興趣的可以繼續往下看。
+
+
+
+
+
 
 
 # TL;DR , 我該做什麼才能實現目標?
@@ -40,36 +48,42 @@ logo:
 
 上一次為我的部落格大改版, 已經是九年前的事情了 ( 2016/09, Blogging as Code ), 之後就沒有再大改版了, 當然也包含當時轉移系統藏了一堆沒處理的技術債...
 
-這次改版我想做的, 首要目標就是 "讓我的部落格文章能充分被 AI agent 好好利用"，這是所有 AI 應用的基礎，而其中的關鍵就是要做好 RAG。為了達成我的期待, 我把這次施工範圍分成三個目標:
+這次改版我想做的, 首要目標就是 "讓我的部落格文章能充分被 AI agent 好好利用"，這是所有 AI 應用的基礎，而其中的關鍵就是要做好 RAG，要正確找出對的內容不是件容易的事啊，這邊花掉我最多的研究時間。為了達成我的期待, 我把這次施工範圍分成三個目標:
 
 1. **內容服務化**, 服務要能用主流的型態接上 Agent ( 手段: MCP )  
 關鍵是 mcp 該提供什麼樣的 tools 來輔助 agent 做好這情境。同時，我也重新調整了部落格的系統架構, 為了體驗一致性, 我希望原部落格網址加上 /api/mcp 就是對應的 mcp server endpoints, 動用了 Azure 上的服務 ( frontdoor + container apps ), 感謝 Microsoft 給 MVP 的使用額度 :D
 
 2. **內容正規化**, 內容要預先轉換成易於使用的格式 ( 手段: LLM 預先生成 )  
-目前我的文章都有我自己的思路, 從情境 → 問題定義 → POC → 形成解決方案等過程。這是我認為最大化知識含量的做法，對於 "訓練或學習" 用途是好的格式，但是若要拿來解題或是直接應用，則沒有那麼友善 (有的人立刻就需要答案了)。因此，預先用 LLM 把內容轉換成易於被應用的型態是必要的，這也是我花最多時間 & Token ($$$) 處理的環節, 再次感謝 MVP 的 Azure 使用額度 XD
+目前我的文章都有我自己的思路, 從情境 → 問題定義 → POC → 形成解決方案等過程。而這種有思路順序的長文章，是非常不適合用 RAG 處理的，因為切斷後的內容 ( max: 8kb ) 都不是個完整的主題, 被檢索出來無法有效應用, 效果就不理想。我認為理想的做法是: 先用 LLM 精煉這些內容，轉成適合被 RAG 應用的型態，再作後續處理。最花時間跟最花錢 (token) 的就屬這部份了, 再次感謝 MVP 的 Azure 使用額度 XD
 
 3. **流程效率化**, 重新整理工作流程，清除技術債 ( 手段: AI IDE 重構 Repo )  
-2016 年轉換到 GitHub Pages 時, 很多格式轉移的任務, 其實我都只做到 "可以動" 就好的地步，尤其是舊文章還有 70% 左右都還是 HTML, 圖檔連結壞了也沒有修正。這次為了能有效率的達成 (2), 藉助了 AI Agent + IDE 的幫助 ( 我用 GitHub Copilot ), 也順手把整個 GitHub repo 的內容都重構了一次，做好 (2) 有效率進行的工程基礎
+2016 年轉換到 GitHub Pages 時, 很多格式轉移的任務, 其實我都只做到 "可以動" 就好的地步，尤其是舊文章還有 70% 左右都還是 HTML, 圖檔連結壞了也沒有修正。這次為了能有效率的達成 (2), 藉助了 AI Agent + IDE 的幫助 ( 我用 GitHub Copilot ), 也順手把整個 GitHub repo 的內容都重構了一次，做好 (2) 有效率進行的工程基礎。
 
 每個目標，對我來說都是大工程啊啊啊啊, 也都各有不同的挑戰要克服。我寫下去一定是一大段，所以這裡先摘要一下，要達成這三個目標，每個目標背後的重點是甚麼:
 
-(1) 用 MCP 來發布服務，關鍵在 Tools 的介面設計。
+**(1) 用 MCP 來發布服務，關鍵在 Tools 的介面設計**
 
 MCP 並不是 API, 如果只是把 REST API 包裝成 MCP 的話，那就大錯特錯了。特地為了 Agent 來設計 MCP 是最理想的做法, 這也是我這次 side project 最大的收穫。我看了 MCP 團隊成員分享設計理念，也花了點時間研究 Shopify 的 MCP，才算掌握到一些設計的要訣。最好的 MCP 設計，就是以 Agent 要解決問題時順著他的思考脈絡 ( context ) 給予最大的支持，想通這點，我才終於搞懂為何 MCP 會取名為 MCP ( Model Context Protocol )。這後面會有一段專門來談這主題。
 
-(2) 預先將內容轉為應用的最合適的型態, 再做 RAG 的工程處理。
+**(2) 文章內容的預處理，先將內容轉為應用的最合適的型態**
 
 所有的服務中，怎麼 "應用" 永遠都是最重要的事情，千萬別陷入 "為了技術而技術" 的窘境。我去年做過 "安德魯的部落格" GPTs, 當時就是無腦做 RAG，功能有了，但是效果還沒達到我的理想，感覺就是個書僮幫我查資料而已，還沒到能幫我 "解決" 問題的程度。
 
 這次我的做法是對內容預先處理成 “合用" 的型態再進行 RAG (我三月直播談 Semantic Kernel 就示範過這想法了)。為了嘗試這些效果, 花了不少 token 來處理我的文章… 不過慶幸的是，這 token 花得很值得啊，這同樣會寫一段專門來談這主題 (下一篇)。
 
-(3) 善用 AI 工具來清理基礎結構的問題, 簡化整體的運作流程。
+**(3) 善用 AI 工具來清理基礎結構的問題, 簡化整體的運作流程**
 
-為了流程的效率化，把基礎結構打好是必要的。我的文章內容經過多次系統轉移，每次轉移都留下了一點技術債 (殘留 HTML 沒轉成 markdown, 殘留的 image 圖檔目錄沒有整理, 錯誤的連結沒有修正, 中文檔名導致各種編碼問題沒有處理…), 這些都是小問題, 但是當你希望內容有系統地被重新運用的時候, 這些狀況就不得不解決了。
+這段講白了就是清掉以前欠的技術債而已。為了這次的 side project, 花點時間還債是必要的, 包含殘留的 HTML (我有 60% 的文章還是 HTML, 沒轉成 Markdown), 以及其它很惱人的小問題 (中文檔名, 圖檔路徑亂七八糟等等), 這些問題不解決, 會影響以後文章發行的 pipeline。
 
 因此，我選擇用 AI "一次性" 的重構來搞定這些問題。除了內容，我同時也處理了 repo 的結構, 清理了不再需要的圖檔, 也把路徑跟驗證的環境 ( local run - github pages ) 通通都整理好了, 現在寫文章感覺舒暢多了, 這部分有很多實際操作的心得, 也包含 vibe coding, 這段我會當作心得分享的角度來寫。對實際操作或工作流程沒興趣的可以跳過這段。
 
+
+
 好，簡介都寫完了，接下來就直接進入正題 (有三個主題)，我預計拆成兩篇來談，第一篇 (這篇) 要談談我想要把部落格轉化成什麼樣的 "服務"? 主題以 "服務的設計為主"，轉化的主角則是 MCP server 以及使用的示範案例。第二篇我則想談談做到這件事背後的準備，包含內容的重新生成，以及原本部落格做了多少重構才能達到這目標。
+
+
+
+
 
 
 
@@ -77,39 +91,25 @@ MCP 並不是 API, 如果只是把 REST API 包裝成 MCP 的話，那就大錯�
 
 # 1. 內容服務化 - 開發專屬的 MCP server
 
-我啟動這 side project 的主要意圖, 就是想摸索 “部落格" 未來可能的應用模式。我的想像是 “部落格” 會更貼近資訊的來源，但不一定是資訊最終被應用 (閱讀) 的方式。舉例來說，傳統的模式就是我寫文章，到處分享連結，然後有興趣的人會點過來看，或是靠 search engine 來看到我的內容。不管管道為何，最終看到的內容，就是我寫的內容。
+我啟動這 side project 的主要意圖, 就是想摸索 “部落格" 未來可能的應用模式。我的想像是 “部落格” 會更貼近資訊的來源，但是 "閱讀" 不一定是資訊最終被應用的方式。雖然最終，我決定的形式是 "開發 MCP 給大家使用"，不過使用的場景跟方式，我倒是做了一番研究。過去其實我一直在關注別人都怎麼引用我的文章的? 只要我有 PO 文，或是公開演講，我都會定期看看這些回饋:
 
-但是未來不見得再是這樣了，我的內容可能被:
+1. 看看誰分享了我的 PO 文? 尤其是那些分享時還會加上自己看法的人
+1. 看看有那些部落格, 引用我的文章當作參考聯結的人
+1. 演講問券, 願意給我評分 + 回饋的人
 
-1. 當作 AI 訓練的素材, 被應用的是模型的輸出
-2. 被 search engine 挑出來, 但是最終變成 AI overview 的內容, 或是 AI agent 的輸出結果
-3. 被 AI 摘要、彙整、生成其他形式 ( ex: 報告 )
-4. 被 AI 當作知識的來源，或是 prompt / instruction 的一部分，生成 code 等其他型態輸出 ..
-
-不過, 我能做什麼? (1) (2) 應該我管不了, 但是 (3) (4) 我應該有機會介入, 如果我知道 (或我想要) 大家都怎麼使用我的文章, 我也許可以主動提供更好的素材或工具來做這件事。也許 (3) (4) 再過幾年也變普及，我也管不了了，但是掌握的經驗是無價的，到時我也會更清楚資訊應該如何被運用才是有價值的。
-
-因此，雖然最後的結論是很技術導向的 MCP server 開發, 但是我的目的很單純，就是內容的應用。我特地看了一下別人都怎麼引用我的文章的? 我特別留意了:
-
-1. 分享我的 PO 文，但是有加上自己看法才 share 的人
-2. 自己的部落格文章講述特定主題，會引用我的文章的人
-3. 其他 SNS 的貼文，會特別 tag 我粉專的人
-4. 其他實體演講等場合的問券回饋
-
-在這些 "意圖很明確" 的回饋之間，大致上都有幾種模式:
+會專注這些, 因為這些都是 "明確" 對我想法的第一手回饋資訊。觀察這些回饋，大致上都有幾種模式:
 
 1. 觀點啟發，我可能講了一些他們從未想過的可能性
 2. 技術應用，原來 OOO 的東西可以這樣子做出來，原來我常用的 ZZZ 背後是這個原理
 3. 經驗學習，碰到 XXX 的問題，原來需要這樣子解決才會到位，原來解 YYY 這問題能夠解的這麼漂亮
 
-但是跟其他量產的部落客比，我的流量少的可憐啊 ( 雖然我也沒有很認真在拚這個 )，不過實際上很多 "需要" 這些資訊的人錯過了我的文章，總覺得我可以再努力點什麼.. 於是，我就開始想，我能多做點什麼，可以讓這些人更直接的應用我的心得跟經驗分享?
-
-念頭就是這樣形成的，不只一個人對我的評價是: 很棒的觀點，很札實的內容，就是字太多了 (啊資訊量就是那麼多啊)，而我也堅持用這樣的形態來累積文章不想改變，因此…
+這些，都是別人看我文章得到的價值。我想的是: 如果知道這樣對大家幫助最大, 我能否一開始就提供這樣的管道呢? 於是, 很多念頭就是這樣形成的:
 
 > “  
 > 那我用我最原始的想法來寫文章，讓 AI 生成大家需要的型態來應用就好了  
 > ”
 
-所以第一次公開這觀點，是今年三月的直播，我在介紹 Semantic Kernel + Microsoft Kernel Memory 應用的時候，我提出來的看法:
+我不想改變我寫文章的思緒跟脈絡 (因為那是表達我想法最有效率的方式)，但是我可以靠 LLM 的幫助，在寫完文章後同時用合適的型態發布。所以我在今年三月的直播，第一次提出這作法。我在介紹 Semantic Kernel + Microsoft Kernel Memory 應用的時候提到:
 
 
 > “  
@@ -134,25 +134,34 @@ MCP 並不是 API, 如果只是把 REST API 包裝成 MCP 的話，那就大錯�
 > 我能否直接拿我的文章要傳達的概念與精神，做學習，訓練的應用? 例如編排學習計畫，生成訓練素材，生成課前、課後的測驗? 設計 Labs 驗證學習成效? (對應到: 經驗學習)  
 > "
 
-這一連串思考 + 簡單的用 ChatGPT 驗證過後，感覺好像可行，而這些應用的整合環節，不約而同地都指向: 我需要開發一個我自己的 MCP server.. 因為寫文章 (我都用 vscode 寫 markdown, 可以用 github copilot agent mode), 寫 code 我也都用 vscode (同上), 其他的應用我更習慣用 Claude Desktop / ChatGPT 這類 AI chatbot, 如果我能不離開這些工具, 直接整合我的內容完成這些任務, 這就是我想要的理想運用情境。
+這一連串思考 + 簡單的用 ChatGPT 驗證過後，感覺好像可行，而這些應用的整合環節，不約而同地都指向:
+
+> "  
+> 我需要開發一個我自己的 MCP server..  
+> "  
+
+因為寫文章 (我都用 vscode 寫 markdown, 可以用 github copilot agent mode), 寫 code 我也都用 vscode (同上), 其他的應用我更習慣用 Claude Desktop / ChatGPT 這類 AI chatbot, 如果我能不離開這些工具, 直接整合我的內容完成這些任務, 這就是我想要的理想運用情境。
 
 於是，我就開始動工了，開始打造我自己部落格的 MCP server ( 因此，去年試做的 “安德魯的部落格" GPTs, 還有今年初用 Dify 建立的 Agent, 我都關掉了, 把資源集中在這個 side project 上 )。
 
-上個月，我在 Facebook 分享了這個研討會的錄影: MCP 201, Code w/ Claude, 由 Anthrop/c 提出 MCP 規範的團隊成員現身說法, 描述了它們想像 MCP 的願景, 看完這 20min 的影片，我才算真正搞懂 MCP 要解決的問題, 於是我大概想清楚我該做甚麼了:
 
-**MCP Tools**,  
+而 MCP, 是個新穎的課題, 只把它當作 API 來看待會吃大虧的, 於是我也開始關注 Agent "Tools" 的設計議題 (MCP 就是個 Tools 的通用協定)。在上個月，我在 Facebook 分享了這個研討會的錄影: MCP 201, Code w/ Claude, 由 Anthrop/c 提出 MCP 規範的團隊成員現身說法, 描述了它們想像 MCP 的願景, 看完這 20min 的影片，我才算真正搞懂 MCP 這協定設計的初衷。使用者跟 Agent 互動, 大致上有三種互動型態, 一種是 "使用者" 要懂得如何對 Agent 下 "Prompt"? 一種是 "Agent (LLM)" 如何將需求轉換成 "Tools" 的使用來完成任務? 最後一種則是 "Agent (APP)" 如何有系統的取得後端的 "Resources" (例如文章內容，資料庫的紀錄等等) 有效率的回應使用者 (download) 或是再運用 (add to context) ?
+
+看懂 MCP 想要標準化的三大原語 ( Premitives ), 對應到我想做的服務, 我應該提供這些設計:
+
+**1. MCP Tools**,  
 用來檢索，取得特定條件的內容給 AI Agent, 變成 AI 的 context windows 之一，讓 Agent 生成最終的資訊給我
 
-**MCP Resources**,  
-用來取得文章本文，以及生成的內容 ( vscode 甚至可以直接開啟編輯 )
+**2. MCP Resources**,  
+用來取得文章本文，以及生成的內容 ( vscode 可以直接開啟編輯, 或是直接 add context 進行後續操作 )
 
-**MCP Prompts**,  
-用來指引其他使用者，我應該最熟我的文章結構跟應用方式，與其教你怎麼下 prompt, 我可以透過 MCP 直接給你我預先寫好的 prompt
+**3. MCP Prompts**,  
+用來指引其他使用者寫出正確的 prompt。我應該是最熟我的文章結構跟應用方式的人，由我來提供 prompt 應該是最合理的選擇。MCP 提供給我一個標準做法，透過 MCP server 將這些 prompt 推送給 user 的管道。
 
 
 因此，經過幾版的嘗試與改進，我的 MCP 現在提供這些規格:
 
-**Tools**:
+**1. Tools**:
 - ```GetInstructions()```,  
 給 AI 看得 MCP 使用說明書, 包含部分動態生成的資訊在內, 因此特地獨立成一個 tool
 - ```GetPostContent(postid, synthesis, position, length)```,  
@@ -164,13 +173,20 @@ MCP 並不是 API, 如果只是把 REST API 包裝成 MCP 的話，那就大錯�
 - ```SearchPosts(query, synthesis, limit)```,  
 按照條件 (query), 指定應用方式 (synthesis) 查詢符合的文章清單
 
-**Resources**:
+**2. Resources**:
 - ```posts://{id}.md```, (原始文章內容)
 - ```posts://synthesis/{id}.summary.md``` (文章摘要, 適合用來做觀點啟發)
 - ```posts://synthesis/{id}.faq.md``` (文章常見問答, 適合用來做名詞解釋等有明確答案的問題回應)
 - ```posts://synthesis/{id}.solution.md``` (文章解決方案, 適合用來做技術應用方式說明, 無標準做法的問題解決方案引導)
 - ```posts://synthesis/{id}.metadata.md``` (文章 metadata, 包含標籤, 分類, 發表日期等資訊)
 
+**3. Prompts**:
+(這版本暫時不提供, 後續版本再來追加)
+
+
+第一版就這樣問世了, 有興趣的可以試試這個公開測試的 URL: https://columns-lab.chicken-house.net/api/mcp/ , 等到我認為滿意了之後, 我會把它搬到正式的部落格網址下。
+
+如果你想看使用示範，請繼續往下看~
 
 
 # 2, MCP 的使用案例
@@ -179,11 +195,21 @@ MCP 並不是 API, 如果只是把 REST API 包裝成 MCP 的話，那就大錯�
 
 接下來，與其解釋所有的東西 ( tools, resources ) 怎麼設計, 我更想示範一下使用情境 XDD, 因此後面我就直接示範了, 關鍵設計要點我會提一下…
 
+這部分我會截錄很多對談的案例以及畫面。如果你沒興趣的話可以先跳到下一段。
 
 
-## 案例 1, 直接對話的應用
 
-一開始先來入門的應用方式就好。我把 MCP 裝到 Claude Desktop 上面來使用。會挑 Claude Desktop, 因為他的使用門檻最低 (雖然會看我文章的人應該都有 AI coding agent 能用吧), 雖然他還不直接支援 http streamable MCP...。安裝方式先跳過, 確認安裝完成 + 已啟用必要的 tools 之後就可以開始跟他聊:
+## 案例 1, 直接對話的應用 (Claude)
+
+一開始先來入門的應用方式就好。MCP 現在的支援還有點混亂, 截至目前為止, 原生支援 http streamable 的 MCP , 我有在用的有 ChatGPT Plus, 還有 vscode + github copilot. 而 Claude Desktop 動一點手腳, 可以用 mcp-remote 這套件把他轉成 stdio 就能安裝了 (否則你要請你組織的管理者替你啟用)。安裝方式先跳過, 確認安裝完成 + 已啟用必要的 tools 之後就可以開始跟他聊。
+
+第一個案例我示範 Claude Desktop / ChatGPT Plus 兩個版本讓大家比較一下。後面的範例我就挑一個有代表性的 Client 來測試就好。
+
+首先, 來看看 Claude Desktop (使用 Sonnet4) 的表現:
+
+<!--
+https://claude.ai/share/783a94df-2410-4a6c-810c-045ee1e553fd
+-->
 
 ```
 安德魯的部落格 您好,
@@ -194,11 +220,16 @@ MCP 並不是 API, 如果只是把 REST API 包裝成 MCP 的話，那就大錯�
 身為開發人員，我有哪些基礎的底層知識需要具備?
 ```
 
-Claude 看到關鍵字 "安德魯的部落格"，跟 tools description 上面敘述的一致, 就能聯想到要回答這些問題, 應該要來用我的 MCP tools 了。在回答我的過程中, AI 呼叫了兩次 tools:
+Claude 看到關鍵字 "安德魯的部落格"，跟 tools description 上面敘述的一致, 就能聯想到要回答這些問題, 應該要來用我的 MCP tools 了。在回答我的過程中 (我用的版本無法 Publish Share 對話, 我截第一段的回應畫面):
 
-GetInstructions, 不需要參數
+![alt text](/images/2025-09-16-chat-with-my-blog/image.png)
 
-SearchChunks, 帶了下列查詢要求:
+
+其中, AI 呼叫了兩次 tools:
+
+- GetInstructions, 不需要參數
+- SearchChunks, 帶了下列查詢要求
+
 
 ```
 
@@ -221,47 +252,14 @@ SearchChunks, 帶了下列查詢要求:
 給我文章標題, 網址對照表
 ```
 
-不管你用哪一家的模型，這樣做的效果都還不錯。這次輸出的對照結果如下:
+這次輸出的對照結果如下:
 
-```
+![alt text](/images/2025-09-16-chat-with-my-blog/image-1.png)
 
-根據剛才的搜尋結果，以下是相關主題在安德魯部落格的文章對照表：
-
-## 分散式交易與 Saga Pattern
-
-| 主題 | 文章標題 | 網址 |
-|------|---------|------|
-| Saga Pattern 實作 | 微服務架構設計 - Event Sourcing | https://columns.chicken-house.net/2020/01/01/microservice13-event-sourcing/ |
-| 分散式交易處理 | 微服務架構設計 - 資料庫的選擇, RDBMS or NOSQL? | https://columns.chicken-house.net/2020/07/01/microservice14-database/ |
-| 微服務轉移經驗 | 架構師觀點 - 轉移到微服務架構的經驗分享 (Part 3) | https://columns.chicken-house.net/2017/07/11/microservice8-case-study-p3/ |
-
-## 交易正確性與一致性
-
-| 主題 | 文章標題 | 網址 |
-|------|---------|------|
-| 線上交易正確性 | 架構面試題 #1, 線上交易的正確性 | https://columns.chicken-house.net/2018/03/25/interview01-transaction/ |
-
-## 關於安德魯
-
-| 主題 | 文章標題 | 網址 |
-|------|---------|------|
-| 背景介紹 | 安德魯是誰? | https://columns.chicken-house.net/2000/01/01/about-me/ |
-
-這些文章涵蓋了：
-
-1. **Saga Pattern 與補償交易** - 在 Event Sourcing 文章中詳細介紹了如何用 Saga 取代 2PC，包含實作範例
-2. **Outbox Pattern** - 在資料庫選擇文章中說明了如何確保事件與資料變更的原子性
-3. **分散式交易的 2PC 思維** - 在轉移經驗分享中解釋了傳統 2PC 的運作方式
-4. **訊息順序與冪等性** - Event Sourcing 文章提到了使用 Kafka 的 Partition Key 保證順序
-5. **CQRS 與讀寫分離** - 資料庫選擇文章討論了 Polyglot Persistence 策略
-
-建議您可以從這幾篇文章開始深入閱讀，特別是 Event Sourcing 和資料庫選擇這兩篇，有較完整的解決方案與程式碼範例。
-
-```
 
 之後，我還出了題目 (我確定我沒寫過的主題 XDD)，就是訂票 (需要劃位) 類型的交易。這要鎖定控制的是每個座位的狀態，遠比單純鎖定交易金額，或是可賣數量的情境複雜得多。面對這種問題，AI 仍然能按照我文章的脈絡，用同樣原則，回答我沒有寫過的主題 (最後 AI 給了說明跟 PoC code)..
 
-內容很長，我就貼我問的問題就好，其他輸出請看影片。我接著問了這段話:
+內容很長，我就貼我問的問題就好。我接著問了這段話:
 
 ```
 我想從案例中學習這些 design concept 的運用
@@ -272,13 +270,80 @@ SearchChunks, 帶了下列查詢要求:
 另外，我看過他文章都會用架構面試題，用很精準到位的 POC 來貫穿整個核心想法，能否用同樣方式給我一段 sample code 來說明分散式交易，處理演唱會購票的 POC ?
 ```
 
-展示先到這邊為止，其實就 "chat with my blog" 的要求來說, 這結果其實很不錯啊, 某種程度來說你真的用 slack 來問我一樣的問題, 我的回答也就差不多是這樣而已 (要我真的現場寫一段 code 給你的話，我大概只會寫 psuedo code ...然後給你一堆參考連結讓你自己去看我寫過的東西)。
+回應如下:
+
+![alt text](/images/2025-09-16-chat-with-my-blog/image-2.png)
+
+展示先到這邊為止，其實就 "chat with my blog" 的要求來說, 這結果其實很不錯啊, 某種程度來說你真的用 
+slack 來問我一樣的問題, 我的回答也就差不多是這樣而已 (要我真的現場寫一段 code 給你的話，我大概只會寫 psuedo code ...然後給你一堆參考連結讓你自己去看我寫過的東西)。
 
 
 
-## 案例 2, 參考我的文章來 vibe coding
+## 案例 2, 直接對話的應用 (ChatGPT)
 
-第一個拿 vibe coding 示範的案例，我就說明完整一點好了。我拿一篇我還挺自豪的文章當案例, 我曾經寫過一系列平行處理的文章, 也包含用 code 怎麼做好生產者消費者的控制。而講了那麼多，最經典的案例是用 pipeline 來實作, OS 的 stdio 跟 pipeline 幾乎都替你解掉絕大部分這些通訊問題, 剩下的部分簡單到在 shell script 用 pipeline 就能搞定的案例..
+同樣的案例, 我用了 ChatGPT Plus 也測了一次。會多測這個，因為我在寫這段文章時, ChatGPT 才開始支援 MCP (beta) 而已, 我自己也是第一次使用, 就順手貼上來比較一下。
+
+對比 Claude Sonnet 4 回應的版本, 我在 ChatGPT Plus 上使用的是 GPT5 + Thinking, 比較起來, Claude 回答的比較一板一眼, 這樣好處是不大有模糊或想像空間, 不過讀起來就吃力了點。而 ChatGPT 在文字潤飾感覺花了不少功夫, 讀起來輕鬆一點, 但是即使我自己是原作者, 我都得花點心思才能確認是不是我寫的。還好內容都算正確, 並沒有發現幻覺或是亂掰的現象, 附上的引用連結也都正確, 能正確的連回我的部落格文章。
+
+我都用同樣的問題來測試 (同上, 我再貼一次):
+
+```
+安德魯的部落格 您好,
+
+開發分散式的系統, 想要實作微服務架構
+面臨到跨服務的交易問題
+
+身為開發人員，我有哪些基礎的底層知識需要具備?
+```
+
+
+觀察回答第一段的過程, 兩者都呼叫了我的 MCP, 可以看到兩個模型的思考過程差異很大, Claude 很直線的思考, 按照我的要求先 call: GetInstructions 之後, 就接著 call: SearchChunks, 執行了主要的查詢 (如下):
+
+```
+{
+  "limit": 10,
+  "query": "分散式交易 distributed transaction saga 兩階段提交 2PC 微服務 跨服務交易",
+  "synthesis": [
+    "origin",
+    "solution",
+    "faq"
+  ]
+}
+```
+
+緊接著就開始生成答案 (略). 從 AI 下的 Query, 你大致上可以猜得出來他的思考方向。同樣的問題, ChatGPT 則是分成兩次 call: SearchChunks, 我把兩次的參數都貼出來 (回應太長, 略):
+
+```
+{"query":"微服務 分散式 交易 跨服務 一致性 Saga Outbox 兩階段提交 TCC 事件驅動 可靠投遞 基礎 知識","synthesis":"summary","limit":8}
+```
+
+```
+{"query":"Saga 兩階段提交 TCC Outbox 分散式 交易 一致性 微服務","synthesis":"summary","limit":8}
+```
+
+也許這就是啟動 thinking 的差異吧, 看起來 GPT5 會根據第一次查詢結果, 來微調查詢的範圍再進行第二次查詢。查完之後才生成最終的結果。
+
+回覆的結構我也貼一下, 基本上都算正確, 但是風格各有不同:
+
+![alt text](/images/2025-09-16-chat-with-my-blog/image-3.png)
+
+
+完整的回應內容, 我直接分享 [對話紀錄](https://chatgpt.com/share/68d02d3f-742c-800d-82eb-2d173c9da4cd), 有興趣的可以直接看參考
+
+
+
+## 案例 3, 拿文章來 vibe coding
+
+
+接下來這個測試的場景是:
+
+> "  
+> 當我 (讀者) 看完文章後, 想要按照文章的介紹來實作看看文章裡介紹的案例, 我希望能藉由這個 MCP, coding agent 就能直接給我對應的 code ...  
+> "
+
+因為目的是 coding, 這次就不用 ChatGPT 了, 我直接改用 vscode + github copilot 來測試。我拿我還挺自豪的文章當案例, 用 C# 實作 pipeline 的 CLI:
+
+Reference: [後端工程師必備: CLI + PIPELINE 開發技巧](/2019/06/15/netcli-pipeline/)
 
 於是我打開 vscode, 建立了一個 console app, 除了預先給一個 UserItem 的 class 之外, 其他都沒給。這樣當作初始環境，安裝了我自己的 MCP server, 我給了 agent 這段要求:
 
@@ -295,66 +360,70 @@ SearchChunks, 帶了下列查詢要求:
 我給 agent 的要求, 是從 stdio 接收 jsonl ( json line, 一行一筆 json, 可以包含多筆 )。而我期待的是接到一筆 (一行) 就開始處理一筆，在允許的狀況下 (有指定平行度上限) 盡可能的平行處理。外圍的 code 我就不貼了, 有興趣自己看 repo, 我貼主要處理邏輯:
 
 ```csharp
-    static async Task ProcessDataInParallel(int parallelism)
+
+static async Task ProcessDataInParallel(int parallelism)
+{
+    // 使用 Channel 作為生產者-消費者模式的橋樑
+    var channel = System.Threading.Channels.Channel.CreateBounded<UserItem>(100);
+    var reader = channel.Reader;
+    var writer = channel.Writer;
+
+    // 生產者 Task - 從 STDIN 讀取 JSONL
+    var producerTask = Task.Run(async () =>
     {
-        // 使用 Channel 作為生產者-消費者模式的橋樑
-        var channel = System.Threading.Channels.Channel.CreateBounded<UserItem>(100);
-        var reader = channel.Reader;
-        var writer = channel.Writer;
-
-        // 生產者 Task - 從 STDIN 讀取 JSONL
-        var producerTask = Task.Run(async () =>
+        try
         {
-            try
+            await foreach (var item in ReadFromStdin())
             {
-                await foreach (var item in ReadFromStdin())
+                await writer.WriteAsync(item);
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.Error.WriteLine($"讀取資料時發生錯誤: {ex.Message}");
+        }
+        finally
+        {
+            writer.Complete();
+        }
+    });
+
+    // 消費者 Tasks - 平行處理資料
+    var consumerTasks = Enumerable.Range(0, parallelism)
+        .Select(workerId => Task.Run(async () =>
+        {
+            await foreach (var item in reader.ReadAllAsync())
+            {
+                try
                 {
-                    await writer.WriteAsync(item);
+                    // 處理每筆資料的地方 - 你可以在這裡填入具體的處理邏輯
+                    var processedItem = await ProcessSingleItem(item, workerId);
+                    
+                    // 輸出處理結果到 STDOUT（JSON格式）
+                    await OutputResult(processedItem);
+                }
+                catch (Exception ex)
+                {
+                    Console.Error.WriteLine($"Worker {workerId} 處理資料 {item.Id} 時發生錯誤: {ex.Message}");
+                    // 可以選擇跳過或重新處理
                 }
             }
-            catch (Exception ex)
-            {
-                Console.Error.WriteLine($"讀取資料時發生錯誤: {ex.Message}");
-            }
-            finally
-            {
-                writer.Complete();
-            }
-        });
+        }))
+        .ToArray();
 
-        // 消費者 Tasks - 平行處理資料
-        var consumerTasks = Enumerable.Range(0, parallelism)
-            .Select(workerId => Task.Run(async () =>
-            {
-                await foreach (var item in reader.ReadAllAsync())
-                {
-                    try
-                    {
-                        // 處理每筆資料的地方 - 你可以在這裡填入具體的處理邏輯
-                        var processedItem = await ProcessSingleItem(item, workerId);
-                        
-                        // 輸出處理結果到 STDOUT（JSON格式）
-                        await OutputResult(processedItem);
-                    }
-                    catch (Exception ex)
-                    {
-                        Console.Error.WriteLine($"Worker {workerId} 處理資料 {item.Id} 時發生錯誤: {ex.Message}");
-                        // 可以選擇跳過或重新處理
-                    }
-                }
-            }))
-            .ToArray();
+    // 等待所有任務完成
+    await Task.WhenAll(new[] { producerTask }.Concat(consumerTasks));
+}
 
-        // 等待所有任務完成
-        await Task.WhenAll(new[] { producerTask }.Concat(consumerTasks));
-    }
 ```
 
-前半段用 channel 物件來控制所有的任務, 並且開出一對 reader / writer 來操作 channel, 並且一開始就開了 async task, 盡可能地把 input 寫進 channel ( 背後的機制: 超過 channel 容量就會 blocked writer, 而容量空了就會 blocked reader, 這 channel 可以擔任生產者消費者的 buffer 來協調兩端的處理速度)
+簡單的說一下心得, 這段 code 的確滿足我的要求, 作法也有按照我文章內提到的重點來設計。而跟我期待不同的是, 我沒有很認真追 C# 的新語法, 以及 .NET Basic Class Library 的新功能, 加上這篇文章是六年多以前寫的 (2019/06), 同樣的目的現在也許都有更好的寫法了。
 
-後段就單純的多, 按照宣告的平行處理上限 ( 沒指定就照 CPU 核心數 ), 開出指定個數的 worker, 來平行處理透過 reader 讀取任務來消化，直到通通結束為止。
+而 LLM 替我生成的 code, 一來符合架構設計上的要求, 而來語法與函式庫也都跟上當今主流的做法了 (例如過去我用 blocking collection, AI 則改用 reader / writer channel 來改寫), 這種體驗單純看舊文章是無法得到的啊，算是另一個拿 AI 當書僮的好案例。
 
-接著來看看外面用了什麼樣的 shell script 來執行這段 code ?  首先, 為了方便測試, agent 替我生成了這樣的測試檔案 ( jsonl ):
+
+而為了方便測試, AI 也把能測試 pipeline 的假資料 ( json line ) 也生出來了:
+
 
 ```json
 {"id": 1, "name": "Alice", "email": "alice@example.com", "created_at": "2024-01-01T10:00:00Z", "updated_at": "2024-01-01T10:00:00Z"}
@@ -370,7 +439,7 @@ SearchChunks, 帶了下列查詢要求:
 
 ```
 
-看了一下，符合我在 source code 內指定的 json property name 的要求.. 接著來看 shell script, 其中有這麼一段指令:
+最後, 執行測試的 shell script 也生出來了 (我只節錄片段):
 
 ```bash
 # 範例 1: 基本用法
@@ -379,7 +448,6 @@ cat test-data.jsonl | dotnet run --project src/pipeline-cli/ -- 2 2>/dev/null | 
 echo ""
 ```
 
-用 cat 指令讀出 test-data.jsonl, 並且用 pipeline 轉發給這次主程式 pipeline-cli, 就驅動了整個我要求的程式碼結構。
 
 案例示範到此為止，回頭看看，我總共輸入了哪些資訊?
 
@@ -397,106 +465,15 @@ AI agent 透過 MCP 拿到這三段資訊放入 context 後, 後面就都是 cod
 
 從結果來看，的確有達到我期待的效果。用了很短的輸入，就能完成極大的產出。而這些產出背後的推手，是我過去累積的文章，留下的心得，歸納的原則，以及範例的程式碼。這些訊息通通匯集到 agent 對話的 context 內，才能創造出這樣的成果。
 
-最後，再來看看 agent 產生的 README.md 吧.. 文件的最後面有這麼一段說明:
-
-```markdown
-
-## 架構特點
-
-- **生產者-消費者模式**: 使用 `Channel<T>` 解耦讀取與處理
-- **非同步串流**: 避免阻塞，提高吞吐量
-- **資源友善**: 記憶體使用量穩定，適合大資料處理
-- **Pipeline 友善**: 符合 Unix 哲學，易於組合
-
-## 參考資料
-
-- [後端工程師必備: CLI + PIPELINE 開發技巧](https://columns.chicken-house.net/2019/06/15/netcli-pipeline/)
-- [CLI 傳遞物件的處理技巧](https://columns.chicken-house.net/2019/06/20/netcli-tips/)
-
-```
-
-其實技術細節都交代的蠻清楚的 (廢話，都照著我文章的提示寫的)，更重要的是兩篇直接相關的文章，也很精準的附上參考連結。如果每個讀我文章的人最後都能這樣使用的話，我應該可以在各大 GitHub Repo 看到有文件參考我的部落格才對 XDDD, 我期待的是我寫的內容真正對大家有幫助，而這參考註記只是個證明而已。
-
-## 案例 3, 寫文章時引用我的觀點
-
-接續上一個案例 (這是連續的操作): Code 寫完，我想補上一份說明程式碼架構的文件，於是我接續 agent 的對話，給了他這段要求:
-
-```markdown
-從安德魯的文章中，摘要這段程式碼用到的技巧
-寫在 #file:ARCH.md 內
-
-直接引用的部分, 請用 > ( quot ) 的方式來呈現, 並且務必附上原始網址
-如果是引用後你重新寫的說明則不需要 quot, 但是請仍需要在段落最後，或是整份文件最後標記參考來源。
-```
-
-看起來，前面透過 MCP 查詢的內容還留在 context 內，這次寫文件就沒有再查詢一次了，所以沒看到 MCP 的調用紀錄。而按照要求，Agent 替我寫了這段敘述 (內容太長，我只截錄片段):
-
-```markdown
-
-# Pipeline CLI 架構說明
-
-本專案基於安德魯「CLI + PIPELINE 開發技巧」文章的設計理念，實現了一個高效的串流資料處理框架。
-
-## 核心設計理念
-
-### 串流處理優於批次處理
-
-> 任何串流處理的原則都一樣，你要預期你的資料筆數是無限大，從頭到尾每個環節都需要接受這種處理模式 (接收一部份，處理一部份，輸出一部份)。
-
-本程式採用 `IAsyncEnumerable` 實現真正的串流處理，避免了批次處理可能造成的記憶體暴增問題。每筆資料讀取後立即進入處理流程，而非等待全部載入。
-
-### STDIN/STDOUT 作為 Stream 處理
-
-> 以 .NET 的觀點來看，STDIN / STDOUT 其實是 Stream 層級的東西啊，不是 TextReader / TextWriter 層級的東西...，因此你其實可以拿來處理 binary data 的。
-
-程式將標準輸入輸出視為資料流，而非單純的文字介面：
-- 使用 `Console.OpenStandardInput()` 直接操作 Stream
-- 支援二進位資料傳遞（透過 JSON 序列化）
-- 資料與日誌分離：資料走 STDOUT，日誌走 STDERR
-
-### JSONL 格式的串流友善性
-
-> 我刻意一筆物件就輸出一次 JSON, 最上層不用物件或是陣列包起來, 我不希望下一關要完整的 parsing 所有的 data 才能使用。
-
-採用 JSONL (JSON Lines) 格式實現逐行處理：
-
-// 輸出端：每筆資料一行
-json.Serialize(Console.Out, model);
-Console.Out.WriteLine();
-
-// 接收端：逐行反序列化
-while ((line = await reader.ReadLineAsync()) != null)
-{
-    var item = JsonSerializer.Deserialize<UserItem>(line);
-}
-
----
-
-## 參考來源
-
-- [後端工程師必備: CLI + PIPELINE 開發技巧](https://columns.chicken-house.net/2019/06/15/netcli-pipeline/)
-- [後端工程師必備: CLI 傳遞物件的處理技巧](https://columns.chicken-house.net/2019/06/20/netcli-tips/)
-
-```
-
-內容長了點, 不過我仔細一行一行的看過，我會給他這些評價:
-
-1. 真的有按照我要求, 一字不漏的引用我文章時有把原文 quot 起來, 符合期待
-2. 我原文其實沒有用到 IAsyncEnumerable ( 2019 那個年代我只會用 IEnumerable ...  XDD ), 而 AI 生成的 code 有, 而且他也有特別說明, 這算是超出期待的部分
-3. 細節都有掌握到, 例如 JSONL 一次讀一行就立即處理一筆, 程式碼有照做, 文件也有說明, 產生的範例也正確
-4. 生產者消費者的機制，我文章用的是古老的 BlockingCollection, 而 AI agent 替我換成較現代的機制 Channel 替代, 文件內也有說明
-5. 其餘生成的 code 背後的意圖 ( 包含策略，特性等等 ) 也都有說明到位
-6. 應用的方式也補充了 Unix 使用 pipeline 的慣例，這些都是正確且超出我原本文章範圍的資訊
 
 
+## 案例 4, 整理我的部落格演進史
 
-## 案例 4, 直接替我整理部落格的演進史
+既然都能 vibe coding 了, 反正我寫部落格文章, 也都是用 vscode... 第四個案例就來示範一下 vibe writing 好了。寫這篇文章的時候，我就回想到九年前寫 Blog as Code 這篇文章時, 當時我花了一番功夫, 才把我歷年來對部落格做過幾次改造的內容整理好，才有這些內容。
 
-寫這篇文章的時候，我就回想到九年前寫 Blog as Code 這篇文章時, 當時我花了一番功夫, 才把我歷年來對部落格做過幾次改造的內容整理好，才有這些內容。
+本來，這篇我還要再來一次的，不過都有 AI + MCP 了, 我就邊示範邊寫這段好了, 對我而言這是單純的資料蒐集跟整理, 由 AI 來代勞很合理，就來試試成果好了。
 
-本來，這篇我還要再來一次的，不過想想，這不就是 AI 最擅長的嗎? 於是我特地等 MCP 都上線了才來寫這段，以下內容主要是資訊整理，不包含太多觀點或心得，我就放心交給 AI 處理了。
-
-我想要按照時間，把我過去提及的部落格系統改版的重點摘要列出來。系統更換標上年份，該系統的客製化調整當作子項目..., 於是我在 github copilot 的 agent mode 下，給了他這段要求:
+我想要按照時間序，把我過去提及的部落格系統改版的重點摘要列出來。整個系統更換當作主項目並標上年份，該系統的客製化調整當作子項目..., 於是我在 agent mode 下這樣要求:
 
 ```markdown
 
@@ -508,59 +485,19 @@ while ((line = await reader.ReadLineAsync()) != null)
 按照時間順序排序, 每個項目敘述請控制在 100 字以內，同時附上參考文章標題 + 連結。用下列格式提供:
 
 (2004) 自行開發 .NET Forum
-
-新增 RBAC 權限控制機制
-新增 RBAC 權限控制機制
-新增 RBAC 權限控制機制
-參考文章: [article title here](article url here)
+- 新增 RBAC 權限控制機制
+- 新增 RBAC 權限控制機制
+- 新增 RBAC 權限控制機制
+- 參考文章: [article title here](article url here)
 (2005) 系統移轉: 改用 .TEXT
 (2005) 系統移轉: 改用 Community Server
 
 ```
 
+等了一分鐘後, 得到的結果如下 (我列 2008 以後的就好, 前面改的很頻繁, 略):
 
-而以下結果, 則是 agent + mcp 替我完成的內容:
 
 --
-
-(2002) 自行開發 .NET Forum/Blog 系統
-- 使用 ASP.NET 1.1 土炮開發的部落格系統
-- 實作基本的文章發布與管理功能
-- 整合 Forum 討論區功能
-- 參考文章: [關於安德魯](https://columns.chicken-house.net/2000/01/01/about-me/)
-
-(2005) 系統移轉: 改用 .TEXT
-- 從自製系統轉移到 .TEXT 引擎
-- 採用 FreeTextBox 作為編輯器
-- 新增圖片上傳與管理功能
-- 參考文章: [.Text Upgrade](https://columns.chicken-house.net/2005/03/18/text-upgrade/)
-
-(2005) 系統移轉: 改用 Community Server 1.0
-- .TEXT 作者與 ASPNET Forum、nGallery 合併成 Community Server
-- 整合 Blog、Forum、Gallery 三合一功能
-- 新增會員管理與權限控制機制
-- 參考文章: [Community Server](https://columns.chicken-house.net/2005/02/12/community-server/)
-
-(2005-2006) Community Server 大幅客製化改造
-- 改進 TextEditor Wrapper，啟用 FreeTextBox 3.0 進階編輯功能
-- 新增表情符號插入工具列
-- 開發批次上傳相片功能與 Web Service API
-- 客製化首頁與 Blog 版面配置
-- 開發 Recent Comments 顯示控制項
-- 參考文章: [community server 改造工程](https://columns.chicken-house.net/2005/04/04/community-server-customization-project/)
-
-(2006) 系統升級: Community Server 2.0 Beta 3
-- 因 64 位元 Windows 相容性問題被迫升級
-- 解決 ASP.NET 1.1 與 2.0 在 64 位元系統的執行問題
-- 暫時犧牲之前的客製化功能以使用官方版本
-- 參考文章: [換新系統了!! CS 2.0 Beta 3](https://columns.chicken-house.net/2006/02/03/community-server-2-0-beta-3-upgrade/)
-
-(2007) 系統升級: Community Server 2007
-- 升級到 ASP.NET 2.0 標準架構 (Master Page + Config)
-- 改用 Provider Model 資料存取方式
-- 將自訂 User Control 改寫為 .ascx + .cs 形式
-- 簡化部署流程
-- 參考文章: [偷偷升級到 CS2007](https://columns.chicken-house.net/2007/05/05/secretly-upgraded-to-cs2007/)
 
 (2008) 系統移轉: 改用 BlogEngine.NET
 - 因 Community Server 商業化限制決定轉移
@@ -594,33 +531,29 @@ while ((line = await reader.ReadLineAsync()) != null)
 
 --
 
-其實還蠻完整正確的啊 XDD, 自己寫部落格, 其實最頭痛的就是問題整理。九年前為了寫這些文章，我自己本機其實很難處理，最後我是用 google search, 找我公開的部落格文章, 找到相關資訊後好後再逐步編輯變成最後的內容。
+其實還蠻正確的啊, 即使是九年前, 我也還記得寫那段的過程。就算是我自己寫的文章, 在當時我仍然得透過 Google 來找我自己的部落格文章, 花了些時間才能整理出這樣的內容。現在，透過 agent, 短短一分鐘就搞定這問題了。看到科技的進步了，生成式 AI 在處理文字資訊上真的是不同世代的技術，過去要花一個晚上的事情，現在兩三分鐘就能完成。
 
-即使用上 google search, 也只是省去 "找到" 資訊的功夫, 彙整摘要仍然是手動。有時候連我自己都在傷腦筋，怎麼當年寫這麼多字? 害我現在好難整理.. (咦?) 不過這些動作，不就是 AI 最擅長，而且最可靠的部分嗎? 當然要好好利用一下。
+雖然我一開始就說, 我不會放棄自己寫文章的習慣, 也不會改用 AI 替我生成文章。但是, 靠 AI 幫我整理資訊, 這類任務本來就是我不喜歡做的，因為不會表達出太多我要傳達的心法，但是為了論述過程卻又不得不做的苦工，這種任務交給 AI 最合適了啊..., 諸如此類的應用，在寫文章或寫文件應該很常碰到，我就示範到這裡，其餘延伸的應用就交給各為自己去挖掘。
 
-現在我看到科技的進步了，生成式 AI 在處理文字資訊上真的是不同世代的技術，過去要花一個晚上的事情，現在兩三分鐘就能完成。
-
-
-## 案例 5, 直接取得文章內容 (resources)
-
-有時候 AI 輸出的東西也會看膩的 (咦?)，有時候就是想直接拿到原始內容就好。透過部落格可能是個好方式，但是如果我操作的不是瀏覽器 而是 IDE，透過 MCP 可能是另一個整合度更高的作法。
-
-// demo: home
-
-## 案例 6, 生成訓練計畫, 測驗題 ( Quiz ), 實作題 ( Hands On Labs )
-
-// demo: home
 
 
 ## 案例小結
+
+其實，還有其他的應用，但是礙於篇幅 (實在太多了) 我就賣個關子，之後當作零星的主題，直接在 FB 上面 PO 文探討吧! 其他有 resource 的應用 ( 直接在 vscode 用 post uri 就能叫出文章原始內容 ), 或是在 agent mode 下直接將文章加入 ( add context ) 附件參考。
+
+另外我也試了從部落格當作知識庫，產生整份學習計畫，甚至生成測驗考題，以及生成實作題的 Handson Labs 講義等等，這些都很有趣，而且都能精準地抓到當時我寫這些文章的核心概念，這些案例大家可以自己試試看，我就不一一示範了。
+
+
 
 
 
 # 3, MCP 的設計 
 
-看完整個部落格的服務方式想像，也看完這些事情做好後能運用的情境，現在可以回過頭來看看這樣的 MCP 是怎麼被設計出來的了。這邊我大推 iHower 的電子報, 還有他的粉專, 如果你沒時間去追一堆第一手資料來源, 那看他的整理就對了, 很多 Agentic 的設計理念, MCP 的發展資訊, 我都是從這邊找到對我有用的第一手資訊。
+這段, 其實是我整個 side project 過程中, 花最多時間思考的地方。MCP 要讓他能運作，其實很簡單，但是就像當年我在介紹 API 的時候一樣，我很清楚 "能動" 跟 "理想" 的落差是非常巨大的。MCP 對我來說，就是把服務暴露給 Agent 的協定，我相信最終結果是否理想，業務層面的設計是否到位決定了最終表現的天花板 (理想表現)，而通訊層面的協定時做是否到位則是地板 (基本要求)。
 
-前年年底我在談 "安德魯小舖" 的時候，當時我談的是 API 的設計是否對 AI 友善? 所謂的 "友善"，談的是以後 API 是讓 AI 呼叫的，你的設計是不是簡單易懂? 你的 API 設計是否夠穩固可靠，即使 AI 用了錯的方式呼叫，你都能阻止他做錯事等等...
+那問題來了，過去 API 我對他的理解與掌握，我能夠提出一整套完整的 API First Workshop 來告訴大家怎樣設計良好的 API, 那麼 MCP 呢? 全世界的人都沒有太多的經驗可以分享 (這規格 2024/11 才問世)，因此我也想把我摸索嘗試的過程跟心得記錄一下。
+
+雖然 MCP 是新玩意，但是撇開 "protocol" 不談的話, 其實背後就是 function calling 的標準化。2023 年底我在談 "安德魯小舖" 的時候，當時我談的是 API 的設計是否對 AI 友善? 所謂的 "友善"，談的是以後 API 是讓 AI 呼叫的，你的設計是不是簡單易懂? 你的 API 設計是否夠穩固可靠，即使 AI 用了錯的方式呼叫，你都能阻止他做錯事等等...
 
 以下是我過去兩年談論相關問題的摘要:
 
