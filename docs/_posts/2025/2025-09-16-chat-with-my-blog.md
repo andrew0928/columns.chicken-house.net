@@ -587,7 +587,7 @@ AI agent 透過 MCP 拿到這三段資訊放入 context 後, 後面就都是 cod
 
 --
 
-## 按照工作流程來設計 MCP
+## 要訣: 按照工作流程來設計 MCP
 
 當時我還沒辦法講得很清楚，因此我還是沒有完全脫離 API 的影子，不過這半年來都在關注這題，我覺得越來越能抓住重點了。看了很多 MCP 的設計案例跟研討會錄影，我會用這句話當結論:
 
@@ -647,38 +647,6 @@ AI agent 透過 MCP 拿到這三段資訊放入 context 後, 後面就都是 cod
 這的確就是我第一版 MCP 運作中的規格。有興趣的人不要只是安裝我的 MCP server 直接使用, 你也可以用 MCP 官方的 MCP 測試工具 - ```@modelcontextprotocol/inspector``` 來實際測試一下 MCP server, 你會更清楚的掌握他背後做了什麼事情。
 
 而 MCP, 只是把上面的流程, 用標準協定轉變成可執行的規範而已。
-
-
-## MCP 應用的想像 - 下個世代的 API
-
-視角拉遠一點，我覺得在未來的世界，MCP 會是 Agent 時代的 API。過去風行 10 年的 SaaS, 標榜的是軟體服務開箱即用, 除了有 APP / Web UI 之外，規模大的 SaaS 也會強調跨服務的整合, 培養自己的 EcoSystem, 依靠的都是暴露自身服務的 API 來達成。
-
-因為當時強調的都是 "軟體即服務"，服務就像水電一樣，管線鋪好水龍頭打開就能用。管線就是 API ...，鋪設過程就是整合 (串接 API)。而現在 Agent 時代，AI 自己會去讀懂 Tools Spec, 自己會執行 Tool call, 整合這段的工程省掉了, 而要被呼叫的 Tools ( API ) 的提供方式就變成更適合 Agent 的 MCP。未來的 SaaS, 關鍵不再是有沒有 API (這要等別人來串接)，而是有沒有 MCP，對方有 Agent 只要設定好就能直接使用。
-
-我覺得這轉變，已經看的到方向了，MCP 也 (意外的) 獲得各大廠的支持，看來變成標準規範已經沒有懸念了。未來，我覺得最關鍵的就是軟體產業的轉型。我最近在幾個場合, 都在聊這個想法。軟體發展, 從 "套裝軟體" (工具買斷，安裝使用)，進展到 "服務訂閱" (工具訂閱，立即可用)，而未來會是什麼? 我大膽亂猜一下，我會覺得是 "工作流程訂閱" (賦能使用者的 AI Agent，立即可用)。
-
-這改變的前提是使用者的習慣，已經轉移成 Agent 導向的工作方式了。到目前為止 ( 2025/09 ), 這變革在軟體開發領域已經發生了, 其他領域還沒這麼徹底。我舉幾個事實來說明軟體產業已經走到什麼地步了，正好也可以當作其他領域未來發展的預測基礎:
-
-開發工具的快速轉移:
-直到兩三年前，不管你是不是 Microsoft 生態系的使用者，這句話大概都有聽過: 
-
-> Visual Studio 是地表最強的 IDE, 沒有之一
-
-不過，這一年完全沒有人在談論 Visual Studio 了, 大家都在談 AI IDE ( vscode + github copilot, cursor, windsurf 等等 )。大家的開發方式, 談論主題已經不是怎麼寫，用哪個工具或套件了，談的是怎麼 vibe coding, 怎麼讓 agent 能正確的替你工作...
-
-然而 cursor 紅了一年, 最近又開始有新的工具冒出來了, 開發者的社群都在討論各種 CLI 版本的 coding agent. 這趨勢其實很明顯, 從大型的 IDE (visual studio) -> 小型且靈活的 IDE (vscode + extensions, 以及各種 IDE 的變形, 例如 cursor / winsurf) -> 更進一步的 IDE 消失了, 只剩下 CLI 版本的 coding agent ( Claude Code, Codex ...)。短短這一年多的演進過程，其實就是 Software Developer 已經越來越能接受 Agent 的使用方式了，也連帶的帶來工作流程的改變 (一瞬間，因為寫好文件能讓 Agent 有效率的工作，過去大家很討厭的寫文件，現在突然變成顯學了... 看看 Kuro / Spec Kit ...)
-
-
-我認為其他產業的主流生產力工具，遲早也會往這方向進展，只是軟體開發領域是海嘯第一排，最早發生而已。身處這個產業，正好讓我親眼見證她的轉移過程，可以當作其他領域會怎麼變化的參考。而 Agent 為主流的使用型態, 除了這些軟體大廠之外, 其他特定領域的服務怎麼跟這些 Agent 共存? 答案就是提供 MCP, 讓使用者能無縫的透過 Agent 使用你的服務。
-
---
-
-
-因此，最後來回顧一下我在 Facebook 貼的這兩篇 PO 文, 講的是同一件事, 只是在 FB 我沒有空間談前面這些觀察，只是講出我的看法。現在我把這些心得補在這裡，正好交代完整個思考脈絡:
-
-
-* 2025/08/20: [Code w/ Claude - MCP201, The power of the protocol](https://www.facebook.com/share/p/1XNstkb18f/) Part 1
-* 2025/09/04: [Code w/ Claude - MCP201, The power of the protocol](https://www.facebook.com/share/p/1ZeTmqxJMu/) Part 2
 
 
 
@@ -804,6 +772,199 @@ You are an assistant that helps Shopify developers write GraphQL queries or muta
 這兩個 tools 是針對 GraphQL API 的設計, 這是 Shopify 的核心服務, 也是開發者最常用的服務。introspect_graphql_schema 是用來查詢 GraphQL schema 的, 可以根據你的要求 (query) 及其他附加參數, MCP 就會將符合你要求的 "結果" schema 回給你。這結果等於已經先幫你把查詢的 select 部分先準備好了, 不管查詢怎麼寫, 至少傳回的欄位已經先替你準備好了。
 
 拿到 schema 後, 接下來應該會有一段 developer 跟 agent 的往返對話, 這標準的 graphql 語法, 大部分的 LLM 應該都能勝任。而 Shopify 則在最後加了一到防護, 就是最後一個 tool: validate_graphql_codeblocks。這個 tool 是用來驗證 agent 產生的 GraphQL code block 是否正確的。這樣設計, 就能確保 agent 產生的 code block 一定符合規範, 不會亂寫一通。
+
+
+## MCP 設計參考: Context7
+
+這是另一個最近討論度很高的 MCP: Context7, 它的作用是通用的 "開發文件" 檢索資料服務。因為討論度很高，大家可以直接 Google 看其他人怎麼運用他的心得跟感想，我這邊就單純挖掘他的 MCP 本身設計精神就好。
+
+// context7 討論
+
+https://github.com/upstash/context7
+
+我節錄官網介紹:
+
+
+--
+
+**❌ Without Context7**
+LLMs rely on outdated or generic information about the libraries you use. You get:
+- ❌ Code examples are outdated and based on year-old training data
+- ❌ Hallucinated APIs that don't even exist
+- ❌ Generic answers for old package versions
+
+**✅ With Context7**
+Context7 MCP pulls up-to-date, version-specific documentation and code examples straight from the source — and places them directly into your prompt.
+
+Context7 fetches up-to-date code examples and documentation right into your LLM's context.
+
+1️⃣ Write your prompt naturally  
+2️⃣ Tell the LLM to use context7  
+3️⃣ Get working code answers  
+
+No tab-switching, no hallucinated APIs that don't exist, no outdated code generation.
+
+--
+
+以上是官網的介紹，實際上大家的使用心得也是一片好評，他是真的有做到他敘述的使用場景。然而這些神奇的功能背後，Context7 提供了那些 tools? 意外的 (看完 Shopify 的設計之後我就不意外了) 其實只有兩個很簡單的 tools, 我一樣截錄官網的說明:
+
+--
+
+Context7 MCP provides the following tools that LLMs can use:
+
+**resolve-library-id**:
+Resolves a general library name into a Context7-compatible library ID.
+- libraryName (required):  
+The name of the library to search for
+
+**get-library-docs**:
+Fetches documentation for a library using a Context7-compatible library ID.
+- context7CompatibleLibraryID (required):  
+Exact Context7-compatible library ID (e.g., /mongodb/docs, /vercel/next.js)
+- topic (optional):  
+Focus the docs on a specific topic (e.g., "routing", "hooks")
+- tokens (optional, default 5000):  
+Max number of tokens to return. Values less than 1000 are automatically increased to 1000.
+
+--
+
+翻成白話，只有兩個 tools, 一個 resolve-library-id 是讓你查詢文件庫 ID 用的, 另一個則是到指定的文件庫找你要的主題, 會傳回官方文件特定的部分。其實這是很標準的 RAG 檢索結構。基於好奇，我把這個 MCP 掛上 MCP Inspector 來測試一下:
+
+我先用 resolve-library-id 來查詢: "shopify functions" .. 得到這樣的回應:
+
+```markdown
+Available Libraries (top matches):
+
+Each result includes:
+- Library ID: Context7-compatible identifier (format: /org/project)
+- Name: Library or package name
+- Description: Short summary
+- Code Snippets: Number of available code examples
+- Trust Score: Authority indicator
+- Versions: List of versions if available. Use one of those versions if and only if the user explicitly provides a version in their query.
+
+For best results, select libraries based on name match, trust score, snippet coverage, and relevance to your use case.
+
+----------
+- Title: Shopify Functions
+- Context7-compatible library ID: /websites/shopify_dev_api_functions
+- Description: Shopify Functions allow developers to customize Shopify's backend logic during checkout by running custom code for specialized features like custom delivery options, new discount types, and cart/checkout validation.
+- Code Snippets: 643
+- Trust Score: 7.5
+----------
+- Title: Shopify Function Examples
+- Context7-compatible library ID: /shopify/function-examples
+- Description: This repository contains public examples of Shopify Functions, used by the CLI for generating extensions and demonstrating various functionalities.
+- Code Snippets: 117
+- Trust Score: 9.2
+
+(以下略)
+```
+
+再次印證了這是為了 "工作流程" 而設計的 "工具"，跟傳統認知的 "API" 重新封裝成 MCP 的意圖完全不同。比起 API 偏好的 Json 結構化資訊, 給 Agent 看的訊息更偏好用 LLM 容易理解的 Markdown, 雖然結構化的程度不如 Json, 但是 markdown 的各種標示, 更有助於讓 LLM 理解他的意圖與重要性。
+
+上面的回應，其實傳達了兩個部分的意圖:
+- 就地傳回 "使用規則" (instructions), 讓 Agent 知道這個工具應該怎麼被使用
+- 傳回 "符合查詢的結果" (results), 讓 Agent 知道有哪些 ID 可用, 以及這些 ID 與查詢的相關性 ( trust score )
+
+我想，這就是 "為了 workflow 設計" 的最大差別了。如果是資料庫檢索的 API 我絕對不會這樣設計，對 API 而言，使用規則這件事根本不用每次都傳回，而是寫在文件上讓開發人員看的資訊啊，開發人員看懂了之後，自然要用 "合適" 的方式呼叫 API。
+
+然而這 tools 不是 "API", 是個要直接讓 Agent 使用的 "工具"，Agent 擁有比人類還高的資訊處理能力, 可以在一瞬間看到回應的 instruction, 理解後馬上處理後面的任務。在 tool response 內直接夾帶 instruction, 在各種 MCP 的設計上都很常見。因為 MCP 是為了讓 "工作流程" 能順利執行的 "工具"，不是單純的 "API"。
+
+
+緊接著, 用第一次呼叫取得的資訊, 繼續呼叫第二個 tool: get-library-docs...
+
+我帶入的參數:
+- context7CompatibleLibraryID: /shopify/function-examples
+- topic: 用 admin api (graphql) 查詢商品 (product) 資料, 要包含 admin 身分認證
+- tokens: (略)
+
+得到的回應:
+
+```
+================
+CODE SNIPPETS
+================
+
+TITLE: Authenticate Admin and Query Products with GraphQL
+DESCRIPTION: Demonstrates how to authenticate an admin request using the Shopify API and query product data using GraphQL. It fetches the first 25 products and extracts their titles and descriptions.
+
+SOURCE: https://github.com/shopify/function-examples/blob/main/sample-apps/delivery-customizations/README.md#_snippet_6
+
+LANGUAGE: javascript
+CODE:
+
+--
+export async function loader({ request }) {
+  const { admin } = await shopify.authenticate.admin(request);
+
+  const response = await admin.graphql(`
+    {
+      products(first: 25) {
+        nodes {
+          title
+          description
+        }
+      }
+    }`);
+
+  const {
+    data: {
+      products: { nodes },
+    },
+  } = await response.json();
+
+  return nodes;
+}
+--
+
+(以下略)
+
+```
+
+
+
+第二個工具，根據我提供的 library id + query, 就檢索出符合我要求的 example code 了。其實這就是把過去我們 "真人" developer 在查文件寫 code 的過程。你會先 google 看看某個套件或開發框架的官網在哪邊，然後再用它的 search 找到你要的主題。找到文件或 sample code 後, 會直接複製貼上, 或是理解看懂後改成自己要的樣子。
+
+而這一切過程，就是當今 coding agent 想要代替你執行的工作流程。Agent 依靠背後的 LLM 有強大的 coding 與理解能力, 這些 Tools 則扮演了 Agent 的手腳, 有效率的協助 Agent 完成任務。
+
+
+
+
+## MCP 應用的想像 - 下個世代的 API
+
+視角拉遠一點，我覺得在未來的世界，MCP 會是 Agent 時代的 API。過去風行 10 年的 SaaS, 標榜的是軟體服務開箱即用, 除了有 APP / Web UI 之外，規模大的 SaaS 也會強調跨服務的整合, 培養自己的 EcoSystem, 依靠的都是暴露自身服務的 API 來達成。
+
+因為當時強調的都是 "軟體即服務"，服務就像水電一樣，管線鋪好水龍頭打開就能用。管線就是 API ...，鋪設過程就是整合 (串接 API)。而現在 Agent 時代，AI 自己會去讀懂 Tools Spec, 自己會執行 Tool call, 整合這段的工程省掉了, 而要被呼叫的 Tools ( API ) 的提供方式就變成更適合 Agent 的 MCP。未來的 SaaS, 關鍵不再是有沒有 API (這要等別人來串接)，而是有沒有 MCP，對方有 Agent 只要設定好就能直接使用。
+
+我覺得這轉變，已經看的到方向了，MCP 也 (意外的) 獲得各大廠的支持，看來變成標準規範已經沒有懸念了。未來，我覺得最關鍵的就是軟體產業的轉型。我最近在幾個場合, 都在聊這個想法。軟體發展, 從 "套裝軟體" (工具買斷，安裝使用)，進展到 "服務訂閱" (工具訂閱，立即可用)，而未來會是什麼? 我大膽亂猜一下，我會覺得是 "工作流程訂閱" (賦能使用者的 AI Agent，立即可用)。
+
+這改變的前提是使用者的習慣，已經轉移成 Agent 導向的工作方式了。到目前為止 ( 2025/09 ), 這變革在軟體開發領域已經發生了, 其他領域還沒這麼徹底。我舉幾個事實來說明軟體產業已經走到什麼地步了，正好也可以當作其他領域未來發展的預測基礎:
+
+開發工具的快速轉移:
+直到兩三年前，不管你是不是 Microsoft 生態系的使用者，這句話大概都有聽過: 
+
+> Visual Studio 是地表最強的 IDE, 沒有之一
+
+不過，這一年完全沒有人在談論 Visual Studio 了, 大家都在談 AI IDE ( vscode + github copilot, cursor, windsurf 等等 )。大家的開發方式, 談論主題已經不是怎麼寫，用哪個工具或套件了，談的是怎麼 vibe coding, 怎麼讓 agent 能正確的替你工作...
+
+然而 cursor 紅了一年, 最近又開始有新的工具冒出來了, 開發者的社群都在討論各種 CLI 版本的 coding agent. 這趨勢其實很明顯, 從大型的 IDE (visual studio) -> 小型且靈活的 IDE (vscode + extensions, 以及各種 IDE 的變形, 例如 cursor / winsurf) -> 更進一步的 IDE 消失了, 只剩下 CLI 版本的 coding agent ( Claude Code, Codex ...)。短短這一年多的演進過程，其實就是 Software Developer 已經越來越能接受 Agent 的使用方式了，也連帶的帶來工作流程的改變 (一瞬間，因為寫好文件能讓 Agent 有效率的工作，過去大家很討厭的寫文件，現在突然變成顯學了... 看看 Kuro / Spec Kit ...)
+
+
+我認為其他產業的主流生產力工具，遲早也會往這方向進展，只是軟體開發領域是海嘯第一排，最早發生而已。身處這個產業，正好讓我親眼見證她的轉移過程，可以當作其他領域會怎麼變化的參考。而 Agent 為主流的使用型態, 除了這些軟體大廠之外, 其他特定領域的服務怎麼跟這些 Agent 共存? 答案就是提供 MCP, 讓使用者能無縫的透過 Agent 使用你的服務。
+
+--
+
+
+因此，最後來回顧一下我在 Facebook 貼的這兩篇 PO 文, 講的是同一件事, 只是在 FB 我沒有空間談前面這些觀察，只是講出我的看法。現在我把這些心得補在這裡，正好交代完整個思考脈絡:
+
+
+* 2025/08/20: [Code w/ Claude - MCP201, The power of the protocol](https://www.facebook.com/share/p/1XNstkb18f/) Part 1
+* 2025/09/04: [Code w/ Claude - MCP201, The power of the protocol](https://www.facebook.com/share/p/1ZeTmqxJMu/) Part 2
+
+
+"工欲善其事，必先利其器"，這句話放在 Agent 身上, 我覺得一樣適用。挑選 / 開發合適的 MCP, 這廣大的 "工具" 市場，我相信是未來軟體發展的重要方向。
+
 
 
 
