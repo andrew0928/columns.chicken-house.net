@@ -15,9 +15,10 @@ columns.chicken-house.net/
 │   ├── _includes/          # 模板片段
 │   ├── _layouts/           # 版面配置
 │   ├── assets/             # 靜態資源
+│   ├── images/             # 文章附加圖檔
 │   └── pages/              # 靜態頁面
-├── _embedding/             # AI 生成的內容分析資料
-├── _migration/             # 內容遷移和批次處理工作區
+├── artifacts/
+│   └── synthesis/          # AI 生成的內容分析 (原 /_embedding)
 ├── .github/
 │   ├── instructions/       # GitHub Copilot 規範檔案
 │   └── prompts/            # AI 提示詞模板
@@ -31,15 +32,10 @@ columns.chicken-house.net/
 - **內容**: 所有部落格相關的檔案和配置
 - **發布**: GitHub Pages 直接從此目錄發布網站
 
-### `/_embedding` - AI 內容分析
-- **用途**: 存放從原始文章生成的結構化內容
-- **格式**: 每篇文章對應一個 embedding 檔案
-- **功能**: 支援 AI 檢索、摘要、問答對生成等
-
-### `/_migration` - 工作區
-- **用途**: 批次處理任務的工作目錄
-- **內容**: 任務記錄、處理日誌、臨時檔案
-- **功能**: 協助內容遷移和結構調整
+### `/artifacts/synthesis` - AI 內容分析
+- **用途**: 儲存從原始文章生成的結構化內容 (embedding / 摘要 / FAQ / metadata)
+- **來源**: 透過 blogindex.syncpost 指令同步產出
+- **功能**: 支援 AI 檢索、摘要、問答、向量資料庫索引
 
 ### `/.github` - 開發規範
 - **instructions/**: GitHub Copilot 智能提示規範
@@ -59,12 +55,41 @@ Branch **draft**:
 撰寫文章用的 branch, 文章撰寫完成後 merge to master 就能發布文章
 
 
+# 文章異動後的同步 / 發布規則
+
+文章發布:
+- create tag: publish-20250916
+- 更新 /artifacts/synthesis
+- 更新並部署 MCP server
 
 
+1. 僅更新 AI 內容分析 (生成 /artifacts/synthesis 對應檔案)
+```
+blogindex.syncpost --postname {postid} --synthesis true --forcesync true
+```
+
+2. 僅更新 MCP storage (vector DB + knowledge file store)
+```
+blogindex.syncpost --postname {postid} --import true --forcesync true
+```
+
+3. 同步兩者 (建議直接執行此整合步驟)
+```
+blogindex.syncpost --postname {postid} --synthesis true --import true --forcesync true
+```
+
+
+
+建議流程:
+- 編輯或新增文章 (draft branch)
+- 本機預覽確認無誤
+- 執行整合同步指令 (step 3)
+- PR -> merge 到 master 觸發 GitHub Pages 發布
 
 # 本機預覽環境
 
 * 啟動 (build 時會將目前的 ./docs 部落格內容掛載到 container 的 /usr/src/app)
+
 ```
 docker-compose up -d --force-recreate
 ```
