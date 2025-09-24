@@ -1,1295 +1,1228 @@
-## Case #1: 建立跨平台記憶體測試一致流程（重開機/下載/編譯/雙次執行）
+以下為依據文章內容所梳理出的 16 個教學型問題解決案例。每個案例均包含問題、根因、解法（含流程或指令）、實測或指標、學習要點與練習與評估。數據與觀察皆以原文所述為準，未提供數據之處以「定性指標」表述。
+
+## Case #1: Windows Server 2012 R2 Server Core 記憶體碎片化基線測試與指標設計
 
 ### Problem Statement（問題陳述）
-業務場景：團隊需要比較 .NET Core 在不同 Windows 平台（Windows Server 2012 R2 Server Core、Windows Server 2016 Nano Container）上的記憶體管理表現，並量化記憶體碎片化對可用記憶體的影響。現有測試流程不一致、容易受第一次啟動最佳化影響，導致數據不可比。
-技術挑戰：如何制定跨平台一致、可重現的測試流程，排除第一次啟動（JIT、快取建置）等干擾。
-影響範圍：錯誤解讀碎片化影響、跨平台結論失真、優化方向誤判。
-複雜度評級：中
+**業務場景**：在 Windows Server 2012 R2 Server Core 上驗證 .NET Core 應用於高記憶體壓力與碎片化場景的行為，建立可比較的基線，以利後續跨平台（Windows Container、Linux）對照。因 Server Core 無 GUI，所有動作偏向指令化，並以就地編譯、就地測試取得最接近實務的結果。
+**技術挑戰**：如何在碎片化後仍能重獲大記憶體區塊、並以一致的方式衡量不同平台的可用度。
+**影響範圍**：影響高記憶體負載服務（快取、批次計算、資料處理）穩定性與可擴充性評估。
+**複雜度評級**：中
 
 ### Root Cause Analysis（根因分析）
-直接原因：
-1. 首次執行帶有 JIT 與相依套件還原開銷，造成測量偏差。
-2. 測試前系統快取與可用記憶體狀態不一致。
-3. 不同平台的下載/編譯步驟不同，導致流程差異。
-深層原因：
-- 架構層面：缺乏跨平台一致的測試管線設計。
-- 技術層面：未考慮 .NET Core 首次啟動效應與依賴快取。
-- 流程層面：測試步驟未標準化（重開機、套件還原、重複執行規則）。
+**直接原因**：
+1. 記憶體碎片化造成大型連續記憶體區塊難以重新配置。
+2. 物理 RAM（1GB）快速耗盡，系統轉向使用 4GB pagefile 虛擬記憶體。
+3. .NET Core（DNX 時期）運行時（dnx.exe）本身的記憶體佔用與 LOH（Large Object Heap）分配行為。
+**深層原因**：
+- 架構層面：應用採大物件分配策略，對 OS/CLR 的記憶體管理機制敏感。
+- 技術層面：LOH 不壓縮、GC 對碎片化的回收策略有限。
+- 流程層面：缺乏一致指標，難以跨平台客觀比較。
 
 ### Solution Design（解決方案設計）
-解決策略：建立標準化測試流程：統一先重開機清空快取，再下載/還原相依、同機編譯，連續執行兩次採第二次數據，確保跨平台可比與可重現性；同時固定輸出格式，方便後續自動彙整。
+**解決策略**：以固定步驟進行基準測試（重開機、還原套件、編譯、連續執行兩次取第二次），並自訂「記憶體利用率%」指標（Phase1 可取得量為分母，Phase3 可取得量為分子），將碎片化前後的可用記憶體能力量化，建立可比較基線。
 
-實施步驟：
-1. 定義測試腳本與輸出規格
-- 實作細節：規範重開機後的動作順序、輸出 JSON/CSV 格式。
-- 所需資源：PowerShell、.NET SDK、Git/封存碼檔。
-- 預估時間：0.5 天
+**實施步驟**：
+1. 測試前清潔環境
+- 實作細節：重開 VM，避免背景程式干擾。
+- 所需資源：Windows Server 2012 R2 Server Core VM。
+- 預估時間：10 分鐘。
 
-2. 建立「雙次執行」規則
-- 實作細節：連跑兩次，記錄兩次數據，取第二次為正式數據。
-- 所需資源：PowerShell 腳本、logger。
-- 預估時間：0.5 天
+2. 就地編譯與雙次執行
+- 實作細節：在受測機上下載套件、編譯，連續執行兩次取第二次。
+- 所需資源：.NET Core（DNX 時期）工具鏈。
+- 預估時間：20-30 分鐘。
 
-3. 自動化封裝
-- 實作細節：將下載/還原/編譯/執行/收集數據整合為一鍵腳本。
-- 所需資源：CI/本機批次腳本。
-- 預估時間：1 天
+3. 計算指標
+- 實作細節：以 Phase1 作分母、Phase3 作分子計算利用率%。
+- 所需資源：腳本或手動計算。
+- 預估時間：5 分鐘。
 
-關鍵程式碼/設定：
-```ps1
-# run-test.ps1
-param(
-  [string]$RepoDir = "C:\memtest",
-  [string]$Log = "C:\memtest\result.json"
-)
+**關鍵程式碼/設定**：
+```powershell
+# Windows Server Core 上的測試批次流程（概念示例）
+# 1) 重開機由管理工具或手動進行
+# 2) 還原/編譯/執行兩次，第二次結果為準
+# 3) 以輸出記錄 Phase1/Phase3 的可用記憶體
 
-# 1) 還原/編譯（就地）
-Set-Location $RepoDir
-dotnet restore
-dotnet build -c Release
+# 假設應用會輸出 Phase1/Phase3 數值到 log
+.\restore_packages.ps1
+.\build.ps1
 
-# 2) 連續執行兩次
-$first = & .\bin\Release\netX\memtest.exe --json
-$second = & .\bin\Release\netX\memtest.exe --json
+# 連續執行兩次
+.\run_test.ps1 | Tee-Object -FilePath .\run1.log
+.\run_test.ps1 | Tee-Object -FilePath .\run2.log
 
-# 3) 取第二次數據
-$second | Out-File -Encoding utf8 $Log
-Write-Host "Saved to $Log"
+# 計算記憶體利用率 (以 run2.log 為準)
+# Implementation Example（實作範例）
 ```
-實際案例：文中採用「重開機 → 下載套件 → 編譯 → 連續執行兩次取第二次」流程來確保一致性。
-實作環境：Windows Server 2012 R2 Server Core、Windows Server 2016 TP4（Windows Container）
+
+實際案例：在 2012 R2 Server Core 上以 DNX 執行測試並記錄 Phase1/Phase3。
+實作環境：Windows Server 2012 R2 Server Core，RAM 1GB，pagefile 4GB，.NET Core（DNX）。
 實測數據：
-改善前：單次執行，第一次啟動含最佳化干擾（定性）
-改善後：雙次執行取第二次，波動顯著降低（定性）
-改善幅度：定性提升（數據穩定性提升，便於跨平台比較）
+改善前：無統一指標，結果難比較。
+改善後：Phase1=4416MB，Phase3=2888MB，利用率=65.40%。
+改善幅度：可比較性從 0 提升至可量化（定性改善）。
 
 Learning Points（學習要點）
 核心知識點：
-- 首次啟動效應（JIT/快取）對測量的影響
-- 測試流程標準化的重要性
-- 以固定輸出格式支援後續自動報表
-
+- 記憶體碎片化對大型配置的影響
+- LOH 與 GC 行為對測試結果的影響
+- 基準測試指標設計的重要性
 技能要求：
-必備技能：PowerShell、自動化腳本、.NET 基本建置
-進階技能：CI/CD 腳本化、跨平台測試編排
-
+必備技能：Windows Server Core 操作、基本 .NET Core 編譯與執行。
+進階技能：記憶體分析與指標設計。
 延伸思考：
-- 流程可套用至效能/IO/網路測試
-- 風險：忽略實務工作負載可能與測試負載不同
-- 可進一步使用容器/VM快照清場
+- 指標可用於不同平台的對比分析。
+- LOH/GC 行為在不同版本 CLR 的差異。
+- 可加入更精細的統計（標準差）提升可靠性。
 
 Practice Exercise（練習題）
-基礎練習：撰寫腳本實作雙次執行並輸出 JSON（30 分）
-進階練習：加入錯誤處理與重試機制（2 小時）
-專案練習：打造跨 OS 的一鍵測試工具（8 小時）
+基礎練習：在 Server Core 上以兩次執行法完成一次測試並算出指標（30 分鐘）。
+進階練習：加入 log parser 自動化計算 Phase1/Phase3（2 小時）。
+專案練習：打造完整基準測試框架（重開機、部署、執行、報表）（8 小時）。
 
 Assessment Criteria（評估標準）
-功能完整性（40%）：可自動執行全流程並產出標準輸出
-程式碼品質（30%）：結構清晰、具備錯誤處理/日誌
-效能優化（20%）：執行時間合理、無多餘步驟
-創新性（10%）：可擴充、易整合其他測試模組
+功能完整性（40%）：能完整跑到並輸出指標。
+程式碼品質（30%）：腳本結構清晰、可重複執行。
+效能優化（20%）：降低不必要的背景干擾。
+創新性（10%）：指標設計/報表呈現具通用性。
 
 
-## Case #2: 設計「記憶體利用率%」指標以量化碎片化影響
+## Case #2: Windows Server 2016 Nano Container 記憶體碎片化測試與近原生效能觀察
 
 ### Problem Statement（問題陳述）
-業務場景：團隊需要用單一數字衡量記憶體碎片化後的實際可用度，方便跨平台比較。僅看峰值或最終值無法反映碎片化程度。
-技術挑戰：如何定義簡潔、穩健且可重現的指標，跨平台皆適用。
-影響範圍：若無統一指標，會誤判平台差異與優化成效。
-複雜度評級：低
+**業務場景**：在 Windows Server 2016（TP4）上首次體驗 Windows Container，於容器中建立 .NET Core 測試環境，量測記憶體碎片化後的可用度，並與 2012 R2 Server Core 作對照。
+**技術挑戰**：Windows 容器與 Host 共用 Kernel，需確保測試流程與度量標準一致且能反映近原生效能。
+**影響範圍**：關係到在 Windows 容器中部署 .NET Core 記憶體密集型服務的可行性與預期表現。
+**複雜度評級**：中
 
 ### Root Cause Analysis（根因分析）
-直接原因：
-1. 沒有統一標尺比較不同平台。
-2. 單看可用記憶體峰值無法反映碎片化後的衰退。
-3. 測量方式不一致導致結論不一致。
-深層原因：
-- 架構層面：缺乏量化層的設計與資料模型。
-- 技術層面：未統一取得 Phase 1/3 的定義。
-- 流程層面：測後彙整缺標準化工具。
+**直接原因**：
+1. 容器與 Host 共用 Kernel，行為應與原生接近。
+2. 體驗版（TP4）可能有互動模式性能未優化的情況。
+3. 基底映像需使用 Windows Server Core，自行建立環境。
+**深層原因**：
+- 架構層面：容器技術以 OS 層級隔離，不是 VM 完全隔離。
+- 技術層面：Windows 容器不可使用 Linux 映像，需自建。
+- 流程層面：需維持相同測試步驟避免測量偏差。
 
 ### Solution Design（解決方案設計）
-解決策略：定義「記憶體利用率% = Phase3 可取得記憶體 / Phase1 可取得記憶體 × 100%」，以 Phase1 為基準，Phase3 反映碎片化後可用性，並提供自動計算腳本。
+**解決策略**：使用 Windows Server Core 作為容器基底，於容器內就地安裝運行時與依賴、就地編譯、並套用相同的雙次執行法與記憶體利用率指標，比對與原生 Server Core 的差異。
 
-實施步驟：
-1. 規範數據輸出字段
-- 實作細節：統一輸出 phase1Bytes、phase3Bytes
-- 所需資源：小改測試程式輸出
-- 預估時間：0.5 天
+**實施步驟**：
+1. 準備容器基底
+- 實作細節：取得 Windows Server Core image，啟動互動模式。
+- 所需資源：Windows Server 2016（TP4）、Docker for Windows（容器支援）。
+- 預估時間：30 分鐘。
 
-2. 建立計算工具
-- 實作細節：用 PowerShell/Python 計算比值、格式化
-- 所需資源：腳本環境
-- 預估時間：0.5 天
+2. 建環境與測試
+- 實作細節：在容器內安裝 DNX/.NET Core，下載套件、編譯，連續執行兩次。
+- 所需資源：PowerShell、套件源。
+- 預估時間：30-60 分鐘。
 
-3. 報表化
-- 實作細節：輸出 CSV/Markdown，便於對比
-- 所需資源：模板
-- 預估時間：0.5 天
+**關鍵程式碼/設定**：
+```powershell
+# 啟動 Windows Server Core 容器（示例命令）
+docker pull windowsservercore
+docker run -it --name memtest windowsservercore powershell
 
-關鍵程式碼/設定：
-```ps1
-# calc-util.ps1
-param([long]$Phase1,[long]$Phase3)
-$util = [math]::Round(($Phase3*100.0)/$Phase1,2)
-"{0} / {1} => Utilization: {2}%" -f $Phase3,$Phase1,$util
+# 容器內建立測試環境、執行兩次
+# Implementation Example（實作範例）
 ```
-實際案例：文中據此計算 Windows 2012 R2 為 65.40%，Windows 2016 Container 為 66.87%。
-實作環境：同上
+
+實際案例：於 Windows 2016 TP4 的容器中完成測試。
+實作環境：Windows Server 2016（TP4）、Windows Container（Server Core 基底）、.NET Core（DNX）。
 實測數據：
-改善前：無統一指標（無法直接比較）
-改善後：有統一%指標（65.40% vs 66.87%）
-改善幅度：跨平台比較效率與可解讀性明顯提升（定性）
+改善前：2012 R2 指標=65.40%。
+改善後：容器 Phase1=4032MB，Phase3=2696MB，利用率=66.87%。
+改善幅度：+1.47 個百分點（相較 2012 R2）。
 
 Learning Points（學習要點）
 核心知識點：
-- 指標設計與可比性
-- 碎片化前後的基準選取
-- 自動化計算與報表輸出
-
+- Windows 容器與 Host 共用 Kernel 的行為
+- 以容器重現近原生效能的測試方法
+- 指標一致性在跨環境比較中的重要性
 技能要求：
-必備技能：基本腳本、資料處理
-進階技能：資料可視化/報表自動化
-
+必備技能：Docker on Windows 基本操作、PowerShell。
+進階技能：容器內部環境建置、自動化流程。
 延伸思考：
-- 可加權引入 Phase2（碎片化過程）資訊
-- 風險：不同工作負載型態可能需多指標
-- 可延伸至 GC/LOH 專屬指標
+- 後續版本（非 TP）互動模式效能可能提升。
+- 是否需要為容器設定資源限制以防止過度分配。
+- 指標能否擴展到 GC/LOH 更細緻分析。
 
 Practice Exercise（練習題）
-基礎練習：用腳本計算三組 Phase1/3 的利用率（30 分）
-進階練習：輸出比較圖表（2 小時）
-專案練習：製作指標儀表板（8 小時）
+基礎練習：啟動一個 Windows Server Core 容器並成功執行測試（30 分鐘）。
+進階練習：將測試流程容器化為 Dockerfile + Entrypoint（2 小時）。
+專案練習：搭建 CI，自動建置容器並產出報表（8 小時）。
 
 Assessment Criteria（評估標準）
-功能完整性（40%）：可正確計算/輸出
-程式碼品質（30%）：可維護與可擴充
-效能優化（20%）：處理大量數據效率
-創新性（10%）：可視化呈現創新度
+功能完整性（40%）：容器內完成雙次測試。
+程式碼品質（30%）：Dockerfile/腳本清晰。
+效能優化（20%）：執行時間與資源使用合理。
+創新性（10%）：報表與比較分析呈現。
 
 
-## Case #3: Windows Server 2012 R2 Server Core 記憶體碎片化測試與解讀
+## Case #3: 避免第一次執行偏差的基準測試流程
 
 ### Problem Statement（問題陳述）
-業務場景：在 Windows Server 2012 R2 Server Core（1GB RAM+4GB pagefile）上，需評估 .NET Core（dnx）於碎片化後可再取得的大記憶體空間，以作為後續容器對照組基準。
-技術挑戰：在無 GUI 的 Server Core 上完成就地編譯與測試、蒐集碎片化前後的可用記憶體。
-影響範圍：此基線直接影響跨平台比較與優化目標設定。
-複雜度評級：中
+**業務場景**：在各受測平台上，首次執行常伴有額外最佳化、JIT 編譯、快取建立等行為，導致數據偏差。需設計流程避免初次執行干擾，確保結果可重現且可比較。
+**技術挑戰**：如何以簡單、穩定的方法排除初次啟動影響。
+**影響範圍**：影響所有平台測試的可信度與決策品質。
+**複雜度評級**：低
 
 ### Root Cause Analysis（根因分析）
-直接原因：
-1. 無 GUI 工具，觀測困難。
-2. 首次啟動偏差需排除。
-3. RAM 嚴重不足（1GB），高度依賴 pagefile。
-深層原因：
-- 架構層面：Server Core 精簡化導致觀測手段受限。
-- 技術層面：大記憶體配置易導致 LOH/虛擬記憶體碎片。
-- 流程層面：需流程化測試與數據收集。
+**直接原因**：
+1. 首次 JIT 編譯造成額外 CPU/記憶體活動。
+2. 套件首次下載/還原造成 IO 與記憶體影響。
+3. CLR 啟動與暫存建立的額外開銷。
+**深層原因**：
+- 架構層面：JIT/快取機制屬設計必然。
+- 技術層面：測試工具/指標未排除初始噪音。
+- 流程層面：缺少固定基準流程（重開機、雙次執行）。
 
 ### Solution Design（解決方案設計）
-解決策略：遵循標準流程（重開機、下載、編譯、雙次執行取第二次），輸出 Phase1/Phase3 數據，並以 Task Manager/PowerShell 驗證；建立此組合的「碎片化利用率」基準。
+**解決策略**：固定化測試流程：重開機清場、下載套件與編譯、連續執行兩次取第二次結果，使初次啟動開銷不影響測量。
 
-實施步驟：
-1. 編譯與雙次執行
-- 實作細節：就地還原/編譯，執行兩次取第二次
-- 所需資源：PowerShell/.NET SDK
-- 預估時間：1 小時
+**實施步驟**：
+1. 標準化測試前置
+- 實作細節：重開 OS、清空暫存。
+- 所需資源：VM/容器管理權限。
+- 預估時間：10 分鐘。
 
-2. 數據蒐集與驗證
-- 實作細節：輸出 JSON/CSV，輔以 Task Manager/PowerShell 觀測
-- 所需資源：taskmgr、Get-Process
-- 預估時間：0.5 小時
+2. 雙次執行法
+- 實作細節：連續執行兩次、採第二次。
+- 所需資源：批次腳本。
+- 預估時間：20 分鐘。
 
-3. 建立基準
-- 實作細節：計算利用率%，記錄為對照組
-- 所需資源：calc-util 腳本
-- 預估時間：0.5 小時
+**關鍵程式碼/設定**：
+```powershell
+# 將雙次執行法寫成批次（示意）
+.\prepare.ps1   # 還原/編譯
+.\run.ps1 | Tee-Object -FilePath .\first.log
+.\run.ps1 | Tee-Object -FilePath .\second.log
+# 後續僅分析 second.log
+# Implementation Example（實作範例）
+```
 
-關鍵程式碼/設定：
+實際案例：原文於所有測試平台皆使用相同流程。
+實作環境：Windows Server 2012 R2、Windows Server 2016 容器。
+實測數據：
+改善前：數據波動，受首次啟動影響（定性）。
+改善後：以第二次結果為準，波動顯著降低（定性）。
+改善幅度：定性提升（文章未提供量化）。
+
+Learning Points（學習要點）
+核心知識點：
+- JIT/快取帶來的測試偏差
+- 流程標準化提升信度
+- 重開機與清潔環境的重要性
+技能要求：
+必備技能：撰寫批次腳本。
+進階技能：統計方法評估穩定度（平均/標準差）。
+延伸思考：
+- 可延伸為「N 次執行取中位數」。
+- 可用性能計數器補強觀測。
+- 自動化報表顯示穩定度指標。
+
+Practice Exercise（練習題）
+基礎練習：寫一個雙次執行腳本（30 分鐘）。
+進階練習：納入三次以上並計算中位數與變異（2 小時）。
+專案練習：建立可參數化的基準測試管線（8 小時）。
+
+Assessment Criteria（評估標準）
+功能完整性（40%）：流程能重複執行。
+程式碼品質（30%）：腳本易讀、可維護。
+效能優化（20%）：縮短非必要等待。
+創新性（10%）：加入統計與可視化。
+
+
+## Case #4: Server Core 無 GUI 環境下的記憶體診斷（taskmgr.exe 小技巧）
+
+### Problem Statement（問題陳述）
+**業務場景**：在 Windows Server Core 無 GUI 的環境中，仍需即時觀察進程記憶體佔用與效能指標，以確認測試與應用行為（例如 dnx.exe 的佔用）。
+**技術挑戰**：缺少常見 GUI 工具的入口，影響排查效率。
+**影響範圍**：影響故障診斷、資源監控與測試佐證。
+**複雜度評級**：低
+
+### Root Cause Analysis（根因分析）
+**直接原因**：
+1. Server Core 以輕量化為目標，預設無 GUI。
+2. 需要即時觀測但缺乏工具入口。
+3. 測試需佐證進程與資源分配狀態。
+**深層原因**：
+- 架構層面：Server Core 的設計取捨。
+- 技術層面：未熟悉可用替代指令或工具。
+- 流程層面：測試流程缺少監控步驟。
+
+### Solution Design（解決方案設計）
+**解決策略**：直接在 Command Prompt/PowerShell 呼叫 taskmgr.exe 啟動工作管理員，觀測 dnx.exe 記憶體佔用與物理/虛擬記憶體使用情況，輔以效能分頁分析。
+
+**實施步驟**：
+1. 啟動 Task Manager
+- 實作細節：cmd/PowerShell 執行 taskmgr.exe。
+- 所需資源：本機系統工具。
+- 預估時間：1 分鐘。
+
+2. 觀測重點
+- 實作細節：查看進程記憶體、效能分頁的 RAM 使用曲線。
+- 所需資源：無。
+- 預估時間：10 分鐘。
+
+**關鍵程式碼/設定**：
+```bat
+REM 在 Server Core 中開啟工作管理員
+taskmgr.exe
+
+REM 搭配其他指令（選用）
+typeperf "\Process(dnx)\Working Set - Private" -sc 10
+REM Implementation Example（實作範例）
+```
+
+實際案例：觀測到 dnx.exe 約佔用 4548MB；物理 RAM 1GB 中約 800MB 被使用；效能頁顯示啟動時段物理記憶體瞬間被用滿。
+實作環境：Windows Server 2012 R2 Server Core。
+實測數據：
+改善前：無法即時佐證測試期間資源使用（定性）。
+改善後：取得 dnx.exe 記憶體 4548MB、RAM 800MB/1GB 的觀測值。
+改善幅度：可觀測性由低提升至高（定性）。
+
+Learning Points（學習要點）
+核心知識點：
+- Server Core 也可呼叫 GUI 工具
+- 進程與系統層級指標交叉驗證
+- 啟動期資源峰值解析
+技能要求：
+必備技能：基本指令操作。
+進階技能：性能計數器與 log 對照分析。
+延伸思考：
+- 補充 PerfMon 或 ETW 事件追蹤。
+- 自動化抓取指標與快照。
+- 導出 CSV 以進行長期分析。
+
+Practice Exercise（練習題）
+基礎練習：在 Server Core 啟動 Task Manager 並截圖保存（30 分鐘）。
+進階練習：用 typeperf 取樣 dnx 記憶體並與圖對照（2 小時）。
+專案練習：建立監控腳本自動採樣與存檔（8 小時）。
+
+Assessment Criteria（評估標準）
+功能完整性（40%）：能開啟並讀取關鍵指標。
+程式碼品質（30%）：指令腳本整潔。
+效能優化（20%）：取樣頻率與負載平衡。
+創新性（10%）：監控視覺化呈現。
+
+
+## Case #5: Pagefile 對高記憶體壓力測試的影響與設定檢查
+
+### Problem Statement（問題陳述）
+**業務場景**：測試需申請超過物理 RAM 的記憶體以評估碎片化，需確認並利用系統 pagefile 的配置以避免測試失真或失敗。
+**技術挑戰**：在 Server Core 檢查/確認虛擬記憶體設定並解讀測試影響。
+**影響範圍**：影響可申請到的最大記憶體與測試可靠性。
+**複雜度評級**：低
+
+### Root Cause Analysis（根因分析）
+**直接原因**：
+1. 物理 RAM 僅 1GB，須依賴 pagefile 才能申請到 4GB+。
+2. 預設 pagefile 為 4GB。
+3. 測試設計需確認 pagefile 是否足以支撐。
+**深層原因**：
+- 架構層面：OS 虛擬記憶體管理影響大配置申請。
+- 技術層面：忽略 pagefile 可能導致申請失敗。
+- 流程層面：測試前置檢查未制度化。
+
+### Solution Design（解決方案設計）
+**解決策略**：在 Server Core 使用系統工具檢查 pagefile 設定、記錄，並將其納入測試報告，確保可用記憶體在 Phase1 能達 4GB+。
+
+**實施步驟**：
+1. 檢查設定
+- 實作細節：使用 WMIC/PowerShell 查詢 pagefile 大小。
+- 所需資源：系統工具。
+- 預估時間：5 分鐘。
+
+2. 佐證影響
+- 實作細節：對照 Phase1 可用量與 pagefile 設定。
+- 所需資源：測試輸出。
+- 預估時間：10 分鐘。
+
+**關鍵程式碼/設定**：
+```powershell
+# 查詢 Pagefile 設定
+wmic pagefile get Name,AllocatedBaseSize,CurrentUsage
+Get-WmiObject Win32_PageFileUsage | Select Name, AllocatedBaseSize, CurrentUsage
+# Implementation Example（實作範例）
+```
+
+實際案例：在 1GB RAM、4GB pagefile 下，2012 R2 Phase1 可申請至 4416MB。
+實作環境：Windows Server 2012 R2。
+實測數據：
+改善前：僅 1GB RAM，可能不足以測試。
+改善後：確認 4GB pagefile，Phase1=4416MB。
+改善幅度：可申請上限由 ~1GB 提升至 ~4.3GB（約 +330%）。
+
+Learning Points（學習要點）
+核心知識點：
+- 虛擬記憶體與 pagefile 的角色
+- Pagefile 對大型配置的影響
+- 配置檢查流程
+技能要求：
+必備技能：WMIC/PowerShell 操作。
+進階技能：將系統設定納入測試報告。
+延伸思考：
+- 調整 pagefile 對測試行為的影響。
+- 監控 pagefile 使用率避免過度 paging。
+- 在生產環境的最佳實務。
+
+Practice Exercise（練習題）
+基礎練習：查詢並截圖 pagefile 設定（30 分鐘）。
+進階練習：修改 pagefile 大小並觀察 Phase1 變化（2 小時）。
+專案練習：建立 pagefile 檢查/調整自動化腳本（8 小時）。
+
+Assessment Criteria（評估標準）
+功能完整性（40%）：能查詢/調整設定。
+程式碼品質（30%）：腳本健壯。
+效能優化（20%）：避免過度 paging。
+創新性（10%）：報表整合與告警。
+
+
+## Case #6: 以 Windows Server Core 影像自建容器環境並布署 .NET Core 測試
+
+### Problem Statement（問題陳述）
+**業務場景**：Windows 容器不能使用 Linux 映像，需從 Windows Server Core 映像起步，自建 .NET Core 測試環境以完成記憶體碎片化測試。
+**技術挑戰**：容器內環境建置與依賴安裝需手動流程，TP4 階段回應速度偏慢。
+**影響範圍**：影響開發/測試可重現性與效率。
+**複雜度評級**：中
+
+### Root Cause Analysis（根因分析）
+**直接原因**：
+1. 容器共用 Kernel，無法載入 Linux 映像。
+2. 官方 Windows 映像內容精簡，需自建。
+3. TP4 容器互動模式速度偏慢。
+**深層原因**：
+- 架構層面：容器與 OS Kernel 相依。
+- 技術層面：映像內容需要依需求擴充。
+- 流程層面：建置步驟未自動化。
+
+### Solution Design（解決方案設計）
+**解決策略**：以 Windows Server Core 映像為基底，在容器中安裝 .NET Core（DNX）與依賴、導入原始碼、就地編譯與測試；優先以非互動腳本方式執行，降低互動延遲影響。
+
+**實施步驟**：
+1. 建立容器
+- 實作細節：拉取並啟動 windowsservercore，安裝必要工具。
+- 所需資源：Docker、PowerShell。
+- 預估時間：30-60 分鐘。
+
+2. 非互動化測試
+- 實作細節：用腳本執行 restore/build/run，輸出到 log。
+- 所需資源：PowerShell 腳本。
+- 預估時間：30 分鐘。
+
+**關鍵程式碼/設定**：
+```powershell
+docker pull windowsservercore
+docker run -d --name memtest windowsservercore powershell -Command "Start-Sleep -Seconds 3600"
+docker exec memtest powershell -Command "& C:\setup\restore_build_run.ps1"
+# Implementation Example（實作範例）
+```
+
+實際案例：完成容器內測試且得到 Phase1/Phase3。
+實作環境：Windows Server 2016（TP4）、Windows Container。
+實測數據：
+改善前：手動互動操作慢，流程不一致（定性）。
+改善後：非互動腳本執行，產出穩定結果（容器利用率=66.87%）。
+改善幅度：可重現性與效率提升（定性）。
+
+Learning Points（學習要點）
+核心知識點：
+- Windows 容器與映像選型
+- 非互動腳本化執行提高穩定性
+- 跨環境一致流程的重要
+技能要求：
+必備技能：Docker/PowerShell。
+進階技能：容器 CI/CD 導入。
+延伸思考：
+- 建立 Dockerfile 將建置流程固化。
+- 以 Hyper-V 隔離因應安全需求。
+- 針對 TP4 的性能行為做風險控管。
+
+Practice Exercise（練習題）
+基礎練習：以 docker exec 非互動執行測試（30 分鐘）。
+進階練習：撰寫 Dockerfile 完成映像自動建置（2 小時）。
+專案練習：建立容器化基準測試 pipeline（8 小時）。
+
+Assessment Criteria（評估標準）
+功能完整性（40%）：容器內能完整執行。
+程式碼品質（30%）：Dockerfile/腳本標準化。
+效能優化（20%）：縮短互動等待時間。
+創新性（10%）：自動化程度與報表整合。
+
+
+## Case #7: 用 Host 工作管理員驗證容器與 Host 共用 Kernel
+
+### Problem Statement（問題陳述）
+**業務場景**：需確認 Windows 容器進程在 Host 的工作管理員可見，以佐證容器與 Host 共用同一 Kernel、非 VM 完全隔離，並解讀效能差異小的原因。
+**技術挑戰**：如何快速、確定地驗證 Kernel 共用特性。
+**影響範圍**：影響架構選型（容器 vs VM）與安全/效能判斷。
+**複雜度評級**：低
+
+### Root Cause Analysis（根因分析）
+**直接原因**：
+1. 容器與 Host 共用 Kernel。
+2. 進程於 Host 可見。
+3. 效能與原生相近。
+**深層原因**：
+- 架構層面：容器為 OS 層隔離。
+- 技術層面：工作管理員能顯示容器內進程。
+- 流程層面：需驗證以建立信任。
+
+### Solution Design（解決方案設計）
+**解決策略**：在 Host OS 打開工作管理員，觀察容器內執行的指令與進程，確認容器行為與 Kernel 共用，輔以指標比較解讀效能差異。
+
+**實施步驟**：
+1. 啟動容器並執行程式
+- 實作細節：容器內執行測試。
+- 所需資源：docker。
+- 預估時間：20 分鐘。
+
+2. Host 端觀測
+- 實作細節：開工作管理員，查進程。
+- 所需資源：Host OS。
+- 預估時間：10 分鐘。
+
+**關鍵程式碼/設定**：
+```powershell
+# Host 端打開工作管理員觀測容器內進程（GUI 操作）
+# 也可用 Get-Process 觀測
+Get-Process | Where-Object { $_.ProcessName -like "*dnx*" }
+# Implementation Example（實作範例）
+```
+
+實際案例：於 Host 工作管理員看到容器內進程，證實共用 Kernel。
+實作環境：Windows Server 2016 TP4。
+實測數據：
+改善前：對容器與 VM 的差異理解有限（定性）。
+改善後：確認共用 Kernel、效能近原生（定性）。
+改善幅度：理解與判斷能力提升（定性）。
+
+Learning Points（學習要點）
+核心知識點：
+- 容器/VM 的本質差異
+- Host 端監控容器進程
+- 效能與隔離的取捨
+技能要求：
+必備技能：Windows 監控。
+進階技能：進程/資源追蹤。
+延伸思考：
+- 需要內核級隔離時改用 Hyper-V 容器。
+- 進程可見性對安全策略的影響。
+- 監控與告警整合。
+
+Practice Exercise（練習題）
+基礎練習：在 Host 端列出容器進程（30 分鐘）。
+進階練習：加入資源占用監控（2 小時）。
+專案練習：統一監控 Host 與容器進程（8 小時）。
+
+Assessment Criteria（評估標準）
+功能完整性（40%）：能觀測到容器進程。
+程式碼品質（30%）：監控腳本規範。
+效能優化（20%）：低開銷監控。
+創新性（10%）：圖表與報告整合。
+
+
+## Case #8: TP4 容器互動模式操作緩慢的替代方案
+
+### Problem Statement（問題陳述）
+**業務場景**：Windows 2016 TP4 容器互動模式下（-it）回應偏慢，影響開發與測試效率。
+**技術挑戰**：在 Preview 階段如何減少互動操作成本。
+**影響範圍**：影響開發者體驗與交付速度。
+**複雜度評級**：低
+
+### Root Cause Analysis（根因分析）
+**直接原因**：
+1. TP4 預覽版效能尚未調校完善。
+2. 終端機 I/O 在容器環境下有額外延遲。
+3. 多次互動造成累積等待。
+**深層原因**：
+- 架構層面：預覽版的設計尚在迭代。
+- 技術層面：互動式 I/O 管線尚未最佳化。
+- 流程層面：過度倚賴互動模式。
+
+### Solution Design（解決方案設計）
+**解決策略**：減少互動操作，改用非互動腳本與 docker exec 執行批次指令；一次性建立環境與執行測試，降低終端機往返成本。
+
+**實施步驟**：
+1. 將操作腳本化
+- 實作細節：把 restore/build/run 合併為單一腳本。
+- 所需資源：PowerShell。
+- 預估時間：1 小時。
+
+2. 非互動執行
+- 實作細節：用 docker exec 非互動執行、收集 log。
+- 所需資源：docker。
+- 預估時間：30 分鐘。
+
+**關鍵程式碼/設定**：
+```powershell
+docker exec memtest powershell -Command "& C:\setup\pipeline.ps1 -NoInteractive"
+# pipeline.ps1 內含所有步驟，並輸出 log
+# Implementation Example（實作範例）
+```
+
+實際案例：原文提及 TP4 互動模式偏慢，建議等更接近 release 再評估。
+實作環境：Windows Server 2016 TP4。
+實測數據：
+改善前：互動模式慢，等待時間長（定性）。
+改善後：改為非互動批次，整體體驗改善（定性）。
+改善幅度：開發效率提升（定性）。
+
+Learning Points（學習要點）
+核心知識點：
+- 預覽版效能特性
+- 批次腳本化的價值
+- 減少互動以提升效率
+技能要求：
+必備技能：PowerShell 腳本。
+進階技能：容器管線設計。
+延伸思考：
+- 後續版本升級後回頭評估互動模式。
+- 加入重試/容錯機制。
+- 以任務排程器自動觸發。
+
+Practice Exercise（練習題）
+基礎練習：將一組互動指令改為腳本（30 分鐘）。
+進階練習：整合 log 收集、錯誤處理（2 小時）。
+專案練習：建立容器批次測試系統（8 小時）。
+
+Assessment Criteria（評估標準）
+功能完整性（40%）：腳本可替代互動。
+程式碼品質（30%）：結構與錯誤處理完善。
+效能優化（20%）：等待時間減少。
+創新性（10%）：自動化與通知整合。
+
+
+## Case #9: 記憶體利用率% 指標設計與跨平台比較方法
+
+### Problem Statement（問題陳述）
+**業務場景**：需在不同平台（2012 R2、2016 容器）以單一可比較指標衡量碎片化後的記憶體可用度，便於決策與報告。
+**技術挑戰**：指標需簡單、可重複、具代表性。
+**影響範圍**：影響跨平台效能解讀與溝通一致性。
+**複雜度評級**：低
+
+### Root Cause Analysis（根因分析）
+**直接原因**：
+1. 不同平台的 Phase1/Phase3 絕對值不同。
+2. 無統一指標難以比較。
+3. 指標需與測試行為緊密對應。
+**深層原因**：
+- 架構層面：平台差異導致不同上限。
+- 技術層面：分配與回收策略差異。
+- 流程層面：報表缺乏標準化。
+
+### Solution Design（解決方案設計）
+**解決策略**：定義「記憶體利用率% = Phase3 / Phase1」，在每次測試輸出 Phase1/Phase3 並自動計算，作為跨平台可比的核心指標。
+
+**實施步驟**：
+1. 指標定義與輸出
+- 實作細節：程式輸出 Phase1/Phase3；腳本計算比值。
+- 所需資源：測試程式、腳本。
+- 預估時間：30 分鐘。
+
+2. 報表化
+- 實作細節：繪製各平台利用率對比。
+- 所需資源：報表工具。
+- 預估時間：1 小時。
+
+**關鍵程式碼/設定**：
 ```csharp
-// MemoryFragmentTest.cs
-// 三階段：Phase1 連續配置、Phase2 製造碎片、Phase3 再次配置
-using System;
-using System.Collections.Generic;
-
-class Program {
-  static void Main() {
-    List<byte[]> blocks = new();
-    long total1 = AllocUntilFail(blocks, 64 * 1024 * 1024); // 64MB 塊
-    // Phase2: 釋放部分製造碎片
-    for (int i = 0; i < blocks.Count; i += 2) blocks[i] = null;
-    GC.Collect(); GC.WaitForPendingFinalizers(); GC.Collect();
-    // Phase3: 再次配置
-    long total3 = AllocUntilFail(new List<byte[]>(), 64 * 1024 * 1024);
-    Console.WriteLine($"{{\"phase1MB\":{total1/1024/1024},\"phase3MB\":{total3/1024/1024}}}");
-  }
-
-  static long AllocUntilFail(List<byte[]> keep, int chunk) {
-    long sum = 0;
-    try {
-      while (true) { var b = new byte[chunk]; keep.Add(b); sum += chunk; }
-    } catch (OutOfMemoryException) { }
-    return sum;
-  }
-}
+// C# 計算指標（示例）
+long phase1Bytes = ReadMetric("phase1.txt");
+long phase3Bytes = ReadMetric("phase3.txt");
+double utilization = (double)phase3Bytes / phase1Bytes * 100.0;
+// Console.WriteLine($"Utilization: {utilization:F2}%");
+// Implementation Example（實作範例）
 ```
-實際案例：Phase1 可取得 4416MB，Phase3 可取得 2888MB
-實作環境：Windows Server 2012 R2 Server Core，RAM 1GB，pagefile 4GB
+
+實際案例：2012 R2=65.40%；2016 容器=66.87%。
+實作環境：Windows Server 2012 R2、Windows Server 2016 容器。
 實測數據：
-改善前：無基準
-改善後：利用率 65.40%（2888/4416）
-改善幅度：建立可比較基準（定性）
+改善前：無統一指標。
+改善後：具可比指標（65.40% vs 66.87%）。
+改善幅度：指標化程度大幅提升（定性）。
 
 Learning Points（學習要點）
 核心知識點：
-- LOH/虛擬記憶體碎片概念
-- Server Core 環境下的觀測方法
-- 基準（baseline）的重要性
-
+- 相對指標設計
+- 指標可比性與穩健性
+- 測試數據流程化
 技能要求：
-必備技能：C#、PowerShell、Server Core 操作
-進階技能：記憶體壓測設計、GC 觀念
-
+必備技能：小型工具開發。
+進階技能：報表/可視化。
 延伸思考：
-- 欲提高 Phase3，策略有哪些（重用、大塊連續配置等）
-- Pagefile 政策對結果影響
-- 分塊大小與碎片化程度關係
+- 加入誤差條與樣本數。
+- 擴展到其他資源（CPU/IO）。
+- 自動生成跨平台摘要。
 
 Practice Exercise（練習題）
-基礎練習：調整塊大小觀察結果（30 分）
-進階練習：加入不同釋放策略（2 小時）
-專案練習：自動出圖比較多次測試（8 小時）
+基礎練習：撰寫指標計算工具（30 分鐘）。
+進階練習：生成圖表與報告（2 小時）。
+專案練習：整合到 CI 報表（8 小時）。
 
 Assessment Criteria（評估標準）
-功能完整性（40%）：三階段測試/輸出數據
-程式碼品質（30%）：結構清晰、錯誤處理
-效能優化（20%）：避免非必要配置
-創新性（10%）：可擴充測試維度
+功能完整性（40%）：能自動算出指標。
+程式碼品質（30%）：健壯、可維護。
+效能優化（20%）：處理多樣本。
+創新性（10%）：視覺化與洞見。
 
 
-## Case #4: 無 GUI 的 Server Core 上進行記憶體觀測（taskmgr 與 PowerShell）
+## Case #10: 在受測環境就地編譯與執行，避免跨環境差異
 
 ### Problem Statement（問題陳述）
-業務場景：Server Core 無傳統 GUI，需監控 dnx.exe 的記憶體使用（Working Set、Commit、RAM/頁檔互動）以輔助測試解讀。
-技術挑戰：缺少熟悉的圖形工具；需使用命令列/內建工具觀測。
-影響範圍：無法佐證測試結果、錯誤判讀實體/虛擬記憶體比例。
-複雜度評級：低
+**業務場景**：為避免跨環境（Host vs 容器、不同 OS）導致的運行時差異與最佳化影響，選擇將原始碼直接放入受測環境，就地編譯、就地執行。
+**技術挑戰**：在不同環境安裝/配置工具鏈並確保相同流程。
+**影響範圍**：影響數據可信度與偏差。
+**複雜度評級**：低
 
 ### Root Cause Analysis（根因分析）
-直接原因：
-1. Server Core 無完整 GUI。
-2. 不熟悉命令列觀測工具。
-3. 單看程式輸出不足以理解系統層面行為。
-深層原因：
-- 架構層面：精簡化 OS 組件。
-- 技術層面：缺少標準觀測手冊。
-- 流程層面：未將觀測納入測試 SOP。
+**直接原因**：
+1. 跨環境編譯可能導致不同 JIT/最佳化。
+2. 不同依賴版本可能造成差異。
+3. 測試需最大限度地貼近實際。
+**深層原因**：
+- 架構層面：環境差異是系統性風險。
+- 技術層面：工具鏈版本一致性重要。
+- 流程層面：缺乏「就地」策略會引入偏差。
 
 ### Solution Design（解決方案設計）
-解決策略：使用 taskmgr.exe（可啟動的精簡工作管理員）、PowerShell Get-Process/typeperf/Get-Counter 輔助觀測，建立最小可用的觀測標準。
+**解決策略**：統一流程：原始碼直接到受測平台，就地下載套件、就地編譯，再執行雙次測試並計算指標。
 
-實施步驟：
-1. 啟用最小 GUI 視窗
-- 實作細節：在 cmd 輸入 taskmgr.exe 開啟工作管理員
-- 所需資源：Server Core 內建
-- 預估時間：10 分鐘
+**實施步驟**：
+1. 工具鏈安裝
+- 實作細節：於各環境安裝相同版本的運行時工具。
+- 所需資源：套件源。
+- 預估時間：30 分鐘。
 
-2. 命令列觀測
-- 實作細節：Get-Process、typeperf 取得數據
-- 所需資源：PowerShell
-- 預估時間：20 分鐘
+2. 就地執行
+- 實作細節：還原、編譯、執行兩次。
+- 所需資源：腳本。
+- 預估時間：30 分鐘。
 
-3. 納入 SOP
-- 實作細節：編寫觀測步驟與截圖/輸出樣板
-- 所需資源：文件
-- 預估時間：0.5 天
-
-關鍵程式碼/設定：
-```ps1
-# 觀測進程記憶體
-Get-Process dnx | Select Name,Id,WorkingSet,PM,VM | Format-List
-
-# 觀測系統記憶體
-typeperf "\Memory\Available MBytes" "\Memory\Committed Bytes" -si 1 -sc 30
+**關鍵程式碼/設定**：
+```powershell
+# 就地還原與編譯（概念示例）
+.\restore.ps1
+.\build.ps1
+.\run.ps1
+.\run.ps1
+# Implementation Example（實作範例）
 ```
-實際案例：dnx.exe Working Set 約 4548MB；1GB RAM 被使用約 800MB
-實作環境：Windows Server 2012 R2 Server Core
+
+實際案例：原文所有測試皆採就地編譯與就地執行。
+實作環境：Windows Server 2012 R2、Windows 2016 容器。
 實測數據：
-改善前：缺乏可視化/數據佐證
-改善後：可量化觀測（4548MB、800MB）
-改善幅度：觀測可得性顯著提升（定性）
+改善前：跨環境編譯可能導致偏差（定性）。
+改善後：就地執行提升一致性（定性）。
+改善幅度：可信度提升（定性）。
 
 Learning Points（學習要點）
 核心知識點：
-- Server Core 仍可啟動 taskmgr.exe
-- Working Set/Private Bytes/Commit 意義
-- typeperf/Get-Counter 用法
-
+- 就地編譯的價值
+- 工具鏈一致性
+- 測試流程標準化
 技能要求：
-必備技能：PowerShell、Windows 記憶體計數器
-進階技能：建立觀測自動化腳本
-
+必備技能：基本建置腳本。
+進階技能：版本鎖定與重現。
 延伸思考：
-- 可整合到報表自動化
-- 在容器環境如何觀測
-- 避免觀測行為影響被測進程
+- 以容器封裝工具鏈。
+- 建立 reproducible builds。
+- 引入版本快照。
 
 Practice Exercise（練習題）
-基礎練習：輸出 dnx.exe 記憶體三指標（30 分）
-進階練習：以 typeperf 收集 1 分鐘樣本（2 小時）
-專案練習：撰寫觀測與報表一體化腳本（8 小時）
+基礎練習：就地執行一次小型專案（30 分鐘）。
+進階練習：建立跨環境一致的 build 腳本（2 小時）。
+專案練習：打造可重現的測試容器（8 小時）。
 
 Assessment Criteria（評估標準）
-功能完整性（40%）：能輸出關鍵指標
-程式碼品質（30%）：腳本穩定
-效能優化（20%）：收集頻率合理
-創新性（10%）：易用性/可視化改善
+功能完整性（40%）：能就地編譯執行。
+程式碼品質（30%）：腳本可移植。
+效能優化（20%）：縮短建置時間。
+創新性（10%）：版本與依賴管理。
 
 
-## Case #5: Windows Server 2016（TP4）Windows Container 設定與記憶體碎片測試
+## Case #11: 容器與原生差異極小的效能觀察與解讀
 
 ### Problem Statement（問題陳述）
-業務場景：在 Windows 容器（Windows Server 2016 TP4）中重現 .NET Core 記憶體碎片測試，並與對照組（Server Core）比較差異。
-技術挑戰：TP 階段回應遲緩、需從 windowsservercore 映像建立環境、就地編譯/執行。
-影響範圍：若無法在容器重現，無法完成跨平台比較與容器效能判讀。
-複雜度評級：中
+**業務場景**：Windows 容器測試結果顯示記憶體利用率與原生 Server Core 相差不大，需要解讀原因與影響。
+**技術挑戰**：從架構角度分析容器效能接近原生的原因並確認方向正確。
+**影響範圍**：影響「是否採容器」的架構決策。
+**複雜度評級**：低
 
 ### Root Cause Analysis（根因分析）
-直接原因：
-1. TP4 相容性/效能未完全優化。
-2. 無法使用 Linux 映像，需從 Windows Server Core 起步。
-3. 容器內互動式操作延遲。
-深層原因：
-- 架構層面：Windows Container 與 Docker 工具鏈整合初期。
-- 技術層面：基底鏡像體積大、相依安裝繁瑣。
-- 流程層面：缺少容器內建置與測試 SOP。
+**直接原因**：
+1. 容器與 Host 共用 Kernel。
+2. 測試流程一致。
+3. 容器本身開銷有限。
+**深層原因**：
+- 架構層面：OS 層隔離帶來近原生效能。
+- 技術層面：TP4 雖預覽，但核心機制已具代表性。
+- 流程層面：相同指標設計避免偏差。
 
 ### Solution Design（解決方案設計）
-解決策略：以 windowsservercore 作為 base image，容器內準備 .NET Core/測試程式碼，採非互動式自動化執行並輸出 Phase1/Phase3，與對照組以統一指標比較。
+**解決策略**：用記憶體利用率（65.40% vs 66.87%）比較，結論為容器效能接近原生，後續以安全/隔離要求決定是否採容器或 Hyper-V 容器。
 
-實施步驟：
-1. 建立 Dockerfile
-- 實作細節：FROM windowsservercore，安裝 .NET、放入測試程式。
-- 所需資源：Docker for Windows（支援 Windows 容器）
-- 預估時間：0.5-1 天
+**實施步驟**：
+1. 數據比較
+- 實作細節：以同一指標比較兩平台。
+- 所需資源：測試輸出。
+- 預估時間：10 分鐘。
 
-2. 自動執行測試
-- 實作細節：ENTRYPOINT 執行測試並輸出 JSON
-- 所需資源：PowerShell
-- 預估時間：0.5 天
+2. 架構決策建議
+- 實作細節：依隔離需求選容器或 Hyper-V 容器。
+- 所需資源：安全需求分析。
+- 預估時間：1 小時。
 
-3. 收集並比較
-- 實作細節：docker logs/檔案輸出，計算利用率
-- 所需資源：calc-util 腳本
-- 預估時間：0.5 天
+**關鍵程式碼/設定**：
+```powershell
+# 簡單比較報表（示例）
+$win2012 = 65.40
+$win2016Container = 66.87
+"{0} vs {1} (Δ {2} pp)" -f $win2012, $win2016Container, ($win2016Container - $win2012)
+# Implementation Example（實作範例）
+```
 
-關鍵程式碼/設定：
+實際案例：兩平台利用率差距小。
+實作環境：同上。
+實測數據：
+改善前：不確定容器效能。
+改善後：容器=66.87%、原生=65.40%，差距 +1.47pp。
+改善幅度：信心提升（定性與量化皆有）。
+
+Learning Points（學習要點）
+核心知識點：
+- 容器效能接近原生的原因
+- 指標比較的解讀方法
+- 以需求驅動選型
+技能要求：
+必備技能：指標分析。
+進階技能：架構決策文件撰寫。
+延伸思考：
+- 加入 CPU/IO 指標更完整。
+- 長期觀察穩定度。
+- 考慮多租戶場景隔離需求。
+
+Practice Exercise（練習題）
+基礎練習：產出比較圖表（30 分鐘）。
+進階練習：撰寫一頁式架構建議（2 小時）。
+專案練習：建立指標面板（dashboard）（8 小時）。
+
+Assessment Criteria（評估標準）
+功能完整性（40%）：完整比較與結論。
+程式碼品質（30%）：報表清晰。
+效能優化（20%）：資料處理高效。
+創新性（10%）：洞見與建議品質。
+
+
+## Case #12: 選用 Server Core 以降低背景資源開銷
+
+### Problem Statement（問題陳述）
+**業務場景**：為提升效能與減少干擾，測試與部署選用 Windows Server Core（無 GUI）以降低背景資源開銷。
+**技術挑戰**：在無 GUI 的前提下仍需便利操作與監控。
+**影響範圍**：影響基準測試純度與生產環境資源使用。
+**複雜度評級**：低
+
+### Root Cause Analysis（根因分析）
+**直接原因**：
+1. GUI 會帶來額外資源負擔。
+2. Server Core 輕量更適合測試。
+3. 指令化操作可提高效率。
+**深層原因**：
+- 架構層面：輕量化平台更貼近服務型工作負載。
+- 技術層面：工具需指令化。
+- 流程層面：操作與監控流程需調整。
+
+### Solution Design（解決方案設計）
+**解決策略**：採 Server Core 作對照組，透過指令與小技巧（taskmgr.exe）補齊監控，維持低開銷環境以提昇測試純度。
+
+**實施步驟**：
+1. 部署 Server Core
+- 實作細節：安裝最小化環境。
+- 所需資源：安裝介質。
+- 預估時間：1 小時。
+
+2. 指令化操作
+- 實作細節：所有動作用指令完成。
+- 所需資源：cmd/PowerShell。
+- 預估時間：持續。
+
+**關鍵程式碼/設定**：
+```bat
+REM 在 Server Core 上的基本操作（示例）
+powershell.exe -Command "& {Get-Process | Sort-Object WorkingSet -Descending | Select -First 10}"
+taskmgr.exe
+# Implementation Example（實作範例）
+```
+
+實際案例：測試期間 RAM 1GB 中 ~800MB 被使用（含 OS 開銷），環境純度高。
+實作環境：Windows Server 2012 R2 Server Core。
+實測數據：
+改善前：GUI 可能增加背景開銷（定性）。
+改善後：Server Core 減少干擾（觀測 RAM 使用低）。
+改善幅度：環境純度提升（定性）。
+
+Learning Points（學習要點）
+核心知識點：
+- Server Core 適用場景
+- 指令化與監控技巧
+- 減少環境噪音策略
+技能要求：
+必備技能：Windows 指令操作。
+進階技能：自動化運維。
+延伸思考：
+- 生產環境是否適用 Server Core。
+- 監控方案需配套。
+- GUI 與無 GUI 的取捨。
+
+Practice Exercise（練習題）
+基礎練習：在 Server Core 完成一次部署（30 分鐘）。
+進階練習：以指令完成完整測試流程（2 小時）。
+專案練習：建立最小化部署手冊（8 小時）。
+
+Assessment Criteria（評估標準）
+功能完整性（40%）：可在 Server Core 完成操作。
+程式碼品質（30%）：腳本清晰。
+效能優化（20%）：資源開銷低。
+創新性（10%）：操作技巧與經驗。
+
+
+## Case #13: 物理記憶體被用光後改用虛擬記憶體的行為診斷
+
+### Problem Statement（問題陳述）
+**業務場景**：測試顯示啟動期物理記憶體快速被用光，隨後主要使用虛擬記憶體（pagefile），需理解行為並評估對性能的影響。
+**技術挑戰**：如何判讀效能頁面曲線與分配行為。
+**影響範圍**：影響應用在低 RAM 環境的可行性與調優方向。
+**複雜度評級**：低
+
+### Root Cause Analysis（根因分析）
+**直接原因**：
+1. 啟動期配置峰值大。
+2. RAM 1GB 不足以支撐。
+3. 系統切換到 pagefile。
+**深層原因**：
+- 架構層面：記憶體密集型設計。
+- 技術層面：OS 虛擬記憶體機制。
+- 流程層面：啟動期測試需特別觀測。
+
+### Solution Design（解決方案設計）
+**解決策略**：使用工作管理員效能頁面與進程監控，記錄啟動期的 RAM 與 pagefile 使用模式，將觀察納入測試報告與調優建議（例如延遲巨量分配）。
+
+**實施步驟**：
+1. 取樣監控
+- 實作細節：持續監控 RAM 使用率曲線。
+- 所需資源：Task Manager/typeperf。
+- 預估時間：30 分鐘。
+
+2. 行為解讀
+- 實作細節：將啟動期峰值與分配策略對應。
+- 所需資源：測試 log。
+- 預估時間：30 分鐘。
+
+**關鍵程式碼/設定**：
+```powershell
+# 監控記憶體使用（示例）
+typeperf "\Memory\Available MBytes" -sc 30
+typeperf "\Paging File(_Total)\% Usage" -sc 30
+# Implementation Example（實作範例）
+```
+
+實際案例：效能頁顯示啟動期物理記憶體用光，後續以虛擬記憶體為主。
+實作環境：Windows Server 2012 R2 Server Core。
+實測數據：
+改善前：未掌握啟動期行為（定性）。
+改善後：掌握 RAM/pagefile 轉換行為（定性）。
+改善幅度：診斷能力提升（定性）。
+
+Learning Points（學習要點）
+核心知識點：
+- 啟動期行為特性
+- RAM 與 pagefile 的動態關係
+- 監控與解讀技巧
+技能要求：
+必備技能：性能計數器使用。
+進階技能：行為分析與建議。
+延伸思考：
+- 延後大分配、分批分配的可能。
+- 提升 RAM 對性能的影響評估。
+- 加入 GC 計數器更完整。
+
+Practice Exercise（練習題）
+基礎練習：用 typeperf 取樣啟動期指標（30 分鐘）。
+進階練習：生成曲線圖與解讀報告（2 小時）。
+專案練習：提出啟動期調優方案（8 小時）。
+
+Assessment Criteria（評估標準）
+功能完整性（40%）：指標取樣完整。
+程式碼品質（30%）：腳本可重用。
+效能優化（20%）：提出可行建議。
+創新性（10%）：解讀深度。
+
+
+## Case #14: Windows 容器不能用 Linux 映像的因應策略
+
+### Problem Statement（問題陳述）
+**業務場景**：Windows 容器需使用 Windows 映像，不能直接沿用 Linux 映像，需調整建置策略與工具。
+**技術挑戰**：重新建立基底映像與依賴環境。
+**影響範圍**：影響跨平台容器策略與 CI/CD。
+**複雜度評級**：中
+
+### Root Cause Analysis（根因分析）
+**直接原因**：
+1. 容器共用 Host Kernel。
+2. Kernel 不同導致映像不可互通。
+3. 需自建 Windows 映像。
+**深層原因**：
+- 架構層面：容器設計與 Kernel 緊密耦合。
+- 技術層面：工具鏈/依賴不同。
+- 流程層面：建置管線需分支。
+
+### Solution Design（解決方案設計）
+**解決策略**：採 Windows Server Core 作基底、獨立維護 Windows 容器建置腳本與 CI；避免跨 OS 共享映像，改以跨 OS 共享「流程/指標」。
+
+**實施步驟**：
+1. 建立 Windows 基底
+- 實作細節：準備 windowsservercore 映像。
+- 所需資源：Docker on Windows。
+- 預估時間：30 分鐘。
+
+2. 流程分支
+- 實作細節：Windows/Linux 各自建置管線。
+- 所需資源：CI 系統。
+- 預估時間：2-4 小時。
+
+**關鍵程式碼/設定**：
 ```dockerfile
-# Dockerfile (Windows Container)
-FROM mcr.microsoft.com/windows/servercore:ltsc2016
-SHELL ["powershell","-Command"]
-
-# 假設已將測試程式編譯好或容器內編譯
-WORKDIR C:\app
-COPY .\bin\Release\netX\ .\
-
-ENTRYPOINT ["C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe","-Command","./memtest.exe --json > result.json; Get-Content result.json"]
+# Windows Dockerfile（概念示例）
+FROM mcr.microsoft.com/windows/servercore
+SHELL ["powershell", "-Command"]
+# 安裝 .NET Core/DNX、複製測試程式、設定入口
+# Implementation Example（實作範例）
 ```
-實際案例：Phase1 4032MB，Phase3 2696MB，利用率 66.87%
-實作環境：Windows Server 2016 TP4 Windows Container
+
+實際案例：原文於 Windows 容器中自建環境完成測試。
+實作環境：Windows Server 2016 TP4 容器。
 實測數據：
-改善前：無法在容器中量測
-改善後：容器完成量測（66.87%）
-改善幅度：具備與對照組可比性
+改善前：試圖用 Linux 映像不可行（定性）。
+改善後：採 Windows 映像成功建置（定性）。
+改善幅度：跨平台一致性改為流程層一致（定性）。
 
 Learning Points（學習要點）
 核心知識點：
-- Windows Container 與 Docker 工具鏈
-- Windows Base Image 的限制與建置
-- 容器中非互動式量測模式
-
+- Kernel 相依導致映像不可互用
+- 流程層一致性的價值
+- Windows 容器建置要點
 技能要求：
-必備技能：Docker（Windows）、PowerShell
-進階技能：容器內建置/最佳化
-
+必備技能：Dockerfile 編寫。
+進階技能：CI 管線分支設計。
 延伸思考：
-- 改用多階段建置縮小鏡像
-- 在新版本 Windows Server 測試差異
-- 結合 CI 在容器跑壓測
+- 跨 OS 的測試指標統一。
+- Artifact 管理與版本化。
+- 安全掃描與合規檢查。
 
 Practice Exercise（練習題）
-基礎練習：Build/Run Dockerfile 並取得 result.json（30 分）
-進階練習：在容器內編譯測試程式（2 小時）
-專案練習：自動比較容器與對照組（8 小時）
+基礎練習：撰寫最小 Windows Dockerfile（30 分鐘）。
+進階練習：完成 Windows 容器建置與執行測試（2 小時）。
+專案練習：打造跨 OS 的容器 CI（8 小時）。
 
 Assessment Criteria（評估標準）
-功能完整性（40%）：容器可跑測試並輸出數據
-程式碼品質（30%）：Dockerfile 清晰可維護
-效能優化（20%）：鏡像體積/執行時間
-創新性（10%）：自動化/整合程度
+功能完整性（40%）：映像可用且能測試。
+程式碼品質（30%）：Dockerfile 清晰。
+效能優化（20%）：建置時間合理。
+創新性（10%）：管線設計。
 
 
-## Case #6: 驗證 Windows Container 與 Host 共享 Kernel（Host 上觀測容器內程序）
+## Case #15: 需要核心級隔離時採用 Hyper-V Container
 
 ### Problem Statement（問題陳述）
-業務場景：需確認 Windows Container 與 Host 共用同一 Kernel，避免將容器誤解為 VM，正確解讀資源使用與效能。
-技術挑戰：如何在 Host 直接觀測到容器內的進程證據。
-影響範圍：錯誤認知會導致錯誤資源規劃與隔離策略。
-複雜度評級：低
+**業務場景**：在多租戶或安全要求高的情境，需要 Kernel 層級的隔離；Windows 2016 提供 Hyper-V Container，可在 VM 中承載容器，兼顧隔離與容器優勢。
+**技術挑戰**：理解何時採用 Hyper-V 隔離，以及基本啟用方式。
+**影響範圍**：影響安全合規與資源隔離策略。
+**複雜度評級**：中
 
 ### Root Cause Analysis（根因分析）
-直接原因：
-1. 容器與 VM 混淆。
-2. 缺少證據鏈支撐結論。
-3. 工具使用不熟悉。
-深層原因：
-- 架構層面：容器共享 Kernel 的設計認知缺口。
-- 技術層面：Windows 容器觀測方法未制度化。
-- 流程層面：未將觀測納入驗證步驟。
+**直接原因**：
+1. 一般容器共用 Kernel，隔離有限。
+2. 安全/合規需更強隔離。
+3. Windows 提供 Hyper-V Container 作替代。
+**深層原因**：
+- 架構層面：VM 級隔離可滿足高安全。
+- 技術層面：Hyper-V 作為隔離層。
+- 流程層面：依需求決定隔離等級。
 
 ### Solution Design（解決方案設計）
-解決策略：在 Host 上使用 Task Manager/PowerShell 觀察容器內程序，並與容器內 ps 對照，確認兩者一致，作為共用 Kernel 的可視化證據。
+**解決策略**：當隔離要求提升時，以 Hyper-V Container 啟動工作負載；評估效能與隔離的權衡，僅在必要時使用。
 
-實施步驟：
-1. 容器內觀測
-- 實作細節：docker exec 列出程序
-- 所需資源：Docker CLI
-- 預估時間：10 分
+**實施步驟**：
+1. 啟用 Hyper-V 隔離
+- 實作細節：以 --isolation=hyperv 啟動容器（視版本支援）。
+- 所需資源：Windows Server 2016、Hyper-V。
+- 預估時間：30 分鐘。
 
-2. Host 觀測
-- 實作細節：taskmgr / Get-Process 結對觀測
-- 所需資源：PowerShell
-- 預估時間：10 分
+2. 風險/效能評估
+- 實作細節：對比一般容器的性能與隔離。
+- 所需資源：測試與報告。
+- 預估時間：2-4 小時。
 
-3. 紀錄證據
-- 實作細節：截圖/輸出程序清單存檔
-- 所需資源：文件
-- 預估時間：10 分
-
-關鍵程式碼/設定：
-```ps1
-# 容器內
-docker exec <cid> powershell "Get-Process | Sort WS -desc | Select -First 5"
-
-# Host
-Get-Process | Sort WS -desc | Select -First 20
-# 對照程序名稱/參數，驗證可見性
+**關鍵程式碼/設定**：
+```powershell
+# 啟動 Hyper-V 隔離容器（版本支援時）
+docker run -it --isolation=hyperv windowsservercore powershell
+# Implementation Example（實作範例）
 ```
-實際案例：文中以 Host Task Manager 可見容器內命令，證明共用 Kernel
-實作環境：Windows Server 2016 TP4 Host + Windows Container
+
+實際案例：原文引用概念並留待後續研究。
+實作環境：Windows Server 2016。
 實測數據：
-改善前：不確定容器與 Host 關係
-改善後：以觀測佐證共用 Kernel（定性）
-改善幅度：認知正確性提升
+改善前：一般容器隔離不足（對高安全場景）。
+改善後：Hyper-V 容器提供 Kernel 級隔離（定性）。
+改善幅度：隔離能力顯著提升（定性）。
 
 Learning Points（學習要點）
 核心知識點：
-- 容器 vs VM 的核心差異
-- Windows 上的容器觀測技巧
-- 觀測與驗證的證據鏈
-
+- 容器隔離等級
+- Hyper-V 容器原理
+- 何時需要更強隔離
 技能要求：
-必備技能：Docker 基本操作、PowerShell
-進階技能：系統觀測與追蹤
-
+必備技能：Docker/Hyper-V 基本操作。
+進階技能：安全評估與合規。
 延伸思考：
-- 加入 ETW/PerfCounter 深化觀測
-- Hyper-V 容器與 Windows 容器可見性差異
-- 安全/隔離設計影響
+- 性能開銷的可接受範圍。
+- 與 VM/裸機的比較。
+- 自動化啟用與策略化管理。
 
 Practice Exercise（練習題）
-基礎練習：在 Host/容器分別列出前 5 大記憶體程序（30 分）
-進階練習：寫腳本自動對照（2 小時）
-專案練習：產生容器/Host 對照報表（8 小時）
+基礎練習：以 Hyper-V 隔離啟動容器（30 分鐘）。
+進階練習：量測與一般容器的性能差異（2 小時）。
+專案練習：撰寫隔離選型準則文件（8 小時）。
 
 Assessment Criteria（評估標準）
-功能完整性（40%）：能佐證共用 Kernel
-程式碼品質（30%）：對照自動化腳本品質
-效能優化（20%）：收集效率
-創新性（10%）：可視化呈現
+功能完整性（40%）：能啟動與運行。
+程式碼品質（30%）：腳本與設定清晰。
+效能優化（20%）：性能測試完整。
+創新性（10%）：選型指南與洞見。
 
 
-## Case #7: 容器 vs 對照組記憶體利用率比較與結論產出
+## Case #16: 測試自動化：重開機→下載套件→編譯→連續執行兩次
 
 ### Problem Statement（問題陳述）
-業務場景：需將 Windows 容器（2016 TP4）與 Server Core（2012 R2）記憶體碎片化利用率以統一指標比較，產出可溝通結論。
-技術挑戰：確保比較基準一致、數據正確。
-影響範圍：影響是否採用容器的技術選型。
-複雜度評級：低
+**業務場景**：為確保各平台測試一致性，需將重開機、下載套件、編譯、雙次執行的流程自動化，降低人為誤差與時間成本。
+**技術挑戰**：跨平台批次流程設計與容器/VM 的差異處理。
+**影響範圍**：影響測試效率與資料品質。
+**複雜度評級**：中
 
 ### Root Cause Analysis（根因分析）
-直接原因：
-1. 無統一的比較框架。
-2. 容器內互動式延遲可能影響測試方式。
-3. 各平台環境差異。
-深層原因：
-- 架構層面：缺乏跨平台對照設計。
-- 技術層面：計量與抽樣未標準化。
-- 流程層面：報表與結論表述缺流程。
+**直接原因**：
+1. 手動流程容易出錯。
+2. 多平台操作繁瑣。
+3. 測試一致性難保證。
+**深層原因**：
+- 架構層面：需有自動化管線支撐。
+- 技術層面：腳本與工具鏈整合。
+- 流程層面：標準化不足。
 
 ### Solution Design（解決方案設計）
-解決策略：以 Case #2 定義的利用率%計算兩平台結果，對齊流程（Case #1），以簡明結論表述差異（pp/相對差）。
+**解決策略**：以 PowerShell/Bash 建立跨平台自動化流程，封裝重開機、套件還原、編譯與雙次執行，並產出標準化報表。
 
-實施步驟：
-1. 取數與計算
-- 實作細節：讀入兩平台 Phase1/3 值，計算 %
-- 所需資源：calc-util 腳本
-- 預估時間：10 分
+**實施步驟**：
+1. 腳本化流程
+- 實作細節：模組化每一步驟。
+- 所需資源：PowerShell/Bash。
+- 預估時間：2-4 小時。
 
-2. 對照/結論
-- 實作細節：計算差值、生成文字結論
-- 所需資源：模板
-- 預估時間：20 分
+2. 報表與驗證
+- 實作細節：收集 log、計算指標、生成報表。
+- 所需資源：報表工具。
+- 預估時間：2 小時。
 
-3. 報表化
-- 實作細節：輸出表格/圖
-- 所需資源：Excel/腳本
-- 預估時間：30 分
-
-關鍵程式碼/設定：
-```ps1
-# compare.ps1
-$w2012 = @{phase1=4416; phase3=2888}
-$w2016 = @{phase1=4032; phase3=2696}
-function rate($h){ [math]::Round(($h.phase3*100.0)/$h.phase1,2) }
-"{0}% vs {1}% (Δ={2}pp)" -f (rate $w2012),(rate $w2016),((rate $w2016)-(rate $w2012))
+**關鍵程式碼/設定**：
+```powershell
+# 簡易自動化（示例）
+.\reboot.ps1
+Start-Sleep -Seconds 60
+.\restore.ps1
+.\build.ps1
+.\run.ps1 | Tee-Object run1.log
+.\run.ps1 | Tee-Object run2.log
+.\compute_metrics.ps1 run2.log > report.txt
+# Implementation Example（實作範例）
 ```
-實際案例：2012 R2 = 65.40%；2016 容器 = 66.87%；差異 +1.47pp（相對約 +2.25%）
-實作環境：同上
+
+實際案例：原文流程標準化為四步驟並採用第二次結果。
+實作環境：Windows 2012 R2、Windows 2016 容器。
 實測數據：
-改善前：缺少可讀結論
-改善後：產出可比結論（容器與原生差距極小）
-改善幅度：決策效率提升
+改善前：手動流程易偏差（定性）。
+改善後：自動化流程提升一致性與效率（定性）。
+改善幅度：效率與品質提升（定性）。
 
 Learning Points（學習要點）
 核心知識點：
-- 使用 pp（百分點）表述差異
-- 相對差與絕對差的意義
-- 報表溝通的重要性
-
+- 自動化帶來的一致性
+- 報表與指標整合
+- 跨平台腳本設計
 技能要求：
-必備技能：基本資料處理
-進階技能：可視化/文字表述技巧
-
+必備技能：PowerShell。
+進階技能：CI/CD 整合。
 延伸思考：
-- 加入更多平台或版本比較
-- 引入統計檢定（穩定性）
-- 自動匯整多 run 結果
+- 觸發器與排程。
+- 錯誤復原與告警。
+- 擴展到多指標測試。
 
 Practice Exercise（練習題）
-基礎練習：計算兩組數據的 pp 差（30 分）
-進階練習：輸出圖表（2 小時）
-專案練習：多平台比較報告（8 小時）
+基礎練習：寫一個兩次執行的自動化腳本（30 分鐘）。
+進階練習：加入報表生成（2 小時）。
+專案練習：打造完整測試管線（8 小時）。
 
 Assessment Criteria（評估標準）
-功能完整性（40%）：正確計算與結論
-程式碼品質（30%）：簡潔與可維護
-效能優化（20%）：處理多組數據
-創新性（10%）：表達與視覺化
+功能完整性（40%）：流程全自動完成。
+程式碼品質（30%）：模組化、可維護。
+效能優化（20%）：縮短無效等待。
+創新性（10%）：報表與告警整合。
 
 
-## Case #8: 預覽版容器互動延遲的繞道（非互動與遠端執行）
+————————————
 
-### Problem Statement（問題陳述）
-業務場景：在 Windows 容器 TP4 下使用互動式終端（-it）延遲明顯，影響測試操作效率。
-技術挑戰：如何在不影響測試準確性的前提下，提高操作回應。
-影響範圍：測試耗時增加、操作體驗差。
-複雜度評級：低
-
-### Root Cause Analysis（根因分析）
-直接原因：
-1. TP 版本效能未優化。
-2. 互動式終端造成額外開銷。
-3. 容器與 Host 的互動管道延遲。
-深層原因：
-- 架構層面：通訊路徑/IO 管線仍在調整。
-- 技術層面：互動式 shell 開銷高。
-- 流程層面：過度倚賴互動操作。
-
-### Solution Design（解決方案設計）
-解決策略：改為非互動式命令（docker exec/ENTRYPOINT 腳本化）、使用 PowerShell Remoting 到容器，將互動步驟自動化，降低人機交互延遲。
-
-實施步驟：
-1. 以 docker exec 執行命令
-- 實作細節：exec 非互動命令並收集輸出
-- 所需資源：Docker CLI
-- 預估時間：10 分
-
-2. PowerShell Remoting
-- 實作細節：Enter-PSSession -ContainerId（支援時）
-- 所需資源：PowerShell
-- 預估時間：20 分
-
-3. 腳本化 ENTRYPOINT
-- 實作細節：容器啟動即執行測試與輸出
-- 所需資源：Dockerfile
-- 預估時間：30 分
-
-關鍵程式碼/設定：
-```ps1
-# 非互動式執行測試
-docker run --rm my/memtest:win powershell -Command "./memtest.exe --json > C:\out\result.json"
-docker cp $(docker ps -alq):C:\out\result.json .
-
-# 或對既有容器
-docker exec <cid> powershell "Start-Process -Wait .\memtest.exe -ArgumentList '--json'"
-```
-實際案例：文中提及互動式模式明顯較慢，採非互動/腳本化可繞過
-實作環境：Windows Server 2016 TP4 容器
-實測數據：
-改善前：互動式延遲明顯（定性）
-改善後：非互動/腳本化，操作回應提升（定性）
-改善幅度：體感大幅改善（定性）
-
-Learning Points（學習要點）
-核心知識點：
-- 互動式 vs 非互動式容器操作
-- Remoting 的應用
-- 腳本化降低人機交互
-
-技能要求：
-必備技能：Docker、PowerShell
-進階技能：自動化管線設計
-
-延伸思考：
-- 後期版本效能改善後策略是否調整
-- 日誌/輸出收集標準化
-- 結合 CI 容器化測試
-
-Practice Exercise（練習題）
-基礎練習：用 exec 執行命令並擷取輸出（30 分）
-進階練習：建置 ENTRYPOINT 腳本（2 小時）
-專案練習：整合到 CI（8 小時）
-
-Assessment Criteria（評估標準）
-功能完整性（40%）：能非互動式完成操作
-程式碼品質（30%）：腳本可靠
-效能優化（20%）：操作時間可感縮短
-創新性（10%）：Remoting/自動化整合
-
-
-## Case #9: 低 RAM + 預設 Pagefile 的測試條件校準
-
-### Problem Statement（問題陳述）
-業務場景：測試 VM 僅 1GB RAM，需依賴 pagefile（預設 4GB），以確保 Phase1 能達到數 GB 的配置；需可按需校準。
-技術挑戰：不同 VM/OS 的 pagefile 政策差異導致可配置上限不同。
-影響範圍：Phase1 上限與碎片化結果受影響，跨平台不可比。
-複雜度評級：中
-
-### Root Cause Analysis（根因分析）
-直接原因：
-1. 未明確設定 pagefile 大小。
-2. 系統自動管理可能導致上限不同。
-3. RAM 太小，依賴虛擬記憶體。
-深層原因：
-- 架構層面：記憶體與儲存策略耦合。
-- 技術層面：Commit/Working Set 交互作用。
-- 流程層面：測試前置條件未標準化。
-
-### Solution Design（解決方案設計）
-解決策略：顯式設定固定大小的 pagefile，或紀錄系統預設值；將 pagefile 配置納入測試報告欄位，確保可比性。
-
-實施步驟：
-1. 查詢現狀
-- 實作細節：wmic pagefile/list，Get-CimInstance
-- 所需資源：PowerShell
-- 預估時間：10 分
-
-2. 設定固定 pagefile
-- 實作細節：關閉自動管理，建立/調整大小
-- 所需資源：系統權限
-- 預估時間：20 分
-
-3. 重開機與確認
-- 實作細節：Restart-Computer 後再查詢
-- 所需資源：PowerShell
-- 預估時間：10 分
-
-關鍵程式碼/設定：
-```ps1
-# 查詢
-wmic pagefile list /format:list
-# 設定
-wmic computersystem set AutomaticManagedPagefile=False
-wmic pagefileset where name="C:\\pagefile.sys" delete
-wmic pagefileset create name="C:\\pagefile.sys"
-wmic pagefileset where name="C:\\pagefile.sys" set InitialSize=4096,MaximumSize=4096
-```
-實際案例：文中在 1GB RAM + 4GB pagefile 的情境下，Phase1 可達 4416MB
-實作環境：Windows Server 2012 R2 Server Core
-實測數據：
-改善前：pagefile 未明確/不可比
-改善後：有明確 pagefile 設定/紀錄（Phase1=4416MB）
-改善幅度：數據可比性提升
-
-Learning Points（學習要點）
-核心知識點：
-- Pagefile 對 Commit 上限影響
-- RAM 與虛擬記憶體的互動
-- 測試前置條件的紀錄
-
-技能要求：
-必備技能：PowerShell、系統管理
-進階技能：容量規劃與壓測設計
-
-延伸思考：
-- 不同 pagefile 大小對 Phase3 的影響
-- SSD/HDD 對效能的影響
-- 生產環境政策與測試政策差異
-
-Practice Exercise（練習題）
-基礎練習：查詢/輸出 pagefile 設定（30 分）
-進階練習：自動套用設定並重開（2 小時）
-專案練習：多 VM 一致化設定工具（8 小時）
-
-Assessment Criteria（評估標準）
-功能完整性（40%）：可設定/查詢成功
-程式碼品質（30%）：安全與回滾
-效能優化（20%）：最少重開機影響
-創新性（10%）：一鍵標準化
-
-
-## Case #10: 在 Server Core 上以命令列打造最小觀測套件
-
-### Problem Statement（問題陳述）
-業務場景：Server Core 環境需建立最小化但足夠的觀測能力以支援測試解讀與故障排查。
-技術挑戰：僅能使用命令列與內建工具。
-影響範圍：降低誤判與節省除錯時間。
-複雜度評級：低
-
-### Root Cause Analysis（根因分析）
-直接原因：
-1. 缺少 GUI 工具。
-2. 操作人員對命令列工具不熟。
-3. 無標準觀測步驟。
-深層原因：
-- 架構層面：精簡化 OS
-- 技術層面：工具使用門檻
-- 流程層面：SOP 缺失
-
-### Solution Design（解決方案設計）
-解決策略：選定 typeperf/Get-Counter/Wevtutil 等內建工具，形成一頁式觀測 SOP，支援測試前中後的關鍵訊號收集。
-
-實施步驟：
-1. 指標清單
-- 實作細節：可用記憶體/Committed Bytes/Process 記憶體
-- 所需資源：內建計數器
-- 預估時間：30 分
-
-2. 腳本化
-- 實作細節：單檔腳本一鍵收集
-- 所需資源：PowerShell
-- 預估時間：1 小時
-
-3. 文檔化
-- 實作細節：ReadMe/SOP 圖示步驟
-- 所需資源：文件
-- 預估時間：0.5 天
-
-關鍵程式碼/設定：
-```ps1
-typeperf "\Memory\Available MBytes" "\Memory\Committed Bytes" -si 1 -sc 60 > mem.csv
-Get-Process | Sort WS -desc | Select -First 10 | Out-File top.txt
-wevtutil qe System /c:50 /rd:true /f:text > syslog.txt
-```
-實際案例：文中以工作管理員與記憶體曲線輔助解讀（右半飆高為啟動期）
-實作環境：Windows Server 2012 R2 Server Core
-實測數據：
-改善前：觀測不足
-改善後：最小觀測套件可用（定性）
-改善幅度：除錯效率提升（定性）
-
-Learning Points（學習要點）
-核心知識點：
-- Windows 計數器與事件查詢
-- 最小可用觀測集合
-- 觀測與測試結合
-
-技能要求：
-必備技能：PowerShell、Windows 管理
-進階技能：資料後處理與可視化
-
-延伸思考：
-- 將結果上傳至中央儲存
-- 加入 CPU/IO 計數器
-- 時間同步確保資料對齊
-
-Practice Exercise（練習題）
-基礎練習：收集 1 分鐘計數器（30 分）
-進階練習：合併多個輸出為單一報告（2 小時）
-專案練習：打包成 Toolkit（8 小時）
-
-Assessment Criteria（評估標準）
-功能完整性（40%）：可完整收集所需訊號
-程式碼品質（30%）：易用/註解完整
-效能優化（20%）：最少侵入
-創新性（10%）：整合與自動化
-
-
-## Case #11: 就地編譯以避免跨平台組建差異
-
-### Problem Statement（問題陳述）
-業務場景：需確保測試程式在受測平台上就地編譯，避免跨機器/跨 OS 組建差異影響結果。
-技術挑戰：在 Server Core/Container 內完成還原/編譯。
-影響範圍：提高測試公信力與可重現性。
-複雜度評級：低
-
-### Root Cause Analysis（根因分析）
-直接原因：
-1. 不同環境產生的二進位差異。
-2. 相依套件版本不一致。
-3. 編譯選項差異導致表現差異。
-深層原因：
-- 架構層面：缺少組建一致性策略。
-- 技術層面：相依管理與工具鏈差異。
-- 流程層面：未規範就地編譯。
-
-### Solution Design（解決方案設計）
-解決策略：在每個受測平台執行 dotnet restore/build（或 dnu/dnx 時代對應命令），以同一來源碼、同版本 SDK 完成就地編譯。
-
-實施步驟：
-1. 準備 SDK
-- 實作細節：平台內安裝 .NET SDK
-- 所需資源：離線安裝包/網路
-- 預估時間：0.5 天
-
-2. 還原/編譯
-- 實作細節：dotnet restore/build -c Release
-- 所需資源：NuGet
-- 預估時間：30 分
-
-3. 鎖定版本
-- 實作細節：global.json/Sdk 版本鎖定
-- 所需資源：版本管理
-- 預估時間：30 分
-
-關鍵程式碼/設定：
-```ps1
-dotnet --info
-dotnet restore
-dotnet build -c Release
-# 若為舊版 DNX 時代，使用 dnu restore / dnx build
-```
-實際案例：文中明載「拿 source code 直接到受測平台，就地編譯就地測試」
-實作環境：Windows Server 2012 R2 / Windows 2016 容器
-實測數據：
-改善前：跨平台編譯，結果可疑
-改善後：就地編譯，結果可信（定性）
-改善幅度：數據可信度提升
-
-Learning Points（學習要點）
-核心知識點：
-- 就地編譯的重要性
-- 套件版本鎖定
-- 平台工具鏈一致性
-
-技能要求：
-必備技能：.NET SDK、NuGet
-進階技能：多平台組建策略
-
-延伸思考：
-- 以容器封裝組建工具鏈
-- 鎖定 hash/清單保障可再現
-- 與 CI 整合
-
-Practice Exercise（練習題）
-基礎練習：在 VM 內做 dotnet build（30 分）
-進階練習：鎖定 SDK 版本與還原來源（2 小時）
-專案練習：多平台組建 pipeline（8 小時）
-
-Assessment Criteria（評估標準）
-功能完整性（40%）：可就地編譯成功
-程式碼品質（30%）：版本鎖定/文件完整
-效能優化（20%）：編譯時間合理
-創新性（10%）：封裝/自動化
-
-
-## Case #12: 從 windowsservercore 基底打造 .NET 測試容器映像
-
-### Problem Statement（問題陳述）
-業務場景：Windows 容器無法使用 Linux 映像，需自 windowsservercore 起步打造可運行 .NET 測試的映像。
-技術挑戰：安裝/配置 .NET 與相依，控制鏡像體積與可維護性。
-影響範圍：影響容器建置成本與測試效率。
-複雜度評級：中
-
-### Root Cause Analysis（根因分析）
-直接原因：
-1. 容器必須依賴 Host Kernel，不可混用 Linux 映像。
-2. Windows Base Image 體積大。
-3. 安裝路徑/相依複雜。
-深層原因：
-- 架構層面：Windows Container 與 Docker 架構差異。
-- 技術層面：安裝 .NET 的步驟繁瑣。
-- 流程層面：缺少可重用 Dockerfile 模板。
-
-### Solution Design（解決方案設計）
-解決策略：使用官方 windowsservercore 基底，撰寫 Dockerfile 腳本化安裝 .NET 與測試程式；可加入多階段建置或外部掛載 artifacts，減少體積與建置時間。
-
-實施步驟：
-1. 撰寫 Dockerfile
-- 實作細節：下載/安裝 .NET、清理暫存
-- 所需資源：離線安裝包或網路
-- 預估時間：0.5-1 天
-
-2. 建置與驗證
-- 實作細節：docker build/run，確認 dotnet --info
-- 所需資源：Docker
-- 預估時間：1 小時
-
-3. 最佳化
-- 實作細節：分層/清理/快取
-- 所需資源：Docker 多階段
-- 預估時間：1 天
-
-關鍵程式碼/設定：
-```dockerfile
-FROM mcr.microsoft.com/windows/servercore:ltsc2016
-SHELL ["powershell","-Command"]
-
-# 安裝 .NET Runtime（示意）
-RUN Invoke-WebRequest https://download.visualstudio.microsoft.com/.../dotnet-runtime.exe -OutFile dotnet-runtime.exe; \
-    Start-Process .\dotnet-runtime.exe -ArgumentList '/quiet','/norestart' -Wait; \
-    Remove-Item .\dotnet-runtime.exe
-
-WORKDIR C:\app
-COPY .\publish\ .\
-ENTRYPOINT ["dotnet","memtest.dll"]
-```
-實際案例：文中說明無法使用 Linux 映像，需從 Windows Server Core 起步。
-實作環境：Windows Server 2016 TP4 容器
-實測數據：
-改善前：無法直接使用 Linux 映像
-改善後：成功建置 Windows 基底映像（定性）
-改善幅度：可執行測試於容器
-
-Learning Points（學習要點）
-核心知識點：
-- Windows Container 與映像選型
-- Dockerfile 在 Windows 上的差異
-- 體積與快取最佳化
-
-技能要求：
-必備技能：Dockerfile、PowerShell
-進階技能：多階段建置與快取策略
-
-延伸思考：
-- 使用 Nano Server 基底（適用性）
-- 以外掛檔案減低層次寫入
-- 以私有 Registry 管理版本
-
-Practice Exercise（練習題）
-基礎練習：Build/Run 基本映像（30 分）
-進階練習：加入清理/快取（2 小時）
-專案練習：打造可重用 .NET 測試基底映像（8 小時）
-
-Assessment Criteria（評估標準）
-功能完整性（40%）：映像可執行測試
-程式碼品質（30%）：Dockerfile 可維護
-效能優化（20%）：層數/體積控制
-創新性（10%）：建置策略創新
-
-
-## Case #13: 何時選擇 Hyper-V Container：Kernel 隔離需求與切換方法
-
-### Problem Statement（問題陳述）
-業務場景：某些場景需要 Kernel 隔離（合規/安全），需在 Windows 容器與 Hyper-V 容器間選擇並切換。
-技術挑戰：在維持容器優點（映像/工具鏈）的前提下提供 VM 等級隔離。
-影響範圍：安全/合規/多租戶隔離策略。
-複雜度評級：中
-
-### Root Cause Analysis（根因分析）
-直接原因：
-1. Windows 容器共享 Kernel，無法滿足某些隔離需求。
-2. 需要在相同工具鏈中提供隔離選項。
-3. 缺少簡便切換方法。
-深層原因：
-- 架構層面：Hyper-V 容器以輕量 VM 提供隔離。
-- 技術層面：映像/管理需相容。
-- 流程層面：選型準則缺失。
-
-### Solution Design（解決方案設計）
-解決策略：基於相同映像與 Docker 工具鏈，透過 --isolation=hyperv 啟動 Hyper-V 容器，於需要時提供 Kernel 隔離；建立選型準則（性能 vs 隔離）。
-
-實施步驟：
-1. 驗證支援
-- 實作細節：docker info 檢查 isolation 支援
-- 所需資源：Windows Server 2016+ 與 Hyper-V
-- 預估時間：10 分
-
-2. 切換啟動
-- 實作細節：docker run --isolation=hyperv
-- 所需資源：Docker CLI
-- 預估時間：10 分
-
-3. 文件化準則
-- 實作細節：何時用 Windows Container/Hyper-V Container
-- 所需資源：文件
-- 預估時間：0.5 天
-
-關鍵程式碼/設定：
-```ps1
-docker run --isolation=hyperv --rm my/memtest:win powershell -Command "./memtest.exe --json"
-```
-實際案例：文中引用 TP4 首現 Hyper-V Container 並說明其定位
-實作環境：Windows Server 2016/TP4
-實測數據：
-改善前：僅有共享 Kernel 的容器選項
-改善後：在需要時可用 Hyper-V Container 提供隔離（定性）
-改善幅度：隔離能力提升
-
-Learning Points（學習要點）
-核心知識點：
-- Windows Container vs Hyper-V Container
-- 隔離/效能取捨
-- 實際切換方法
-
-技能要求：
-必備技能：Docker/Windows 容器
-進階技能：安全與合規規劃
-
-延伸思考：
-- Hyper-V 容器效能成本量測
-- 與 K8s on Windows 整合策略
-- 映像共用最佳實踐
-
-Practice Exercise（練習題）
-基礎練習：啟動 Hyper-V 容器（30 分）
-進階練習：比較兩種模式啟動時間（2 小時）
-專案練習：選型指南與範例庫（8 小時）
-
-Assessment Criteria（評估標準）
-功能完整性（40%）：可成功切換與運行
-程式碼品質（30%）：命令與腳本清晰
-效能優化（20%）：啟動時間合理
-創新性（10%）：選型指南完整
-
-
-## Case #14: 以計數器追蹤 Phase 啟動/碎片化/再配置三階段走勢
-
-### Problem Statement（問題陳述）
-業務場景：需將三階段（啟動期、碎片化、再配置）的記憶體走勢以計數器視角記錄，以輔助結果解讀（例如右半段飆高）。
-技術挑戰：選取合適計數器與採樣間隔，避免過度入侵。
-影響範圍：提升對 GC/Commit/WS 變化的理解。
-複雜度評級：中
-
-### Root Cause Analysis（根因分析）
-直接原因：
-1. 單次數值不足以說明過程。
-2. 無連續時間序列數據。
-3. 無標準採樣與對齊方法。
-深層原因：
-- 架構層面：測試程式與系統觀測缺整合。
-- 技術層面：計數器選型與採樣策略。
-- 流程層面：資料對齊/命名缺乏規範。
-
-### Solution Design（解決方案設計）
-解決策略：定義計數器清單（Available MBytes、Committed Bytes、Process WS/Private Bytes），以 1s 採樣，對齊三階段事件點，輸出 CSV 並圖表化。
-
-實施步驟：
-1. 計數器設定
-- 實作細節：typeperf 清單與頻率
-- 所需資源：PowerShell
-- 預估時間：20 分
-
-2. 事件對齊
-- 實作細節：在程式輸出 Phase 標記時間
-- 所需資源：程式改版
-- 預估時間：1 小時
-
-3. 圖表化
-- 實作細節：Excel/腳本產圖
-- 所需資源：工具
-- 預估時間：30 分
-
-關鍵程式碼/設定：
-```ps1
-typeperf "\Memory\Available MBytes" "\Memory\Committed Bytes" "\Process(dnx)\Working Set" -si 1 -sc 120 > trend.csv
-```
-實際案例：文中圖示啟動期實體記憶體快速吃滿，其後多用虛擬記憶體
-實作環境：Windows Server 2012 R2 Server Core
-實測數據：
-改善前：缺少過程曲線
-改善後：有曲線可解讀（定性）
-改善幅度：分析深度提升
-
-Learning Points（學習要點）
-核心知識點：
-- 計數器選型與意義
-- 採樣頻率與入侵性
-- 事件點對齊方法
-
-技能要求：
-必備技能：typeperf、資料分析
-進階技能：自動化圖表與報表
-
-延伸思考：
-- 關聯 GC 事件（ETW）
-- 對比不同塊大小/策略
-- 多次 run 疊圖比較
-
-Practice Exercise（練習題）
-基礎練習：收集 2 分鐘曲線（30 分）
-進階練習：加上事件標記（2 小時）
-專案練習：自動產圖管線（8 小時）
-
-Assessment Criteria（評估標準）
-功能完整性（40%）：能收集與輸出
-程式碼品質（30%）：腳本可靠
-效能優化（20%）：適當採樣頻率
-創新性（10%）：圖表設計
-
-
-## Case #15: 一鍵測試與報告輸出（比值計算、表格化與結論模板）
-
-### Problem Statement（問題陳述）
-業務場景：多平台/多次測試需自動彙整 Phase1/3、利用率%、差異 pp，輸出報表與簡明結論，供決策者快速理解。
-技術挑戰：異質輸出整合、格式標準化、模板化結論。
-影響範圍：節省人力、降低錯誤、提升決策效率。
-複雜度評級：中
-
-### Root Cause Analysis（根因分析）
-直接原因：
-1. 手動彙整易出錯。
-2. 缺少標準輸出模板。
-3. 比較指標計算不一致。
-深層原因：
-- 架構層面：缺報表層模組。
-- 技術層面：資料清洗與轉換。
-- 流程層面：報表製作未自動化。
-
-### Solution Design（解決方案設計）
-解決策略：統一結果為 JSON/CSV，撰寫 PowerShell 解析與比值計算，匯出彙總表與結論段落；模板包含平台、Phase1/3、利用率%、pp 差。
-
-實施步驟：
-1. 格式統一
-- 實作細節：規範輸出字段與路徑
-- 所需資源：測試程式改版
-- 預估時間：0.5 天
-
-2. 解析與匯總
-- 實作細節：讀入多檔、計算、合併
-- 所需資源：PowerShell
-- 預估時間：0.5-1 天
-
-3. 輸出模板
-- 實作細節：Markdown/CSV/HTML
-- 所需資源：模板
-- 預估時間：0.5 天
-
-關鍵程式碼/設定：
-```ps1
-# summarize.ps1
-$files = Get-ChildItem . -Filter *.json
-$rows = foreach($f in $files){
-  $o = Get-Content $f | ConvertFrom-Json
-  [pscustomobject]@{
-    Platform = $f.BaseName
-    Phase1MB = $o.phase1MB
-    Phase3MB = $o.phase3MB
-    Util = [math]::Round(($o.phase3MB*100.0)/$o.phase1MB,2)
-  }
-}
-$rows | Export-Csv summary.csv -NoTypeInformation
-```
-實際案例：文中已計算 65.40% 與 66.87%，可由工具自動產出報表
-實作環境：Windows Server 平台
-實測數據：
-改善前：人工彙整
-改善後：一鍵輸出報表（含利用率與差異）
-改善幅度：效率與正確性提升（定性）
-
-Learning Points（學習要點）
-核心知識點：
-- 資料格式與清洗
-- 批次解析與彙總
-- 模板化結論
-
-技能要求：
-必備技能：PowerShell、資料處理
-進階技能：報表自動化/HTML 輸出
-
-延伸思考：
-- 加入圖表與趨勢
-- 發布至 Wiki/Portal
-- 整合 CI 作為 artifacts
-
-Practice Exercise（練習題）
-基礎練習：合併兩份結果輸出 CSV（30 分）
-進階練習：輸出 Markdown 表格（2 小時）
-專案練習：完整報告產生器（8 小時）
-
-Assessment Criteria（評估標準）
-功能完整性（40%）：能正確匯總
-程式碼品質（30%）：結構清晰
-效能優化（20%）：處理多檔效率
-創新性（10%）：輸出表現力
-
-
---------------------------------
 案例分類
 
 1. 按難度分類
-- 入門級（適合初學者）
-  - Case #2（指標設計）
-  - Case #4（Server Core 觀測）
-  - Case #6（容器共享 Kernel 驗證）
-  - Case #7（比較與結論）
-  - Case #11（就地編譯）
-- 中級（需要一定基礎）
-  - Case #1（一致流程）
-  - Case #3（2012 R2 測試）
-  - Case #5（Windows 容器測試）
-  - Case #9（Pagefile 校準）
-  - Case #10（最小觀測套件）
-  - Case #12（Windows 基底映像）
-  - Case #14（三階段走勢）
-  - Case #15（一鍵報表）
-- 高級（需要深厚經驗）
-  - Case #8（TP 互動延遲繞道與自動化）
-  - Case #13（Hyper-V Container 選型）
+- 入門級（適合初學者）：Case 3, 4, 5, 7, 8, 9, 12, 13
+- 中級（需要一定基礎）：Case 1, 2, 6, 10, 11, 14, 16
+- 高級（需要深厚經驗）：Case 15
 
 2. 按技術領域分類
-- 架構設計類
-  - Case #1, #2, #7, #13, #15
-- 效能優化類
-  - Case #3, #5, #8, #9, #14
-- 整合開發類
-  - Case #11, #12
-- 除錯診斷類
-  - Case #4, #6, #10, #14
-- 安全防護類
-  - Case #13
+- 架構設計類：Case 11, 14, 15
+- 效能優化類：Case 1, 2, 3, 5, 9, 12, 13
+- 整合開發類：Case 6, 10, 16
+- 除錯診斷類：Case 4, 7, 8, 13
+- 安全防護類：Case 15
 
 3. 按學習目標分類
-- 概念理解型
-  - Case #2, #6, #7, #13, #14
-- 技能練習型
-  - Case #4, #10, #11, #12, #15
-- 問題解決型
-  - Case #1, #3, #5, #8, #9
-- 創新應用型
-  - Case #7, #13, #15
+- 概念理解型：Case 7, 11, 14, 15
+- 技能練習型：Case 3, 4, 5, 6, 8, 10, 16
+- 問題解決型：Case 1, 2, 9, 12, 13
+- 創新應用型：Case 11, 15, 16
 
+————————————
 
 案例關聯圖（學習路徑建議）
-- 建議先學：
-  - Case #2（指標設計）→ 了解如何量化
-  - Case #1（一致流程）→ 確保後續測試可比
-  - Case #11（就地編譯）→ 保證工件一致
+- 先學案例：Case 3（基準測試流程）、Case 4（監控技巧）、Case 5（pagefile 與記憶體基礎）、Case 9（指標設計）。這些為後續所有測試與分析的基礎。
 - 依賴關係：
-  - Case #3、#5 依賴 Case #1/#2（流程與指標）
-  - Case #7（比較）依賴 #3、#5 的結果
-  - Case #6（共享 Kernel 驗證）可與 #5 並行
-  - Case #8（互動延遲繞道）依賴 #5 的容器環境
-  - Case #9（Pagefile 校準）支撐 #3 的前置條件
-  - Case #10、#14（觀測與走勢）可強化 #3/#5 的解讀
-  - Case #12（映像打造）支援 #5 的建置
-  - Case #13（Hyper-V Container）在理解 #6 後選型
-  - Case #15（報表）整合 #3/#5/#7 等輸出
+  - Case 1/2 依賴 Case 3、5、9（需要流程、設定與指標）。
+  - Case 6 依賴 Case 14（映像選型）與 Case 10（就地編譯流程）。
+  - Case 7 依賴 Case 6（需要容器環境）。
+  - Case 11 依賴 Case 1/2/9（數據比較）。
+  - Case 15 可由 Case 11 延伸（隔離等級決策）。
+  - Case 16 貫穿所有案例（自動化可整合各步）。
 - 完整學習路徑建議：
-  1) 指標與流程：#2 → #1 → #11
-  2) 建置與觀測：#12 → #5 → #6 → #10 → #14
-  3) 量測與比較：#3 → #9 → #7 → #15
-  4) 進階與選型：#8 → #13
-
-此學習路徑由基礎量化方法起，逐步建立可重現的測試流程與環境，進入實測與觀測，再到跨平台比較與報表輸出，最後涵蓋預覽期環境的實務繞道與隔離選型，完成從方法、建置、量測到決策的全閉環實戰。
+  1) Case 3 → 4 → 5 → 9（打基礎：流程、監控、設定、指標）
+  2) Case 10 → 12（環境與操作策略）
+  3) Case 1 → 2 → 6 → 7（在原生與容器中完成測試並驗證架構）
+  4) Case 11（比較與解讀效能差異）
+  5) Case 8（優化容器操作體驗）
+  6) Case 14（跨 OS 容器策略）
+  7) Case 15（高隔離需求的解法）
+  8) Case 13（行為診斷）＋ Case 16（自動化整合）
+  完成後具備跨平台記憶體測試與容器架構選型的完整能力。
