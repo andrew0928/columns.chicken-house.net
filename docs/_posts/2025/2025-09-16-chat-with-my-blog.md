@@ -224,9 +224,6 @@ MCP 並不是 API, 如果只是把 REST API 包裝成 MCP 的話，那就大錯�
 
 # 3, 三個實際的案例示範
 
-<!--
-個案例用一致的質化模板（見下一節），以「觀察→推論→修正→再觀察」來記錄 Agent 互動與你介入的判斷；像 Claude 的例子可展示它如何先讀 GetInstructions 再呼叫 SearchChunks，以及你如何用交叉對照檢核。
--->
 
 這段我就用我實際操作 Agent + MCP 解決的三種類型的任務示範吧。我簡單說明一下這三個 demo 個別在做什麼:
 
@@ -837,38 +834,7 @@ export async function loader({ request }) {
 
 
 # 5, 總結
-<!-- 
-將公開測試 URL 前移，並以「第一次成功體驗」為主軸（而不是安裝步驟），讓讀者先感覺到關係變短。
--->
 
-<!--
-寫到這邊，我的心得是: 
-
-我總算理解前面提到, 要 "按照工作流程來設計工具" 的意思了。寫這段的時候，正好在 FB 看到 iHower 的這篇 PO 文:
-
-https://www.facebook.com/share/p/17CwzL46FZ/
-
-內文提到 (截錄片段):
-
->  
-> 看到 LangChain 團隊分享了一個很實際場景的實驗: 如何讓 Claude Code 變成專精特定領域的 coding agent。
-> 現在的 coding agents 對主流框架很熟悉，但碰到公司內部 API、小眾框架或新版本的函式庫就gg了。作為 LangGraph 和 LangChain 的開發者，他們當然希望 AI 能寫出高品質的 LangGraph 程式碼。
-> 於是他們做了個實驗，測試四種配置:
-> 1. 原版 Claude Code (什麼都不加)
-> 2. Claude + MCP 文件工具 (指 LangChain 自己出的 mcpdoc 工具)
-> 3. Claude + Claude.md (精心撰寫的 LangGraph 指引文件)
-> 4. Claude + MCP + Claude.md 全套組合
-> 效果排名: 4 > 3 > 2 > 1
-> 這個 mcpdoc 工具提供兩個功能: list_doc_sources 抓取 llms.txt 文件的網址目錄，fetch_docs 根據網址抓取文件內容。  
->
-
-看起來也是類似的作法, 透過 MCP 有效率的按照情境讀取對應的文件, 讓 coding agent 能更精準地回應開發者的期待。各種特定領域的 coding agents 若有個能熟知該領域的開發資源 MCP 輔助, 即使不是那麼普及的領域, AI Agent 也能夠勝任。
-
-我自己擅長的文章主題，也算是某個 "冷門領域" 吧? 所以我自己設計一個 MCP server 來用也是很合理的 XDD
-
-寫到這邊, 不得不佩服 Shopify 的工程師設計 MCP 的功力。短短的五個 tools, 就把整個 Dev Site 的工作流程都變成 MCP 了。前面提到的發現 / 規劃 / 執行三層架構, 這邊也完全體現了，如果有在開發 Shopify 的朋友，推薦試試看，你會發現搭配 coding agent 的開發體驗完全是另一個層次。
-
--->
 
 交代完 Side Project 的動機, 應用示範也講了, 業界的案例研究也講了, 最後我來說明一下你可以怎麼使用我的 MCP server!
 
