@@ -712,7 +712,7 @@ MCP 的介紹，我就省了，多的是講的比我清楚的人。我想先談�
 
 Shopify 的 MCP 設計還挺有意思的，是我目前為止看過設計最精巧的 MCP, 這個有機會我另外在 PO 文來挖一下他的做法 (更新: 已經有專文介紹了, [讓 Agent 懂我的部落格: MCP-first 的服務化設計 / 4, 參考 Shopify / Context7 的 MCP 設計](/2025/09/16/chat-with-my-blog/#4-%E5%8F%83%E8%80%83-shopify--context7-%E7%9A%84-mcp-%E8%A8%AD%E8%A8%88))。 回到這主題，代理人 + 工具 是個完美的搭配，兩者都會支撐對方的發展，缺一不可。這剛好帶出這篇報告，最後兩個我沒提到的主題，在這邊交代一下之間的關聯吧。這份 A16Z 趨勢報告最後兩段我沒提到的是:
 
-( 5 ). Beyond .env: Managing secrets in an agent-driven world
+( 5 ). Beyond .env: Managing secrets in an agent-driven world  
 ( 9 ). Abstracted primitives: Every AI agent needs auth, billing, and persistent storage
 
 其實, (5) 就是在講安全機制, 為了更貼近 context , 更好的安全機制是像 OAuth 這種依照需要才取得授權的作法，而不是你拿到了工具就無條件獲取權限 (透過 .env 就沒這種彈性)。而 (9) 則是 Agent 越來越普及後的必然發展。就跟軟體跟網路成熟後，必然的發展就是 Cloud, 也因此衍生出 Public Cloud / PaaS 等生態, 所有你開發軟體需要的工具跟管理體系都會具備，而未來這一切也會發生在 Agent 身上。
