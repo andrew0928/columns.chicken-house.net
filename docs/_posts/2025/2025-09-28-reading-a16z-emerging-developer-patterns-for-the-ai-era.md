@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "心得與觀察 - Emerging Developer Patterns for the AI Era"
+title: "心得 - Emerging Developer Patterns for the AI Era"
 categories:
 - "系列文章: 架構師觀點"
 tags: ["架構師觀點","技術隨筆"]
