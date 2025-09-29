@@ -24,7 +24,7 @@ logo: https://d1lamhf6l6yk6d.cloudfront.net/uploads/2025/05/250430-Nine-Emerging
 <!--more-->
 
 
-# 寫在前面
+# 0, 寫在前面
 
 其實我看過很多這類趨勢報告，不過就這篇我特別挑出來深讀，原因很簡單，這篇一開始在 Facebook 其實有好幾位大神轉貼，包括保哥 & iHower, 就吸引我注意了。仔細一看，他不是單純的比較趨勢或是市場占有率等等這些分析報告，而是具體的在談 "如何改變"。看的出來這些判斷，背後都有實際的研究跟專家的見解，不是隨便湊出來的內容。而這些預測趨勢，好幾個地方都跟我過去的想像跟推論一致。
 
@@ -84,27 +84,38 @@ A16Z 的趨勢報告是這篇: [Emerging Developer Patterns for the AI Era](http
 > 9. 專門針對 Agent 提供的 API 基礎服務，例如: 身份驗證、計費、資料庫等雲端服務
 
 
+<--
+
 **以下則是我在 2025/06/12 ~ 07/24 之間的 12 篇 Facebook PO 文清單**, 數字統計至今天 (2025/09/28 為止):
 
 | 日期 | 標題 (FB連結) | 按讚 | 留言 | 分享 | 儲存 |
 | ---- | ------------- | ---- | ------- | ----- | ---- |
 |2025/06/12| [AI Native Git 與版控演進](https://www.facebook.com/andrew.blog.0928/posts/1303100645158077)   | 592 | 19 | 164 | 176 |
 |2025/06/13| [AI原生Git操作想像](https://www.facebook.com/andrew.blog.0928/posts/1303973295070812)          | 70 | 2 | 12 | 15 |
-|2025/06/16| [AI驅動介面趨勢(1)](https://www.facebook.com/andrew.blog.0928/posts/1306421161492692)          | 78 | 6 | 20 | 24 |
-|2025/06/17| [AI介面架構設計(2)](https://www.facebook.com/andrew.blog.0928/posts/1307388741395934)          | 311 | 8 | 100 | 125 |
-|2025/06/19| [AI介面與UX比較(3)](https://www.facebook.com/andrew.blog.0928/posts/1309122297889245)          | 92 | 1 | 15 | 21 |
-|2025/06/20| [文件成AI流程關鍵(1)](https://www.facebook.com/andrew.blog.0928/posts/1309855694482572)        | 95 | 3 | 17 | 18 |
-|2025/06/26| [文件即程式實例(2)](https://www.facebook.com/andrew.blog.0928/posts/1315125470622261)          | 87 | 2 | 28 | 24 |
+|2025/06/16| [AI驅動介面趨勢](https://www.facebook.com/andrew.blog.0928/posts/1306421161492692)          | 78 | 6 | 20 | 24 |
+|2025/06/17| [AI介面架構設計](https://www.facebook.com/andrew.blog.0928/posts/1307388741395934)          | 311 | 8 | 100 | 125 |
+|2025/06/19| [AI介面與UX比較](https://www.facebook.com/andrew.blog.0928/posts/1309122297889245)          | 92 | 1 | 15 | 21 |
+|2025/06/20| [文件成AI流程關鍵](https://www.facebook.com/andrew.blog.0928/posts/1309855694482572)        | 95 | 3 | 17 | 18 |
+|2025/06/26| [文件即程式實例](https://www.facebook.com/andrew.blog.0928/posts/1315125470622261)          | 87 | 2 | 28 | 24 |
+|2025/07/21| [Context工程與文件](https://www.facebook.com/andrew.blog.0928/posts/1337243908410417)       | 177 | 2 | 25 | 65 |
 |2025/06/27| [範本到生成轉變](https://www.facebook.com/andrew.blog.0928/posts/1315999790534829)             | 57 | 6 | 8 | 16 |
-|2025/07/21| [Context工程與文件(3)](https://www.facebook.com/andrew.blog.0928/posts/1337243908410417)       | 177 | 2 | 25 | 65 |
 |2025/07/22| [無障礙設計即AI介面](https://www.facebook.com/andrew.blog.0928/posts/1338108878323920)         | 161 | 2 | 42 | 62 |
 |2025/07/23| [非同步Agent崛起](https://www.facebook.com/andrew.blog.0928/posts/1338994928235315)            | 293 | 4 | 84 | 82 |
 |2025/07/24| [MCP 邁向通用標準](https://www.facebook.com/andrew.blog.0928/posts/1340022954799179)           | 740 | 8 | 181 | 298 |
 
+-->
 
 
 
-# 2025/06/12, AI Native Git 與版控演進
+# 1, AI-native Git
+
+這段的完整標題是: AI-native Git: Rethinking version control for AI agents, 我在 FB 分了兩篇 PO 文來談這主題, 第一則是闡述我對這方向的看法，第二則則是具體的想像這改變發生後的使用場景。
+
+- 2025/06/12, AI Native Git 與版控演進
+- 2025/06/13, AI原生Git操作想像
+
+
+## 2025/06/12, AI Native Git 與版控演進
 
 Facebook 連結: [https://www.facebook.com/andrew.blog.0928/posts/1303100645158077](https://www.facebook.com/andrew.blog.0928/posts/1303100645158077)
 
@@ -150,7 +161,7 @@ AI Native Git, 大概就是這個意思吧。針對這項我花了點篇幅來�
 
 
 
-# 2025/06/13, AI原生Git操作想像
+## 2025/06/13, AI原生Git操作想像
 
 Facebook 連結: [https://www.facebook.com/andrew.blog.0928/posts/1303973295070812](https://www.facebook.com/andrew.blog.0928/posts/1303973295070812)
 
@@ -215,8 +226,23 @@ code generated and validated
 
 
 
+# 2, Dashboards -> Synthesis
 
-# 2025/06/16, AI驅動介面趨勢(1)
+這段在原文的標題是: Dashboards -> Synthesis: Dynamic AI-driven interfaces
+
+這章節談的是 Dashboard 的改變, 但是背後談的其實是 AI APP 的 UI 設計改變。會拿 Dashboard 當作例子只是因為 Dashboard 是資訊特別複雜的一種 UI 類別，所以特別被拿出來探討而已，但是我覺得這段其實談的是未來 AI APP 的 UI / UX 課題。
+
+因此這段我當時在 FB 花了比較多篇幅在談，我分了三則 PO 文:
+
+- 2025/06/16, AI驅動介面趨勢  
+UI 如何從設計師的設計, 進化到 AI 在當下動態生成的想像
+- 2025/06/17, AI介面架構設計  
+這段是我自己補充的開發經驗。去年初我發表安德魯小舖的時候，做過對談 + 傳統 UI 操作混用的結構，套用當時被 Microsoft 炒得火熱的名詞 "Copilot" 當作代表, 示範 MVC 的 controller 如何跟 LLM 協作, 協同做好 UI 與 Chat 同時跟使用者互動的設計案例
+- 2025/06/19, AI介面與UX比較  
+這段也是我補充的開發經驗。我在去年的 DevOpsDays Keynote 展示過這段，UX 的 feedback 好壞與否，過去是依靠數據統計來推論，而我示範了直接用 LLM 直接根據 context 來猜測使用者滿意度的作法。
+
+
+## 2025/06/16, AI驅動介面趨勢
 
 Facebook 連結: [https://www.facebook.com/andrew.blog.0928/posts/1306421161492692](https://www.facebook.com/andrew.blog.0928/posts/1306421161492692)
 
@@ -284,7 +310,7 @@ AI-Driven UI 這主題，也是個很精彩的趨勢預測，令我更開心的�
 
 
 
-# 2025/06/17, AI介面架構設計(2)
+## 2025/06/17, AI介面架構設計
 
 Facebook 連結: [https://www.facebook.com/andrew.blog.0928/posts/1307388741395934](https://www.facebook.com/andrew.blog.0928/posts/1307388741395934)
 
@@ -337,7 +363,7 @@ MVC, Model / View / Control, 整個系統由中心的 Controller 來控制什麼
 相關資訊，我留在第一則留言，歡迎大家討論，也歡迎給我回饋
 
 
-# 2025/06/19, AI介面與UX比較(3)
+## 2025/06/19, AI介面與UX比較
 
 Facebook 連結: [https://www.facebook.com/andrew.blog.0928/posts/1309122297889245](https://www.facebook.com/andrew.blog.0928/posts/1309122297889245)
 
@@ -390,15 +416,25 @@ AI-Driven Interface 這題寫了三篇，總算告一段落，感謝各位的捧
 
 
 
-# 2025/06/20, 文件成為 AI 控制流程關鍵(1)
+# 3, Docs are evolving
+
+這段我覺得是開發流程改變的結構核心: Document 的意義上實質的變化。
+
+原文的完整標題是: Docs are evolving: Docs are becoming a combination of tools, indices, and interactive knowledge bases
+
+文件，從單純的 "文件" 給人閱讀跟作為紀錄，到現在變成集合需求的所有必要資訊 (spec) 成為提供給 AI 主要的 context 來源，用於 AI coding 以及 Knowledge base 的主角，其實有不少觀念跟流程上的轉變。
+
+這是最關鍵的一環，我在 FB 也是 PO 了三則才聊完這個主題。條列如下:
+
+- 2025/06/20, 文件成為 AI 控制流程關鍵
+- 2025/06/26, 文件即程式實例
+- 2025/07/21, Context工程與文件
+
+
+
+## 2025/06/20, 文件成為 AI 控制流程關鍵
 
 Facebook 連結: [https://www.facebook.com/andrew.blog.0928/posts/1309855694482572](https://www.facebook.com/andrew.blog.0928/posts/1309855694482572)
-
-
-
---
-
-來看 A16Z 這篇 AI 趨勢報告的第三項: **Docs are becoming a combination of tools, indices, and interactive knowledge bases**
 
 --
 
@@ -445,7 +481,7 @@ Facebook 連結: [https://www.facebook.com/andrew.blog.0928/posts/13098556944825
 
 
 
-# 2025/06/26, 文件即程式實例(2)
+## 2025/06/26, 文件即程式實例
 
 Facebook 連結: [https://www.facebook.com/andrew.blog.0928/posts/1315125470622261](https://www.facebook.com/andrew.blog.0928/posts/1315125470622261)
 
@@ -475,59 +511,13 @@ Facebook 連結: [https://www.facebook.com/andrew.blog.0928/posts/13151254706222
 實際上, 我自己跟 AI 協作的方式就已經是這樣用了, 不知不覺文件的產生數量變多了, 心態上也改變了, 我不是為了 "要寫文件" 而寫, 而是為了 "要讓 AI 一次能讀懂我要什麼"，並且要重來的時候不用再從對話複製貼上一大串文字... 無形之間就變成這樣的結果: 靠文件溝通。
 
 
-
-# 2025/06/27, 範本到生成轉變
-
-Facebook 連結: [https://www.facebook.com/andrew.blog.0928/posts/1315999790534829](https://www.facebook.com/andrew.blog.0928/posts/1315999790534829)
-
---
-
-![alt text](/images/2025-09-28-reading-a16z-emerging-developer-patterns-for-the-ai-era/image-8.png)
-
-A16Z, AI 趨勢報告的第四項, **Templates to generation**: Vibe coding replaces create-react-app 
-
-週五下班，先來談這題比較不燒腦的 templates to generation 好了, 過去起始一個新專案的基本動作: 從 project template 生成一個初始專案的作法，會完全被 AI coding 取代.. 。這點我完全認同，甚至覺得不只是 project template, 連帶的各種形式的 code generator, 各種 search & copy / paste code 的服務 ( stackoverflow... ) 都有一樣的命運。
-
-這些工具或是服務，廣義上來說都是 code generation .. 而藉由 LLM 來 gen code 效果比起其他方式好太多, 最主要的原因就是 LLM 能理解你的意圖, 而這些能力讓你能用敘述，或是用文件，就足以產生夠精準品質夠好的程式碼，讓其他樣板類型技術完全沒有任何利用的價值..
-
-文章的敘述則是更精確了，比起 project template 是給你一個 "通用"，並且搭配接受度高的 framework ( 泛指 tech stack 選擇 ) 的起始專案樣板，而透過 AI 生成，你可以自己選擇 framework / tech stack，精確自訂，符合你使用情境與需求的起始專案。兩者之間的差別只是幾分鐘的時間差，我想每個人都知道該選 AI coding …
-
-繼續往下前，我摘要一段文章的內容:
-
-> "  
-> This unlocks a new distribution model in the ecosystem. **Instead of a few frameworks sitting at the head of the long tail, we may see a wider spread of composable, stack-specific generations** where tools and architectures are mixed and matched dynamically.  
-> "
-
-換了方法，你多了自主性。你不再會被 template 限制了你的技術選擇 ( 不會被迫選擇主流 framework, 對 tech stack 有選擇與替換的彈性 )。這些能力甚至放大到極致，如果你專案初期還無法決定 tech stack, 你甚至可以用很低的成本，把你專案需求用每種 framework / tech stack 都生一份出來驗證看看再決定… ( 反正就幾十分鐘的事情)。
-
-看趨勢報告，對各位而言可不是選擇題，決定挑選 AI coding 就結束了，後半部我分享一下這主題延伸的經驗跟想法。過去我們團隊做了類似的事情: 自訂 project template ...，其中一個要解決的問題就是，每個新專案，都要申請一大堆 infra 服務，而這些服務很難懂 (一堆 naming rule 要遵守)，於是我們搭配開發了 SDK, 把部分規範寫在 SDK 內，另外留個 config, 把申請後的資訊填進去，SDK 就會自動轉譯那些難搞的部分，讓專案能 ASAP 就順利完成部署上線測試。
-
-這樣的做法的確有效，而缺點是我們必須花費心力去維護這 project template.. 雖然從上面的結論來看，以後都改用 vibe coding 就好了，但是投資在 SDK 身上仍然是必要的，因為 SDK 封裝了很多複雜的規則，即使不需要 template，他仍然能精簡你的作業流程，也能讓 vibe coding 能少處理這些需求，少產了一大段 code，效率跟正確性也都會提升。
-
-當你越依賴 AI 生成 code, 你就越需要花費心力來提高 AI coding 的成效，透過各種手段降低需要產生的程式碼數量，以及降低需要解決需求的複雜度，都是很有效的手段，不論你是不是用 AI coding。我覺得是看這類趨勢報告必要的思路。除了 SDK，如果流程上若也能對應調整 (我最推的是 TDD)，讓 vibe coding 過程能合理的分段產生 + 人工確認，則能在另一個面向大幅降低 AI 繞錯路的機會。
-
-兩個月前我貼過[一篇 PO 文](https://www.facebook.com/share/1B73gnprc3/) ，大意是 vibe coding 的技巧, 講的就是搭配 TDD 的精神來引導 AI 寫出你要的 code. 先讓 AI 替你寫出 interface，你驗證 interface 是否如預期。再來則是針對 interface 產生測試 (同樣你要確認)，這時測試應該會失敗 (紅燈)。再來是讓 AI 把 code 寫完，過程中讓每個測試從紅燈變綠燈。這流程會有效，主要原因都是針對 vibe coding 的弱項 (其實也是人類 coding 的弱項啊)..
-
-1. 一次寫越多 code 越容易錯，TDD 有系統有結構的切成多個步驟分別進行
-2. 一次 review 越大包的 code 越難抓出問題，你越早準備好測試，TDD 就能分攤你 review 的負擔
-3. TDD 的切法分成 interface, test code, test result .. 都能跟工具對應，每個階段都能 build / run test，你可以第一時間靠工具就抓出低級錯誤
-
-如果你想知道我以前聊過什麼 SDK, 可以看這幾個研討會的簡報
-- 前陣子的熱門話題: [vibe coding, where 2 engineers can now create the tech debt of at least 50 engineers](https://www.facebook.com/share/1B73gnprc3/)
-- DevOpsDays Taipei 2021 簡報: [DevOpsDays Taipei 2021, 大型團隊落實 CICD 的挑戰](https://www.facebook.com/share/1FrPrLzcEC/)
-- .NET Conf Taiwan 2019 簡報, [大規模微服務導入](https://www.facebook.com/share/1CQCsRneyV/)
-
-
-
-# 2025/07/21, Context工程與文件(3)
+## 2025/07/21, Context工程與文件
 
 Facebook 連結: [https://www.facebook.com/andrew.blog.0928/posts/1337243908410417](https://www.facebook.com/andrew.blog.0928/posts/1337243908410417)
 
 --
 
 ![alt text](/images/2025-09-28-reading-a16z-emerging-developer-patterns-for-the-ai-era/image-9.png)
-
-繼續這題: Emerging Developer Patterns for the AI Era / 3, Docs are evolving ...
 
 Document, 在 Vibe Coding 當道的年代 (也不過才半年) 突然之間變成顯學。兩年前 ChatGPT 爆紅, 當時大家談的是 Prompt Engineering, 現在談的是 Context Engineering, 差別在哪? 差別在於模型理解能力，跟使用工具的能力都變強了。Prompt 寫得好不好重要性越來越低，更重要的是 "對的資訊" 有沒有被放到 Context Windows 內? 跟 RAG 奮鬥過的各位應該知道我在講什麼 XDD
 
@@ -567,7 +557,67 @@ GitHub Repo: [/lis186/taiwan-holiday-mcp](https://github.com/lis186/taiwan-holid
 
 
 
-# 2025/07/22, 無障礙設計, AI 的通用介面
+
+# 4, Templates to generation
+
+原文標題: Templates to generation: Vibe coding replaces create-react-app 
+我當時在 FB 談這主題的 PO 文:
+
+- 2025/06/27, 範本到生成轉變
+
+
+## 2025/06/27, 範本到生成轉變
+
+Facebook 連結: [https://www.facebook.com/andrew.blog.0928/posts/1315999790534829](https://www.facebook.com/andrew.blog.0928/posts/1315999790534829)
+
+--
+
+![alt text](/images/2025-09-28-reading-a16z-emerging-developer-patterns-for-the-ai-era/image-8.png)
+
+週五下班，先來談這題比較不燒腦的 templates to generation 好了, 過去起始一個新專案的基本動作: 從 project template 生成一個初始專案的作法，會完全被 AI coding 取代.. 。這點我完全認同，甚至覺得不只是 project template, 連帶的各種形式的 code generator, 各種 search & copy / paste code 的服務 ( stackoverflow... ) 都有一樣的命運。
+
+這些工具或是服務，廣義上來說都是 code generation .. 而藉由 LLM 來 gen code 效果比起其他方式好太多, 最主要的原因就是 LLM 能理解你的意圖, 而這些能力讓你能用敘述，或是用文件，就足以產生夠精準品質夠好的程式碼，讓其他樣板類型技術完全沒有任何利用的價值..
+
+文章的敘述則是更精確了，比起 project template 是給你一個 "通用"，並且搭配接受度高的 framework ( 泛指 tech stack 選擇 ) 的起始專案樣板，而透過 AI 生成，你可以自己選擇 framework / tech stack，精確自訂，符合你使用情境與需求的起始專案。兩者之間的差別只是幾分鐘的時間差，我想每個人都知道該選 AI coding …
+
+繼續往下前，我摘要一段文章的內容:
+
+> "  
+> This unlocks a new distribution model in the ecosystem. **Instead of a few frameworks sitting at the head of the long tail, we may see a wider spread of composable, stack-specific generations** where tools and architectures are mixed and matched dynamically.  
+> "
+
+換了方法，你多了自主性。你不再會被 template 限制了你的技術選擇 ( 不會被迫選擇主流 framework, 對 tech stack 有選擇與替換的彈性 )。這些能力甚至放大到極致，如果你專案初期還無法決定 tech stack, 你甚至可以用很低的成本，把你專案需求用每種 framework / tech stack 都生一份出來驗證看看再決定… ( 反正就幾十分鐘的事情)。
+
+看趨勢報告，對各位而言可不是選擇題，決定挑選 AI coding 就結束了，後半部我分享一下這主題延伸的經驗跟想法。過去我們團隊做了類似的事情: 自訂 project template ...，其中一個要解決的問題就是，每個新專案，都要申請一大堆 infra 服務，而這些服務很難懂 (一堆 naming rule 要遵守)，於是我們搭配開發了 SDK, 把部分規範寫在 SDK 內，另外留個 config, 把申請後的資訊填進去，SDK 就會自動轉譯那些難搞的部分，讓專案能 ASAP 就順利完成部署上線測試。
+
+這樣的做法的確有效，而缺點是我們必須花費心力去維護這 project template.. 雖然從上面的結論來看，以後都改用 vibe coding 就好了，但是投資在 SDK 身上仍然是必要的，因為 SDK 封裝了很多複雜的規則，即使不需要 template，他仍然能精簡你的作業流程，也能讓 vibe coding 能少處理這些需求，少產了一大段 code，效率跟正確性也都會提升。
+
+當你越依賴 AI 生成 code, 你就越需要花費心力來提高 AI coding 的成效，透過各種手段降低需要產生的程式碼數量，以及降低需要解決需求的複雜度，都是很有效的手段，不論你是不是用 AI coding。我覺得是看這類趨勢報告必要的思路。除了 SDK，如果流程上若也能對應調整 (我最推的是 TDD)，讓 vibe coding 過程能合理的分段產生 + 人工確認，則能在另一個面向大幅降低 AI 繞錯路的機會。
+
+兩個月前我貼過[一篇 PO 文](https://www.facebook.com/share/1B73gnprc3/) ，大意是 vibe coding 的技巧, 講的就是搭配 TDD 的精神來引導 AI 寫出你要的 code. 先讓 AI 替你寫出 interface，你驗證 interface 是否如預期。再來則是針對 interface 產生測試 (同樣你要確認)，這時測試應該會失敗 (紅燈)。再來是讓 AI 把 code 寫完，過程中讓每個測試從紅燈變綠燈。這流程會有效，主要原因都是針對 vibe coding 的弱項 (其實也是人類 coding 的弱項啊)..
+
+1. 一次寫越多 code 越容易錯，TDD 有系統有結構的切成多個步驟分別進行
+2. 一次 review 越大包的 code 越難抓出問題，你越早準備好測試，TDD 就能分攤你 review 的負擔
+3. TDD 的切法分成 interface, test code, test result .. 都能跟工具對應，每個階段都能 build / run test，你可以第一時間靠工具就抓出低級錯誤
+
+如果你想知道我以前聊過什麼 SDK, 可以看這幾個研討會的簡報
+- 前陣子的熱門話題: [vibe coding, where 2 engineers can now create the tech debt of at least 50 engineers](https://www.facebook.com/share/1B73gnprc3/)
+- DevOpsDays Taipei 2021 簡報: [DevOpsDays Taipei 2021, 大型團隊落實 CICD 的挑戰](https://www.facebook.com/share/1FrPrLzcEC/)
+- .NET Conf Taiwan 2019 簡報, [大規模微服務導入](https://www.facebook.com/share/1CQCsRneyV/)
+
+
+
+
+# 6, Accessibility as the universal interface
+
+原文標題: Accessibility as the universal interface: Apps through the eyes of an LLM
+我當時在 FB 談這主題的 PO 文:
+
+- 2025/07/22, 無障礙設計, AI 的通用介面
+
+
+
+## 2025/07/22, 無障礙設計, AI 的通用介面
 
 Facebook 連結: [https://www.facebook.com/andrew.blog.0928/posts/1338108878323920](https://www.facebook.com/andrew.blog.0928/posts/1338108878323920)
 
@@ -609,9 +659,9 @@ AI 無法真正 "看到" 操作畫面。即使已經有 Computer Use 的能力 (
 
 
 
+# 7, The rise of asynchronous agent work
 
-
-# 2025/07/23, 非同步Agent崛起
+## 2025/07/23, 非同步Agent崛起
 
 Facebook 連結: [https://www.facebook.com/andrew.blog.0928/posts/1338994928235315](https://www.facebook.com/andrew.blog.0928/posts/1338994928235315)
 
@@ -670,7 +720,12 @@ Facebook 連結: [https://www.facebook.com/andrew.blog.0928/posts/13389949282353
 如果你認同這樣的想法，其實現在就要開始準備，往主要發展路線移動了。
 
 
-# 2025/07/24, MCP 邁向通用標準
+
+# 8, MCP as universal standard
+
+原文標題: MCP as universal standard: MCP is one step closer to becoming a universal standard 
+
+## 2025/07/24, MCP 邁向通用標準
 
 Facebook 連結: [https://www.facebook.com/andrew.blog.0928/posts/1340022954799179](https://www.facebook.com/andrew.blog.0928/posts/1340022954799179)
 
