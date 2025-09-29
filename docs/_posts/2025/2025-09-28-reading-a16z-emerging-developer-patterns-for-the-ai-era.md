@@ -84,7 +84,7 @@ A16Z 的趨勢報告是這篇: [Emerging Developer Patterns for the AI Era](http
 > 9. 專門針對 Agent 提供的 API 基礎服務，例如: 身份驗證、計費、資料庫等雲端服務
 
 
-<--
+<!--
 
 **以下則是我在 2025/06/12 ~ 07/24 之間的 12 篇 Facebook PO 文清單**, 數字統計至今天 (2025/09/28 為止):
 
