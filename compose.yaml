@@ -8,6 +8,7 @@ services:
       - 4000:4000
     volumes:
       - ./docs:/usr/src/app
+    platform: linux/amd64
   
 
 # launch service: docker-compose up -d --build --force-recreate jekyll
