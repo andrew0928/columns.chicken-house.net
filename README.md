@@ -124,4 +124,9 @@ bundle config set --local path '/home/vscode/.bundle'
 # 安裝相依套件
 bundle install
 
+# 就地啟動 Jekyll serve
+
+cd /workspaces/columns.chicken-house.net/docs/
+bundle exec jekyll s -d ~/_site
+
 ```
