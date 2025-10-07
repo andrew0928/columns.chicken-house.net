@@ -3,5 +3,7 @@
   "image": "mcr.microsoft.com/devcontainers/jekyll:latest",
   "workspaceFolder": "/workspaces/columns.chicken-house.net",
   "forwardPorts": [4000],
-  "remoteUser": "vscode"
+  
+  // 關鍵：讓容器把 remoteUser 的 UID/GID 調成和本機一致（避免 chown）
+  "updateRemoteUserUID": true
 }
