@@ -1,19 +1,8 @@
-# docker run --rm -p 4000:4000 -v .:/usr/src/app starefossen/github-pages
 services:
   github-pages:
-    image: starefossen/github-pages
-#    entrypoint: jekyll serve --watch --drafts --future --unpublished --incremental 
-    command: jekyll serve -d /_site --watch -H 0.0.0.0 -P 4000  --drafts --future --unpublished
+    image: mcr.microsoft.com/devcontainers/jekyll:latest
+    command: jekyll serve --source /usr/src/app --watch --host 0.0.0.0 --drafts --future --unpublished --trace
     ports:
       - 4000:4000
     volumes:
-      - ./docs:/usr/src/app
-    platform: linux/amd64
-  
-
-# launch service: docker-compose up -d --build --force-recreate jekyll
-# launch console: docker-compose exec -w /home jekyll bash
-#                 >  cp -Ru columns/* source
-# launch logs:    docker-compose logs -t --tail 300 -f jekyll
-
-# sync NAS: robocopy /MOT:1 /MIR . \\home.chicken-house.net\docker\columns.chicken-house.net\ 
+      - ./docs:/usr/src/app:cached

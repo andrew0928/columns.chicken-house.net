@@ -1,6 +1,7 @@
 source 'https://rubygems.org'
-# gem 'github-pages', group: :jekyll_plugins
-# gem 'github-pages', '>= 104'
+
+# 由 GitHub Pages 統一鎖定 Jekyll 與所有外掛版本
 gem 'github-pages'
-# gem 'tzinfo-data'
-# gem 'wdm', '>= 0.1.0'
+
+# Ruby 3 之後移除了 webrick，本機(容器內)執行 jekyll serve 需要它
+gem 'webrick'

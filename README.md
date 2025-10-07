@@ -107,3 +107,21 @@ docker-compose exec -w /usr/src/app github-pages bash
 ```
 docker-compose logs -t --tail 300 -f --no-log-prefix github-pages
 ```
+
+
+# DevContainer 使用方式
+
+初次使用，請先 bundle install 更新初始環境
+
+```shell
+
+# 切換到 Gemfile 目錄
+cd /workspaces/columns.chicken-house.net/docs/
+
+# 設定 bundle 安裝路徑，避免權限問題
+bundle config set --local path '/home/vscode/.bundle'
+
+# 安裝相依套件
+bundle install
+
+```

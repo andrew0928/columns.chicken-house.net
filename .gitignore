@@ -4,8 +4,12 @@ _site/
 \#*\#
 *~
 .DS_Store
-Gemfile.lock
 .jekyll-metadata
+
+
+
+# Jekyll settings
+/docs/Gemfile.lock
 
 
 # SpecStory artifacts - keep locally but don't commit

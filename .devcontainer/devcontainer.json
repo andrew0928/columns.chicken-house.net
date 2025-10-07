@@ -1,13 +1,7 @@
 {
-  "name": "ubuntu-dotnet",
-  "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
-  "features": {
-    "ghcr.io/devcontainers/features/dotnet:2": { "version": "8.0" },
-    "ghcr.io/devcontainers/features/git:1": {}
-  },
-  "workspaceMount": "source=${localWorkspaceFolder},target=/workspaces/${localWorkspaceFolderBasename},type=bind,consistency=cached",
-  "workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",
-  "remoteUser": "vscode",
-  "forwardPorts": [],
-  "postCreateCommand": "bash -lc 'dotnet --info && git --version'"
+  "name": "Jekyll Dev",
+  "image": "mcr.microsoft.com/devcontainers/jekyll:latest",
+  "workspaceFolder": "/workspaces/columns.chicken-house.net",
+  "forwardPorts": [4000],
+  "remoteUser": "vscode"
 }
