@@ -776,11 +776,38 @@ Shopify 的 MCP 設計還挺有意思的，是我目前為止看過設計最精�
 
 # 5 + 9, Agent Infrastructure
 
-這邊補一下原本趨勢報告有的兩個小段落，但是當時我沒有特別發文導讀，現在想想其實這兩點應該還蠻重要的，就回頭來補上了。
+這邊補一下原本趨勢報告有的兩個小段落, 原本我是想跳過, 不過事後想想這也是蠻重要的變革, 尤其是最近才發生過的 Vibe Coding + APIKEY 話題, ...。
+
 這兩段的原標題分別是:
 
-5. Beyond .Env: : Managing secrets in an agent-driven world
-9. Abstracted primitives: Every AI agent needs auth, billing, and persistent storage
+( 5 ). Beyond .env: Managing secrets in an agent-driven world  
+( 9 ). Abstracted primitives: Every AI agent needs auth, billing, and persistent storage
+
+這兩段我都把它歸類在: "Agent 應用", 必要的基礎設施 (Infrastructure) 這主題吧。我重新看了一次趨勢報告的這兩段，原文其實只有點到為止，不過我大概能抓的到他背後的意圖，我就嘗試用我自己的觀點來解讀...。
+
+我從 SaaS 的角度來看這題。第一個是 .env, 通常這些敏感資訊 ( 例如 password, APIKEY 等等 ) 都被視為 secret, 儲存時需要特別保護, 而傳遞給應用程式時通常都會用 "不落地" 的方式，降低過程中留下的痕跡 (指紋, finger print), 最普及的方式就是透過環境變數 (environment variable) 傳遞, 這也是 .env 檔案的由來。
+
+這跟 Agent 有何關係? 先來看一下, Agent 在什麼情況下會需要使用 secret...
+
+Agent 最強大的地方，在於他能 "代表" 你去操作其他系統，完成你交給 Agent 的任務。舉例來說，我先前在 DevOpsDays 2024 Keynote 談 "function calling" 時用到一個案例, 如果你授權讓 LLM 使用你的行事曆 API (function), LLM 判斷前後文, 會自己找出當下需要哪些 tools, 需要給甚麼參數, 才能完成任務。
+
+這時, 行事曆的 API 應該會有 APIKEY , LLM 才能 "代表" 你去存取你自己的行事曆。不過, 以我的例子來說, Agent 是 ChatGPT, Host 在 OpenAI, 而行事曆是 Google Calendar, Host 在 Google, 中間透過第三方 (我用 Anthropic 提供的 MCP server) MCP server 來串接。你信任哪一家公司, 放心把你的個資 (其實是 APIKEY) 交給他保管?
+
+整把 APIKEY 交出去，在現在頻繁的系統互動中風險太大了。傳統的 .env 交出去就交出去了, 要做更細緻的控制不是那麼容易。為了解決這個問題，更動態的授權機制就出現了。這跟 AI 無關，早年你開始看到各 SaaS 服務接受你用 Facebook 帳號登入，就是這類情境。這技術的規範就是 OAuth...
+
+技術細節我就跳過了，實際上授權的過程中，你點選了 "我要用 Facebook 帳號登入" 那瞬間，網站會把你帶到真正的 Facebook 確認頁面，只有你同意畫面上標註的授權範圍後，Facebook 才會把一次性存取的 token 交給你要授權的對象 (在這案例是 MCP server)，授權成功後 MCP 就能存取你的行事曆內容，而使用者隨時可以撤銷這授權。
+
+因為以後會有越來越多 "使用者在 Agent 上安裝 MCP tools", 你互動的對象是 Agent, 但是卻要授權給 MCP server, 存取你的個人資訊 (這又是另一個服務商)。這些情境在你安裝多個 MCP tools 的情況就越來越複雜，根本不可能再用傳統的 APIKEY / .env 方式管理了。因此 MCP 規格在制定的時候，也直接把 OAuth2.1 當作唯一的授權規範。
+
+這已經成為現實了，只是 MCP 還很年輕 (還不到一歲)，實際應用還未完全普及，但是在系統上已經看的到他的樣貌了。
+
+
+
+
+
+
+
+
 
 這兩段，沒有工程背景 (尤其是 SaaS 服務的開發經驗) 應該體會不出這重要性吧。
 這兩段我會放在一起談，因為我覺得骨子裡講的是同一類的事情．5. 講的是 Agent 的認證，通常是 APIKEY 這類的存取憑證資訊，傳統做法都是透過 .Env 或是環境變數注入的，然而這機制在 Agent 開始行不通了．我就拿大家對購物世界的想像當例子好了：
