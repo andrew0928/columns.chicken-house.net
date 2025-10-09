@@ -1,7 +1,7 @@
 services:
   github-pages:
     image: mcr.microsoft.com/devcontainers/jekyll:latest
-    command: jekyll serve --source /usr/src/app --watch --host 0.0.0.0 --drafts --future --unpublished --trace
+    command: jekyll serve --source /usr/src/app --watch --host 0.0.0.0 --drafts --future --unpublished
     ports:
       - 4000:4000
     volumes:
