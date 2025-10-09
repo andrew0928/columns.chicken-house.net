@@ -6,4 +6,7 @@
   
   // 關鍵：讓容器把 remoteUser 的 UID/GID 調成和本機一致（避免 chown）
   "updateRemoteUserUID": true
+
+  // run jekyll manully:
+  // bundle exec jekyll serve --source /workspaces/columns.chicken-house.net/docs --watch --host 0.0.0.0 --drafts --future --unpublished --trace
 }
