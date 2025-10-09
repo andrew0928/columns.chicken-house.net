@@ -774,7 +774,7 @@ Shopify 的 MCP 設計還挺有意思的，是我目前為止看過設計最精�
 
 
 
-# 5 + 9, Agent Infrastructure
+# 補 (5 + 9) Agent Infrastructure
 
 補一下趨勢報告的 (5) 跟 (9), 原本沒什麼靈感就跳過這兩段了, 不過剛好有幾個實際的案例有關聯, 就來補這段了 (加上上週熱烈討論的  Vibe Coding + APIKEY 話題, ...)
 
@@ -792,29 +792,43 @@ Facebook 連結: []()
 
 --
 
-第一個 .env 的例子, 其實是後端服務設定 APIKEY 等等這類 secret 很常用的做法。比起直接寫 config, 資訊存在 disk 上就不及格了, 典型的做法是透過環境變數 ( env ), 而 .env 不也是檔案嗎? 沒錯, 但是至少不是應用程式直接去讀取, 通常會是 k8s, docker 等等這類 host 環境去讀取, 再用 env 的方式給應用程式。
+![alt text](/images/2025-09-28-reading-a16z-emerging-developer-patterns-for-the-ai-era/image-14.png)  
+圖說: A CLI mock-up of what the agent-centric secret broker flow could look like.
+
+
+第一個談 secret management, 報告裡舉的是 .env 的例子, 其實是後端服務設定 APIKEY 等等這類 secret 很常用的做法。比起直接寫 config, 資訊存在 disk 上就不及格了, 典型的做法是透過環境變數 ( env ), 而 .env 不也是檔案嗎? 沒錯, 但是至少不是應用程式直接去讀取, 通常會是 k8s, docker 等等這類 host 環境去讀取, 再用 env 的方式給應用程式。
 
 在 Agent 的應用當中，有大量的 Agent → Tool → 外部服務，都需要某種程度的認證或授權。如果通通都用 .env 來處理應該會搞死人吧… 我直接拿一段對話當作案例:
 
-使用者: Hello ChatGPT, 
+```
+
+使用者:
+Hello ChatGPT, 
 幫我看一下明天何時有 30min 的空閑時間，我要安排會議
 
-ChatGPT: 好的，我替你確認
+ChatGPT:
+好的，我替你確認
 ( 使用 Calendar MCP 查詢 Google Calendar, 看看 2025/10/09 的行程 … )
 
-ChatGPT: 你好, 我看到你明天的 14:00 ~ 15:00 沒有預約, 我幫你安排 14:00 ~ 14:30 進行會議 … blah blah..
+ChatGPT:
+你好, 我看到你明天的 14:00 ~ 15:00 沒有預約, 我幫你安排 14:00 ~ 14:30 進行會議 … blah blah..
+
+```
 
 其他我就略過了。在這個案例中，因為 Agent 的介入，其實這背後有好幾套系統跟角色介入，包含 使用者 (你)，ChatGPT (OpenAI)，MCP (3rd Party)，Google Calendar (Google)。 而最關鍵的問題是:
 
-使用者 (你), 你願意授權給誰 (系統) 取得你的個人資訊 (行事曆)? 允許他存取多久?
+**使用者 (你), 你願意授權給誰 (系統) 取得你的個人資訊 (行事曆)? 允許他存取多久?**
 
 用 .env 不可行的原因就在這邊，你總不能想用的時候再去改 .env 吧? 其實這問題早在 SaaS 時代就存在了，也因此發展出 OAuth (第一版 2006 制定) 的三方認證授權機制。而在 Agent 時代，這樣的需求更大了，MCP 的標準規範，直接要求所有需要認證的 MCP server 一率使用 OAuth2.1 當作 User / Agent / MCP tools / Backend Service & Resources 傳遞認證與授權的標準做法。
 
-這段趨勢報告要說明的就是, Agent 的盛行一定會帶來這樣的需求，預先設定好 secret 的作法已經不適用；取而代之的是需要時當下才由資源端直接跟使用者確認，同意後立即用安全的管道將 access token 轉發給被授權的應用程式，已經是必要的做法了。
+這段趨勢報告要說明的就是, Agent 的盛行一定會帶來這樣的需求，預先設定好 secret 的作法已經不適用；取而代之的是需要時當下才由資源端直接跟使用者確認，同意後立即用安全的管道將 access token 轉發給被授權的應用程式，已經是必要的做法了。而 MCP 的標準在制定的時候, 2025/03/26 修訂的版本, 就明文把 OAuth2.1 [正式列為必要的規格](https://modelcontextprotocol.io/specification/2025-06-18/basic/authorization#authorization-server-location)。
 
-回到前陣子的熱門話題 (就是 Vibe Coding + APIKEY 事件)，問題根本不在 code 有沒有正確處理 APIKEY 而已啊，就算 code 真的用了使用者自己提供的 APIKEY，你敢把你的 APIKEY "貼" 到這網站上嗎? APIKEY 換成信用卡卡號，你放心貼上去? 方法不對的話，這次結果是帳都算到自己頭上 (其實我覺得這是最好的收場了)，嚴重一點，大家的 APIKEY 外洩了，或是 A 使用者用到 B 使用者的 APIKEY，而 Google 至少還算得出帳單，APIKEY 搞錯的話，你算得出該補多少或賠多少嗎? APIKEY 外洩的話，你追得出來從哪個管道外洩的嗎? (可能連 LOG 都沒有吧)
 
-安全問題靠的是 "正確的方法跟設計" ，而不是靠你寫出 “正確的 code” … 很多人寫了土炮的加解密需求，禁不起正規的考驗的。問題不在你有沒有能力寫這樣的 code, 而是在你必須按照正規的 "流程" 來處理 secret。當年 (2020/11) 寫過一篇文章就在談這件事: [架構師觀點] 資安沒有捷徑，請從根本做起! (連結見留言)
+回到前陣子的熱門話題 (就是 Vibe Coding + APIKEY 事件)，核心問題根本不在 code 有沒有正確處理 APIKEY ；就算 code 真的能正確使用 USER 自己提供的 APIKEY，你敢把你的 APIKEY "貼" 到這網站上嗎? APIKEY 換成信用卡卡號，你放心貼上去嗎? 這是設計跟驗證問題, 跟 code 沒直接關聯。這次事件的結果是帳都算到自己頭上，作者本人自己花了一萬塊台幣收場 (其實我覺得這是最好的收場了)，嚴重一點，大家的 APIKEY 外洩了，或是 A 使用者用到 B 使用者的 APIKEY，很可能作者連 "該賠多少" 都算不出來 (而 Google 至少還算得出帳單)。
+
+APIKEY 搞錯的話，你算得出該補多少或賠多少嗎? APIKEY 外洩的話，你追得出來從哪個管道外洩的嗎? (可能連 LOG 都沒有吧) 這些都屬於資安問題，從流程跟處理方法就要合規 (絕對不是列一些 checklist 就會解決的)。
+
+安全問題靠的是 "正確的方法跟設計" ，而不是靠你寫出 “正確的 code” 而已 … 很多人寫了土炮的加解密需求，禁不起正規的考驗的。問題不在你有沒有能力寫這樣的 code, 而是在你必須按照正規的 "流程" 來處理 secret。當年 (2020/11) 寫過一篇文章就在談這件事: [架構師觀點 - 資安沒有捷徑，請從根本做起](/2020/11/23/security-talk/) (連結見留言)
 
 
 
@@ -824,39 +838,54 @@ Facebook 連結: []()
 
 --
 
-以上是 (5) 的部份，而後面 (9) 其實也是在講類似的議題，我都把他歸類在 Agentic Application 需要的基礎設施。而趨勢報告的最後一段 (9) 則是進一步的闡述了 “基礎建設” 這件事未來的發展。前面 (5) 提到 secret management，後面 (9) 則擴大到其他基礎服務，例如計量 (Usage)，收費 (Billing, Payment)，通通都會像前面講的認證授權一般被標準化，並且變成每個 Agent 都能通用的標準規格。
+以上是 (5) 的部份，而後面 (9) 其實也是在講類似的議題，我都把他歸類在 **Agentic Application** 需要的基礎設施。而趨勢報告的最後一段 (9) 則是進一步的闡述了 “基礎建設” 這件事未來的發展。前面 (5) 提到 secret management，後面 (9) 則擴大到其他基礎服務，例如計量 (Usage)，收費 (Billing, Payment)，通通都會像前面講的認證授權一般被標準化，並且變成每個 Agent 都能通用的標準規格。
 
-這話題，我腦袋裡剛好浮現這幾個實際的應用案例，包含前陣子研究的 MCP 規範，以及昨天半夜才發表的 OpenAI DevDay 2025 公開的資訊:
+這話題，我腦袋裡剛好浮現這幾個實際的應用案例，包含前陣子研究的 MCP 規範: Code w/ Claude - [MCP201](https://www.facebook.com/share/p/1FsCVE2pk3/)，以及昨天半夜才發表的 [OpenAI DevDay 2025](https://openai.com/devday/) 公開的資訊:
 
-MCP Sampling:
 
-這個談的是 Token 的集中管理。MCP 有個有趣的規格: Sampling, 說真的這名字取的真爛, 但是這是個好東西。通常 Token 代表算力, 而 Agent (ex: ChatGPT) 都是採訂閱制度, 會有足夠的 Token 來使用。當 Agent 呼叫 MCP tools, 而這 tools 處理過程也需要 Token 怎麼辦? MCP Sampling 提供一個類似 "Callback" 的做法，把 Prompt 丟回給 Agent, 處理好後再拿回來。這規範讓 MCP 不需要自己準備 Token ( 包含模型跟用量 )，而使用者可以用單一的訂閱，來負擔 Agent 的使用，以及 Agent 呼叫 MCP 額外隱含的 Token 使用。使用者也有絕對控制權，包含是否允許，以及看到傳遞了什麼內容。在 LLM / Token 的管理上，這已經統一了 MCP 的 Token Usage / Billing 了。我覺得這趨勢正在發生中，正好跟趨勢報告講的一致。
 
-Agentic Commerce Protocol:
+**MCP Sampling**:
 
-這是兩個禮拜前, OpenAI 發表的規格，為了完成 Instant Checkout 的操作 ( 你可以在 ChatGPT 問問題，看到推薦商品後能在 ChatGPT 立即結帳完成購物 )，背後推出的技術規格。
+這個談的是 Token 的集中處理的協定。MCP 有個有趣的規格: [Sampling](https://modelcontextprotocol.io/specification/2025-06-18/client/sampling), 說真的這名字取的真爛, 但是這是個好東西。
+
+通常 Token 指的是 "選用的模型" x "使用的算力", 而 Agent (ex: ChatGPT) 都是採訂閱制度, 頂多限定使用量而已，不會像 APIKEY 一樣精確地去計算一個 Token 多少錢。因此訂閱方案大都會有足夠的 Token 來使用。
+
+當 Agent 呼叫 MCP tools, 而這 Tools 處理過程也需要 Token 的時候，MCP Sampling 提供一個類似 "Callback" 的做法，可以把 Prompt 丟回給 Agent, 處理好後再拿結果回來。這規範讓 MCP 不需要自己準備 Token，而是統一算在使用者的訂閱身上。使用者也有絕對控制權，包含是否允許，以及看到傳遞了什麼內容，就像現在你都可以決定對話過程要不要 call Tools, 以及可以看到 call Tools 的傳輸內容一樣。在 LLM / Token 的管理範圍上，已經統一了 Token 的 Usage / Billing 了。我覺得這趨勢正在發生中，方向也正好跟趨勢報告講的一致。
+
+
+**Agentic Commerce Protocol**:
+
+![alt text](/images/2025-09-28-reading-a16z-emerging-developer-patterns-for-the-ai-era/image-13.png)
+
+這是兩個禮拜前, OpenAI 發表的規格，為了完成 [Instant Checkout](https://openai.com/index/buy-it-in-chatgpt/) 的操作 ( 你可以在 ChatGPT 問問題，看到推薦商品後能在 ChatGPT 立即結帳完成購物 )，背後推出的技術規格: [ACP](https://developers.openai.com/commerce), Agentic Commerce Protocol。
+
 
 他背後是一組 API 的規範，規範了三種角色的標準行為:
 
-1. 商家, 要支援 Checkout 行為的 API ( 結帳交易的確認 )
-2. 支付, 要支援 Payment 行為的 API ( 金流的處理 )
-3. 商家, 要支援 Product Feed 行為的 API ( 商品資訊來源 )
+1. **商家**, 要支援 **Checkout** 行為的 [API](https://developers.openai.com/commerce/specs/checkout) ( 結帳交易的確認 )
+2. **支付**, 要支援 **Payment** 行為的 [API](https://developers.openai.com/commerce/specs/payment) ( 金流的處理 )
+3. **商家**, 要支援 **Product Feed** 行為的 [API](https://developers.openai.com/commerce/specs/feed) ( 商品資訊來源 )
 
 細節就不多聊了，官網連結在這邊 (見留言)，有興趣自己研究。這是另一個具體的案例，過去 SaaS 很多服務都是由 Cloud Infrastructure 提供，例如 AWS, Azure 等。隨著趨勢的演進，應用程式逐漸往 Agentic Apps 靠攏了，未來提供這些 PaaS 的角色，會開始變成這些 AI 大廠。到目前為止，上面談的 MCP 來自 Anthropic, ACP 來自 OpenAI ... 大家都想統一這些 Agentic App 應用必要的基礎服務，這野心其實很明確.. 也完全符合趨勢報告談的 (9) 這題
 
 其他我覺得也有可能發生，但是還沒看到的，就收在這邊一起聊好了。我覺得可能還會出現的標準:
 
-由 SEO (Search Engine Optimize) 轉移到 AIO 的相關標準
+由 SEO (Search Engine Optimize) 轉移到 AIO 的相關標準變化
 
-1. Tracking, 這是廣告業務的大宗，過去都由 Google 主導。如果越來越多的應用轉移到 Agent 上的話，Sam 昨天才發表 Agent Kit, App SDK ... 未來的流量開始會轉移到 Agent 手上，新的 Tracking 規範也許就會產生
+**Tracking**:
 
-由 Cloud Infrastruction 轉移到 Agent Infrastruction 的相關標準
+這是廣告業務的大宗，過去都由 Google 主導。如果越來越多的應用轉移到 Agent 上的話，Sam 昨天才發表 [Agent Kit](https://openai.com/index/introducing-agentkit/), [Apps SDK](https://openai.com/index/introducing-apps-in-chatgpt/) ... 未來的流量開始會轉移到 Agent 手上，新的 Tracking 規範也許就會產生
 
-1. Access Control
+由 Cloud Infrastruction 轉移到 Agent Infrastruction 的相關標準變化
+
+**Access Control**:
+
 用過 Cloud 的大概都不陌生，從 IAM 的角度有各式各樣的基礎設施，讓你控制你的應用程式認證跟授權的基礎建設。我拿 OpenAI 發表的內容當範例，如果以後你的 APP 都建立在他的平台上，使用者都有 OpenAI 的帳號，那麼從剛才提的 Tracking, 到使用者的 Access Control, 到 APP 的 Access Control, 可能都會有新的作法或標準出現..
 
-2. Billing & Usage
+**Billing & Usage**:
+
 這更不用說了，舉個直白的例子，如果 MCP 繼續發展下去，未來可能就會出現: Tools 按照呼叫次數來計費 (就像 Token 一樣)。這時，需要每個 MCP 開發商都自己去發展一套帳務系統嗎? 如果不是的話，那 Agent Infrastructure 來做這些事情最自然不過了。這類帳務的基礎，不外乎是 Usage (使用量，知道你用了多少) 的追蹤，以及 Billing (帳務，計算你的使用量該付多少錢，以及付清了沒)。再加上已經看到 ACP 這樣的規範，我覺得 OpenAI 會發展成 Agent Platform 根本就是必然的事情了，難怪有人說 (忘了哪裡看到的)，OpenAI 的發展路線，就是 Agent 世界的 Microsoft ... 
+
 
 這兩個章節，談的其實都是很基礎建設的主題，觀察現在市場的發展，以及趨勢報告的預測，隱約之間也看清楚了技術跟市場的發展脈絡，挺有意思的思考跟研究
 
