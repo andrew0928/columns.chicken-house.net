@@ -788,7 +788,7 @@ Shopify 的 MCP 設計還挺有意思的，是我目前為止看過設計最精�
 
 ## 2025/10/09, Secret Management
 
-Facebook 連結: []()
+Facebook 連結: [https://www.facebook.com/share/1A7BJUgnFJ/](https://www.facebook.com/share/1A7BJUgnFJ/)
 
 --
 
@@ -834,7 +834,7 @@ APIKEY 搞錯的話，你算得出該補多少或賠多少嗎? APIKEY 外洩的�
 
 ## 2025/10/09, Agent Infrastructure
 
-Facebook 連結: []()
+Facebook 連結: [https://www.facebook.com/share/1CgKA3NrRP/](https://www.facebook.com/share/1CgKA3NrRP/)
 
 --
 
@@ -897,4 +897,4 @@ Facebook 連結: []()
 
 最後，總算把這篇趨勢報告的解析寫完了。我想寫的不是 “翻譯" 或是 "摘要” 這篇報告給大家看，而是想把報告背後指引的脈絡想清楚，並且把它寫下來而已。想通這些，這報告才不會只是報告，而是能真正指引你發展或是投入心力的方向。
 
-報告導讀到這篇為止告一段落，感謝大家的捧場，之後我會把這些 PO 文收成一篇文章。之後如果還有看到值得細細品味或是分享的文章，我會繼續用這種方式分享我的想法
+報告導讀到這篇為止告一段落，感謝大家的捧場。之後如果還有看到值得細細品味或是分享的文章，我會繼續用這種方式分享我的想法
