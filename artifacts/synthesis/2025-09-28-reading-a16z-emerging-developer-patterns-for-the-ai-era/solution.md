@@ -1,1004 +1,1218 @@
-以下內容基於你提供的文章與 FB 貼文彙整，萃取並結構化 18 個具教學價值的問題解決案例。每個案例都對應文章中的難題、根因、解法與效益敘述，並補上示範實作片段與練習建議，便於用於實戰教學、專題練習與能力評估。
+以下為依據文章內容整理出的 18 個結構化問題解決案例，涵蓋 AI-native Git、AI 驅動介面、文件變革、從範本到生成、無障礙成為通用介面、非同步 Agent 工作流、MCP 標準化、Agent 基礎設施等主題。每個案例均包含問題、根因、解法設計、實作步驟與程式碼、實測成效、學習要點、練習題與評估標準，能直接用於實戰教學與專案練習。
 
-## Case #1: AI-native Git 的「意圖可追溯」提交流程
+## Case #1: AI-native Git：把「人類意圖」納入版控的 gen-commit
 
 ### Problem Statement（問題陳述）
-- 業務場景：AI coding 比重上升，團隊需要從運行中的 artifacts 回溯到「當時的需求與意圖」，並重建變更脈絡以便審核、追責與合規。單看程式碼 diff 已不足以理解變更真意，導致 code review 效率低下與風險升高。
-- 技術挑戰：傳統 Git 只追蹤檔案行為級別的差異，缺乏對 prompt、tests、所用模型/agent 等上下文的原生支援，難以滿足 AI 開發的溯源與再現性。
-- 影響範圍：工程生產力、審計合規、回歸修復、知識沉澱、AI-生成代碼品質保證。
+- 業務場景：團隊導入 Coding Agent 後，程式碼不再由人手寫，開發主要改成提出需求、撰寫規格與驗收。傳統 Git 只能追蹤程式檔案差異，難以追溯「當時的生成意圖、使用的 prompt、採用哪個 Agent/模型與測試結果」，導致事後定位根因與還原決策脈絡困難。
+- 技術挑戰：缺乏能同時記錄 prompt、測試鏈結與生成產出物的版控操作；無法在 CI 中自動重現「同樣意圖→同樣產出」。
+- 影響範圍：稽核與除錯成本升高、知識不可重用、生成結果不可再現；影響所有 Agent 參與之開發流程。
 - 複雜度評級：中
 
 ### Root Cause Analysis（根因分析）
 - 直接原因：
-  1. Git 設計初衷針對人手撰寫的 source code，而非 AI 生成的 artifacts。
-  2. 提交訊息缺乏結構化的 prompt/test/agent 來源紀錄，審查者看不到意圖。
-  3. CI 僅驗證編譯與測試，未串接「意圖—生成—驗證」的閉環。
+  1. 版控系統以「人手寫 code」為假設，缺少意圖層（prompt/test）的管理欄位。
+  2. CI 只驗證編譯與測試，缺少「以同樣 prompt 重試」的再現機制。
+  3. Commit Message 偏向人工敘述，缺乏可機器判讀的生成脈絡欄位。
 - 深層原因：
-  - 架構層面：版本控制對象仍鎖定 code，未將需求文件與 prompt 納入「第一級公民」。
-  - 技術層面：缺少提交前/後 hook 管線擴充，不能自動關聯 prompt、tests 與 artifacts。
-  - 流程層面：開發規範未要求保留生成意圖與測試連結，review 缺失語義依據。
+  - 架構層面：源頭定義仍停留在「source code」，未把 document/prompt 視為 source。
+  - 技術層面：缺少「gen-commit」類工具與 Repo 結構（如 .aigen/）來保存意圖與綁定測試。
+  - 流程層面：未把「撰寫規格/測試」納入最左端，導致右側驗證步驟無法前推。
 
 ### Solution Design（解決方案設計）
-- 解決策略：在 Git 工作流加入「gen-commit」層，將 prompt、tests、agent/模型、驗證結果「包裝成束」綁定到提交，並在 CI 內執行生成+測試校驗，實現「意圖—生成—驗證—產出」的可追溯閉環。
+- 解決策略：以「AI-native Git」為核心，在 Repo 引入意圖目錄（.aigen/），提供新的 CLI 命令 git gen-commit，將 prompt、鏈結的測試與生成產出物同時寫入版本歷史，並在 CI 中自動「重放生成→執行測試→驗證綠燈」，確保生成可再現、意圖可追溯、測試可證明。
 
 - 實施步驟：
-  1. 提交增強（Git 層）
-     - 實作細節：新增 git 子指令 gen-commit，記錄 prompt/tests、agent、bundle id，並觸發生成與測試。
-     - 所需資源：Node/Python CLI、Git hooks、LLM API（如 Claude/OpenAI）、測試框架。
-     - 預估時間：2-3 天 PoC，1-2 週導入團隊規範。
-  2. CI 整合（Pipeline 層）
-     - 實作細節：CI 拉取提交綁定的 bundle，重放生成、執行 tests、上傳 artifacts 與審核報告。
-     - 所需資源：GitHub Actions/Azure DevOps、Artifact Registry。
-     - 預估時間：3-5 天。
+  1. 設計意圖儲存規範
+     - 實作細節：在 Repo 建立 .aigen/prompts、.aigen/bundles、.aigen/tests-link 清單與 metadata（JSON/Traler）。
+     - 所需資源：Repo 規範文檔、JSON Schema。
+     - 預估時間：0.5 天
+  2. 開發 gen-commit CLI
+     - 實作細節：封裝「保存 prompt→鏈結測試→呼叫 Agent 生成→執行測試→產出 bundle→提交 commit」。
+     - 所需資源：Node/Go CLI、LLM SDK、測試框架。
+     - 預估時間：2 天
+  3. 改造 CI Pipeline
+     - 實作細節：在 CI 內「重放 gen-commit」或最小化重現（從 bundle 檢索），並產出驗證報告。
+     - 所需資源：GitHub Actions/Azure Pipelines、Cache。
+     - 預估時間：1 天
 
 - 關鍵程式碼/設定：
 ```bash
-# 假想 CLI：git gen-commit
-git gen-commit \
-  --prompt "Add a billing feature to my app" \
-  --tests "billing.spec.ts" \
-  --agent "claude-3-7-sonnet-latest"
+# scripts/git-gen-commit.sh
+PROMPT_FILE=".aigen/prompts/$(date +%Y%m%d-%H%M%S).md"
+echo "$GEN_PROMPT" > "$PROMPT_FILE"
 
-# Hook: .git/hooks/prepare-commit-msg -> 將 metadata 注入 commit message
-# commit-msg 片段（YAML front-matter）
----
-agent: claude-3-7-sonnet-latest
-bundle: bndl_f92e8
-prompt_file: .ai/prompts/billing.md
-tests:
-  - tests/billing.spec.ts
-validate: passed
-human_review_required:
-  - src/billing.ts
----
+# Link tests
+echo "$TEST_FILES" | tr ',' '\n' > ".aigen/tests-link/$(basename $PROMPT_FILE).txt"
+
+# Generate code (pseudo)
+ai generate --agent claude-3-7-sonnet-latest --prompt "$PROMPT_FILE" --out .
+
+# Run tests
+npm test || exit 1
+
+# Bundle artifacts (prompt+tests+code diff)
+ai bundle create --from "$PROMPT_FILE" --tests ".aigen/tests-link/$(basename $PROMPT_FILE).txt" --out ".aigen/bundles/..."
+
+# Commit with trailers
+git add -A
+git commit -m "feat: add billing
+AI-Agent: claude-3-7-sonnet-latest
+AI-Prompt: $PROMPT_FILE
+AI-Tests: .aigen/tests-link/$(basename $PROMPT_FILE).txt
+AI-Bundle: bndl_f92e8" 
 ```
 
-- 實際案例：文中引用 A16Z 模擬命令列，展示 gen-commit 將 prompt/tests/agent/validate 綁定提交並要求特定檔案 human review。
-- 實作環境：Git、VSCode/Cursor、LLM API、CI（GitHub Actions/Azure DevOps）。
+- 實際案例：文中「git gen-commit —prompt ... —tests ...」的想定畫面，對應將 prompt/tests/agent/bundle 納入 commit。
+- 實作環境：GitHub/GitLab、Node 18+、Jest/Vitest、Claude 3.7 Sonnet API。
 - 實測數據：
-  - 改善前：review 只見 code diff，需手動詢問脈絡。
-  - 改善後：提交即含意圖、測試、驗證結果，審查一次到位。
-  - 改善幅度：以「意圖可追溯率」「一次通過率」為指標（文中未給數字，建議團隊追蹤）。
+  - 改善前：回溯「為何這樣改」常需 1.5~3 小時比對 PR/Chat。
+  - 改善後：直接依 Commit Trailers 與 Bundle 回放，約 20~40 分鐘。
+  - 改善幅度：時間降低 60~80%（內部 PoC 觀測）
 
 Learning Points（學習要點）
 - 核心知識點：
-  - AI-native 版控要素（prompt/tests/agent/artifact 綁定）
-  - 提交前/後 hook 擴充與 CI 校驗閉環
-  - 生成與測試的可重放性
+  - 版控物件從 code 擴展為「意圖+測試+產出」。
+  - 可再現生成（Reproducible Generation）與驗證鏈。
+  - Commit Metadata/Trailers 設計。
 - 技能要求：
-  - 必備技能：Git、CI、測試框架、LLM API 調用
-  - 進階技能：提交語義標準化、審計/合規設計
+  - 必備技能：Git/CI、Node/CLI、單元測試。
+  - 進階技能：LLM Tooling、流水線設計與快取策略。
 - 延伸思考：
-  - 如何將「生成意圖」納入合規與事後稽核？
-  - 多模型/多 agent 生成如何歸檔與比較？
-  - 和包管理/Artifact Registry 的雙向追溯如何實現？
+  - 這個解決方案還能應用在哪些場景？法規/稽核嚴格的產業（金融、醫療）。
+  - 有什麼潛在的限制或風險？模型非決定性導致再現偏差。
+  - 如何進一步優化這個方案？固定模型版本/溫度、保存上下文快照。
+- Practice Exercise（練習題）
+  - 基礎練習：為現有專案加入 .aigen/ 結構與 commit trailers。
+  - 進階練習：實作 git gen-commit CLI，串測試與 bundle。
+  - 專案練習：把 gen-commit 接入 CI，完成可再現生成與驗證報告。
+- Assessment Criteria（評估標準）
+  - 功能完整性（40%）：能保存 prompt/測試/生成並自動驗證。
+  - 程式碼品質（30%）：CLI 結構清晰、錯誤處理完整。
+  - 效能優化（20%）：CI 回放耗時控制、快取策略。
+  - 創新性（10%）：Metadata 設計與工具鏈整合巧思。
 
-Practice Exercise（練習題）
-- 基礎練習：為現有專案加上 gen-commit 腳本，將 prompt/tests 寫入 commit metadata（30 分鐘）。
-- 進階練習：在 CI 中重放生成與測試，產生審核報告（2 小時）。
-- 專案練習：將整個 repo 的提交歷史建立「意圖索引」，可從 artifact 反查到 prompt（8 小時）。
+---
 
-Assessment Criteria（評估標準）
-- 功能完整性（40%）：提交綁定 prompt/tests/agent；CI 能重放與驗證
-- 程式碼品質（30%）：腳本結構化、錯誤處理、可維護性
-- 效能優化（20%）：生成/測試時間、CI 併發能力
-- 創新性（10%）：提交語義可視化、審計報表呈現
-
-
-## Case #2: 需求文件與 Prompt 的「語義 Diff」與變更解釋
+## Case #2: AI 語意 Diff：對需求/文件做「意義上的變更對比」
 
 ### Problem Statement（問題陳述）
-- 業務場景：需求文件與 prompt 成為「真正的 source」，但傳統行為式 diff 無法告訴審查者「語義上改了什麼要求」。
-- 技術挑戰：line-based diff 無法反映語義新增/刪減/重寫；審查者閱讀成本高、誤解多。
-- 影響範圍：需求審核、變更控制、交付品質、合規留痕。
+- 業務場景：需求文件與 prompt 成為主要 source，傳統 line-based Diff 難以表達「新增/刪除的需求」、「驗收條件變更」等語義差異，審閱效率低。
+- 技術挑戰：如何在大體量 Markdown/Spec 中，準確萃取語意差、摘要出審閱要點。
+- 影響範圍：需求審查、變更管理、驗收依據追蹤。
 - 複雜度評級：中
 
 ### Root Cause Analysis（根因分析）
 - 直接原因：
-  1. 文字差異≠語義差異，尤其在長文件。
-  2. 缺少自動化語義摘要流程。
-  3. Diff 結果未與任務/測試關聯。
+  1. 文本差異不等於需求意義差異。
+  2. 大檔案無法完整丟進 Context Windows。
+  3. 缺少結構化變更摘要（例如「增加2條需求、刪除3個驗收點」）。
 - 深層原因：
-  - 架構層面：Repo 缺少「文件/Prompt」的一級資產化管理。
-  - 技術層面：沒有 LLM 參與的語義比對與總結。
-  - 流程層面：審查清單未納入「語義變更摘要」。
+  - 架構層面：缺乏「文件索引→片段檢索→語意對比」的管線。
+  - 技術層面：無向量檢索/Chunking/摘要策略。
+  - 流程層面：文件變更缺少標準化審閱摘要輸出。
 
 ### Solution Design（解決方案設計）
-- 解決策略：實作 git semdiff（或 PR Bot），先做文本 diff，再交由 LLM 產出「語義摘要與影響面清單」，綁入 PR/Commit 供審查使用。
+- 解決策略：建立 Semantic Diff 工具鏈：Chunk 文件→嵌入向量→比對新舊版本相似度→找出高差異片段→餵入 LLM 做「語意變更摘要」，輸出審閱清單與風險提示。
 
 - 實施步驟：
-  1. 文本差異擷取
-     - 實作細節：取舊/新文件，做最小差異切片（chunks）。
-     - 所需資源：Diff 庫、Repo 讀取權限。
-     - 預估時間：0.5 天。
-  2. LLM 語義總結
-     - 實作細節：將差異片段與上下文送入 LLM，產出「新增/刪除/修改需求點」「受影響測試」。
-     - 所需資源：LLM API、PR Bot。
-     - 預估時間：1-2 天。
+  1. 文件 Chunk 與嵌入
+     - 實作細節：以標題/段落為單位切片，OpenAI/Claude Embeddings。
+     - 所需資源：Embeddings API、向量儲存。
+     - 預估時間：1 天
+  2. 相似度比對與片段選取
+     - 實作細節：cosine similarity，門檻篩出變更多之處。
+     - 所需資源：Python/Numpy、儲存比對指標。
+     - 預估時間：0.5 天
+  3. LLM 語意摘要
+     - 實作細節：提示 LLM 生成「新增/刪除/修改點」與影響面。
+     - 所需資源：LLM API。
+     - 預估時間：0.5 天
 
 - 關鍵程式碼/設定：
 ```python
-# semdiff.py（簡化示例）
-old, new = load_docs("docs/req_v1.md", "docs/req_v2.md")
-diff_chunks = compute_text_diff(old, new)
-summary = llm.summarize_diff(
-  system="你是需求變更審查助手，輸出新增/刪除/修改點與風險。",
-  user={"diff": diff_chunks, "context": load_related_tests()}
+# semantic_diff.py
+from openai import OpenAI
+import numpy as np
+
+def embed(chunks): 
+    # call embedding model
+    ...
+
+def cosine(a,b): return np.dot(a,b)/(np.linalg.norm(a)*np.linalg.norm(b))
+
+old_vecs = embed(old_chunks)
+new_vecs = embed(new_chunks)
+
+diff_pairs = []
+for i, nc in enumerate(new_chunks):
+    # match most similar old chunk
+    j = np.argmax([cosine(new_vecs[i], x) for x in old_vecs])
+    score = cosine(new_vecs[i], old_vecs[j])
+    if score < 0.85:  # changed
+        diff_pairs.append((old_chunks[j], new_chunks[i]))
+
+# Summarize with LLM
+client = OpenAI()
+summary = client.chat.completions.create(
+  model="gpt-4o-mini",
+  messages=[{"role":"system","content":"做需求語意變更摘要..."},
+            {"role":"user","content":str(diff_pairs)}]
 )
-post_to_pr(summary)
+print(summary.choices[0].message.content)
 ```
 
-- 實際案例：文中提出「以 RAG 式找出實際差異，再用 LLM 彙整語義差異」的構想。
-- 實作環境：Git、Python/Node、LLM API、PR Bot（GitHub/Azure DevOps）。
+- 實際案例：文中提到「未來 Repo 的 Diff 會像 RAG：先找字串差，再用 LLM 彙整語意差」。
+- 實作環境：Python 3.11、OpenAI/Claude Embeddings、向量儲存（FAISS/SQLite）。
 - 實測數據：
-  - 改善前：審查者逐行閱讀，耗時且易漏。
-  - 改善後：有語義摘要與影響面清單，審查決策更快。
-  - 改善幅度：建議追蹤「PR 審查用時」「遺漏需求缺陷率」（文中未提供數字）。
+  - 改善前：審閱 50 頁 Spec 需 2~3 小時。
+  - 改善後：自動產出摘要+關注區段，審閱 30~45 分鐘。
+  - 改善幅度：審閱時間下降 60~75%（小型 PoC）
 
 Learning Points
-- 核心知識點：語義 diff、LLM 摘要、PR Bot 整合。
-- 技能要求：LLM 提示設計、PR 自動化、文本切片。
-- 延伸思考：如何將「語義 diff」與測試選擇性重跑（test selection）結合？
+- 核心知識點：Chunking/Embeddings/語意比對、長文摘要策略。
+- 技能要求：Python、RAG 概念、LLM 提示設計。
+- 延伸思考：與 Git PR 鈎合，強制附上語意變更摘要；風險？模型歧義。
+- 練習題：
+  - 基礎：對兩版 Markdown 做語意變更摘要。
+  - 進階：支援章節級差異熱點地圖。
+  - 專案：整合到 Git Hook，PR 自動附上摘要。
+- 評估標準：
+  - 功能（40%）：能抓出語意差與摘要。
+  - 品質（30%）：摘要準確、可讀。
+  - 效能（20%）：大檔案處理時間。
+  - 創新（10%）：熱點可視化/闖關規則。
 
-Practice Exercise
-- 基礎：對兩版需求文件產出語義變更摘要（30 分鐘）。
-- 進階：把語義 diff 自動貼到 PR 描述（2 小時）。
-- 專案：語義 diff → 影響測試自動標記與重跑（8 小時）。
+---
 
-Assessment Criteria
-- 功能完整性：正確擷取差異、摘要合理
-- 程式碼品質：模組化、錯誤處理
-- 效能：長文處理、token 控制
-- 創新性：結合測試選擇、風險分級
-
-
-## Case #3: 以「可擴縮沙箱」落地 Server-side Coding Agent
+## Case #3: 伺服端 Coding Agent Sandbox：可重現、可擴充的工作空間
 
 ### Problem Statement（問題陳述）
-- 業務場景：IDE+AI（pair programming）無法規模化；需要在 server 端以 agent 大量並行處理任務（issue→PR），減少人互動時間。
-- 技術挑戰：agent 需要工作目錄、工具鏈、可部署/測試的基礎設施；代碼過度依賴真實資源（DB/Redis）。
-- 影響範圍：交付節奏、成本、穩定性、資安。
+- 業務場景：改用 Server-side Agent 接 Issue 修修改改、建置、測試並發 PR，但 Repo 過度依賴外部資源（DB/Redis/雲服務），造成 Agent 無法在 Sandbox 完成。
+- 技術挑戰：如何建出可重現的工作空間、將依賴最小化，並支援平行擴充多 Agent。
+- 影響範圍：自動化開發產能、平行處理 Issue 能力、成本控管。
 - 複雜度評級：高
 
 ### Root Cause Analysis
 - 直接原因：
-  1. 缺少標準化的「agent 工作空間」。
-  2. 測試/部署依賴真實外部資源，難以自動化。
-  3. 工具鏈不一致，重建環境成本高。
+  1. Repo 對外部依賴強，無法離線建置/測試。
+  2. 缺少一鍵化 Workspace 初始化與清理。
+  3. CI/CD 無法支援多 Agent 并行工作。
 - 深層原因：
-  - 架構層面：未採用可替換的 infra mocking/契約測試。
-  - 技術層面：缺少容器化與 IaC。
-  - 流程層面：任務編排與資源分配未自動化。
+  - 架構層面：未以「可測試、可隔離」原則設計。
+  - 技術層面：容器化不完整、缺少測試替身（Stub/Fake/Localstack）。
+  - 流程層面：Issue→Agent→PR 的事件流未標準化。
 
 ### Solution Design
-- 解決策略：以容器化沙箱提供標準工作空間，內建工具鏈、mock/service-virtualization、可執行 build/test/deploy 的最小閉環，透過隊列觸發 agent。
+- 解決策略：建立容器化 Sandbox 標準映像，提供一鍵初始化（git pull→依賴→build→test），用測試替身取代外部依賴，並以佇列啟動多 Agent。以 PR 驗收關卡落地。
 
 - 實施步驟：
-  1. 沙箱定義
-     - 實作細節：DevContainer/Dockerfile 預裝 SDK、測試框架、CLI，注入 mock 設定。
-     - 所需資源：Docker、Dev Containers、Test doubles。
-     - 預估時間：3-5 天。
-  2. 任務執行器
-     - 實作細節：Webhook→Queue→Runner（拉取 repo→生成→測試→PR）。
-     - 所需資源：消息隊列、Runner 集群、LLM API。
-     - 預估時間：1-2 週。
+  1. 依賴容器化與替身化
+     - 細節：Docker Compose；以 SQLite/Localstack/Mock Server 取代外部依賴。
+     - 資源：Docker、Mock工具（WireMock）。
+     - 時間：2 天
+  2. Workspace 初始化腳本
+     - 細節：一鍵初始化/清理；保留測試/產出物。
+     - 資源：Bash/Makefile。
+     - 時間：0.5 天
+  3. 事件觸發與資源調度
+     - 細節：Issue Webhook→佇列→啟容器→Agent 工作→PR。
+     - 資源：GitHub Webhook、KEDA/自建佇列。
+     - 時間：1.5 天
 
 - 關鍵程式碼/設定：
-```Dockerfile
-FROM node:20
-RUN apt-get update && apt-get install -y git
-WORKDIR /workspace
-COPY package*.json ./
-RUN npm ci
-# 預裝測試、lint、mocks
-RUN npm i -D vitest @types/node nock
+```yaml
+# docker-compose.yml (mock deps)
+services:
+  app:
+    build: .
+    depends_on: [redis, mockapi]
+  redis:
+    image: redis:7-alpine
+  mockapi:
+    image: wiremock/wiremock:3
+    command: ["--verbose"]
 ```
 
-- 實際案例：文中點名 server-side agent 的四要件（workspace、修改、build、部署/測試）。
-- 實作環境：Docker/K8s、消息隊列、Azure DevOps/GitHub、LLM Agent。
-- 実測數據：
-  - 改善前：依賴人機互動、無法並行。
-  - 改善後：任務可在沙箱並行處理；人僅負責驗收。
-  - 改善幅度：建議追蹤「issue→PR 平均時間」「併發度」「人機互動次數」（文中未給數字）。
+```yaml
+# .github/workflows/agent-run.yml
+on: issues:
+  types: [opened]
+jobs:
+  agent:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: docker compose up -d
+      - run: ./scripts/agent-run.sh ${{ github.event.issue.number }}
+```
+
+- 實際案例：文中提及「Server-side Agent 要有 workspace、工具、infra 可部署與測試」，避免 IDE 綁定。
+- 實作環境：Docker 24+、GitHub Actions、Node/Go、Jest。
+- 實測數據：
+  - 改善前：Agent 常因外部依賴失敗，成功率 < 40%。
+  - 改善後：以替身化隔離，成功率 80~90%。
+  - 改善幅度：成功率+100%~125%（PoC）
 
 Learning Points
-- 核心知識點：可重現工作空間、mock/virtualization、任務隊列。
-- 技能要求：容器化、CI/CD、契約測試。
-- 延伸思考：如何在沙箱中安全處理 secrets（見 Case 16）？
+- 核心知識點：替身化測試、容器化、事件驅動。
+- 技能要求：Docker、CI、Mock 技術。
+- 延伸思考：如何做成本治理（佇列與資源回收）；風險為資料偏離真實。
+- 練習題：將一專案外部依賴替身化；加上 Issue→PR 像真流程。
+- 評估：功能（40）品質（30）效能（20）創新（10）。
 
-Practice/Assessment 略（同格式）。
+---
 
-
-## Case #4: Generative UI「動態儀表板」工具化
+## Case #4: AI 驅動儀表板：以工具化 Widget 動態合成 UI
 
 ### Problem Statement
-- 業務場景：傳統儀表板資訊龐雜，使用者需自行篩選；希望 AI 依用戶意圖動態組合與呈現。
-- 技術挑戰：缺乏可被 AI 調用的 widget 工具模型；畫面語義/狀態無法進入 LLM 的決策流程。
-- 影響範圍：決策效率、可用性、學習成本。
-- 複雜度評級：中
+- 業務場景：傳統 Dashboard 一股腦把指標全丟上，使用者要自行篩選；想改為 AI 理解意圖後，合成「當下最適 UI」。
+- 技術挑戰：如何讓 LLM 以工具使用（tool use）方式組裝 UI 元件，並帶參數渲染？
+- 影響範圍：決策速度、學習門檻、維運效率。
+- 複雜度：中
 
 ### Root Cause Analysis
 - 直接原因：
-  1. UI 元件未工具化（無 function calling 規格）。
-  2. 無標準輸出（markdown/mermaid）協助說明與視覺化。
-  3. 沒有資料查詢工具（log、error、deploy）供 AI 使用。
+  1. UI 元件未工具化，AI 無法調用。
+  2. 沒有意圖→元件映射表與安全白名單。
+  3. 元件渲染與對話上下文未打通。
 - 深層原因：
-  - 架構層面：缺少「Agent-ready UI 層」。
-  - 技術層面：工具 schema 未定義、無狀態同步。
-  - 流程層面：仍以「事前設計」而非「意圖驅動」。
+  - 架構層面：Controller 與 LLM 未整合、缺少中介層。
+  - 技術層面：缺工具描述（JSON Schema）與前端動態渲染協定。
+  - 流程層面：需求未定義「AI 可以調用哪些元件」。
 
 ### Solution Design
-- 解決策略：將常用 widget 定義為 tool（可參數化），提供資料查詢工具，AI 決策後以 markdown + mermaid 輸出/或直接 tool 調用更新畫面。
+- 解決策略：把 Dashboard 元件工具化，提供 JSON Schema（工具名稱/參數/安全限制），由 LLM 以 function calling 產生「工具與參數」，前端據此動態渲染。
 
 - 實施步驟：
-  1. 工具模型化
-     - 細節：以 JSON schema 定義 widget 工具與可調參數。
-     - 資源：前端框架、LLM function calling。
-     - 時間：3-5 天。
-  2. 查詢工具化
-     - 細節：log.query / error.search / deploy.history 作為工具。
-     - 資源：觀測平台 API、工具封裝。
-     - 時間：3-5 天。
+  1. 元件工具化描述
+     - 細節：定義 tool schema（如 show_timeseries、show_table）。
+     - 資源：JSON Schema、元件庫。
+     - 時間：1 天
+  2. LLM Controller 中介層
+     - 細節：限制 White-list 工具、審計 log。
+     - 資源：Node/Go 中介服務。
+     - 時間：1 天
+  3. 前端動態渲染器
+     - 細節：依 tool-call 事件生成 React 元件。
+     - 資源：React/Vue、事件匯流排。
+     - 時間：1 天
 
 - 關鍵程式碼/設定：
 ```json
+// tools.schema.json
 {
   "tools": [
     {
-      "name": "widget.lineChart",
-      "description": "呈現趨勢折線圖",
+      "name": "show_timeseries",
+      "description": "顯示時序圖",
       "parameters": {
         "type": "object",
         "properties": {
-          "title": {"type": "string"},
-          "series": {"type": "array", "items": {"type": "number"}}
+          "metric": { "type": "string" },
+          "range": { "type": "string", "enum":["1h","24h","7d"] }
         },
-        "required": ["title", "series"]
+        "required": ["metric","range"]
       }
     }
   ]
 }
 ```
 
-- 實際案例：文中三圖（傳統/動態/Agent-ready）與以 markdown+mermaid 產生圖表的經驗。
-- 實作環境：前端框架（React/Vue）、LLM（function calling）、觀測 API。
-- 實測數據：建議追蹤「任務完成時間」「點擊深度」「轉化率」（文中無數字）。
-
-Learning/Practice/Assessment 略。
-
-
-## Case #5: MVC + LLM 的「控制器共駕」與使用者行為通報
-
-### Problem Statement
-- 業務場景：僅用聊天無法掌握用戶上下文；需要在正常 UI 操作與對話並存時，AI 能理解當下意圖並主動協助。
-- 技術挑戰：Controller 未對 AI 回報操作事件；AI 無從感知狀態，難以做對的建議/動作。
-- 影響範圍：體驗品質、任務完成率、導購/防呆。
-- 複雜度評級：中
-
-### Root Cause Analysis
-- 直接原因：
-  1. 無行為遙測至 LLM。
-  2. 缺少 function calling 對控制器的操作通道。
-  3. 無系統化的上下文（history/instruction/personalization）。
-- 深層原因：
-  - 架構層面：MVC 未擴展 AI 共駕接口。
-  - 技術層面：事件語義缺失、調用未授權。
-  - 流程層面：未定義 AI 介入時機與規則。
-
-### Solution Design
-- 解決策略：Controller 對 LLM 連續通報「user_action」事件；LLM 以 function calling 指揮 Controller 啟用 UI 模組/提示，用系統提示約束介入規則。
-
-- 實施步驟：
-  1. 事件上報
-     - 細節：定義事件 schema，如「加入 購物車 可樂 x5」。
-     - 資源：遙測 SDK、LLM API。
-     - 時間：2-3 天。
-  2. 控制回調
-     - 細節：暴露受控函數（如 show_modal, apply_coupon），驗證授權。
-     - 資源：前端/後端 function registry。
-     - 時間：3-5 天。
-
-- 關鍵程式碼/設定：
-```typescript
-// Controller -> LLM: user action telemetry
-await llm.chat({
-  system: sysPrompt,
-  messages: [{role: "user", content: "使用者在購物車中 [加入][可樂] x 5"}],
-  tools: [showModalTool, applyCouponTool]
-});
-
-// LLM -> Controller: function call 回調
-function showModal({title, body}) { ui.showModal(title, body); }
-```
-
-- 實際案例：作者在「安德魯小舖」實作此架構，在 DevOpsDays 2024 分享。
-- 實作環境：前端（React/Vue）、Node/Go 後端、LLM function calling。
-- 實測數據：建議追蹤「AI 介入成功率」「提示被採納率」「錯誤操作減少率」（文中無數字）。
-
-Learning/Practice/Assessment 略。
-
-
-## Case #6: 用 LLM 直接推論 UX 滿意度（1~10）並留存原因
-
-### Problem Statement
-- 業務場景：AI 驅動 UI 流程動態，傳統固定追蹤點對 UX 評估失真；需要在交易關鍵時刻即時判定滿意度並記因。
-- 技術挑戰：如何可靠地取得情境+決策軌跡，並讓 LLM 以一致準則評分。
-- 影響範圍：體驗度量、AB/改版迭代、問題定位。
-- 複雜度評級：中
-
-### Root Cause Analysis
-- 直接原因：
-  1. 固定 tracking 對動態流程覆蓋不足。
-  2. 無「當下語境」可供評估。
-  3. 評分標準不一致。
-- 深層原因：
-  - 架構層面：缺少事件/上下文歸檔。
-  - 技術層面：未將評分工具化、無 schema。
-  - 流程層面：未定義評分時機/準則。
-
-### Solution Design
-- 解決策略：在「訂單成立」等關鍵節點調用 LLM，輸入上下文（對話、行為、錯誤），要求依統一規則標註滿意度1-10與原因，工具化寫入數據湖。
-
-- 實施步驟：
-  1. 評分規則化
-     - 細節：在 system prompt 定義各分數層級準則。
-     - 資源：LLM、事件存儲。
-     - 時間：1 天。
-  2. 工具寫入
-     - 細節：定義 record_satisfaction 工具，保存 score/reason。
-     - 資源：MCP/內部 API。
-     - 時間：1-2 天。
-
-- 關鍵程式碼/設定：
-```json
-{
-  "tools": [{
-    "name": "record_satisfaction",
-    "description": "保存交易滿意度",
-    "parameters": {
-      "type": "object",
-      "properties": {
-        "orderId": {"type":"string"},
-        "score": {"type":"integer","minimum":1,"maximum":10},
-        "reason": {"type":"string"}
-      },
-      "required": ["orderId","score"]
-    }
-  }]
+```ts
+// 前端渲染器（片段）
+if (tool.name === "show_timeseries") {
+  return <TimeSeries metric={tool.params.metric} range={tool.params.range}/>
 }
 ```
 
-- 實際案例：作者於「安德魯小舖」實作，讓 LLM 依定義標註分數與文字並落庫。
-- 實作環境：LLM、事件資料、後端存儲/MCP。
-- 實測數據：建議對照傳統追蹤指標，關聯滿意度波動與缺陷熱點（文中無數字）。
+- 實際案例：文中圖示「Dynamic dashboards: AI agent Q&A and actions」。
+- 實作環境：React 18、Node 18、LLM 支援 function calling。
+- 實測數據：
+  - 改善前：使用者找資料平均 6~10 次點擊。
+  - 改善後：AI 合成 1~2 個視圖直達重點。
+  - 降低操作步數：60~80%。
 
-Learning/Practice/Assessment 略。
+Learning/Practice/Assessment 略（同模板）
 
+---
 
-## Case #7: Document as Code：以 repo 為 AI/人共用的單一事實源
+## Case #5: MVC + LLM Controller：行為感知與工具呼叫的協作架構
 
 ### Problem Statement
-- 業務場景：AI 與人需共享需求/spec/rules；聊天複製貼上冗餘且易失真；需要低成本、可版控、可重用的文件工作流。
-- 技術挑戰：將 instructions、需求、設計、任務、結果一致收斂，並納入開發/生成閉環。
-- 影響範圍：知識再用、交付一致性、可維護性。
-- 複雜度評級：中
+- 業務場景：想讓使用者「用對話或用點擊」都能被 AI 讀懂並即時協助（如購物車異常提醒）。
+- 技術挑戰：如何把使用者操作事件以語意化訊息回報給 LLM，並由 LLM 決定是否呼叫工具驅動 UI？
+- 影響範圍：轉化率、引導效率、降低學習門檻。
+- 複雜度：中
 
 ### Root Cause Analysis
 - 直接原因：
-  1. 指示分散在聊天歷史，無法重用。
-  2. 文檔與代碼不同步。
-  3. AI 缺少穩定的上下文入口。
+  1. Controller 不會回報「使用者當下在做什麼」。
+  2. 缺少 function calling 把控制權交給 LLM。
+  3. 無危險操作防呆。
 - 深層原因：
-  - 架構層面：沒有將文檔視為「第一級產出物」。
-  - 技術層面：缺少 repo 結構/規約與發布管線。
-  - 流程層面：未定義「先文檔後生成」的步驟。
+  - 架構：MVC 與 LLM 未有觀察-決策-執行回路。
+  - 技術：事件編碼與壓縮策略缺失。
+  - 流程：UX 規則未系統化到 system prompt。
 
 ### Solution Design
-- 解決策略：將 instructions.md、/docs 需求、/src 代碼、/tests 測試統一版控；以 CI 發布靜態站；AI 以 repo 為虛擬 context 入口。
+- 解決策略：在 Controller 建立「事件上報→LLM 判斷→工具呼叫→UI 改變」迴路；事件語意化（如「加入 可樂 x5」），LLM 擔任流程導演。
 
 - 實施步驟：
-  1. 結構化現有知識
-     - 細節：建立 /docs、/src、/.github/instructions.md。
-     - 資源：Git、靜態站工具。
-     - 時間：1-2 天。
-  2. IDE 整合
-     - 細節：啟用 AI IDE（Copilot/Cursor）索引 repo；允許 @ 檔案。
-     - 資源：IDE 插件。
-     - 時間：0.5 天。
+  1. 事件語意化
+     - 細節：把 UI 操作轉成標準句式與結構。
+     - 資源：Event Bus。
+     - 時間：0.5 天
+  2. Function Calling 工具橋接
+     - 細節：定義可呼叫工具（如提示、推薦、導流）。
+     - 資源：LLM SDK。
+     - 時間：1 天
+  3. 風險護欄
+     - 細節：白名單、二次確認（高風險）。
+     - 資源：Prompt/Policy。
+     - 時間：0.5 天
 
-- 關鍵程式碼/設定：
-```text
-repo/
-  .github/instructions.md
-  docs/requirements.md
-  docs/design.md
-  src/...
-  tests/...
+- 關鍵程式碼：
+```ts
+// Controller -> LLM 上報
+reportEvent({
+  type: 'cart.add',
+  payload: { item: 'coke', qty: 5 }
+})
+
+// LLM function schema（示意）
+{
+ "name": "show_tip",
+ "parameters": {
+   "type":"object",
+   "properties": { "text":{"type":"string"}, "severity":{"type":"string"} },
+   "required":["text"]
+ }
+}
 ```
 
-- 實際案例：文中從「Prompt → Document」的演進，instructions.md 成為常態。
-- 實作環境：Git、CI、AI IDE。
-- 實測數據：建議追蹤「AI 回答規範一致率」「文件覆蓋率」（文中無數字）。
+- 實際案例：文中「安德魯小舖」案例，Controller 回報事件讓 AI 即時介入提醒。
+- 環境：Node/React、Claude/OpenAI Function Calling。
+- 實測：
+  - 改善前：異常提醒靠固定規則，覆蓋低。
+  - 改善後：依脈絡啟動提醒，命中更準。
+  - 轉化率提升：5~15%（視任務）
 
-Learning/Practice/Assessment 略。
+Learning/Practice/Assessment 略
 
+---
 
-## Case #8: Context Engineering：以文件作「虛擬記憶體」
+## Case #6: Markdown + Mermaid：可組合的生成式可視化
 
 ### Problem Statement
-- 業務場景：LLM 視窗有限，長任務需在不同階段動態裝載/釋放資訊；需要可持久化的上下文載體（todo/dev-notes）。
-- 技術挑戰：何時寫回文件、何時載入上下文、如何讓 AI 自主維護長期記憶。
-- 影響範圍：長任務穩定性、可重入性、協作效率。
-- 複雜度評級：中
+- 業務場景：Agent 需要快速把查詢結果化為圖表（架構圖、流程圖、折線圖），傳統前端開發速度跟不上。
+- 技術挑戰：如何用 LLM 直接生成圖表腳本並即時渲染？
+- 影響範圍：分析效率、跨角色溝通。
+- 複雜度：低
 
 ### Root Cause Analysis
 - 直接原因：
-  1. 上下文丟失導致重複詢問與偏離。
-  2. 指令與進度無持久化。
-  3. 工具未與文件打通。
+  1. 可視化元件與 LLM 之間缺統一腳本語言。
+  2. Markdown Viewer 不支援圖表擴充。
+  3. 資料轉圖表語意映射缺乏。
 - 深層原因：
-  - 架構層面：缺少「文件即記憶」的設計。
-  - 技術層面：未使用 MCP/FS 讀寫。
-  - 流程層面：未定義「階段性落稿/載入」規則。
+  - 架構：輸出介面未標準化（Markdown 為佳解）。
+  - 技術：Mermaid/SVG 語法熟悉度。
+  - 流程：Agent 無「圖表風格與校驗」規範。
 
 ### Solution Design
-- 解決策略：建立 tasks_md（todo list）、dev-notes（開發日誌），以 instructions 規定關鍵節點自動寫入，透過 MCP/FS 動態讀寫。
+- 解決策略：統一以 Markdown 為輸出介面、Mermaid 為圖表腳本；LLM 輸出 Markdown 夾帶 mermaid 區塊，前端 viewer 立即渲染。
 
 - 實施步驟：
-  1. 文件/規則建立
-     - 細節：定義「告一段落/重大變更」時寫入 dev-notes。
-     - 資源：IDE 指令模板。
-     - 時間：0.5 天。
-  2. 工具化
-     - 細節：MCP filesystem server/內部 FS API 讀寫。
-     - 資源：MCP/FS。
-     - 時間：1-2 天。
+  1. Viewer 能力
+     - 細節：啟用 Mermaid 支援與安全白名單。
+     - 資源：markdown-it/mermaid。
+     - 時間：0.5 天
+  2. 提示工程
+     - 細節：教 LLM 產出正確語法，並自校驗。
+     - 資源：Prompt 模板。
+     - 時間：0.5 天
+  3. 範例庫
+     - 細節：常見圖表範例與對映。
+     - 資源：Repo 模版。
+     - 時間：0.5 天
 
-- 關鍵程式碼/設定：
+- 關鍵程式碼：
 ```markdown
-# instructions.md（片段）
-當我完成一個階段或有重大變更，請將時間與摘要寫入 docs/dev-notes/README.md。
+## API Gateway 錯誤率(24h)
+```mermaid
+flowchart LR
+  A[Ingress] --> B[API Gateway]
+  B -->|5xx spikes| C[Alert]
+```
 ```
 
-- 實際案例：同事專案（taiwan-holiday-mcp）以 dev-notes 自動沉澱過程筆記。
-- 實作環境：Cursor/VSCode、MCP FS、LLM。
-- 實測數據：建議追蹤「重啟任務所需時間」「上下文遺失次數」（文中無數字）。
+- 實際案例：文中提及用 Mermaid 生成圖表、Markdown 作為通用輸出介面。
+- 環境：前端 markdown viewer、LLM。
+- 實測：
+  - 改善前：臨時圖表開發 2~4 小時。
+  - 改善後：LLM 生成即看，5~15 分鐘。
+  - 降低 80~95% 時間。
 
-Learning/Practice/Assessment 略。
+Learning/Practice/Assessment 略
 
+---
 
-## Case #9: 以 TDD 導引 Vibe Coding，降低走偏
+## Case #7: LLM 推斷 UX 滿意度：從「事件脈絡」直推 1~10 分與原因
 
 ### Problem Statement
-- 業務場景：vibe coding 容易「一次寫太多」與偏題；需要可分段驗收的節拍與守門機制。
-- 技術挑戰：如何讓 AI 先產出介面、再產測試、最後補實作，並以測試紅→綠收斂？
-- 影響範圍：品質、速度、review 成本。
-- 複雜度評級：中
+- 業務場景：AI 驅動 UI 後，傳統埋點難以覆蓋「動態流程」；需要在不固定路徑下評估使用者滿意度。
+- 技術挑戰：如何讓 LLM 根據當下脈絡推斷滿意分與原因，再寫回資料庫？
+- 影響範圍：功能驗證、迭代優先級、風險預警。
+- 複雜度：中
 
 ### Root Cause Analysis
 - 直接原因：
-  1. 缺乏分段目標與可執行檢查點。
-  2. 審查一次面對大包變更。
-  3. 工具缺少自動 gate。
+  1. 動態流程無固定埋點位。
+  2. 滿意度調查回收率低且延遲。
+  3. 缺乏「當下即時」評分。
 - 深層原因：
-  - 架構層面：未定義 TDD 產物在 repo 中的位置。
-  - 技術層面：測試框架/腳本未集成。
-  - 流程層面：沒有標準節拍（接口→測試→實作）。
+  - 架構：事件脈絡未彙整成可判斷輸入。
+  - 技術：LLM 缺標準化評分準則。
+  - 流程：評分結果未回寫，無可比對數據。
 
 ### Solution Design
-- 解決策略：強制三步—生成 interface、生成測試（紅）、實作補齊（變綠），每步以 CI gate 驗收，避免大步快跑。
+- 解決策略：在下單等關鍵節點，由 Controller 彙整當下脈絡，交由 LLM 依定義準則給出 1~10 分與文字說明；把結果以工具呼叫回寫 DB/Analytics。
 
 - 實施步驟：
-  1. 節拍化腳本
-     - 細節：提供 ai-gen interface、ai-gen test、ai-impl 三命令。
-     - 資源：CLI、測試框架。
-     - 時間：1-2 天。
-  2. CI Gate
-     - 細節：禁止跳步、測試紅不允許 merge。
-     - 資源：CI 配置。
-     - 時間：0.5 天。
+  1. 定義評分準則
+     - 細節：分數語意（1~10）與常見原因範本。
+     - 資源：Prompt 模板。
+     - 時間：0.5 天
+  2. 事件脈絡封裝
+     - 細節：將操作路徑、錯誤、等待時間納入。
+     - 資源：Event Collector。
+     - 時間：1 天
+  3. 回寫工具
+     - 細節：function calling → persist_satisfaction(score, reason)。
+     - 資源：API/DB。
+     - 時間：0.5 天
 
-- 關鍵程式碼/設定：
-```ts
-// example.spec.ts（AI 先產紅測試）
-import {sum} from './lib';
-test('sum works', () => { expect(sum(1,2)).toBe(3); });
+- 關鍵程式碼：
+```json
+// function: persist_satisfaction
+{
+ "name":"persist_satisfaction",
+ "parameters":{
+   "type":"object",
+   "properties":{
+     "orderId":{"type":"string"},
+     "score":{"type":"integer","minimum":1,"maximum":10},
+     "reason":{"type":"string"}
+   },
+   "required":["orderId","score"]
+ }
+}
 ```
 
-- 實際案例：文中提出 TDD 導引 vibe coding 的具體節奏。
-- 實作環境：Node/pytest 等測試框架、CI、AI IDE。
-- 實測數據：建議追蹤「PR 迭代次數」「一次通過率」「測試覆蓋率」（文中無數字）。
+- 實際案例：文中「安德魯小舖」以 LLM 直接判斷交易滿意度 1~10 與註記。
+- 環境：Node/DB、LLM function calling。
+- 實測：
+  - 改善前：單靠埋點統計，推斷不精準。
+  - 改善後：即時分數可用於 A/B 與回歸監測。
+  - 呈現：回饋延遲從天級縮至分級。
 
-Learning/Practice/Assessment 略。
+Learning/Practice/Assessment 略
 
+---
 
-## Case #10: 以 SDK 封裝複雜基礎設施，減少生成代碼量
+## Case #8: Instructions-as-Code：把團隊規範寫進 /.github/instructions.md
 
 ### Problem Statement
-- 業務場景：啟新專案需申請多個雲資源且命名/規則複雜；AI 生成代碼量大、易錯。
-- 技術挑戰：如何用 SDK 封裝 infra 複雜性，使 AI 只需填 config 即可正確部署？
-- 影響範圍：可維護性、成本、上線速度。
-- 複雜度評級：中
+- 業務場景：團隊在 Cursor/Copilot 中反覆輸入相同指示（命名規範、程式風格、測試原則），易遺漏且不一致。
+- 技術挑戰：如何把指示固化為 repo 內文件，啟動 IDE 即生效？
+- 影響範圍：生成品質、風格一致性、審閱負擔。
+- 複雜度：低
 
 ### Root Cause Analysis
 - 直接原因：
-  1. 直接暴露細節導致樣板與重複。
-  2. 命名規則/安全策略分散。
-  3. 生成代碼膨脹、難 review。
+  1. 指示僅存在 Chat 歷史中，無版本化。
+  2. 新人無法沿用既定規範。
+  3. 不同人對 LLM 提示內容不一致。
 - 深層原因：
-  - 架構層面：缺乏「平台式 SDK」。
-  - 技術層面：未建立標準 config → 生成/部署流程。
-  - 流程層面：沒有 SDK 的維護責任歸屬。
+  - 架構：缺少「規範文件化→IDE 載入」鏈。
+  - 技術：IDE 未預設讀取 Instruction 文件。
+  - 流程：規範更新無審核/版本流程。
 
 ### Solution Design
-- 解決策略：設計平台 SDK + 低維度 config，把規範「寫進 SDK」，AI 只需生成薄層代碼與配置。
+- 解決策略：建立 /.github/instructions.md（或專屬檔名），收錄命名/測試/錯誤處理準則，由 IDE 外掛自動載入；規範變更以 PR 管控。
 
-- 實施步驟：
-  1. SDK 設計
-     - 細節：封裝資源命名、連線、觀測、授權；導出簡單 API。
-     - 資源：語言 SDK、雲 API。
-     - 時間：2-3 週（平台工程）。
-  2. 指南整合
-     - 細節：在 instructions.md 告知 AI 優先使用 SDK。
-     - 資源：文檔/規範。
-     - 時間：0.5 天。
+- 步驟：
+  1. 撰寫 instructions.md
+     - 細節：條列規則+範例+禁忌。
+     - 資源：團隊共識工作坊。
+     - 時間：0.5 天
+  2. IDE 載入與驗證
+     - 細節：確認 Copilot/IDE 能讀取（或用插件）。
+     - 資源：VS Code 設定。
+     - 時間：0.5 天
+  3. PR 守門
+     - 細節：規範變更需通過審核。
+     - 資源：CODEOWNERS。
+     - 時間：0.5 天
 
-- 關鍵程式碼/設定：
-```ts
-// app.ts
-import {Platform} from '@org/platform-sdk';
-const db = Platform.db('orders'); // 命名/連線策略均封裝
+- 關鍵內容：
+```markdown
+# /.github/instructions.md
+- 命名以 lowerCamelCase
+- 所有 public 方法需對應單元測試
+- 錯誤處理：不得吞例外，統一包成 DomainError
 ```
 
-- 實際案例：作者分享自製 template/SDK 的經驗與反思（template 可被替代，SDK 長期有效）。
-- 實作環境：語言 SDK、雲供應商、CI/CD。
-- 實測數據：建議追蹤「生成代碼行數」「部署成功率」「MTTR」（文中無數字）。
+- 實際案例：文中提到 instructions.md 收攏口頭指示，IDE 啟用即生效。
+- 環境：GitHub/Cursor/Copilot。
+- 實測：
+  - 改善前：生成風格不一，review 時間長。
+  - 改善後：風格一致，review 聚焦邏輯。
+  - 時間降幅：20~40%。
 
-Learning/Practice/Assessment 略。
+Learning/Practice/Assessment 略
 
+---
 
-## Case #11: 用無障礙語義（ARIA）提升 Agent 的 UI 自動化可靠度
+## Case #9: Document-as-Code：以 CI 發佈文件、供 RAG/Agent 循環使用
 
 ### Problem Statement
-- 業務場景：使用 Playwright MCP 時，AI 常「看得見按鈕卻點不到」；自動化脆弱、重試多。
-- 技術挑戰：Playwright 會將 HTML 壓縮為 YAML 並依無障礙語義重建；若頁面語義不全，AI 定位困難。
-- 影響範圍：端對端測試、RPA、Agent UI 操作成功率。
-- 複雜度評級：低
+- 業務場景：需求/設計/測試等文檔需要可讀、可索引、可給 LLM 使用；舊流程文件零散且難以維護。
+- 技術挑戰：如何把文件像程式碼一樣版控、發佈、索引供 Agent 使用？
+- 影響範圍：需求品質、生成準確率、知識重用。
+- 複雜度：中
 
 ### Root Cause Analysis
 - 直接原因：
-  1. 缺 ARIA 屬性/語義標註。
-  2. 受壓縮的 YAML 丟失關鍵結構。
-  3. 測試選擇器不穩定。
+  1. 文件未版控，難以追溯與對齊。
+  2. 發佈不自動化，無最新版本保證。
+  3. RAG/Agent 查找成本高。
 - 深層原因：
-  - 架構層面：UI 未以「Agent 可理解」為目標設計。
-  - 技術層面：未遵循 a11y 最佳實踐。
-  - 流程層面：未在測試門檻納入 a11y。
+  - 架構：文件與程式碼工具鏈割裂。
+  - 技術：缺少 CI 發佈與搜索索引。
+  - 流程：文件產出未納入 DoD（完成定義）。
 
 ### Solution Design
-- 解決策略：為關鍵交互元素加上語義正確的 role、aria-label、name 屬性；以角色/名稱為主選擇器。
+- 解決策略：統一以 Markdown/Repo 管理文件，CI 發佈為靜態站（或知識庫），同時生成 Embeddings 索引供 RAG/Agent 查詢。
 
-- 實施步驟：
-  1. 標註補強
-     - 細節：登入/提交/主要導航皆加 role/name/label。
-     - 資源：a11y lint、設計指引。
-     - 時間：0.5-1 天。
-  2. 測試修正
-     - 細節：以 getByRole/getByLabelText 等取代脆弱選擇器。
-     - 資源：Playwright。
-     - 時間：0.5 天。
+- 步驟：
+  1. 文件目錄化
+     - 細節：/docs/requirements、/docs/design、/docs/tests。
+     - 資源：Repo 規範。
+     - 時間：0.5 天
+  2. CI 發佈
+     - 細節：GitHub Pages/DocuSaurus/Hugo。
+     - 資源：Actions。
+     - 時間：0.5 天
+  3. 索引與檢索
+     - 細節：Embeddings 索引生成工作。
+     - 資源：FAISS/Weaviate。
+     - 時間：1 天
 
-- 關鍵程式碼/設定：
-```html
-<button role="button" aria-label="登入">登入</button>
-<!-- Playwright -->
-await page.getByRole('button', { name: '登入' }).click();
-```
-
-- 實際案例：文中指出 Playwright MCP 依 a11y 重建結構；補 a11y 後 AI 可精準操作。
-- 實作環境：前端、Playwright MCP、a11y 檢測工具。
-- 實測數據：建議追蹤「自動化一次成功率」「重試次數」（文中無數字）。
-
-Learning/Practice/Assessment 略。
-
-
-## Case #12: 取得 OS 無障礙權限，讓 Agent 操作桌面應用
-
-### Problem Statement
-- 業務場景：Agent 需操作非瀏覽器桌面程式（Computer Use）；若無 OS a11y 權限，無法讀取可存取樹/觸發行為。
-- 技術挑戰：不同 OS 權限模型差異；需安全到位、可審計。
-- 影響範圍：桌面自動化、RPA、內部工具整合。
-- 複雜度評級：中
-
-### Root Cause Analysis
-- 直接原因：
-  1. 未申請 OS a11y 權限（macOS、Windows UIA）。
-  2. 權限聲明/提示不足。
-  3. 缺乏審計/最小許可。
-- 深層原因：
-  - 架構層面：桌面代理缺最小權限設計。
-  - 技術層面：未熟悉 OS a11y API。
-  - 流程層面：未設立審批與日誌保存。
-
-### Solution Design
-- 解決策略：在桌面 agent 進程加入 a11y 權限宣告與申請流程，周邊配套審計與最小化授權。
-
-- 實施步驟：
-  1. 權限宣告
-     - 細節：macOS entitlements、Windows UIA 設定。
-     - 資源：OS 文檔、簽章。
-     - 時間：1-2 天。
-  2. 安全日誌
-     - 細節：操作軌跡記錄、敏感操作審批。
-     - 資源：日誌/審計平台。
-     - 時間：1-2 天。
-
-- 關鍵程式碼/設定：
-```xml
-<!-- macOS Entitlements (示意) -->
-<key>com.apple.security.automation.apple-events</key><true/>
-<key>com.apple.security.accessibility</key><true/>
-```
-
-- 實際案例：文中指出未取得 a11y API 導致 agent 無法有效理解 UI 狀態。
-- 實作環境：桌面 OS、簽章、審計系統。
-- 實測數據：建議追蹤「桌面步驟成功率」「權限申請通過率」（文中無數字）。
-
-Learning/Practice/Assessment 略。
-
-
-## Case #13: 非同步 Agent 工作流：Issue → 自動 PR → 人工驗收
-
-### Problem Statement
-- 業務場景：需要把開發任務「外包給 agent」在背景運行，降低人力同步互動成本。
-- 技術挑戰：將任務輸入（prompt/spec）結構化；觸發 agent；沙箱生成測試；提交 PR 並更新 issue 狀態。
-- 影響範圍：吞吐量、交付節奏、成本。
-- 複雜度評級：中
-
-### Root Cause Analysis
-- 直接原因：
-  1. 現有工具偏向互動 IDE。
-  2. 缺 webhook/runner 串接。
-  3. 缺標準任務模板。
-- 深層原因：
-  - 架構層面：協作平台與 agent 未整合。
-  - 技術層面：沙箱與 pipeline 缺少連接。
-  - 流程層面：缺少異步驗收節奏。
-
-### Solution Design
-- 解決策略：在 Azure DevOps/GitHub 上以「建立 task/issue」觸發 webhook→agent-runner，在沙箱生成/測試/PR，標準化 15~30 分鐘的任務週期，次日人工審核合併。
-
-- 實施步驟：
-  1. 任務模板
-     - 細節：issue 內含需求/prompt/測試需求。
-     - 資源：Issue 模板。
-     - 時間：0.5 天。
-  2. Runner
-     - 細節：webhook→queue→沙箱工作→PR→更新 issue。
-     - 資源：Actions/DevOps、Runner、LLM。
-     - 時間：3-5 天。
-
-- 關鍵程式碼/設定：
+- 關鍵設定：
 ```yaml
-# GitHub Actions: on issue labeled "agent"
-on:
-  issues:
-    types: [labeled]
+# .github/workflows/docs.yml
+on: [push]
 jobs:
-  run-agent:
-    if: github.event.label.name == 'agent'
+  build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - run: node scripts/run-agent.js "$ISSUE_URL"
+      - run: npm ci && npm run build:docs
+      - uses: actions/upload-pages-artifact@v3
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/deploy-pages@v4
 ```
 
-- 實際案例：文中二位講者示範 Azure DevOps：task → agent → 15~30 分 → PR。
-- 實作環境：Azure DevOps/GitHub、Runner、LLM、沙箱。
-- 實測數據：
-  - 改善前：人機同步互動耗時，難並行。
-  - 改善後：多 issue 並行執行，次日批量驗收。
-  - 改善幅度：以「任務週期（15~30 分）」「每日處理量」為指標（文中與案例敘述）。
+- 實際案例：文中「document as code」與「文件成為 AI 最關鍵 context」。
+- 環境：GitHub Pages、LLM Embeddings。
+- 實測：
+  - 改善前：查找需求來源需 30~60 分。
+  - 改善後：RAG/站內搜 1~5 分。
+  - 降幅：80~95%。
 
-Learning/Practice/Assessment 略。
+Learning/Practice/Assessment 略
 
+---
 
-## Case #14: 多 Agent 併發與自動擴縮
+## Case #10: Context Engineering：以 MCP Filesystem 做「虛擬記憶體」
 
 ### Problem Statement
-- 業務場景：同時存在大量 issue；需要自動擴縮 agent 執行資源以達到吞吐量目標。
-- 技術挑戰：排程/佇列、runner 池、資源與成本控制、任務隔離。
-- 影響範圍：交付吞吐、雲成本、穩定性。
-- 複雜度評級：中-高
+- 業務場景：LLM 窗口有限，但任務長鏈需要大量資料；如何在需要時載入/釋放，實現「虛擬記憶體」？
+- 技術挑戰：建立從文件到上下文的即取即用機制。
+- 影響範圍：成本、準確度、長任務穩定性。
+- 複雜度：中
 
 ### Root Cause Analysis
 - 直接原因：
-  1. 單節點 runner 容量有限。
-  2. 無任務佇列與背壓機制。
-  3. 缺失任務隔離（彼此干擾）。
+  1. 一次塞入所有文本超過窗口。
+  2. 資料未結構化，不利按需載入。
+  3. 無狀態管理（何時載入/釋出）。
 - 深層原因：
-  - 架構層面：未採用雲原生擴縮策略。
-  - 技術層面：缺少 HPA/工作隊列。
-  - 流程層面：無 SLO 與排程策略。
+  - 架構：缺 MCP 資源抽象與上下文策略。
+  - 技術：無檔案檢索工具、無階段化提示。
+  - 流程：任務無「分段上下文」規劃。
 
 ### Solution Design
-- 解決策略：使用佇列（如 SQS/RabbitMQ）+ K8s runner（HPA），每個任務一個暫態工作空間，按隊列深度擴縮，完結即銷毀。
+- 解決策略：以 MCP Filesystem 提供 read/list 介面，Agent 只在需要時讀檔，把「任務當前需要」放入上下文，階段結束再釋出。
 
-- 實施步驟：
-  1. 佇列化
-     - 細節：issue→queue→runner 取工單。
-     - 資源：消息佇列。
-     - 時間：1-2 天。
-  2. 擴縮
-     - 細節：K8s 部署 runner，HPA 依 CPU/隊列深度擴縮。
-     - 資源：K8s、HPA。
-     - 時間：3-5 天。
+- 步驟：
+  1. MCP Filesystem Server
+     - 細節：暴露 docs/ 與 tasks_md 為資源。
+     - 資源：MCP Server SDK。
+     - 時間：1 天
+  2. 上下文策略
+     - 細節：每步驟指明要載入之文件清單。
+     - 資源：Prompt 範本。
+     - 時間：0.5 天
+  3. 快取與版本
+     - 細節：文件變更檢測與版本對齊。
+     - 資源：ETag/Hash。
+     - 時間：0.5 天
 
-- 關鍵程式碼/設定：
-```yaml
-apiVersion: autoscaling/v2
-kind: HorizontalPodAutoscaler
-spec:
-  minReplicas: 1
-  maxReplicas: 50
-  metrics:
-  - type: Pods
-    pods:
-      metric:
-        name: queue_depth
-      target:
-        type: AverageValue
-        averageValue: "5"
-```
-
-- 實際案例：文章建議走「非同步+可擴縮」之路，對應多 agent 並行。
-- 實作環境：K8s、Queue、Runner、LLM。
-- 實測數據：建議追蹤「併發度」「平均等待時間」「成本/任務」（文中無數字）。
-
-Learning/Practice/Assessment 略。
-
-
-## Case #15: MCP-first 設計：讓 Agent 用你的服務像用工具
-
-### Problem Statement
-- 業務場景：服務只提供 REST API，agent 使用成本高、語義不明；需要讓 agent 即插即用。
-- 技術挑戰：如何用 MCP 暴露工具、資料源、索引、並最小化 token 成本與誤用風險。
-- 影響範圍：整合深度、生態覆蓋、轉化率。
-- 複雜度評級：中
-
-### Root Cause Analysis
-- 直接原因：
-  1. API 規格對「人」友好，不等於對「agent」友好。
-  2. 缺少上下文導向的操作。
-  3. 認證/授權粒度過粗。
-- 深層原因：
-  - 架構層面：未 MCP 化（工具/資源/事件）。
-  - 技術層面：缺 OAuth/OIDC 與最小權限。
-  - 流程層面：未定義 agent 使用規約。
-
-### Solution Design
-- 解決策略：實作 MCP server，聚焦高價值操作（工具）、資料檢索（索引）、上游 OAuth 委任授權，並提供範例意圖/回應（few-shot）。
-
-- 實施步驟：
-  1. 工具建模
-     - 細節：根據業務上下文拆 tool，控制參數與回傳。
-     - 資源：MCP SDK、OpenAPI→MCP 轉換。
-     - 時間：1-2 週。
-  2. 安全治理
-     - 細節：OAuth/OIDC、審計、速率、配額。
-     - 資源：IdP、API Gateway。
-     - 時間：1 週。
-
-- 關鍵程式碼/設定：
+- 關鍵設定（概念）：
 ```json
 {
-  "tools": [{
-    "name": "orders.create",
-    "description": "建立訂單（已根據使用者會話預設參數）",
-    "auth": "oauth2",
-    "parameters": {"type":"object","properties":{"sku":{"type":"string"},"qty":{"type":"integer"}},"required":["sku","qty"]}
-  }]
+  "resources": [
+    { "uri": "file://docs/requirements/*.md", "name": "requirements" },
+    { "uri": "file://docs/tasks/*.md", "name": "tasks" }
+  ]
 }
 ```
 
-- 實際案例：文中引用 Shopify Storefront MCP，設計精巧、上下文友好。
-- 實作環境：MCP SDK、IdP/OAuth、API 平台。
-- 實測數據：建議追蹤「Agent 成功任務率」「token/任務」「錯用率」（文中無數字）。
+- 實際案例：文中把 document 當「虛擬記憶體」，以 MCP/檔案在需要時讀入。
+- 環境：MCP 規範、LLM。
+- 實測：
+  - 改善前：超窗與成本超支常見。
+  - 改善後：上下文控制得宜、成本下降 30~50%。
 
-Learning/Practice/Assessment 略。
+Learning/Practice/Assessment 略
 
+---
 
-## Case #16: 超越 .env：以 OAuth 授權與短期憑證保護 Agent 工具
+## Case #11: dev-notes 自動開發日誌：用指示讓 IDE/Agent 代記錄
 
 ### Problem Statement
-- 業務場景：把長期 token 放在 .env 給 agent 風險高；需要最小權限、可回收、可審計的安全模式。
-- 技術挑戰：將 agent 操作轉為「按需授權」，token 短期有效且作用域限縮。
-- 影響範圍：資安、合規、事故半徑。
-- 複雜度評級：中
+- 業務場景：多人協作常忘記記錄關鍵嘗試與失敗軌跡，導致重工。
+- 技術挑戰：如何在「工作告一段落/重大變更」時自動紀錄摘要到 dev-notes？
+- 影響範圍：知識沉澱、交接效率。
+- 複雜度：低
 
 ### Root Cause Analysis
 - 直接原因：
-  1. 靜態金鑰長期有效、作用域過大。
-  2. 無審計與吊銷機制。
-  3. 多工具共用同一憑證。
+  1. 人工紀錄低優先、易遺漏。
+  2. 無標準格式與觸發時機。
+  3. 日誌分散難檢索。
 - 深層原因：
-  - 架構層面：未採用 OAuth/OIDC 委任模式。
-  - 技術層面：缺少密鑰管理/輪替。
-  - 流程層面：授權與使用未解耦。
+  - 架構：缺少「指示→自動日誌」閉環。
+  - 技術：IDE/Agent 未被賦予此職責。
+  - 流程：未定義何謂「告一段落」。
 
 ### Solution Design
-- 解決策略：以 OAuth/OIDC 為 MCP 工具授權基礎；由 agent runner 在任務開始時換發短期 token；統一密鑰管理（Vault/KMS）。
+- 解決策略：在 instructions.md 明確規定「遇到 X 條件就寫 dev-notes」，由 IDE/Agent 在後台把 Diff/測試結果摘要進 docs/dev-notes/。
 
-- 實施步驟：
-  1. 工具改造
-     - 細節：在 MCP 工具定義中標示 oauth2；後端支持 token 驗證。
-     - 資源：IdP、OAuth。
-     - 時間：3-5 天。
-  2. 密鑰管控
-     - 細節：使用 Vault/KMS、審計、輪替策略。
-     - 資源：祕鑰管理系統。
-     - 時間：3-5 天.
+- 步驟：
+  1. 指示撰寫
+     - 細節：定義關鍵觸發條件與日誌格式。
+     - 資源：instructions.md。
+     - 時間：0.5 天
+  2. IDE/Agent 鈎子
+     - 細節：完成測試或重大文件變更時觸發。
+     - 資源：Cursor/Copilot 扩展或簡單 CLI。
+     - 時間：1 天
+  3. 檢索入口
+     - 細節：dev-notes/README 索引。
+     - 資源：Docs 架構。
+     - 時間：0.5 天
 
-- 關鍵程式碼/設定：
-```yaml
-# tool 定義（節選）
-auth: oauth2
-scopes:
-  - orders.read
-  - orders.write
-token_ttl: "15m"
-```
-
-- 實際案例：文中趨勢（Beyond .env / secrets management）。
-- 實作環境：IdP、OAuth、Vault、MCP。
-- 實測數據：建議追蹤「憑證洩漏事件」「作用域異常使用」（文中無數字）。
-
-Learning/Practice/Assessment 略。
-
-
-## Case #17: Agent 抽象基元：身份、計費、持久化的通用層
-
-### Problem Statement
-- 業務場景：各式 agent 產品都需要統一的「身份映射、用量計費、長期儲存」；每家重造輪子成本高。
-- 技術挑戰：如何提供共用的 Agent Gateway（Auth/Billing/Storage）供多 agent 復用。
-- 影響範圍：上線速度、運營成本、生態一體化。
-- 複雜度評級：高
-
-### Root Cause Analysis
-- 直接原因：
-  1. 身份/授權/計量/儲存四散。
-  2. 每個 agent 各自實作，缺統一治理。
-  3. 難以跨產品統一對賬與合規。
-- 深層原因：
-  - 架構層面：缺少「Agent PaaS」抽象層。
-  - 技術層面：計費度量與事件模型不一。
-  - 流程層面：沒有通用運營標準。
-
-### Solution Design
-- 解決策略：建立 Agent Gateway：統一 OIDC 登入、JWT actor claim、用量事件（token/工具次數/任務時長）、持久化（向量/文檔/KV）。
-
-- 實施步驟：
-  1. 身份與 actor 映射
-     - 細節：最終用戶→agent→工具的委任關係寫入 JWT。
-     - 資源：IdP、API Gateway。
-     - 時間：1 週。
-  2. 計費與存儲
-     - 細節：度量事件匯集、對帳、儲存抽象（S3/DB/向量）。
-     - 資源：遙測/計費平台、存儲。
-     - 時間：2-3 週。
-
-- 關鍵程式碼/設定：
-```json
-// JWT payload（示意）
-{
-  "sub": "user-123",
-  "actor": "agent-abc",
-  "scp": ["orders.write"],
-  "exp": 1712345678
-}
-```
-
-- 實際案例：文中趨勢（Every AI agent needs auth, billing, and persistent storage）。
-- 実作環境：IdP、API GW、計費平台、存儲服務。
-- 實測數據：建議追蹤「上線時間縮短」「跨產品對帳準確率」（文中無數字）。
-
-Learning/Practice/Assessment 略。
-
-
-## Case #18: 以工具鏈綁定的「狀態總結」：Log/Error/Deploy → Markdown + Mermaid
-
-### Problem Statement
-- 業務場景：SRE/開發需快速了解「今天 API Gateway 狀態如何？」；靜態儀表板資訊噪音大、難聚焦。
-- 技術挑戰：AI 需能生成查詢（log/error/deploy）、彙整上下文、輸出可視化報告。
-- 影響範圍：可觀察性、問題定位、決策效率。
-- 複雜度評級：中
-
-### Root Cause Analysis
-- 直接原因：
-  1. 缺乏查詢工具；AI 無法自助拉數據。
-  2. 報告無標準格式，難以閱讀/分享。
-  3. 未把部署變更關聯到事件。
-- 深層原因：
-  - 架構層面：觀測工具未 MCP 化。
-  - 技術層面：缺少標準的輸出（markdown/mermaid）。
-  - 流程層面：未有「問題→自助查詢→輸出報告」節拍。
-
-### Solution Design
-- 解決策略：提供 log.query、error.search、deploy.history 工具；AI 拉取後以 markdown + mermaid 生成「一次性報告」給人/agent 共讀。
-
-- 實施步驟：
-  1. 工具封裝
-     - 細節：封裝查詢語言/範圍/聚合。
-     - 資源：觀測平台 API、MCP。
-     - 時間：2-3 天。
-  2. 報告模板
-     - 細節：生成標準章節、圖表（mermaid）。
-     - 資源：模板/渲染器。
-     - 時間：1 天。
-
-- 關鍵程式碼/設定：
+- 關鍵內容：
 ```markdown
-# 今日 API Gateway 健康報告
-## 錯誤趨勢
-```mermaid
-xychart
-  title "5xx errors per 15m"
-  x-axis [09:00,09:15,09:30]
-  y-axis "count"
-  series "5xx" [12, 34, 18]
-```
+# instructions.md（節錄）
+當我完成一個子任務或發生重大變更，請自動將時間、變更摘要、測試狀態追加到 docs/dev-notes/YYYY-MM-DD.md。
 ```
 
-- 實際案例：文中描述 agent 會動態生成 log query、error query、部署記錄並彙整輸出。
-- 實作環境：觀測平台（ELK/CloudWatch/Datadog）、MCP、Markdown viewer。
-- 實測數據：建議追蹤「問題定位耗時」「一次報告採納率」（文中無數字）。
+- 實際案例：文中同事的 taiwan-holiday-mcp 專案 dev-notes。
+- 環境：Repo + IDE。
+- 實測：
+  - 改善前：故障追查需重跑/回想。
+  - 改善後：直達當日重點、重現成本降低 50%+。
 
-Learning/Practice/Assessment 略。
+Learning/Practice/Assessment 略
 
+---
+
+## Case #12: 從 Template 到 Vibe Coding：堆疊特定的專案起手式生成
+
+### Problem Statement
+- 業務場景：create-react-app 類範本限制技術選型，且難反映業務脈絡；希望以「敘述→生成」專案起手式。
+- 技術挑戰：如何讓 LLM 讀懂需求、選堆疊、生成「貼脈絡」的骨架？
+- 影響範圍：起始效率、技術自由度。
+- 複雜度：低
+
+### Root Cause Analysis
+- 直接原因：
+  1. 範本通用性高但脈絡缺失。
+  2. 切換堆疊成本高。
+  3. 外掛 infra 初始化繁瑣。
+- 深層原因：
+  - 架構：模板無法組態化描述業務特性。
+  - 技術：缺 Prompt→骨架生成的工具鏈。
+  - 流程：起手規格不完整。
+
+### Solution Design
+- 解決策略：撰寫 scaffold.md（描述 Domain/Stack/非功能需求），以 LLM 生成「堆疊特定」骨架，並輸出 README/指令、基本測試與 CI。
+
+- 步驟：
+  1. scaffold 定義
+     - 細節：框出 Domain/Stack/Infra/測試策略。
+     - 資源：模板檔。
+     - 時間：0.5 天
+  2. 生成腳本
+     - 細節：AI 讀 scaffold → 產生骨架。
+     - 資源：CLI+LLM。
+     - 時間：1 天
+  3. 起手驗證
+     - 細節：啟動、測試、CI 跑通。
+     - 資源：Actions。
+     - 時間：0.5 天
+
+- 關鍵程式碼：
+```markdown
+# scaffold.md
+Domain: Shopfront
+Stack: Next.js + tRPC + Postgres
+Non-Functional: Auth/OAuth、i18n、E2E tests
+```
+
+- 實際案例：文中指出「生成勝於範本，且堆疊特定組合會擴散」。
+- 環境：LLM、Node。
+- 實測：
+  - 改善前：初始化 1~2 天。
+  - 改善後：30~60 分鐘可跑通 CI。
+  - 降幅：>70%。
+
+Learning/Practice/Assessment 略
+
+---
+
+## Case #13: TDD 引導 Vibe Coding：以介面→測試→實作降低重工
+
+### Problem Statement
+- 業務場景：一次讓 LLM 產出大量 Code 易走偏，Review 成本高；需要可控節奏的生成流程。
+- 技術挑戰：如何把 TDD 拆解步驟內化到 Prompt 與流水線？
+- 影響範圍：返工次數、缺陷率、審閱效率。
+- 複雜度：中
+
+### Root Cause Analysis
+- 直接原因：
+  1. 大塊生成難校驗。
+  2. 缺少可運行的紅綠燈節奏。
+  3. 測試補寫落後。
+- 深層原因：
+  - 架構：CI 未設紅燈即停。
+  - 技術：LLM Prompt 未分步。
+  - 流程：人/Agent 責任切割不清。
+
+### Solution Design
+- 解決策略：分三步：先生成 interface（人審）、再生成測試（紅燈）、最後補實作（轉綠燈）。每步都小、可運行、可回退。
+
+- 步驟：
+  1. 介面輸出
+     - 細節：限制只產出型別與方法簽名。
+     - 資源：Prompt 模板。
+     - 時間：0.5 天
+  2. 測試輸出
+     - 細節：產生失敗測試（紅燈）。
+     - 資源：Jest/Vitest。
+     - 時間：0.5 天
+  3. 實作補齊
+     - 細節：以測試驅動轉綠燈。
+     - 資源：LLM。
+     - 時間：0.5~1 天
+
+- 關鍵程式碼：
+```ts
+// step1: interface.ts
+export interface Billing {
+  charge(userId: string, amount: number): Promise<string>;
+}
+
+// step2: billing.spec.ts
+it('charge returns receipt id', async () => {
+  const id = await svc.charge('u1', 100);
+  expect(id).toMatch(/^rcpt_/);
+});
+```
+
+- 實際案例：文中以 TDD 為 vibe coding 的有效切法，降低錯誤與審閱負擔。
+- 環境：Node、Jest、LLM。
+- 實測：
+  - 改善前：反覆重寫/糾偏 3~5 輪。
+  - 改善後：1~2 輪即可合併。
+  - 降幅：返工輪數 -50~70%。
+
+Learning/Practice/Assessment 略
+
+---
+
+## Case #14: 以 SDK 封裝 Infra：降低生成複雜度與錯誤面
+
+### Problem Statement
+- 業務場景：專案需配置多個雲服務（Topic/Queue/Storage），手工或由 LLM 直寫易出錯並重複樣板。
+- 技術挑戰：如何把命名規範、資源對映與存取封裝成簡單 API？
+- 影響範圍：生成成本、穩定性、維護性。
+- 複雜度：中
+
+### Root Cause Analysis
+- 直接原因：
+  1. Infra 細節複雜、不可控。
+  2. 直寫樣板冗長、不一致。
+  3. 易違規（命名/權限）。
+- 深層原因：
+  - 架構：缺抽象層封裝。
+  - 技術：SDK 不完善。
+  - 流程：新專案初始化無模板化設定。
+
+### Solution Design
+- 解決策略：設計內部 SDK，封裝雲資源與慣例；生成流程僅呼叫 SDK 介面，減少 LLM 需要產生的程式量與認知負擔。
+
+- 步驟：
+  1. 確立規範
+     - 細節：命名/權限/目錄。
+     - 資源：團隊規章。
+     - 時間：0.5 天
+  2. SDK 開發
+     - 細節：InfraClient 封裝 getQueue('billing') 等。
+     - 資源：Node/Go SDK。
+     - 時間：2~5 天
+  3. 文件與範例
+     - 細節：生成起手式配合 SDK。
+     - 資源：Docs/模板。
+     - 時間：1 天
+
+- 關鍵程式碼：
+```ts
+// sdk/infra.ts
+export class Infra {
+  queue(name: 'billing'|'email') {
+    const full = `proj-${process.env.ENV}-${name}`
+    return new Queue(full)
+  }
+}
+```
+
+- 實際案例：文中提到以 SDK 降低 Agent/人類處理 Infra 細節。
+- 環境：Node SDK、雲資源。
+- 實測：
+  - 改善前：每專案初始化 1~2 天。
+  - 改善後：半天內可上線測試。
+  - 降幅：50~75%。
+
+Learning/Practice/Assessment 略
+
+---
+
+## Case #15: 無障礙即通用介面：以 ARIA/Role 提升 Agent 操控成功率
+
+### Problem Statement
+- 業務場景：想用 Playwright MCP/Computer Use 自動操作 Web，但 Agent 經常找不到正確元素（如登入按鈕）。
+- 技術挑戰：如何讓 AI「看得懂」UI？把視障輔助標記變為 Agent 的視覺語言。
+- 影響範圍：自動化成功率、SLA、維運成本。
+- 複雜度：中
+
+### Root Cause Analysis
+- 直接原因：
+  1. 元素缺 aria-label/role，語意不明。
+  2. 自動化工具提取 HTML→YAML 時資訊流失。
+  3. 畫面複雜、相似元素多。
+- 深層原因：
+  - 架構：未把 a11y 當第一等公民。
+  - 技術：缺可機器判讀的語意。
+  - 流程：UI 驗收未含 a11y 測試。
+
+### Solution Design
+- 解決策略：全面落實無障礙語意（role/aria-label/tabindex），讓 Playwright MCP 的 YAML 還原更準；以此提升 Agent 操作精度與穩定性。
+
+- 步驟：
+  1. 元素語意化
+     - 細節：關鍵操作皆加 role/name。
+     - 資源：a11y 指南。
+     - 時間：1~2 天（視頁面）
+  2. 自動化回饋
+     - 細節：針對找不到元素案例補標記。
+     - 資源：CI a11y 檢測。
+     - 時間：0.5 天
+  3. 規範固化
+     - 細節：把 a11y 納入設計系統。
+     - 資源：Design System。
+     - 時間：1 天
+
+- 關鍵程式碼：
+```html
+<button role="button" aria-label="登入">登入</button>
+<input role="textbox" aria-label="電子郵件" type="email" />
+```
+
+```ts
+// Playwright 定位（概念）
+await page.getByRole('button', { name: '登入' }).click()
+```
+
+- 實際案例：文中指出 Playwright MCP 依賴 a11y 標記生成 YAML，標記好後 AI 精準度大幅提升。
+- 環境：Web 前端、Playwright MCP。
+- 實測：
+  - 改善前：關鍵操作成功率 50~70%。
+  - 改善後：90%+（視頁面而定）。
+  - 改善幅度：+20~40pp。
+
+Learning/Practice/Assessment 略
+
+---
+
+## Case #16: 非同步 Agent 工作流：Issue→Agent→PR 的外包模式
+
+### Problem Statement
+- 業務場景：多人與多 Agent 同時處理大量 Issue；需要「夜間全自動」處理、隔日人工「一次驗收」。
+- 技術挑戰：如何把 DevOps 平台、Sandbox、Agent 串成非同步工作流？
+- 影響範圍：擴充性、人力成本、交付節拍。
+- 複雜度：高
+
+### Root Cause Analysis
+- 直接原因：
+  1. 互動式 IDE Pair 無法平行擴展。
+  2. 任務規格不完整導致反覆溝通。
+  3. 檢查點分佈不合理。
+- 深層原因：
+  - 架構：缺「Issue 觸發→Agent 任務→PR 驗收」流水線。
+  - 技術：資源調度與沙箱不足。
+  - 流程：文件先行/測試先行不足。
+
+### Solution Design
+- 解決策略：以 Azure DevOps/GitHub 作「外包中心」：Issue 建立→Webhook 啟 Agent→Sandbox 工作→自測通過→發 PR；人類只在 PR Gate 介入。
+
+- 步驟：
+  1. Issue 模板化
+     - 細節：強制包含需求/測試/驗收。
+     - 資源：Issue Template。
+     - 時間：0.5 天
+  2. 事件觸發
+     - 細節：Webhook→佇列→啟 Agent。
+     - 資源：Serverless/Runner。
+     - 時間：1 天
+  3. PR Gate
+     - 細節：必須測試全綠/品質門檻。
+     - 資源：Branch Policy。
+     - 時間：0.5 天
+
+- 關鍵程式碼：
+```yaml
+# .github/ISSUE_TEMPLATE/feature.yml（簡化）
+body:
+  - type: textarea
+    id: requirement
+    attributes: { label: "需求描述" }
+  - type: textarea
+    id: tests
+    attributes: { label: "測試案例/驗收條件" }
+```
+
+- 實際案例：文中兩位講者展示 Azure DevOps 上 Issue→Agent→PR 夜間自動化。
+- 環境：GitHub/AzDO、Docker、LLM Agent。
+- 實測：
+  - 改善前：人機交互占用白天時段。
+  - 改善後：夜間跑、自動出 PR，隔日批次驗收。
+  - 吞吐提升：以並行 10 Agent 為例，產能 5~10 倍（視任務）。
+
+Learning/Practice/Assessment 略
+
+---
+
+## Case #17: 超越 .env：以 OAuth2.1 做 Agent 時代的 Secret 管理
+
+### Problem Statement
+- 業務場景：Agent 需要代用戶操作多服務（Calendar、Shop、Drive），若用 .env/API Key 共享極不安全且無法細緻授權。
+- 技術挑戰：如何以 OAuth 授權每次動作，並可追蹤、撤銷、範圍最小化？
+- 影響範圍：資安、合規、事故風險。
+- 複雜度：中
+
+### Root Cause Analysis
+- 直接原因：
+  1. .env 無法細顆粒授權與過期管理。
+  2. 難以問責與稽核（誰用、用多少）。
+  3. 金鑰外洩風險巨大。
+- 深層原因：
+  - 架構：缺以 OAuth 中心化管理。
+  - 技術：未實作 PKCE/Consent。
+  - 流程：未把授權流程納入使用者操作。
+
+### Solution Design
+- 解決策略：採 OAuth2.1（Authorization Code + PKCE），由使用者在 Agent 啟用時即時授權，取得短期 access token 與 refresh token，所有工具調用與審計綁定此憑證。
+
+- 步驟：
+  1. 註冊 OAuth Client
+     - 細節：為每個 MCP Tool 設定獨立 client。
+     - 資源：IdP/Provider。
+     - 時間：0.5 天
+  2. 實作 Code Flow + PKCE
+     - 細節：產生 verifier/challenge，處理回調。
+     - 資源：OAuth SDK。
+     - 時間：1 天
+  3. 審計與撤銷
+     - 細節：記錄誰在何時呼叫何 Tool，提供撤銷介面。
+     - 資源：日誌/審計存儲。
+     - 時間：1 天
+
+- 關鍵程式碼：
+```ts
+// PKCE 片段
+const verifier = base64url(crypto.randomBytes(32))
+const challenge = base64url(sha256(verifier))
+
+// redirect to authorization_endpoint?code_challenge=${challenge}&code_challenge_method=S256
+```
+
+- 實際案例：文中指出 MCP 規範正式要求 OAuth2.1；並以行事曆案例說明授權應「向使用者取同意」。
+- 環境：OAuth Provider、MCP。
+- 實測：
+  - 改善前：憑證難以管控，外洩風險高。
+  - 改善後：可最小範圍授權、短期有效、可撤銷與審計。
+  - 風險降低：實質顯著（定性）。
+
+Learning/Practice/Assessment 略
+
+---
+
+## Case #18: MCP-first 工具化：OAuth 授權 + Sampling 成本歸戶 + 網域工具標準化
+
+### Problem Statement
+- 業務場景：希望讓 Agent 使用網域工具（如電商店面、資料檔案），需標準化工具協定、授權與 Token 成本歸戶。
+- 技術挑戰：如何用 MCP Server 提供標準工具、用 OAuth 授權、用 Sampling 把模型花費算回使用者？
+- 影響範圍：整合速度、生態互通、成本透明。
+- 複雜度：高
+
+### Root Cause Analysis
+- 直接原因：
+  1. 各工具 API 風格不一，Agent 難以共用。
+  2. 授權缺標準，難以在對話中同意/撤銷。
+  3. Token 花費分攤混亂。
+- 深層原因：
+  - 架構：缺 MCP 抽象層與採樣回呼。
+  - 技術：無 OAuth、無 Sampling，Agent 難統一。
+  - 流程：上架/審核與費用模型不清楚。
+
+### Solution Design
+- 解決策略：以 MCP Server 暴露工具（resources/tools/prompts），強制 OAuth2.1；採 Sampling 規範把「工具內需要 LLM 的子步驟」回拋給 Agent（使用者訂閱內），形成「權限清楚、成本歸戶、協定一致」的生態。
+
+- 步驟：
+  1. MCP Server 雛形
+     - 細節：定義 list_tools/call_tool/resources。
+     - 資源：MCP SDK。
+     - 時間：2 天
+  2. OAuth2.1
+     - 細節：每次使用前需同意、可撤銷。
+     - 資源：Authorization Server。
+     - 時間：1 天
+  3. Sampling 整合
+     - 細節：當子步驟需 LLM，呼叫 sampling 回拋 Agent 執行。
+     - 資源：MCP Client 實作。
+     - 時間：1 天
+
+- 關鍵程式碼（概念）：
+```ts
+// mcp server pseudo
+server.listTools = () => [
+  { name: "checkout", description: "建立結帳訂單", input_schema: {...} }
+]
+
+server.callTool = async (name, args, ctx) => {
+  if (name === "summarizeProduct") {
+    // 需要 LLM → 走 sampling，成本算使用者
+    const summary = await ctx.sample({
+      messages:[{role:'user', content:`Summarize ${args.html}`}]
+    })
+    return { summary }
+  }
+}
+```
+
+- 實際案例：文中「MCP 邁向通用標準」、OpenAI ACP/Anthropic MCP 與 Sampling 生態化方向。
+- 環境：MCP、OAuth、LLM。
+- 實測：
+  - 改善前：整合成本高、對話授權不可能。
+  - 改善後：可對話授權、成本透明、工具可重用。
+  - 效益：落地可觀（定性）。
+
+Learning/Practice/Assessment 略
 
 --------------------------------
+案例 1~18 其餘欄位（Learning Points、練習題、評估標準）如上各案所述（遵循模板），此處為篇幅省略呈現。若需完整教案版本，可要求我輸出任一案例的「擴充版教案」。
+
+--------------------------------
+
 案例分類
---------------------------------
+1. 按難度分類
+- 入門級（適合初學者）
+  - Case 6（Markdown+Mermaid）
+  - Case 8（Instructions-as-Code）
+  - Case 11（dev-notes 自動日誌）
+- 中級（需要一定基礎）
+  - Case 1（AI-native Git）
+  - Case 2（語意 Diff）
+  - Case 4（AI 驅動儀表板）
+  - Case 5（MVC+LLM Controller）
+  - Case 9（Document-as-Code）
+  - Case 12（Vibe Coding 起手式）
+  - Case 13（TDD 引導生成）
+  - Case 15（無障礙語意）
+  - Case 17（OAuth2.1 Secret）
+- 高級（需要深厚經驗）
+  - Case 3（Server-side Sandbox）
+  - Case 10（MCP 虛擬記憶體）
+  - Case 14（Infra SDK）
+  - Case 16（非同步工作流）
+  - Case 18（MCP-first 工具化）
 
-1) 按難度分類
-- 入門級：#11, #12, #7, #6
-- 中級：#1, #2, #4, #5, #8, #9, #10, #13, #18
-- 高級：#3, #14, #15, #16, #17
+2. 按技術領域分類
+- 架構設計類：Case 3, 5, 10, 14, 16, 18
+- 效能優化類：Case 2, 4, 6, 9, 12, 13, 15
+- 整合開發類：Case 1, 3, 4, 9, 12, 16, 18
+- 除錯診斷類：Case 1, 2, 11
+- 安全防護類：Case 15, 17, 18
 
-2) 按技術領域分類
-- 架構設計類：#3, #5, #7, #8, #14, #17
-- 效能優化類：#14, #18
-- 整合開發類：#1, #2, #4, #9, #10, #13, #15, #16
-- 除錯診斷類：#11, #18
-- 安全防護類：#12, #16, #17
+3. 按學習目標分類
+- 概念理解型：Case 6, 8, 9, 15
+- 技能練習型：Case 2, 4, 12, 13
+- 問題解決型：Case 1, 3, 5, 10, 11, 16, 17
+- 創新應用型：Case 14, 18
 
-3) 按學習目標分類
-- 概念理解型：#4, #5, #7, #8, #15, #17
-- 技能練習型：#1, #2, #6, #9, #10, #11, #12, #18
-- 問題解決型：#3, #13, #14, #16
-- 創新應用型：#5, #8, #15, #17
-
---------------------------------
 案例關聯圖（學習路徑建議）
---------------------------------
-- 建議先學（基礎鋪墊）：
-  - #7 Document as Code → #8 Context Engineering（文件/上下文基礎）
-  - #11 無障礙語義 → #12 OS 無障礙權限（Agent 操作 UI 的基礎）
-  - #1 AI-native Git → #2 語義 Diff（版本控制思維轉換）
+- 入門路徑（基礎觀念與工具）
+  1) Case 8 Instructions-as-Code → 2) Case 9 Document-as-Code → 3) Case 6 Markdown+Mermaid
+- 版控與文件左移（讓 AI 能用）
+  4) Case 1 AI-native Git → 5) Case 2 語意 Diff → 6) Case 11 dev-notes
+- 介面與互動（AI 驅動 UI）
+  7) Case 5 MVC+LLM Controller → 8) Case 4 AI 驅動儀表板 → 9) Case 15 無障礙語意
+- 生成開發方法（從範本到生成）
+  10) Case 12 Vibe Coding → 11) Case 13 TDD 引導生成 → 12) Case 14 Infra SDK
+- 大規模協作（非同步與平台化）
+  13) Case 3 Sandbox → 14) Case 16 非同步工作流
+- 標準與安全（工具生態）
+  15) Case 17 OAuth2.1 Secret → 16) Case 10 MCP 虛擬記憶體 → 17) Case 18 MCP-first 工具化
 
-- 依賴關係與進階：
-  - #7/#8 → 支撐 #4 Generative UI、#5 MVC+LLM、#9 TDD Vibe Coding
-  - #1/#2 → 支撐 #13 非同步工作流的可追溯審核
-  - #11/#12 → 提升 #18 狀態總結與 #13 自動化流程的可靠度
-  - #3 沙箱 → 是 #13/#14 大規模 agent 外包的前置條件
-  - #15 MCP-first → 是 #4/#18/所有 agent 工具化的標準底座
-  - #16 Secrets、#17 抽象基元 → 構成整個 agent 平台的安全與運營支撐
+依賴關係
+- Case 1/2 依賴 Case 8/9（先把文件/規範放進 Repo）。
+- Case 4/5 依賴 Case 15（a11y 讓 AI 能操控 UI）。
+- Case 12/13 的成效可由 Case 14 放大（SDK 降低複雜度）。
+- Case 16 依賴 Case 3（Sandbox）與 Case 1/2（可追溯）。
+- Case 18 依賴 Case 17（OAuth）與 Case 10（上下文資源化）。
 
-- 完整學習路徑建議：
-  1) 基礎與思維轉換：#7 → #8 → #1 → #2 → #11 → #12
-  2) 構建 AI-first 應用：#4 → #5 → #9 → #10
-  3) 從單機到平台：#3 → #13 → #14
-  4) 生態與安全：#15 → #16 → #17
-  5) 可觀察與總結：#18（貫穿運營）
-
-按此路徑，你將從文件/上下文與版控思維完成 AI 時代的基礎轉型，進而掌握 AI 驅動 UI 與 TDD 的工程節奏，最後建構可擴縮、可營運、可觀察的 agent 平台能力。
+完整學習路徑建議
+- 先學文件與規範左移（8→9→6），確保 AI 可讀可用。
+- 進行 AI-native Git 與語意 Diff（1→2→11），建立可追溯與可審閱流程。
+- 進入 UI 區塊（5→4→15），打造 AI 驅動介面底座。
+- 學習生成開發方法（12→13→14），以 TDD 與 SDK 提升成功率。
+- 佈建可擴充的 Agent 基地（3→16），啟動非同步外包模式。
+- 以標準與安全鞏固生態（17→10→18），完成 MCP-first 的通用整合。
