@@ -1,0 +1,53 @@
+# 這邊的環境是開發測試，都用原生的資源來部署，最大化降低 build 相關問題以及重建的複雜度
+# 在這邊測試完成後, 會開始把各服務的資源打包到 container 內，Production 環境則一律以我重新打包過的 container 來部署，最大化降低組態的複雜度
+# (例如 kernel memory 使用的 storage 就會打包進 container 內，而 qdrant 的 database file 也一樣會打包進 container 內)
+# (因為都是 readonly 的應用，所以不需要在 container 內做任何的寫入動作，這樣就可以避免 container 重建時資料遺失的問題)
+
+# build:
+# dotnet build -c Release /t:PublishContainer
+# docker build -t andrew0928.azurecr.io/columns-mcp:latest -t andrew0928.azurecr.io/columns-mcp:20250804 -f dockerfile-mcp .
+services:
+  columns-mcp:
+    image: blogindex-mcpserver-http
+    restart: always
+    ports:
+      - "3001:3001"
+    volumes:
+      - ../artifacts/synthesis:/app/synthesis
+    environment:
+      # km settings
+      - BlogIndex__KernelMemoryServiceUrl=http://columns-km:9001
+
+# build: docker build -t demo -f dockerfile-kernelmemory .
+  columns-km:
+    image: kernelmemory/service:0.96.250120.1
+    restart: always
+    depends_on:
+      - columns-qdrant
+    environment:
+#    embedding model settings
+      - KernelMemory__Services__AzureOpenAIEmbedding__Endpoint=${AzureOpenAI__Endpoint}
+      - KernelMemory__Services__AzureOpenAIEmbedding__Deployment=text-embedding-3-large
+      - KernelMemory__Services__AzureOpenAIEmbedding__APIKey=${AzureOpenAI__ApiKey}
+#    text generation model settings
+      - KernelMemory__Services__AzureOpenAIText__Endpoint=${AzureOpenAI__Endpoint}
+      - KernelMemory__Services__AzureOpenAIText__Deployment=gpt-4.1
+      - KernelMemory__Services__AzureOpenAIText__APIKey=${AzureOpenAI__ApiKey}
+#    qdrant settings
+      - KernelMemory__Services__Qdrant__Endpoint=http://columns-qdrant:6333
+
+    ports:
+      - "9001:9001"
+    volumes:
+      - ./appsettings.json:/app/appsettings.json
+      - ./_storage_volumes/_files:/app/_files
+
+  columns-qdrant:
+    image: qdrant/qdrant
+    restart: always
+    ports:
+      - 6333:6333
+      - 6334:6334
+    volumes:
+      - ./_storage_volumes/_qdrant_data:/qdrant/storage
+

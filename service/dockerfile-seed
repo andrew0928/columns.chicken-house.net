@@ -1,0 +1,26 @@
+# Init container image for seeding static readonly data into a shared ephemeral volume in Azure Container Apps
+# 包含 Kernel Memory 需要的 _files、appsettings.json，Qdrant 的 _qdrant_data，以及 MCP 需要的 synthesis
+# 使用方式: 將此 image 當成 ACA init container，掛載同一個 EmptyDir volume 到 /seed，完成後其他容器以 subPath 掛載。
+
+FROM alpine:3.20
+
+# 需要 bash (容錯/可讀性) 以及核心工具
+RUN apk add --no-cache bash coreutils
+
+WORKDIR /seed-src
+
+# 複製靜態資料 (不包含 .tgz)
+# 來源路徑依照目前 repo 結構。若日後調整，請同步更新。
+COPY service/_storage_volumes/_files ./_files
+COPY service/_storage_volumes/_qdrant_data ./_qdrant_data
+COPY artifacts/synthesis ./synthesis
+
+# Entrypoint script
+COPY service/seed-entrypoint.sh /seed-entrypoint.sh
+RUN chmod +x /seed-entrypoint.sh
+
+ENV SEED_DEST=/seed \
+    SEED_CHOWN_UID=1000 \
+    SEED_CHOWN_GID=1000
+
+ENTRYPOINT ["/seed-entrypoint.sh"]

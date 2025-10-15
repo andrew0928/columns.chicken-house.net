@@ -6,4 +6,4 @@ services:
     ports:
       - 4000:4000
     volumes:
-      - ./docs:/usr/src/app:cached
+      - ../docs:/usr/src/app:cached

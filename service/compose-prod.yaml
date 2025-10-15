@@ -1,0 +1,71 @@
+# Simulated ACA deployment with init (seed) container using Docker Compose
+# Purpose: Validate seed image behavior and application containers wiring locally.
+# Notes:
+# - Using multiple named volumes instead of single emptyDir + subPath (Compose limitation)
+# - columns-km & columns-qdrant switch to official images; appsettings.json still baked into custom km image for now (Option A)
+# - Seed container must finish (exit 0) before other services start (depends_on condition)
+services:
+  columns-seed:
+    image: andrew0928.azurecr.io/columns-seed:20251015
+    container_name: columns-seed
+    command: ["/seed-entrypoint.sh"]
+    volumes:
+      - seed-files:/seed/_files
+      - seed-qdrant:/seed/_qdrant_data
+      - seed-synthesis:/seed/synthesis
+    environment:
+      - SEED_DEST=/seed
+      - SEED_CHOWN_UID=1000
+      - SEED_CHOWN_GID=1000
+    restart: "no"
+
+  columns-mcp:
+    image: andrew0928.azurecr.io/columns-mcp:latest
+    container_name: columns-mcp
+    depends_on:
+      columns-seed:
+        condition: service_completed_successfully
+    volumes:
+      - seed-synthesis:/app/synthesis:ro
+    environment:
+      - BlogIndex__KernelMemoryServiceUrl=http://localhost:9001
+    ports:
+      - "3001:3001"
+      - "9001:9001"
+      - "6333:6333"
+      - "6334:6334"
+
+  columns-km:
+    image: kernelmemory/service:0.96.250120.1
+    container_name: columns-km
+    depends_on:
+      columns-seed:
+        condition: service_completed_successfully
+    network_mode: service:columns-mcp
+    volumes:
+      - seed-files:/app/_files:rw
+      - ./appsettings.json:/app/appsettings.json
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+      - KernelMemory__Services__Qdrant__Endpoint=http://localhost:6333
+      - KernelMemory__Services__AzureOpenAIEmbedding__Endpoint=${AzureOpenAI__Endpoint}
+      - KernelMemory__Services__AzureOpenAIEmbedding__Deployment=text-embedding-3-large
+      - KernelMemory__Services__AzureOpenAIEmbedding__APIKey=${AzureOpenAI__ApiKey}
+      - KernelMemory__Services__AzureOpenAIText__Endpoint=${AzureOpenAI__Endpoint}
+      - KernelMemory__Services__AzureOpenAIText__Deployment=gpt-4.1
+      - KernelMemory__Services__AzureOpenAIText__APIKey=${AzureOpenAI__ApiKey}
+
+  columns-qdrant:
+    image: qdrant/qdrant:latest
+    container_name: columns-qdrant
+    depends_on:
+      columns-seed:
+        condition: service_completed_successfully
+    network_mode: service:columns-mcp
+    volumes:
+      - seed-qdrant:/qdrant/storage:rw
+
+volumes:
+  seed-files: {}
+  seed-qdrant: {}
+  seed-synthesis: {}
