@@ -6,7 +6,7 @@
 # - Seed container must finish (exit 0) before other services start (depends_on condition)
 services:
   columns-seed:
-    image: andrew0928.azurecr.io/columns-seed:20251015
+    image: andrew0928.azurecr.io/columns-seed:develop
     container_name: columns-seed
     command: ["/seed-entrypoint.sh"]
     volumes:
@@ -20,7 +20,7 @@ services:
     restart: "no"
 
   columns-mcp:
-    image: andrew0928.azurecr.io/columns-mcp:latest
+    image: andrew0928.azurecr.io/columns-mcp:develop
     container_name: columns-mcp
     depends_on:
       columns-seed:
@@ -36,7 +36,7 @@ services:
       - "6334:6334"
 
   columns-km:
-    image: kernelmemory/service:0.96.250120.1
+    image: kernelmemory/service:0.96.250120.1-arm64
     container_name: columns-km
     depends_on:
       columns-seed:

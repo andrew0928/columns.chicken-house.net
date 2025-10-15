@@ -23,8 +23,8 @@ docker compose -f service/compose-build.yaml up -d
 docker compose -f service/compose-prod.yaml up -d
 
 ## build columns-seed
-docker build -f service/dockerfile-seed -t andrew0928.azurecr.io/columns-seed:20251015 .
-docker push andrew0928.azurecr.io/columns-seed:20251015
+docker build -f service/dockerfile-seed -t andrew0928.azurecr.io/columns-seed:develop -t andrew0928.azurecr.io/columns-seed:$(date +%Y%m%d) .
+docker push andrew0928.azurecr.io/columns-seed:$(date +%Y%m%d)
 
 
 ## run sync-post (synthesis)
@@ -33,3 +33,9 @@ docker run --rm -it --user 1000:1000 -v $PWD:/workspaces/columns.chicken-house.n
 ## run sync-post (import)
 > 注意 network host, 這樣才能在 container 內連到 kernelmemoryservice ( localhost:9001 )
 docker run --rm --network host -it --user 1000:1000 -v $PWD:/workspaces/columns.chicken-house.net/ --env-file service/.env blogindex-syncpost:develop --postname 2025 --import true --forcesync true
+
+## archive service volumes
+tar -cvf ../service-storage-volumes-$(date +%Y%m%d).tgz service/_storage_volumes
+
+## extract service volumes
+tar -zxvf ../service-storage-volumes-20261016.tgz service/_storage_volumes

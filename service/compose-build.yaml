@@ -7,20 +7,10 @@
 # dotnet build -c Release /t:PublishContainer
 # docker build -t andrew0928.azurecr.io/columns-mcp:latest -t andrew0928.azurecr.io/columns-mcp:20250804 -f dockerfile-mcp .
 services:
-  columns-mcp:
-    image: blogindex-mcpserver-http
-    restart: always
-    ports:
-      - "3001:3001"
-    volumes:
-      - ../artifacts/synthesis:/app/synthesis
-    environment:
-      # km settings
-      - BlogIndex__KernelMemoryServiceUrl=http://columns-km:9001
 
 # build: docker build -t demo -f dockerfile-kernelmemory .
   columns-km:
-    image: kernelmemory/service:0.96.250120.1
+    image: kernelmemory/service:0.96.250120.1-arm64
     restart: always
     depends_on:
       - columns-qdrant
