@@ -35,7 +35,7 @@ docker run --rm -it --user 1000:1000 -v $PWD:/workspaces/columns.chicken-house.n
 docker run --rm --network host -it --user 1000:1000 -v $PWD:/workspaces/columns.chicken-house.net/ --env-file service/.env blogindex-syncpost:develop --postname 2025 --import true --forcesync true
 
 ## archive service volumes
-tar -cvf ../service-storage-volumes-$(date +%Y%m%d).tgz service/_storage_volumes
+tar -czvf ../service-storage-volumes-$(date +%Y%m%d).tgz service/_storage_volumes
 
 ## extract service volumes
 tar -zxvf ../service-storage-volumes-20261016.tgz service/_storage_volumes
