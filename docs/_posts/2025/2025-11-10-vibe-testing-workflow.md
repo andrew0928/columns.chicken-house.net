@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Vibe Testing Workflow 實作"
+title: "AI-First Testing, 以 AI 為核心重新設計測試流程"
 categories:
 - "系列文章: 架構師觀點"
 tags: ["架構師觀點","技術隨筆"]
@@ -12,11 +12,47 @@ redirect_from:
 logo: 
 ---
 
- 
+首先, 我要打臉我半年前寫的那篇 [聊聊 Vibe Testing 實驗心得](/2025/05/01/vibe-testing-poc/) 的文章｡ 
+當時我的思路是, 現在的流程太花人工了, 如何讓 AI 來替代人工手動測試, 讓測試流程更有效率?
+
+不過, 事後發現, 如我我完全沒有既有流程的包袱, 我應該不會這樣做才對..., 有了這警覺, 我重新想了一次這流程, 有了不同的發現 (所以就有了這篇文章)｡ 
+
+這篇我想談的主軸: 從 AI 的能力出發, 重新思考 "測試" 這件事應該怎麼進行比較有效? 怎樣更能從來源解決測試的問題?
+
+
 <!--more-->
 
+這兩年來, 不管在公司, 或是個人, 或是社群, 大家都在拼命地用 AI 工具來提升自己的工作效率, 這是很正常的。不過很多時候我都在想: AI 的原生世代也會這樣做事嗎? 我想起 Sam Altman 去年的一個專訪, 提到不同世代的人, 對 AI 的使用方式會有很大的差異｡
 
-上一篇: [從 Intent 到 Assertion #1, 聊聊 Vibe Testing 實驗心得](/2025/05/01/vibe-testing-poc/)
+最令我印象深刻的是這段: 20 歲的年輕人, 把 ChatGPT 當成 "作業系統" 來使用...
+
+> "Older people use ChatGPT as a Google replacement."
+> "People in their 20s and 30s use it as a life advisor. "
+> "People in college use it as an operating system."
+
+https://youtu.be/uVEjlRK0VWE?si=jDQyFJj2n8m4zrug&t=4
+
+這就是使用深度的差異吧, 對於 Developer 來說, 我想是目前運用 AI Agent 最深度的族群了｡ 我看到很多人已經拿 Claude Code 這類 CLI Tools 來當作它們主要的工作介面, 不只用來寫 code, 也用來寫文件, 更用來做各種其他任務或是自動化...
+
+回到半年前我用 vibe testing 的角度來思考測試這件事, 我發現我的思路是:
+
+> " vibe coding 很炫, 那我是不是也能 vibe testing 呢? "
+> " 目前的測試都需要仰賴人工操作, 那我是不是也能用 AI 來代替人工操作呢? "
+> " 如何讓 AI tools 無痛的融入現有的測試流程, 解放過去投在裡面的人力?? "
+
+其實這些思路都沒錯, 也都得到效率的提升, 但是我總覺得不對勁, 因為最關鍵的流程 (workflow) 並沒有改變, 只是把 "人" 換成 "AI" 而已｡
+AI 有他擅長的能力 (GPU), 人類也有擅長的能力 (Brain), 而傳統的應用程式也是 (CPU), 能鑑別出這些 "運算資源" 的使用範圍跟邊界, 然後重新設計流程, 才是最重要的事情｡
+
+因此, 距離上一篇文章, 隔了六個月, 這段期間我花了不少時間在研究 MCP design, Context Management, 以及 SDD / SpecKit 的使用, 這些基礎我認為都是未來重要的基本技能, 我重新用 TestKit 來包裝我對 Testing Workflow 的想法, 效果還不錯, 於是整理了這篇文章來分享一下我的心得｡
+
+接下來的文章內容, 我會在第一段先介紹想法的轉變, 然後拆成三個步驟來完成 AI-First Testing Workflow 的示範:
+
+- 先用 Decision Table 把「對的測試」定義清楚，而不是一開始就丟給 AI 自己亂測  
+- 再把 AI 放在「產生自動化測試資產」的位置，而不是讓它去當永遠跑不完的測試工  
+- 最後，用同一份 test case 同時覆蓋 API / UI，讓流程真的有機會縮減，而不是再多生一份文件地獄
+
+下面是我目前的實作版本，還在演化中...
+ 
 
 
 
@@ -24,11 +60,7 @@ logo:
 
 
 
-
-
-
-
-# 1, AI native testing workflow
+# 1. AI Native Testing Workflow: 從「用 AI 代跑人工」到「為 AI 重寫流程」
 
 對我來說, 測試是件相當頭痛的問題, 主要的痛點在於測試的 "量體" 太大, 背後包含寫不完的測試案例, 準備不完的測試資料, 以及跑不完的手動 & 自動測試｡即使有 AI 加持, 你要測完所有的狀況也幾乎是不可能的事情, 勢必要有一些方法, 有效率並且優先完成重要有價值的測試才是正途｡
 
@@ -109,10 +141,14 @@ logo:
 - (my post)
 - (AI 變革, 但是國內企業大多停留在 輔助 的階段)
 
+https://www.facebook.com/share/p/1HoM5rq2D9/
 
 
 
-# 2, 按照 Decision Table 展開測試項目
+
+
+
+# 2. 用 Decision Table 定義 "有價值的測試"
 
 測試, 看的就是涵蓋率, 所有的條件組合中, 有哪些情境你的測試會踩過｡ 這時你沒有用有系統的方式把所有組合列出來的話, 其實你很難確認涵蓋率的, 當然你就更難決定哪些條件組合是重要的, 以及是否有漏掉重要的路徑沒安排測試｡
 
@@ -128,7 +164,10 @@ logo:
 
 接下來, 我就拿我的案例實際操作一次吧! 首先要先準備我自己包裝的 testkit (github repo), 因為是 PoC, 我沒有做太多相關工具, 只有準備關鍵的 prompt, 因此操作要手動...
 
-## 2-1, Init TestKit
+
+
+
+## 2-1. Init TestKit
 
 有用過 speckit 的大概都清楚我要講什麼, 不過我還沒包裝成套件, 所以... 陽春一點, 就自己把 prompts 跟 mcp.json 複製到你的 workspace 吧, mcp server 我還沒準備好 release, 各位可以先玩 /testkit.gencode ..
 
@@ -140,7 +179,7 @@ logo:
 - open api spec: https://shop.chicken-house.net/swagger/index.html
 
 
-## 2-2, Prepare Dicision Table
+## 2-2. Prepare Decision Table
 
 首先, 我以 vscode + github copilot 當作我主要示範的環境 (你要換 claude code 也可), 我選用的 model: claude haiku 4.5
 
@@ -319,7 +358,7 @@ logo:
 上表的數字, Criteria, Action 的刪減, Rules 的刪減, Table 的內容我都修正過了, 最終結果定案, 就可以繼續下一步了, 真正展開測試案例｡
 
 
-## 2-3, Generate All Test Cases via Decision Table
+## 2-3. Generate All Test Cases via Decision Table
 
 我一直強調, 最關鍵的是 decision table, 其實確認完之後, 後面就都是 AI 的 "苦工" 了, 基本上格式在 prompt 都定義好了, 測試範圍在 decision table 都驗證好了, 這步驟就是把所有的 test case 寫出來而已｡
 
@@ -449,7 +488,7 @@ logo:
 
 
 
-# 3, AI 驅動 test case 的執行
+# 3. 讓 AI 真的把 Test Case 跑起來
 
 其實在做這個 side project, 最有成就感的環節就是, 你把一切都準備好, 然後看著他按照你要求動起來的那瞬間, 就像你疊完整屋子的骨牌, 然後推倒的那一瞬間一樣... 
 
@@ -464,7 +503,7 @@ logo:
 現在萬事具備了, 我就開始啟動它｡ 一次跑完太花時間了, 既然我前面都讓 AI 幫我標記重要性了, 我就挑選第一組: 正常結帳流程 (R1-R6) 來示範｡
 
 
-## 3-1, Text2Calls MCP
+## 3-1. Text2Calls MCP
 
 我在 copilot chat 視窗下了這道指令:
 
@@ -595,7 +634,7 @@ User andrew logged in. Create a new empty cart to test checkout with no items. T
 ---
 
 
-## 3-2, Session Result
+## 3-2. Session Result
 
 介紹完 Text2Calls MCP 的設計與運作方式之後, 實際上還是要來看看執行的成果｡ 先來看單一測試案例 TC-01, 空的購物車應該要拒絕結帳才對, 不過實際上我的 api 並沒有做這限制, 所以我預期這個測試應該會成功的失敗才對 (咦?
 
@@ -636,7 +675,7 @@ User andrew logged in. Create a new empty cart to test checkout with no items. T
 
 看到這邊, 可以放心了, agent + mcp 有認真替你執行 test case 的每個步驟, 也有確實檢驗結果是否符合預期｡
 
-## 3-3, Test Suite Result
+## 3-3. Test Suite Result
 
 看完一筆 test case 執行過程, 其他剩下的 test case 我就跳過了, 直接看最後結果 (我只 RUN 了基本測試, TC-01 ~ 06):
 
@@ -667,7 +706,7 @@ session-logs.md, 就是呼叫過程中的抽象資訊傳輸記錄, agent / mcp �
 
 
 
-# 4, 同一份 test case 同時用於 API / UI 測試
+# 4. 同一份 Test Case, 同時用於 API 與 UI 測試
 
 前面我提到, 我希望 test case 能排除操作細節, 方便 review 以及降低維護文件的負擔｡ 而被省略的部分, 可以讓 AI 從 API spec 來還原需要的操作細節 (前面 #3 已經證實可行)｡
 
@@ -720,7 +759,7 @@ mcp 的安裝設定我就不講了, 大家自己看 playwright mcp 的官網, �
 購物車是空的時候, 結帳的按鈕整個被藏起來沒辦法按, 所以 TC-01 測試通過
 
 
-## 4-1, API 需要 SPEC, UI 不需要?
+## 4-1. API 需要 SPEC, UI 不需要?
 
 同樣的, 這題也是過去我卡很久的題目...
 
@@ -749,3 +788,49 @@ playwright mcp 實用的多, 因為他會先將 HTML 精簡成自訂格式的 ya
 
 
 有興趣的人可以試試看, 我把這個測試專案放到 GitHub, 你可以用 specstory 看我跟 agent 的對談記錄, 也可以看測試產生的測試報告, 你會發現雖然 UI test 跑很慢 (6 個測試案例就花掉 2x 分鐘)
+
+
+
+# 5. 結語: 為 AI 設計新流程, 而不是替舊流程加速
+
+
+>>>
+
+回頭看這次的實驗，其實我做的事可以粗略拆成三層：
+
+1. **觀念層：先承認「測試通膨」是結構問題，不是人力問題**  
+   只要還是用「每個 AC 展開一大堆 test case、每次 release 全部重跑」這種思維，再多 AI 也只是在幫你撐一陣子。  
+   我一開始用 Vibe Testing 直接讓 AI 代跑測試，看起來很帥，但只要算一下量體和 token 成本，就知道這條路撐不久。
+
+2. **流程層：把 AI 放在「左移」的位置**  
+   - 用 Decision Table 把測試空間想清楚  
+   - 讓 AI 幫忙把 decision table 展開成成套的 test cases  
+   - 再讓 AI 去「探索」一次 API / UI，把探索過程變成操作範例與 log  
+   也就是：**AI 重點不是在「多跑幾次」，而是在「幫你產出可以重用的自動化資產」**。  
+   後面重跑的部分，交給機器、CI/CD 去處理就好。
+
+3. **實作層：刻意留出讓 AI 好發揮的介面**  
+   - API 這邊用 Text2Calls MCP，把「怎麼 call API」抽象成 operation + action + context  
+   - UI 這邊遵守 accessibility 的設計，讓 Playwright MCP 看得懂你的頁面在幹嘛  
+   - 所有執行過程都留下規格化的 log，未來可以直接餵給 Speckit 這類工具產生自動化 test code  
+
+這套 workflow 對我來說，有幾個很明確的收穫：
+
+- 我更少在跟 AI 對話「請幫我多跑幾次 XXX」，而是把心力放在「這個 decision table 長得對不對」  
+- 我開始刻意設計 API / UI 的「可測試性」，而不是等系統做完才問：欸這要怎麼測？  
+- 我可以接受某些地方先暫時用 AI interactive 模式跑，等 log 穩定了，再補自動化測試，而不是一開始就企圖從 0 到 100 分
+
+當然，這篇還只是半場而已。  
+真正有趣的下半場，是把這些執行記錄、decision table、test case 規格通通餵進 Speckit 之類的工具，讓它幫我把「會動的自動化測試 code」生出來，然後直接掛進 CI pipeline 裡。
+
+如果你現在也在推 AI 導入，尤其是測試／QA 流程相關，我會建議你可以先問自己這個問題：
+
+> 我現在做的是「讓 AI 加速舊流程」，  
+> 還是「因為有了 AI，所以我敢把流程拆開重組」？
+
+這篇文章就是我的一個版本答案，後面還會繼續修正，但至少，我已經不太滿足於「多了一個 AI 小幫手」的那種導入方式了。
+
+
+
+>>>
+
