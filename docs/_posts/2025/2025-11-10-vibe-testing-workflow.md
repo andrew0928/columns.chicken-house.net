@@ -73,6 +73,7 @@ https://youtu.be/uVEjlRK0VWE?si=jDQyFJj2n8m4zrug&t=4
 而寫這篇文章的同時，我自己也做過一次從頭到尾的實驗來確認可行性，文章後半我會跟各位分享設計的關鍵與心得。
  
  
+ 
 
 
 # 1. AI Native Testing Workflow
