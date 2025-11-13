@@ -14,7 +14,9 @@
 執行的工作目錄統一在 repo:/ 下
 
 ## start preview environment
-docker compose -f service/compose-preview.yaml up -d
+docker compose -f service/compose-preview.yaml up -d --force-recreate --remove-orphans
+
+
 
 ## start build environment (qdrant + kernelmemoryservice)
 docker compose -f service/compose-build.yaml up -d
