@@ -46,7 +46,7 @@ logo:
 > 如果我想從 AI 已經是作業系統般的存在時, 那測試流程會變成什麼樣子?  
 > "
 
-回到 30 年前的 DOS 時代, 那時的 OS 沒那麼複雜, 就是處理資料 (file) 跟執行應用 (.exe) 而已, 所以才叫做 DOS ( Disk Operation System ), 而現在的 coding agent, 不就也是同樣的模式嗎? 大部分情況下都是處理資訊 (對話) 跟調用工具 (MCP), 而重點則是你所有事情都依賴他來處理了
+回到 30 年前的 DOS 時代, 那時的 OS 沒那麼複雜, 就是處理資料 (file) 跟執行應用 (.exe) 而已, 所以才叫做 DOS ( Disk Operating System ), 而現在的 coding agent, 不就也是同樣的模式嗎? 大部分情況下都是處理資訊 (對話) 跟調用工具 (MCP), 而重點則是你所有事情都依賴他來處理了
 
 這就是使用深度的差異吧, developer 這族群, 算是目前工作流程被 AI 影響最巨大的族群了, 我看到很多人已經拿 Claude Code 這類 CLI Tools 來當作它們主要的工作介面, 不只用來寫 code, 也用來寫文件, 更用來做各種其他任務或是自動化..., 而回到半年前我用 vibe testing 的角度來思考測試這件事, 我發現我的思路是:
 
@@ -75,13 +75,15 @@ logo:
 
 
 
-# 1. AI-First Testing Workflow
+# 1. AI-First Testing
 
 概念談完了, 這段就來聊聊對於 AI-First Testing 工作流程的想法吧, 我會把想法從 "理想" 收斂到 "具體可行" 的流程為止, 而文章的後半段, 則是敘述依據這些想法實際做出來的 side project 展示可行性｡
 
 
 "測試" 要做的好, 其實是很困難的一件事, 第一個痛點就是: 測試的 "量體" 太大了, 這代表有寫不完的測試案例, 準備不完的測試資料, 以及跑不完的手動 & 自動測試｡ 即使有 AI 加持, 你要測完所有的狀況也幾乎是不可能的事情, 勢必要有一些方法, 有效率的展開測試案例, 並且優先完成重要有價值的測試才是正途｡
 
+
+## 1-1. Workflow Design Concept
 
 為了聚焦我的主題跟思路, 不相關的環節我就大幅簡化了, 我用這張圖來說明:
 
@@ -130,7 +132,7 @@ logo:
 
 
 2. **"自動化執行" 左移**:
-自動化執行再拆解, 困難的地方有兩個, 一個是探索 (看規格跟情境, 對應出操作步驟的過程), 這在過去通常都要靠工程師的經驗來決定｡ 而另一個環節, 則是讓他自動化執行｡ 對比每次都用 AI 或人工執行 40000 次測試, 花費的是 40000 x GPU; 而改善過的方法, 你需要執行 400 次探索 (GPU), 400 次測試程式碼生成 (GPU), 40000 次自動化測試 (CPU), 最大的瓶頸跟部確定性, 已經簡化成一般的程式執行了, 從 40000 次 AI 任務, 降低為 400 + 400 次 AI 任務
+自動化執行再拆解, 困難的地方有兩個, 一個是探索 (看規格跟情境, 對應出操作步驟的過程), 這在過去通常都要靠工程師的經驗來決定｡ 而另一個環節, 則是讓他自動化執行｡ 對比每次都用 AI 或人工執行 40000 次測試, 花費的是 40000 x GPU; 而改善過的方法, 你需要執行 400 次探索 (GPU), 400 次測試程式碼生成 (GPU), 40000 次自動化測試 (CPU), 最大的瓶頸跟不確定性, 已經簡化成一般的程式執行了, 從 40000 次 AI 任務, 降低為 400 + 400 次 AI 任務
 
 
 改良過的流程, 我用這張圖來表達:
@@ -141,7 +143,7 @@ logo:
 
 
 
-## 1-1. TestKit 的構想
+## 1-2. TestKit 的構想
 
 接下來, 這流程跟想法, 我想要把他具體化一點, 我直覺想到的就是 SpecKit 的做法, 我自己仿照那個樣貌, 弄了一套簡單的 TestKit 來封裝我想像的 AI-First Testing Workflow. 
 
@@ -185,31 +187,35 @@ logo:
 
 這些必要的 spec , (1) 是流程中早已準備, (2)(3) 則是流程中間的產物, 其實我都能控制其品質, 有了這些高品質的規格, 要生成穩定可靠的程式碼並不難｡
 
+其實在做這個 side project, 最有成就感的環節就是, 你把一切都準備好, 然後看著他按照你要求動起來的那瞬間, 就像你疊完整屋子的骨牌, 然後推倒的那一瞬間一樣... 
 
 
-## 1-2. 小結
+## 1-3. Init TestKit
 
-關於測試流程的設計, 到這裡為止, 主要問題都解決了, 相關資源的供應鏈也設計好了｡ 想到這邊, 我總算可以說說我對 AI-First (Testing) Workflow 的想法了｡ 在最近將近兩年的時間, 我都跟著團隊推動各種 AI 相關的工作流程改變, 以及各種 AI 產品開發的架構設計, 我始終有一個感覺, AI 實際上帶來的是 "變革", 不是 "改善", 但是大部分的人都會直覺地把它用在 "改善" 的範圍, 我覺得有點可惜, 這樣有很多 AI 的潛力其實都被 "舊流程" 給封印了｡ 
+接下來連續三個段落, 我會實際演練這些步驟 "具體" 該怎麼實際操作｡ 而這邊我用 coding agent 常用的配置方式, 自己準備了 testkit 來收整相關的資源跟設定 (我用的是 vscode + github copilot, model: claude haiku 4.5)｡ 因此這段我會額外穿插介紹 testkit 的說明｡ 
 
-面對的方式, 可以先把 AI 用在 "改善", 能得到立即的效益當然沒問題, 不過別因此而放棄了新流程的研究, 因為只有這麼做, 當 "舊流程" 已經碰到瓶頸的時候, 你才知道 "新流程" 應該怎麼做｡ 這次 AI 變革來的太快, 什麼是正確的 "新流程" 也沒人知道, 一切都要靠自己摸索嘗試, 這才是最困難的環節, 不過也是最有趣, 最有成就感的地方｡
+我仿照 SpecKit, 把我為了 AI-First Testing Workflow 相關的準備 (包含: prompts, documents, tools) 通通都準備好了, 包裝成 TestKit. 對應上面的三大步驟, 以及我支援的兩大操作介面 (API, WEB UI), 展開成 TestKit 的五組指令 (就是上面列的: gentest, api.run, api.gencode, web.run, web.gencode)｡
 
-最後, 補上我在 facebook 看到幾篇類似觀點的 PO 文 (當然也包括我自己寫的) 給各位參考:
+我沒有花太多時間準備搭配的 npm 套件 / shell script, 因此安裝就陽春一點吧, 直接 fork 我的 repo, 必要的資源都在裡面了: [AndrewDemo.TestKitTemplate](https://github.com/andrew0928/AndrewDemo.TestKitTemplate) (不過, MCP 我還沒準備好 public release, 請耐心等候)
 
+而搭配測試的標的, 我就用之前我為了驗證 "安得魯小舖" 而開發的 API, 我簡單做了改版, 目的是用來示範這次的 AI-First Testing Workflow.. 
 
-1. 我在 2025/11/03 的 Facebook [PO 文](https://www.facebook.com/share/p/177qgafB5Z/)  
-> AI 轉型，困難的地方在於搭配的流程。因為沒人知道 “AI Native” 的做法是什麼，所以一不小心，你就會掉入 “用新工具來套舊流程” 的困境…。  
-> 先前我在研究的 side project: vibe testing 就陷到這困境內了, 總覺得我的作法沒有發揮出 AI 真正的潛力。何謂 AI Native? 用對話就是了嗎? 用了 MCP 就是了嗎? 自己刻 UI 呼叫 AI API 就是了嗎? 想想都不大對，直到前陣子開始認真使用 SpecKit, 我才恍然大悟 ..
-
-2. 我在 2025/10/21 的 Facebook [PO 文](https://www.facebook.com/share/p/1BYCtCqZod/)  
-> 做到這邊，我才真正體會到，當你手上掌握的是跨世代的 “新工具"，那你一定要好好思考，是否有比 "舊流程" 還更能發揮工具潛力的新流程可以使用? 想通這些環節，其實成就感比我寫出新工具還要令人興奮 😀
-
+簡單交代幾個 "安得魯小舖" 重要的 url:
+- [Web UI](https://shop.chicken-house.net/):  由於我是前端大外行, 這是完全用 vibe coding 生出來的 web ui, 純示範用途..
+- [REST API](https://shop.chicken-house.net/api): 自帶支援 oauth2 授權, api 需要 access token 才能正常識別個人身分運作
+- [OpenAPI Spec](https://shop.chicken-house.net/swagger/index.html), 對應的 api spec
 
 
-3. 楊大成 2025/10/11 的 Facebook [PO 文](https://www.facebook.com/share/p/1HoM5rq2D9/)  
-> AI時代的最大陷阱：別拿新工具去優化舊戰術  
-> 最近，我開始制定公司未來三年的 AI 戰略。  
-> 但我發現，當 AI 的浪潮來臨時，很多企業的第一反應是：「拿這個新工具來幫我做事更快一點」。例如用 AI 幫忙設計素材、寫文案、生成報告。這種做法當然有用，但可能犯了一個致命錯誤：只把 AI 當成原有戰術的補充，而不是重新構建新戰術體系的核心。  
-> 這幾乎是每一個新技術浪潮來臨時，大多數人最容易犯的錯誤。
+
+## 1-4. 小結
+
+關於測試流程的設計, 到這裡為止, 主要問題都解決了, 相關資源的供應鏈也設計好了｡ 想到這邊, 我總算可以說說我對 AI-First (Testing) Workflow 的想法了｡ 先把 AI 用在 "改善", 能得到立即的效益當然沒問題, 不過別因此而放棄了新流程的研究, 因為只有這麼做, 當 "舊流程" 已經碰到瓶頸的時候, 你才知道 "新流程" 應該怎麼做｡ 
+
+封裝 Workflow 的過程中, 我意識到有效率的配置 Agent 需要的資源是很重要的, 因此我選擇了 coding agent (目前相對成熟的 agent platform, 各 AI 互相較勁的戰場), 弄清楚當下需要的 context 是什麼, 以及區分清楚你需要什麼 tools 來輔助 agent (MCP)｡
+
+這次 AI 變革來的太快, 什麼是正確的 "新流程" 也沒人知道, 如果你先做過嘗試, 時機到了你就會知道如何應變｡ 我做的 side project 就是在做這件事, 而探索這些新流程該怎麼做, 也是最有趣, 最有成就感的地方｡
+
+因此, 前面我都在思考『測試流程應該長什麼樣子』, 接下來的三個章節, 我要開始切換到實作模式了, 搭配 testkit, 並且用安得魯小舖的 API 當作案例, 照這個 workflow, 實際按照步驟跑完整個流程~
 
 
 
@@ -219,25 +225,25 @@ logo:
 
 # 2. 用 Decision Table 定義 "有價值的測試"
 
-前面講完整個流程的想法後, 我重新摘要一下, 我想像的流程怎麼跟系統一一對應, 我列標題就好:
+階段: **Generate Test Case from Decision Table** (TestKit.GenTest)
 
-1. **Generate Test Case from Decision Table** (TestKit.GenTest)
-1. **Explore Test Steps with AI Agent** (TestKit.API.Run / TestKit.WEB.Run)
-1. **Generate Test Code from Test Case & Test Steps** (TestKit.API.GenCode / TestKit.WEB.GenCode)
 
-接下來的實際演練, 我也會按照這三個步驟來逐一說明｡ 第一個就是展開 test case 的過程 - decision table｡ 這邊要面對的第一個大魔王, 是測試的 "量體問題", 而我第一個要解決的題目就是:
+整個測試流程, 第一個就是展開 test case - decision table ｡ 這邊要面對的第一個大魔王, 是測試的 "量體問題", 而我第一個要解決的題目就是:
 
 > "  
 > 我怎麼用最少的文件跟步驟, 決定真正有價值的測試是哪些?  
 > "
 
-於是, 經過一番研究, 我找到了 decision table 的做法, 這是老早就存在的技巧, 跟 AI 沒有直接的關聯, 但是當你能用 decision table 說清楚你要測試的範圍時, AI 很容易就能接手幫你完成後面各種繁瑣的苦工..
+於是, 經過一番研究, 最簡單實用的就是名為 decision table 的做法, 這是老早就存在的技巧, 跟 AI 沒有直接的關聯, 但是當你能用 decision table 說清楚你要測試的範圍時, AI 很容易就能接手幫你完成後面各種繁瑣的苦工..
 
-這環節就是這麼重要, 你可以讓 AI 幫你整理, 但是你一定要 review, 最終的決定權還是在你身上
+這環節就是這麼重要, 你可以讓 AI 幫你整理, 但是你一定要 review 確認, 這表格內容完全會影響到你後面的測試品質｡
 
---
+想了解 decision table 的朋友們, 我推薦 柯仁傑 在今年的鐵人賽寫的這篇, 可以先補充一下相關的基礎知識:
 
-回到起點來看測試: 測試看的就是涵蓋率, 所有的條件組合中, 有哪些情境你的測試會踩過｡ 這時你沒有用有系統的方式把所有組合列出來的話, 其實你很難確認涵蓋率的, 當然你就更難決定哪些條件組合是重要的, 以及是否有漏掉重要的路徑沒安排測試｡
+* [Day 21 開立範例的方式 - DTT](https://ithelp.ithome.com.tw/articles/10375192) (DTT: Decision Table Testing)
+
+
+回到原點來看測試: 測試看的就是涵蓋率, 所有的條件組合中, 有哪些情境你的測試會踩過驗證｡ 這時你沒有用有系統的方式把所有組合列出來的話, 其實你很難確認涵蓋率的, 當然你就更難分類及排序, 也難以決定哪些條件組合是重要的｡
 
 決策表 (decision table), 是有系統的列出所有組合的方法｡ 我第一個示範,就是用 decision table 來讓 AI 替我建立 decision table, 讓我確認我該怎麼測, 該測哪些組合｡
 
@@ -245,35 +251,13 @@ logo:
 
 對應到前面提到的流程圖, 那麼這個章節, 我要實作的, 就是藍色框起來的部分, 從 AC 展開決策表, 決定測試範圍, 最後展開成對應的測試案例｡
 
-先講結論, 這是很關鍵的步驟, 你可以大量依賴 AI 幫你整理跟建議, 但是這絕對是要你親自 review 的重要環節, 千萬別讓 AI 列了一版, 然後你看都沒看就回覆 OK... 我自己使用的心得是, AI 替你抓的 decision table 格式通常都正確, 但是他建議的 criteria / action / rule 通常都很糟糕, 你需要花一些心思來 review 這張表格的設計, 這會決定你後面的測試有沒有效率, 有沒有精準涵蓋你的系統流程｡
-
-你需要先掌握 decision table 的使用方式, 你才有能力挑出 AI 的建議哪邊需要修改, 這環節省不掉的, 我強烈建議:
-
-1. 先花一點時間, 好好看懂 decision table 在幹嘛
-2. 如果要上課或是找專家, 我推薦敏捷三叔公的文章
-3. 你也可以找 AI 教你, 像是 ChatGPT 就有學習模式
-
-接下來, 我就拿我的案例實際操作一次吧! 首先要先準備我自己包裝的 testkit (github repo), 因為是 PoC, 我沒有做太多相關工具, 只有準備關鍵的 prompt, 因此操作要手動...
+實際操作下來, 我自己使用的心得是: AI 替你抓的 decision table 格式通常都很工整也符合規範, 但是他建議的 criteria / action / rule 通常都很糟糕, 你需要花一些心思來 review 這張表格的設計, 這會決定你後面的測試案例的生成是否夠精準, 有沒有確實涵蓋你的系統流程｡
 
 
 
+## 2-2. Prepare and Review
 
-## 2-1. Init TestKit
-
-有用過 speckit 的大概都清楚我要講什麼, 不過我還沒包裝成套件, 所以... 陽春一點, 就自己把 prompts 跟 mcp.json 複製到你的 workspace 吧, 或是直接 fork 我的 repo: [AndrewDemo.TestKitTemplate](https://github.com/andrew0928/AndrewDemo.TestKitTemplate)
-
-
-測試的標的, 我就用之前我為了驗證 "安得魯小舖" 而開發的 API, 我簡單做了改版, 目的是用來示範這次的 AI native test workflow.. 
-
-簡單交代幾個 "安得魯小舖" 重要的 url:
-- [web ui](https://shop.chicken-house.net/):  我是前端大外行, 這是完全用 vibe coding 生出來的 web ui, 破綻很多, 純示範用途..
-- [rest api](https://shop.chicken-house.net/api): 自帶支援 oauth2
-- [open api spec](https://shop.chicken-house.net/swagger/index.html)
-
-
-## 2-2. Prepare Decision Table
-
-首先, 我以 vscode + github copilot 當作我主要示範的環境 (你要換 claude code 也可), 我選用的 model: claude haiku 4.5
+按照 TestKit 的設計, 你只需要用 gentest 這指令, 並簡短敘述你的 AC 就可以了, 我測試用的敘述如下:
 
 ```
 /testkit.gentest
@@ -297,12 +281,11 @@ logo:
 ```
 
 
-其實我已經把驗收條件簡化到不能再簡化了, 這邊敘述的是我要測試結帳流程, 關鍵的驗證是 結帳金額 (包含折扣) 必須正確, 另外結帳限制也必須符合, 不能結帳的條件必須擋下來 (這部分我 api 沒有實作, 預期這個測試會失敗)｡
+其實我已經把 AC 簡化到不能再簡化了, 這邊敘述的是我要測試的結帳流程, 要檢驗在各種購買組合下, 結帳金額, 折扣計算, 允許結帳條件都必須正確｡ 而先預告一下, 結帳限制 (單一訂單內, 每種商品限購 10 個) API 並沒有實作, 因此我預期測到這項時, 測試應該要失敗｡
 
-這些條件, 關聯到 api 以及背後系統的設定, 這邊我預先都先準備好了 (商品已經先上架, 折扣已經先設定好, 帳號已經先準備好)｡
+而對應的測試資料, 我預先都先準備好了 (商品已經先上架, 折扣已經先設定好)｡
 
-
-以下是 AI 給我第一版的 decision table:
+經過上面的輸入, Agent 會給我第一版的 decision table:
 
 
 | 規則 | C1<br>有啤酒 | C2<br>啤酒≥2 | C3<br>有可樂 | C4<br>有綠茶 | C5<br>數量≤10 | A1<br>啤酒折扣 | A2<br>可樂計價 | A3<br>綠茶計價 | A4<br>正確總額 | A5<br>拒絕結帳 |
@@ -318,26 +301,10 @@ logo:
 | **R9** | Y | Y | N | N | N | – | – | – | – | ✔ |
 
 
-這是個符合 "規範" 跟 "格式" 的決策表, 但是對我而言並不是個理想的決策表, 因為條件跟結果過度簡化, 我要安排實際的測試案例不是那麼容易對應｡
+這是個符合 "規範" 跟 "格式" 的決策表, 但是對我而言並不是個理想的決策表, 因為條件跟結果過度簡化, 我要安排實際的測試案例不是那麼容易對應｡ 而這決策表的 criteria / action 我覺得設計過度草率 (都只有 Y / N, 我想要更精確的驗證個數不同的狀況)｡ 因此, 我直接要求 AI 把 decision table 改成我要的樣子:
 
-先來看條件 (criteria) 部分, 他已經簡化成:
-- **C1**: 購物車中包含啤酒商品
-- **C2**: 啤酒數量 ≥ 2 件 (可適用第二件六折)
-- **C3**: 購物車中包含可樂商品
-- **C4**: 購物車中包含綠茶商品
-- **C5**: 所有商品單項數量都 ≤ 10 件
+(對談過程略過, 我直接列出最終的 decision table 版本)
 
-而動作 (action) 部分, 也已經簡化成結果, 只陳述有沒有符合:
-- **A1**: 計算啤酒折扣 (第二件起六折)
-- **A2**: 計算可樂金額 (無折扣)
-- **A3**: 計算綠茶金額 (無折扣)
-- **A4**: 回傳正確的總金額
-- **A5**: 拒絕結帳 (超過購買限制)
-
-因為系統是我設計的, 我很清楚內部運作原理, 以及我想要測試什麼｡ Decision Table 使用技巧我這邊不打算談太多, 有興趣的可以參考我上面給的方式補強｡ 我直接要求 AI 把 decision table 改成我要的樣子:
-
-
-(對談過程略過, 經過幾輪的對話修正, 我直接列出最終的 decision table 版本)
 
 | 規則 | C1<br>啤酒數量 | C2<br>可樂數量 | C3<br>綠茶數量 | A1<br>啤酒優惠組數 | A2<br>總金額 | A3<br>總優惠 | A4<br>結帳金額 | A5<br>允許結帳 |
 |------|:--------:|:--------:|:--------:|:------------:|:--------:|:--------:|:----------:|:--------:|
@@ -354,9 +321,9 @@ logo:
 | **R11** | 2 | 3 | 0 | 1 | $184 | -$26 | $158 | ✅ 允許 |
 | **R12** | 3 | 2 | 4 | 1 | $331 | -$26 | $305 | ✅ 允許 |
 | **R13** | 0 | 11 | 0 | 0 | $198 | $0 | $198 | ❌ 拒絕 |
-| **R14** | 5 | 5 | 11 | 2 | $740 | -$52 | $688 | ❌ 拒絕 |
+| **R14** | 5 | 5 | 11 | 2 | $690 | -$52 | $638 | ❌ 拒絕 |
 
-條件定義 (Conditions)
+條件定義 (Conditions) 直接換成放進購物車的每種商品個數:
 - **C1**: 購買啤酒的數量 (單價 $65，每 2 件中第 2 件 $39)
 - **C2**: 購買可樂的數量 (單價 $18)
 - **C3**: 購買綠茶的數量 (單價 $25)
@@ -376,7 +343,10 @@ logo:
   - ✅ 允許: 所有商品數量 ≤ 10 且購物車不為空
   - ❌ 拒絕: 任一商品數量 > 10 或購物車為空
 
-規則說明 (測試企圖與重要性)
+展開的規則說明 (附上測試企圖, 與按照重要性分類)
+
+基本購物車操作測試
+
 - **R1**: 空購物車
   - **測試企圖**: 驗證系統能正確拒絕空購物車結帳
   - **重要性**: 防止產生無效訂單，確保業務邏輯完整性
@@ -438,19 +408,14 @@ logo:
   - **測試企圖**: 驗證混合購物時，系統能正確檢查每項商品的限購規則，即使其他商品合法
   - **重要性**: 確保限購檢查不會因為多商品混合而失效，保護庫存管理
 
----
 
+在調整 decision table 內容的過程中, 除了調整我想要的結構之外, 也抓出一些 AI 對商業規則的 "誤解" 以及計算錯誤｡ 例如 AI 曾經就誤會所謂第二件六折, 是指同商品的第二件以後都六折 (ex: 買三件, 第二第三件六折, 而原意應該是兩件一組, 每組的第二件六折才對), 另外也碰到規則都理解正確, 但是數字卻計算錯誤的狀況, 這些都是需要核對的地方｡ 
 
-我再強調一次, Decision Table 的內容真的要仔細看, 這是跟 AI 對焦測試內容的理解, 補足我前面過度簡略的敘述｡ Decision Table 沒弄好, 可能整組測試都沒有發揮效益 (沒測到有價值的範圍)｡ Decision Table 可以當作是 test case 的規格書, 你只要把這幫表格確定好, 基本上衍生出來的這包 test case 就安全了, 基本上最關鍵的部分就完成了｡
+當最終的 decision table 內容定案後, 就可以繼續下個步驟, 逐一產生每個 rule 對應的 test cases ...
 
-不得不說, 只要你給的回饋正確, 有確實 review, 也有正確回答你的期待, 其實 AI 整理的結果品質是不錯的｡ 這結果很正確, 而令我驚豔的是 AI 抓測試目的其實抓的很正確, 我要他列出測試的企圖跟重要性, 我覺得都有回達到我預期的結果｡
+## 2-3. Generate All Test Cases
 
-上表的數字, Criteria, Action 的刪減, Rules 的刪減, Table 的內容我都修正過了, 最終結果定案, 就可以繼續下一步了, 真正展開測試案例｡
-
-
-## 2-3. Generate All Test Cases via Decision Table
-
-我一直強調, 最關鍵的是 decision table, 其實確認完之後, 後面就都是 AI 的 "苦工" 了, 基本上格式在 prompt 都定義好了, 測試範圍在 decision table 都驗證好了, 這步驟就是把所有的 test case 寫出來而已｡
+確認完 decision table 之後, 剩下的只剩文書作業了, 基本上格式我在 testkit 都定義好了, 測試範圍也在 decision table 都決定好了, 這步驟就是把所有的 test case 寫出來而已｡
 
 按照前面 decision table 的內容, 總共有 14 個 test case 需要展開, 我直接貼 AI 產完給我的摘要:
 
@@ -572,7 +537,7 @@ logo:
 
 **測試重要性**
 確認優惠規則不會誤觸發，保護商家利益。這是優惠計算的基準線測試。
----
+
 
 
 
@@ -580,71 +545,77 @@ logo:
 
 # 3. 讓 AI 探索並記錄 API 的執行步驟
 
-其實在做這個 side project, 最有成就感的環節就是, 你把一切都準備好, 然後看著他按照你要求動起來的那瞬間, 就像你疊完整屋子的骨牌, 然後推倒的那一瞬間一樣... 
+階段: **Explore Test Steps with AI Agent** (TestKit.API.Run)
+
 
 ![alt text](/images/2025-11-10-vibe-testing-workflow/image-21.png)
 
-這段, 對應到流程圖, 就是藍色框起來的部分,也就是 /testkit.api.run 負責的部分｡ 前面產完的 test case, 現在這步驟就要開始執行了｡ 來複習一下, 目前手上我有哪些測試相關的資訊:
+這步驟算是整個流程最核心的地方, 依賴 AI 的理解與推理能力, 找出正確使用 API 來執行 test case 的環節｡ 對應到流程圖, 就是藍色框起來的部分｡ 開始之前先來複習一下, 流程跑到這裡, 我手上有哪些測試相關的資訊 (context):
 
-1. test case (要測什麼的業務情境)
-1. api spec (api 的操作規格, 也就是 swagger)
-1. text-to-calls mcp (就是上一篇文章的 PoC 的程式碼, 重新封裝成 mcp server)
+1. test case (要測試的業務情境, 上一步產生)
+1. api spec (api 的操作規格, 使用者提供)
+1. text-to-calls mcp (來自上一篇文章 vibe testing 的實驗, 封裝成 mcp)
 
 理論上有了 (1) + (2), 就有足夠資訊推導出 api 該怎麼呼叫了, 而 (3) 就是讓 AI agent 能真正自動化執行它的工具 (這是給 agent 的工具, 不是給我)
 
 現在萬事具備了, 我就開始啟動它｡ 一次跑完太花時間了, 既然我前面都讓 AI 幫我標記重要性了, 我就挑選第一組: 正常結帳流程 (R1-R6) 來示範｡
 
 
-## 3-1. Text2Calls MCP
+## 3-1. 讓 MCP 負責處理 API call
 
-這個步驟對應到流程, 就是第二步, 讓 AI 負責 "探索", 從規格與測試案例中找出最理想的執行步驟, 並且存成 session logs 讓後續的步驟可以依循｡
+MCP 的處理, 是這個步驟重要的環節, 我多花點篇幅介紹過程發生了什麼事｡ AI 負責 "探索", 靠的就是 agent + mcp 的組合, 不斷的修正, 從規格與測試案例中找出最理想的執行步驟, 並且存成 session logs 作為後續產 code 的執行步驟指引｡
 
+這段是整個 side project 我花最多時間的地方, 光是為了讓 agent 能有效的處理 API 就嘗試了好幾種方法｡ 這段我想還原一下處理過程中碰到的問題, 會多帶一些 MCP 的設計考量, 如果沒有開發這個 MCP, 我覺得這個 workflow 應該沒機會實現吧, 沒有妥善的替 agent 隔離 context 的雜訊 (處理 api 呼叫的過程實在太多干擾資訊了) 的話, agent 根本無法完成複雜的 API + Test Case 探索任務｡
 
 --
-首先, 我在 copilot chat 視窗下了這道指令:
+
+首先, 我在 copilot chat 視窗下了這道指令, 調用 testkit.api.run :
 
 ```
+
 /testkit.api.run
 
 執行: 正常結帳流程 (R1-R6)
+
 ```
 
-整個程序就開始啟動了, 開始之前, 我簡單交代一下我的 MCP 做了什麼... 首先, 我封裝了 4 個 tools 給 agent:
+整個程序就開始啟動了, 我在 MCP 封裝了 4 個 tools, 分別是:
 
-- QuickStart
-- ListOperations
-- CreateSession
-- RunStep
+- QuickStart (MCP 使用說明)
+- ListOperations (解析待測 API 提供哪些 operation 可以使用, 摘要資訊)
+- CreateSession (建立 session, 執行的記錄資訊都會收錄到目前的 session 中)
+- RunStep (在當前的 session 中執行指定的 API operation)
 
 
-Agent 第一次使用, 就按照 tools description 的指示, 先呼叫 QuickStart. 其實這做法是從 Shopify 學來的 (參照我 facebook post), 我用 tools 的方式傳回明確 (而且可以是動態的提示) 的使用說明給 Agent, 最大化的正確引導 agent 來用我的 mcp:
+Agent 第一次使用, 就按照 tools description 的指示, 先呼叫 QuickStart. 其實這做法是從 Shopify 學來的 (參照我 [facebook post](https://www.facebook.com/share/p/1CTcpbEfyC/)), 我用 tools 的方式傳回明確 (而且可以是動態的提示) 的使用說明給 Agent, 最大化的正確引導 agent 來用我的 MCP:
 
 ![alt text](/images/2025-11-10-vibe-testing-workflow/image.png)
 
 
-接下來, agent 果然按照 QuickStart 的指示, 先查詢 api 可用的操作有哪些了:
+接下來, agent 果然按照 QuickStart 的指示, 用 ListOperations 查詢 API 可用的操作有哪些:
 
 ![alt text](/images/2025-11-10-vibe-testing-workflow/image-1.png)
 
-這邊特別說一下, 我的 mcp 目的是要將 api 呼叫抽象化｡ 我曾經實作過一個版本, 直接將 api 的 swagger 所有規格都直接提交出去, 不過這時我就在想, 這樣的話我還需要多包一層 mcp 嗎? 市面上有現成的 swagger -> mcp 可以用, 我其實不必要自己寫｡ 不過實驗之後, 我放棄這條路了, 因為:
+我曾經實作過一個版本, 直接將 API 的 swagger 所有規格都直接提交出去, 其實就是去年在 MyGPTs 上實作 "安德魯小舖" 的做法, 省掉了包一層 MCP 的功夫｡ 市面上有現成的 swagger -> mcp 套件可以用, 我其實不必要自己寫｡ 不過實驗之後, 我放棄這條路了, 改用現在的做法, 因為:
 
-- api 包含太多不必曝露給 agent 的細節
+- api spec 包含太多不必曝露給 agent 的細節
 - api spec / request / response 資訊過多, 呼叫一兩次就把 agent 的 context window 塞爆了
 - api 包含太多不適合給 agent 處理的動作 (尤其是機械式的操作, 例如 oauth2)
 
-因此, 我想清楚我自己包一層 mcp 的重點了, 核心任務就是將 "呼叫 api" 這件事抽象化, 讓主要的 agent (在這裡就是 github copilot + claude sonnet 4.5) 能夠專注在主要任務 - 執行 test case 上, 排除一切干擾 (包含不必要的 context, 不必要麻煩他操作的細節)
+
+因此, 我想清楚我自己包一層 MCP 的動機了, 就是要將 "呼叫 API" 這件事抽象化, 讓主要的 agent (github copilot) 能夠專注在主要任務 - 執行 test case 上, 排除一切干擾｡ 
+
+這樣做的原因, 有興趣繼續探究的, 可以看我的這則 [facebook post](https://www.facebook.com/share/p/1D7ZeAAZPT/), 這篇 [研究報告](https://research.trychroma.com/context-rot) 很仔細的說明了 context 內的雜訊, 對 agent 的能力影響有多大｡ 若我不做分層管理, 讓過多的 api 規格細節出現在 context window 內, 這就是 "雜訊", 會嚴重影響 test case 主要任務的進行, 這是 context management 的大忌｡ 因此我藉由 MCP 的實作, 簡化了 agent 操作 API 的難度, 只要指定 operation 跟 action 敘述即可, 剩下的細節由 MCP 內部的另一個 LLM 來分層處理｡
 
 所以我的抽象化切角就是:
 
 - ListOperations, 用文字敘述 (只有 api-name 是明確 id) 告訴 agent 有哪些 api 可以用
-- CreateStssion, 明確告訴 agent, 建立 session 來收納一個 test case 的執行過程記錄
+- CreateSession, 明確告訴 agent, 建立 session 來收納一個 test case 的執行過程記錄
 - RunStep, 接受 agent 的指示, 在當前的 session 內要執行指定的 operation, 並且用文字敘述告知 mcp 操作的內容 ( mcp 內部還有另一個 LLM, 會真正負責解析 text -> api call 的參數對應跟生成)
 
-經過這樣拆分, 整個 testkit + mcp 的執行才開始順暢起來, 先前的版本總是卡在奇怪的地方, 然後 agent 就暴走亂回答一通了｡ 這是某種形態的 context engineering, 有效率的控制主要 agent 的 context window 不要被干擾的案例, 這也是某種形式的 sub-agent 縮影, 只是中間通訊的 protocol 是 mcp (model context protocol), 而不是 a2a (agent to agent protocol) 而已.
 
-也因為 RunStep 做的事情是翻譯 text -> api call, 這個 mcp server 我才會取名為 Text2Calls MCP.
 
-Agent 透過 list operations, 並且對照 TC-01 test case, 列出可用的操作有這四個:
+Agent 透過 list operations, 並且對照 TC-01 test case, 挑出這步驟可用的操作有這四個:
 
 - GetCart - 取得購物車內容
 - CreateCart - 建立新購物車
@@ -655,12 +626,12 @@ Agent 透過 list operations, 並且對照 TC-01 test case, 列出可用的操�
 
 ![alt text](/images/2025-11-10-vibe-testing-workflow/image-2.png)
 
-建立完 session, 其實 MCP 在背後也先把執行過程中必要的 OAuth2 認證先跑完, 並且順利取得 access token .. 這些操作如果不是在 MCP 內用 code 處理, 我不知道還要寫多少 prompt 才教的會 AI 來做這些事...
+建立完 session, 包含認證 (測試用的帳號密碼) 資訊, MCP 除了建立 session 之外, 也會先完成 OAuth2 認證流程, 並取得 access token 供後續操作 operations 使用.. 這些操作如果不是在 MCP 內用 code 處理, 我不知道還要寫多少 prompt 才教的會 AI 來做這些事... (而且還會有一定機率不受控制)
 
 ![alt text](/images/2025-11-10-vibe-testing-workflow/image-3.png)
 
 
-接著, 開始真正執行 RunStep, 呼叫 API:
+到這邊終於可以開始執行 RunStep, 呼叫 API:
 
 ![alt text](/images/2025-11-10-vibe-testing-workflow/image-4.png)
 ![alt text](/images/2025-11-10-vibe-testing-workflow/image-5.png)
@@ -675,13 +646,15 @@ Agent 透過 list operations, 並且對照 TC-01 test case, 列出可用的操�
 }
 ```
 
-基本上 agent 只是交代 mcp 要 run 哪個 api (operation), 想要他完成的任務 (action) 是什麼, 完成這任務的背景是什麼 (context), 其餘就是 mcp 按照這些資訊, 搭配 mcp 內部自己 own 的 LLM, 觸發 function calling 機制來完成 api call 的任務
+如果把 MCP 當作 sub-agent (他也有 LLM 文字處理能力), 其實這就是個簡化的 A2A protocol 了, 
+Agent 交代 MCP 要 Run 哪個 API (operation), 描述想要他完成的任務 (action) 是什麼, 完成這任務的背景資訊摘要 (context), 其餘就是 MCP 按照這些資訊, 用內置的 LLM (這邊我用 OpenAI GPT-5-mini) 觸發 function calling 機制來完成 api call 的任務
 
-RunStep 這操作, 執行過程中可能會呼叫 1 ~ N 次不同的 api, 這些過程都會在 _session 目錄下留下足跡｡ 舉例來說 RunStep -> CreateCart, 就真正對應到 POST /api/carts/create, 具體的 api call request / response 都有被記錄下來:
+
+RunStep 這操作, 執行過程中可能會呼叫 1 ~ N 次不同的 api, 我在 MCP 的實作中, 所有透過 HttpClient 呼叫的 API, 這些過程都會在 _session 目錄下留下足跡｡ 舉例來說 RunStep -> CreateCart, 就真正對應到 POST /api/carts/create, 具體的 api call request / response 都有被記錄下來:
 
 ![alt text](/images/2025-11-10-vibe-testing-workflow/image-6.png)
 
-而抽象化的執行順序, 也會被記錄在 session-logs.md 下 (我節錄 RunStep[1] 的片段, 這些都是 mcp 自己留下的記錄):
+而抽象化的執行順序, 也會被記錄在 session-logs.md 下 (我節錄 RunStep[1] 的片段, 這些都是 MCP 自己留下的記錄):
 
 ---
 
@@ -765,22 +738,24 @@ User andrew logged in. Create a new empty cart to test checkout with no items. T
 ![alt text](/images/2025-11-10-vibe-testing-workflow/image-7.png)
 
 
-然而, 到了真正要執行結帳的時候, api 呼叫就不如預期了:
+然而, 到了真正要執行結帳的時候, API 呼叫就不如預期了, API 沒有阻止空的購物車進行結帳:
 
 ![alt text](/images/2025-11-10-vibe-testing-workflow/image-8.png)
 
 
-看到這邊, 可以放心了, agent + mcp 有認真替你執行 test case 的每個步驟, 也有確實檢驗結果是否符合預期｡
+看到這邊, 可以放心了, agent + MCP 有認真替你執行 test case 的每個步驟, 也有確實檢驗結果是否符合預期｡
+
+
 
 ## 3-3. Test Suite Result
 
-看完一筆 test case 執行過程, 其他剩下的 test case 我就跳過了, 直接看最後結果 (我只 RUN 了基本測試, TC-01 ~ 06):
+看完一筆 test case 執行過程, 其他剩下的 test case 我就跳過了, 直接看最後結果 (我只 RUN 了基本測試, TC-01 ~ TC-06):
 
-我有實作基本功能, 但是基本上邊界的檢驗都沒做, 所以基本測試 TC-01 空購物車結帳測試預期會失敗, 其他正常結帳跟折扣計算應該都會通過 (TC-02 ~ 06), 如果後面還有執行超過 10 件商品的測試應該也會失敗 (應該要拒絕結帳, 但是實際會結帳成功), 這些都驗證測試有發會效用｡ 我擷圖讓各位看一下 AI 給我的摘要報告:
+我有實作基本功能, 但是基本上邊界的檢驗都沒做, 所以基本測試 TC-01 空購物車結帳測試預期會失敗, 其他正常結帳跟折扣計算應該都會通過 (TC-02 ~ TC-06), 如果後面還有執行超過 10 件商品的測試應該也會失敗 (應該要拒絕結帳, 但是實際會結帳成功), 這些都驗證測試有發揮效用｡ 我擷圖讓各位看一下 AI 給我的摘要報告:
 
 ![alt text](/images/2025-11-10-vibe-testing-workflow/image-9.png)
 
-針對測試失敗的部分 (TC-01), AI 也特別說明他判定問題出在哪邊
+針對測試失敗的部分 (TC-01), AI 也特別說明他判定問題出在哪邊:
 
 ![alt text](/images/2025-11-10-vibe-testing-workflow/image-10.png)
 
@@ -788,41 +763,38 @@ User andrew logged in. Create a new empty cart to test checkout with no items. T
 
 ![alt text](/images/2025-11-10-vibe-testing-workflow/image-11.png)
 
-001, 002 -> oauth 認證過程
+001, 002 -> OAuth 認證過程
 003 -> 下載保存 openapi spec
-004 -> mcp 呼叫 LLM 處理 function calling
+004 -> MCP 呼叫 LLM 處理 function calling
 005 -> call api: create cart
 ... (懶的寫了, 總之當成 postman 來看待就好)
 
-openapi-spec.json, 就是 003 保存下來的 api spec 快照
-session-logs.md, 就是呼叫過程中的抽象資訊傳輸記錄, agent / mcp 的通訊內容都再這邊, 基本上這是給 "人" 看的歷程...
+openapi-spec.json, 就是 003 保存下來的 API spec 快照
+session-logs.md, 就是呼叫過程中的抽象資訊傳輸記錄, agent / MCP 的通訊內容都再這邊, 基本上這是給 "人" 看的歷程...
 
-而我會設計 mcp 要保留這些資訊, 目的很單純, 這些都是將來要寫 "api 自動化測試" 最重要的規格, 以後這些都會是餵給 spec-kit 執行的養分｡
-
-不過, 這篇我不打算示範到 test code generation, 有興趣的可以自己先拿去玩玩看, 或是等我下一篇文章再來介紹｡
+而我會設計 mcp 要保留這些資訊, 目的很單純, 這些都是將來要寫 "API 自動化測試" 最重要的規格, 以後這些都會是餵給 SpecKit 執行的養分｡
 
 
 
 # 4. 共用 Test Case, 同時探索 API / Web
 
-這部份, 對應到流程的第三步, 前面我希望降低文件的數量, 用最小的文件量來抓出最有價值的測試組合, 而另一個關鍵就是要最大化 test case 的使用範圍, 一個 test case 能夠同時應用於多種操作介面 ( 前面示範了 API, 現在我要示範 Web UI )｡ 同時處理這兩個維度, 我就能盡我可能的將關鍵的文件數量壓到最低｡
+階段: **Explore Test Steps with AI Agent** (TestKit.WEB.Run)
 
-因此, 我希望 test case 能排除操作細節, 方便 review 以及降低維護文件的負擔｡ 而被省略的操作細節, 將來需要時 (可以靠 AI) 應該要從 spec 對照, 來還原需要的操作細節 (前面 #3 已經證實可行)｡
+在討論流程的瓶頸時, 有提到我希望最大化 test case 的使用範圍, 一個 test case 能夠同時應用於多種操作介面, 在這案例中, 就是我希望 API / WEB UI 兩種測試, 都能共用同樣的 test case｡  
 
-這件事如果做到極致, 那我就能用同樣的 test case 來對應不同的測試目標｡ 如果我的服務, 同時提供 web 介面, 也提供 api 介面, 理論上這些測試案例應該都是共通的啊 (行為應該一致, 但是有不同的操作手段), 這一段, 我就拿一模一樣的 test case, 把 mcp 從我自己寫的 Text2Calls MCP 換成 Playwright MCP, 看看能否完成同樣的測試行為?
+我的服務同時提供 WEB UI / API 兩種使用方式, 對象跟使用場合不同, 但是處理的商業情境是一樣的 (就是購物啊), 這一段我會示範用同樣的 test case, 搭配 Playwright MCP, 嘗試完成同樣的測試行為:
 
 ![alt text](/images/2025-11-10-vibe-testing-workflow/image-22.png)
 
-於是, 我用同樣的架構來對比, API 規格換成 UI 規格 (最後我沒有用這個), 能自動呼叫 API 的 MCP (Text2Calls) 換成能自動操作網頁的 MCP (Playwright), 我嘗試復刻一樣的成果出來, 只要能達成同樣的效果, 那就證明我真的能做到 test case 的複用, 也才能真正降低測試案例維護的負擔, 同時不會降低測試的覆蓋率｡
-
 拜 coding agent 所賜, 這次我特地準備了一個有 Web UI 的 "安得魯小舖"｡ 我是前端大外行, 終於也能生出還過的去的純前端測試網站了 XDD, 這是 React + NodeJS 的前後端架構, 背後 call 同樣的 API 搭建的 web app, 有興趣的人可以進去玩玩看:
 
-Andrew Shop: https://shop.chicken-house.net
+Andrew Shop: [https://shop.chicken-house.net](https://shop.chicken-house.net)
+
 
 這次, 同樣來看看我準備了什麼資訊:
 
 1. test case (要測什麼的業務情境, 同 api)
-1. ui spec (我沒有提供, 但是我開發的 web ui, 特別遵循無障礙的設計, accessibility, 後面說明)
+1. ui spec (web ui 遵循無障礙的設計, playwright mcp 會參考它, 後面說明)
 1. playwright mcp
 
 mcp 的安裝設定我就不講了, 大家自己看 playwright mcp 的官網, 我開啟 copilot chat 輸入這段指令:
@@ -834,7 +806,7 @@ mcp 的安裝設定我就不講了, 大家自己看 playwright mcp 的官網, �
 
 ```
 
-這段我沒有另外再寫 MCP 來支持這些操作, 例如 session, logs 等等, 因此這部份就簡單處理 (我直接寫在 prompt 而已), 所以 agent 一樣會幫我建立 session folder, 只是是靠 shell ..
+這段我沒有另外再寫 MCP 來支持這些操作, 例如 session, logs 等等, 因此這部份就簡單處理 (我直接寫在 prompt 而已), 所以 agent 一樣會幫我建立 session folder, 只是是靠 shell, 相對的資訊就沒有 API 那麼完整, 就是留下操作的文字記錄而已 ..
 
 草草的準備好測試環境之後 (咦? , 正式的測試就要開始了, 第一次呼叫 playwright mcp, 就是啟動首頁:
 
@@ -851,134 +823,255 @@ mcp 的安裝設定我就不講了, 大家自己看 playwright mcp 的官網, �
 
 看起來操作都很順利, 操作的過程都沒有脫離 test case 的敘述, 跑了大約 20 min (真的很慢), 六個測試項目執行完畢｡
 
-比較不一樣的結果是: 這次六個測試都成功通過!
+而測試結果跟 API 比較不一樣的是: 這次六個測試都成功通過!
 
 ![alt text](/images/2025-11-10-vibe-testing-workflow/image-15.png)
 
-這並不是測試結果不正確喔, 我在刻這個 web ui 的時候, 我在 api 層級沒有加上的限制或是檢查, 我都有在 ui 這層補上｡ 因此 TC-01 空的購物車不能結帳, 這動作在 UI 的確是有實作的, 我擷圖證實一下:
+會有這差異, 是我在 WEB UI 有加上 API 沒有做的檢查: 購物車是空的不能結帳｡ 做法不是結帳提示錯誤訊息, 而是購物車沒東西的時候就拿掉結帳的按鈕｡ 因此這 test case 在 WEB UI 的測試是通過的, 我擷圖證實一下:
 
 ![alt text](/images/2025-11-10-vibe-testing-workflow/image-16.png)
 
-購物車是空的時候, 結帳的按鈕整個被藏起來沒辦法按, 所以 TC-01 測試通過
 
 
-## 4-1. API 需要 SPEC, UI 不需要?
+
+## 4-1. 無障礙設計的重要性
 
 同樣的, 這題也是過去我卡很久的題目...
 
-不知道有多少人認真拿 playwright mcp 來做類似的事情?
+跟前面 API 呼叫沒處理好 context, 測試過程一直很不順利的問題, 在 WEB 這邊其實也卡關很久. 我碰到的狀況是, Playwright 很 "笨", 按鈕明明就在眼前, 就是找不到, 看不到, 按不到, 一個簡單的步驟就看 AI 在那邊嘗試半天, 就是無法進到下一步...
 
-簡單的網頁都很正常, 複雜一點的, 有的光是 login 就卡半天了, 要嘛就是找不到按鈕再哪裡, 要嗎就是按不到, 總之就是各種詭異的狀況, 明明按鈕或是欄位就在那邊, 你看的到, 但是 AI 就是看不到
+其實這就是 AI 沒有掌握 WEB UI 的 "規格" 啊, 人看的到, 是因為最終是從 "視覺" + "人腦" 來判定的, 但是 AI 不是｡ AI 其實有對應的 solution, 的確是擷取畫面, 然後進行影像辨識來判定, 最後操作滑鼠在特定座標點擊, 不過運算資源花太兇了, 現在的運算能力還沒辦法做到很流暢的操作 (一張 4K 的圖, 要判定按鈕在哪, 該不該按下去, 就要幾十秒鐘了)
 
-其實這就是 "規格" 啊, 人看的到, 是因為最終是從 "視覺" 上來判定的, 但是 AI 不是｡ 其實有 solution, 的確是擷取畫面, 然後進行影像辨識來判定的, 這技術可行, 不過運算資源花太兇了, 現在的運算能力還沒辦法做到即時 (一張 4K 的圖, 要判定按鈕再哪, 該不該按下去, 就要幾十秒鐘了)
-
-我試過其他的套件, 例如 selenium mcp, 它的辨識能力就 "好的多", 因為他直接判定 HTML, 基本上頁面所有細節都能檢測的到, 不過 HTML 太肥了, 動不動就 100kb 以上, 很快的 agent 的 context windows 就被佔滿了, 根本無法實際使用
+我試過其他的套件, 例如 selenium mcp, 它的辨識能力就 "好的多", 因為他直接解讀完整的 HTML, 基本上頁面所有細節都能檢測的到, 不過 HTML 太肥了, 動不動就 100kb 以上, 很快的 agent 的 context windows 就被佔滿了, 根本無法實際使用
 
 playwright mcp 實用的多, 因為他會先將 HTML 精簡成自訂格式的 yaml 結構, 只是他是如何判定哪些資訊該保留下來? 我爬了很多文, 最後是厲害的同事逆向工程挖出來的, playwright 靠的是 "無障礙" 的網頁標記資訊｡
 
-這招其實很聰明, 我聽到關鍵字 "無障礙" (Accessibility) 我就想通了, 先前看 A16Z - AI Era 趨勢報告, 就提到這一段: [# 6, Accessibility as the universal interface]
+這招其實很聰明, 我聽到關鍵字 "無障礙" (Accessibility) 我就想通了, 先前看 A16Z - AI Era 趨勢報告, 就提到這一段: [# 6, Accessibility as the universal interface](/2025/09/28/reading-a16z-emerging-developer-patterns-for-the-ai-era/#6-accessibility-as-the-universal-interface)
 
-跟人類的感官相比, 現在的 AI 對於你的電腦, 就像個殘障人士.. AI agent 既沒有辦法幫你操作鍵盤滑鼠 (除非你授權), 也看不到你畫面上現在呈現的是什麼 (除非你授權擷圖), 沒辦法聽到你在聽什麼音樂, 沒辦法 ...., 而無障礙的設計, 就是讓應用程式能讓這些人也有機會 "看到" 網頁的內容的設計, 看不到字, 可以用唸的, 看不到圖, 可以用文字描述, 唸給你聽..
+跟人類的感官相比, 現在的 AI 對於你的電腦, 就像個殘障人士.. 既看不清楚, 操作也不靈光, 這時網頁的無障礙設計, 正好是輔助 AI 這 "感知障礙" 的最佳管道｡ 解決的方式其實不用改方法, 也不用砸錢買 GPU, 只要你的 WEB UI 好好的按照無障礙設計的規範來做就好了｡
 
-講到這邊, 串起來了嗎? 如果你的網頁有確實做好 "無障礙" 設計的話, 對於 AI 這種視覺障礙的人士, 它就多了一個能理解網頁資訊的管道了｡ 而 playwright mcp 也大量依靠這些標記來 "認識" 你的網頁怎麼操作｡ 因此, 我的 Andrew Shop WebUI, 除了 OAuth2 Login 那一頁還沒修正之外 (所以 login 的地方卡比較久), 其他都是這次新開發的, 我在開發之初, 就明確的用 spec-kit 說明, 全站都要遵守無障礙的設計原則 (不過具體是什麼我也搞不懂 XDD), 換來的就是 AI 能夠清楚辨識該如何操作我的頁面了｡
-
-無障礙的設計, 是未來 AI 能否讀懂 (以及能否正確操作) 網站的關鍵要求, 做的越好, 你的服務越 "AI Friendly" ｡
+於是, 這個關卡莫名其妙的就打通了｡ 無障礙的設計, 是未來 AI 能否讀懂 (以及能否正確操作) 網站的關鍵要求, 做的越好, 你的服務越 "AI Friendly" ｡
 
 
-# 5. 尚待改版的部分: 將探索結果自動化
+# 5. 將探索結果自動化
 
-這段, 對應到整體流程的最後一步, 把探索的結果, 用生成 test code 的方式來實現自動化｡不過 Generate Test Code 這段我先不展開, 我打算改用 SpecKit 重做一次 PoC 驗證之後, 在下一篇再談｡
+階段: **Generate Test Code from Test Case & Test Steps** (TestKit.API.GenCode / TestKit.WEB.GenCode)
+
+
+這段, 對應到整體流程的最後一步, 把探索的結果, 用生成 test code 的方式來實現自動化｡ 目前我是自己寫 prompt 指示 AI 幫我產生對應的程式碼, 不過就像大部分的 vibe coding 一樣, 你會得到可以運作的程式碼, 但是你沒有交代清楚規格的環節, AI 就有可能寫出你不想要的 code ..  XDD
 
 ![alt text](/images/2025-11-10-vibe-testing-workflow/image-23.png)
 
-整個流程的拼圖, 其實還有最後兩塊, 就是塗上標的藍色部分, 分別是 testkit.api.gencode, 跟 testkit.web.gencode. 這段其實我自己已經有實作出來了, 結果也確實可行, 甚至我連操作錄影都錄好了, 先前也在我 facebook 發表過:
+整個流程的拼圖, 其實還有最後兩塊, 就是圖上藍色部分, 分別是 testkit.api.gencode, 跟 testkit.web.gencode. 這邊我示範生成 API 自動化測試的部分, 同樣我盡量降低其他系統的依賴, 就用我熟悉的 .NET 9 + 內建的 xUnit 框架為基礎, 讓 AI 替我生成這幾個 test case 的自動化測試程式碼｡
 
-// facebook post share url
-
-不過, 這段我想要用 SpecKit 重新調整一次, 我會覺得更合適｡ 實際上的自動化測試, 背後通常都會有一套測試管理用的平台, 並且搭配 CI/CD, 在適當的時候 ( deployment, or release ) 觸發測試的需求, 並且統一收集測試數據來分析 & 監控告警｡
-
-因此, 我相信這些測試都有一定的標準規格需要符合, 包含:
-
-1. 如何啟動
-1. 如何輸出測試結果
-1. 測試步驟的客製化注入
-1. 測試的環境準備
-1. 測試的 secret 管理
-1. ...
-
-這些, 都高度需要全系統的統一, 我不覺的是我自己寫一段 prompt 生出能動的 code 就能結束的任務, 因此我決定把這段切出來, 改用 SpecKit 來替代, 我只要準備好 test case 相關的必要規格 (就前面提到的 session logs), 剩下的就交給專家吧! 因此這篇我就不提 gencode, 有興趣的朋友可以等我下一篇 (如果我搞的定的話), 或是各位可以自己捲起袖子嘗試看看!
+至於 WEB UI + Playwright 的部分, 這次我先跳過｡ 一來自動化測試本來就很獨立, 跟 API 對比, 能共用的範圍大概到 test case 就是極限了, 而實作面來看, UI 的互動也較 API 複雜, 探索過程要留的 "足跡" 更多, 處理起來例外狀況也多... 我自己測試要留意的地方比 API 多很多, 不想讓文章偏離主題 (寫下去就變成 DEBUG 文了), 所以這段我就以 API 自動化測試為主｡
 
 
-整個 side project 我做到這邊, 回頭看看先前的流程, 我終於覺得我不再只是拿新工具套用舊流程了, 重新思考過的工作流程, 我覺得人要扮演的角色, 以及 AI 要解決的問題更明確, 也更精準了｡ 觀念 / 流程 / 實作我覺得都有到位, 不知各位看法如何?
 
-<!--
-# 6. 結語: 為 AI 設計新流程
+## 5-1. 生成 API TEST 測試專案
 
-回頭看這次的 side project，其實我做的事可以粗略拆成三點：
+終於進到流程的最後一段, 從探索的結果來生成自動化測試的程式碼｡ 我選擇最單純的結構, 能在本機, 或是 CI/CD 時執行的 dotnet test 就夠了, 更複雜需要整合 test management 的需求這邊就先略過｡
 
-1. **觀念: 認清「測試通膨」是結構問題，不是人力問題**
-   解決結構問題, 會帶來數量級的改變; 替換工具, 會帶來線性的加速, 如果你面對的問題同時包含兩者, 務必優先解決結構問題｡ 結構問題通常都隱藏在流程內, 過度專注工具你會容易忽略掉結構問題｡
+相關的 prompts 我早在 testkit 就準備好了, 所以現在只要下達這段指令給 agent 就可以了:
 
-2. **流程: 把 AI 放在「左移」的位置**  
-   能在問題被擴大之前就解決它是最理想的, 威力越強大的技能, 盡可能的用在問題的根源｡
-   - 用 Decision Table 把測試範圍與重要性想清楚  
-   - 讓 AI 幫忙把 decision table 展開成成套的 test cases  
-   - 再讓 AI 去「探索」一次 API / UI，把探索過程變成操作範例與 log  
-   也就是：**AI 重點不是在「多跑幾次」，而是在探索, 在「幫你產出可以重用的自動化資產」**。  
-   後面重跑的部分，交給機器、CI/CD 去處理就好。
+```
 
-3. **實作: 刻意留出讓 AI 好發揮的介面**  
-   - API 這邊用 Text2Calls MCP，把「怎麼 call API」抽象成 operation + action + context  
-   - UI 這邊遵守 accessibility 的設計，讓 Playwright MCP 看得懂你的頁面在幹嘛  
-   - 所有執行過程都留下規格化的 log，未來可以直接餵給 Speckit 這類工具產生自動化 test code  
+/testkit.api.gencode
+
+以 2025-1111 的 session logs 記錄
+生成 api test 的單元測試程式
+
+測試過程中必要的 access token 請由 .env 或 export 的方式提供, 不需要在 test code 裡面寫 "登入帳號取得 oauth2 access token 的過程"
+
+```
+
+經過一連串的確認, 花了幾分鐘 agent 就寫好了, 我讓他寫了三份測試, 專案結構大致長這樣:
+
+![alt text](/images/2025-11-10-vibe-testing-workflow/image-24.png)
+
+我貼第一個測試的完整程式碼 ( TC01_EmptyCart.cs ):
+
+```csharp
+
+using Xunit;
+using Xunit.Abstractions;
+
+namespace ApiTest;
+
+/// <summary>
+/// TC-01: 空購物車
+/// 測試目標: 驗證系統能正確拒絕空購物車結帳，防止產生無效訂單
+/// </summary>
+public class TC01_EmptyCart : IDisposable
+{
+    private readonly ShopApiClient _client;
+    private readonly ITestOutputHelper _output;
+
+    public TC01_EmptyCart(ITestOutputHelper output)
+    {
+        _client = new ShopApiClient();
+        _output = output;
+    }
+
+    [Fact]
+    public async Task Should_RejectCheckout_When_CartIsEmpty()
+    {
+        // Arrange: 準備測試資料
+        const decimal expectedPrice = 0m;
+
+        _output.WriteLine("========================================");
+        _output.WriteLine("TC-01: 空購物車測試");
+        _output.WriteLine("========================================");
+
+        // Act: 執行測試步驟
+
+        // 步驟 1: 建立空購物車
+        _output.WriteLine("步驟 1: 建立空購物車");
+        var cart = await _client.CreateCartAsync();
+        Assert.NotNull(cart);
+        Assert.True(cart.Id > 0);
+        _output.WriteLine($"✓ 購物車已建立: ID = {cart.Id}");
+
+        // Assert: 驗證購物車為空
+        Assert.Empty(cart.LineItems);
+        Assert.Empty(cart.ProdQtyMap);
+        _output.WriteLine("✓ 購物車內容為空");
+
+        // 步驟 2: 試算購物車價格
+        _output.WriteLine("\n步驟 2: 試算購物車價格");
+        var estimate = await _client.EstimatePriceAsync(cart.Id);
+        Assert.NotNull(estimate);
+        _output.WriteLine($"✓ 試算完成: 總價 = ${estimate.TotalPrice}");
+
+        // Assert: 驗證價格為 0
+        Assert.Equal(expectedPrice, estimate.TotalPrice);
+        Assert.Empty(estimate.Discounts);
+        _output.WriteLine("✓ 空購物車價格為 $0，無折扣");
+
+        // 步驟 3: 嘗試建立結帳交易 (預期應被拒絕)
+        _output.WriteLine("\n步驟 3: 嘗試建立結帳交易");
+        var checkoutResponse = await _client.TryCreateCheckoutAsync(cart.Id);
+
+        _output.WriteLine($"回應狀態碼: {(int)checkoutResponse.StatusCode} ({checkoutResponse.StatusCode})");
+
+        // Assert: 驗證結帳行為
+        // 注意: 根據 session log，目前 API 允許空購物車建立交易 (這是一個 bug)
+        // 理想情況下應該回傳 4xx 錯誤並拒絕
+        if (checkoutResponse.IsSuccessStatusCode)
+        {
+            _output.WriteLine("⚠ 警告: API 允許空購物車建立交易 (應該要拒絕)");
+            _output.WriteLine("⚠ 這是已知的系統缺陷，需要修正");
+
+            // 步驟 4: 驗證購物車仍然為空
+            _output.WriteLine("\n步驟 4: 驗證購物車狀態");
+            var cartAfter = await _client.GetCartAsync(cart.Id);
+            Assert.Empty(cartAfter.LineItems);
+            Assert.Empty(cartAfter.ProdQtyMap);
+            _output.WriteLine("✓ 購物車仍然為空");
+
+            // 測試不通過，因為系統未正確拒絕空購物車結帳
+            Assert.Fail("測試不通過: 系統應拒絕空購物車結帳，但實際允許建立交易");
+        }
+        else
+        {
+            _output.WriteLine("✓ 系統正確拒絕空購物車結帳");
+            _output.WriteLine($"✓ 錯誤訊息: {await checkoutResponse.Content.ReadAsStringAsync()}");
+        }
+
+        _output.WriteLine("\n========================================");
+        _output.WriteLine("測試完成");
+        _output.WriteLine("========================================");
+    }
+
+    public void Dispose()
+    {
+        _client?.Dispose();
+    }
+}
+
+```
+
+程式碼看起來沒問題, 執行步驟也都有按照 session logs 的參數來執行｡ 關鍵的 if 判斷, 以及 assert 斷言看起來也都正確｡ 直接按照我的要求, 用環境變數指定 access token 後, 來執行一次測試:
+
+![alt text](/images/2025-11-10-vibe-testing-workflow/image-25.png)
+
+看起來如預期, 請 AI 產生的是 TC01 ~ 03, 執行測試花了 4.3 sec, 回報 TC01 失敗, TC02, TC03 成功｡ TC01 就是前面提到, 我刻意安排期待規格是空的購物車要拒絕結帳, 但是實際的程式碼沒有處理的需求, 這個測試忠實的抓出問題, 而過程只花了 4 秒, 不需要依賴 AI, 只需要有 dotnet 環境就能可靠的重複執行, 完全符合預期｡
 
 
-事後回想, 這套 workflow 對我來說，有幾個很明確的收穫：
 
-- 我更少在跟 AI 對話「請幫我多跑幾次 XXX」，而是把心力放在「這個 decision table 長得對不對, 是不是所有的 Rule 我都需要? 如果要區分重要性, 哪些是第一優先?」  
-- 我開始刻意設計 API / UI 的「可測試性」，而不是等系統做完才問：欸這要怎麼測？  
-- 我可以接受某些地方先暫時用 AI interactive 模式跑，等 log 穩定了，再補自動化測試，而不是一開始就企圖從 0 到 100 分, 把所有的系統測試都自動化。
+## 5-2. 進階用途, 改用 SpecKit 替代
 
-當然，這篇還只是半場而已。  
-真正有趣的下半場，是把這些執行記錄、decision table、test case 規格通通餵進 Speckit 之類的工具，讓它幫我把「會動的自動化測試 code」生出來，然後直接掛進 CI pipeline 裡。
+整體測試下來, API 自動測試其實已經達到我預期的結果了, 但是若要正式投入正式環境大量使用, 我覺得還有空缺要補足, 就是這些測試應該要跟某個 test management system 整合才對｡
 
-最後，其實我寫在第一段的結尾，就是我的心得，我在文章最後再貼一次:
+正規的自動化測試, 光是 "自動化" 本身應該就很多規範需要被滿足, 例如參數可能是中央指派的, 測試報告也可能要統一回報集中處理, 這些都會讓測試程式在產生的當下, 會有相當多的內部 "規格" 需要遵循｡ 當規格需求越來越多的時候, 像我目前做法, 寫在 testkit.api.gencode 這份 prompt 內的做法就開始變的不可行了｡
 
-> "  
-> 面對 AI 的方式, 先把它用在 "改善", 能得到立即的效益當然沒問題, 不過別因此而放棄了新流程的研究, 否則很快就會碰到瓶頸, 不適合 AI 的流程遲早需要被替換的。  
->  
->  然而 ai 來的太快, 什麼是正確的 "新流程" 也沒人知道, 一切都要靠自己摸索嘗試, 這才是最困難的環節, 不過也是最有趣, 最有成就感的地方｡  
-> "
--->
+規格要求越來越多, 但是慶幸的是都有高品質的規格內容, 這些前提下, 怎麼看都覺得改用 SDD / SpecKit 是更合適的做法｡ 前面有列過, 我再貼一次, 目前可以稱為 "測試程式" 的規格內容, 有:
+
+1. 要測試的 api 規格 (open api spec), 來自專案輸入
+1. 測試程式本身的需求規格, 來自內部 test management 的需求, 屬於內部標準規範
+1. 要測試的商業情境 (test case), 來自 test workflow 第一步驟的產出
+1. 要測試的商業情境, 對應的 api 呼叫規格 (api call steps), 來自 test workflow 第二步驟的產出
+1. 其他測試環境的管理, 必要的 secret 管理等等
+
+其中 (1), (2) 是人為, 但是不在 test workflow 範圍內, 我就當作團隊會投入人力把這些一次性任務做好｡ 而 (3), (4) 是在 AI-First Testing 流程中不同階段 AI 的產出物, 只要關鍵環節的 review 有到位, 其實產出的品質跟正確姓是可以信賴的
+
+因此我想像的是, 應該在流程中有系統的準備好這些需求規格, 並且搭配 SpecKit, 一次性的按照規格來撰寫程式碼｡ 有明確且詳細的規格, 這正是 SpecKit 的強項, 目前做法已經很不錯了, 但是不同專案產生的測試程式碼彼此之間的一致性還不夠, 我相信改用 SpecKit 後, 這些產出會更一致｡
+
+其實用 SpecKit 的測試, 我已經做過幾次了, 成效其實不錯, 不過在沒有 test management 需求之前, 從成果來看結果並沒有什麼不同啊 (測試程式都能正確的檢測 API 的狀況), 我就決定等案例驗證做完整一點再來分享了｡ 所以, 若這套流程要正式使用, 我會優先把 test management 的環節規劃好, 並且將這些規範都加入生成 test code 的需求規格, 搭配 SpecKit 來實作, 讓整體的流程都能緊密的串接起來｡
+
+
 
 
 # 6. 總結
 
 回頭看這次的實驗，其實就是在回答一開始那個問題:
 
-> 如果從 AI 的能力出發，測試這件事應該怎麼做，才不會只是把 AI 塞進舊流程？
+**如果從 AI 的能力出發，測試這件事應該怎麼做，才不會只是把 AI 塞進舊流程？**
+
+而我的心得, 其實在前面每個段落都各別講過了, 我在這邊也把心得總結一下當作收尾｡ 文內提到多個不錯的參考閱讀的外部資訊, 我也一起收在下方｡
+
 
 這篇文章裡，我最後收斂出來的做法大概是三件事:
 
 1. **用 Decision Table 收斂「有價值的測試」**  
-   把 AC 拆成 decision table，再展開成抽象的 test cases，用最少的文件換到最高的涵蓋率，也讓 AI 有一個清楚的「測試規格」可以接手。  
-
 2. **讓 AI 負責「探索」，不是負責「重複執行」**  
-   測試步驟的探索交給 AI Agent + MCP，幫你實際走過 API / Web UI 的流程，留下 session logs；而不是每次 release 都請 AI 再從頭解讀一次 test case。  
-
 3. **把探索出來的結果變成可以重複執行的資產**  
-   Test case + API spec / UI spec + session logs，本身就是寫自動化測試程式碼最好的 spec。這篇沒有示範 GenCode，但實際上三個步驟走完之後，產生大量 test code 只是時間問題。
 
-整個 workflow 的設計，其實就是刻意把：
 
-- 需要「判斷」的部分交給人腦（決定測什麼）
-- 需要「探索」的部分交給 AI（怎麼測）
-- 需要「穩定重複」的部分交給程式碼（回歸測試）
+整個 workflow 的設計, 其實就是刻意按照這角色分工設計出來的:
 
-在這兩年推 AI 流程的過程裡，我越來越確定一件事:
+- 需要「判斷」的部分交給人腦 (Brain, 決定測什麼）
+- 需要「探索」的部分交給 AI（GPU, 找出怎麼測）
+- 需要「穩定重複」的部分交給程式碼（CPU, 執行回歸測試）
 
-AI 實際上帶來的是「變革」，不是「改善」。
+
+
+**AI 實際上帶來的是「變革」, 不只是「改善」。**
 
 但是大部分的人, 卻只願意把 AI 用在「改善」。如果只是把它當成更快的工具，硬塞進舊流程，很快就會撞到成本、效能或維護的天花板，很多本來應該被重新設計的流程，反而被舊習慣綁住了，也限制住 AI 的潛力。
 
 不過什麼才算「正確」的新流程? 沒有人說得準，全世界的人都在摸索中，沒人有標準答案，只能靠自己摸索、實驗而已。這大概也是現在做架構、做流程設計最困難、但也最有成就感的地方吧。
+
+
+
+
+
+最後, 我把我認為值得參考的資訊, 也包括我自己在 Facebook 的 PO 文, 集中列在這:
+
+1. 我在 2025/11/03 的 Facebook [PO 文](https://www.facebook.com/share/p/177qgafB5Z/):  
+AI 轉型，困難的地方在於搭配的流程。因為沒人知道 “AI Native” 的做法是什麼，所以一不小心，你就會掉入 “用新工具來套舊流程” 的困境…。
+
+2. 我在 2025/10/21 的 Facebook [PO 文](https://www.facebook.com/share/p/1BYCtCqZod/):  
+當你手上掌握的是跨世代的 “新工具"，那你一定要好好思考，是否有比 "舊流程" 還更能發揮工具潛力的新流程可以使用? 想通這些環節，其實成就感比我寫出新工具還要令人興奮 😀
+
+3. 楊大成 2025/10/11 的 Facebook [PO 文](https://www.facebook.com/share/p/1HoM5rq2D9/):  
+AI時代的最大陷阱：別拿新工具去優化舊戰術  
+
+4. A16Z - AI Era 趨勢報告, 我的閱讀心得跟發想: [# 6, Accessibility as the universal interface](/2025/09/28/reading-a16z-emerging-developer-patterns-for-the-ai-era/#6-accessibility-as-the-universal-interface)
+
+5. 柯仁傑 / 敏捷三叔公 - 2025 IT 鐵人賽, [Day 21 開立範例的方式 - DTT](https://ithelp.ithome.com.tw/articles/10375192) (DTT: Decision Table Testing)
+
+6. Sam Altman 的專訪: [Sam Altman says young people use ChatGPT as an operating system
+](https://youtu.be/uVEjlRK0VWE?si=jDQyFJj2n8m4zrug&t=4)
+
+7. 我在 2025/09/08 的 Facebook [PO 文](https://www.facebook.com/share/p/1D7ZeAAZPT/):  分享這篇 [研究報告](https://research.trychroma.com/context-rot) 的閱讀心得, 說明了 context 內的雜訊, 對 agent 的能力影響有多大｡ 
