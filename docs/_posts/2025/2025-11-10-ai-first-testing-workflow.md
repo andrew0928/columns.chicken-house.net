@@ -4,10 +4,10 @@ title: "AI-First Testing, 以 AI 為核心重新設計測試流程"
 categories:
 - "系列文章: 架構師觀點"
 tags: ["架構師觀點","技術隨筆"]
-published: false
+published: true
 comments_disqus: false
 comments_facebook: false
-comments_gitalk: false
+comments_gitalk: true
 redirect_from:
 logo: /images/2025-11-10-ai-first-testing-workflow/nier-automata-become-as-gods-edition-wallpaper.jpg
 ---
