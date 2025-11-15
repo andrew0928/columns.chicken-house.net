@@ -9,8 +9,13 @@ comments_disqus: false
 comments_facebook: false
 comments_gitalk: false
 redirect_from:
-logo: 
+logo: /images/2025-11-10-ai-first-testing-workflow/nier-automata-become-as-gods-edition-wallpaper.jpg
 ---
+
+![](/images/2025-11-10-ai-first-testing-workflow/nier-automata-become-as-gods-edition-wallpaper.jpg)
+> *不知道要找啥當 Logo 了, 這次就放 NieR 吧, 一個操控 AI 的 context 到極致的故事... (咦?*
+
+--
 
 首先, 我自己打臉我半年前寫的那篇 [聊聊 Vibe Testing 實驗心得](/2025/05/01/vibe-testing-poc/) 的文章｡ 其實那篇文章研究的 "自動執行 API 測試" 是可行的, 但是應該拿來探索測試步驟用, 而不是拿來當最終重複執行用｡ 當時我的思路是:
 
@@ -88,7 +93,7 @@ logo:
 為了聚焦我的主題跟思路, 不相關的環節我就大幅簡化了, 我用這張圖來說明:
 
 
-![alt text](/images/2025-11-10-vibe-testing-workflow/image-17.png)
+![alt text](/images/2025-11-10-ai-first-testing-workflow/image-17.png)
 
 
 從左到右, 是從需求規格中的驗收條件 (AC, Acceptance Criteria) 開始, 到測試結果的流程｡ 每個步驟上面標的數字, 就是可能要展開的數量 (數量級)｡ 
@@ -137,7 +142,7 @@ logo:
 
 改良過的流程, 我用這張圖來表達:
 
-![alt text](/images/2025-11-10-vibe-testing-workflow/image-18.png)
+![alt text](/images/2025-11-10-ai-first-testing-workflow/image-18.png)
 
 剩下的就是親自找一個實際案例來驗證看看了, 這也是這篇文章我想要展示的主要內容｡
 
@@ -162,7 +167,7 @@ logo:
 
 畫成流程圖, 以 "產出" 文件的視角來看, 大概就是這樣:
 
-![alt text](/images/2025-11-10-vibe-testing-workflow/image-19.png)
+![alt text](/images/2025-11-10-ai-first-testing-workflow/image-19.png)
 
 每個步驟, 都有他主要的目的, 也有關鍵的產出, 我列一張對照表:
 
@@ -247,7 +252,7 @@ logo:
 
 決策表 (decision table), 是有系統的列出所有組合的方法｡ 我第一個示範,就是用 decision table 來讓 AI 替我建立 decision table, 讓我確認我該怎麼測, 該測哪些組合｡
 
-![alt text](/images/2025-11-10-vibe-testing-workflow/image-20.png)
+![alt text](/images/2025-11-10-ai-first-testing-workflow/image-20.png)
 
 對應到前面提到的流程圖, 那麼這個章節, 我要實作的, 就是藍色框起來的部分, 從 AC 展開決策表, 決定測試範圍, 最後展開成對應的測試案例｡
 
@@ -548,7 +553,7 @@ logo:
 階段: **Explore Test Steps with AI Agent** (TestKit.API.Run)
 
 
-![alt text](/images/2025-11-10-vibe-testing-workflow/image-21.png)
+![alt text](/images/2025-11-10-ai-first-testing-workflow/image-21.png)
 
 這步驟算是整個流程最核心的地方, 依賴 AI 的理解與推理能力, 找出正確使用 API 來執行 test case 的環節｡ 對應到流程圖, 就是藍色框起來的部分｡ 開始之前先來複習一下, 流程跑到這裡, 我手上有哪些測試相關的資訊 (context):
 
@@ -589,12 +594,12 @@ MCP 的處理, 是這個步驟重要的環節, 我多花點篇幅介紹過程發
 
 Agent 第一次使用, 就按照 tools description 的指示, 先呼叫 QuickStart. 其實這做法是從 Shopify 學來的 (參照我 [facebook post](https://www.facebook.com/share/p/1CTcpbEfyC/)), 我用 tools 的方式傳回明確 (而且可以是動態的提示) 的使用說明給 Agent, 最大化的正確引導 agent 來用我的 MCP:
 
-![alt text](/images/2025-11-10-vibe-testing-workflow/image.png)
+![alt text](/images/2025-11-10-ai-first-testing-workflow/image.png)
 
 
 接下來, agent 果然按照 QuickStart 的指示, 用 ListOperations 查詢 API 可用的操作有哪些:
 
-![alt text](/images/2025-11-10-vibe-testing-workflow/image-1.png)
+![alt text](/images/2025-11-10-ai-first-testing-workflow/image-1.png)
 
 我曾經實作過一個版本, 直接將 API 的 swagger 所有規格都直接提交出去, 其實就是去年在 MyGPTs 上實作 "安德魯小舖" 的做法, 省掉了包一層 MCP 的功夫｡ 市面上有現成的 swagger -> mcp 套件可以用, 我其實不必要自己寫｡ 不過實驗之後, 我放棄這條路了, 改用現在的做法, 因為:
 
@@ -624,17 +629,17 @@ Agent 透過 list operations, 並且對照 TC-01 test case, 挑出這步驟可�
 
 用這四個操作就足以組合出 test case 01 的情境了, 接下來 agent 真正要開始執行, 於是就先執行 CreateSession:
 
-![alt text](/images/2025-11-10-vibe-testing-workflow/image-2.png)
+![alt text](/images/2025-11-10-ai-first-testing-workflow/image-2.png)
 
 建立完 session, 包含認證 (測試用的帳號密碼) 資訊, MCP 除了建立 session 之外, 也會先完成 OAuth2 認證流程, 並取得 access token 供後續操作 operations 使用.. 這些操作如果不是在 MCP 內用 code 處理, 我不知道還要寫多少 prompt 才教的會 AI 來做這些事... (而且還會有一定機率不受控制)
 
-![alt text](/images/2025-11-10-vibe-testing-workflow/image-3.png)
+![alt text](/images/2025-11-10-ai-first-testing-workflow/image-3.png)
 
 
 到這邊終於可以開始執行 RunStep, 呼叫 API:
 
-![alt text](/images/2025-11-10-vibe-testing-workflow/image-4.png)
-![alt text](/images/2025-11-10-vibe-testing-workflow/image-5.png)
+![alt text](/images/2025-11-10-ai-first-testing-workflow/image-4.png)
+![alt text](/images/2025-11-10-ai-first-testing-workflow/image-5.png)
 
 我特別貼一下 agent 傳給 RunStep 的資訊, 都被抽象化了, 只剩下 operation, action, context:
 
@@ -652,7 +657,7 @@ Agent 交代 MCP 要 Run 哪個 API (operation), 描述想要他完成的任務 
 
 RunStep 這操作, 執行過程中可能會呼叫 1 ~ N 次不同的 api, 我在 MCP 的實作中, 所有透過 HttpClient 呼叫的 API, 這些過程都會在 _session 目錄下留下足跡｡ 舉例來說 RunStep -> CreateCart, 就真正對應到 POST /api/carts/create, 具體的 api call request / response 都有被記錄下來:
 
-![alt text](/images/2025-11-10-vibe-testing-workflow/image-6.png)
+![alt text](/images/2025-11-10-ai-first-testing-workflow/image-6.png)
 
 而抽象化的執行順序, 也會被記錄在 session-logs.md 下 (我節錄 RunStep[1] 的片段, 這些都是 MCP 自己留下的記錄):
 
@@ -735,12 +740,12 @@ User andrew logged in. Create a new empty cart to test checkout with no items. T
 
 實際執行的步驟, 到 Step3 之前都還正確 (建立購物車, 計算購物車金額-空車):
 
-![alt text](/images/2025-11-10-vibe-testing-workflow/image-7.png)
+![alt text](/images/2025-11-10-ai-first-testing-workflow/image-7.png)
 
 
 然而, 到了真正要執行結帳的時候, API 呼叫就不如預期了, API 沒有阻止空的購物車進行結帳:
 
-![alt text](/images/2025-11-10-vibe-testing-workflow/image-8.png)
+![alt text](/images/2025-11-10-ai-first-testing-workflow/image-8.png)
 
 
 看到這邊, 可以放心了, agent + MCP 有認真替你執行 test case 的每個步驟, 也有確實檢驗結果是否符合預期｡
@@ -753,15 +758,15 @@ User andrew logged in. Create a new empty cart to test checkout with no items. T
 
 我有實作基本功能, 但是基本上邊界的檢驗都沒做, 所以基本測試 TC-01 空購物車結帳測試預期會失敗, 其他正常結帳跟折扣計算應該都會通過 (TC-02 ~ TC-06), 如果後面還有執行超過 10 件商品的測試應該也會失敗 (應該要拒絕結帳, 但是實際會結帳成功), 這些都驗證測試有發揮效用｡ 我擷圖讓各位看一下 AI 給我的摘要報告:
 
-![alt text](/images/2025-11-10-vibe-testing-workflow/image-9.png)
+![alt text](/images/2025-11-10-ai-first-testing-workflow/image-9.png)
 
 針對測試失敗的部分 (TC-01), AI 也特別說明他判定問題出在哪邊:
 
-![alt text](/images/2025-11-10-vibe-testing-workflow/image-10.png)
+![alt text](/images/2025-11-10-ai-first-testing-workflow/image-10.png)
 
 而這些執行過程的記錄, 通通都鉅細靡遺的保存在 session folder 內:
 
-![alt text](/images/2025-11-10-vibe-testing-workflow/image-11.png)
+![alt text](/images/2025-11-10-ai-first-testing-workflow/image-11.png)
 
 001, 002 -> OAuth 認證過程
 003 -> 下載保存 openapi spec
@@ -784,7 +789,7 @@ session-logs.md, 就是呼叫過程中的抽象資訊傳輸記錄, agent / MCP �
 
 我的服務同時提供 WEB UI / API 兩種使用方式, 對象跟使用場合不同, 但是處理的商業情境是一樣的 (就是購物啊), 這一段我會示範用同樣的 test case, 搭配 Playwright MCP, 嘗試完成同樣的測試行為:
 
-![alt text](/images/2025-11-10-vibe-testing-workflow/image-22.png)
+![alt text](/images/2025-11-10-ai-first-testing-workflow/image-22.png)
 
 拜 coding agent 所賜, 這次我特地準備了一個有 Web UI 的 "安得魯小舖"｡ 我是前端大外行, 終於也能生出還過的去的純前端測試網站了 XDD, 這是 React + NodeJS 的前後端架構, 背後 call 同樣的 API 搭建的 web app, 有興趣的人可以進去玩玩看:
 
@@ -810,26 +815,26 @@ mcp 的安裝設定我就不講了, 大家自己看 playwright mcp 的官網, �
 
 草草的準備好測試環境之後 (咦? , 正式的測試就要開始了, 第一次呼叫 playwright mcp, 就是啟動首頁:
 
-![alt text](/images/2025-11-10-vibe-testing-workflow/image-12.png)
+![alt text](/images/2025-11-10-ai-first-testing-workflow/image-12.png)
 
 
 經過一連串的嘗試 (略過), 完成 OAuth2 認證, 登入成功:
 
-![alt text](/images/2025-11-10-vibe-testing-workflow/image-13.png)
+![alt text](/images/2025-11-10-ai-first-testing-workflow/image-13.png)
 
 接下來你可以看到 agent 不斷的在跑, 而 chrome 也自己在操作, 等了幾分鐘之後, 開始測試結帳:
 
-![alt text](/images/2025-11-10-vibe-testing-workflow/image-14.png)
+![alt text](/images/2025-11-10-ai-first-testing-workflow/image-14.png)
 
 看起來操作都很順利, 操作的過程都沒有脫離 test case 的敘述, 跑了大約 20 min (真的很慢), 六個測試項目執行完畢｡
 
 而測試結果跟 API 比較不一樣的是: 這次六個測試都成功通過!
 
-![alt text](/images/2025-11-10-vibe-testing-workflow/image-15.png)
+![alt text](/images/2025-11-10-ai-first-testing-workflow/image-15.png)
 
 會有這差異, 是我在 WEB UI 有加上 API 沒有做的檢查: 購物車是空的不能結帳｡ 做法不是結帳提示錯誤訊息, 而是購物車沒東西的時候就拿掉結帳的按鈕｡ 因此這 test case 在 WEB UI 的測試是通過的, 我擷圖證實一下:
 
-![alt text](/images/2025-11-10-vibe-testing-workflow/image-16.png)
+![alt text](/images/2025-11-10-ai-first-testing-workflow/image-16.png)
 
 
 
@@ -860,7 +865,7 @@ playwright mcp 實用的多, 因為他會先將 HTML 精簡成自訂格式的 ya
 
 這段, 對應到整體流程的最後一步, 把探索的結果, 用生成 test code 的方式來實現自動化｡ 目前我是自己寫 prompt 指示 AI 幫我產生對應的程式碼, 不過就像大部分的 vibe coding 一樣, 你會得到可以運作的程式碼, 但是你沒有交代清楚規格的環節, AI 就有可能寫出你不想要的 code ..  XDD
 
-![alt text](/images/2025-11-10-vibe-testing-workflow/image-23.png)
+![alt text](/images/2025-11-10-ai-first-testing-workflow/image-23.png)
 
 整個流程的拼圖, 其實還有最後兩塊, 就是圖上藍色部分, 分別是 testkit.api.gencode, 跟 testkit.web.gencode. 這邊我示範生成 API 自動化測試的部分, 同樣我盡量降低其他系統的依賴, 就用我熟悉的 .NET 9 + 內建的 xUnit 框架為基礎, 讓 AI 替我生成這幾個 test case 的自動化測試程式碼｡
 
@@ -887,7 +892,7 @@ playwright mcp 實用的多, 因為他會先將 HTML 精簡成自訂格式的 ya
 
 經過一連串的確認, 花了幾分鐘 agent 就寫好了, 我讓他寫了三份測試, 專案結構大致長這樣:
 
-![alt text](/images/2025-11-10-vibe-testing-workflow/image-24.png)
+![alt text](/images/2025-11-10-ai-first-testing-workflow/image-24.png)
 
 我貼第一個測試的完整程式碼 ( TC01_EmptyCart.cs ):
 
@@ -993,7 +998,7 @@ public class TC01_EmptyCart : IDisposable
 
 程式碼看起來沒問題, 執行步驟也都有按照 session logs 的參數來執行｡ 關鍵的 if 判斷, 以及 assert 斷言看起來也都正確｡ 直接按照我的要求, 用環境變數指定 access token 後, 來執行一次測試:
 
-![alt text](/images/2025-11-10-vibe-testing-workflow/image-25.png)
+![alt text](/images/2025-11-10-ai-first-testing-workflow/image-25.png)
 
 看起來如預期, 請 AI 產生的是 TC01 ~ 03, 執行測試花了 4.3 sec, 回報 TC01 失敗, TC02, TC03 成功｡ TC01 就是前面提到, 我刻意安排期待規格是空的購物車要拒絕結帳, 但是實際的程式碼沒有處理的需求, 這個測試忠實的抓出問題, 而過程只花了 4 秒, 不需要依賴 AI, 只需要有 dotnet 環境就能可靠的重複執行, 完全符合預期｡
 
