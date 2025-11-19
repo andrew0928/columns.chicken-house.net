@@ -13,7 +13,7 @@ logo: /images/2025-11-10-ai-first-testing-workflow/nier-automata-become-as-gods-
 ---
 
 ![](/images/2025-11-10-ai-first-testing-workflow/nier-automata-become-as-gods-edition-wallpaper.jpg)
-> *不知道要找啥當 Logo 了, 這次就放 NieR Automata 吧, 一個操控 AI (2B, 9S and A1) 的 context window 到極致的故事... (咦?)*
+> *不知道要找啥當 Logo 了, 這次就放 NieR Automata 吧, 一個操控 AI (2B, 9S and A2) 的 context window 到極致的故事... (咦?)*
 
 --
 
