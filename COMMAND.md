@@ -2,11 +2,17 @@
 
 寫完文章, preview 沒問題後, 就可以開始 build 了.
 
-1. 用 LLM (GPT5) 生成摘要等資訊 (sync-post synthesis:true, 更新 artifects/synthesis)
-2. 啟動 build env, 匯入資料庫 (sync-post import:true, 更新 services/_storage_volumes/*)
+0. 編輯, 預覽文章內容 (更新 docs/_posts)
+- 啟動 preview env
+- 確認文章內容, http://localhost:4000
+1. 生成摘要等資訊 (sync-post synthesis:true, 更新 artifects/synthesis)
+2. 更新啟動環境
+- 啟動 build env
+- 匯入資料庫 (sync-post import:true, 更新 services/_storage_volumes/*)
 3. 產生 seed (columns-seed)
 4. 驗證 product env
 5. 推送 seed, github-pages
+6. 備份 _storage_volumes
 
 
 ## .env file
@@ -30,11 +36,11 @@ docker push andrew0928.azurecr.io/columns-seed:$(date +%Y%m%d)
 
 
 ## run sync-post (synthesis)
-docker run --rm -it --user 1000:1000 -v $PWD:/workspaces/columns.chicken-house.net/ --env-file service/.env blogindex-syncpost:develop --postname 2025-09-16 --synthesis true --forcesync true
+docker run --rm -it --user 1000:1000 -v $PWD:/workspaces/columns.chicken-house.net/ --env-file service/.env andrew0928.azurecr.io/columns-syncpost:develop --postname 2025-09-16 --synthesis true --forcesync true
 
 ## run sync-post (import)
 > 注意 network host, 這樣才能在 container 內連到 kernelmemoryservice ( localhost:9001 )
-docker run --rm --network host -it --user 1000:1000 -v $PWD:/workspaces/columns.chicken-house.net/ --env-file service/.env blogindex-syncpost:develop --postname 2025 --import true --forcesync true
+docker run --rm --network host -it --user 1000:1000 -v $PWD:/workspaces/columns.chicken-house.net/ --env-file service/.env andrew0928.azurecr.io/columns-syncpost:develop --postname 2025 --import true --forcesync true
 
 ## archive service volumes
 tar -czvf ../service-storage-volumes-$(date +%Y%m%d).tgz service/_storage_volumes
