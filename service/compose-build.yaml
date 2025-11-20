@@ -10,7 +10,8 @@ services:
 
 # build: docker build -t demo -f dockerfile-kernelmemory .
   columns-km:
-    image: kernelmemory/service:0.96.250120.1-arm64
+#    image: kernelmemory/service:0.96.250120.1-arm64
+    image: kernelmemory/service:latest
     restart: always
     depends_on:
       - columns-qdrant
@@ -33,7 +34,7 @@ services:
       - ./_storage_volumes/_files:/app/_files
 
   columns-qdrant:
-    image: qdrant/qdrant
+    image: qdrant/qdrant:latest
     restart: always
     ports:
       - 6333:6333

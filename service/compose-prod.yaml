@@ -36,7 +36,7 @@ services:
       - "6334:6334"
 
   columns-km:
-    image: kernelmemory/service:0.96.250120.1-arm64
+    image: kernelmemory/service:latest
     container_name: columns-km
     depends_on:
       columns-seed:
