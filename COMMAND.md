@@ -30,9 +30,25 @@ docker compose -f service/compose-build.yaml up -d
 ## start production environment (init with columns-seed)
 docker compose -f service/compose-prod.yaml up -d
 
-## build columns-seed
-docker build -f service/dockerfile-seed -t andrew0928.azurecr.io/columns-seed:develop -t andrew0928.azurecr.io/columns-seed:$(date +%Y%m%d) .
-docker push andrew0928.azurecr.io/columns-seed:$(date +%Y%m%d)
+## build columns-seed (multi-arch for M4/x86 compatibility)
+### Setup multi-arch builder (run once)
+docker buildx create --name multiarch --driver docker-container --use
+docker buildx inspect --bootstrap multiarch
+
+### Build and push for both linux/amd64 and linux/arm64
+docker buildx build -f service/dockerfile-seed \
+  --platform linux/amd64,linux/arm64 \
+  -t andrew0928.azurecr.io/columns-seed:develop \
+  -t andrew0928.azurecr.io/columns-seed:$(date +%Y%m%d) \
+  --push .
+
+### Alternative: Build for amd64 only (faster, for x86 server)
+# docker build -f service/dockerfile-seed \
+#   --platform linux/amd64 \
+#   -t andrew0928.azurecr.io/columns-seed:develop \
+#   -t andrew0928.azurecr.io/columns-seed:$(date +%Y%m%d) . \
+#   && docker push andrew0928.azurecr.io/columns-seed:develop \
+#   && docker push andrew0928.azurecr.io/columns-seed:$(date +%Y%m%d)
 
 
 ## run sync-post (synthesis)
