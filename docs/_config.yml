@@ -42,6 +42,10 @@ navs:
     href: /categories/
     label: 主題分類
 
+  -
+    href: /facebook/
+    label: Facebook 貼文留存
+
 #  -
 #    href: /wiki/
 #    label: Wiki
@@ -90,15 +94,15 @@ plugins_dir:
 #     - jekyll-html-pipeline
 #     - jekyll-mentions
 collections:
-    wiki:
-        output: true
-        permalink: /wiki/:path/
+#    wiki:
+#        output: true
+#        permalink: /wiki/:path/
     synthesis:
         output: true
         permalink: /synthesis/:path/
     facebook_posts:
         output: true
-        permalink: /facebook-posts/:year/:month/:day/:slug/
+        permalink: /facebook/:name/
 
 defaults:
   - scope:

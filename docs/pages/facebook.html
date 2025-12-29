@@ -1,0 +1,63 @@
+---
+layout: default
+title: Facebook Posts
+description: Facebook 貼文整理
+keywords: Facebook, 社群, 分享
+comments: false
+menu: Facebook
+permalink: /facebook/
+---
+
+<section class="collection-head small geopattern" data-pattern-id="Facebook Posts">
+    <div class="container">
+        <div class="columns">
+            <div class="column three-fourths">
+                <div class="collection-title">
+                    <h1 class="collection-header">Facebook Posts</h1>
+                    <div class="collection-info">
+                        <span class="meta-info">
+                            <span class="octicon octicon-comment-discussion"></span>
+                            {% assign fb_count = site.facebook_posts | size %}
+                            {{ fb_count }} 篇貼文
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- / .banner -->
+<section class="container content">
+    <div class="columns">
+        <div class="column two-thirds">
+            <ol class="repo-list">
+                {% assign sorted_posts = site.facebook_posts | sort: 'date' | reverse %}
+                {% for post in sorted_posts %}
+                <li class="repo-list-item">
+                    <h1 class="repo-list-name">
+                        <a href="{{ post.url }}">{{ post.title | truncate: 20, "..." }}</a>
+                    </h1>
+                    <div class="share">
+                        {% include sns-share.html url=post.url %}
+                    </div>
+                    <p class="repo-list-description">
+                        {% assign content_text = post.content | strip_html | strip_newlines %}
+                        {{ content_text | truncate: 100 }}
+                    </p>
+                    <p class="repo-list-meta">
+                        <span class="meta-info">
+                            <span class="octicon octicon-calendar"></span> {{ post.date | date: "%Y/%m/%d" }}
+                        </span>
+                    </p>
+                </li>
+                {% endfor %}
+            </ol>
+        </div>
+        <div class="column one-third">
+            {% include sidebar-search.html %}
+            {% include sidebar-mvp.html %}
+            {% include sidebar-facebook.html %}
+        </div>
+    </div>
+</section>
+<!-- /section.content -->
