@@ -93,6 +93,24 @@ collections:
     wiki:
         output: true
         permalink: /wiki/:path/
+    synthesis:
+        output: true
+        permalink: /synthesis/:path/
+    facebook_posts:
+        output: true
+        permalink: /facebook-posts/:year/:month/:day/:slug/
+
+defaults:
+  - scope:
+      path: ""
+      type: "synthesis"
+    values:
+      layout: synthesis
+  - scope:
+      path: ""
+      type: "facebook_posts"
+    values:
+      layout: post
 
 # repository: mzlogin/mzlogin.github.io
 

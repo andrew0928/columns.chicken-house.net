@@ -1,0 +1,60 @@
+---
+layout: default
+---
+<section class="collection-head small geopattern" data-pattern-id="{{ page.title | truncate: 15, ''}}">
+    <div class="container">
+        <div class="columns">
+            <div class="column three-fourths">
+                <div class="collection-title">
+                    <h1 class="collection-header">{{ page.title }}</h1>
+                    {% assign url_parts = page.url | split: '/' %}
+                    {% assign post_id = url_parts[2] %}
+                    <div class="collection-info">
+                        <span class="meta-info">
+                            <span class="octicon octicon-book"></span> {{ page.synthesis_type | capitalize }}
+                        </span>
+                        {% if page.source_post %}
+                        <span class="meta-info">
+                            <span class="octicon octicon-link"></span>
+                            <a href="{{ page.source_post }}" title="原始文章">查看原始文章</a>
+                        </span>
+                        {% endif %}
+                        <span class="meta-info{% if page.synthesis_type == 'summary' %} active{% endif %}">
+                            <span class="octicon octicon-file-text"></span>
+                            <a href="/synthesis/{{ post_id }}/summary/" title="摘要">Summary</a>
+                        </span>
+                        <span class="meta-info{% if page.synthesis_type == 'faq' %} active{% endif %}">
+                            <span class="octicon octicon-question"></span>
+                            <a href="/synthesis/{{ post_id }}/faq/" title="常見問題">FAQ</a>
+                        </span>
+                        <span class="meta-info{% if page.synthesis_type == 'solution' %} active{% endif %}">
+                            <span class="octicon octicon-code"></span>
+                            <a href="/synthesis/{{ post_id }}/solution/" title="解決方案">Solution</a>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- / .banner -->
+<section class="container content">
+    <div class="columns">
+        <div class="column three-fourths">
+            <div class="share">
+                {% include sns-share.html url=page.url %}
+            </div>
+            <article class="article-content markdown-body">
+                {{ content }}
+                {% include article-footer.html %}
+            </article>
+        </div>
+        <div class="column one-fourth">
+            {% include sidebar-search.html %}
+            {% include sidebar-mvp.html %}
+            {% include sidebar-facebook.html %}
+            {% include sidebar-post-nav.html %}
+        </div>
+    </div>
+</section>
+<!-- /section.content -->

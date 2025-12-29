@@ -6,13 +6,14 @@
 - 啟動 preview env
 - 確認文章內容, http://localhost:4000
 1. 生成摘要等資訊 (sync-post synthesis:true, 更新 artifects/synthesis)
-2. 更新啟動環境
+2. 建立 synthesis 頁面 (build-synthesis.sh, 從 artifacts -> docs/_synthesis)
+3. 更新啟動環境
 - 啟動 build env
 - 匯入資料庫 (sync-post import:true, 更新 services/_storage_volumes/*)
-3. 產生 seed (columns-seed)
-4. 驗證 product env
-5. 推送 seed, github-pages
-6. 備份 _storage_volumes
+4. 產生 seed (columns-seed)
+5. 驗證 product env
+6. 推送 seed, github-pages
+7. 備份 _storage_volumes
 
 
 ## .env file
@@ -53,6 +54,13 @@ docker buildx build -f service/dockerfile-seed \
 
 ## run sync-post (synthesis)
 docker run --rm -it --user 1000:1000 -v $PWD:/workspaces/columns.chicken-house.net/ --env-file service/.env andrew0928.azurecr.io/columns-syncpost:develop --postname 2025-09-16 --synthesis true --forcesync true
+
+## build synthesis pages (artifacts -> docs/_synthesis)
+# Build all synthesis files
+./build-synthesis.sh
+
+# Build only specific year
+./build-synthesis.sh 2025
 
 ## run sync-post (import)
 > 注意 network host, 這樣才能在 container 內連到 kernelmemoryservice ( localhost:9001 )
