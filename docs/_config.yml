@@ -110,11 +110,12 @@ defaults:
       type: "synthesis"
     values:
       layout: synthesis
+      render_with_liquid: false
   - scope:
       path: ""
       type: "facebook_posts"
     values:
-      layout: post
+      layout: facebook
 
 # repository: mzlogin/mzlogin.github.io
 

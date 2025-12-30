@@ -1,6 +1,9 @@
-<h3 class="mobile-hidden">Synthesis Contents</h3>
+<h3 class="mobile-hidden">AI Synthesis Contents</h3>
 <div class="mobile-hidden">
-  - <a href="./faq/">FAQ</a><br />
-  - <a href="./summary/">Summary</a><br />
-  - <a href="./solution/">Solution</a><br />
+  {% assign postid = include.year | append: "-" | append: include.month | append: "-" | append: include.day | append:
+  "-" | append: include.slug %}
+  - <a href="/{{ include.year }}/{{ include.month }}/{{ include.day }}/{{ include.slug }}/">原始文章內容</a><br />
+  - <a href="/synthesis/{{ postid }}/faq/">問答集</a><br />
+  - <a href="/synthesis/{{ postid }}/summary/">文章摘要</a><br />
+  - <a href="/synthesis/{{ postid }}/solution/">解決方案 / Case Study</a><br />
 </div>
