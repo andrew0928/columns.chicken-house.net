@@ -1,6 +1,6 @@
 ---
 layout: synthesis
-title: "讓 Agent 懂我的部落格: MCP-first 的服務化設計 - solution"
+title: "讓 Agent 懂我的部落格: MCP-first 的服務化設計"
 synthesis_type: solution
 source_post: /2025/09/16/chat-with-my-blog/
 redirect_from:

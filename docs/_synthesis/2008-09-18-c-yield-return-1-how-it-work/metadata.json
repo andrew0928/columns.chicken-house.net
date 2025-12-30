@@ -1,0 +1,66 @@
+{
+  "title": "[C#: yield return] #1. How It Work ?",
+  "published": true,
+  "categories": [
+    "\u7CFB\u5217\u6587\u7AE0: Inside C# Yield Return"
+  ],
+  "tags": [
+    ".NET",
+    "C#",
+    "Tips",
+    "\u591A\u57F7\u884C\u7DD2",
+    "\u6280\u8853\u96A8\u7B46",
+    "\u7269\u4EF6\u5C0E\u5411"
+  ],
+  "tech-stacks": [
+    "C#",
+    ".NET",
+    "Java",
+    "IEnumerable",
+    "IEnumerable\u003CT\u003E",
+    "IEnumerator",
+    "IEnumerator\u003CT\u003E",
+    "Iterator Pattern",
+    "System.Collections",
+    "Collection",
+    "List",
+    "Array",
+    "foreach",
+    "MSDN",
+    ".NET Reflector",
+    "C# Compiler",
+    "VM"
+  ],
+  "keywords": [
+    "yield return",
+    "Iterator",
+    "Syntax Sugar",
+    "\u8A2D\u8A08\u6A21\u5F0F",
+    "Design Patterns",
+    "\u53CD\u7D44\u8B6F",
+    "enumerator",
+    "iteration",
+    "process \u5206\u96E2",
+    "foreach",
+    "Loop",
+    "2 \u7684\u500D\u6578",
+    "3 \u7684\u500D\u6578",
+    "\u5B89\u5FB7\u9B6F",
+    "Thread Sync",
+    "\u7CFB\u7D71\u7A0B\u5F0F",
+    "Microsoft",
+    "Sun"
+  ],
+  "generator": "BlogIndex.SyncPost v0.3.0.0, gpt-5",
+  "references": [
+    "http://msdn.microsoft.com/en-us/library/9k7k7cf0(VS.80).aspx",
+    "http://msdn.microsoft.com/en-us/library/9eekhta0.aspx",
+    "http://en.wikipedia.org/wiki/Syntax_sugar",
+    "http://en.wikipedia.org/wiki/Iterator",
+    "/",
+    "http://en.wikipedia.org/wiki/System_programming",
+    "/2008/08/14/thread-sync-1-\u6982\u5FF5\u7BC7-\u5982\u4F55\u5316\u88AB\u52D5\u70BA\u4E3B\u52D5/",
+    "/2008/08/15/thread-sync-2-\u5BE6\u4F5C\u7BC7-\u4E92\u76F8\u7B49\u5F85\u7684\u5169\u500B\u57F7\u884C\u7DD2/"
+  ],
+  "summary": "\u672C\u6587\u6BD4\u8F03 C# \u8207 Java \u5728\u8A9E\u6CD5\u6F14\u9032\u4E0A\u7684\u5DEE\u7570\uFF0C\u6307\u51FA C# \u70BA\u4E86\u53EF\u8B80\u6027\u8207\u4FBF\u5229\u6027\u5F15\u5165\u5927\u91CF\u8A9E\u6CD5\u7CD6\uFF0C\u5176\u4E2D yield return \u662F\u4EE3\u8868\u6027\u529F\u80FD\u3002\u4F5C\u8005\u5148\u4EE5\u624B\u5BEB IEnumerator\u003CT\u003E \u5BE6\u4F5C 1~100 \u7684\u5217\u8209\uFF0C\u5C55\u793A\u5C07\u300C\u5DE1\u8A2A\u9806\u5E8F\uFF08iteration\uFF09\u300D\u8207\u300C\u8655\u7406\u908F\u8F2F\uFF08process\uFF09\u300D\u5206\u96E2\u7684\u597D\u8655\uFF0C\u4E26\u5C0D\u7167\u4EE5 for \u8FF4\u5708\u76F4\u63A5\u6DF7\u5BEB\u6642\u7684\u8026\u5408\u554F\u984C\uFF1B\u63A5\u8457\u9032\u4E00\u6B65\u6539\u984C\u70BA\u53EA\u8F38\u51FA 2 \u6216 3 \u7684\u500D\u6578\uFF0C\u5C0D\u6BD4\u4F7F\u7528 Loop \u8207 IEnumerator \u7248\u672C\u7684\u5DEE\u7570\u3002\u4E4B\u5F8C\u4EE5 yield return \u6539\u5BEB\uFF0C\u76F4\u63A5\u56DE\u50B3 IEnumerable\u003Cint\u003E \u4E26\u7528 foreach \u6D88\u8CBB\uFF0C\u9054\u5230\u65E2\u4FDD\u7559\u8077\u8CAC\u5206\u96E2\u53C8\u7DAD\u6301\u7A0B\u5F0F\u78BC\u7C21\u6F54\u7684\u5E73\u8861\u3002\u4F5C\u8005\u7528 .NET Reflector \u53CD\u7D44\u8B6F\u8AAA\u660E yield return \u80CC\u5F8C\u5176\u5BE6\u7531 C# \u7DE8\u8B6F\u5668\u7522\u751F\u72C0\u614B\u6A5F\u985E\u5225\uFF0C\u5BE6\u4F5C IEnumerable/IEnumerator \u8207 MoveNext \u7B49\u7D30\u7BC0\uFF0C\u9A57\u8B49\u9019\u662F\u8A9E\u6CD5\u7CD6\u800C\u975E\u9B54\u6CD5\u3002\u6700\u5F8C\u57CB\u4E0B\u4F0F\u7B46\uFF0C\u5C07\u5728\u4E0B\u7BC7\u9023\u7D50\u5230 Thread Sync \u4E3B\u984C\uFF0C\u63A2\u8A0E IEnumerator \u8207\u57F7\u884C\u7DD2\u540C\u6B65\u7684\u95DC\u806F\u3002"
+}

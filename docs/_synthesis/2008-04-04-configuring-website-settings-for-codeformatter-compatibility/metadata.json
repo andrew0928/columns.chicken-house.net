@@ -1,0 +1,58 @@
+{
+  "title": "\u642D\u914D CodeFormatter\uFF0C\u7DB2\u7AD9\u9808\u8981\u914D\u5408\u7684\u8A2D\u5B9A",
+  "published": true,
+  "categories": null,
+  "tags": [
+    ".NET",
+    "\u4F5C\u54C1\u96C6",
+    "\u6280\u8853\u96A8\u7B46"
+  ],
+  "tech-stacks": [
+    "C#",
+    "CSS",
+    "JavaScript",
+    "HTML",
+    "DHTML",
+    "HTC (HTML Component)",
+    "HTA (HTML Application)",
+    "Internet Explorer (IE)",
+    "jQuery",
+    "Community Server",
+    "Windows Live Writer",
+    "CodeFormatter",
+    ".NET"
+  ],
+  "keywords": [
+    "CodeFormatter",
+    "CSS",
+    "Copy Code",
+    "\u8907\u88FD\u7A0B\u5F0F\u78BC",
+    "JavaScript",
+    "\u526A\u8CBC\u7C3F",
+    "HTC",
+    "HTML Component",
+    "IE",
+    "DHTML",
+    "SCRIPT",
+    "CommunityServer",
+    "jQuery",
+    "HTA",
+    "HTML Application",
+    "\u9810\u89BD",
+    "MSDN",
+    "Sample Code",
+    "\u63D2\u4EF6",
+    "BLOG SERVER",
+    "LiveWriterAddIns",
+    "\u7A0B\u5F0F\u78BC\u9AD8\u4EAE",
+    "C#"
+  ],
+  "generator": "BlogIndex.SyncPost v0.3.0.0, gpt-5",
+  "references": [
+    "http://www.chicken-house.net/files/chicken/ChickenHouse.LiveWriterAddIns.zip",
+    "/themes/code.htc",
+    "/images/2008-04-04-configuring-website-settings-for-codeformatter-compatibility/image_9.png",
+    "/images/2008-04-04-configuring-website-settings-for-codeformatter-compatibility/image_8.png"
+  ],
+  "summary": "\u672C\u6587\u8AAA\u660E\u70BA\u8B93\u90E8\u843D\u683C\u8207 CodeFormatter \u5916\u639B\u9806\u5229\u642D\u914D\u6240\u9700\u7684\u7DB2\u7AD9\u7AEF\u8A2D\u5B9A\u3002\u4F5C\u8005\u504F\u597D\u6B64\u51FD\u5F0F\u5EAB\u7522\u751F\u7684\u4E7E\u6DE8 HTML\uFF0C\u6A23\u5F0F\u96C6\u4E2D\u65BC CSS\uFF0C\u4E26\u63D0\u4F9B\u539F\u5EE0 CSS \u7BC4\u4F8B\u8207\u5728 Community Server \u4E2D\u52A0\u5165\u300CCustom Styles (Advanced)\u300D\u7684\u65B9\u6CD5\u3002\u9032\u4E00\u6B65\u70BA\u5BE6\u73FE\u300Ccopy code\u300D\u4E00\u9375\u8907\u88FD\uFF0C\u56E0 CS \u6703\u963B\u64CB \u003Cscript\u003E\uFF0C\u4F5C\u8005\u6539\u63A1 IE \u5C08\u5C6C\u7684 HTC (HTML Component) \u5C07\u884C\u70BA\u4EE5 CSS \u884C\u70BA\u5C6C\u6027\u5F15\u5165\uFF0C\u50C5\u9700\u5728 CSS \u65B0\u589E .copycode \u898F\u5247\u4E26\u4F48\u7F72 /themes/code.htc\uFF0C\u5373\u53EF\u5728\u7A0B\u5F0F\u78BC\u5340\u584A\u6A19\u984C\u65C1\u986F\u793A [copy code] \u6309\u9215\uFF0C\u9EDE\u64CA\u5C07\u539F\u59CB\u7A0B\u5F0F\u78BC\u9001\u5165\u526A\u8CBC\u7C3F\uFF0C\u4E0D\u5F71\u97FF\u53EF\u7528\u6027\u3002\u6587\u4E2D\u4EA6\u63D0\u53CA\u9810\u89BD\u6539\u7528 HTA\uFF08\u907F\u514D\u700F\u89BD\u5668\u5B89\u5168\u8B66\u544A\uFF09\uFF0C\u4E26\u5728\u9810\u89BD\u9801\u81F4\u8B1D\u539F\u4F5C\u8005\u8207\u81EA\u7AD9\u8CC7\u8A0A\u3002\u6700\u5F8C\u63D0\u4F9B\u5916\u639B\u4E0B\u8F09\u9023\u7D50\uFF0C\u6B61\u8FCE\u4F7F\u7528\u8207\u8F49\u8F09\u8A3B\u660E\u51FA\u8655\u3002"
+}

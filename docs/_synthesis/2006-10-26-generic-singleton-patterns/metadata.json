@@ -1,0 +1,44 @@
+{
+  "title": "\u6CDB\u578B \u002B Singleton Patterns",
+  "published": true,
+  "categories": [
+    "\u7CFB\u5217\u6587\u7AE0: \u6CDB\u578B \u002B Singleton Patterns"
+  ],
+  "tags": [
+    ".NET"
+  ],
+  "tech-stacks": [
+    ".NET",
+    ".NET Framework 2.0",
+    "C#",
+    "Generics",
+    "Singleton pattern",
+    "Activator.CreateInstance",
+    "Hashtable"
+  ],
+  "keywords": [
+    "singleton",
+    "generic",
+    "\u6CDB\u578B",
+    ".NET Framework 2.0",
+    "C#",
+    "Singleton Patterns",
+    "\u55AE\u4F8B",
+    "static property",
+    "Instance \u5C6C\u6027",
+    "Type",
+    "Activator.CreateInstance",
+    "Hashtable",
+    "\u7E7C\u627F",
+    "inherence",
+    "super class",
+    "Collection",
+    "object",
+    "constructor",
+    "class library",
+    "\u8A2D\u8A08\u6A23\u5F0F"
+  ],
+  "generator": "BlogIndex.SyncPost v0.3.0.0, gpt-5",
+  "references": [],
+  "summary": "\u807D\u8D77\u4F86 singleton \u8DDF generic \u597D\u50CF\u642D\u4E0D\u4E0A\u908A, \u4E0D\u904E\u642D\u914D .net framework 2.0 \u7684 generic \u6A5F\u5236, \u5012\u662F\u53EF\u4EE5\u8B93 singleton \u597D\u505A\u5F88\u591A... \u6211\u5148\u7C21\u55AE\u5BEB\u4E00\u4E0B\u4E0D\u4F7F\u7528 generic \u6642\u7684\u505A\u6CD5...\n\n\u53EA\u6709\u55AE\u4E00 class \u8981\u5BE6\u4F5C singleton \u5F88\u7C21\u55AE, \u53EA\u8981\u5BEB\u9019\u6A23\u7684 code \u5C31\u53EF\u4EE5:"
+}

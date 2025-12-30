@@ -1,6 +1,6 @@
 ---
 layout: synthesis
-title: "心得 - Emerging Developer Patterns for the AI Era - faq"
+title: "心得 - Emerging Developer Patterns for the AI Era"
 synthesis_type: faq
 source_post: /2025/09/28/reading-a16z-emerging-developer-patterns-for-the-ai-era/
 redirect_from:

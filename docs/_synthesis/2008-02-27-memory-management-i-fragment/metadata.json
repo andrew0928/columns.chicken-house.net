@@ -1,0 +1,65 @@
+{
+  "title": "Memory Management - (I). Fragment ?",
+  "published": true,
+  "categories": [
+    "\u7CFB\u5217\u6587\u7AE0: Memory Management"
+  ],
+  "tags": [
+    ".NET",
+    "\u4F5C\u696D\u7CFB\u7D71",
+    "\u6280\u8853\u96A8\u7B46",
+    "\u6709\u7684\u6C92\u7684"
+  ],
+  "tech-stacks": [
+    ".NET",
+    "C",
+    "C\u002B\u002B",
+    "Linux",
+    "Windows",
+    "32-bit",
+    "64-bit"
+  ],
+  "keywords": [
+    "\u8A18\u61B6\u9AD4\u7BA1\u7406",
+    "\u865B\u64EC\u8A18\u61B6\u9AD4",
+    "Virtual Memory",
+    "\u8A18\u61B6\u9AD4\u788E\u7247",
+    "Memory Fragment",
+    "\u5BE6\u9AD4\u8A18\u61B6\u9AD4",
+    "physical memory",
+    "\u5206\u9801",
+    "paging",
+    "swap",
+    "\u4F4D\u5740\u7A7A\u9593",
+    "\u5B9A\u5740\u7A7A\u9593",
+    "\u6307\u6A19",
+    "pointer",
+    "allocate",
+    "free",
+    "4KB",
+    "5KB",
+    "32 \u4F4D\u5143",
+    "64 \u4F4D\u5143",
+    "OS",
+    "\u786C\u9AD4\u9650\u5236",
+    "\u908F\u8F2F\u4F4D\u5740",
+    "\u5BE6\u9AD4\u4F4D\u5740"
+  ],
+  "generator": "BlogIndex.SyncPost v0.3.0.0, gpt-5",
+  "references": [
+    "/2008/02/26/memory-management-i-fragment/",
+    "/columns/post/2008/02/27/Memory-Management-(I)-Fragment-.aspx/",
+    "/post/2008/02/27/Memory-Management-(I)-Fragment-.aspx/",
+    "/post/Memory-Management-(I)-Fragment-.aspx/",
+    "/columns/2008/02/27/Memory-Management-(I)-Fragment-.aspx/",
+    "/columns/Memory-Management-(I)-Fragment-.aspx/",
+    "/columns/post/2008/02/27/Memory-Management---(I)-Fragment-.aspx/",
+    "/post/2008/02/27/Memory-Management---(I)-Fragment-.aspx/",
+    "/post/Memory-Management---(I)-Fragment-.aspx/",
+    "/columns/2008/02/27/Memory-Management---(I)-Fragment-.aspx/",
+    "/columns/Memory-Management---(I)-Fragment-.aspx/",
+    "/blogs/chicken/archive/2008/02/27/3009.aspx/",
+    "/images/2008-02-27-memory-management-i-fragment/image_3.gif"
+  ],
+  "summary": "\u672C\u6587\u4EE5\u8F15\u9B06\u53E3\u543B\u56DE\u9867\u5B78\u6821\u6240\u5B78\u7684\u8A18\u61B6\u9AD4\u7BA1\u7406\u89C0\u5FF5\uFF0C\u6307\u51FA\u73FE\u4EE3\u4F5C\u696D\u7CFB\u7D71\u7684\u865B\u64EC\u8A18\u61B6\u9AD4\u8B93\u591A\u6578\u7A0B\u5F0F\u8A2D\u8A08\u5E2B\u4E0D\u518D\u95DC\u5FC3\u5BE6\u9AD4\u8A18\u61B6\u9AD4\u7684\u788E\u7247\u554F\u984C\u3002\u4F5C\u8005\u8AAA\u660E\u865B\u64EC\u8A18\u61B6\u9AD4\u900F\u904E\u5206\u9801\u8207\u4EA4\u63DB\u6A5F\u5236\uFF0C\u4E0D\u50C5\u53EF\u7528\u786C\u789F\u7A7A\u9593\u64F4\u5145\u53EF\u7528\u8A18\u61B6\u9AD4\uFF0C\u4EA6\u80FD\u4EE5\u4E0D\u9023\u7E8C\u7684\u5BE6\u9AD4\u9801\u9762\u5C0D\u61C9\u9023\u7E8C\u7684\u908F\u8F2F\u4F4D\u5740\uFF0C\u5F9E\u800C\u8FF4\u907F\u5BE6\u9AD4\u8A18\u61B6\u9AD4\u788E\u7247\u5E36\u4F86\u7684\u9650\u5236\uFF08\u4E3B\u8981\u5F71\u97FF\u5728\u6548\u80FD\uFF09\u3002\u63A5\u8457\u63D0\u51FA\u4E00\u500B\u6709\u8DA3\u7684\u5BE6\u9A57\u8207\u601D\u8003\u984C\uFF1A\u5148\u4EE5\u56FA\u5B9A\u5927\u5C0F\uFF08\u5982 4KB\uFF09\u9023\u7E8C\u914D\u7F6E\u8A18\u61B6\u9AD4\u76F4\u5230\u5931\u6557\uFF0C\u518D\u8DF3\u8457\u91CB\u653E\uFF08\u91CB\u653E\u5947\u6578\u5E8F\uFF09\uFF0C\u6B64\u6642\u96D6\u7E3D\u91CF\u5DF2\u6E05\u51FA\u4E00\u534A\u7A7A\u9593\uFF0C\u4F46\u53EF\u5426\u518D\u6210\u529F\u914D\u7F6E\u4E00\u500B\u7565\u5927\u7684\u5340\u584A\uFF08\u5982 5KB\uFF09\uFF1F\u4E26\u9080\u8ACB\u8B80\u8005\u4EE5\u53EF\u76F4\u63A5\u64CD\u4F5C\u6307\u6A19\u7684 C/C\u002B\u002B \u5728\u4EFB\u610F OS\uFF08Linux \u6216 Windows\uFF09\u300132/64 \u4F4D\u5143\u74B0\u5883\u4E2D\u8A66\u9A57\u6216\u5148\u884C\u731C\u6E2C\u7D50\u679C\uFF0C\u540C\u6642\u63D0\u9192\u52FF\u5728\u95DC\u9375\u6A5F\u5668\u4E0A\u4EFB\u610F\u5617\u8A66\uFF0C\u4EE5\u514D\u9020\u6210\u7CFB\u7D71\u5F71\u97FF\u3002\u6574\u9AD4\u65E8\u5728\u559A\u8D77\u5C0D\u8A18\u61B6\u9AD4\u788E\u7247\u8207\u914D\u7F6E\u7B56\u7565\u7684\u95DC\u6CE8\u3002"
+}

@@ -1,0 +1,60 @@
+{
+  "title": "\u7DB2\u8DEF\u6436\u7968\u5C0F\u5E6B\u624B - \u9060\u7AEF\u7DB2\u7AD9\u6642\u9418, WebServerClock v1.0",
+  "published": true,
+  "categories": null,
+  "tags": [
+    "\u6709\u7684\u6C92\u7684",
+    ".NET",
+    "C#",
+    "Tips"
+  ],
+  "tech-stacks": [
+    ".NET",
+    "C#",
+    "Windows Forms",
+    "HttpClient",
+    "HttpRequestMessage",
+    "HttpResponseMessage",
+    "HTTP",
+    "HTTP/1.1",
+    "RFC 2616",
+    "Date header",
+    "NTP",
+    "GitHub",
+    "SQL",
+    "T-SQL",
+    "Windows"
+  ],
+  "keywords": [
+    "\u6436\u7968",
+    "\u8A02\u7968",
+    "\u5C0D\u6642",
+    "\u7DB2\u7AD9\u6642\u9418",
+    "\u4F3A\u670D\u5668\u6642\u9593",
+    "\u6642\u9593\u5DEE",
+    "Offset",
+    "\u6700\u5927\u8AA4\u5DEE",
+    "\u7DB2\u8DEF\u5EF6\u9072",
+    "Date header",
+    "RFC2616",
+    "NTP",
+    "HttpClient",
+    "Response Headers",
+    "\u540C\u6B65",
+    "Windows Form \u61C9\u7528\u7A0B\u5F0F",
+    "\u958B\u6E90",
+    "release 1.0"
+  ],
+  "generator": "BlogIndex.SyncPost v0.3.0.0, gpt-5",
+  "references": [
+    "/images/2017-01-05-webserverclock-release/webserverclock-logo.png",
+    "http://blog.mixflavor.com/2013/12/ticket.html",
+    "https://github.com/andrew0928/WebServerClock",
+    "http://fangpeishi.com/ntp_problem.html",
+    "https://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html",
+    "/images/2017-01-05-webserverclock-release/webserverclock-operate.gif",
+    "http://ccnet.ntu.edu.tw/ntp/operate.html",
+    "/images/2017-01-05-webserverclock-release/webserverclock-capture01.png"
+  ],
+  "summary": "![LOGO](/images/2017-01-05-webserverclock-release/webserverclock-logo.png)\n\u5716\u7247\u4F86\u6E90: http://blog.mixflavor.com/2013/12/ticket.html\n\n\u5F88\u591A\u7DDA\u4E0A\u8A02\u7968\uFF0C\u6216\u662F\u9650\u6642\u6436\u8CFC\u7B49\u7B49\u7684\u61C9\u7528\uFF0C\u90FD\u6703\u78B0\u5230\u4E00\u500B\u56F0\u64FE:\n\n\u6211\u7684\u96FB\u8166\u6642\u9418\u8DDF\u7DB2\u7AD9\u7684\u6642\u9418\u6709\u8AA4\u5DEE\uFF0C\u6211\u600E\u6A23\u624D\u80FD\u5728\u7DB2\u7AD9\u7684 00:00 \u6574\u6309\u4E0B\u8A02\u8CFC\u7684\u6309\u9215??\n\n\u5982\u679C\u4F60\u6709\u9019\u7A2E\u56F0\u64FE\uFF0C\u54C8\u54C8\u54C8\uFF0C\u90A3\u4F60\u770B\u9019\u7BC7\u5C31\u5C0D\u4E86 :D\n\n\u5982\u679C\u4F60\u4EE5\u70BA\u9019\u662F\u81EA\u52D5\u6436\u7968\u7684\u6A5F\u5668\u4EBA\uFF0C\u90A3\u4F60\u53EF\u4EE5\u95DC\u6389\u700F\u89BD\u5668\u4E86 XD\n\u9019\u7BC7\u6587\u7AE0\u4E0D\u6703\u6559\u4F60\u4EFB\u4F55\u5F8C\u9580\uFF0C\u7528\u975E\u6B63\u7576\u624B\u6BB5\u6436\u5230\u7968\uFF0C\u53EA\u662F\u500B\u8F14\u52A9\u5DE5\u5177\uFF0C\u8B93\u4F60\u80FD\u66F4\u7CBE\u78BA\u638C\u63E1 server \u7684\u6642\u9418\uFF0C\u53EF\u4EE5\n\u66F4\u6E96\u78BA\u7684\u5728\u90A3\u95DC\u9375\u7684\u4E00\u79D2\u6309\u4E0B\u8A02\u8CFC\u7684\u6309\u9215\u800C\u5DF2.."
+}

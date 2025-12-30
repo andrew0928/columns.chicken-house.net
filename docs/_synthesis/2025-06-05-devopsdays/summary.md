@@ -1,6 +1,6 @@
 ---
 layout: synthesis
-title: "DevOpsDays Taipei 2025 - 從 Prompt 到 Product - summary"
+title: "DevOpsDays Taipei 2025 - 從 Prompt 到 Product"
 synthesis_type: summary
 source_post: /2025/06/05/devopsdays/
 redirect_from:

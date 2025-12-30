@@ -1,0 +1,68 @@
+{
+  "title": ".NET Core \u8DE8\u5E73\u53F0 #3, \u8A18\u61B6\u9AD4\u7BA1\u7406\u5927\u8003\u9A57 - Windows Container (2016 TP)",
+  "published": true,
+  "categories": [
+    "\u7CFB\u5217\u6587\u7AE0: .NET Core \u8DE8\u5E73\u53F0"
+  ],
+  "tags": [
+    ".NET",
+    ".Net Core",
+    "Docker",
+    "\u4F5C\u696D\u7CFB\u7D71",
+    "\u5C08\u6B04"
+  ],
+  "tech-stacks": [
+    ".NET Core",
+    "Docker",
+    "Windows Server 2012 R2",
+    "Windows Server 2016",
+    "Windows Server Core",
+    "Windows Server 2016 Nano",
+    "Windows Container",
+    "Hyper-V",
+    "Hyper-V Container",
+    "PowerShell",
+    "Linux",
+    "Ubuntu",
+    "Boot2Docker",
+    "dnx (.NET Execution Environment)"
+  ],
+  "keywords": [
+    ".NET Core",
+    "Windows Container",
+    "Windows Server 2016",
+    "Windows 2012 R2",
+    "Server Core",
+    "Nano Server",
+    "Docker",
+    "\u8A18\u61B6\u9AD4\u7BA1\u7406",
+    "\u8A18\u61B6\u9AD4\u788E\u7247\u5316",
+    "\u865B\u64EC\u8A18\u61B6\u9AD4",
+    "pagafile",
+    "RAM",
+    "dnx.exe",
+    "\u5DE5\u4F5C\u7BA1\u7406\u54E1",
+    "\u6548\u80FD",
+    "Linux",
+    "Kernel",
+    "VM",
+    "Hyper-V Container",
+    "Tech Preview 4"
+  ],
+  "generator": "BlogIndex.SyncPost v0.3.0.0, GPT-5",
+  "references": [
+    "http://dirteam.com/sander/wp-content/uploads/sites/2/2015/11/tp4-1024x512.jpg",
+    "/2015/12/26/dnxcore50_01_should_i_run_dotnet_on_linux/",
+    "/2015/12/27/dnxcore50_02_memfrag_test/",
+    "/2015/12/29/dnxcore50_04_linux_and_summary/",
+    "/?p=739\u0026preview=true",
+    "/images/2015-12-28-dnxcore50_03_windows_server_2016/img_568017243c37f.png",
+    "/images/2015-12-28-dnxcore50_03_windows_server_2016/img_568018e727ab4.png",
+    "/images/2015-12-28-dnxcore50_03_windows_server_2016/img_568019519b820.png",
+    "/images/2015-12-28-dnxcore50_03_windows_server_2016/img_56840f8bb211b-e1451495326913.png",
+    "/images/2015-12-28-dnxcore50_03_windows_server_2016/img_56801dd7cd650.png",
+    "http://windowsitpro.com/windows-server-2016/differences-between-windows-containers-and-hyper-v-containers-windows-server-201",
+    "http://windowsitpro.com/site-files/windowsitpro.com/files/uploads/2015/08/container2.jpg"
+  ],
+  "summary": "\u9019\u6B21 .NET Core \u7684\u5BE6\u9A57\u505A\u5B8C\uFF0C\u6211\u770B\u76F8\u95DC\u7684 How To \u53EF\u4EE5\u5BEB\u4E00\u5806\u4E86 @@\uFF0C\u6574\u500B\u904E\u7A0B\u4E2D\u90FD\u5728\u6311\u6230\u904E\u53BB\u5F88\u5C11\u505A\u7684\u4E8B\u60C5\uFF0C\u5305\u62EC Linux, .NET Core, Docker, \u73FE\u5728\u9023 Windows Container \u90FD\u51FA\u52D5\u4E86.. \u4E0D\u904E\u8A66\u5B8C\u4E4B\u5F8C\u4E00\u6574\u500B\u5145\u5BE6\u554A\uFF0C\u6700\u5F8C\u80FD\u628A\u9810\u671F\u7684\u7D50\u679C\u5F04\u51FA\u4F86\uFF0C\u5E7E\u500B\u665A\u4E0A\u7761\u4E0D\u98FD\u662F\u503C\u5F97\u7684...\n\n\u63A5\u7E8C\u4E0A\u7BC7\u6587\u7AE0\uFF0C\u9019\u7BC7\u5C31\u628A windows \u7684\u5169\u500B\u5E73\u53F0\u6E2C\u8A66\u7D66\u641E\u5B9A\u5427! \u5148\u5FEB\u901F\u4EA4\u4EE3\u4E00\u4E0B\u6253\u7B97\u7576\u4F5C\u5C0D\u7167\u7D44\u7684 Windows 2012 R2~"
+}

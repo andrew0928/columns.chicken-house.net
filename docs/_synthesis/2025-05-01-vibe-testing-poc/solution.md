@@ -1,6 +1,6 @@
 ---
 layout: synthesis
-title: "從 Intent 到 Assertion #1, 聊聊 Vibe Testing 實驗心得 - solution"
+title: "從 Intent 到 Assertion #1, 聊聊 Vibe Testing 實驗心得"
 synthesis_type: solution
 source_post: /2025/05/01/vibe-testing-poc/
 redirect_from:

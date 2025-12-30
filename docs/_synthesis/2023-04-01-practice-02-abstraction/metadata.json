@@ -1,0 +1,66 @@
+{
+  "title": "[\u67B6\u69CB\u5E2B\u7684\u4FEE\u7DF4] #3, \u523B\u610F\u7DF4\u7FD2 - \u5982\u4F55\u935B\u934A\u4F60\u7684\u62BD\u8C61\u5316\u80FD\u529B",
+  "published": false,
+  "categories": [
+    "\u7CFB\u5217\u6587\u7AE0: \u67B6\u69CB\u5E2B\u7684\u4FEE\u7DF4"
+  ],
+  "tags": [
+    "\u7CFB\u5217\u6587\u7AE0",
+    "\u67B6\u69CB\u5E2B\u7684\u4FEE\u7DF4",
+    "\u67B6\u69CB\u5E2B\u89C0\u9EDE",
+    "\u523B\u610F\u7DF4\u7FD2",
+    "\u62BD\u8C61\u5316"
+  ],
+  "tech-stacks": [
+    "C#",
+    ".NET Framework",
+    ".NET Core",
+    "Windows",
+    "Linux",
+    "SQL Server",
+    "Visual Studio",
+    "Windows Container",
+    "Linux Container",
+    "GitHub Copilot",
+    "ChatGPT",
+    "Microsoft Graph API",
+    "Open Source",
+    "API First",
+    "Office"
+  ],
+  "keywords": [
+    "AI",
+    "ChatGPT",
+    "\u62BD\u8C61\u5316",
+    "\u523B\u610F\u7DF4\u7FD2",
+    "\u67B6\u69CB\u5E2B",
+    "\u8A2D\u8A08",
+    "\u62BD\u8C61\u5316\u8A2D\u8A08",
+    "\u4ECB\u9762\u8A2D\u8A08",
+    "interface",
+    "\u6298\u6263\u8A08\u7B97",
+    "\u8CFC\u7269\u8ECA",
+    "\u6298\u6263\u898F\u5247",
+    "\u512A\u60E0\u5238",
+    "\u898F\u683C",
+    "API",
+    "POC",
+    "Prompt",
+    "Microsoft",
+    ".NET",
+    ".NET Core",
+    "Open Source",
+    "Linux",
+    "SQL Server",
+    "Visual Studio",
+    "\u9762\u8A66\u984C",
+    "\u751F\u547D\u904A\u6232"
+  ],
+  "generator": "BlogIndex.SyncPost v0.3.0.0, gpt-5",
+  "references": [
+    "https://columns.chicken-house.net/2016/05/05/archview-net-open-source/",
+    "https://columns.chicken-house.net/2020/03/10/interview-abstraction/",
+    "https://skoda-eddie.blogspot.com/2022/03/blog-post_25.html?fbclid=IwAR0_KBoMshllXvadX0l6GMVqqx3CG9vhCbuHIIaHPJgj0Ue_79841pkGeQU"
+  ],
+  "summary": "\u6709\u4EBA\u554F\u4E86\u6211\u4E00\u4E9B\u554F\u984C\uFF0C\u7121\u610F\u9593\u7FFB\u5230\u4E86\u904E\u53BB\u7684\u5169\u7BC7\u6587\u7AE0\uFF0C\u806F\u60F3\u5230\u9019\u5E7E\u500B\u6708\u7684\u71B1\u9580\u8A71\u984C \u0022AI\u0022\uFF0C\u6709\u4E86\u4E00\u4E9B\u60F3\u6CD5\uFF0C\u5C31\u6709\u4E86\u9019 PO \u6587...\n\n\u5176\u4E2D\u4E00\u7BC7\u6587\u7AE0\uFF0C\u662F 2016 \u5BEB\u7684\uFF0C\u7576\u6642\u610F\u5916\u5F97\u5230\u4E0D\u5C11\u8FF4\u97FF\uFF0C\u6A19\u984C\u662F: \u0022[\u67B6\u69CB\u5E2B\u89C0\u9EDE] .NET \u958B\u767C\u4EBA\u54E1\u8A72\u5982\u4F55\u770B\u5F85 Open Source Solutions?\u0022\nhttps://columns.chicken-house.net/2016/05/05/archview-net-open-source/\n\n\u53E6\u4E00\u7BC7\u662F\u8B1B\u62BD\u8C61\u5316\u8A2D\u8A08\u7684\u6587\u7AE0\uFF0C\u6A19\u984C\u662F: \u67B6\u69CB\u9762\u8A66\u984C #4 - \u62BD\u8C61\u5316\u8A2D\u8A08\uFF1B\u6298\u6263\u898F\u5247\u7684\u8A2D\u8A08\u6A5F\u5236\nhttps://columns.chicken-house.net/2020/03/10/interview-abstraction/"
+}

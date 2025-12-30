@@ -1,0 +1,67 @@
+{
+  "title": "[Azure] Multi-Tenancy Application #3, (\u8CC7\u6599\u5C64)\u5BE6\u4F5C\u6848\u4F8B",
+  "published": true,
+  "categories": [
+    "\u7CFB\u5217\u6587\u7AE0: Multi-Tenancy Application"
+  ],
+  "tags": [
+    "ASP.NET",
+    "AZURE",
+    "C#",
+    "\u4F5C\u54C1\u96C6",
+    "\u6280\u8853\u96A8\u7B46"
+  ],
+  "tech-stacks": [
+    "ASP.NET",
+    "ASP.NET MVC",
+    "ASP.NET MVC4",
+    "C#",
+    "Entity Framework",
+    "EF5",
+    "LINQ",
+    "Windows Azure",
+    "Windows Azure Storage",
+    "Azure Table Storage",
+    "MVC Routing",
+    "SaaS",
+    "Unit Testing",
+    "Code First"
+  ],
+  "keywords": [
+    "Multi-Tenancy",
+    "Multi-Tenancy Application",
+    "tenancy",
+    "Data Layer",
+    "DataContext",
+    "Hub",
+    "HubData",
+    "HubDataContext",
+    "Entity Framework",
+    "MVC",
+    "Routing",
+    "Client",
+    "Partition",
+    "SaaS",
+    "\u8A02\u4FBF\u7576\u7CFB\u7D71",
+    "Windows Azure Storage",
+    "Azure Table Storage",
+    "Code First",
+    "Linq",
+    "\u55AE\u5143\u6E2C\u8A66",
+    "\u8CC7\u6599\u9694\u96E2",
+    "BI",
+    "POC",
+    "SCRUM",
+    "Data Schema"
+  ],
+  "generator": "BlogIndex.SyncPost v0.3.0.0, gpt-5",
+  "references": [
+    "/2013/03/21/azure-multi-tenancy-application-3-\u8CC7\u6599\u5C64\u5BE6\u4F5C\u6848\u4F8B/",
+    "/columns/post/2013/03/21/Azure-Multi-Tenancy-Application-3-e5afa6e4bd9ce6a188e4be8b.aspx/",
+    "/post/2013/03/21/Azure-Multi-Tenancy-Application-3-e5afa6e4bd9ce6a188e4be8b.aspx/",
+    "/post/Azure-Multi-Tenancy-Application-3-e5afa6e4bd9ce6a188e4be8b.aspx/",
+    "/columns/2013/03/21/Azure-Multi-Tenancy-Application-3-e5afa6e4bd9ce6a188e4be8b.aspx/",
+    "/columns/Azure-Multi-Tenancy-Application-3-e5afa6e4bd9ce6a188e4be8b.aspx/"
+  ],
+  "summary": "\u672C\u6587\u5EF6\u7E8C\u524D\u6587\u5C0D Multi-Tenancy \u8CC7\u6599\u5C64\u8A2D\u8A08\u7684\u63A2\u8A0E\uFF0C\u76F4\u63A5\u9032\u5165\u5BE6\u4F5C\u76EE\u6A19\uFF1A\u5E0C\u671B\u5728 Data Context \u5C64\u5373\u5B8C\u6210\u79DF\u6236\u8CC7\u6599\u9694\u96E2\uFF0C\u8B93\u958B\u767C\u8005\u4EE5\u4E00\u822C\u61C9\u7528\u7A0B\u5F0F\u601D\u7DAD\u958B\u767C\u591A\u79DF\u6236\u7CFB\u7D71\u3002\u540C\u6642\u5728 Web \u7AEF\u4EE5 MVC Routing \u5728 URL \u4E2D\u52A0\u5165 client \u7DAD\u5EA6\uFF0C\u5BE6\u73FE\u6BCF\u500B\u79DF\u6236\u64C1\u6709\u7368\u7ACB\u865B\u64EC\u76EE\u9304\u8207\u908F\u8F2F\u5206\u5272\uFF0C\u4E26\u4F7F Web \u8207 Data \u56B4\u5BC6\u7D50\u5408\u3002\u7BC4\u4F8B\u9078\u7528\u300C\u8A02\u4FBF\u7576\u7CFB\u7D71\u300D\u4F5C\u70BA SaaS \u5834\u666F\uFF0C\u9664\u79DF\u6236\u8CC7\u6599\u5206\u5340\u5916\uFF0C\u4E5F\u8003\u91CF\u5171\u7528\u9910\u5EF3\u8CC7\u6599\u3001\u5408\u4F5C\u5546\u6A5F\u8207\u5F8C\u53F0 BI\u3002\u8CC7\u6599\u57DF\u5206\u6210\u6574\u9AD4\u7CFB\u7D71\u7684\u5171\u7528\u8CC7\u6599\u8207\u6BCF\u500B\u79DF\u6236\u7684 HubData\uFF0C\u671F\u671B HubDataContext \u5728\u53D6\u5F97\u6642\u5C31\u7D81\u5B9A\u76EE\u524D Client\uFF0C\u76F4\u63A5\u63D0\u4F9B\u8A72\u79DF\u6236\u53EF\u7528\u7684\u96C6\u5408\uFF0C\u958B\u767C\u8005\u50C5\u9700\u4EE5 LINQ \u7BE9\u9078\u5373\u53EF\u907F\u514D\u8DE8\u79DF\u6236\u8AA4\u53D6\uFF1B\u5171\u7528\u8CC7\u6599\u5247\u4E0D\u53D7\u9650\u3002\u4F5C\u8005\u4EE5 Windows Azure Storage \u002B MVC4 \u70BA\u6280\u8853\u57FA\u790E\uFF0C\u8CC7\u6599\u5C64\u63A1\u8FD1\u4F3C EF Code First \u7684\u6A21\u5F0F\uFF0CAzure Table Storage \u7121\u9700\u9810\u5148 Schema\uFF0C\u85C9\u7531 Entity \u5B9A\u7FA9\u5EFA\u7ACB\u7D50\u69CB\u3002\u6587\u4E2D\u5F37\u8ABF\u96F2\u7AEF\u958B\u767C\u6E2C\u8A66\u8207\u4F48\u7F72\u7684\u8907\u96DC\u5EA6\uFF0C\u4E3B\u5F35\u4EE5\u55AE\u5143\u6E2C\u8A66\u78BA\u4FDD\u8A2D\u8A08\u8207\u5BE6\u4F5C\u6B63\u78BA\uFF0C\u4E26\u4EE5\u985E\u5225\u5716\u898F\u5283\u5BE6\u9AD4\u95DC\u4FC2\uFF0C\u9010\u6B65\u5B8C\u6210 HubDataContext \u7684\u6700\u5C0F\u5BE6\u4F5C\u8207\u9A57\u8B49\u3002"
+}

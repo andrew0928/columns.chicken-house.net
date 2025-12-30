@@ -1,6 +1,6 @@
 ---
 layout: synthesis
-title: "AI-First Testing, 以 AI 為核心重新設計測試流程 - summary"
+title: "AI-First Testing, 以 AI 為核心重新設計測試流程"
 synthesis_type: summary
 source_post: /2025/11/10/ai-first-testing-workflow/
 redirect_from:

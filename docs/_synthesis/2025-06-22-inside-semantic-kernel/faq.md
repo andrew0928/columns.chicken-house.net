@@ -1,6 +1,6 @@
 ---
 layout: synthesis
-title: ".NET RAG 神器 - Microsoft Kernel Memory 與 Semantic Kernel 整合應用 - faq"
+title: ".NET RAG 神器 - Microsoft Kernel Memory 與 Semantic Kernel 整合應用"
 synthesis_type: faq
 source_post: /2025/06/22/inside-semantic-kernel/
 redirect_from:

@@ -1,0 +1,123 @@
+---
+layout: synthesis
+title: "微服務架構 - 從狀態圖來驅動 API 的設計"
+synthesis_type: summary
+source_post: /2022/03/25/microservices15-api-design/
+redirect_from:
+  - /2022/03/25/microservices15-api-design/summary/
+---
+
+# 微服務架構 - 從狀態圖來驅動 API 的設計
+
+## 摘要提示
+- 狀態驅動設計: 以有限狀態機 FSM 為主軸，統合狀態、動作、事件、授權，提升 API 一致性與可預測性
+- 拒絕貧血模型: 避免純 CRUD 導致規則分散與難以控管，改以「動作」與「狀態轉移」來封裝邏輯
+- 結構優先級: 衡量 API 品質的首要標準是結構設計清晰度，再談風格規格與服務穩定性
+- FSM→程式對應: 明確將狀態列舉、動作方法、轉移清單與事件，系統化映射到程式碼
+- 查表/轉移清單: 兩種狀態檢查策略皆可行；文中示範以「轉移清單」實作 TryExecute 檢查
+- AOP 與一致性: 以 AOP/Middleware 在框架層落實狀態檢查、原子性鎖定與授權，降低散亂 if/else
+- 事件設計原則: 狀態改變發事件，動作完畢掛鉤用 Hook；兩者分工避免過度耦合
+- 角色與授權: 在 FSM 上標示可執行角色，對應 RBAC、OAuth2 Scopes、API Gateway/Management 策略
+- 快速驗證收斂: 以情境在狀態圖上「走路徑」驗證缺漏，快速迭代修正狀態、動作與事件
+- 範例落地: 以會員生命週期為例，逐步修正 FSM 與 API，並以程式碼驗證執行結果
+
+## 全文重點
+本文主張以有限狀態機（FSM）做為 API 設計的核心，將狀態、動作、事件與授權統一在同一張狀態圖上思考，從而確保整體設計的一致性、可預測性與安全性。作者指出，純 CRUD 的貧血模型易導致規則分散：同一事件何時發出、何時允許操作，常在不同 API 中出現矛盾；與之對應的「充血模型」應以動作與狀態轉移封裝規則，例如以 Register、Activate、Lock 等動詞對應服務能力，並以狀態轉移清楚界定何時可執行、執行後狀態為何、觸發哪些事件。
+
+衡量 API 設計，作者將「結構」置於首位：狀態、領域規則與一致性若未先釐清，其它如 REST 風格或效能安全都只是後段優化。本文以會員生命週期為例，自「註冊→驗證→啟/停用→鎖定→封存」出發，先產出初版 FSM，再藉由實務案例驗證與事件需求，修正狀態命名與動作邊界，將 REGISTERED/VERIFIED 調整為更語義一致的 CREATED/ACTIVATED/DEACTIVATED/ARCHIVED，並把 CheckPassword、ResetPassword 等「不直接改變狀態」的操作抽至 Hook/輔助動作。事件方面，區分「狀態改變事件」（如 OnMemberActivated）與「動作完成 Hook」（如 OnMemberRegisterCompleted），避免在批次匯入等非註冊情境誤發郵件。
+
+在程式實作上，作者示範以 enum 對應狀態、以類別方法對應動作、以「轉移清單」實作 TryExecute 查核可執行性；狀態更新需以 Lock/交易確保原子性，避免競態導致不一致。接著在 FSM 上標注可執行角色，將設計與授權連結：可對應 ASP.NET Core 的 AuthorizeAttribute、RBAC 模型、OAuth2 Scopes，以及以 API Management/Gateway 分發不同產品線與訂閱的治理方式。最後透過一段實際呼叫序列（Register→Activate→Lock→Remove），驗證 FSM 與授權、狀態檢查邏輯運作如預期。
+
+總結來說，作者將「service = state + action」視為當代服務設計的核心命題，倡議以 FSM 收斂跨面向設計：狀態精煉、動作邊界清晰、事件分工恰當、授權前置規劃。當設計在紙上以 FSM 收斂、用情境路徑快速驗證並反覆修正，最終才能落實簡潔而穩定的 API，並自然對接標準框架與雲端治理工具。
+
+## 段落重點
+### 何謂「理想」的 API 設計?
+作者將 API 品質分三層：1) 結構設計（狀態、領域規則、一致性）；2) 規格與風格（REST/RPC、文件）；3) 服務穩定性（效能、可靠度、安全）。以會員註冊為例，批判貧血模型的 CRUD 難以控管規則與事件，倡導以「動作＋狀態轉移」設計，讓「何時可呼叫、呼叫後轉去哪、發何事件」都有明確依歸。設計核心是 FSM：先把狀態當地圖、動作當路徑，違反地圖的呼叫一律禁止，藉此提升一致性與安全性。
+
+### 第一步，找出所有的狀態
+從需求盤點生命週期狀態與動作，提醒「狀態」與「屬性」切分：非核心之屬性（如等級）不應膨脹狀態空間。初版狀態與動作（REGISTERED/VERIFIED/LOCKING/ARCHIVED 與 Register/VerifyEmail/Remove/CheckPassword/ResetPassword）先落圖，再以案例走路徑找缺漏。此階段目標是確立「必要且精煉」的狀態集合，避免難以維護與推理。
+
+### 第二步，FSM 對應到程式碼的結構
+介紹兩種檢查法：查表（state×action→next）與轉移清單（(state, action)→next），本文以轉移清單實作 TryExecute。將狀態映成 enum、動作映成方法；在每次動作執行前用 TryExecute 檢查合法性，動作成功後以臨界區保護狀態更新，確保原子性並避免競態。強調可在框架層（AOP/Middleware）統一執行檢查與同步，以降低散亂的條件判斷，並讓設計與程式碼一一對應、便於重構。
+
+### 第三步，列出事件清單
+事件設計原則：狀態改變就發「狀態事件」，但有些需求是「動作完成 Hook」（如註冊完成才寄信，而非匯入也寄）。作者因此將 Verified/Registered 語義重整為 Activated/Created，區分 Lock/Unlock 等會改變狀態的動作，並把 ResetPassword、EmailValidate 等不直接改變狀態者轉為輔助動作或 Hook。最後在 FSM 上以閃電標記事件位置，區分 OnMemberCreated/Activated/Deactivated/Archived 與 OnMemberRegisterCompleted 等 Hook。
+
+### 第四步，在動作上標示角色
+於 FSM 為每個動作標示可執行角色（USER/STAFF），讓授權在設計期即與功能耦合，避免「有時允許、有時拒絕」的混亂。此標註可直連 RBAC 與 OAuth2 Scopes，也能在 ASP.NET Core 用 AuthorizeAttribute 落實，或藉 API Management 以 Products/Subscriptions 管控不同客戶與產品線。若需實體隔離，亦可拆分不同 endpoint。重點在於：授權模型與 FSM 一致，並能被框架/基建直接承接。
+
+### 第五步，補上其他動作、事件與角色
+主結構收斂後，再補不改變狀態的動作（如驗證密碼、一般會員功能）與對應 Hook（如驗證密碼成功/失敗後處理）。這些 API 只需在進入點檢查狀態與授權，不需鎖定或更新狀態。所有新增元素仍建議標示回 FSM，以維持「設計中心化」與程式碼骨架的同步，並方便以 AOP 在執行期進行一致性驗證。
+
+### 第六步，案例驗證
+以序列 Register→Activate→Lock→Remove 驗證 FSM：前三步在 USER 角色下合法，最後一步因 DEACTIVATED 無 Remove 轉移而失敗，與預期一致。此示範證明：將狀態、動作、授權與事件設計前置，並以程式碼嚴格對應，可快速驗證與收斂，避免上線後才暴露結構缺陷。亦顯示 FSM 作為「地圖」能有效支撐情境走查與自動化檢查。
+
+### 結語
+作者將經典命題「程式=資料結構+演算法」提升為「服務=狀態+動作」。透過 FSM 將狀態、動作、事件、授權一體設計，能在設計期獲得高一致性與可預測性，並在實作期順暢映射到框架與雲端治理工具。好 API 出自好的結構與對領域的精準把握，而非僅靠風格規範或工具；以 FSM 為主軸的設計法，提供一條從抽象到實作的清晰路徑。
+
+## 資訊整理
+
+### 知識架構圖
+1. 前置知識：學習本主題前需要掌握什麼？
+- 基本 API 設計風格與慣例（REST/RPC、資源命名、文件化）
+- 物件導向與 DDD 概念（貧血/充血模型、Entity、Domain Service）
+- 狀態機基礎（狀態、轉移、動作、事件）
+- 基本授權模型（RBAC、OAuth2/Scopes、JWT）
+- 併發控制與交易性思維（鎖、critical section、distributed lock）
+- 基本框架概念（如 ASP.NET Core、Middleware、Attribute、AOP 思維）
+
+2. 核心概念：本文的 3-5 個核心概念及其關係
+- FSM 驅動設計：以有限狀態機為中心，統一推導狀態、動作、事件、授權
+- 充血模型優先：避免 CRUD/貧血模型，改以「業務動作」建構 API
+- 一致性與可驗證性：單一 FSM 圖集中心化所有規則，便於檢查與演繹
+- 程式碼對應：FSM 與程式骨架一一對應（State Enum、Service Methods、Events、授權標註）
+- 安全與治理：在設計階段標註角色與授權，並可對應 RBAC/OAuth2/API Gateway
+
+3. 技術依賴：相關技術之間的依賴關係
+- FSM 設計 → 生成狀態列舉、轉移規則 → Service 動作模板 → 事件/Hook → 安全標註
+- 授權模型（RBAC/OAuth2 Scopes）→ 映射 FSM 上的可執行角色 → 框架/基礎設施實作（AuthorizeAttribute、API Management、Gateway）
+- 併發控制 → 圍繞狀態轉移的原子性（lock/distributed lock）→ 中介層（Middleware/AOP）統一處理
+- 事件驅動 → 狀態轉移事件 + 動作 Hook → Webhook/Message Bus 實作
+
+4. 應用場景：適用於哪些實際場景？
+- 微服務的會員/訂單/支付/工單等「明確生命週期」的領域
+- 對安全一致性與審計要求高的服務（金融、醫療、企業後台）
+- 存在併發風險與流程複雜度的業務（多通路操作、流程分支）
+- 需要事件驅動整合（內外部系統通知、Webhook、Pub/Sub）的平台
+
+### 學習路徑建議
+1. 入門者路徑：零基礎如何開始？
+- 了解 REST/RPC 與基本 API 設計慣例
+- 學習 FSM 基礎（狀態/轉移/動作/事件）
+- 練習將簡單流程（如會員啟用）畫成狀態圖
+- 將 FSM 映射為簡單代碼（State Enum + Methods）
+
+2. 進階者路徑：已有基礎如何深化？
+- 將 CRUD 轉為動作導向 API，練習「充血模型」
+- 將 FSM 與授權模型（RBAC/OAuth2 Scopes）綁定
+- 在 Service 中實作原子狀態轉移與事件發送
+- 評估並導入 state machine 套件（如 Stateless）
+
+3. 實戰路徑：如何應用到實際專案？
+- 以 FSM 為設計中心，完成狀態、動作、事件、角色四合一
+- 以 AOP/Middleware 建立通用的狀態/授權/併發檢查
+- 將事件落地為 Webhook 或 Message Bus（Pub/Sub）
+- 利用 API Gateway/APIM 發佈不同角色產品線與訂閱治理
+- 建立用案例行走 FSM 的驗證流程（設計評審清單）
+
+### 關鍵要點清單
+- FSM 驅動 API 設計: 以有限狀態機統一推導狀態、動作、事件與授權，確保一致性與可驗證性 (優先級: 高)
+- 充血模型優先於貧血模型: 用「業務動作」取代 CRUD，讓規則內聚於服務，降低濫用與資安風險 (優先級: 高)
+- 狀態最小完備性: 僅保留對生命週期必要的狀態，避免把屬性誤當狀態導致爆炸式複雜度 (優先級: 高)
+- 動作/事件命名規範: 狀態（名詞/進行式）、動作（動詞）、事件（過去式）清楚分層，有助一致與文件化 (優先級: 中)
+- 程式碼對應模板: State Enum + Service Methods + TryExecute 查詢 + 原子狀態更新 + 事件發送構成固定骨架 (優先級: 高)
+- 兩種 FSM 查核法: 查表法與轉移清單法，依規模與可維護性選擇實作 (優先級: 中)
+- 原子性與併發控制: 狀態轉移必須原子化，單機用 lock，多機用 distributed lock，避免競態 (優先級: 高)
+- AOP/Middleware 收斂: 將狀態檢查、授權、鎖控置於中介層，減少重複邏輯與遺漏 (優先級: 中)
+- 事件與 Hook 區分: 狀態轉移產生事件；對應特定動作完成的行為用 Hook，避免濫發事件 (優先級: 中)
+- 角色標註與 RBAC: 在 FSM 上標註可執行角色，實作時可對應 AuthorizeAttribute/RBAC (優先級: 高)
+- OAuth2 Scopes 映射: 將 FSM 標註角色/能力映射為 Scopes，結合 JWT 在每次請求檢查 (優先級: 中)
+- API Gateway/APIM 治理: 以產品/訂閱對應角色與權限，必要時拆分不同 endpoint 發行 (優先級: 中)
+- 設計驗證法: 用 user stories 在 FSM 上逐步行走驗證路徑可達、無死路/無矛盾 (優先級: 高)
+- 重構與設計迭代: 先用 FSM 紙上作業快速迭代，再批次重構代碼，降低成本與風險 (優先級: 中)
+- 狀態與業務邊界: 以「生命週期主軸」判斷是否進入 FSM，非核心屬性（如等級）移出狀態 (優先級: 中)

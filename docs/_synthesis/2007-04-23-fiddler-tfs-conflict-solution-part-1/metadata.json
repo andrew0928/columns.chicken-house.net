@@ -1,0 +1,52 @@
+{
+  "title": "Fiddler \u8DDF TFS \u76F8\u885D\u7684\u554F\u984C\u89E3\u6C7A - I",
+  "published": true,
+  "categories": null,
+  "tags": [
+    ".NET",
+    "Tips",
+    "\u6280\u8853\u96A8\u7B46"
+  ],
+  "tech-stacks": [
+    "Fiddler",
+    "TFS",
+    "Visual Studio 2005",
+    "VS2005",
+    "HTTP",
+    "AJAX",
+    "Proxy",
+    "WinINET",
+    "Internet Explorer (IE)",
+    "Windows",
+    "Team Foundation Server"
+  ],
+  "keywords": [
+    "Fiddler",
+    "TFS",
+    "Visual Studio 2005",
+    "VS2005",
+    "HTTP 401",
+    "Proxy",
+    "IE Proxy Settings",
+    "WinINET",
+    "AJAX",
+    "Http Debugging Tool",
+    "\u8EAB\u4EFD\u9A57\u8B49",
+    "bypass host list",
+    "\u5FFD\u7565\u6E05\u55AE",
+    "127.0.0.1:8888",
+    "OnAttach",
+    "Script",
+    "server",
+    "ERROR MESSAGE",
+    "\u9023\u7DDA\u88AB\u64CB",
+    "Team Foundation Server"
+  ],
+  "generator": "BlogIndex.SyncPost v0.3.0.0, gpt-5",
+  "references": [
+    "http://www.fiddler2.com/",
+    "/images/2007-04-23-fiddler-tfs-conflict-solution-part-1/image07.png",
+    "/images/2007-04-23-fiddler-tfs-conflict-solution-part-1/image012.png"
+  ],
+  "summary": "\u672C\u6587\u63CF\u8FF0\u4F7F\u7528 Fiddler \u4F5C\u70BA HTTP \u5075\u932F\u4EE3\u7406\u6642\uFF0C\u8207 Visual Studio 2005 \u9023\u7DDA\u81F3 TFS \u767C\u751F\u885D\u7A81\u7684\u5BE6\u969B\u60C5\u5883\u3002\u4F5C\u8005\u6307\u51FA Fiddler \u6703\u628A\u81EA\u5DF1\u8A2D\u70BA\u7CFB\u7D71 Proxy\uFF0C\u5C0E\u81F4 VS2005 \u8207 TFS \u9593\u7684 HTTP \u9023\u7DDA\u88AB\u6514\u4E0B\u800C\u7121\u6CD5\u9032\u884C\u8EAB\u4EFD\u9A57\u8B49\uFF0CFiddler \u8A18\u9304\u986F\u793A\u4F3A\u670D\u5668\u56DE\u61C9 HTTP 401\uFF0CVS \u986F\u793A\u7684\u932F\u8AA4\u8A0A\u606F\u537B\u770B\u4F3C\u7121\u95DC\u3002\u7406\u8AD6\u4E0A\u61C9\u8A72\u8B93 VS2005 \u7684\u9A57\u8B49\u9806\u5229\u901A\u904E Fiddler\uFF0C\u4F46\u4F5C\u8005\u63A1\u53D6\u8F03\u7701\u4E8B\u7684\u66FF\u4EE3\u4F5C\u6CD5\uFF1A\u5728\u555F\u52D5 Fiddler\u3001\u5176\u81EA\u52D5\u4FEE\u6539 IE Proxy \u8A2D\u5B9A\u5F8C\uFF0C\u5C07 TFS \u7DB2\u5740\u52A0\u5165 Proxy \u7684 bypass/\u5FFD\u7565\u6E05\u55AE\uFF0C\u5373\u53EF\u6062\u5FA9\u6B63\u5E38\u9023\u7DDA\u3002\u70BA\u4E86\u81EA\u52D5\u5316\u9019\u500B\u6D41\u7A0B\uFF0C\u4F5C\u8005\u898F\u5283\u4E86\u4E09\u6B65\uFF1A\u5148\u8B93 Fiddler \u5B58\u4E0B\u73FE\u6709 Proxy \u8A2D\u5B9A\uFF1B\u518D\u628A WinINET \u7684 Proxy \u6307\u5230 127.0.0.1:8888\uFF1B\u6700\u5F8C\u5728 OnAttach \u4E2D\u52A0\u5165\u81EA\u8A02 Script\uFF0C\u8907\u7528\u7B2C\u4E8C\u6B65\u7684\u7A0B\u5F0F\u78BC\u4E26\u9644\u52A0\u8981\u5FFD\u7565\u7684 TFS \u7DB2\u5740\u3002\u4E0D\u904E\u5BE6\u4F5C\u6642\u767C\u73FE\u56F0\u96E3\u91CD\u91CD\uFF0C\u7D30\u7BC0\u7559\u5F85\u4E0B\u56DE\u5206\u89E3\u3002"
+}

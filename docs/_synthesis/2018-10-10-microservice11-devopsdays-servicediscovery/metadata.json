@@ -1,0 +1,57 @@
+{
+  "title": "DevOpsDays \u5C08\u520A: Service Discovery, \u5FAE\u670D\u52D9\u67B6\u69CB\u7684\u57FA\u790E\u5EFA\u8A2D",
+  "published": false,
+  "categories": [
+    "\u7CFB\u5217\u6587\u7AE0: \u67B6\u69CB\u5E2B\u89C0\u9EDE"
+  ],
+  "tags": [],
+  "tech-stacks": [
+    "Docker",
+    ".NET Framework",
+    "Consul",
+    "Kong",
+    "API Gateway",
+    "AWS ELB",
+    "DNS",
+    "Azure",
+    "AWS",
+    "Load Balancer",
+    "Containers",
+    "Cloud Native"
+  ],
+  "keywords": [
+    "DevOpsDays Taipei 2018",
+    "Service Discovery",
+    "\u5FAE\u670D\u52D9",
+    "\u5FAE\u670D\u52D9\u67B6\u69CB",
+    "service registry",
+    "health check",
+    "client-side discovery",
+    "sidecar",
+    "service mesh",
+    "Consul",
+    "Docker",
+    ".NET Framework",
+    "DevOps",
+    "Develop",
+    "Operation",
+    "Cloud Native",
+    "DNS",
+    "ELB",
+    "Load Balancer",
+    "API management",
+    "API Gateway",
+    "Kong",
+    "SLA",
+    "instances",
+    "container"
+  ],
+  "generator": "BlogIndex.SyncPost v0.3.0.0, gpt-5",
+  "references": [
+    "/2017/12/31/microservice9-servicediscovery/",
+    "https://thenewstack.io/3-reasons-why-api-management-is-dead/",
+    "/images/2018-10-10-microservice11-devopsdays-servicediscovery/2018-10-14-15-26-49.png",
+    "/images/2018-10-10-microservice11-devopsdays-servicediscovery/2018-11-05-02-22-51.png"
+  ],
+  "summary": "\u5176\u5BE6\uFF0C\u985E\u4F3C\u7684\u4E3B\u984C ([\u5FAE\u670D\u52D9\u57FA\u790E\u5EFA\u8A2D - Service Discovery](/2017/12/31/microservice9-servicediscovery/)) \u53BB\u5E74\u5E95\u5C31\u5DF2\u7D93\u5BEB\u904E\u4E00\u7BC7\u4E86\u3002\u4E0D\u904E\u9019\u6B21\u6709\u5E78\u6295\u7A3F DevOpsDays Taipei 2018 \u6709\u5E78\u69AE\u7372\u5927\u6703\u9752\u775E\uFF0C\u80FD\u4E0A\u53F0\u8B1B\u9019\u500B\u4E3B\u984C\uFF0C\u52A0\u4E0A\u76EE\u524D\u5DE5\u4F5C\u9700\u8981\uFF0C\u6211\u5011\u81EA\u5DF1\u4E5F\u958B\u59CB\u6709\u8A08\u756B\u9010\u6B65\u5C0E\u5165 service discovery\u3002\u56E0\u6B64\u95DC\u6CE8 Consul \u4E5F\u6709\u4E00\u9663\u5B50\uFF0C\u5C0D\u65BC Service Discovery \u7684\u770B\u6CD5\u53C8\u6709\u4E9B\u9032\u5316\u4E86\u3002\u65BC\u662F\u6C7A\u5B9A\u8D81\u8457\u6E96\u5099\u9019\u6B21\u6F14\u8B1B\uFF0C\u9664\u4E86 Slides \u4E4B\u5916\uFF0C\u4E5F\u4F86\u500B\u6587\u5B57\u7248\u7684\u6587\u7AE0\u5427! \u6BD4\u8D77\u6F14\u8B1B\uFF0C\u6587\u7AE0\u7684\u5F62\u5F0F\u9084\u662F\u6BD4\u8F03\u6709\u7D44\u7E54\uFF0C\u6BD4\u8F03\u80FD\u6DF1\u5165\u4E00\u4E9B\u3002\n\n\u9019\u6B21\u6211\u63DB\u500B\u89D2\u5EA6\uFF0C\u4ECB\u7D39 Service Discovery \u7684\u57FA\u672C\u89C0\u5FF5\uFF0C\u4EE5\u53CA\u61C9\u7528\u7684\u65B9\u5F0F\uFF0C\u6700\u5F8C\u5E36\u5230\u5982\u4F55\u9010\u6B65\u6F14\u9032\u5230 sidecar / service mesh\u3002\u6211\u5206\u4E09\u500B\u90E8\u5206\u9032\u884C:\n\n1. Basic: Service Discovery for Developers\n1. Advanced: Case Study\n1. Next: Service Mesh\n\n\u003C!--more--\u003E"
+}

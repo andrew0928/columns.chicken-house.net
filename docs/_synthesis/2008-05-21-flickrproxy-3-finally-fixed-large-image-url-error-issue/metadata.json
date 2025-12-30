@@ -1,0 +1,60 @@
+{
+  "title": "FlickrProxy #3 - \u7D42\u65BC\u641E\u5B9A\u5927\u5716\u7DB2\u5740\u932F\u8AA4\u7684\u554F\u984C",
+  "published": true,
+  "categories": [
+    "\u4F5C\u54C1\u96C6: FlickrProxy"
+  ],
+  "tags": [
+    ".NET",
+    "ASP.NET",
+    "\u4F5C\u54C1\u96C6"
+  ],
+  "tech-stacks": [
+    ".NET",
+    ".NET Framework",
+    "ASP.NET",
+    "C#",
+    "Flickr API",
+    "CodePlex",
+    "XML",
+    "Flickr"
+  ],
+  "keywords": [
+    "FlickrProxy",
+    "Flickr",
+    "API",
+    "PhotosGetInfo",
+    "PhotosGetSizes",
+    "PhotoInfo",
+    "Size",
+    "LargeUrl",
+    "MediumUrl",
+    "OriginalUrl",
+    "URL",
+    "\u5927\u5716",
+    "\u539F\u5716",
+    "\u4E0A\u50B3",
+    "photoId",
+    "\u5716\u7247\u5C3A\u5BF8",
+    "\u932F\u8AA4\u7DB2\u5740",
+    "\u7A0B\u5F0F\u78BC",
+    "XmlElement",
+    "\u5BE6\u4F5C\u7D93\u9A57"
+  ],
+  "generator": "BlogIndex.SyncPost v0.3.0.0, gpt-5",
+  "references": [
+    "/2008/05/21/flickrproxy-3-\u7D42\u65BC\u641E\u5B9A\u5927\u5716\u7DB2\u5740\u932F\u8AA4\u7684\u554F\u984C/",
+    "/columns/post/2008/05/21/FlickrProxy-3-e7b582e696bce6909ee5ae9ae5a4a7e59c96e7b6b2e59d80e98cafe8aaa4e79a84e5958fe9a18c.aspx/",
+    "/post/2008/05/21/FlickrProxy-3-e7b582e696bce6909ee5ae9ae5a4a7e59c96e7b6b2e59d80e98cafe8aaa4e79a84e5958fe9a18c.aspx/",
+    "/post/FlickrProxy-3-e7b582e696bce6909ee5ae9ae5a4a7e59c96e7b6b2e59d80e98cafe8aaa4e79a84e5958fe9a18c.aspx/",
+    "/columns/2008/05/21/FlickrProxy-3-e7b582e696bce6909ee5ae9ae5a4a7e59c96e7b6b2e59d80e98cafe8aaa4e79a84e5958fe9a18c.aspx/",
+    "/columns/FlickrProxy-3-e7b582e696bce6909ee5ae9ae5a4a7e59c96e7b6b2e59d80e98cafe8aaa4e79a84e5958fe9a18c.aspx/",
+    "/columns/post/2008/05/21/FlickrProxy-3---e7b582e696bce6909ee5ae9ae5a4a7e59c96e7b6b2e59d80e98cafe8aaa4e79a84e5958fe9a18c.aspx/",
+    "/post/2008/05/21/FlickrProxy-3---e7b582e696bce6909ee5ae9ae5a4a7e59c96e7b6b2e59d80e98cafe8aaa4e79a84e5958fe9a18c.aspx/",
+    "/post/FlickrProxy-3---e7b582e696bce6909ee5ae9ae5a4a7e59c96e7b6b2e59d80e98cafe8aaa4e79a84e5958fe9a18c.aspx/",
+    "/columns/2008/05/21/FlickrProxy-3---e7b582e696bce6909ee5ae9ae5a4a7e59c96e7b6b2e59d80e98cafe8aaa4e79a84e5958fe9a18c.aspx/",
+    "/columns/FlickrProxy-3---e7b582e696bce6909ee5ae9ae5a4a7e59c96e7b6b2e59d80e98cafe8aaa4e79a84e5958fe9a18c.aspx/",
+    "/blogs/chicken/archive/2008/05/21/3245.aspx/"
+  ],
+  "summary": "\u4F5C\u8005\u5728\u958B\u767C FlickrProxy \u6642\uFF0C\u906D\u9047\u4F7F\u7528 Flickr API \u53D6\u5F97\u5927\u5716\u7DB2\u5740\u4E0D\u7A69\u5B9A\u7684\u554F\u984C\uFF1A\u7167\u7247\u4E0A\u50B3\u6210\u529F\u5F8C\u4EE5 PhotosGetInfo \u53D6\u5F97\u7684 LargeUrl \u6709\u6642\u6703\u5931\u6548\u3002\u8FFD\u67E5\u767C\u73FE\u8A72 API \u4E26\u975E\u76F4\u63A5\u56DE\u50B3\u53EF\u7528\u7DB2\u5740\uFF0C\u800C\u662F\u6839\u64DA\u53D6\u5F97\u7684\u4E00\u7D44 ID \u4F9D\u65E2\u5B9A\u898F\u5247\u7D44\u5408\u51FA\u5404\u5C3A\u5BF8 URL\uFF1B\u7136\u800C Flickr \u66FE\u8ABF\u6574\u904E\u90E8\u5206\u7DB2\u5740\u898F\u5247\uFF0C\u82E5\u7167\u7247\u5C3A\u5BF8\u4E0D\u5927\uFF0C\u7CFB\u7D71\u6703\u5224\u5B9A\u7121\u9700\u53E6\u5B58\u5927\u5716\u4E26\u76F4\u63A5\u6307\u5411\u539F\u5716\uFF0C\u5176\u539F\u5716\u7DB2\u5740\u683C\u5F0F\u8207\u4E00\u822C\u5C3A\u5BF8\u4E0D\u540C\uFF0C\u5C0E\u81F4\u4EE5 PhotosGetInfo \u63A8\u5C0E\u51FA\u7684 LargeUrl \u5728\u6B64\u60C5\u6CC1\u4E0B\u932F\u8AA4\u3002\u89E3\u6CD5\u662F\u6539\u7528 PhotosGetSizes\uFF0C\u76F4\u63A5\u5411 Flickr \u53D6\u5F97\u5BE6\u969B\u53EF\u7528\u7684\u6240\u6709\u5C3A\u5BF8\u6E05\u55AE\uFF0C\u5305\u542B\u6A19\u7C64\u3001\u4F86\u6E90 URL\u3001\u9801\u9762 URL\u3001\u5BEC\u9AD8\u7B49\u8CC7\u8A0A\uFF0C\u64DA\u6B64\u751F\u6210\u6B63\u78BA\u9023\u7D50\uFF0C\u907F\u514D\u300Cphoto not available\u300D\u554F\u984C\u3002\u4F5C\u8005\u4E26\u9644\u4E0A\u4FEE\u6539\u524D\u5F8C C# \u7A0B\u5F0F\u78BC\uFF0C\u5F9E\u4EE5 PhotoInfo.MediumUrl/LargeUrl/OriginalUrl \u9010\u4E00\u5617\u8A66\uFF0C\u6539\u70BA\u8FED\u4EE3 PhotosGetSizes \u56DE\u50B3\u7684 SizeCollection\uFF0C\u5C07\u5404\u5C3A\u5BF8\u8CC7\u8A0A\u5BEB\u5165\u5FEB\u53D6 XML\uFF0C\u6700\u7D42\u7A69\u5B9A\u89E3\u6C7A\u5927\u5716\u9023\u7D50\u932F\u8AA4\uFF0C\u8B93 FlickrProxy \u66F4\u8DA8\u5BE6\u7528\u3002"
+}

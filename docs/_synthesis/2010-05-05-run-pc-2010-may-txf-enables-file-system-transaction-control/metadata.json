@@ -1,0 +1,69 @@
+{
+  "title": "[RUN! PC] 2010 \u4E94\u6708\u865F - TxF\u8B93\u6A94\u6848\u7CFB\u7D71\u4E5F\u80FD\u9054\u5230\u4EA4\u6613\u63A7\u5236",
+  "published": true,
+  "categories": [
+    "RUN! PC \u5C08\u6B04\u6587\u7AE0"
+  ],
+  "tags": [
+    ".NET",
+    "RUN! PC",
+    "Transactional NTFS",
+    "\u4F5C\u54C1\u96C6",
+    "\u4F5C\u696D\u7CFB\u7D71",
+    "\u6280\u8853\u96A8\u7B46",
+    "\u7269\u4EF6\u5C0E\u5411"
+  ],
+  "tech-stacks": [
+    ".NET",
+    ".NET Framework 4.0",
+    "C#",
+    "Visual Studio 2008",
+    "Windows Vista",
+    "Transactional NTFS (TxF)",
+    "NTFS",
+    "System.Transactions",
+    "DTC",
+    "P/Invoke",
+    "AlphaFS",
+    "CreateFileTransacted",
+    "Longhorn"
+  ],
+  "keywords": [
+    "Transactional NTFS",
+    "TxF",
+    "\u6A94\u6848\u7CFB\u7D71",
+    "\u4EA4\u6613\u63A7\u5236",
+    ".NET",
+    ".NET FX 4.0",
+    "\u57F7\u884C\u7DD2",
+    "\u6F14\u7B97\u6CD5",
+    "Visual Studio 2008",
+    "C#",
+    "P/Invoke",
+    "System.Transactions",
+    "DTC",
+    "CreateFileTransacted",
+    "Windows Vista",
+    "Longhorn",
+    "AlphaFS",
+    "MSDN magazine",
+    "CodeProject",
+    "\u7BC4\u4F8B\u7A0B\u5F0F",
+    "\u6280\u8853\u96A8\u7B46"
+  ],
+  "generator": "BlogIndex.SyncPost v0.3.0.0, gpt-5",
+  "references": [
+    "/images/2010-05-05-run-pc-2010-may-txf-enables-file-system-transaction-control/image_10.png",
+    "/wp-content/be-files/TransactionDemo.zip",
+    "http://alphafs.codeplex.com/",
+    "http://msdn.microsoft.com/en-us/magazine/cc163388.aspx",
+    "http://community.bartdesmet.net/blogs/bart/archive/2006/11/05/Windows-Vista-_2D00_-Introducing-TxF-in-C_2300_-_2800_part-1_2900_-_2D00_-Transacted-file-delete.aspx",
+    "http://community.bartdesmet.net/blogs/bart/archive/2006/11/19/Windows-Vista-_2D00_-Introducing-TxF-in-C_2300_-_2800_part-2_2900_-_2D00_-Using-System.Transactions-and-the-DTC.aspx",
+    "http://community.bartdesmet.net/blogs/bart/archive/2007/02/21/windows-vista-introducing-txf-in-c-part-3-createfiletransacted-demo.aspx",
+    "http://www.codeproject.com/KB/vista/KTM.aspx",
+    "http://blogs.msdn.com/because_we_can/archive/2005/05/18/419809.aspx",
+    "http://msdn.microsoft.com/en-us/library/ee240893(VS.85).aspx",
+    "http://msdn.microsoft.com/en-us/library/aa365738(VS.85).aspx"
+  ],
+  "summary": "\u4F5C\u8005\u5206\u4EAB\u5176\u5728 RUN! PC \u5C08\u6B04\u520A\u767B\u7684 2010 \u5E74\u4E94\u6708\u865F\u6587\u7AE0\uFF0C\u4E3B\u984C\u70BA Transactional NTFS\uFF08TxF\uFF09\u5982\u4F55\u8B93\u6A94\u6848\u7CFB\u7D71\u5177\u5099\u4EA4\u6613\u5F0F\u63A7\u5236\u3002\u539F\u672C\u9023\u8F09\u7684\u57F7\u884C\u7DD2\u61C9\u7528\u7CFB\u5217\u5728 .NET Framework 4.0 \u554F\u4E16\u5F8C\u56E0\u6846\u67B6\u5927\u5E45\u7C21\u5316\u5E38\u898B\u540C\u6B65\u8207\u4E26\u884C\u6280\u5DE7\u800C\u66AB\u544A\u4E00\u6BB5\u843D\uFF0C\u4F5C\u8005\u8F49\u800C\u64B0\u5BEB\u5C0D TxF \u7684\u5165\u9580\u8207\u89C0\u5FF5\u4ECB\u7D39\u3002\u6587\u4E2D\u8AAA\u660E\u5F8C\u7E8C\u5C07\u628A\u96F6\u788E\u7684\u5BE6\u4F5C\u6280\u5DE7\uFF08\u5982 P/Invoke\uFF09\u653E\u5728\u90E8\u843D\u683C\uFF0C\u8F03\u5B8C\u6574\u7684\u6982\u5FF5\u8207\u5BE6\u4F5C\u63A2\u8A0E\u6574\u7406\u6210\u6295\u7A3F\u6587\u7AE0\u3002\u6587\u672B\u63D0\u4F9B C#\uFF08Visual Studio 2008\uFF09\u7BC4\u4F8B\u7A0B\u5F0F\u4E0B\u8F09\uFF0C\u4E26\u5F59\u6574\u591A\u7BC7\u53C3\u8003\u8CC7\u6E90\uFF0C\u5305\u542B AlphaFS \u5C08\u6848\u3001MSDN Magazine \u5C08\u6587\u3001Bart De Smet \u7684\u4E09\u7BC7 TxF \u7CFB\u5217\u6587\u7AE0\u3001CodeProject \u4E0A\u95DC\u65BC Windows Vista TxF/TxR \u7684\u4ECB\u7D39\uFF0C\u4EE5\u53CA MSDN \u5C0D TxF \u6548\u80FD\u8003\u91CF\u8207\u4F55\u6642\u4F7F\u7528\u7684\u6307\u5F15\uFF0C\u4F9B\u8B80\u8005\u9032\u4E00\u6B65\u5B78\u7FD2 TxF \u8207\u5728 .NET \u4E0B\u7684\u6574\u5408\u61C9\u7528\u3002"
+}

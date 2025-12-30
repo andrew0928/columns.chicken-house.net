@@ -1,0 +1,42 @@
+{
+  "title": "LINQ to Object #2, Indexes for Objects",
+  "published": true,
+  "categories": [],
+  "tags": [
+    ".NET",
+    "C#",
+    "Tips",
+    "\u7269\u4EF6\u5C0E\u5411"
+  ],
+  "tech-stacks": [
+    "C#",
+    ".NET",
+    "LINQ to Objects",
+    "i4o",
+    "IndexableCollection",
+    "List\u003CT\u003E",
+    "IndexedList"
+  ],
+  "keywords": [
+    "LINQ to Object",
+    "i4o",
+    "indexes",
+    "\u7D22\u5F15",
+    "\u7269\u4EF6",
+    "\u96C6\u5408",
+    "List",
+    "IndexedList",
+    "IndexableCollection",
+    "Foo",
+    "\u67E5\u8A62",
+    "\u6548\u80FD",
+    "CreateIndexFor",
+    "ReIndex",
+    "Stopwatch"
+  ],
+  "generator": "BlogIndex.SyncPost v0.3.0.0, gpt-5",
+  "references": [
+    "/images/2011-10-30-linq-to-object-2-indexes-for-objects/image_14.png"
+  ],
+  "summary": "\u672C\u6587\u5EF6\u7E8C\u524D\u4E00\u7BC7\uFF0C\u793A\u7BC4\u5728 LINQ to Objects \u67E5\u8A62\u4E2D\u5C0E\u5165\u7D22\u5F15\u6A5F\u5236\uFF0C\u4ECB\u7D39 i4o (indexes for objects) \u51FD\u5F0F\u5EAB\u7684\u5BE6\u4F5C\u65B9\u5F0F\u3002\u4F5C\u8005\u4EE5\u4E09\u7A2E\u96C6\u5408\u9032\u884C\u5C0D\u7167\uFF1A1) \u4E00\u822C List\u003CFoo\u003E \u7121\u7D22\u5F15\uFF1B2) \u81EA\u8A02 IndexedList\uFF0C\u91DD\u5C0D Foo.Text \u8207 Foo.Number \u5EFA\u7ACB\u7D22\u5F15\uFF0C\u50C5\u652F\u63F4 ==\uFF1B3) \u4F7F\u7528 i4o \u7684 IndexableCollection\u003CFoo\u003E\uFF0C\u4EE5 CreateIndexFor \u5EFA\u7ACB\u7D22\u5F15\u3002\u7A0B\u5F0F\u4EE5 Stopwatch \u91CF\u6E2C\u7D22\u5F15\u5EFA\u7ACB\u8207\u67E5\u8A62\u6642\u9593\uFF0C\u5C55\u793A\u672A\u7D22\u5F15\u67E5\u8A62\u3001\u624B\u52D5\u7D22\u5F15\u8207 i4o \u7D22\u5F15\u5728\u6548\u80FD\u4E0A\u7684\u5DEE\u7570\uFF0C\u4E26\u63D0\u4F9B\u6700\u57FA\u672C\u7684\u4F7F\u7528\u7BC4\u4F8B\uFF08\u5EFA\u7ACB\u96C6\u5408\u3001\u5EFA\u7ACB\u7D22\u5F15\u3001\u4EE5 LINQ \u689D\u4EF6 x.Text == \u0022888365\u0022 \u67E5\u8A62\u4E26\u5217\u5370\u6642\u9593\uFF09\u3002\u91CD\u9EDE\u5728\u65BC i4o \u80FD\u5728\u4FDD\u7559 LINQ to Objects \u67E5\u8A62\u5BEB\u6CD5\u7684\u540C\u6642\uFF0C\u8B93\u96C6\u5408\u5177\u5099\u7D22\u5F15\u4EE5\u63D0\u5347\u67E5\u8A62\u6548\u80FD\u3002"
+}

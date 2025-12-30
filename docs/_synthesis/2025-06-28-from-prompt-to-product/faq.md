@@ -1,6 +1,6 @@
 ---
 layout: synthesis
-title: "從 Prompt 到 Product - faq"
+title: "從 Prompt 到 Product"
 synthesis_type: faq
 source_post: /2025/06/28/from-prompt-to-product/
 redirect_from:
