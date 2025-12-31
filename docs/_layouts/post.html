@@ -50,10 +50,10 @@ layout: default
       {% include sidebar-search.html %}
       {% include sidebar-mvp.html %}
       {% include sidebar-facebook.html %}
-      {% assign p_year = page.date | date: "%Y" %}
-      {% assign p_month = page.date | date: "%m" %}
-      {% assign p_day = page.date | date: "%d" %}
-      {% include sidebar-synthesis.html year=p_year month=p_month day=p_day slug=page.slug %}
+      {% comment %} Extract postid from page.id: /YYYY/MM/DD/slug -> YYYY-MM-DD-slug {% endcomment %}
+      {% assign id_parts = page.id | split: "/" | shift %}
+      {% assign postid = id_parts | join: "-" %}
+      {% include sidebar-synthesis.html postid=postid type="content" %}
       {% include sidebar-post-nav.html %}
       {% comment %}
       {% endcomment %}

@@ -41,12 +41,8 @@ layout: default
             {% include sidebar-search.html %}
             {% include sidebar-mvp.html %}
             {% include sidebar-facebook.html %}
-            {% assign id_parts = post_id | split: "-" %}
-            {% assign p_year = id_parts[0] %}
-            {% assign p_month = id_parts[1] %}
-            {% assign p_day = id_parts[2] %}
-            {% assign p_slug = id_parts | slice: 3, 100 | join: "-" %}
-            {% include sidebar-synthesis.html year=p_year month=p_month day=p_day slug=p_slug %}
+            {% comment %} Use postid from frontmatter {% endcomment %}
+            {% include sidebar-synthesis.html postid=page.postid type=page.synthesis_type %}
             {% include sidebar-post-nav.html %}
         </div>
     </div>

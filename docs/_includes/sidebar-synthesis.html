@@ -1,9 +1,18 @@
 <h3 class="mobile-hidden">AI Synthesis Contents</h3>
 <div class="mobile-hidden">
-  {% assign postid = include.year | append: "-" | append: include.month | append: "-" | append: include.day | append:
-  "-" | append: include.slug %}
-  - <a href="/{{ include.year }}/{{ include.month }}/{{ include.day }}/{{ include.slug }}/">原始文章內容</a><br />
-  - <a href="/synthesis/{{ postid }}/faq/">問答集</a><br />
-  - <a href="/synthesis/{{ postid }}/summary/">文章摘要</a><br />
-  - <a href="/synthesis/{{ postid }}/solution/">解決方案 / Case Study</a><br />
+  {% comment %} Parse postid (YYYY-MM-DD-slug) into components for original post URL {% endcomment %}
+  {% assign id_parts = include.postid | split: "-" %}
+  {% assign p_year = id_parts[0] %}
+  {% assign p_month = id_parts[1] %}
+  {% assign p_day = id_parts[2] %}
+  {% assign p_slug = id_parts | slice: 3, 100 | join: "-" %}
+  {% assign current_type = include.type | default: "content" %}
+
+  - {% if current_type == "content" %}原始文章內容{% else %}<a
+    href="/{{ p_year }}/{{ p_month }}/{{ p_day }}/{{ p_slug }}/">原始文章內容</a>{% endif %}<br />
+  - {% if current_type == "faq" %}問答集{% else %}<a href="/synthesis/{{ include.postid }}/faq/">問答集</a>{% endif %}<br />
+  - {% if current_type == "summary" %}文章摘要{% else %}<a href="/synthesis/{{ include.postid }}/summary/">文章摘要</a>{% endif
+  %}<br />
+  - {% if current_type == "solution" %}解決方案 / Case Study{% else %}<a
+    href="/synthesis/{{ include.postid }}/solution/">解決方案 / Case Study</a>{% endif %}<br />
 </div>
