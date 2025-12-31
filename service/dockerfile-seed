@@ -13,7 +13,12 @@ WORKDIR /seed-src
 # 來源路徑依照目前 repo 結構。若日後調整，請同步更新。
 COPY service/_storage_volumes/_files ./_files
 COPY service/_storage_volumes/_qdrant_data ./_qdrant_data
-COPY artifacts/synthesis ./synthesis
+
+# synthesis 來源 (entrypoint 會組合成向前相容結構)
+# - _posts: 文章原始內容 (攤平後的 {postid}.md)
+# - _synthesis: AI 生成的 metadata/summary/faq/solution/checklist
+COPY docs/_posts ./_posts
+COPY docs/_synthesis ./_synthesis
 
 # Entrypoint script
 COPY service/seed-entrypoint.sh /seed-entrypoint.sh
