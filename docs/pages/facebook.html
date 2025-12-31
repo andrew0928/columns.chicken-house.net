@@ -17,7 +17,7 @@ permalink: /facebook/
                     <div class="collection-info">
                         <span class="meta-info">
                             <span class="octicon octicon-comment-discussion"></span>
-                            {% assign fb_count = site.facebook_posts | size %}
+                            {% assign fb_count = site.facebook | size %}
                             {{ fb_count }} 篇貼文
                         </span>
                     </div>
@@ -31,7 +31,7 @@ permalink: /facebook/
     <div class="columns">
         <div class="column two-thirds">
             <ol class="repo-list">
-                {% assign sorted_posts = site.facebook_posts | sort: 'date' | reverse %}
+                {% assign sorted_posts = site.facebook | sort: 'date' | reverse %}
                 {% for post in sorted_posts %}
                 <li class="repo-list-item">
                     <h1 class="repo-list-name">

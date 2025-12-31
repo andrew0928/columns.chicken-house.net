@@ -100,7 +100,7 @@ collections:
     synthesis:
         output: true
         permalink: /synthesis/:path/
-    facebook_posts:
+    facebook:
         output: true
         permalink: /facebook/:name/
 
@@ -113,7 +113,7 @@ defaults:
       render_with_liquid: false
   - scope:
       path: ""
-      type: "facebook_posts"
+      type: "facebook"
     values:
       layout: facebook
 
