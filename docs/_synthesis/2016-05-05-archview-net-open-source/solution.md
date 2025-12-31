@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2016/05/05/archview-net-open-source/
 redirect_from:
   - /2016/05/05/archview-net-open-source/solution/
+postid: 2016-05-05-archview-net-open-source
 ---
 
 以下為依據文章主題與脈絡，萃取與延伸出的 15 個「問題解決案例」。每個案例皆聚焦於文中指向的實務挑戰（.NET Core、Docker 容器化、混合 Windows/Linux 元件、反向代理、Redis/Elasticsearch、Azure 容器服務、Rancher/Swarm 等），並補齊完整教學價值所需的設計、步驟、範例設定與可量化成效指標。若文章未提供具體數值，本文以可重現的實測方法與參考性數據呈現。

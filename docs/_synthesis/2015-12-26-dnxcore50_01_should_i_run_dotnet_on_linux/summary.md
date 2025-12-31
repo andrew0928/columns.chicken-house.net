@@ -5,6 +5,7 @@ synthesis_type: summary
 source_post: /2015/12/26/dnxcore50_01_should_i_run_dotnet_on_linux/
 redirect_from:
   - /2015/12/26/dnxcore50_01_should_i_run_dotnet_on_linux/summary/
+postid: 2015-12-26-dnxcore50_01_should_i_run_dotnet_on_linux
 ---
 
 # .NET Core 跨平台 #1, 我真的需要在 Linux 上跑 .NET 嗎?

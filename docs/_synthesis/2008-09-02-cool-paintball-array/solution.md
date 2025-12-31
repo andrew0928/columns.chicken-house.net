@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2008/09/02/cool-paintball-array/
 redirect_from:
   - /2008/09/02/cool-paintball-array/solution/
+postid: 2008-09-02-cool-paintball-array
 ---
 
 以下內容基於原文可見的前置碼（layout、tags、redirect_from、wordpress_postid）與文中實際使用到的 YouTube iframe 嵌入，從「遷移維運、前端嵌入、效能優化、安全合規、資訊架構」等面向，萃取並建構成具教學價值的實戰案例。因原文並未提供量化指標，實測數據欄位以未提供標註，並補充可追蹤的建議指標。

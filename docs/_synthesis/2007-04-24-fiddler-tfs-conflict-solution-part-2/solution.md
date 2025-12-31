@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2007/04/24/fiddler-tfs-conflict-solution-part-2/
 redirect_from:
   - /2007/04/24/fiddler-tfs-conflict-solution-part-2/solution/
+postid: 2007-04-24-fiddler-tfs-conflict-solution-part-2
 ---
 
 以下為基於原文萃取與延展出的 16 個可教可練的實戰案例。每個案例對應文章中實際遇到的問題、根因、解法與可量化的效益，並補上可操作的代碼與練習題，方便用於教學、實作與評估。

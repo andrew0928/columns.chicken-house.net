@@ -5,6 +5,7 @@ synthesis_type: faq
 source_post: /2008/06/04/run-pc-2008-june-issue/
 redirect_from:
   - /2008/06/04/run-pc-2008-june-issue/faq/
+postid: 2008-06-04-run-pc-2008-june-issue
 ---
 
 # [RUN! PC] 2008 六月號

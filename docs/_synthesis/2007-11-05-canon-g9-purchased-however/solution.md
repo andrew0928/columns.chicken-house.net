@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2007/11/05/canon-g9-purchased-however/
 redirect_from:
   - /2007/11/05/canon-g9-purchased-however/solution/
+postid: 2007-11-05-canon-g9-purchased-however
 ---
 
 以下為依據文章萃取並延伸設計的 16 個實戰型案例。每一個案例都以文中確實出現的問題、原因、可行或已採用的解法以及量化指標為基礎，並補充可直接落地的實作與教學材料。文中原始數據與觀察（例如 RAW 檔大小、解碼時間、CPU 使用率、可用/不可用軟體名單、RAW+JPEG 暫行流程、8GB 卡「暫時拍不滿」等）均已串入各案例的「實際案例/實測數據」。

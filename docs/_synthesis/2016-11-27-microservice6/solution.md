@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2016/11/27/microservice6/
 redirect_from:
   - /2016/11/27/microservice6/solution/
+postid: 2016-11-27-microservice6
 ---
 
 以下為基於提供文章所提煉並結構化的 16 個教學型問題解決案例。每個案例皆含問題、根因、解法、步驟、關鍵程式碼與實作/效益，便於實戰教學、專案練習與評估。

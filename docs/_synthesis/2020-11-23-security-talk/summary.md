@@ -5,6 +5,7 @@ synthesis_type: summary
 source_post: /2020/11/23/security-talk/
 redirect_from:
   - /2020/11/23/security-talk/summary/
+postid: 2020-11-23-security-talk
 ---
 
 # [架構師觀點] 資安沒有捷徑，請從根本做起!

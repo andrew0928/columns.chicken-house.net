@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2015/10/31/coreclr-helloworld-consoleapp/
 redirect_from:
   - /2015/10/31/coreclr-helloworld-consoleapp/solution/
+postid: 2015-10-31-coreclr-helloworld-consoleapp
 ---
 
 以下為基於原文內容重組的 16 個可教可練的技術問題解決案例。每個案例均包含：問題、根因、解法（含指令/程式碼/流程）、實際效益與可評估的學習與實作要點。

@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2008/09/22/csharp-yield-return-2-alternative-application-thread-sync-replacement/
 redirect_from:
   - /2008/09/22/csharp-yield-return-2-alternative-application-thread-sync-replacement/solution/
+postid: 2008-09-22-csharp-yield-return-2-alternative-application-thread-sync-replacement
 ---
 
 ## Case #1: 用 yield return 取代 Thread Sync 的同步替代方案

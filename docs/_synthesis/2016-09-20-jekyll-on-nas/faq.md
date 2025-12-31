@@ -6,6 +6,7 @@ synthesis_type: faq
 source_post: /2016/09/20/jekyll-on-nas/
 redirect_from:
   - /2016/09/20/jekyll-on-nas/faq/
+postid: 2016-09-20-jekyll-on-nas
 ---
 
 # Running Jekyll on NAS - 高效率的新選擇

@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2006/11/11/no-internet-connection/
 redirect_from:
   - /2006/11/11/no-internet-connection/solution/
+postid: 2006-11-11-no-internet-connection
 ---
 
 以下案例均源自原文「回家發現沒電話、沒網路，致電中華電信得知當晚施工，隔日恢復」的情境，延伸出多個可落地的實戰解決方案，用於提升家庭/SOHO 對突發中斷的應對能力、建立備援、監控與運維流程。每個案例都包含問題、根因、解法與可實作範本。

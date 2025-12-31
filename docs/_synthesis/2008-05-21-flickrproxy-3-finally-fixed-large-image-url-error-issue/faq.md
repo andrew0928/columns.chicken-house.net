@@ -5,6 +5,7 @@ synthesis_type: faq
 source_post: /2008/05/21/flickrproxy-3-finally-fixed-large-image-url-error-issue/
 redirect_from:
   - /2008/05/21/flickrproxy-3-finally-fixed-large-image-url-error-issue/faq/
+postid: 2008-05-21-flickrproxy-3-finally-fixed-large-image-url-error-issue
 ---
 
 # FlickrProxy #3 - 終於搞定大圖網址錯誤的問題

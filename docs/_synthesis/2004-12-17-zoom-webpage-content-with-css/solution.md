@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2004/12/17/zoom-webpage-content-with-css/
 redirect_from:
   - /2004/12/17/zoom-webpage-content-with-css/solution/
+postid: 2004-12-17-zoom-webpage-content-with-css
 ---
 
 以下為基於原文「任意放大/縮小網頁的內容」所重構的 16 組高教學價值案例。所有案例皆圍繞 CSS zoom 的應用與延伸（含跨瀏覽器替代、相容、可用性、效能、可維運性等），以滿足實戰教學、專案練習及能力評估之需求。

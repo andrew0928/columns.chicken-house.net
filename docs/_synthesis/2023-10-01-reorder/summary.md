@@ -5,6 +5,7 @@ synthesis_type: summary
 source_post: /2023/10/01/reorder/
 redirect_from:
   - /2023/10/01/reorder/summary/
+postid: 2023-10-01-reorder
 ---
 
 # 架構面試題 #5: Re-Order Messages

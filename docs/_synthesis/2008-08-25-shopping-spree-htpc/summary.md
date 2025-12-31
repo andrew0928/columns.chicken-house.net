@@ -5,6 +5,7 @@ synthesis_type: summary
 source_post: /2008/08/25/shopping-spree-htpc/
 redirect_from:
   - /2008/08/25/shopping-spree-htpc/summary/
+postid: 2008-08-25-shopping-spree-htpc
 ---
 
 # 敗家: HTPC

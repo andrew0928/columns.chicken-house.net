@@ -5,6 +5,7 @@ synthesis_type: faq
 source_post: /2005/08/13/canon-powershot-s2-is/
 redirect_from:
   - /2005/08/13/canon-powershot-s2-is/faq/
+postid: 2005-08-13-canon-powershot-s2-is
 ---
 
 # Canon PowerShot S2 IS

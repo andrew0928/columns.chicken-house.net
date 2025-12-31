@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2008/07/07/why-are-all-social-bookmark-buttons-missing/
 redirect_from:
   - /2008/07/07/why-are-all-social-bookmark-buttons-missing/solution/
+postid: 2008-07-07-why-are-all-social-bookmark-buttons-missing
 ---
 
 ## Case #1: 升級後社群推文按鈕消失（URL Slug 不一致）

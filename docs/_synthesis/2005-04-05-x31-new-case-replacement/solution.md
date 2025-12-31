@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2005/04/05/x31-new-case-replacement/
 redirect_from:
   - /2005/04/05/x31-new-case-replacement/solution/
+postid: 2005-04-05-x31-new-case-replacement
 ---
 
 以下內容基於文章「X31 換新殼」所描述的實際情境與可推衍的技術/流程要點，萃取並延伸為可教學與實作的案例。每個案例均涵蓋問題、根因、解決方案、實施步驟、關鍵設定/流程、實測成效與練習與評估要點。其中涉及數據者，盡量以文中提供之「兩小時完成維修」與「舒適度改善」等事實為依據，其餘指標提供可量測方式供實作時採用。

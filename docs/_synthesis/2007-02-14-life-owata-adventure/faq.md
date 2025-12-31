@@ -5,6 +5,7 @@ synthesis_type: faq
 source_post: /2007/02/14/life-owata-adventure/
 redirect_from:
   - /2007/02/14/life-owata-adventure/faq/
+postid: 2007-02-14-life-owata-adventure
 ---
 
 # 人生ｵﾜﾀ＼(^o^)／の大冒険

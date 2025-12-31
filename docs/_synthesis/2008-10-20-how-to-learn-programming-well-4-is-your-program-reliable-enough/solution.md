@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2008/10/20/how-to-learn-programming-well-4-is-your-program-reliable-enough/
 redirect_from:
   - /2008/10/20/how-to-learn-programming-well-4-is-your-program-reliable-enough/solution/
+postid: 2008-10-20-how-to-learn-programming-well-4-is-your-program-reliable-enough
 ---
 
 以下內容基於原文的問題、根因、解法與成效，整理出 16 個具教學價值的實戰案例。每個案例皆包含問題陳述、根因分析、解決方案、關鍵程式碼、實測數據、學習要點、練習與評估標準，並在文末提供整體分類與學習路徑建議。

@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2008/06/23/plagiarized-again/
 redirect_from:
   - /2008/06/23/plagiarized-again/solution/
+postid: 2008-06-23-plagiarized-again
 ---
 
 以下內容基於提供的文章脈絡（技術部落格內容遭未註明出處之轉貼、以 Google 搜尋發現盜貼、對 Blogger/百度知道等平台情境的處置、截圖保留證據、不主動連結以免增加點擊等）。文章本身並未提供每個解法的量化成效數據與完整程式碼，本文在「實際案例」欄位中標示文章已發生的事實，在「實測數據」欄位中如無原文資料，則提出可追蹤的建議指標，供實務練習與評估之用。

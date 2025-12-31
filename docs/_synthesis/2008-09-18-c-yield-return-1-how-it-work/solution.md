@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2008/09/18/c-yield-return-1-how-it-work/
 redirect_from:
   - /2008/09/18/c-yield-return-1-how-it-work/solution/
+postid: 2008-09-18-c-yield-return-1-how-it-work
 ---
 
 以下內容依據原文中呈現的問題、根因、解法與示例整理為可教學、可練習、可評估的 16 個解決方案案例。每個案例皆包含問題、根因、解法設計、實施步驟、關鍵程式碼、實測數據與學習要點等欄位。

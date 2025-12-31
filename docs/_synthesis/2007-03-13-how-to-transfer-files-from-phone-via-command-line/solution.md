@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2007/03/13/how-to-transfer-files-from-phone-via-command-line/
 redirect_from:
   - /2007/03/13/how-to-transfer-files-from-phone-via-command-line/solution/
+postid: 2007-03-13-how-to-transfer-files-from-phone-via-command-line
 ---
 
 以下內容基於原文情境，將文中提及的問題、根因、解法與實際效益予以結構化，整理為15個具教學價值的實戰案例。每個案例均附實作步驟與可運用的程式碼片段，利於專案練習與評量。

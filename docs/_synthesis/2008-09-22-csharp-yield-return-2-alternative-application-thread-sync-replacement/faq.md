@@ -5,6 +5,7 @@ synthesis_type: faq
 source_post: /2008/09/22/csharp-yield-return-2-alternative-application-thread-sync-replacement/
 redirect_from:
   - /2008/09/22/csharp-yield-return-2-alternative-application-thread-sync-replacement/faq/
+postid: 2008-09-22-csharp-yield-return-2-alternative-application-thread-sync-replacement
 ---
 
 # [C# yield return] 另類的應用：Thread Sync 替代方案

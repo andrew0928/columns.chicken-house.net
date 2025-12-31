@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2005/04/08/php-python-on-net/
 redirect_from:
   - /2005/04/08/php-python-on-net/solution/
+postid: 2005-04-08-php-python-on-net
 ---
 
 說明：原文僅為「.NET CLR 支援更多語言（IronPython、Phalanger）」的簡訊，未包含具體的問題敘述、根因、方案與成效數據，無法直接「抽取」出案例。為滿足教學、實作與評估需求，以下提供「依主題延伸設計」且可落地實作的 15 個完整案例，聚焦於在 .NET 上使用 Python（IronPython）與 PHP（Phalanger 的現代替代 PeachPie）之整合、優化與部署。所有成效數據為示例性測試數據與目標範圍，用於實作評估與驗收標準，非原文實測。

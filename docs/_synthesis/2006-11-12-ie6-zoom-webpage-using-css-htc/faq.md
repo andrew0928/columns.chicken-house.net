@@ -5,6 +5,7 @@ synthesis_type: faq
 source_post: /2006/11/12/ie6-zoom-webpage-using-css-htc/
 redirect_from:
   - /2006/11/12/ie6-zoom-webpage-using-css-htc/faq/
+postid: 2006-11-12-ie6-zoom-webpage-using-css-htc
 ---
 
 # IE6 縮放網頁: using css + htc

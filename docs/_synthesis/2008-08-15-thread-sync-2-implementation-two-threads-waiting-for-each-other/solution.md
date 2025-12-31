@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2008/08/15/thread-sync-2-implementation-two-threads-waiting-for-each-other/
 redirect_from:
   - /2008/08/15/thread-sync-2-implementation-two-threads-waiting-for-each-other/solution/
+postid: 2008-08-15-thread-sync-2-implementation-two-threads-waiting-for-each-other
 ---
 
 ## Case #1: 從被動回呼到主動思考：以 AsyncPlayer 反轉控制權

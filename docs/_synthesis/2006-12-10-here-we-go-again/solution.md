@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2006/12/10/here-we-go-again/
 redirect_from:
   - /2006/12/10/here-we-go-again/solution/
+postid: 2006-12-10-here-we-go-again
 ---
 
 以下內容說明：

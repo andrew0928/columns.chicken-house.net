@@ -5,6 +5,7 @@ synthesis_type: faq
 source_post: /2019/12/12/home-networking/
 redirect_from:
   - /2019/12/12/home-networking/faq/
+postid: 2019-12-12-home-networking
 ---
 
 # 水電工日誌 #7. 事隔 12 年的家用網路架構大翻新

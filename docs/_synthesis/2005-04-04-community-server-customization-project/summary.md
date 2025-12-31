@@ -5,6 +5,7 @@ synthesis_type: summary
 source_post: /2005/04/04/community-server-customization-project/
 redirect_from:
   - /2005/04/04/community-server-customization-project/summary/
+postid: 2005-04-04-community-server-customization-project
 ---
 
 # community server 改造工程

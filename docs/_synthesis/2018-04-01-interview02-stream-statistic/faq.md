@@ -5,6 +5,7 @@ synthesis_type: faq
 source_post: /2018/04/01/interview02-stream-statistic/
 redirect_from:
   - /2018/04/01/interview02-stream-statistic/faq/
+postid: 2018-04-01-interview02-stream-statistic
 ---
 
 # 架構面試題 #2：連續資料的統計方式 FAQ

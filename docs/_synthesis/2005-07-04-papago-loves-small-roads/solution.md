@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2005/07/04/papago-loves-small-roads/
 redirect_from:
   - /2005/07/04/papago-loves-small-roads/solution/
+postid: 2005-07-04-papago-loves-small-roads
 ---
 
 以下內容基於原文所描述的實際情境（PDA 版 Papago 導航易走怪路、無法指定必經點、PC 版算路又快又好、想強迫走中正橋但需額外調整、繞遠路達 26km 等），提煉與擴展成可落地的 15 個問題解決案例，涵蓋規劃流程、設定調校、資料同步與自動化等面向，供實戰教學、專案練習與評估使用。

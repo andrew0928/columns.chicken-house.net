@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2007/03/28/vista-first-experience-disk-edition/
 redirect_from:
   - /2007/03/28/vista-first-experience-disk-edition/solution/
+postid: 2007-03-28-vista-first-experience-disk-edition
 ---
 
 以下內容基於原文中提到的核心主題（Vista 的 Volume Shadow Copy、Windows Complete PC/VHD、iSCSI Initiator，以及由此延伸的備份、還原、虛擬化與儲存整合）擴充成可操作、可評估的實戰教學案例。每個案例均包含問題、根因、解法、程式碼/設定、實測與學習要點，便於課程、專案練習與測評。

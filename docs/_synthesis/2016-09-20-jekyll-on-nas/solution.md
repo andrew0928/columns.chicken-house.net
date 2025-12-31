@@ -6,6 +6,7 @@ synthesis_type: solution
 source_post: /2016/09/20/jekyll-on-nas/
 redirect_from:
   - /2016/09/20/jekyll-on-nas/solution/
+postid: 2016-09-20-jekyll-on-nas
 ---
 
 ## Case #1: 用 Jekyll 靜態化取代 NAS 上的 WordPress

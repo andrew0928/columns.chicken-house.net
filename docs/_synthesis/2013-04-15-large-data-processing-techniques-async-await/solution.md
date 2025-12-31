@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2013/04/15/large-data-processing-techniques-async-await/
 redirect_from:
   - /2013/04/15/large-data-processing-techniques-async-await/solution/
+postid: 2013-04-15-large-data-processing-techniques-async-await
 ---
 
 ## Case #1: 以 Async/Await 管線化 Read/Process/Write，倍增大型檔案串流吞吐

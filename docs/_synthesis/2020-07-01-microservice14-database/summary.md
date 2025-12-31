@@ -5,6 +5,7 @@ synthesis_type: summary
 source_post: /2020/07/01/microservice14-database/
 redirect_from:
   - /2020/07/01/microservice14-database/summary/
+postid: 2020-07-01-microservice14-database
 ---
 
 # 微服務架構設計 - 資料庫的選擇, RDBMS or NOSQL?

@@ -5,6 +5,7 @@ synthesis_type: faq
 source_post: /2016/12/01/microservice7-apitoken/
 redirect_from:
   - /2016/12/01/microservice7-apitoken/faq/
+postid: 2016-12-01-microservice7-apitoken
 ---
 
 # 微服務架構 #4, 如何強化微服務的安全性? API Token / JWT 的應用

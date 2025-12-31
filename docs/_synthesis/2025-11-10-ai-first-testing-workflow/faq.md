@@ -5,568 +5,571 @@ synthesis_type: faq
 source_post: /2025/11/10/ai-first-testing-workflow/
 redirect_from:
   - /2025/11/10/ai-first-testing-workflow/faq/
+postid: 2025-11-10-ai-first-testing-workflow
 ---
-
 # AI-First Testing, 以 AI 為核心重新設計測試流程
 
 ## 問題與答案 (FAQ)
 
 ### Q&A 類別 A: 概念理解類
 
-A-Q1: 什麼是 AI-First Testing？
-- A簡: 以 AI 為核心重設測試流程，先用 AI探索步驟、再生成自動化程式，提升效率與一致性。
-- A詳: AI-First Testing 是從 AI 的能力出發重新設計測試流程的思維。不是把 AI 當人力替代而直接執行所有測試，而是分工：讓 AI 先「探索」測試步驟、驗證情境與操作方式，然後把探索結果固化為「可重複執行的程式碼」。此流程左移文件維護（AC→Decision Table→Test Cases）與自動化設計，降低 GPU 成本與結果不一致問題，最終由程式碼（CPU）在 CI/CD 穩定回歸。核心價值在於高覆蓋、低成本與高穩定的跨介面（API/Web）測試。
+Q1: 什麼是 AI-First Testing？
+- A簡: 以 AI 主導「探索與設計」，由程式碼承載重複執行的重新分工測試方法。
+- A詳: AI-First Testing 是從 AI 能力出發重新設計測試流程的做法。它將「需要判斷」交給人、「需要探索」交給 AI、「需要穩定重複」交給程式碼。流程分三步：用決策表收斂有價值的測試、用 AI 探索並記錄執行步驟、用生成的規格產出可重複的自動化測試程式。其核心是以 AI 提升探索效率、以 CPU 程式穩定執行，避免把 AI 硬塞進舊流程造成成本與不一致。
 - 難度: 初級
 - 學習階段: 基礎
-- 關聯概念: A-Q2, A-Q3, B-Q1
+- 關聯概念: A-Q2, A-Q4, B-Q1
 
-A-Q2: 為何不直接用 AI 重複執行測試？
-- A簡: 成本昂貴、速度偏慢、結果不穩定；應讓 AI 探索，重複執行交由程式碼。
-- A詳: 直接以 AI 逐次執行測試會遇到三大問題：一是 GPU 成本高且累積測試次數巨大；二是速度不如程式化自動化；三是生成式模型的非決定性導致不同輪結果有偏差。最佳解是讓 AI 用於「探索」與「生成自動化測試程式碼」，將重複執行移交給 CPU 驅動的測試框架（如 xUnit、Playwright），兼顧性能、成本與一致性。
+Q2: AI-First 與傳統測試流程有何差異？
+- A簡: 傳統聚焦人工編寫與執行；AI-First 重構分工與左移探索，降低成本與不一致。
+- A詳: 傳統測試以人力設計、手動或腳本執行，瓶頸在編寫速度與維護量。AI-First 重新分工：AI 進行探索與步驟設計，程式碼承載回歸執行，決策表統一定義測試範圍，並「左移」自動化，將不確定的探索轉為一次性生成的標準測試程式。差異在於流程重塑與資源配置（Brain/GPU/CPU）平衡，而非僅以 AI 替換人力。
 - 難度: 初級
 - 學習階段: 基礎
-- 關聯概念: A-Q1, B-Q11, B-Q22
+- 關聯概念: A-Q1, A-Q14, B-Q20
 
-A-Q3: 在 AI 自動化語境中，什麼是「左移」？
-- A簡: 把文件維護與自動化設計前置，減少後段執行成本與不確定性。
-- A詳: 左移指將關鍵活動（規格澄清、決策表維護、測試設計、執行架構）前置到研發流程早期完成。AI-First Testing 中左移兩件事：一是文件左移（AC→Decision Table→抽象 Test Case），二是執行左移（先由 AI 探索步驟再生成測試碼）。這讓後段只需以程式碼穩定回歸，降低 GPU 依賴與不一致性。
+Q3: 為什麼不能只把 AI 塞進舊流程？
+- A簡: 會遭遇成本、效能與結果不一致的天花板，無法發揮 AI 的變革性。
+- A詳: AI 作為新工具若硬套舊流程，往往出現三大問題：GPU 成本高、執行速度慢、結果不一致（同題重跑行為不同）。舊流程的瓶頸在「人力編寫慢」，AI 帶來的是「探索與生成 10x」，瓶頸轉移到規格與流程設計。唯有重構分工、左移自動化、建立高品質規格（Decision Table、Session Logs、OpenAPI）才能把不確定的探索轉為確定的程式執行。
 - 難度: 初級
 - 學習階段: 基礎
-- 關聯概念: A-Q1, A-Q2, B-Q12
+- 關聯概念: A-Q16, B-Q10, D-Q9
 
-A-Q4: Acceptance Criteria（AC）是什麼？
-- A簡: 驗收條件，明確界定需求達成標準，是決策表與測試展開的源頭。
-- A詳: AC 是從需求/用戶故事中提煉的驗收標準，界定何時視為完成。AI-First Testing 以 AC 為起點，透過 Decision Table 展開條件與行動組合形成測試範圍，再進一步轉為抽象 Test Case。良好 AC 讓 AI 易於探索、降低歧義並提升測試覆蓋與價值。
+Q4: AI-First Testing 的三大步驟是什麼？
+- A簡: 設定範圍、探索步驟、生成程式；對應 TestKit: GenTest、Run、GenCode。
+- A詳: 三步驟：1) 用 Decision Table 從 AC 收斂測試範圍，明確條件與動作，生成 Test Cases；2) 用 AI+MCP 探索執行步驟（API 或 Web），記錄 Session Logs 與示例；3) 用 SpecKit/生成器將規格、案例與示例轉為穩定的自動化測試程式，交給 CPU 重複執行，降低 GPU/人力成本並提升一致性。
 - 難度: 初級
 - 學習階段: 基礎
-- 關聯概念: A-Q5, B-Q2, C-Q1
+- 關聯概念: B-Q2, B-Q4, C-Q7
 
-A-Q5: Decision Table 是什麼？
-- A簡: 用條件與行動列出所有組合，系統化選擇測試覆蓋與優先順序。
-- A詳: 決策表是一種以條件（Conditions）與動作（Actions）組合成規則（Rules）的分析工具，用於列舉所有可能的情境並清楚定義預期結果。在測試設計中，決策表能全面掌握組合覆蓋，並依風險與邊界排序測試優先。它適合商業規則與條件組合，但不適合效能、資安、併發、狀態機類型。
+Q5: 什麼是驗收條件（AC, Acceptance Criteria）？
+- A簡: 定義功能達成的可驗證條件，是展開決策表與測試的起點。
+- A詳: AC 是功能需求完成的驗收標準，描述何時視為「成功」。在 AI-First 中，AC 是 Decision Table 的來源，將 AC 中的條件、門檻、期望行為轉為可排列組合的 Criteria/Actions/Rules。良好的 AC 可避免探索過程失焦，提升生成 Test Case 的精準度，並支援跨通道測試（API/Web）。
 - 難度: 初級
 - 學習階段: 基礎
-- 關聯概念: A-Q6, B-Q2, D-Q8
+- 關聯概念: A-Q6, B-Q3, C-Q1
 
-A-Q6: 為何用 Decision Table 收斂有價值的測試？
-- A簡: 掌握全貌、辨識邊界與高風險情境，集中資源於最有價值測試。
-- A詳: 測試量常呈通膨。用決策表能列出完整條件組合、識別高價值與高風險規則（如最小/最大邊界、限制破壞、混合情境），再依重要性選擇要展開的 Test Case。AI 可協助生成格式，但需人工審查確保正確計算與規則符合業務語義。
-- 難度: 初級
-- 學習階段: 核心
-- 關聯概念: A-Q5, B-Q20, C-Q2
-
-A-Q7: AI 探索與測試執行有何不同？
-- A簡: 探索是找正確操作與驗證法；執行是以程式碼穩定重複回歸。
-- A詳: 探索是以 AI 根據測試案例與規格，反覆嘗試找到正確的操作序列、參數與驗證點；執行則將探索結果固化為測試程式，由 CPU 驅動在 CI/CD 穩定運行。把探索與回歸分離可兼顧靈活性與一致性。
-- 難度: 初級
-- 學習階段: 核心
-- 關聯概念: A-Q2, B-Q1, B-Q22
-
-A-Q8: 什麼是 TestKit？
-- A簡: 封裝 AI-First Testing 的 prompts、文件與工具的工作套件。
-- A詳: TestKit 是為 AI-First Testing 流程準備的套件化資源，包含指令（gentest、api.run、web.run、api.gencode、web.gencode）、必要 prompts、規格模板與工具設定。它將 AC→Decision Table→Test Case→探索→生成測試碼的供應鏈具體化，降低導入成本。
+Q6: Decision Table（決策表）是什麼？
+- A簡: 用系統化列舉條件組合與動作的表格，管理測試範圍與優先順序。
+- A詳: 決策表將條件（Criteria）與動作（Actions）排列成規則（Rules），清楚列出所有組合及預期結果，便於分析覆蓋率、邊界值與優先級。在 AI-First 中，它是生成高複用 Test Case 的核心，讓 AI 能據此探索步驟並產出自動化測試。適合邏輯組合類測試，不適合效能、資安、壓力與高度狀態機測試。
 - 難度: 初級
 - 學習階段: 基礎
-- 關聯概念: A-Q9, B-Q17, C-Q1
+- 關聯概念: A-Q22, B-Q3, C-Q2
 
-A-Q9: TestKit 的核心指令有哪些？
-- A簡: gentest、api.run、web.run、api.gencode、web.gencode 五組指令。
-- A詳: 五組指令對應三階段兩介面：gentest 生成決策表與案例；api.run/web.run 讓 AI 探索 API/WEB 操作步驟並記錄 Session；api.gencode/web.gencode 以探索結果生成 API/WEB 的自動化測試程式碼。此分工支持跨介面共用 Test Case。
+Q7: Test Case 在 AI-First 中如何定義？
+- A簡: 保持抽象、聚焦業務意圖與期望輸出，跨 API/Web 通道可重用。
+- A詳: AI-First 的 Test Case 避免操作細節，聚焦「Given/When/Then」與資料、驗證點。它由 Decision Table 展開，保留業務語義，使 AI 在探索時可匹配 API 規格或 Web 操作。抽象的 Test Case 可跨不同介面共用，減少重複維護，提高一致性與覆蓋效率。
 - 難度: 初級
 - 學習階段: 基礎
-- 關聯概念: A-Q8, B-Q1, C-Q3
+- 關聯概念: B-Q17, C-Q3, C-Q9
 
-A-Q10: MCP（Model Context Protocol）是什麼？
-- A簡: 為 Agent提供工具與分層上下文管理的協議/實作框架。
-- A詳: MCP 提供 Agent 外接工具、資料與行為的標準。本文用 MCP 將 API 呼叫抽象為「operation/action/context」，並內置 LLM 解析 text→function calling→HTTP。好處是隔離噪音、分層處理 OAuth2 與規格、避免主 Agent 的上下文爆炸。
+Q8: 什麼是 TestKit？為何需要它？
+- A簡: 封裝 prompts、文件與工具的套件，對齊三步驟，降低操作成本。
+- A詳: TestKit 是為 AI-First Testing 打包的工作套件，含指令（GenTest、API.Run/Web.Run、API.GenCode/Web.GenCode）、模板與工具。它提供標準化上下文、資源位置與 MCP 整合，確保 AI 能正確探索與生成，減少手動拼接、上下文噪音與人為錯誤，使流程可重複、可審核、可持續改進。
 - 難度: 中級
 - 學習階段: 核心
-- 關聯概念: B-Q3, B-Q7, D-Q6
+- 關聯概念: B-Q2, B-Q4, C-Q4
 
-A-Q11: 什麼是 Context Engineering？
-- A簡: 設計與管理 Agent 上下文內容，控制噪音與重點，提升推理品質。
-- A詳: Context Engineering 指導入哪些資料、如何編排與精簡，使 Agent 能聚焦於任務。本案將冗長 swagger 規格改為 ListOperations 摘要、OAuth2 置於 MCP，避免上下文被冗餘細節污染，減少「context rot」並提升穩定性。
+Q9: TestKit 提供哪些核心指令？
+- A簡: GenTest、API.Run、API.GenCode、WEB.Run、WEB.GenCode 五組指令。
+- A詳: 指令映射三步驟與兩通道：1) GenTest：從 AC 生成 Decision Table 與 Test Cases；2) API.Run/WEB.Run：以 MCP 探索 API 或 Web 的實際執行步驟並記錄；3) API.GenCode/WEB.GenCode：用規格、案例、示例生成可重複執行的測試程式碼。這些指令形成閉環，確保探索成果轉化為穩定資產。
+- 難度: 初級
+- 學習階段: 基礎
+- 關聯概念: A-Q4, B-Q1, C-Q7
+
+Q10: 什麼是 MCP（Model Context Protocol）？
+- A簡: 為代理提供工具層抽象，隔離噪音并把自然語言映射到可執行操作。
+- A詳: MCP 是將模型與工具對接的協定/層，提供可調用的操作與上下文約束。它能把「文字意圖」轉為「API/Web 的具體呼叫」，並在內部管理認證（如 OAuth2）、規格載入與日誌記錄。MCP 的分層可顯著降低上下文噪音、避免把整份 OpenAPI/HTML 塞進主代理，提升探索成功率與效率。
 - 難度: 中級
 - 學習階段: 核心
-- 關聯概念: A-Q12, B-Q7, D-Q6
+- 關聯概念: B-Q5, B-Q8, D-Q2
 
-A-Q12: 什麼是「context rot」？
-- A簡: 上下文被雜訊與冗餘污染導致推理表現持續劣化的現象。
-- A詳: Context rot 指上下文的品質因噪音、冗餘、非必要細節逐步惡化，讓 Agent 難以聚焦與準確推理。本案避免將整份 swagger 長文塞入 Agent，改用 MCP 分層、摘要操作名單與 session 記錄，維持上下文精簡。
+Q11: MCP 在測試探索中的核心價值？
+- A簡: 抽象 API/Web 操作，減噪、分層、記錄，可重用探索軌跡為生測規格。
+- A詳: MCP 以工具封裝操作（ListOperations、CreateSession、RunStep）與上下文管理，把繁雜規格、認證與請求細節留在子層處理。主代理專注任務推理，MCP 則記錄 session logs、請求/回應，產出可供生成程式的示例。如此把不確定探索轉為確定規格，建立可審核、可復用的知識資產。
 - 難度: 中級
 - 學習階段: 核心
-- 關聯概念: A-Q11, B-Q7, D-Q6
+- 關聯概念: B-Q4, B-Q9, C-Q4
 
-A-Q13: 為何要抽象化 API 呼叫給 MCP？
-- A簡: 降噪與分層，主 Agent專注測試推理，MCP負責參數與呼叫細節。
-- A詳: 抽象化可用 operation 名稱呈現行為；用 action/context 說明意圖與背景。MCP 內部承擔 OAuth2、OpenAPI 對應、參數推導、HTTP 請求與足跡記錄，讓主 Agent 不被低階細節牽制，提升成功率與穩定性。
-- 難度: 中級
-- 學習階段: 核心
-- 關聯概念: B-Q3, B-Q4, D-Q4
-
-A-Q14: 「Brain/GPU/CPU」資源分工的核心價值？
-- A簡: 判斷交人腦、探索交AI、重複交程式，達成本與效能的最優化。
-- A詳: 人腦（Brain）擅長判斷與審查，AI（GPU）擅長探索與生成，程式（CPU）擅長穩定重複。照此分工設計流程可降低成本（Brain≫GPU≫CPU）、提升速度與穩定性，避免把高成本的 AI 用在回歸執行上。
-- 難度: 初級
-- 學習階段: 核心
-- 關聯概念: B-Q11, B-Q22, D-Q1
-
-A-Q15: 覆蓋率在此流程扮演什麼角色？
-- A簡: 衡量條件組合的驗證比例，指導測試優先順序與風險控管。
-- A詳: 覆蓋率顯示在決策表列出的情境中，測試實際踩到哪些組合。透過系統化展開與排序（邊界、高風險、常見場景），可聚焦有限資源到最有價值的測試上，並追蹤進度與缺口。
-- 難度: 初級
-- 學習階段: 核心
-- 關聯概念: A-Q5, B-Q20, C-Q2
-
-A-Q16: API 測試與 Web UI 測試有何差異？
-- A簡: API偏資料與協定，UI偏互動與可達性；可共用同一組抽象 Test Case。
-- A詳: API 測試重資料結構、協定與授權；Web UI 測試重視使用流程、元素可定位性與可達性（Accessibility）。抽象 Test Case 將操作細節留待探索，使同一業務情境能跨介面複用，降低文件維護量。
-- 難度: 初級
-- 學習階段: 核心
-- 關聯概念: B-Q21, C-Q8, D-Q9
-
-A-Q17: 為何「無障礙（Accessibility）」是 AI 操作網頁的關鍵？
-- A簡: AI 依 ARIA/語義標記理解元素，能穩定定位與操作，提升成功率。
-- A詳: 相較人類視覺，Agent 依賴語義化標記（ARIA role、aria-label、name、semantic HTML）與 Playwright MCP 的精簡結構。良好的無障礙設計使元素可被語義定位、行為可預期，降低影像辨識依賴與上下文負載。
-- 難度: 中級
-- 學習階段: 核心
-- 關聯概念: B-Q10, C-Q9, D-Q5
-
-A-Q18: 什麼是 Session Log？
-- A簡: 探索過程的抽象流程與 API 足跡記錄，供生成測試碼與審查。
-- A詳: Session Log 包含操作序列、意圖（action/context）、HTTP request/response 快照、總結與下一步建議。它是 AI 探索的工件，連接 Test Case 與測試碼生成，為後續 SpecKit/生成器提供高品質範例與規格。
-- 難度: 初級
-- 學習階段: 核心
-- 關聯概念: B-Q6, C-Q4, C-Q5
-
-A-Q19: 什麼是 SpecKit？何時該使用？
-- A簡: 規格驅動生成工具，適合大量一致化的測試碼產出與治理。
-- A詳: 當測試碼需滿足內部管理規範（命名、報告、參數注入、治理），應以 SDD/SpecKit 將規格化資料（接口規格、案例、步驟、環境）系統化，一次生成一致化測試碼。它比單純 prompt 更可控且可維運。
+Q12: SpecKit 是什麼？與 TestKit 有何關係？
+- A簡: 以規格驅動生成程式的框架；可承接 TestKit 產物生成一致測試碼。
+- A詳: SpecKit 是規格驅動開發（SDD）的工具集合，從高品質規格生成可維護的程式。TestKit 用於產出測試所需規格（案例、步驟、示例），SpecKit 則用來把這些規格「落地」為一致化、自動化測試程式碼。二者配合可提升大型團隊一致性、易維護性與與管理系統整合能力。
 - 難度: 中級
 - 學習階段: 進階
-- 關聯概念: B-Q16, C-Q10, D-Q10
+- 關聯概念: B-Q14, C-Q10, D-Q10
 
-A-Q20: SDD 與 AI-First Testing 的關聯是什麼？
-- A簡: SDD提供嚴謹規格，AI依此生成穩定程式，提升一致性與治理。
-- A詳: 規格驅動設計（SDD）讓 AI 有明確的輸入（接口、環境、案例、步驟、報告等），生成的程式更一致可控。AI-First Testing 在探索後以 SDD/SpecKit 規範化，避免 prompt 驅動的隨機性與偏差。
+Q13: 什麼是「左移」在 AI 自動化測試中的意義？
+- A簡: 早期讓 AI 探索確定步驟，後續只用程式重複執行，降低不確定性。
+- A詳: 左移指將探索與設計前置到流程早期，讓 AI 先確立正確步驟與驗證點，再一次性生成程式碼。如此便把大量回歸從 GPU/人力轉為 CPU，降低費用與波動。例如 40000 次測試改為 400 次探索 + 400 次生成 + 40000 次程式執行，將不確定轉為確定，大幅提升可預測性與效率。
+- 難度: 初級
+- 學習階段: 核心
+- 關聯概念: A-Q3, B-Q1, D-Q9
+
+Q14: 為什麼讓 AI 專注「探索」而非「重複執行」？
+- A簡: 探索需要推理，重複執行需一致性；程式碼更適合承載後者。
+- A詳: AI 擅長理解意圖、組合步驟與試錯，適合探索；但重複執行需要可預測、一致與低成本，程式碼與 CPU 更符合。讓 AI 反覆跑測試會有速度慢、成本高、結果不一致的問題。將探索成果固化為測試程式，就能穩定回歸、擴大覆蓋、降低 GPU Token 花費與人力審查負擔。
+- 難度: 初級
+- 學習階段: 基礎
+- 關聯概念: A-Q13, B-Q15, D-Q1
+
+Q15: GPU/CPU/Brain 的成本差異？
+- A簡: Brain>GPU>CPU；探索與判斷貴，重複執行以 CPU 最省。
+- A詳: 人腦成本最高且稀缺，GPU 次之且昂貴，CPU 最便宜且穩定。AI-First 就是把「探索」交給 GPU、「判斷」交給人、「重複執行」交給 CPU。這樣配置使整體成本曲線健康，避免用昂貴資源去執行大量可程式化的回歸任務，達到效能與費用的最佳平衡。
+- 難度: 初級
+- 學習階段: 基礎
+- 關聯概念: B-Q20, D-Q9, A-Q14
+
+Q16: 什麼是 Context Engineering？
+- A簡: 設計與控管模型上下文，降低噪音提高推理與操作成功率。
+- A詳: Context Engineering 是針對代理的上下文內容設計、分層與約束。避免把整份規格或冗長 HTML 直接丟給模型，改以 MCP 工具抽象操作、提供簡化清單（ListOperations）、最小必要上下文，以防「Context Rot」。好的上下文管理讓模型專注任務，減少幻覺、提升探索效率與一致性。
+- 難度: 中級
+- 學習階段: 核心
+- 關聯概念: B-Q10, D-Q2, A-Q10
+
+Q17: 什麼是 Context Rot（上下文腐壞/雜訊）？
+- A簡: 上下文混入過多無關細節，讓代理失準、慢與錯，探索失敗。
+- A詳: Context Rot 指上下文含大量無關或冗長資訊，造成模型注意力分散、推理路徑錯誤、成本膨脹。解法是分層抽象（MCP 子層處理細節）、提供操作清單而非整規格、記錄示例供生成使用。如此可讓主代理聚焦測試任務，顯著提升成功率與速度。
+- 難度: 中級
+- 學習階段: 核心
+- 關聯概念: B-Q5, B-Q10, D-Q2
+
+Q18: API 測試與 Web UI 測試的本質差異？
+- A簡: API 可程式化且穩定；Web 需元素定位與可操作性，受 UI 規範影響大。
+- A詳: API 測試著重規格契約與請求/回應驗證，易抽象與自動化。Web 測試需可靠定位元素、處理互動與狀態，受無障礙標記與結構影響。AI 操作 Web 常受可見性與定位困難影響，Playwright MCP 透過可存取性樹精簡頁面，提升可操作性。二者都可共用抽象 Test Case，以減少重複。
+- 難度: 中級
+- 學習階段: 核心
+- 關聯概念: B-Q12, C-Q8, D-Q3
+
+Q19: 為何無障礙設計（Accessibility）對 AI 測試重要？
+- A簡: 提供可存取性樹與語義，讓代理可靠定位與操作，減少影像辨識成本。
+- A詳: 無障礙設計提供語義標記（aria-label、role、name），形成可存取性樹，Playwright MCP 會以此精簡 HTML 與定位元素。相較影像辨識，無障礙標記更快更可靠，能讓 AI「看見」與「按下」正確元素。做好無障礙設計是讓系統 AI-friendly 的關鍵。
+- 難度: 中級
+- 學習階段: 核心
+- 關聯概念: B-Q13, C-Q9, D-Q3
+
+Q20: 覆蓋率（Coverage）在 AI-First 中的意義？
+- A簡: 以決策表全覽條件組合，確保重要與邊界情境都被測到。
+- A詳: 覆蓋率表示測試踩過多少條件組合與情境。AI-First 用決策表列出條件/動作/規則，清楚標示邊界值、違規與混合場景，再依風險與價值排序。如此讓探索與生成聚焦在「有價值的測試」，避免無止境的案例膨脹，提升測試的投入產出比。
+- 難度: 初級
+- 學習階段: 核心
+- 關聯概念: A-Q6, B-Q16, C-Q1
+
+Q21: 決策表不適合哪些測試類型？
+- A簡: 效能、資安、壓力、高併發狀態機等需另用方法設計。
+- A詳: 決策表擅長條件組合與邏輯驗證，但對於效能基準、滲透測試、壓力與高併發狀態切換等不適用。這些類型需用負載模型、攻防腳本、狀態機或特定框架設計。AI-First 可在非功能測試中用規格驅動（SDD）與專用工具輔助，但不依賴決策表本身。
+- 難度: 初級
+- 學習階段: 基礎
+- 關聯概念: B-Q16, D-Q8, C-Q10
+
+Q22: 什麼是 Session Log？為何要保存？
+- A簡: 探索過程的抽象記錄與請求回應示例，是生成程式的關鍵規格。
+- A詳: Session Log 記錄探索的執行步驟（Operation、Action、Context）、API/Web 請求與回應檔、摘要與建議。它是將不確定探索固化為可重用規格的核心產物，後續生成測試程式時作為「操作示例」，提高正確性、一致性與可審核性。
+- 難度: 中級
+- 學習階段: 核心
+- 關聯概念: B-Q9, C-Q5, C-Q7
+
+Q23: 什麼是 Text-to-calls？
+- A簡: 用自然語言描述操作，由工具層轉譯為具體 API/Web 呼叫。
+- A詳: Text-to-calls 是把「文字意圖」轉為「可執行呼叫」的機制。代理提供 operation 名稱、action 敘述與 context，MCP 以內部模型做參數對齊與 function calling，完成實際操作。它讓主代理不必塞滿上下文細節，專注於推理與流程設計。
+- 難度: 中級
+- 學習階段: 核心
+- 關聯概念: B-Q8, B-Q5, D-Q2
+
+Q24: Vibe Testing 與 AI-First 有何關係？
+- A簡: Vibe 偏即席直跑；AI-First 將其轉為探索前置與程式化回歸。
+- A詳: Vibe Testing 指以代理即席執行測試，雖能快速驗證但成本高且不一致。AI-First 將 Vibe 的探索能力前置，並把探索成果固化為自動化程式，避免每次都用 AI 重跑。兩者可互補：先 vibe 探索，再 AI-First 生成回歸測試。
+- 難度: 初級
+- 學習階段: 基礎
+- 關聯概念: A-Q14, B-Q4, C-Q5
+
+Q25: Acceptance Criteria 與 Test Case 的關聯？
+- A簡: AC 是來源，Test Case 是展開；AC 決定範圍與預期行為。
+- A詳: AC 定義成功條件，是決策表與 Test Case 的起點。決策表將 AC 的條件/門檻轉為可枚舉的規則，Test Case 再以 Given/When/Then 形化，保留意圖與驗證點。良好的 AC 直接決定覆蓋率與探索效率。
+- 難度: 初級
+- 學習階段: 基礎
+- 關聯概念: A-Q5, A-Q6, C-Q1
+
+Q26: 非功能性需求（NFR）在流程中的位置？
+- A簡: 不適用決策表；需以專用方法與工具，在生成與整合階段處理。
+- A詳: NFR 如資安、性能、可靠性多不適合決策表表述。AI-First 可在生成階段以 SpecKit 與測試管理規範整合，採用負載工具、靜態掃描、滲透框架等。流程上與功能測試並行，但規格與方法不同。
 - 難度: 中級
 - 學習階段: 進階
-- 關聯概念: A-Q19, B-Q16, C-Q10
+- 關聯概念: B-Q16, C-Q10, D-Q8
 
-A-Q21: 舊流程與新流程的本質差異？
-- A簡: 舊流程以人力中心；新流程以 AI探索+程式回歸，重設分工與供應鏈。
-- A詳: 舊流程只是把人換成 AI，未改變瓶頸。新流程重設資源分工與資訊供應鏈：左移文件與自動化設計、AI 專注探索、程式負責穩定回歸，並以 MCP 降噪與分層。這才真正發揮 AI 能力。
-- 難度: 初級
-- 學習階段: 核心
-- 關聯概念: A-Q1, B-Q12, D-Q1
-
-A-Q22: 為什麼把 AI 當 OS 使用會改變測試？
-- A簡: Agent 成為主要工作介面，工具與上下文視為作業層，流程需重構。
-- A詳: 年輕開發者把 AI 當 OS 使用，所有工作（寫碼、文檔、自動化）在 Agent 端完成。這要求測試流程（工具、上下文、規格）以 Agent 為中心重構，形成可供 AI 高效操作的「作業層」。
-- 難度: 初級
-- 學習階段: 核心
-- 關聯概念: B-Q1, B-Q3, A-Q11
-
-A-Q23: 什麼是「探索步驟」的產出物？
-- A簡: 操作序列、參數、驗證點、HTTP快照與摘要，供生成測試碼。
-- A詳: 探索產物包含：operation 列表、各步驟意圖與背景（action/context）、API request/response 快照、正負向斷言與誤差分析、總結與建議。這些構成測試碼生成的規格，確保回歸一致性。
-- 難度: 初級
-- 學習階段: 核心
-- 關聯概念: A-Q18, B-Q6, C-Q5
-
-A-Q24: 決策表的限制是什麼？
-- A簡: 適合條件組合；不適合效能、資安、壓力、併發與狀態機等測試。
-- A詳: 決策表善於條件/行動組合分析；但效能、資安、併發、狀態機、壓力測試需要其他方法（負載模型、風險矩陣、狀態轉移圖）。需搭配多種設計手段才能完整覆蓋不同測試目標。
-- 難度: 初級
-- 學習階段: 核心
-- 關聯概念: B-Q20, D-Q8, C-Q2
-
-A-Q25: 為何要做測試成本估算？
-- A簡: 指導選擇 AI探索+程式回歸策略，避免用 AI 重複執行造成通膨。
-- A詳: 粗估每年測試輪次與案例數量，計算 GPU token 成本與時間負擔，通常高於程式碼回歸。估算能說服改走「AI 探索→程式化回歸」以降成本、提速與穩定，避免落入局部最佳化。
-- 難度: 初級
-- 學習階段: 核心
-- 關聯概念: B-Q11, D-Q1, B-Q12
-
-A-Q26: 為何要共用 Test Case 跨介面（API/WEB）？
-- A簡: 減少重複文件維護，提升一致性與覆蓋，保障業務語義一致。
-- A詳: 用抽象 Test Case 不含操作細節，讓 AI 視介面探索出步驟。這樣可同一案例覆蓋 API/WEB，減少規格份數，避免邏輯分叉。探索結果再生成各介面測試碼，保持一致性。
-- 難度: 初級
-- 學習階段: 核心
-- 關聯概念: B-Q13, C-Q8, D-Q9
-
-A-Q27: 為何將 OAuth2 放在 MCP 內？
-- A簡: 自動處理授權與 token，避免上下文爆炸與步驟干擾。
-- A詳: OAuth2 是機械性流程，塞入主 Agent 上下文增加噪音且易出錯。放進 MCP 以程式碼處理，縮短探索時間、提升成功率，且可記錄足跡供審計與重現。
-- 難度: 中級
-- 學習階段: 核心
-- 關聯概念: B-Q5, D-Q7, C-Q3
-
-A-Q28: 什麼是 A2A（Agent-to-Agent）協議在本文的意涵？
-- A簡: 主 Agent 與 MCP 以 operation/action/context 三元組簡化互通。
-- A詳: A2A 是 Agent 間交流約定。本文用主 Agent→MCP 的三元組：指定 operation（API 名）、action（意圖）、context（背景），由 MCP 內 LLM 解析 function calling 與 HTTP。這大幅降低上下文負荷與溝通成本。
+Q27: A2A（Agent-to-Agent）通訊是什麼？
+- A簡: 主代理與子代理/工具以語義消息互動，協調完成任務。
+- A詳: A2A 指代理間協作模式。主代理負責任務推理，子代理（如 MCP）負責具體操作。消息包含 operation、action、context，子代理回傳結果與示例。此模式提高可組合性與可維護性，是大規模流程自動化的基石。
 - 難度: 中級
 - 學習階段: 進階
-- 關聯概念: B-Q18, B-Q3, B-Q4
+- 關聯概念: B-Q5, B-Q8, A-Q23
 
+Q28: OpenAPI Spec 在 AI-First 測試中的角色？
+- A簡: 操作契約來源；用於探索參考與生成測試程式的依據。
+- A詳: OpenAPI 提供 API 的結構、路徑、參數與回應模型。AI-First 不把整份規格塞給主代理，而以 MCP 子層載入並解析，提供精簡操作清單與參數映射。生成階段則用規格+Session 示例提升程式碼正確性與一致性。
+- 難度: 初級
+- 學習階段: 核心
+- 關聯概念: B-Q6, B-Q9, C-Q7
+
+Q29: SDD（Specification-Driven Development）是什麼？
+- A簡: 以高品質規格驅動生成與實作，提高一致性與可維護性。
+- A詳: SDD 用規格作為唯一事實源，驅動代碼生成與驗證。AI-First 產出高品質測試規格（案例、步驟、示例），搭配 SpecKit 可生成一致化測試程式並接入管理系統。適用大型團隊與長期維護情境。
+- 難度: 中級
+- 學習階段: 進階
+- 關聯概念: A-Q12, C-Q10, D-Q10
+
+Q30: 為何要跨通道共用 Test Case（API/Web）？
+- A簡: 減少重複維護，提升一致性與覆蓋率，對齊業務意圖。
+- A詳: 抽象的 Test Case 聚焦業務與驗證點，可被 API/Web 不同操作介面共用。如此避免維護多份相同邏輯不同界面的案例，降低文檔與生成量、提升一致性。探索與生成階段再基於通道特性產出步驟與程式碼。
+- 難度: 初級
+- 學習階段: 核心
+- 關聯概念: B-Q19, C-Q8, D-Q7
+
+---
 
 ### Q&A 類別 B: 技術原理類
 
-B-Q1: AI-First Testing 工作流程如何運作？
-- A簡: AC→Decision Table→Test Case→AI探索→Session→生成測試碼→程式回歸。
-- A詳: 流程分三段：1) 文件左移：由 AC 展開 Decision Table，收斂高價值規則，產生抽象 Test Case。2) 探索：主 Agent 搭配 MCP（QuickStart、ListOperations、CreateSession、RunStep），依 Test Case 與規格探索操作步驟、記錄 Session。3) 自動化：用 TestKit 的 api.gencode/web.gencode 或 SpecKit，將探索結果生成測試碼，以程式化邏輯穩定回歸。在此架構中，資料供應鏈與分層上下文管理是成功關鍵。
+Q1: AI-First Testing 整體如何運作？
+- A簡: 三步驟閉環：決策表→探索→生成測試程式，資源分工 Brain/GPU/CPU。
+- A詳: 技術原理說明：以 AC 為源生成 Decision Table，再展開 Test Case。用代理+MCP 探索 API/Web 步驟，留存 Session Logs（抽象過程與請求/回應示例）。最後以規格+示例生成測試程式（API/.NET+xUnit 或 Web/Playwright），交由 CPU 穩定回歸。關鍵步驟：規格化、抽象化、分層記錄。核心組件：TestKit 指令、MCP 工具、OpenAPI、Session Logs、SpecKit。
 - 難度: 中級
 - 學習階段: 核心
-- 關聯概念: A-Q1, A-Q3, C-Q6
+- 關聯概念: A-Q4, A-Q8, C-Q7
 
-B-Q2: 決策表如何展開成 Test Case？
-- A簡: 根據條件/行動規則，選高價值組合轉為 Given-When-Then 案例。
-- A詳: 先定義 Conditions（如各商品數量）與 Actions（金額、折扣、允許結帳等），形成 Rules。再依風險與邊界挑選要測的規則，轉為 Test Case：列出前置（Given）、步驟（When）、預期（Then）、驗證點與計算明細。AI 可生成草稿，務必人工審查計算與語義正確。
+Q2: TestKit.GenTest 如何從 AC 生成決策表與 Test Case？
+- A簡: 解析 AC 的條件與動作，系統化列舉規則並輸出案例草稿。
+- A詳: 技術原理：GenTest 讀入 AC，提取 Criteria（條件）與 Actions（動作），列舉 Rules（組合）並計算預期輸出（如金額、優惠、允許）。生成格式化 Decision Table，並按重要性分類成 Test Case 檔。關鍵步驟：抽取語義→定義度量→列舉組合→計算期望。核心組件：解析模板、計算器、用例生成器。
 - 難度: 中級
 - 學習階段: 核心
-- 關聯概念: A-Q5, C-Q2, D-Q8
+- 關聯概念: A-Q6, C-Q1, C-Q2
 
-B-Q3: MCP 工具設計與作用機制是什麼？
-- A簡: 以工具提供列表、建會話、跑步驟，分層處理 API 探索與呼叫。
-- A詳: MCP 提供四工具：QuickStart（使用指引）、ListOperations（可用操作摘要）、CreateSession（建會話、處理 OAuth2、資源初始化）、RunStep（執行指定 operation）。主 Agent 以 operation/action/context 呼叫 MCP，MCP 內 LLM 解析與 function calling、呼叫 HTTP，再把足跡寫入 Session，形成規格化工件。
+Q3: 如何設計 Decision Table 的 Criteria/Actions？
+- A簡: 用可枚舉的條件與可計算的動作，含邊界與違規場景。
+- A詳: 技術原理：Criteria 選用可度量條件（數量、狀態），Actions 定義可驗證輸出（金額、優惠、允許）。關鍵步驟：加入邊界（最小/最大）、違規（超限）、混合場景；對齊業務計算公式（如 floor(N/2)）。核心組件：欄位標準、計算規則庫、風險分類器。
 - 難度: 中級
 - 學習階段: 核心
-- 關聯概念: A-Q10, A-Q13, B-Q4
+- 關聯概念: A-Q20, C-Q2, D-Q8
 
-B-Q4: Text-to-Calls 的執行流程為何？
-- A簡: 解析意圖→映射操作→推導參數→function calling→HTTP→記錄。
-- A詳: 主 Agent 給出 action/context，MCP 內 LLM 以規則/範例將文字意圖映射到 operation，推導所需參數（包含 id、payload）後透過 function calling 產生結構化呼叫，HTTP 客戶端執行，回應被摘要成文字並存檔 request/response。此分層減少上下文噪音並提高成功率。
+Q4: TestKit.API.Run 的執行流程是什麼？
+- A簡: 讀規格→列操作→建 Session→RunStep 探索→記錄示例與摘要。
+- A詳: 技術原理：代理先用 MCP.ListOperations 取可用操作，再用 MCP.CreateSession 建立會話與 OAuth2，接著為每步 RunStep（含 operation、action、context）。MCP 以內部模型做 function calling，記錄 request/response。關鍵步驟：減噪抽象→語義到參數映射→會話化日誌。核心組件：MCP 工具、OpenAPI 載入器、Session Recorder。
 - 難度: 中級
 - 學習階段: 核心
-- 關聯概念: B-Q3, B-Q6, C-Q4
+- 關聯概念: A-Q10, B-Q8, C-Q5
 
-B-Q5: CreateSession 內的 OAuth2 流程如何設計？
-- A簡: 在 MCP 以程式碼處理授權與存 token，主 Agent 無需參與細節。
-- A詳: CreateSession 建立測試會話，讀取憑證，執行 OAuth2（如 client credentials 或 authorization code），取得 access token 存於 session context，後續 RunStep 自動附帶。這避免主 Agent 被冗長授權細節污染上下文。
-- 難度: 中級
-- 學習階段: 核心
-- 關聯概念: A-Q27, D-Q7, C-Q3
-
-B-Q6: Session Logs 架構與內容如何設計？
-- A簡: 步驟摘要、意圖、背景、HTTP足跡、結果與後續指示，供生成與審查。
-- A詳: 每一步包含：action、context、HTTP（request/response 檔名）、摘要（結果、驗證、偏差）、instructions（下一步建議）與 summary。另有原始足跡檔（openapi 快照、OAuth 日誌）。此架構支持審查與生成測試碼。
-- 難度: 中級
-- 學習階段: 核心
-- 關聯概念: A-Q18, C-Q5, C-Q6
-
-B-Q7: Context 管理策略與降噪機制？
-- A簡: 摘要操作、分層授權、外移冗長規格，保上下文精簡聚焦。
-- A詳: 不將整份 swagger 塞入 Agent；改用 ListOperations 摘要操作名，授權流程放 MCP；HTTP 細節以檔案保留、僅摘要入上下文。此策略減少 context rot，提升推理品質與成功率。
-- 難度: 中級
-- 學習階段: 進階
-- 關聯概念: A-Q11, A-Q12, D-Q6
-
-B-Q8: API Operation 映射與步驟範例？
-- A簡: 以 CreateCart→EstimatePrice→CreateCheckout 序列驗證空車情境。
-- A詳: 例：TC-01 空購物車。步驟：CreateCart 建空車→EstimatePrice 試算金額（應為 0）→CreateCheckout 檢查是否拒絕。每步錄 request/response。若行為與預期不符（如未拒絕），標記為缺陷並在測試碼中斷言失敗。
-- 難度: 初級
-- 學習階段: 核心
-- 關聯概念: C-Q4, D-Q3, B-Q6
-
-B-Q9: Web UI 探索在 Playwright MCP 的機制？
-- A簡: 解析頁面為精簡結構，依無障礙語義定位元素執行操作。
-- A詳: Playwright MCP 將 DOM 精簡為 YAML 式結構，保留可訪問性語義（role/name/label）與關鍵層級，使 Agent 能以語義選取器定位。這比影像辨識更高效、比完整 HTML 更輕量，提升探索穩定性。
-- 難度: 中級
-- 學習階段: 核心
-- 關聯概念: A-Q17, C-Q8, D-Q5
-
-B-Q10: Accessibility 標記如何被 Agent 使用？
-- A簡: 依 ARIA role/name/label 形成語義選取器，提升定位與操作成功率。
-- A詳: 以 semantic HTML 與 ARIA 屬性讓元素具可辨識語義，例如 role="button"、aria-label="Checkout"、可計算 name。Agent 透過 Playwright 使用 getByRole/getByLabel 等語義選取器定位，避免視覺坐標不穩問題。
-- 難度: 中級
-- 學習階段: 核心
-- 關聯概念: C-Q9, D-Q5, B-Q9
-
-B-Q11: 測試成本模型與資源分工架構？
-- A簡: AI 探索（GPU）一次性+測試碼回歸（CPU）多次，總成本最低。
-- A詳: 直接用 AI 執行 N 次測試成本高且不穩。改為：AI 探索 M 次（每案例一次或少數）+AI 生成測試碼 M 次，之後由 CPU 回歸 N 次。當 N≫M 時，總成本顯著下降且一致性提升。
-- 難度: 中級
-- 學習階段: 核心
-- 關聯概念: A-Q2, A-Q14, D-Q1
-
-B-Q12: 左移前後流程差異？
-- A簡: 前：人/AI反覆執行；後：先探索設計、後程式化回歸，穩定高效。
-- A詳: 左移後文件與自動化設計在早期完成，探索產出規格工件（Session、步驟、斷言）。回歸靠程式碼，避免每次用 AI。此改造兼顧速度、成本與一致性，支撐長期維護。
-- 難度: 初級
-- 學習階段: 核心
-- 關聯概念: A-Q3, A-Q21, D-Q1
-
-B-Q13: 跨介面案例複用架構？
-- A簡: 抽象 Test Case 不含操作細節，由介面探索解構成步驟。
-- A詳: Test Case 只描述業務意圖與預期（Given-When-Then）。API/WEB 各用 Agent+MCP 探索步驟與驗證，再各自生成測試碼。用此架構避免為不同界面維護多份案例。
-- 難度: 中級
-- 學習階段: 核心
-- 關聯概念: A-Q26, C-Q8, D-Q9
-
-B-Q14: 生成 API 測試碼的技術原理？
-- A簡: 用規格工件（OpenAPI、Test Case、Session）生成 xUnit 等測試程式。
-- A詳: 把接口規格、案例、探索步驟、HTTP 快照組合為生成器輸入，產出測試類、斷言、資料準備與環境注入（token、端點）。程式碼以純 CPU 回歸，保證一致性與速度。
-- 難度: 中級
-- 學習階段: 核心
-- 關聯概念: C-Q6, D-Q10, B-Q17
-
-B-Q15: 測試碼與 Test Management 整合架構？
-- A簡: 規格化命名、標籤、報告與參數治理，生成器內建標準。
-- A詳: 若需對接測試管理系統（用例編號、屬性、報告格式、環境變數），應以 SDD/SpecKit 錨定規格，生成器按標準輸出，確保跨專案一致治理與報告可讀性。
+Q5: MCP 如何抽象化 API 呼叫以降低上下文噪音？
+- A簡: 暴露操作名與語義，隱藏規格細節與認證，子層轉譯執行。
+- A詳: 技術原理：MCP 將繁雜規格與請求細節置於工具層，主代理只傳 operation、action、context。子層模型解析參數、執行請求、保存日誌。關鍵步驟：操作清單設計、語義到參數映射、最小必要回傳。核心組件：ListOperations、RunStep、Session 存檔器。
 - 難度: 高級
 - 學習階段: 進階
-- 關聯概念: A-Q19, C-Q10, D-Q10
+- 關聯概念: A-Q16, B-Q10, D-Q2
 
-B-Q16: SpecKit 與 SDD 的技術關係？
-- A簡: 以規格驅動生成，讓 AI 有一致、完整的輸入與產出。
-- A詳: SDD 提供嚴謹規格；SpecKit 實作規格→程式碼生成。相較 prompt 式生成，SDD/SpecKit 可保證一致性、可維護性與合規性，在測試碼治理場景尤為重要。
+Q6: ListOperations 如何解析 API 操作？
+- A簡: 從 OpenAPI 生成精簡操作清單，保留識別與必要描述。
+- A詳: 技術原理：載入 OpenAPI，抽取路徑/方法/操作名，生成帶語義描述的清單，避免把整份規格丟給主代理。關鍵步驟：規格解析→語義摘要→ID 綁定。核心組件：OpenAPI 解析器、摘要器、操作索引。
+- 難度: 中級
+- 學習階段: 核心
+- 關聯概念: A-Q28, C-Q4, D-Q6
+
+Q7: CreateSession 如何建立會話並處理 OAuth2？
+- A簡: 以工具層進行認證取得 token，綁定會話收納後續記錄。
+- A詳: 技術原理：MCP 工具在 CreateSession 中執行 OAuth2（以 .env/secret），保存 access token 與會話上下文，之後所有 RunStep 附帶會話資訊。關鍵步驟：認證流程→token 綁定→會話目錄。核心組件：Auth 客戶端、Session 目錄、密鑰管理。
+- 難度: 中級
+- 學習階段: 核心
+- 關聯概念: C-Q6, D-Q5, B-Q9
+
+Q8: RunStep 如何將自然語言轉為 API 呼叫？
+- A簡: 以 operation+action+context，子層模型做參數對齊並 function calling。
+- A詳: 技術原理：主代理傳入 operation 與語義敘述，MCP 內部模型根據規格對齊參數，構造請求並執行，返回結果與示例檔案路徑。關鍵步驟：語義解析→參數映射→執行與記錄。核心組件：語義解析器、請求生成器、結果摘要器。
 - 難度: 高級
 - 學習階段: 進階
-- 關聯概念: A-Q20, B-Q15, C-Q10
+- 關聯概念: A-Q23, B-Q5, C-Q5
 
-B-Q17: Artifact 流與資料供應鏈設計？
-- A簡: AC→Decision Table→Test Case→Session→OpenAPI快照→測試碼。
-- A詳: 供應鏈包括：AC（需求）、Decision Table（條件/行動）、Test Case（抽象案例）、Session Logs（步驟與足跡）、OpenAPI 快照、生成測試碼。每步產物有明確質量檢核與審查責任。
+Q9: Session Logs 的結構與內容包含哪些？
+- A簡: 步驟摘要、請求/回應檔、答案與後續建議，供生成程式使用。
+- A詳: 技術原理：每次 RunStep 會記錄 action、context、request/response 檔、answer（判定）、instructions（下一步建議）、summary（全局摘要）。關鍵步驟：標準化格式→檔案索引→人可讀摘要。核心組件：Logs 模板、檔案存儲、摘要器。
 - 難度: 中級
 - 學習階段: 核心
-- 關聯概念: A-Q8, A-Q18, C-Q5
+- 關聯概念: A-Q22, C-Q5, C-Q7
 
-B-Q18: A2A 三元組設計背後機制？
-- A簡: 最小充分訊息集，降低上下文負荷並保留意圖與背景。
-- A詳: operation/action/context 保留要做什麼、為什麼、在什麼情境。MCP 內 LLM 以此推導參數、執行呼叫並記錄。此設計促進 Agent 間協作與可擴充性。
-- 難度: 中級
+Q10: 如何管理 Context 以減少噪音並提升成功率？
+- A簡: 分層抽象、最小必要、語義摘要、示例留存不直塞規格。
+- A詳: 技術原理：採用 MCP 子層處理規格與認證，主代理只見操作清單與語義描述；用例示例在 Session 保存，生成時再取用。關鍵步驟：抽象 API/Web、語義到操作映射、上下文約束策略。核心組件：MCP 工具層、摘要器、規格索引。
+- 難度: 高級
 - 學習階段: 進階
-- 關聯概念: A-Q28, B-Q3, B-Q4
+- 關聯概念: A-Q16, A-Q17, D-Q2
 
-B-Q19: OpenAPI 規格在流程的角色？
-- A簡: 提供操作參考與參數對應，MCP 摘要操作並保留快照。
-- A詳: OpenAPI 是操作與資料契約的權威來源。為降噪不直接塞入上下文，MCP 提供 ListOperations 摘要，並保留原始快照供審計。生成器再用快照確保程式碼與契約一致。
+Q11: Text-to-calls 的機制與限制？
+- A簡: 語義轉呼叫依賴規格與詞彙；需標準術語與清楚上下文。
+- A詳: 技術原理：語義解析需對齊規格名稱、參數鍵、資料型態。若術語模糊或上下文不足，易映射錯誤。關鍵步驟：規格詞彙表、語義模板、錯誤回退。核心組件：名詞對齊器、型態校驗、錯誤處理。
 - 難度: 中級
 - 學習階段: 核心
-- 關聯概念: B-Q7, B-Q17, C-Q6
+- 關聯概念: B-Q8, D-Q1, D-Q2
 
-B-Q20: 覆蓋率計算與決策表的關聯？
-- A簡: 規則數就是理論組合，已展開案例數即為覆蓋率分子。
-- A詳: 決策表的規則集是理論覆蓋全集；選擇展開的規則數即為實際覆蓋分子。可依風險、重要性加權，形成加權覆蓋率，反映資源配置合理性。
-- 難度: 初級
-- 學習階段: 核心
-- 關聯概念: A-Q15, C-Q2, D-Q8
-
-B-Q21: Web 與 API 差異對 Agent 策略影響？
-- A簡: API 重協定與授權；Web 重語義定位與流程，需不同 MCP 策略。
-- A詳: API 探索需重參數推導與授權；Web 探索依賴無障礙語義與流程控制。MCP 設計應調整工具與摘要策略，使上下文最小充分，避免冗餘。
+Q12: Playwright MCP 的技術架構與特色？
+- A簡: 基於可存取性樹生成精簡視圖，支援語義定位與操作。
+- A詳: 技術原理：Playwright MCP 抽取頁面可存取性樹（role/name/label），生成精簡 YAML，供代理定位與操作元素（click、fill）。關鍵步驟：可存取性抽取→語義定位→動作執行。核心組件：AX 樹解析、定位器、動作執行器。
 - 難度: 中級
 - 學習階段: 核心
-- 關聯概念: A-Q16, B-Q9, C-Q8
+- 關聯概念: A-Q19, C-Q8, D-Q3
 
-B-Q22: 程式化自動化如何保證重複一致性？
-- A簡: 測試碼固化步驟與斷言，脫離模型不確定性，CPU 穩定回歸。
-- A詳: 將探索步驟與驗證點固化成測試程式，環境由變數注入避免硬編碼。回歸由測試框架執行，杜絕模型隨機性，保證每輪一致、可比對與可審計。
+Q13: Accessibility 標記如何被代理使用？
+- A簡: 利用 aria-*、role、name 作為語義鉤子，精準定位可操作元素。
+- A詳: 技術原理：代理根據可存取性樹查找符合語義的元素；標記完整可提升定位成功率與速度。關鍵步驟：語義標記規範→可視/可操作性→一致命名。核心組件：AX 標記策略、定位規則、名稱詞彙表。
+- 難度: 中級
+- 學習階段: 核心
+- 關聯概念: A-Q19, C-Q9, D-Q3
+
+Q14: SpecKit 生成測試程式的原理是什麼？
+- A簡: 以規格為源，模板化生成一致代碼，集成管理與報告。
+- A詳: 技術原理：讀取規格（OpenAPI、Test Case、Session 示例、內部規範），以模板引擎生成測試代碼與配置。關鍵步驟：規格合併→模板渲染→依賴注入與密鑰。核心組件：規格合併器、模板庫、管理集成插件。
+- 難度: 高級
+- 學習階段: 進階
+- 關聯概念: A-Q12, C-Q10, D-Q10
+
+Q15: API 測試程式（.NET + xUnit）的架構如何設計？
+- A簡: 客戶端封裝、測試類分案例、Arrange/Act/Assert 清晰。
+- A詳: 技術原理：封裝 ShopApiClient（含 token），每個 Test Case一類，構造場景（Arrange）、執行操作（Act）、斷言結果（Assert）。關鍵步驟：依賴注入 token、請求封裝、斷言邏輯邊界。核心組件：HttpClient、模型綁定、xUnit。
+- 難度: 中級
+- 學習階段: 核心
+- 關聯概念: C-Q7, D-Q5, D-Q10
+
+Q16: 覆蓋與優先級如何計算與排序？
+- A簡: 基於風險、價值、邊界與違規場景排序先測重要情境。
+- A詳: 技術原理：決策表標記場景類型（正常、邊界、超限、混合）、業務價值與風險分，生成優先執行清單。關鍵步驟：分類打分→分批探索→持續補齊。核心組件：風險評估器、分類器、計畫生成器。
+- 難度: 中級
+- 學習階段: 核心
+- 關聯概念: A-Q20, C-Q5, D-Q8
+
+Q17: 決策表到 Test Case 的映射規則？
+- A簡: 每條規則轉一或多用例；保留意圖與驗證點不含操作細節。
+- A詳: 技術原理：Rules→TCs：把條件值映射為測試資料、動作映射為預期輸出與斷言。關鍵步驟：Given/When/Then 模板化→資料與期望分離→通道無關。核心組件：用例模板、斷言庫、資料生成器。
+- 難度: 中級
+- 學習階段: 核心
+- 關聯概念: A-Q7, C-Q3, D-Q8
+
+Q18: 測試結果回報與摘要如何生成？
+- A簡: MCP/代理在 Session 中寫摘要與建議，測試框架輸出報告。
+- A詳: 技術原理：探索階段由代理在 Session Logs 填寫 answer、summary、instructions；生成階段測試框架輸出標準報告（通過/失敗、時間、訊息）。關鍵步驟：一致化格式→報告聚合→管理系統集成。核心組件：Logs 模板、Reporter、Dashboard。
+- 難度: 中級
+- 學習階段: 核心
+- 關聯概念: C-Q5, C-Q7, D-Q10
+
+Q19: 如何跨通道共用 Test Case？
+- A簡: 維持用例抽象，探索階段分通道生成步驟，代碼各自產出。
+- A詳: 技術原理：Test Case 僅含意圖與驗證；探索分 API/Web，各自記錄示例；生成階段各自產生測試程式。關鍵步驟：用例語義標準→步驟示例分通道→代碼生成分支。核心組件：用例庫、MCP API/Web、生成器。
+- 難度: 中級
+- 學習階段: 核心
+- 關聯概念: A-Q30, C-Q8, D-Q7
+
+Q20: 成本估算模型（GPU 時間與 Token 成本）如何評估？
+- A簡: 比較直接 AI 重跑 vs 探索+生成+CPU 回歸的總成本。
+- A詳: 技術原理：直接 AI 重跑每次數分鐘/Token 成本高、年累計巨大；左移後 400 次探索+400 次生成+40000 次 CPU 執行，將不確定換成確定，大幅降費與提速。關鍵步驟：測試量體估算→執行頻次→資源單價。核心組件：Cost 模型、執行計畫、資源配置。
 - 難度: 初級
 - 學習階段: 核心
-- 關聯概念: A-Q2, C-Q7, D-Q10
+- 關聯概念: A-Q15, D-Q9, C-Q7
 
+---
 
 ### Q&A 類別 C: 實作應用類（10題）
 
-C-Q1: 如何用 TestKit.GenTest 建立購物車決策表？
-- A簡: 撰寫 AC，執行 gentest，生成 Decision Table 與初始 Test Cases。
-- A詳: 步驟：1) 在 TestKit 中撰寫 AC（如折扣規則、商品清單、限制）。2) 呼叫 /testkit.gentest，AI 產出 Decision Table（條件/動作/規則）與測試企圖分類。3) 人工審查與修正計算與語義，定案後保存 decision-table.md。注意：AI 常算錯折扣或誤解規則，務必核對邊界。
+Q1: 如何準備 AC 並用 TestKit.GenTest 生成 Decision Table？
+- A簡: 撰寫清晰 AC，執行 GenTest，審核表格的條件、動作與規則。
+- A詳: 具體步驟：1) 撰寫 AC（條件、門檻、期望）；2) 在代理輸入 /testkit.gentest，附上商業敘述與限制（如限購≤10）；3) 檢視生成的 Decision Table，修正 Criteria/Actions 為可枚舉與可計算；4) 核對規則的期望值（含邊界、違規與混合）；5) 存檔 decision-table.md。注意事項：避免僅用 Y/N，加入數值與公式；標示允許/拒絕與計算明細。最佳實踐：附上計價公式與示例，利於後續生成。
 - 難度: 初級
 - 學習階段: 基礎
-- 關聯概念: A-Q5, B-Q2, D-Q8
+- 關聯概念: A-Q5, A-Q6, B-Q2
 
-C-Q2: 如何審查與修正 Decision Table？
-- A簡: 核對條件/動作定義、邊界值與計算公式，修訂後重展案例。
-- A詳: 步驟：1) 檢查 Conditions/Actions 是否貼近業務域。2) 逐規則驗算金額、折扣、允許判定。3) 補足最小/最大邊界、違規與混合情境。4) 修訂表後用 gentest 展開所有 Test Case，形成 tc-xx 檔。注意：標註重要性以利後續優先執行。
+Q2: 如何審核與修正 Decision Table 的品質？
+- A簡: 檢查條件可枚舉、動作可計算、邊界與違規場景完備。
+- A詳: 具體步驟：1) 確認 Criteria 可度量（如商品數量）；2) Actions 可計算（總金額、優惠、允許）；3) 覆蓋最小/最大邊界（1、10、>10）；4) 驗證示例數值與公式（如 floor(N/2)）；5) 標記重要性與風險排序；6) 修正誤解（如「每組第二件六折」而非「第二件之後全六折」）。注意事項：避免泛化條件；保留期望輸出。最佳實踐：雙人審核與示例檢算。
+- 難度: 中級
+- 學習階段: 核心
+- 關聯概念: B-Q3, A-Q20, D-Q8
+
+Q3: 如何用 TestKit 生成所有 Test Case 檔案？
+- A簡: 依決策表展開用例模板，導出目錄結構與案例明細。
+- A詳: 具體步驟：1) 確認 decision-table.md；2) 執行 TestKit.GenTest 的用例導出功能；3) 生成 /tests/.../tc-XX-*.md，含 Given/When/Then、資料與斷言；4) 附上 API 呼叫建議序列；5) 整理覆蓋率報告。注意事項：用例抽象，不含通道細節；命名一致易追蹤。最佳實踐：為每案附重要性與風險。
 - 難度: 初級
-- 學習階段: 核心
-- 關聯概念: A-Q6, B-Q20, D-Q8
+- 學習階段: 基礎
+- 關聯概念: A-Q7, B-Q17, C-Q1
 
-C-Q3: 如何設定 MCP 並執行 TestKit.API.Run？
-- A簡: 安裝 MCP，配置 OAuth 憑證，執行 /testkit.api.run 開始探索。
-- A詳: 步驟：1) 安裝 MCP 並註冊工具（QuickStart、ListOperations、CreateSession、RunStep）。2) 準備 OAuth2 憑證於環境或配置檔。3) 在 Agent 執行 /testkit.api.run 指定要跑的規則集（如 R1-R6）。4) MCP 會建 session、列操作、依 Test Case 探索並記錄。注意：端點與 token 需有效，避免 401/403。
+Q4: 如何配置 MCP 以探索 API Test Steps？
+- A簡: 安裝工具層、提供 OpenAPI 與密鑰，啟用 ListOperations/Session/RunStep。
+- A詳: 具體步驟：1) 安裝 MCP（自製或套件）；2) 提供 OpenAPI 來源與 .env（OAuth2 client/secret）；3) 在代理執行 QuickStart，檢視操作指南；4) 呼叫 ListOperations 確認操作清單；5) CreateSession 綁定 token 與 session 目錄；6) RunStep 逐步探索。注意事項：避免把規格直接塞主代理；日誌目錄持久化。最佳實踐：命名 operation 與語義一致。
 - 難度: 中級
 - 學習階段: 核心
-- 關聯概念: B-Q3, B-Q5, D-Q7
+- 關聯概念: B-Q5, B-Q6, B-Q7
 
-C-Q4: 如何為 API 探索建立 Session 並記錄足跡？
-- A簡: 呼叫 CreateSession，MCP 內完成授權並初始化會話目錄。
-- A詳: 步驟：1) 在 /testkit.api.run 中讓 Agent 先用 CreateSession。2) MCP 讀憑證，完成 OAuth2，保存 access token。3) 每次 RunStep 寫入 session-logs.md 及 HTTP 快照檔（api-request/response）。4) 結束時回報摘要。注意：session 命名含日期場次便於回溯。
+Q5: 如何以 TestKit.API.Run 執行 R1-R6 並記錄 Session？
+- A簡: 指定用例範圍，逐步 RunStep，保存 request/response 與摘要。
+- A詳: 具體步驟：1) /testkit.api.run「執行：R1-R6」；2) 代理讀操作清單並設計步驟；3) 每步 RunStep（如 CreateCart、EstimatePrice、CreateCheckout）；4) MCP 保存 request/response（txt/json）、logs（md）；5) 代理填寫 answer/summary。注意事項：與預期不符要標注，供後續生成斷言。最佳實踐：每案對齊 Given/When/Then。
 - 難度: 中級
 - 學習階段: 核心
-- 關聯概念: B-Q6, B-Q5, A-Q18
+- 關聯概念: A-Q22, B-Q9, D-Q4
 
-C-Q5: 如何從 Session Logs 萃取 API 步驟成規格？
-- A簡: 摘出操作序列、參數與斷言，成為生成測試碼的輸入。
-- A詳: 步驟：1) 讀 session-logs.md 的 action/context 摘要。2) 對照 HTTP 快照，確立參數與期望回應。3) 蒐集斷言（成功/失敗訊息、金額、折扣、允許判定）。4) 整理成生成器所需規格。注意：含已知缺陷亦需轉為負向斷言。
+Q6: 如何設定 OAuth2 access token 給測試程式？
+- A簡: 用 .env 或環境變數注入，客戶端啟動時讀取注入 Header。
+- A詳: 具體步驟：1) 在本機或 CI 設定 ACCESS_TOKEN=...；2) 客戶端讀取 Environment.GetEnvironmentVariable；3) 在 HttpClient DefaultRequestHeaders.Authorization = Bearer token；4) 測試執行前檢查 token 存在。注意事項：避免硬編碼；密鑰管理使用秘密存儲。最佳實踐：CI 用 Vault/Secret Manager。
+- 難度: 初級
+- 學習階段: 基礎
+- 關聯概念: B-Q7, D-Q5, C-Q7
+
+Q7: 如何用 .NET + xUnit 生成並執行 API 測試程式碼？
+- A簡: 以 Session 示例設計 Arrange/Act/Assert，封裝客戶端並跑 dotnet test。
+- A詳: 具體步驟：1) 生成專案：dotnet new xunit；2) 封裝 ShopApiClient（讀 token、路徑方法）；3) 按用例生成測試類（Arrange 建立資料、Act 呼叫 API、Assert 斷言金額/優惠/允許）；4) 執行 dotnet test，檢視報告。注意事項：斷言邊界與違規行為；日誌輸出便於診斷。最佳實踐：分層設計與依賴注入。
 - 難度: 中級
 - 學習階段: 核心
-- 關聯概念: B-Q6, B-Q14, D-Q3
+- 關聯概念: B-Q15, D-Q10, A-Q14
 
-C-Q6: 如何生成 .NET xUnit 的 API 測試碼？
-- A簡: 執行 /testkit.api.gencode，以 Session 與規格生成測試類與斷言。
-- A詳: 步驟：1) 準備 openapi-spec.json、Test Case、session-logs.md。2) 呼叫 /testkit.api.gencode 指定場次。3) 生成 xUnit 專案與測試類（Arrange/Act/Assert）。4) 以環境變數注入 ACCESS_TOKEN。示例：在 Shell 設置 export ACCESS_TOKEN=xxx；dotnet test。注意：勿在測試碼內硬編碼憑證。
+Q8: 如何用 Playwright MCP 執行 Web 測試並記錄？
+- A簡: 啟動頁面、登入流程、場景操作、保存步驟與結果摘要。
+- A詳: 具體步驟：1) 安裝 Playwright MCP；2) /testkit.web.run 指定用例範圍；3) 代理以 AX 樹定位元素（登入、加購物車、結帳）；4) 保存操作記錄與截圖/摘要；5) 若元素不可見，修正標記或等待策略。注意事項：啟用無障礙標記；避免影像辨識模式。最佳實踐：元素命名一致與顯性按鈕控制。
 - 難度: 中級
 - 學習階段: 核心
-- 關聯概念: B-Q14, B-Q19, D-Q10
+- 關聯概念: B-Q12, B-Q13, D-Q3
 
-C-Q7: 如何在 CI/CD 執行自動化 API 測試？
-- A簡: 於流水線注入環境變數與端點，執行 dotnet test 並收斂報告。
-- A詳: 步驟：1) 在 CI 設定機密（ACCESS_TOKEN、API_BASE_URL）。2) 邏輯：restore→build→test，收集測試報告（trx 或 junit）。3) 異常時回傳失敗並附帶摘要。注意：定期以最新規格重生成測試碼，避免契約漂移。
+Q9: 如何設計可被 AI 操作的無障礙 Web UI？
+- A簡: 用 aria/role/name 清楚標記，保證可見且可操作，避免隱藏交互。
+- A詳: 具體步驟：1) 所有關鍵元素標記 role/name/aria-label；2) 按鈕在不可用狀態下隱藏或禁用（如空車不顯示結帳）；3) 一致命名與語義；4) 避免僅靠顏色/位置辨識；5) 測試 AX 樹輸出可讀性。注意事項：可見性與焦點管理。最佳實踐：事先自動檢查可存取性。
 - 難度: 中級
 - 學習階段: 核心
-- 關聯概念: B-Q22, D-Q10, B-Q15
+- 關聯概念: A-Q19, B-Q13, D-Q3
 
-C-Q8: 如何用 TestKit.WEB.Run 進行 Web 測試？
-- A簡: 安裝 Playwright MCP，確保頁面無障礙標記，執行探索並記錄。
-- A詳: 步驟：1) 安裝 Playwright MCP，配置瀏覽器。2) 在 TestKit 執行 /testkit.web.run 指定規則集。3) MCP 以語義選取器操作頁面（登入、加購、結帳）。4) 記錄語義操作日誌。注意：頁面需具備 role/name/label，否則定位失敗或耗時激增。
-- 難度: 中級
-- 學習階段: 核心
-- 關聯概念: B-Q9, B-Q10, D-Q5
-
-C-Q9: 如何設計無障礙屬性讓 Agent 能操作？
-- A簡: 使用 semantic HTML 與 ARIA 屬性，提供可辨識的 role/name/label。
-- A詳: 步驟：1) 元素用語義標籤（button、nav、form）。2) 加 aria-label="Checkout" 或明確文字。3) 用 getByRole('button', { name: 'Checkout' }) 便於選取。4) 隱藏時避免僅用 CSS，提供禁用或狀態語義。注意：測試頁面進入點應可見且可焦點。
-- 關聯概念: B-Q10, D-Q5, A-Q17
-- 難度: 中級
-- 學習階段: 核心
-
-C-Q10: 如何導入 SpecKit 產生一致化測試碼？
-- A簡: 彙整規格（接口、案例、步驟、環境），以 SpecKit 一次生成。
-- A詳: 步驟：1) 將 OpenAPI、Test Case、Session 步驟、環境與報告要求整理為 SDD。2) 用 SpecKit 映射到目標框架（xUnit/Playwright）。3) 生成測試碼並接入管理系統。注意：治理需求（命名、標籤、報告）以規格固定，避免手工偏差。
+Q10: 如何將探索結果導入 SpecKit 生成一致化測試？
+- A簡: 合併 OpenAPI、Test Case、Session 示例、內部規範，模板化渲染。
+- A詳: 具體步驟：1) 整理規格來源（OpenAPI、decision-table、tc-*.md、session-logs）；2) 設計測試管理規範（報告、命名、配置）；3) SpecKit 合併規格並渲染模板；4) 產出測試程式與配置，接管執行與報告。注意事項：規格一致性；密鑰安全。最佳實踐：把探索示例作為黃金樣本。
 - 難度: 高級
 - 學習階段: 進階
-- 關聯概念: B-Q15, B-Q16, D-Q10
+- 關聯概念: B-Q14, A-Q29, D-Q10
 
+---
 
 ### Q&A 類別 D: 問題解決類（10題）
 
-D-Q1: AI 測試太慢且昂貴怎麼辦？
-- A簡: 讓 AI 僅做探索與生成，回歸改用程式碼執行，降低成本與時間。
-- A詳: 症狀：每次 AI 執行耗時長、token 費用高。原因：過度依賴 AI 重複執行。解法：左移探索，生成測試碼，改以 CPU 在 CI 回歸。步驟：規格化、Session、生成器。預防：成本估算、嚴格分工 Brain/GPU/CPU。
+Q1: 遇到 AI 測試執行結果不一致怎麼辦？
+- A簡: 把探索成果固化為程式，減少重跑；用規格與斷言提升一致性。
+- A詳: 症狀：同一用例多次以 AI 直接執行結果不同。原因：上下文飄移、詞彙模糊、環境變動。解法：將探索前置，保存 Session 示例，生成程式承載回歸；加強斷言與資料固定；限制上下文與工具層抽象。預防：標準化規格、減噪、版本化示例。
 - 難度: 初級
-- 學習階段: 核心
-- 關聯概念: B-Q11, A-Q2, B-Q12
+- 學習階段: 基礎
+- 關聯概念: A-Q14, B-Q10, C-Q7
 
-D-Q2: AI 探索結果不一致如何處理？
-- A簡: 控制上下文與降噪，分層到 MCP，固化為規格與測試碼。
-- A詳: 症狀：不同輪探索步驟或判斷不一致。原因：上下文噪音、規格冗餘。解法：MCP 抽象 operation，授權流程移入 MCP，OpenAPI 用快照+摘要；審查 Session 成規格，生成測試碼。預防：Context Engineering、A2A 協議。
+Q2: Context window 溢出或雜訊過多如何處理？
+- A簡: 分層抽象、最小必要上下文、MCP 工具化並保存示例於檔案。
+- A詳: 症狀：模型回應漂移、卡頓、成本上升。原因：塞入整份規格/HTML、混入無關訊息。解法：MCP 子層處理規格與認證、ListOperations 提供清單、RunStep 以語義敘述；示例存檔不塞上下文。預防：上下文設計、術語詞彙表、模板化消息。
 - 難度: 中級
 - 學習階段: 核心
-- 關聯概念: A-Q11, B-Q7, A-Q28
+- 關聯概念: A-Q16, B-Q5, B-Q10
 
-D-Q3: 空購物車可結帳的缺陷如何修復？
-- A簡: 症狀：系統未拒絕空車。修正：API 加限制與驗證，測試碼斷言拒絕。
-- A詳: 症狀：TC-01 顯示空車仍能 CreateCheckout。原因：業務規則未實作。解法：API 加購物車非空檢查；錯誤碼與訊息明確。步驟：修 API→更新 OpenAPI→重生成測試碼。預防：決策表納入邊界規則、UI 同步禁用結帳。
+Q3: Playwright 找不到按鈕/元素怎麼解？
+- A簡: 補齊可存取性標記、確保可見與語義命名一致，避免隱藏交互。
+- A詳: 症狀：元素定位失敗、點擊不生效。原因：無 aria/role/name、不可見、動態渲染延時。解法：補標記、顯性控制按鈕（如空車不顯示結帳）、加等待策略；驗證 AX 樹輸出。預防：可存取性檢查、命名規範、顯性狀態提示。
+- 難度: 中級
+- 學習階段: 核心
+- 關聯概念: A-Q19, B-Q12, C-Q9
+
+Q4: 空購物車未被拒絕，如何診斷與修正？
+- A簡: 以 API/Web 用例重現，核對期望與實作，補邏輯或 UI 控制。
+- A詳: 症狀：空車仍可結帳。原因：API 未實作限制、Web 未禁用按鈕。解法：用 TestKit.API.Run 重現、檢視 Session；API 加檢查拒絕；Web 隱藏結帳或禁用；生成測試程式斷言拒絕行為。預防：決策表標記空車情境、通道一致策略。
 - 難度: 初級
-- 學習階段: 核心
-- 關聯概念: B-Q8, C-Q6, A-Q26
+- 學習階段: 基礎
+- 關聯概念: C-Q5, C-Q8, B-Q15
 
-D-Q4: MCP 找不到 API 參數怎麼診斷？
-- A簡: 檢查 operation 摘要與規範，補齊參數描述，調整 action/context。
-- A詳: 症狀：RunStep 失敗或參數缺失。原因：operation 或 action/context 不足、規格不明。解法：強化 ListOperations 描述、提供範例 payload、在 Session 指明意圖。預防：維持 OpenAPI 清晰、為常用操作提供範例卡片。
-- 難度: 中級
-- 學習階段: 核心
-- 關聯概念: B-Q3, B-Q4, C-Q5
-
-D-Q5: Playwright 無法點擊按鈕怎麼辦？
-- A簡: 增加無障礙語義（role/name/label），用語義選取器定位按鈕。
-- A詳: 症狀：看得見按鈕但點不到。原因：缺語義標記或被隱藏。解法：用 semantic HTML 與 ARIA；getByRole('button',{name})。預防：UI 以可達性為標準設計、避免純視覺坐標識別。
-- 難度: 中級
-- 學習階段: 核心
-- 關聯概念: B-Q10, C-Q9, A-Q17
-
-D-Q6: 上下文溢出導致模型錯誤怎麼辦？
-- A簡: 不塞完整 swagger，改用摘要與分層，將細節移入 MCP。
-- A詳: 症狀：回答漂移、操作失敗。原因：上下文超載、噪音過多。解法：ListOperations 摘要、Session 保存細節、MCP 解析 function call。預防：Context Engineering、限制提交長文。
-- 難度: 中級
-- 學習階段: 進階
-- 關聯概念: A-Q12, B-Q7, A-Q13
-
-D-Q7: OAuth2 錯誤導致測試失敗怎麼辦？
-- A簡: 在 MCP 完成授權，於會話存 token，測試碼用環境變數注入。
-- A詳: 症狀：401/403 或 token 過期。原因：授權在 Agent 混亂或硬編碼。解法：CreateSession 內處理 OAuth2；token 放 session；測試碼用 ACCESS_TOKEN 注入。預防：token 管理與刷新策略。
+Q5: Access token 缺失導致 API 認證失敗怎麼辦？
+- A簡: 用 .env/環境變數供 token，客戶端啟動時驗證與注入 Header。
+- A詳: 症狀：401/403、請求失敗。原因：未提供或過期 token。解法：CreateSession 正確走 OAuth2、測試程式讀環境變數；在 HttpClient 加 Bearer；在前置檢查 token。預防：密鑰管理、CI 秘密託管、定期刷新。
 - 難度: 初級
-- 學習階段: 核心
-- 關聯概念: B-Q5, C-Q6, C-Q7
+- 學習階段: 基礎
+- 關聯概念: B-Q7, C-Q6, B-Q15
 
-D-Q8: Decision Table 計算錯誤如何修正？
-- A簡: 逐規則驗算，修正公式與邊界，重展案例並標註重要性。
-- A詳: 症狀：折扣或金額錯算。原因：AI 誤解規則或計算失誤。解法：手動驗算；修正 A1-A4 公式；確立邊界與違規情境；重生成 Test Case。預防：提供清楚規則與範例、審查機制。
+Q6: Swagger/OpenAPI 太大導致上下文溢出如何處理？
+- A簡: 不直塞規格；用子層載入解析，輸出精簡操作清單。
+- A詳: 症狀：模型卡頓與成本飆升。原因：整規格塞主代理。解法：MCP 解析規格，ListOperations 提供清單；主代理僅持語義與示例；生成時才讀規格與檔案。預防：分層架構與規格索引。
+- 難度: 中級
+- 學習階段: 核心
+- 關聯概念: B-Q6, B-Q10, A-Q28
+
+Q7: 探索步驟耗時過長或卡住怎麼辦？
+- A簡: 限制範圍、優先重要用例、改善上下文與工具、分批執行。
+- A詳: 症狀：長時間探索、無法前進。原因：上下文噪音、用例過多、元素不可操作。解法：先跑 R1-R6 常規場景；改善無障礙標記；拆分用例批次；在 MCP 增加指引與 QuickStart。預防：優先級計畫、清晰術語、可操作性檢查。
 - 難度: 初級
-- 學習階段: 核心
-- 關聯概念: B-Q2, B-Q20, C-Q2
+- 學習階段: 基礎
+- 關聯概念: A-Q20, B-Q12, C-Q8
 
-D-Q9: 跨介面測試不一致如何診斷？
-- A簡: 比較 API/WEB 探索步驟與規則，找出邏輯差異並統一規格。
-- A詳: 症狀：API 與 Web 測試結論不同。原因：UI 有額外檢查或 API 缺失。解法：對照 Session；統一業務規則（如空車禁結帳）；更新 OpenAPI 與 UI 行為。預防：共用 Test Case、跨介面審查。
+Q8: 覆蓋率不足如何補強？
+- A簡: 檢視決策表，加入邊界、違規與混合場景，排序優先。
+- A詳: 症狀：重要情境漏測。原因：決策表不完整、未考慮邊界。解法：審核 Criteria/Actions、補最小/最大/超限、混合；用風險/價值排序；生成新用例並探索。預防：規格審核流程與雙人檢算。
+- 難度: 初級
+- 學習階段: 基礎
+- 關聯概念: B-Q3, B-Q16, C-Q2
+
+Q9: 測試量爆炸導致成本過高怎麼優化？
+- A簡: 左移探索與生成，將回歸交給 CPU，降低 GPU Token 成本。
+- A詳: 症狀：年度成本高、時間長。原因：每次靠 AI 直接跑。解法：探索一次、生成程式、回歸交 CPU；只在變更時重探索；合併用例與共用 Test Case。預防：成本模型與計畫、批次策略、規格管理。
+- 難度: 初級
+- 學習階段: 基礎
+- 關聯概念: A-Q13, B-Q20, C-Q7
+
+Q10: 自動化測試不穩定（Flaky）如何處理？
+- A簡: 強化斷言、固定資料、封裝客戶端、改善等待與可操作性。
+- A詳: 症狀：偶爾失敗。原因：環境不穩、等待不足、資料漂移。解法：封裝客戶端與重試策略；固定範例資料與 token；Web 加可存取性與顯性狀態；報告收斂分析。預防：規格驅動生成（SpecKit）、標準斷言模板、依賴隔離。
 - 難度: 中級
 - 學習階段: 核心
-- 關聯概念: A-Q16, B-Q13, C-Q8
+- 關聯概念: B-Q14, B-Q15, C-Q10
 
-D-Q10: 測試碼隨需求改變而失效如何避免？
-- A簡: 以 SpecKit 重生成，來源規格更新，測試碼自動一致。
-- A詳: 症狀：契約或流程變更使測試碼過時。原因：手工維護難一致。解法：更新 OpenAPI、Test Case、Session 規格；以 SpecKit 重生成。預防：治理規範、版本化規格與生成流水線。
-- 難度: 中級
-- 學習階段: 進階
-- 關聯概念: B-Q15, B-Q16, C-Q10
-
+---
 
 ### 學習路徑索引
-
 - 初學者：建議先學習哪 15 題
     - A-Q1: 什麼是 AI-First Testing？
-    - A-Q2: 為何不直接用 AI 重複執行測試？
-    - A-Q3: 在 AI 自動化語境中，什麼是「左移」？
-    - A-Q4: Acceptance Criteria（AC）是什麼？
-    - A-Q5: Decision Table 是什麼？
-    - A-Q6: 為何用 Decision Table 收斂有價值的測試？
-    - A-Q15: 覆蓋率在此流程扮演什麼角色？
-    - A-Q16: API 測試與 Web UI 測試有何差異？
-    - A-Q18: 什麼是 Session Log？
-    - A-Q26: 為何要共用 Test Case 跨介面（API/WEB）？
-    - B-Q1: AI-First Testing 工作流程如何運作？
-    - B-Q2: 決策表如何展開成 Test Case？
-    - B-Q12: 左移前後流程差異？
-    - C-Q1: 如何用 TestKit.GenTest 建立購物車決策表？
-    - D-Q1: AI 測試太慢且昂貴怎麼辦？
+    - A-Q2: AI-First 與傳統測試流程差異？
+    - A-Q3: 為什麼不能只把 AI 塞進舊流程？
+    - A-Q4: AI-First Testing 的三大步驟是什麼？
+    - A-Q5: 什麼是驗收條件（AC）？
+    - A-Q6: Decision Table（決策表）是什麼？
+    - A-Q7: Test Case 在 AI-First 中如何定義？
+    - A-Q13: 什麼是「左移」在 AI 自動化測試中的意義？
+    - A-Q14: 為什麼讓 AI 專注「探索」而非「重複執行」？
+    - A-Q15: GPU/CPU/Brain 的成本差異？
+    - A-Q20: 覆蓋率（Coverage）在 AI-First 中的意義？
+    - C-Q1: 如何準備 AC 並用 TestKit.GenTest 生成 Decision Table？
+    - C-Q3: 如何用 TestKit 生成所有 Test Case 檔案？
+    - D-Q1: 遇到 AI 測試執行結果不一致怎麼辦？
+    - D-Q9: 測試量爆炸導致成本過高怎麼優化？
 
 - 中級者：建議學習哪 20 題
-    - A-Q10: MCP（Model Context Protocol）是什麼？
-    - A-Q11: 什麼是 Context Engineering？
-    - A-Q12: 什麼是「context rot」？
-    - A-Q13: 為何要抽象化 API 呼叫給 MCP？
-    - A-Q17: 為何「無障礙」是 AI 操作網頁的關鍵？
-    - A-Q21: 舊流程與新流程的本質差異？
-    - B-Q3: MCP 工具設計與作用機制是什麼？
-    - B-Q4: Text-to-Calls 的執行流程為何？
-    - B-Q5: CreateSession 內的 OAuth2 流程如何設計？
-    - B-Q6: Session Logs 架構與內容如何設計？
-    - B-Q7: Context 管理策略與降噪機制？
-    - B-Q9: Web UI 探索在 Playwright MCP 的機制？
-    - B-Q10: Accessibility 標記如何被 Agent 使用？
-    - B-Q11: 測試成本模型與資源分工架構？
-    - B-Q14: 生成 API 測試碼的技術原理？
-    - B-Q21: Web 與 API 差異對 Agent 策略影響？
-    - C-Q3: 如何設定 MCP 並執行 TestKit.API.Run？
-    - C-Q6: 如何生成 .NET xUnit 的 API 測試碼？
-    - C-Q8: 如何用 TestKit.WEB.Run 進行 Web 測試？
-    - D-Q5: Playwright 無法點擊按鈕怎麼辦？
+    - A-Q8: 什麼是 TestKit？為何需要它？
+    - A-Q9: TestKit 提供哪些核心指令？
+    - A-Q10: 什麼是 MCP（Model Context Protocol）？
+    - A-Q16: 什麼是 Context Engineering？
+    - A-Q17: 什麼是 Context Rot（上下文腐壞/雜訊）？
+    - A-Q18: API 測試與 Web UI 測試的本質差異？
+    - A-Q19: 為何無障礙設計（Accessibility）對 AI 測試重要？
+    - A-Q28: OpenAPI Spec 在 AI-First 測試中的角色？
+    - B-Q1: AI-First Testing 整體如何運作？
+    - B-Q2: TestKit.GenTest 如何從 AC 生成決策表與 Test Case？
+    - B-Q3: 如何設計 Decision Table 的 Criteria/Actions？
+    - B-Q4: TestKit.API.Run 的執行流程是什麼？
+    - B-Q5: MCP 如何抽象化 API 呼叫以降低上下文噪音？
+    - B-Q6: ListOperations 如何解析 API 操作？
+    - B-Q7: CreateSession 如何建立會話並處理 OAuth2？
+    - B-Q9: Session Logs 的結構與內容包含哪些？
+    - C-Q4: 如何配置 MCP 以探索 API Test Steps？
+    - C-Q5: 如何以 TestKit.API.Run 執行 R1-R6 並記錄 Session？
+    - D-Q2: Context window 溢出或雜訊過多如何處理？
+    - D-Q3: Playwright 找不到按鈕/元素怎麼解？
 
 - 高級者：建議關注哪 15 題
-    - A-Q19: 什麼是 SpecKit？何時該使用？
-    - A-Q20: SDD 與 AI-First Testing 的關聯是什麼？
-    - A-Q28: 什麼是 A2A 協議在本文的意涵？
-    - B-Q15: 測試碼與 Test Management 整合架構？
-    - B-Q16: SpecKit 與 SDD 的技術關係？
-    - B-Q17: Artifact 流與資料供應鏈設計？
-    - B-Q18: A2A 三元組設計背後機制？
-    - B-Q19: OpenAPI 規格在流程的角色？
-    - B-Q22: 程式化自動化如何保證重複一致性？
-    - C-Q7: 如何在 CI/CD 執行自動化 API 測試？
-    - C-Q10: 如何導入 SpecKit 產生一致化測試碼？
-    - D-Q2: AI 探索結果不一致如何處理？
-    - D-Q4: MCP 找不到 API 參數怎麼診斷？
-    - D-Q6: 上下文溢出導致模型錯誤怎麼辦？
-    - D-Q10: 測試碼隨需求改變而失效如何避免？
+    - B-Q8: RunStep 如何將自然語言轉為 API 呼叫？
+    - B-Q10: 如何管理 Context 以減少噪音並提升成功率？
+    - B-Q12: Playwright MCP 的技術架構與特色？
+    - B-Q13: Accessibility 標記如何被代理使用？
+    - B-Q14: SpecKit 生成測試程式的原理是什麼？
+    - B-Q15: API 測試程式（.NET + xUnit）的架構如何設計？
+    - B-Q16: 覆蓋與優先級如何計算與排序？
+    - B-Q19: 如何跨通道共用 Test Case？
+    - B-Q20: 成本估算模型（GPU 時間與 Token 成本）如何評估？
+    - C-Q7: 如何用 .NET + xUnit 生成並執行 API 測試程式碼？
+    - C-Q8: 如何用 Playwright MCP 執行 Web 測試並記錄？
+    - C-Q10: 如何將探索結果導入 SpecKit 生成一致化測試？
+    - D-Q6: Swagger/OpenAPI 太大導致上下文溢出如何處理？
+    - D-Q10: 自動化測試不穩定（Flaky）如何處理？
+    - A-Q29: SDD（Specification-Driven Development）是什麼？

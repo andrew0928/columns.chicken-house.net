@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2008/10/01/how-to-learn-programming-well-2-why-programmers-should-learn-data-structures/
 redirect_from:
   - /2008/10/01/how-to-learn-programming-well-2-why-programmers-should-learn-data-structures/solution/
+postid: 2008-10-01-how-to-learn-programming-well-2-why-programmers-should-learn-data-structures
 ---
 
 以下內容基於原文抽取並重構，形成可教、可練、可評的問題解決案例集合。每個案例皆包含問題、根因、解法（含重點程式碼/流程）、並盡量給出文中可得的實測或推算指標。

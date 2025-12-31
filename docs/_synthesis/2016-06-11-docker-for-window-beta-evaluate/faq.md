@@ -5,6 +5,7 @@ synthesis_type: faq
 source_post: /2016/06/11/docker-for-window-beta-evaluate/
 redirect_from:
   - /2016/06/11/docker-for-window-beta-evaluate/faq/
+postid: 2016-06-11-docker-for-window-beta-evaluate
 ---
 
 # 專為 Windows 量身訂做的 Docker for Windows (Beta) ！FAQ 精選

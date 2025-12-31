@@ -5,6 +5,7 @@ synthesis_type: summary
 source_post: /2008/10/02/won-an-award/
 redirect_from:
   - /2008/10/02/won-an-award/summary/
+postid: 2008-10-02-won-an-award
 ---
 
 # 得獎了 :D~~~

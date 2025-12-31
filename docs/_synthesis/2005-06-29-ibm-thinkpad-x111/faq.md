@@ -5,6 +5,7 @@ synthesis_type: faq
 source_post: /2005/06/29/ibm-thinkpad-x111/
 redirect_from:
   - /2005/06/29/ibm-thinkpad-x111/faq/
+postid: 2005-06-29-ibm-thinkpad-x111
 ---
 
 # IBM ThinkPad X111 ...

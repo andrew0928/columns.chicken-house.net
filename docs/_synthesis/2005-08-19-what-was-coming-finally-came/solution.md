@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2005/08/19/what-was-coming-finally-came/
 redirect_from:
   - /2005/08/19/what-was-coming-finally-came/solution/
+postid: 2005-08-19-what-was-coming-finally-came
 ---
 
 感謝提供原文。經審視，該文章內容僅包含一句簡短感想與兩張圖片，未包含任何可抽取的技術問題、根因、解法與成效指標。因此，無法「基於原文」直接萃取出符合條件的解決方案案例（符合四要素：問題、根因、解法、成效）。可抽取案例數：0。

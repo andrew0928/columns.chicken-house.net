@@ -5,6 +5,7 @@ synthesis_type: faq
 source_post: /2015/12/06/net-core-running-net-core-rc1-on-docker/
 redirect_from:
   - /2015/12/06/net-core-running-net-core-rc1-on-docker/faq/
+postid: 2015-12-06-net-core-running-net-core-rc1-on-docker
 ---
 
 # [.NET Core] Running .NET Core RC1 on Docker - DOTNET CLI

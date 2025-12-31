@@ -5,6 +5,7 @@ synthesis_type: faq
 source_post: /2017/12/31/microservice9-servicediscovery/
 redirect_from:
   - /2017/12/31/microservice9-servicediscovery/faq/
+postid: 2017-12-31-microservice9-servicediscovery
 ---
 
 # 微服務基礎建設 - Service Discovery

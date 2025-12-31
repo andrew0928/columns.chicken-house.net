@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2007/03/27/upgrading-to-vista/
 redirect_from:
   - /2007/03/27/upgrading-to-vista/solution/
+postid: 2007-03-27-upgrading-to-vista
 ---
 
 ## Case #1: 用虛擬化隔離家庭伺服器角色與 Media Center

@@ -5,6 +5,7 @@ synthesis_type: faq
 source_post: /2015/12/29/dnxcore50_04_linux_and_summary/
 redirect_from:
   - /2015/12/29/dnxcore50_04_linux_and_summary/faq/
+postid: 2015-12-29-dnxcore50_04_linux_and_summary
 ---
 
 # .NET Core 跨平台 #4 記憶體管理大考驗 – Docker @ Ubuntu / Boot2Docker FAQ

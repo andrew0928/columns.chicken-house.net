@@ -5,6 +5,7 @@ synthesis_type: summary
 source_post: /2008/02/27/memory-management-i-fragment/
 redirect_from:
   - /2008/02/27/memory-management-i-fragment/summary/
+postid: 2008-02-27-memory-management-i-fragment
 ---
 
 # Memory Management - (I). Fragment ?

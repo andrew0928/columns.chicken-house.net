@@ -5,6 +5,7 @@ synthesis_type: faq
 source_post: /2010/03/23/txf-2-homework-first-pinvoke-and-win32-file-handling/
 redirect_from:
   - /2010/03/23/txf-2-homework-first-pinvoke-and-win32-file-handling/faq/
+postid: 2010-03-23-txf-2-homework-first-pinvoke-and-win32-file-handling
 ---
 
 # [TxF] #2. 先作功課 - 熟悉 P/Invoke 及 Win32 檔案處理...

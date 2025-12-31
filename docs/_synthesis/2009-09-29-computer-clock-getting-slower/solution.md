@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2009/09/29/computer-clock-getting-slower/
 redirect_from:
   - /2009/09/29/computer-clock-getting-slower/solution/
+postid: 2009-09-29-computer-clock-getting-slower
 ---
 
 以下為基於原文抽取與延展的 16 個可教學、可實作的結構化解決方案案例。每個案例均以文中實際問題鏈（手機 → 個人 PC → 家中伺服器/AD DC → Hyper‑V Host/Guest 時間循環）為核心，涵蓋問題、根因、解法與可量測成效，並補足必要的指令、步驟與驗證方式，便於教學、演練與評估。

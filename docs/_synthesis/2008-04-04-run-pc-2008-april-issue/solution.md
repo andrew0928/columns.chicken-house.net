@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2008/04/04/run-pc-2008-april-issue/
 redirect_from:
   - /2008/04/04/run-pc-2008-april-issue/solution/
+postid: 2008-04-04-run-pc-2008-april-issue
 ---
 
 以下內容基於原文主題「執行緒與 ASP.NET 搭配的技術議題」與文中明確提到的瀏覽器連線數限制調校，系統性重構為可教學、可實作、可評估的 16 個案例。每個案例都聚焦於 ASP.NET 與多執行緒/併發實務中常見、可量化與可驗證的問題與解法。若文章未直接給出具體數據，以下實測數據與環境均為可重現的教學性設定與估測，便於練習與評估。

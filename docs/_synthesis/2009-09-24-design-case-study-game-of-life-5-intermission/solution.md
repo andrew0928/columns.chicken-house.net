@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2009/09/24/design-case-study-game-of-life-5-intermission/
 redirect_from:
   - /2009/09/24/design-case-study-game-of-life-5-intermission/solution/
+postid: 2009-09-24-design-case-study-game-of-life-5-intermission
 ---
 
 以下為根據文章目標與脈絡（GameHost、Matrix 型虛擬世界、時間驅動、抽象化/多型、動態載入、效能與執行緒）所整理的 15 個完整實戰案例。每一案以能落地教學為原則，包含場景、根因、解法、程式碼、成效與練習與評估。若某些數據未在原文出現，本文以合理實作與實測準則給出可驗證的參考值，利於教學與評量。

@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2009/09/12/design-case-study-game-of-life-1-introduction/
 redirect_from:
   - /2009/09/12/design-case-study-game-of-life-1-introduction/solution/
+postid: 2009-09-12-design-case-study-game-of-life-1-introduction
 ---
 
 以下為根據文章所述的問題與解決方向，整理出的 15 個實戰型案例。由於本文為前言性質，未提供實測數據與完整程式碼，以下案例提供可落地的設計與最小可行實作（含關鍵碼／流程），并以定性效益描述為主。

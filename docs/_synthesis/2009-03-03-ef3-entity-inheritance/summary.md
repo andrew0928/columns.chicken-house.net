@@ -5,6 +5,7 @@ synthesis_type: summary
 source_post: /2009/03/03/ef3-entity-inheritance/
 redirect_from:
   - /2009/03/03/ef3-entity-inheritance/summary/
+postid: 2009-03-03-ef3-entity-inheritance
 ---
 
 # EF#3. Entity & Inheritance

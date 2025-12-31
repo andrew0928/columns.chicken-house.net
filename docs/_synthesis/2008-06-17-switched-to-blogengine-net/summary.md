@@ -5,6 +5,7 @@ synthesis_type: summary
 source_post: /2008/06/17/switched-to-blogengine-net/
 redirect_from:
   - /2008/06/17/switched-to-blogengine-net/summary/
+postid: 2008-06-17-switched-to-blogengine-net
 ---
 
 # 換到 BlogEngine.Net 了!

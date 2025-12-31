@@ -5,6 +5,7 @@ synthesis_type: summary
 source_post: /2008/11/04/run-pc-2008-november-issue/
 redirect_from:
   - /2008/11/04/run-pc-2008-november-issue/summary/
+postid: 2008-11-04-run-pc-2008-november-issue
 ---
 
 # [RUN! PC] 2008 十一月號

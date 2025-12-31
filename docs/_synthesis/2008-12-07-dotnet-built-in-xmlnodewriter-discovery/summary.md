@@ -5,6 +5,7 @@ synthesis_type: summary
 source_post: /2008/12/07/dotnet-built-in-xmlnodewriter-discovery/
 redirect_from:
   - /2008/12/07/dotnet-built-in-xmlnodewriter-discovery/summary/
+postid: 2008-12-07-dotnet-built-in-xmlnodewriter-discovery
 ---
 
 # 原來 .NET 早就內建 XmlNodeWriter 了...

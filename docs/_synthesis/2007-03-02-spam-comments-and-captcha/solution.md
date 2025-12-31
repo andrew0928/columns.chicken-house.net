@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2007/03/02/spam-comments-and-captcha/
 redirect_from:
   - /2007/03/02/spam-comments-and-captcha/solution/
+postid: 2007-03-02-spam-comments-and-captcha
 ---
 
 以下內容基於原文所述的具體情境與作法，萃取並延展為可教學、可實作的 16 個問題解決案例。每個案例均包含：問題、根因、解法（含程式碼或流程）、實際效益描述與學習練習要點。所有程式碼與設定都以 ASP.NET WebForms/Community Server 時代的環境為例（.NET 2.0/3.5 可用），並維持「一個 .ascx、無額外 .dll」的落地原則，以符合文章原作者的部署思路。

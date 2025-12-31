@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2006/02/14/hard-disk-space-message-question/
 redirect_from:
   - /2006/02/14/hard-disk-space-message-question/solution/
+postid: 2006-02-14-hard-disk-space-message-question
 ---
 
 說明：您提供的文章是一則幽默貼文，並未包含可直接抽取的技術問題、根因、解決方案與量化成效。為滿足您「用於實戰教學、專案練習與能力評估」的需求，以下產出為「以該貼文主題（磁碟容量訊息、容量管理）為靈感所衍生的實戰型案例庫」，內容包含可落地的流程、程式碼與可量測的成效指標，供教學、專案與評估使用。

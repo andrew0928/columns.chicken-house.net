@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2009/09/19/design-case-study-game-of-life-4-efficient-thread-usage/
 redirect_from:
   - /2009/09/19/design-case-study-game-of-life-4-efficient-thread-usage/solution/
+postid: 2009-09-19-design-case-study-game-of-life-4-efficient-thread-usage
 ---
 
 以下內容基於提供的文章，整理出 16 個具教學價值的問題解決案例，均包含問題、根因、解法、程式碼與實測效益等資訊，便於實戰教學、專案練習與能力評估。

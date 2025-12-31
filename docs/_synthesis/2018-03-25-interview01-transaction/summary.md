@@ -5,6 +5,7 @@ synthesis_type: summary
 source_post: /2018/03/25/interview01-transaction/
 redirect_from:
   - /2018/03/25/interview01-transaction/summary/
+postid: 2018-03-25-interview01-transaction
 ---
 
 # 架構面試題 #1, 線上交易的正確性

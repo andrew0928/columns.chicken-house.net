@@ -5,6 +5,7 @@ synthesis_type: summary
 source_post: /2006/12/23/digital-camera-organizer-cr2-support-update/
 redirect_from:
   - /2006/12/23/digital-camera-organizer-cr2-support-update/summary/
+postid: 2006-12-23-digital-camera-organizer-cr2-support-update
 ---
 
 # 歸檔工具更新 - .CR2 Supported

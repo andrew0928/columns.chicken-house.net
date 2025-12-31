@@ -5,6 +5,7 @@ synthesis_type: faq
 source_post: /2018/10/10/microservice11-devopsdays-servicediscovery/
 redirect_from:
   - /2018/10/10/microservice11-devopsdays-servicediscovery/faq/
+postid: 2018-10-10-microservice11-devopsdays-servicediscovery
 ---
 
 # DevOpsDays 專刊: Service Discovery, 微服務架構的基礎建設

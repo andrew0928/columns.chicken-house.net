@@ -5,6 +5,7 @@ synthesis_type: summary
 source_post: /2019/06/20/netcli-tips/
 redirect_from:
   - /2019/06/20/netcli-tips/summary/
+postid: 2019-06-20-netcli-tips
 ---
 
 # 後端工程師必備: CLI 傳遞物件的處理技巧

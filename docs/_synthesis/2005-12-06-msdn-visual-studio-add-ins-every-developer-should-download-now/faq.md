@@ -5,6 +5,7 @@ synthesis_type: faq
 source_post: /2005/12/06/msdn-visual-studio-add-ins-every-developer-should-download-now/
 redirect_from:
   - /2005/12/06/msdn-visual-studio-add-ins-every-developer-should-download-now/faq/
+postid: 2005-12-06-msdn-visual-studio-add-ins-every-developer-should-download-now
 ---
 
 # [MSDN] Visual Studio Add-Ins Every Developer Should Download Now

@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2016/12/01/microservice7-apitoken/
 redirect_from:
   - /2016/12/01/microservice7-apitoken/solution/
+postid: 2016-12-01-microservice7-apitoken
 ---
 
 以下為基於文章內容所萃取並結構化的 15 個教學型解決方案案例。每個案例均包含問題、根因、完整解法（含程式碼/流程）、效益與練習評估，適合用於實戰教學與專案演練。

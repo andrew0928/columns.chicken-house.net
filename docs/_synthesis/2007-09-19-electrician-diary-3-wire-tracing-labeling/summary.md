@@ -5,6 +5,7 @@ synthesis_type: summary
 source_post: /2007/09/19/electrician-diary-3-wire-tracing-labeling/
 redirect_from:
   - /2007/09/19/electrician-diary-3-wire-tracing-labeling/summary/
+postid: 2007-09-19-electrician-diary-3-wire-tracing-labeling
 ---
 
 # 水電工日誌 3. 查線 & 標線

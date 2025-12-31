@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2007/02/12/generic-type-inheritance/
 redirect_from:
   - /2007/02/12/generic-type-inheritance/solution/
+postid: 2007-02-12-generic-type-inheritance
 ---
 
 ## Case #1: 以泛型基底 Editor<T> 解決多型輸入控制共通化

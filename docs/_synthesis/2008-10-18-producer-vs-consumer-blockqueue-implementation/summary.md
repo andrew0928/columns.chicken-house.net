@@ -5,6 +5,7 @@ synthesis_type: summary
 source_post: /2008/10/18/producer-vs-consumer-blockqueue-implementation/
 redirect_from:
   - /2008/10/18/producer-vs-consumer-blockqueue-implementation/summary/
+postid: 2008-10-18-producer-vs-consumer-blockqueue-implementation
 ---
 
 # 生產者 vs 消費者 - BlockQueue 實作

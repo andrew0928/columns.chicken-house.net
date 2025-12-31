@@ -5,6 +5,7 @@ synthesis_type: summary
 source_post: /2007/03/02/new-layout-design/
 redirect_from:
   - /2007/03/02/new-layout-design/summary/
+postid: 2007-03-02-new-layout-design
 ---
 
 # 換新版面了 :D

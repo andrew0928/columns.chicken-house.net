@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2006/11/12/ie6-zoom-webpage-using-css-htc/
 redirect_from:
   - /2006/11/12/ie6-zoom-webpage-using-css-htc/solution/
+postid: 2006-11-12-ie6-zoom-webpage-using-css-htc
 ---
 
 以下內容基於原文情境（IE6 以 CSS + HTC 實作頁面縮放，並嘗試透過「使用者樣式表」將功能散佈到所有網站；但遭遇 IE 安全區域限制導致在 google.com 失效），系統化提煉出 16 個具教學價值的問題解決案例。每個案例均含問題、根因、方案、步驟、程式碼、成效與實作練習與評估要點。

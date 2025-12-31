@@ -5,6 +5,7 @@ synthesis_type: summary
 source_post: /2008/07/26/x64-programming-2-asp-net-odbc-reading-csv/
 redirect_from:
   - /2008/07/26/x64-programming-2-asp-net-odbc-reading-csv/summary/
+postid: 2008-07-26-x64-programming-2-asp-net-odbc-reading-csv
 ---
 
 # x64 programming #2: ASP.NET + ODBC (讀取 CSV)

@@ -5,6 +5,7 @@ synthesis_type: faq
 source_post: /2009/01/22/ef1-to-learn-entity-framework-well-learn-oop-and-csharp-first/
 redirect_from:
   - /2009/01/22/ef1-to-learn-entity-framework-well-learn-oop-and-csharp-first/faq/
+postid: 2009-01-22-ef1-to-learn-entity-framework-well-learn-oop-and-csharp-first
 ---
 
 # EF#1. 要學好 Entity Framework? 請先學好 OOP 跟 C# ...

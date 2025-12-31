@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2007/11/26/introduction-canon-raw-codec-1-2-net-framework-3-0-wpf/
 redirect_from:
   - /2007/11/26/introduction-canon-raw-codec-1-2-net-framework-3-0-wpf/solution/
+postid: 2007-11-26-introduction-canon-raw-codec-1-2-net-framework-3-0-wpf
 ---
 
 以下內容根據文章中實際遇到的問題、根因與已實作/驗證的解法萃取，並補齊可直接上手的程式碼與作業流程，彙整為可教學、可練習、可評估的 15 個案例。

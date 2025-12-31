@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2013/03/12/azure-multi-tenancy-application-1-design-concepts/
 redirect_from:
   - /2013/03/12/azure-multi-tenancy-application-1-design-concepts/solution/
+postid: 2013-03-12-azure-multi-tenancy-application-1-design-concepts
 ---
 
 以下內容基於原文對多租戶（Multi-Tenancy）設計的核心觀點（Separated DB / Separate Schema / Shared Schema 的取捨、資料隔離風險、擴充模式難點、成本與維運考量），結合 Azure + ASP.NET MVC4 + SQL Server 的常見落地實作，整理出 15 個具教學價值的實戰案例。部分實測數據為實務常見量級的參考值，用於教學與評估時的對照基準。

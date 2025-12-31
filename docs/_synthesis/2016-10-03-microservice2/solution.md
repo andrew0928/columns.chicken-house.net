@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2016/10/03/microservice2/
 redirect_from:
   - /2016/10/03/microservice2/solution/
+postid: 2016-10-03-microservice2
 ---
 
 ## Case #1: 將分散的登入程式碼重構為可重用的會員模組

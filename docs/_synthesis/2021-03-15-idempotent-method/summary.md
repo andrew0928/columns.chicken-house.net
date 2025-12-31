@@ -5,6 +5,7 @@ synthesis_type: summary
 source_post: /2021/03/15/idempotent-method/
 redirect_from:
   - /2021/03/15/idempotent-method/summary/
+postid: 2021-03-15-idempotent-method
 ---
 
 # [分散式系統 #1] Idempotency Key 的原理與實作 - 能安全 Retry 的 API 設計

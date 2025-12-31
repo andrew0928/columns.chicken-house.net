@@ -5,6 +5,7 @@ synthesis_type: faq
 source_post: /2016/09/16/blog-as-code/
 redirect_from:
   - /2016/09/16/blog-as-code/faq/
+postid: 2016-09-16-blog-as-code
 ---
 
 # Blogging as code !!

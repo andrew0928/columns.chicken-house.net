@@ -5,6 +5,7 @@ synthesis_type: summary
 source_post: /2021/03/01/practice-01/
 redirect_from:
   - /2021/03/01/practice-01/summary/
+postid: 2021-03-01-practice-01
 ---
 
 # [架構師的修練] #1, 刻意練習 - 打好基礎

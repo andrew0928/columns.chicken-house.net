@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2022/06/10/home-networking/
 redirect_from:
   - /2022/06/10/home-networking/solution/
+postid: 2022-06-10-home-networking
 ---
 
 以下為針對原文內容提取且可落地實作的 17 個解決方案案例，皆包含問題、根因、方案、步驟、關鍵設定/程式碼、實測數據與教學練習，便於課程、專題與評測使用。

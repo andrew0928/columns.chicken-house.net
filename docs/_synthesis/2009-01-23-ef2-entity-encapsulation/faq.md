@@ -5,6 +5,7 @@ synthesis_type: faq
 source_post: /2009/01/23/ef2-entity-encapsulation/
 redirect_from:
   - /2009/01/23/ef2-entity-encapsulation/faq/
+postid: 2009-01-23-ef2-entity-encapsulation
 ---
 
 # EF#2. Entity & Encapsulation

@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2008/08/13/so-ipv6-was-the-culprit/
 redirect_from:
   - /2008/08/13/so-ipv6-was-the-culprit/solution/
+postid: 2008-08-13-so-ipv6-was-the-culprit
 ---
 
 以下內容基於提供的文章，萃取並結構化 15 個具有教學價值的問題解決案例。每個案例均包含問題、根因、方案設計、關鍵程式碼、學習要點與練習評估，便於實戰教學與能力評估。

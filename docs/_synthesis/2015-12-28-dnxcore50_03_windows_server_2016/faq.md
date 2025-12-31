@@ -5,6 +5,7 @@ synthesis_type: faq
 source_post: /2015/12/28/dnxcore50_03_windows_server_2016/
 redirect_from:
   - /2015/12/28/dnxcore50_03_windows_server_2016/faq/
+postid: 2015-12-28-dnxcore50_03_windows_server_2016
 ---
 
 # .NET Core 跨平台 #3, 記憶體管理大考驗 - Windows Container (2016 TP)

@@ -5,6 +5,7 @@ synthesis_type: faq
 source_post: /2009/10/03/design-case-study-game-of-life-6-abstraction/
 redirect_from:
   - /2009/10/03/design-case-study-game-of-life-6-abstraction/faq/
+postid: 2009-10-03-design-case-study-game-of-life-6-abstraction
 ---
 
 # [設計案例] 生命遊戲 #6, 抽像化 (Abstraction)

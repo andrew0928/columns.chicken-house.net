@@ -5,6 +5,7 @@ synthesis_type: faq
 source_post: /2016/10/10/microservice3/
 redirect_from:
   - /2016/10/10/microservice3/faq/
+postid: 2016-10-10-microservice3
 ---
 
 # API & SDK Design #1, 資料分頁的處理方式

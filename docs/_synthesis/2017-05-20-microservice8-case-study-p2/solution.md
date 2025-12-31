@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2017/05/20/microservice8-case-study-p2/
 redirect_from:
   - /2017/05/20/microservice8-case-study-p2/solution/
+postid: 2017-05-20-microservice8-case-study-p2
 ---
 
 以下內容基於提供文章抽取並結構化成 18 個具實戰教學價值的解決方案案例。每一個案例均包含問題、根因、方案、步驟、關鍵程式碼/設定、實作環境、驗證與學習要點，並於文末提供分類與學習路徑建議。

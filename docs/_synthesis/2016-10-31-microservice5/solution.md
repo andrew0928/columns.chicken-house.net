@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2016/10/31/microservice5/
 redirect_from:
   - /2016/10/31/microservice5/solution/
+postid: 2016-10-31-microservice5
 ---
 
 以下內容基於原文精煉重組，聚焦於「API 向前相容」的真實問題、根因、解法與實作細節。共整理 15 個具教學價值的實戰案例；每個案例含問題、根因、方案、關鍵程式碼、實測觀察/效益、學習要點與練習評估，便於教學與專案演練。

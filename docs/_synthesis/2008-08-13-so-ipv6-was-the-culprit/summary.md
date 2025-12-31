@@ -5,6 +5,7 @@ synthesis_type: summary
 source_post: /2008/08/13/so-ipv6-was-the-culprit/
 redirect_from:
   - /2008/08/13/so-ipv6-was-the-culprit/summary/
+postid: 2008-08-13-so-ipv6-was-the-culprit
 ---
 
 # 原來是 IPv6 搞的鬼...

@@ -5,6 +5,7 @@ synthesis_type: faq
 source_post: /2004/12/16/battlestar-galactica/
 redirect_from:
   - /2004/12/16/battlestar-galactica/faq/
+postid: 2004-12-16-battlestar-galactica
 ---
 
 # Battlestar Galactica

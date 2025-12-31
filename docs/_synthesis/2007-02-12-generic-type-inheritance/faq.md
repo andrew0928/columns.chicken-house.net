@@ -5,6 +5,7 @@ synthesis_type: faq
 source_post: /2007/02/12/generic-type-inheritance/
 redirect_from:
   - /2007/02/12/generic-type-inheritance/faq/
+postid: 2007-02-12-generic-type-inheritance
 ---
 
 # Generic Type 的繼承與 ASP.NET UserControl 的應用 FAQ

@@ -5,6 +5,7 @@ synthesis_type: summary
 source_post: /2009/01/23/ef2-entity-encapsulation/
 redirect_from:
   - /2009/01/23/ef2-entity-encapsulation/summary/
+postid: 2009-01-23-ef2-entity-encapsulation
 ---
 
 # EF#2. Entity & Encapsulation

@@ -5,6 +5,7 @@ synthesis_type: summary
 source_post: /2019/07/06/pipeline-practices/
 redirect_from:
   - /2019/07/06/pipeline-practices/summary/
+postid: 2019-07-06-pipeline-practices
 ---
 
 # 後端工程師必備: 平行任務處理的思考練習 (0916補完)

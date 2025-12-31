@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2007/08/22/canon-powershot-g9-finally-released/
 redirect_from:
   - /2007/08/22/canon-powershot-g9-finally-released/solution/
+postid: 2007-08-22-canon-powershot-g9-finally-released
 ---
 
 以下內容係基於原文中提到的情境與鏈結所指涉的工具與工作流（Canon RAW、.CR2、Vista Codec、記憶卡歸檔工具與其更新、Source Code/Release Notes），重組出可落地實作的教學型案例。每一案皆以可實作的流程/程式碼或設定作為解決方案核心，並以「步驟數、支援狀態、錯誤率或可觀察之能力變化」等方式給出實際效益與指標。

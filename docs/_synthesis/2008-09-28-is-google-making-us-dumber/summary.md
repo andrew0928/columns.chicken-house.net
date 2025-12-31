@@ -5,6 +5,7 @@ synthesis_type: summary
 source_post: /2008/09/28/is-google-making-us-dumber/
 redirect_from:
   - /2008/09/28/is-google-making-us-dumber/summary/
+postid: 2008-09-28-is-google-making-us-dumber
 ---
 
 # Google 讓人越來越笨?

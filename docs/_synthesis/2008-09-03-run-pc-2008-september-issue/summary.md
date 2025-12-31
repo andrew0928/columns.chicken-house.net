@@ -5,6 +5,7 @@ synthesis_type: summary
 source_post: /2008/09/03/run-pc-2008-september-issue/
 redirect_from:
   - /2008/09/03/run-pc-2008-september-issue/summary/
+postid: 2008-09-03-run-pc-2008-september-issue
 ---
 
 # [RUN! PC] 2008 九月號

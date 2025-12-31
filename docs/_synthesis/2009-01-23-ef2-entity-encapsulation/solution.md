@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2009/01/23/ef2-entity-encapsulation/
 redirect_from:
   - /2009/01/23/ef2-entity-encapsulation/solution/
+postid: 2009-01-23-ef2-entity-encapsulation
 ---
 
 以下內容將文章中涉及的問題、根因、解法與效益，整理為 15 個具教學價值的實戰案例。每個案例皆以 EF（EDMX 產碼 + partial class 擴充）與 C# 為主要技術背景，並盡量以文中原始範例與語境為依據，不另行捏造外部數據；若文章未提供明確數據，則以建議指標與可量測方式補充。

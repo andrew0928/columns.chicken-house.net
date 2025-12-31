@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2016/10/25/microsoft-mvp-award-get/
 redirect_from:
   - /2016/10/25/microsoft-mvp-award-get/solution/
+postid: 2016-10-25-microsoft-mvp-award-get
 ---
 
 抱歉，您提供的這篇文章屬於經驗分享與獎項開箱，幾乎不包含具體的技術故障、量化指標或可直接複製的程式/設定片段。嚴格依據「同時具備問題、根因、解決方案（含程式/流程）與成效指標」的四項條件，原文實際可直接抽取的案例非常有限。

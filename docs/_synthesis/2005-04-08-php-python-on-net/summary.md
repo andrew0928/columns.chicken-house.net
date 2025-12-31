@@ -5,6 +5,7 @@ synthesis_type: summary
 source_post: /2005/04/08/php-python-on-net/
 redirect_from:
   - /2005/04/08/php-python-on-net/summary/
+postid: 2005-04-08-php-python-on-net
 ---
 
 # php python on .net

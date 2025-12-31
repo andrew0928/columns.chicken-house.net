@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2007/12/12/canon-raw-codec-wpf-1-wpf-image-codec-metadata/
 redirect_from:
   - /2007/12/12/canon-raw-codec-wpf-1-wpf-image-codec-metadata/solution/
+postid: 2007-12-12-canon-raw-codec-wpf-1-wpf-image-codec-metadata
 ---
 
 以下內容基於原文中實際遭遇的問題與已驗證的做法，整理出 16 個可教學、可實作、可評估的案例，涵蓋 Canon RAW (CR2) 與 WPF 影像管線、轉檔、Metadata、對照表與封裝等主題。每個案例都附上目標、步驟、程式碼、學習要點與練習、評估指標，方便你直接用於實戰教學與能力評估。

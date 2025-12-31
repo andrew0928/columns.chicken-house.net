@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2009/04/20/personal-files-version-control/
 redirect_from:
   - /2009/04/20/personal-files-version-control/solution/
+postid: 2009-04-20-personal-files-version-control
 ---
 
 以下內容基於提供文章所述的實際情境、問題與解法，整理為 16 個可教、可練的解決方案案例。每個案例均包含問題、根因、方案、步驟與實作要點。文中所涉工具與情境以 Windows Server 2008、VisualSVN Server、TortoiseSVN、USB 隨身碟、PortableApps、VSS (Volume Shadow Copy Service) 與 VSS (Visual SourceSafe) 為主。

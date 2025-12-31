@@ -5,6 +5,7 @@ synthesis_type: faq
 source_post: /2008/09/01/please-cite-article-content-correctly/
 redirect_from:
   - /2008/09/01/please-cite-article-content-correctly/faq/
+postid: 2008-09-01-please-cite-article-content-correctly
 ---
 
 # 請正確的引用文章內容!

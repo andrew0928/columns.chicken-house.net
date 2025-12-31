@@ -5,6 +5,7 @@ synthesis_type: faq
 source_post: /2022/05/29/datetime-mock/
 redirect_from:
   - /2022/05/29/datetime-mock/faq/
+postid: 2022-05-29-datetime-mock
 ---
 
 # [架構師的修練] - 從 DateTime 的 Mock 技巧談 PoC 的應用

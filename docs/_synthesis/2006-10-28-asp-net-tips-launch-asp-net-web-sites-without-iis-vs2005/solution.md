@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2006/10/28/asp-net-tips-launch-asp-net-web-sites-without-iis-vs2005/
 redirect_from:
   - /2006/10/28/asp-net-tips-launch-asp-net-web-sites-without-iis-vs2005/solution/
+postid: 2006-10-28-asp-net-tips-launch-asp-net-web-sites-without-iis-vs2005
 ---
 
 以下為基於原文所萃取與延伸設計的 16 個結構化解決方案案例。每個案例均圍繞「不需 IIS / 不開 VS2005，快速啟動 ASP.NET 網站」的核心技巧，並涵蓋常見變體問題（連接埠、路徑、環境偵測、流程自動化、團隊落地、效能與安全等），以利教學、實作與評估。

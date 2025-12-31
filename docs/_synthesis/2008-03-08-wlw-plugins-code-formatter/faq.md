@@ -5,6 +5,7 @@ synthesis_type: faq
 source_post: /2008/03/08/wlw-plugins-code-formatter/
 redirect_from:
   - /2008/03/08/wlw-plugins-code-formatter/faq/
+postid: 2008-03-08-wlw-plugins-code-formatter
 ---
 
 # WLW Plugins: Code Formatter

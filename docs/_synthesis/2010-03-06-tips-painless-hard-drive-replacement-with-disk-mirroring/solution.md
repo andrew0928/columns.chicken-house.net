@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2010/03/06/tips-painless-hard-drive-replacement-with-disk-mirroring/
 redirect_from:
   - /2010/03/06/tips-painless-hard-drive-replacement-with-disk-mirroring/solution/
+postid: 2010-03-06-tips-painless-hard-drive-replacement-with-disk-mirroring
 ---
 
 ## Case #1: 無中斷擴容：以動態磁碟鏡像 + Extend Volume 更換資料碟

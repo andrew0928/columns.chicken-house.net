@@ -5,6 +5,7 @@ synthesis_type: faq
 source_post: /2007/10/05/electrician-diary-6-rack-equipment-showcase/
 redirect_from:
   - /2007/10/05/electrician-diary-6-rack-equipment-showcase/faq/
+postid: 2007-10-05-electrician-diary-6-rack-equipment-showcase
 ---
 
 # 水電工日誌 6. 機櫃設備展示

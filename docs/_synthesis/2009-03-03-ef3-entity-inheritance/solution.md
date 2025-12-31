@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2009/03/03/ef3-entity-inheritance/
 redirect_from:
   - /2009/03/03/ef3-entity-inheritance/solution/
+postid: 2009-03-03-ef3-entity-inheritance
 ---
 
 ## Case #1: 小規模多型資料的單表映射（TPH）

@@ -5,6 +5,7 @@ synthesis_type: summary
 source_post: /2007/02/12/generic-type-inheritance/
 redirect_from:
   - /2007/02/12/generic-type-inheritance/summary/
+postid: 2007-02-12-generic-type-inheritance
 ---
 
 # Generic Type 的繼承...

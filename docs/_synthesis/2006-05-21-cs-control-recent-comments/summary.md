@@ -5,6 +5,7 @@ synthesis_type: summary
 source_post: /2006/05/21/cs-control-recent-comments/
 redirect_from:
   - /2006/05/21/cs-control-recent-comments/summary/
+postid: 2006-05-21-cs-control-recent-comments
 ---
 
 # CS Control: Recent Comments

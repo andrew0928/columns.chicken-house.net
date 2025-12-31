@@ -5,6 +5,7 @@ synthesis_type: faq
 source_post: /2008/08/14/trending-figure/
 redirect_from:
   - /2008/08/14/trending-figure/faq/
+postid: 2008-08-14-trending-figure
 ---
 
 # 話題人物?

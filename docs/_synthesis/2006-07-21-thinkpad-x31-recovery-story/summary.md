@@ -5,6 +5,7 @@ synthesis_type: summary
 source_post: /2006/07/21/thinkpad-x31-recovery-story/
 redirect_from:
   - /2006/07/21/thinkpad-x31-recovery-story/summary/
+postid: 2006-07-21-thinkpad-x31-recovery-story
 ---
 
 # 浩劫重生的 X31 ...

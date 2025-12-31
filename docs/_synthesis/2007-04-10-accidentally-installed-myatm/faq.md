@@ -5,6 +5,7 @@ synthesis_type: faq
 source_post: /2007/04/10/accidentally-installed-myatm/
 redirect_from:
   - /2007/04/10/accidentally-installed-myatm/faq/
+postid: 2007-04-10-accidentally-installed-myatm
 ---
 
 # 手癢亂裝 MyATM...

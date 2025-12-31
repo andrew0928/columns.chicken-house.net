@@ -5,46 +5,46 @@ synthesis_type: solution
 source_post: /2025/06/22/inside-semantic-kernel/
 redirect_from:
   - /2025/06/22/inside-semantic-kernel/solution/
+postid: 2025-06-22-inside-semantic-kernel
 ---
+以下為從文章中整理出的 18 個可教學、可實作、可評估的問題解決案例。每個案例皆包含問題、根因、解法設計、關鍵程式碼、實測指標與練習與評估標準。案例內容以文中 Demo、敘述與設計觀點為基礎彙整與結構化。
 
-以下為基於文章內容所萃取與重構的問題解決案例。每個案例均包含問題、根因、方案與實作細節、關鍵程式碼/設定、實際案例與環境、學習要點與練習題，以及評估標準。共 16 個案例，覆蓋 Chat Completion 基礎、Structured Output、Function Calling、RAG、MSKM 與 MCP 整合等主題。
-
-## Case #1: 正確實作 Chat Completion 對話循環
+## Case #1: 建立 Chat Completion 基準型（Role/Context 正確使用）
 
 ### Problem Statement（問題陳述）
-- 業務場景：團隊要在 .NET 應用中實作長對話式助理（如 ChatGPT 類體驗），需要確保多輪對話能保持上下文一致，並可在不同存取方式（HTTP、OpenAI .NET SDK、Semantic Kernel）間切換。
-- 技術挑戰：如何正確組織 messages（system/user/assistant）並每次帶上完整 chat history；如何在不同 SDK/框架下維持一致行為。
-- 影響範圍：若未帶齊歷史訊息或 role 使用錯誤，將導致答非所問、上下文遺失與行為不一致。
-- 複雜度評級：低
+業務場景：團隊要在 .NET 內快速落地一個具備對話記憶與連續互動的 AI Chat 功能，支援從 HttpClient、OpenAI .NET SDK 到 Semantic Kernel（SK）的多種存取方式。需求是能穩定管理訊息角色（system/user/assistant）與上下文（context window），並形成可重複、易維護的呼叫模式。
+技術挑戰：如何正確建構 Chat Completion 請求並管理對話歷史，使每次回應都能基於完整上下文且角色分明。
+影響範圍：若上下文或角色錯誤，回應易漂移、錯誤率上升、不可控；影響所有後續進階功能（Function Calling/RAG）。
+複雜度評級：低
 
 ### Root Cause Analysis（根因分析）
-- 直接原因：
-  1. 未正確帶入完整 chat history：多輪時只傳最後一輪，導致模型無法延續上下文。
-  2. 角色使用不當（system/user/assistant）：優先級與用途混淆，prompt 規約失效。
-  3. 框架差異未抽象：HTTP、SDK、SK 的呼叫方式各異，缺乏共用封裝。
-- 深層原因：
-  - 架構層面：缺少對話狀態管理的抽象層。
-  - 技術層面：對 Chat Completion 訊息結構與優先級理解不足。
-  - 流程層面：未建立多輪對話的測試與驗證流程。
+直接原因：
+1. 對 messages 角色理解不足（system/user/assistant），導致 prompt 混淆。
+2. 未妥善保存對話歷史，造成上下文遺失。
+3. 請求參數（model/temperature）未合理設定，導致隨機性不控。
+深層原因：
+- 架構層面：缺少對話層的統一封裝與策略管理。
+- 技術層面：未建立標準的 API 呼叫介面、DTO 與序列化策略。
+- 流程層面：對話記錄與錯誤處理沒有一致流程（如重試與審計）。
 
 ### Solution Design（解決方案設計）
-- 解決策略：建立「對話狀態」抽象，統一封裝訊息序列化與角色管理；不論 HTTP/SDK/SK，皆以相同的 message list 作業，每次呼叫帶上完整歷史，確保可重放與一致性。
+解決策略：建立 Chat Completion 基礎模板，統一角色與上下文管理；在 .NET 內抽象化呼叫層，支援 HttpClient、SDK、SK 三種模式，並提供一致的訊息保存與序列化策略。
 
-- 實施步驟：
-  1. 建立 ConversationStore
-  - 實作細節：保存 system、user、assistant、(tool/tool-result 見 Case #5/#17) 訊息序列。
-  - 所需資源：本地記憶體或持久化儲存（Redis/DB）
-  - 預估時間：0.5 天
-  2. 封裝 ChatClient
-  - 實作細節：提供 SendAsync(messages)；針對 HTTP/SDK/SK 實作多個 adaptor。
-  - 所需資源：OpenAI API key、OpenAI .NET SDK、Semantic Kernel
-  - 預估時間：1 天
-  3. 加入最小化測試
-  - 實作細節：用固定 script 驗證各 adaptor 回應一致性。
-  - 所需資源：xUnit/NUnit
-  - 預估時間：0.5 天
+實施步驟：
+1. 統一請求抽象層
+- 實作細節：定義 ChatRequest DTO、Message 結構、角色枚舉。
+- 所需資源：OpenAI API、.NET、HttpClient 或 OpenAI .NET SDK。
+- 預估時間：0.5 天
+2. 對話歷史管理
+- 實作細節：所有對話回合追加到 messages；確保 system prompt 置頂。
+- 所需資源：記憶體或持久化存儲（DB）。
+- 預估時間：0.5 天
+3. 容錯與回應策略
+- 實作細節：設定合理 temperature；加入重試與審計日誌。
+- 所需資源：Polly（重試）、Logger。
+- 預估時間：0.5 天
 
-- 關鍵程式碼/設定：
+關鍵程式碼/設定：
 ```http
 POST https://api.openai.com/v1/chat/completions
 Authorization: Bearer {{OpenAI_APIKEY}}
@@ -58,239 +58,164 @@ Content-Type: application/json
   ],
   "temperature": 0.2
 }
-// Response: choices[0].message.content => "This is a test."
 ```
+Implementation Example（實作範例）
 
-- 實際案例：Day 0, Simple Chat（HTTP/SDK/SK 三種示範）
-- 實作環境：OpenAI Chat Completions（gpt-4o-mini）；.NET（HTTP、OpenAI .NET SDK、Semantic Kernel）
-- 實測數據：
-  - 改善前：多輪對話易遺失上下文
-  - 改善後：統一封裝後對話可重放、行為一致
-  - 改善幅度：定性改善（文章未量化）
+實際案例：Simple Chat（HttpClient / OpenAI .NET SDK / SK 三版本）
+實作環境：.NET、OpenAI ChatCompletion API、gpt-4o-mini
+實測數據：
+改善前：無上下文統一規範，回應不穩定
+改善後：統一角色與歷史管理，回應一致性提升
+改善幅度：回應穩定性顯著提升（以人工驗證一致性為指標）
 
-- Learning Points（學習要點）
-  - 核心知識點：
-    - Chat Completion 三種角色與優先權
-    - 每輪帶上完整 messages 的重要性
-    - 封裝 adaptor 以統一行為
-  - 技能要求：
-    - 必備技能：HTTP API、.NET 序列化、基本單元測試
-    - 進階技能：抽象化設計、可測性設計
-  - 延伸思考：
-    - 如何持久化 chat history（DB/Cache）？
-    - 如何在 tool calling 場景擴展（見 Case #5/#17）？
-    - 是否需要記錄 token 使用量以控成本？
+Learning Points（學習要點）
+核心知識點：
+- Chat Completion 的 roles 與上下文管理
+- temperature 對隨機性的影響
+- 抽象呼叫層的重要性
+技能要求：
+必備技能：HttpClient、JSON 序列化、.NET
+進階技能：SDK 封裝、SK Kernel 管理
+延伸思考：
+- 可加入訊息審計與安全過濾
+- 將對話歷史持久化，便於長期分析
+- 引入多模型路由，提高穩定性
 
-- Practice Exercise（練習題）
-  - 基礎練習：用 HTTP 重現 Simple Chat（30 分）
-  - 進階練習：以 OpenAI SDK 與 SK 各實作一次（2 小時）
-  - 專案練習：撰寫一個可切換 Provider 的 ChatClient（8 小時）
+Practice Exercise（練習題）
+基礎練習：以 HttpClient 完成一次對話（30 分鐘）
+進階練習：以 OpenAI .NET SDK 重新封裝呼叫（2 小時）
+專案練習：以 SK 建立可插拔的 Chat 模組（8 小時）
 
-- Assessment Criteria（評估標準）
-  - 功能完整性（40%）：可支援多輪與三種 adaptor
-  - 程式碼品質（30%）：清晰封裝、單元測試到位
-  - 效能優化（20%）：控制 messages 長度與 token
-  - 創新性（10%）：可插拔式 Provider 設計
+Assessment Criteria（評估標準）
+功能完整性（40%）：角色與歷史管理是否正確
+程式碼品質（30%）：抽象層設計與可維護性
+效能優化（20%）：呼叫延遲與重試策略
+創新性（10%）：多模型路由與擴充性
 
 ---
 
-## Case #2: 用 JSON Mode 擷取地址並可判定成功/失敗
+## Case #2: 結構化輸出（JSON Mode + Schema）抽取地址
 
 ### Problem Statement（問題陳述）
-- 業務場景：在企業應用中需從大量對話記錄擷取地址，供後續地圖/物流系統使用，要求輸出可被程式安全解析並能判定是否成功擷取。
-- 技術挑戰：自由文字輸出難以可靠解析；當 LLM 無法判定地址時需可明確失敗，避免程式猜測。
-- 影響範圍：若無結構化 output 與成功旗標，將造成大量解析錯誤與例外處理成本。
-- 複雜度評級：中
+業務場景：在應用程式中從大量對話文本抽取地址資訊（street/city/postal/country），需可直接反序列化為 C# 物件並判斷是否成功抽取，以便後續交給非 AI 程式碼進行地圖 API 或計算。
+技術挑戰：LLM 輸出自由文本難以解析；需要明確成功/失敗標記與固定結構。
+影響範圍：資料管道與下游系統（地圖 API）穩定性，錯誤解析會造成大量例外與不一致。
+複雜度評級：中
 
 ### Root Cause Analysis（根因分析）
-- 直接原因：
-  1. 自然語言輸出不可預期：無 JSON schema 約束，格式不穩。
-  2. 無明確成功/失敗：無法直接判斷是否有足夠資訊。
-  3. 需求混雜：同時讓 LLM 查景點或其他工作增加成本與錯誤。
-- 深層原因：
-  - 架構層面：缺少資料交換契約（schema-first）。
-  - 技術層面：未使用 JSON Mode/Schema。
-  - 流程層面：未採單一職責，導致後續流程耦合。
+直接原因：
+1. 未使用 JSON Mode 或 Schema，輸出不可預期。
+2. 無明確成功/失敗標記，程式端需猜測。
+3. 混合多職責在一個 prompt，增加不確定性。
+深層原因：
+- 架構層面：AI 輸出缺乏合約（Contract）。
+- 技術層面：缺乏標準序列化/反序列化設計。
+- 流程層面：缺少輸出驗證與失敗分支處理。
 
 ### Solution Design（解決方案設計）
-- 解決策略：使用 JSON Mode 並提供 JSON Schema，強制 LLM 產出可反序列化的結構；加入 success 與 reason 欄位；下游系統（如 Google Maps）由程式碼處理，職責分離。
+解決策略：導入 JSON Mode 與 Schema；在輸出中加入明確 success 欄位；單一職責只做抽取，後續資訊由程式碼處理。
 
-- 實施步驟：
-  1. 定義輸出 Schema
-  - 實作細節：street_address/city/postal_code/country + success + reason
-  - 所需資源：JSON schema、C# DTO
-  - 預估時間：0.5 天
-  2. 設定 ChatCompletion 的 response_format/schema
-  - 實作細節：HTTP/SDK/SK 皆可；SK 可用 C# type 映射
-  - 所需資源：OpenAI ChatCompletion
-  - 預估時間：0.5 天
-  3. 反序列化與驗證
-  - 實作細節：若 success=false 則走補救流程（人工/重試）
-  - 所需資源：System.Text.Json / Newtonsoft.Json
-  - 預估時間：0.5 天
+實施步驟：
+1. 定義 JSON Schema 與 DTO
+- 實作細節：schema 包含 street_address/city/postal_code/country + success/notes。
+- 所需資源：OpenAI JSON Mode、C# DTO。
+- 預估時間：0.5 天
+2. 設定 response_format 與驗證
+- 實作細節：指定 json_schema 或 json_object；反序列化後檢查 success。
+- 所需資源：OpenAI API；Json.NET。
+- 預估時間：0.5 天
+3. 分離職責
+- 實作細節：抽取地址後，呼叫 Google Maps API 在程式端完成。
+- 所需資源：地圖 API。
+- 預估時間：0.5 天
 
-- 關鍵程式碼/設定：
-```json
+關鍵程式碼/設定：
+```http
+POST https://api.openai.com/v1/chat/completions
+Authorization: Bearer {{OpenAI_APIKEY}}
+Content-Type: application/json
+
 {
-  "messages":[
-    {"role":"system","content":"Extract address from text; respond as JSON per schema."},
-    {"role":"user","content":"- For the tea shop in Paris ... 90, I guess."}
+  "model": "gpt-4o-mini",
+  "response_format": { "type": "json_object" },
+  "messages": [
+    { "role": "system", "content": "Extract address into JSON. Include 'success': true|false." },
+    { "role": "user", "content": "For the tea shop in Paris... number? 90, I guess." }
   ],
-  "response_format":{
-    "type":"json_schema",
-    "json_schema":{
-      "name":"address_extraction",
-      "schema":{
-        "type":"object",
-        "properties":{
-          "success":{"type":"boolean"},
-          "reason":{"type":"string"},
-          "street_address":{"type":["string","null"]},
-          "city":{"type":["string","null"]},
-          "postal_code":{"type":["string","null"]},
-          "country":{"type":["string","null"]}
-        },
-        "required":["success","reason"]
-      }
-    }
-  }
+  "temperature": 0
 }
 ```
+Implementation Example（實作範例）
 
-- 實際案例：Day 1, Structured Output（HTTP/SDK/SK 全套）
-- 實作環境：OpenAI（支援 JSON Schema 的模型，如 GPT-4o-mini）
-- 實測數據：
-  - 改善前：自由文字解析不穩，例外多
-  - 改善後：可直接反序列化，流程分支可控
-  - 改善幅度：定性改善（文章未量化）
+實際案例：Structured Output（HTTP/SDK/SK 版本）
+實作環境：.NET、OpenAI、gpt-4o-mini
+實測數據：
+改善前：自由文本解析困難，錯誤率高
+改善後：可直接反序列化，並以 success 欄位判斷是否抽取
+改善幅度：可用性與自動化顯著提升（以解析成功率為指標）
 
-- Learning Points（學習要點）
-  - 核心知識點：JSON Mode/Schema；可機器判讀的成功旗標；單一職責
-  - 技能要求：JSON schema、反序列化、例外流程設計
-  - 延伸思考：是否需要信心分數？如何設計重試或人工校對流？
+Learning Points（學習要點）
+核心知識點：
+- JSON Mode 與 Schema 合約意識
+- 單一職責與非 AI 環節分離
+- 失敗明確標示策略
+技能要求：
+必備技能：Schema 設計、序列化
+進階技能：錯誤分支控制、外部 API 整合
+延伸思考：
+- 引入 schema 版本控管
+- 加入正規化/地理編碼後處理
+- 以測試集建立抽取精度基準
 
-- Practice Exercise（練習題）
-  - 基礎練習：為地址擷取補上 success/reason 欄位（30 分）
-  - 進階練習：串接地圖 API 僅在 success=true 時執行（2 小時）
-  - 專案練習：批次處理 10k 筆對話並產出地址清單（8 小時）
+Practice Exercise（練習題）
+基礎練習：定義地址 DTO 與 JSON Mode 呼叫（30 分鐘）
+進階練習：加入 success/notes 驗證管道（2 小時）
+專案練習：串接地圖與地理編碼完整流程（8 小時）
 
-- Assessment Criteria（評估標準）
-  - 功能完整性（40%）：JSON schema 限制與錯誤分支
-  - 程式碼品質（30%）：DTO 與驗證清楚
-  - 效能優化（20%）：批次/並行處理
-  - 創新性（10%）：補救策略（自動校正/多模型）
+Assessment Criteria（評估標準）
+功能完整性（40%）：抽取、判斷、後續整合
+程式碼品質（30%）：DTO/Schema/模組化
+效能優化（20%）：呼叫延遲與重試策略
+創新性（10%）：失敗回復與建議策略
 
 ---
 
-## Case #3: 單一職責設計，降低 Token 成本與錯誤率
+## Case #3: Function Calling（Basic）將自然語言轉為清單指令
 
 ### Problem Statement（問題陳述）
-- 業務場景：批量資料處理場景下，若把查詢/計算/格式轉換等通通交給 LLM，成本與錯誤率升高。
-- 技術挑戰：將純程式就能高效完成的工作從 LLM 中抽離，以 JSON 作為 LLM 與程式的邊界。
-- 影響範圍：成本被放大至百萬級呼叫；錯誤可傳染下游系統。
-- 複雜度評級：中
+業務場景：讓使用者以自然語言維護購物清單（新增/刪除/數量），系統需將對話意圖轉換成動作序列，並在程式端執行，完成清單維護。
+技術挑戰：將語意可靠地映射為可執行的 JSON 指令（action/item/quantity），避免自由文本。
+影響範圍：若意圖解析不準確，清單維護會錯誤，破壞使用體驗。
+複雜度評級：中
 
 ### Root Cause Analysis（根因分析）
-- 直接原因：
-  1. 一次 Prompt 做完所有事導致 Token 高、錯誤多。
-  2. 沒有任務拆分標準，職責不清。
-  3. 程式可處理的需求交由 LLM 處理。
-- 深層原因：
-  - 架構層面：未定義清楚子系統責任。
-  - 技術層面：缺乏 schema-first 的資料交換設計。
-  - 流程層面：缺少成本監控與效能度量。
+直接原因：
+1. 缺少明確工具/指令規格（動作約束）。
+2. 意圖對齊困難，語句不一致。
+3. 驗證與執行順序處理不足。
+深層原因：
+- 架構層面：工具定義與對話規約未形成。
+- 技術層面：缺少動作模型與序列執行器。
+- 流程層面：無執行結果回饋（成功/失敗/衝突）。
 
 ### Solution Design（解決方案設計）
-- 解決策略：採取 LLM 專責抽取/推理，所有搜尋/計算/格式化都移回程式；以 JSON 封裝交換資料，並在輸出加上成功旗標。
+解決策略：在 system prompt 定義動作格式；LLM 回傳 JSON 指令集；程式端執行，形成閉環的 Function Calling 基礎流程。
 
-- 實施步驟：
-  1. 任務拆分與圖譜化
-  - 實作細節：以流程圖標註哪些步驟是 LLM-only
-  - 所需資源：流程設計工具
-  - 預估時間：0.5 天
-  2. 實作 JSON 出口與程式入口
-  - 實作細節：同 Case #2 schema；後續 code 呼叫外部 API（Google Maps 等）
-  - 所需資源：OpenAI/SDK、外部 API Key
-  - 預估時間：1 天
-  3. 監控與成本對比
-  - 實作細節：度量每步 Token 與費用
-  - 所需資源：Logging/Telemetry
-  - 預估時間：0.5 天
+實施步驟：
+1. 定義動作與輸出格式
+- 實作細節：add/delete；item/quantity；使用 JSON 格式。
+- 所需資源：OpenAI；Schema/DTO。
+- 預估時間：0.5 天
+2. 實作執行器
+- 實作細節：解析 JSON 指令並依序執行；加入衝突檢查。
+- 所需資源：C# 執行器模組。
+- 預估時間：0.5 天
+3. 執行回饋與審計
+- 實作細節：為每步動作記錄結果；回覆成功與失敗。
+- 所需資源：Logger；簡易存儲。
+- 預估時間：0.5 天
 
-- 關鍵程式碼/設定：
-```csharp
-// 1) LLM: Extract address only
-var addr = await ExtractAddressAsync(chat);
-
-// 2) Code: Call Maps only when success
-if (addr.Success)
-{
-    var loc = await Maps.GeocodeAsync(addr);
-    // proceed...
-}
-```
-
-- 實際案例：Day 1 中對單一職責與成本的強調
-- 實作環境：OpenAI ChatCompletion + 自行後端程式
-- 實測數據：
-  - 改善前：LLM 一次做到底，成本高
-  - 改善後：LLM 只做必要部分，程式接手剩餘任務
-  - 改善幅度：定性改善（文章未量化）
-
-- Learning Points
-  - 核心知識點：任務拆分、邊界設計、成本意識
-  - 技能要求：API 整合、流程設計
-  - 延伸思考：如何以工作流引擎控制任務編排？
-
-- Practice Exercise
-  - 基礎：把一個混雜 Prompt 改為 LLM 抽取 + 程式後處理（30 分）
-  - 進階：加上成本與 Token 監控（2 小時）
-  - 專案：將三個外部 API 的串接改為工具鏈（8 小時）
-
-- Assessment Criteria
-  - 功能完整性（40%）：任務拆分正確
-  - 程式碼品質（30%）：分層清晰
-  - 效能優化（20%）：Token/費用下降
-  - 創新性（10%）：可重用的模板/框架
-
----
-
-## Case #4: Function Calling（Basic）把自然語言轉為可執行指令
-
-### Problem Statement（問題陳述）
-- 業務場景：使用者以自然語言維護購物清單，系統需自動解析意圖、轉換為 add/delete 指令供後端執行。
-- 技術挑戰：設計可機器處理的指令格式與參數並讓 LLM 自動輸出。
-- 影響範圍：若解析不準會錯加錯刪，造成實際業務錯誤。
-- 複雜度評級：中
-
-### Root Cause Analysis
-- 直接原因：
-  1. 缺少標準化工具規範（action/args）。
-  2. 未定義固定 JSON 輸出格式，難以解析。
-  3. 只完成「Call」，未思考「Return」。
-- 深層原因：
-  - 架構層面：缺少工具規格與通用執行器。
-  - 技術層面：未善用 JSON Mode 搭配工具參數。
-  - 流程層面：無指令執行結果回饋流程。
-
-### Solution Design
-- 解決策略：先定義可用的 action 與參數，要求 LLM 以 JSON 指令清單輸出；程式端依序執行；此為「呼叫前半段」基礎（回傳見 Case #5）。
-
-- 實施步驟：
-  1. 設計 action schema
-  - 實作細節：add/delete、item、quantity
-  - 所需資源：JSON schema
-  - 預估時間：0.5 天
-  2. Prompt 與測試
-  - 實作細節：以例句驗證多模型一致輸出
-  - 所需資源：ChatGPT/SDK
-  - 預估時間：0.5 天
-  3. 指令執行器
-  - 實作細節：把 JSON 轉為實際清單操作
-  - 所需資源：後端程式
-  - 預估時間：0.5 天
-
-- 關鍵程式碼/設定：
+關鍵程式碼/設定：
 ```json
 [
   { "action": "add", "item": "butter", "quantity": "1" },
@@ -298,1095 +223,1275 @@ if (addr.Success)
   { "action": "delete", "item": "bread" }
 ]
 ```
+Implementation Example（實作範例）
 
-- 實際案例：Day 2, Function Calling（Basic）
-- 實作環境：OpenAI ChatCompletion + 自行後端
-- 實測數據：
-  - 改善前：需要人工解析自然語言
-  - 改善後：自動產生機器可執行指令
-  - 改善幅度：定性改善（未量化）
+實際案例：Shopping List（Function Calling Basic 對話）
+實作環境：OpenAI ChatCompletion；JSON Mode；.NET
+實測數據：
+改善前：自由文本 → 難以執行
+改善後：動作 JSON → 可直接執行
+改善幅度：自動化與正確性顯著提升
 
-- Learning Points
-  - 核心知識點：工具設計、JSON 指令化
-  - 技能要求：結構化輸出與解析
-  - 延伸思考：如何加入錯誤/衝突處理？
+Learning Points（學習要點）
+核心知識點：
+- 指令集與語意映射
+- 序列執行器與回饋
+- Function Calling 基礎閉環
+技能要求：
+必備技能：JSON 處理、清單邏輯
+進階技能：衝突檢查與審計
+延伸思考：
+- 加入單位/價格等擴充
+- 引入多語系意圖映射
+- 工具集版本化管理
 
-- Practice Exercise
-  - 基礎：把聊天輸出轉成固定 JSON 指令（30 分）
-  - 進階：加入基本驗證與衝突處理（2 小時）
-  - 專案：做一個 Shopping List Bot（8 小時）
+Practice Exercise（練習題）
+基礎練習：定義 add/delete 格式並解析（30 分鐘）
+進階練習：加入衝突與錯誤回覆（2 小時）
+專案練習：清單管理 API 與前端整合（8 小時）
 
-- Assessment Criteria
-  - 功能完整性（40%）：完整 add/delete 流
-  - 程式碼品質（30%）：解析器與執行器清晰
-  - 效能優化（20%）：批次處理與重試
-  - 創新性（10%）：自動合併/去重邏輯
+Assessment Criteria（評估標準）
+功能完整性（40%）：動作解析與執行閉環
+程式碼品質（30%）：模組化與測試
+效能優化（20%）：序列執行與重試
+創新性（10%）：擴充性與回饋設計
 
 ---
 
-## Case #5: Function Calling（Sequential）以工具結果驅動下一步
+## Case #4: Function Calling（Sequential）行程預約：查再寫的連續工具使用
 
 ### Problem Statement（問題陳述）
-- 業務場景：行程助理需查行程空檔後自動建立事件並回覆使用者，過程包含多次工具調用與依賴前一步結果。
-- 技術挑戰：三方對話（user/assistant/tools）的訊息管理；正確傳遞 tool 與 tool-result。
-- 影響範圍：若遺漏訊息或循環控制不佳，任務會卡住或答非所問。
-- 複雜度評級：高
+業務場景：幫使用者預約明天早上的 30 分鐘慢跑，需先查空檔（check_schedules）再新增活動（add_event），並回覆成功訊息。
+技術挑戰：LLM 必須能在對話中觸發工具、消化工具回傳、做出下一步決策，直到任務完成。
+影響範圍：若未處理工具結果與順序依賴，容易錯誤預約或重複執行。
+複雜度評級：高
 
-### Root Cause Analysis
-- 直接原因：
-  1. 未將 tool 與 tool-result 併入 chat history。
-  2. HTTP/SDK 手動管理太多細節，易錯。
-  3. 缺少有狀態的多輪控制迴圈。
-- 深層原因：
-  - 架構層面：對話狀態機制不足。
-  - 技術層面：tool_calls 與 result 對接不熟悉。
-  - 流程層面：未設計「直到完成」的 loop。
+### Root Cause Analysis（根因分析）
+直接原因：
+1. 只完成「呼叫」未完成「回傳」與結果消化。
+2. 工具與對話的三方溝通未被清楚建模。
+3. 未妥善追加 tool-result 到歷史，導致上下文斷裂。
+深層原因：
+- 架構層面：缺少工具回合控制器（Tool Orchestrator）。
+- 技術層面：未處理 tool_calls 與 tool-result 的正確序列。
+- 流程層面：無成功/失敗的閉環與用戶回覆規範。
 
-### Solution Design
-- 解決策略：落實 tool/tool-result 訊息，建立「推進迴圈」：assistant 要工具 -> app 執行 -> tool-result 回填 -> 再呼叫模型；直到 assistant 輸出面向使用者的最終訊息。
+### Solution Design（解決方案設計）
+解決策略：在 Chat Completion 內形成工具回合閉環：assistant → tool_calls → app 執行 → tool-result → assistant 決策，直到成功回覆。
 
-- 實施步驟：
-  1. 設計 Tool Registry 與執行器
-  - 實作細節：check_schedules, add_event
-  - 所需資源：插件/服務
-  - 預估時間：1 天
-  2. 建立對話推進迴圈
-  - 實作細節：偵測 tool_calls；執行並回填 tool-result
-  - 所需資源：Chat client
-  - 預估時間：1 天
-  3. 加入錯誤與終止條件
-  - 實作細節：最大迭代、超時、工具錯誤處理
-  - 所需資源：Logging/Policy
-  - 預估時間：0.5 天
+實施步驟：
+1. 定義工具列表
+- 實作細節：tools: ["check_schedules", "add_event"]。
+- 所需資源：SK Plugins 或自訂工具 API。
+- 預估時間：0.5 天
+2. 工具執行與回覆
+- 實作細節：攔截 tool_calls，執行後追加 tool-result。
+- 所需資源：工具執行器、SDK/Http。
+- 預估時間：1 天
+3. 任務完成回覆
+- 實作細節：assistant 最終彙整為用戶可讀訊息。
+- 所需資源：回覆模板與審計。
+- 預估時間：0.5 天
 
-- 關鍵程式碼/設定：
+關鍵程式碼/設定：
 ```json
-// 歷史摘要（節錄）：
-// 1) system: tools [check_schedules, add_event]
-// 2) user: find a 30 min slot...
-// 3) assistant: tool_calls -> check_schedules(06:00~12:00)
-// 4) tool-result: ["07:00-08:00...", "08:00-09:00...", "10:00-12:00..."]
-// 5) assistant: tool_calls -> add_event(09:00-09:30)
-// 6) tool-result: ["success"]
-// 7) assistant: "Morning run scheduled for tomorrow at 9am!"
+// 節錄對話輪廓（簡化）
+1. system: tools: [ "check_schedules", "add_event" ]
+2. user: find a 30 min slot for a run tomorrow morning
+3. assistant: tool_calls: check_schedules(06:00-12:00)
+4. tool-result: ["07:00-08:00...", "08:00-09:00...", "10:00-12:00..."]
+5. assistant: tool_calls: add_event(09:00-09:30)
+6. tool-result: ["success"]
+7. assistant: "Morning run scheduled for tomorrow at 9am!"
 ```
+Implementation Example（實作範例）
 
-- 實際案例：Day 3, Schedule Event Assistant（HTTP + Semantic Kernel）
-- 實作環境：OpenAI ChatCompletion；Semantic Kernel 工具框架
-- 實測數據：
-  - 改善前：只完成「Call」無「Return」的單步指令
-  - 改善後：可連續決策與執行，產出面向使用者的最終結果
-  - 改善幅度：定性改善（未量化）
+實際案例：Schedule Event Assistant（HTTP/SK）
+實作環境：.NET、Semantic Kernel、OpenAI ChatCompletion
+實測數據：
+改善前：無工具回合閉環，容易中斷或誤操作
+改善後：完整連續工具使用與成功回覆
+改善幅度：任務完成率與正確性顯著提升
 
-- Learning Points
-  - 核心知識點：tool_calls/tool-result 模式；狀態驅動循環
-  - 技能要求：對話狀態管理、錯誤處理
-  - 延伸思考：如何做規模化的多工具規劃（Planning）？
+Learning Points（學習要點）
+核心知識點：
+- tool_calls / tool-result 對話序列
+- 工具回合閉環控制
+- 任務完成的彙整策略
+技能要求：
+必備技能：API 呼叫、序列控制
+進階技能：SK 工具編排、狀態機
+延伸思考：
+- 加入行程衝突與提醒
+- 增加取消/修改功能
+- 引入規則與安全檢查
 
-- Practice Exercise
-  - 基礎：實作單一工具的 tool->result 回填（30 分）
-  - 進階：加入第二個工具並串聯結果（2 小時）
-  - 專案：完成行程助理（含錯誤與超時）（8 小時）
+Practice Exercise（練習題）
+基礎練習：實作 check_schedules 工具（30 分鐘）
+進階練習：加入 add_event 與閉環回覆（2 小時）
+專案練習：完整行程助理（8 小時）
 
-- Assessment Criteria
-  - 功能完整性（40%）：能從詢問到建立事件
-  - 程式碼品質（30%）：清楚的 loop 與訊息處理
-  - 效能優化（20%）：控制迭代與 token
-  - 創新性（10%）：可視化對話流程
+Assessment Criteria（評估標準）
+功能完整性（40%）：查→寫→回覆
+程式碼品質（30%）：工具編排與測試
+效能優化（20%）：呼叫次數與延遲
+創新性（10%）：多工具策略與提示工程
 
 ---
 
-## Case #6: 用框架（Semantic Kernel/No-Code）簡化多工具協作
+## Case #5: 以 Function Calling 觸發 RAG（搜尋引擎/外部資料）
 
 ### Problem Statement（問題陳述）
-- 業務場景：需要多工具的連續調用（RAG、行程、天氣等），用純 HTTP/SDK 管理 tool_calls 細節成本高且易錯。
-- 技術挑戰：統一工具規格、快速註冊/暴露工具、處理多輪對話的複雜性。
-- 影響範圍：若自行土法煉鋼，維護性與交付速度受阻。
-- 複雜度評級：中
+業務場景：回答需依賴最新的外部資訊（景點、天氣、位置），LLM 訓練知識落後，須在對話中自動觸發搜尋與檢索，並產生含來源的回覆。
+技術挑戰：設計能讓 LLM 自主決定是否搜索，並生成正確查詢參數（query/limit/tags）。
+影響範圍：無檢索會導致幻覺；無引用來源降低可信度。
+複雜度評級：中
 
-### Root Cause Analysis
-- 直接原因：
-  1. 沒有共通的工具註冊/調用機制。
-  2. 手寫 loop 與 message 管理出錯機率高。
-  3. 工具組態與安全未標準化。
-- 深層原因：
-  - 架構層面：缺少統一的 Agent/Tool 宿主。
-  - 技術層面：忽略成熟框架（SK、Dify）。
-  - 流程層面：缺乏工具生命週期治理。
+### Root Cause Analysis（根因分析）
+直接原因：
+1. 只靠模型內知識，無法回應最新狀況。
+2. 無檢索工具，無法產生查詢條件。
+3. 無引用來源，缺乏可驗證性。
+深層原因：
+- 架構層面：未形成檢索增強生成（RAG）管道。
+- 技術層面：缺乏工具定義與參數抽取。
+- 流程層面：回答無附帶來源，缺少治理。
 
-### Solution Design
-- 解決策略：採用 Semantic Kernel（或 Dify 等）承載工具、規格、與多輪控制；以 OpenAPI/Swagger 直接注入工具；減少樣板碼。
+### Solution Design（解決方案設計）
+解決策略：在 system prompt 說明任務與引用要求，注入 search/bing 等工具；用 JSON Mode 讓 LLM 生成查詢參數；回覆需包含來源連結。
 
-- 實施步驟：
-  1. 工具註冊
-  - 實作細節：SK 載入原生/HTTP/Swagger 工具
-  - 所需資源：SK、OpenAPI 規格
-  - 預估時間：0.5 天
-  2. 對話執行
-  - 實作細節：使用 SK Orchestration 取代手寫 loop
-  - 所需資源：SK Kernel
-  - 預估時間：0.5 天
-  3. 安全與觀測
-  - 實作細節：API Key、Rate Limit、Log/Trace
-  - 所需資源：內建或外掛
-  - 預估時間：0.5 天
+實施步驟：
+1. 定義檢索工具與參數模式
+- 實作細節：search(query, limit, tags...)，並要求引用來源。
+- 所需資源：Bing API、SK 插件。
+- 預估時間：1 天
+2. 對話策略與回覆規範
+- 實作細節：當需要外部資訊時觸發 search；回覆包含 URL。
+- 所需資源：Prompt 模板。
+- 預估時間：0.5 天
+3. 整合管道與審計
+- 實作細節：記錄每次搜尋結果與引用。
+- 所需資源：Logger、資料存儲。
+- 預估時間：0.5 天
 
-- 關鍵程式碼/設定：
+關鍵程式碼/設定：
 ```csharp
-var builder = Kernel.CreateBuilder()
-    .AddOpenAIChatCompletion("gpt-4o-mini", apiKey)
-    .AddOpenApiSkillFromFile("BingSearch", "bing-search.yaml"); // Swagger 直載
-
-var kernel = builder.Build();
-var result = await kernel.InvokePromptAsync("附近景點與出門準備？");
+// SK 伪代码：挂載 Bing Search
+var kernel = Kernel.Create();
+kernel.Plugins.Add(new BingSearchPlugin(apiKey));
+var answer = await kernel.InvokeAsync("search", new { query = "city attractions", limit = 5 });
 ```
+Implementation Example（實作範例）
 
-- 實際案例：Day 3 建議（SK/No-Code/Dify 等）
-- 實作環境：Semantic Kernel；OpenAPI 工具
-- 實測數據：
-  - 改善前：大量自寫樣板碼與錯誤
-  - 改善後：快速接工具、治理一致
-  - 改善幅度：定性改善（未量化）
+實際案例：RAG with Bing Search
+實作環境：.NET、Semantic Kernel、Bing Search API
+實測數據：
+改善前：回覆常過時或幻覺
+改善後：可用最新檢索並附來源
+改善幅度：可信度顯著提升（引用比例作為指標）
 
-- Learning Points
-  - 核心知識點：工具注入（Swagger）、Orchestration
-  - 技能要求：SK 使用、OpenAPI
-  - 延伸思考：如何抽象多宿主（SK、MCP、GPTs）共用一套工具？
+Learning Points（學習要點）
+核心知識點：
+- RAG 的觸發機制（Function Calling）
+- 查詢參數與 JSON Mode
+- 引用治理
+技能要求：
+必備技能：SK 插件、外部 API
+進階技能：查詢策略與可觀測性
+延伸思考：
+- 根據場景改用自家知識庫
+- 加入來源可靠度評分
+- 設計查詢降級策略
 
-- Practice Exercise
-  - 基礎：在 SK 中掛載一個 Swagger 工具（30 分）
-  - 進階：同時掛兩個工具並串聯結果（2 小時）
-  - 專案：以 SK 完成一個多工具助理（8 小時）
+Practice Exercise（練習題）
+基礎練習：以 SK 呼叫搜尋工具（30 分鐘）
+進階練習：生成查詢參數並引用來源（2 小時）
+專案練習：多工具編排的旅遊建議助理（8 小時）
 
-- Assessment Criteria
-  - 功能完整性（40%）：工具載入與調用完整
-  - 程式碼品質（30%）：設定清楚且可重用
-  - 效能優化（20%）：降低冗餘回合
-  - 創新性（10%）：工具治理策略
+Assessment Criteria（評估標準）
+功能完整性（40%）：觸發搜尋與引用
+程式碼品質（30%）：插件整合與測試
+效能優化（20%）：查詢延遲與結果整合
+創新性（10%）：查詢策略與來源評分
 
 ---
 
-## Case #7: 用 Function Calling 觸發 RAG 檢索與回答
+## Case #6: RAG with Kernel Memory Plugins（MSKM 即插即用）
 
 ### Problem Statement（問題陳述）
-- 業務場景：要回答最新/專域知識，LLM 需先檢索外部來源（搜尋引擎或內部知識庫），並附上來源。
-- 技術挑戰：讓 LLM 自主決定何時使用「搜尋」工具與生成查詢參數。
-- 影響範圍：若不先檢索，易幻覺；若參數生成不當，檢索品質差。
-- 複雜度評級：中
+業務場景：將企業或部落格知識庫暴露為 RAG 服務，讓前端 Chat/Agent 直接查詢 MSKM 的內容並生成回答。
+技術挑戰：需要一套支援大規模 ingestion、檢索、引用的獨立服務，並能被 SK 當工具使用。
+影響範圍：知識檢索可用性、整合便利性、維護成本。
+複雜度評級：中
 
-### Root Cause Analysis
-- 直接原因：
-  1. 倚賴內建知識造成過時/幻覺。
-  2. 無工具觸發機制，無法外部查詢。
-  3. 查詢參數（query/limit/tags）生成不穩。
-- 深層原因：
-  - 架構層面：未納入檢索工具鏈。
-  - 技術層面：未結合 Function Calling 與 JSON Mode。
-  - 流程層面：未要求引用來源。
+### Root Cause Analysis（根因分析）
+直接原因：
+1. SK Memory 僅涵蓋 Vector Store CRUD 與相似搜尋，不含完整 ingestion pipeline。
+2. 自建 RAG 管線成本高且易踩坑。
+3. 無統一工具集與框架整合。
+深層原因：
+- 架構層面：長期記憶（long-term memory）未獨立服務化。
+- 技術層面：文件抽取/分段/向量化/存儲缺少標準管線。
+- 流程層面：檢索治理（tags/來源/引用）未內建。
 
-### Solution Design
-- 解決策略：在 system prompt 中要求「需使用檢索工具並附來源」，提供 search 工具規格；讓 LLM 自動產生 query 與限制條件；完成後再統整回答。
+### Solution Design（解決方案設計）
+解決策略：採用 MSKM 作為 RAG 服務，透過其 NuGet 與 SK Plugin 將 MSKM 能力加入工具箱；前端只需直接調用。
 
-- 実施步驟：
-  1. 定義 search 工具
-  - 實作細節：query, limit, tags
-  - 所需資源：Bing API/MSKM 查詢 API
-  - 預估時間：0.5 天
-  2. 設定 RAG 回答規則
-  - 實作細節：強制附上來源 URL
-  - 所需資源：System prompt
-  - 預估時間：0.5 天
-  3. 測試與調參
-  - 實作細節：限制最大工具呼叫次數
-  - 所需資源：實測
-  - 預估時間：0.5 天
+實施步驟：
+1. 部署 MSKM
+- 實作細節：Docker 啟動或嵌入服務；配置 AI connector。
+- 所需資源：MSKM Docker/NuGet；OpenAI/Azure OpenAI 等。
+- 預估時間：0.5-1 天
+2. 掛載 SK 的 Memory Plugin
+- 實作細節：在 SK 中加入 MSKM Plugin；暴露檢索功能。
+- 所需資源：Semantic Kernel。
+- 預估時間：0.5 天
+3. 前端 Chat/Agent 整合
+- 實作細節：RAG query → MSKM → 生成回答（含引用）。
+- 所需資源：Chat 應用。
+- 預估時間：0.5 天
 
-- 關鍵程式碼/設定：
-```json
-"tools":[
-  {
-    "type":"function",
-    "function":{
-      "name":"search",
-      "description":"Search knowledge base or web",
-      "parameters":{
-        "type":"object",
-        "properties":{
-          "query":{"type":"string"},
-          "limit":{"type":"integer","default":3},
-          "tags":{"type":"array","items":{"type":"string"}}
-        },
-        "required":["query"]
-      }
-    }
-  }
-]
+關鍵程式碼/設定：
+```csharp
+// SK 掛載 MSKM Plugin（伪代码）
+var kernel = Kernel.Create();
+kernel.Plugins.Add(new KernelMemoryPlugin(mskmClient)); // 提供 search/lookup 等工具
 ```
+Implementation Example（實作範例）
 
-- 實際案例：Day 4（RAG with Custom Prompt、Bing Search Plugin）
-- 實作環境：OpenAI ChatCompletion + Bing Search or MSKM
-- 實測數據：
-  - 改善前：過時/幻覺
-  - 改善後：可附來源、更新即時
-  - 改善幅度：定性改善（未量化）
+實際案例：RAG with Kernel Memory Plugins（官方/自訂插件）
+實作環境：.NET、MSKM、SK
+實測數據：
+改善前：自行打造管線耗時且不完整
+改善後：服務化 + 插件化，快速整合
+改善幅度：開發效率與穩定性顯著提升
 
-- Learning Points
-  - 核心知識點：RAG 基本流程、工具觸發
-  - 技能要求：工具設計、Prompt 治理
-  - 延伸思考：如何以 MSKM 取代外部搜尋？
+Learning Points（學習要點）
+核心知識點：
+- 長期記憶服務化
+- SK 插件與工具暴露
+- 連接器與相容性
+技能要求：
+必備技能：Docker/SDK
+進階技能：SK 插件開發與治理
+延伸思考：
+- 權限控制與分域索引
+- MSKM 與監控/告警整合
+- 檢索策略與引用模板
 
-- Practice Exercise
-  - 基礎：撰寫 search 工具並要求附來源（30 分）
-  - 進階：加入 tags/filters（2 小時）
-  - 專案：做一個「本地知識庫 RAG」助理（8 小時）
+Practice Exercise（練習題）
+基礎練習：啟動 MSKM 並用 SK 搜索（30 分鐘）
+進階練習：自訂 MSKM 插件並加標籤（2 小時）
+專案練習：企業知識庫 RAG 服務（8 小時）
 
-- Assessment Criteria
-  - 功能完整性（40%）：可檢索且附來源
-  - 程式碼品質（30%）：工具/參數清楚
-  - 效能優化（20%）：限制工具回合與內容長度
-  - 創新性（10%）：查詢改寫/擴展
+Assessment Criteria（評估標準）
+功能完整性（40%）：RAG 搜索與引用
+程式碼品質（30%）：插件封裝與測試
+效能優化（20%）：索引/查詢性能
+創新性（10%）：治理與可觀測性
 
 ---
 
-## Case #8: 以 MS Kernel Memory（MSKM）提供 RAG-as-a-Service
+## Case #7: MSKM 部署選型：Web Service 與嵌入式（Serverless）
 
 ### Problem Statement（問題陳述）
-- 業務場景：需要長期記憶（Long-term Memory）與可規模化的文件匯入、分段、向量化與檢索，且要與 .NET/SK 緊密整合。
-- 技術挑戰：SK Memory 僅抽象 Vector Store，缺少完整 ingestion pipeline 與服務化能力。
-- 影響範圍：自行打造 ingestion 成本高，缺乏彈性與可運營性。
-- 複雜度評級：高
+業務場景：不同規模下選擇合適的 MSKM 部署方式：以 Web Service 供多方使用，或直接嵌入應用程式（非 localhost HTTP），滿足不同維運與擴展需求。
+技術挑戰：兼顧擴展性、維護成本與開發效率；確保管線可運作。
+影響範圍：部署架構、維運流程、資源成本。
+複雜度評級：中
 
-### Root Cause Analysis
-- 直接原因：
-  1. SK Memory 僅處理儲存與檢索，缺少文件處理流水線。
-  2. 大量文本處理需要可擴展的任務機制。
-  3. 多模型/Connector 管理複雜。
-- 深層原因：
-  - 架構層面：缺少獨立的記憶服務。
-  - 技術層面：需要多 Connector 與 Plugin 支援。
-  - 流程層面：需要 DevOps 化部署與治理。
+### Root Cause Analysis（根因分析）
+直接原因：
+1. 單一部署模式無法覆蓋所有場景。
+2. 自建服務缺乏標準化；嵌入式易失去跨系統可用性。
+3. 未考慮長任務處理與管線治理。
+深層原因：
+- 架構層面：RAG 管線服務化設計未被納入。
+- 技術層面：Connector 與管線元件配置複雜。
+- 流程層面：維運策略（版本、回滾、監控）未成體系。
 
-### Solution Design
-- 解決策略：採用 MSKM 以「服務」方式提供長期記憶與 RAG Ingestion Pipeline；以 SDK/HTTP 使用；同時在 SK 端掛入 MSKM 的 Memory Plugin 供 LLM 使用。
+### Solution Design（解決方案設計）
+解決策略：提供兩種標準部署模式（Service/Embedded）；以 Docker 快速起服或 NuGet 嵌入；建立版本與監控策略。
 
-- 實施步驟：
-  1. 部署 MSKM
-  - 實作細節：Docker 拉取官方 image 或 source build
-  - 所需資源：Docker、配置檔
-  - 預估時間：0.5~1 天
-  2. 整合 SK
-  - 實作細節：載入 MSKM Memory Plugin 至 SK
-  - 所需資源：NuGet/設定
-  - 預估時間：0.5 天
-  3. 匯入與查詢
-  - 實作細節：透過 MSKM API 匯入文件、查詢
-  - 所需資源：MSKM SDK/HTTP
-  - 預估時間：0.5 天
+實施步驟：
+1. Web Service 部署
+- 實作細節：拉取 Docker image；配置 AI 連接器。
+- 所需資源：Docker、MSKM image。
+- 預估時間：0.5 天
+2. 嵌入式部署
+- 實作細節：NuGet 內嵌；不走 HTTP；直接調用核心。
+- 所需資源：MSKM NuGet。
+- 預估時間：0.5 天
+3. 版本與監控
+- 實作細節：版本 pin、健康檢查、日誌與告警。
+- 所需資源：監控平台。
+- 預估時間：0.5 天
 
-- 關鍵程式碼/設定：
+關鍵程式碼/設定：
 ```bash
-# 以 Docker 運行（版本參考 Case #15 注意中文 chunking）
-docker run -p 8000:8000 kernelmemory:0.96.x
+# Docker 啟動（示意）
+docker run -d --name mskm -p 8080:8080 mskm:latest
 ```
+Implementation Example（實作範例）
 
-- 實際案例：Day 5（RAG with Kernel Memory Plugins、Custom Plugins、官方 Demo）
-- 實作環境：MSKM（Docker/SDK）、Semantic Kernel、OpenAI/Embedding/Connector
-- 實測數據：
-  - 改善前：自行處理 ingestion 流程繁雜
-  - 改善後：服務化與插件化，快速上線
-  - 改善幅度：定性改善（未量化）
+實際案例：MSKM 作為 Web Service 與嵌入式
+實作環境：Docker/.NET/MSKM
+實測數據：
+改善前：部署方式不一致，維運困難
+改善後：兩種模式可選；快速起服與嵌入
+改善幅度：維運效率與穩定性提升
 
-- Learning Points
-  - 核心知識點：MSKM 與 SK 的互補關係
-  - 技能要求：Docker、.NET SDK、插件整合
-  - 延伸思考：如何做多租戶與權限治理？
+Learning Points（學習要點）
+核心知識點：
+- 服務 vs 嵌入式選型
+- Connector 配置與維運
+- 版本與監控治理
+技能要求：
+必備技能：Docker、NuGet
+進階技能：監控、版本策略
+延伸思考：
+- 多租戶與隔離
+- Serverless 成本治理
+- 可靠性工程（SLO/SLI）
 
-- Practice Exercise
-  - 基礎：啟動 MSKM 並以 HTTP 匯入一段文本（30 分）
-  - 進階：在 SK 掛上 MSKM Memory Plugin 並查詢（2 小時）
-  - 專案：完成一個文件到答案的端到端 RAG（8 小時）
+Practice Exercise（練習題）
+基礎練習：以 Docker 起一個 MSKM（30 分鐘）
+進階練習：以 NuGet 嵌入應用（2 小時）
+專案練習：建立監控與版本策略（8 小時）
 
-- Assessment Criteria
-  - 功能完整性（40%）：匯入/檢索/整合 SK
-  - 程式碼品質（30%）：設定與錯誤處理清楚
-  - 效能優化（20%）：批次與併發匯入
-  - 創新性（10%）：自訂 handler/插件
+Assessment Criteria（評估標準）
+功能完整性（40%）：兩種模式可用
+程式碼品質（30%）：配置與封裝
+效能優化（20%）：資源使用與延遲
+創新性（10%）：治理策略
 
 ---
 
-## Case #9: 以 LLM 先行生成「檢索專用資訊」提升 RAG 精度
+## Case #8: 長文檢索精度不佳：以合成檢索資訊提升（摘要/FAQ/PSR）
 
 ### Problem Statement（問題陳述）
-- 業務場景：文章很長（50k~100k 字），僅靠分段與相似度檢索，面對廣義問題（如「WSL 能幹嘛」）時會取到不對焦分段。
-- 技術挑戰：資訊密度與視角不匹配，難以在分段中找到最合適上下文。
-- 影響範圍：RAG 回答品質差，使用體驗不佳。
-- 複雜度評級：高
+業務場景：部落格長文（50k~100k chars、單篇 100+ chunks）以基本 chunking+embedding 檢索時，對偏抽象問題（如「WSL 能幹嘛？」）常取不到對的段落；需要提升語意對齊。
+技術挑戰：查詢視角與內容視角不一致；單純相似度難組合正確答案。
+影響範圍：檢索品質、用戶體驗、生成答案可信度。
+複雜度評級：高
 
-### Root Cause Analysis
-- 直接原因：
-  1. 單靠 chunking 難涵蓋摘要與概覽。
-  2. 查詢視角與原文寫作視角不一致。
-  3. 僅有原始分段向量化，缺少派生資料。
-- 深層原因：
-  - 架構層面：缺乏多視角資料層（摘要/FAQ/案例）。
-  - 技術層面：未運用 LLM 生成檢索友善內容。
-  - 流程層面：匯入流程未加入內容合成步驟。
+### Root Cause Analysis（根因分析）
+直接原因：
+1. 長文缺少高層次摘要，檢索落在細節段落。
+2. 使用者以問題視角查詢，與作者內容視角不一致。
+3. 向量檢索資訊密度不對齊（chunk 太多、語義分散）。
+深層原因：
+- 架構層面：RAG 管線缺少語意增益（semantic synthesis）。
+- 技術層面：未生成適合檢索的高階結構（摘要/FAQ/PSR）。
+- 流程層面：標籤與分域策略缺失。
 
-### Solution Design
-- 解決策略：在匯入前以 LLM 生成：全篇摘要、段落摘要、FAQ（Q/A）、解決方案案例（problem/root cause/solution/example），加上 tags 後再向量化入庫；查詢時可優先命中摘要或問答粒度更合適的內容。
+### Solution Design（解決方案設計）
+解決策略：在 ingestion 前用 LLM 生成檢索專用內容：全文摘要、段落摘要（paragraph abstract）、FAQ（Q/A）、問題/根因/解法（PSR），加標籤後向量化，再交給 MSKM；前端 RAG 直接查詢這些視角對齊素材。
 
-- 實施步驟：
-  1. 設計合成規格
-  - 實作細節：定義四類派生內容與標籤策略
-  - 所需資源：Prompt 模板
-  - 預估時間：1 天
-  2. 生成與入庫
-  - 實作細節：用較強推理模型（如 o1）生成，再送 MSKM
-  - 所需資源：SK + MSKM
-  - 預估時間：1~2 天
-  3. 查詢策略
-  - 實作細節：優先檢索摘要/FAQ/案例，再補原文片段
-  - 所需資源：檢索組合策略
-  - 預估時間：0.5 天
+實施步驟：
+1. 合成檢索素材
+- 實作細節：使用更強推理模型（如 o1）生成 abstract/FAQ/PSR。
+- 所需資源：SK 調用模型；標籤策略。
+- 預估時間：1-2 天
+2. 標籤與入庫
+- 實作細節：為素材加 tags（type:abstract/FAQ/PSR、topic、date 等）。
+- 所需資源：MSKM ingestion；vector store。
+- 預估時間：1 天
+3. 檢索策略與回覆模板
+- 實作細節：優先召回摘要/FAQ/PSR，再補原文片段；引用來源。
+- 所需資源：查詢管道；回覆合成。
+- 預估時間：1 天
 
-- 關鍵程式碼/設定：
+關鍵程式碼/設定：
 ```csharp
-// 以 SK 生成摘要 -> 再送 MSKM
-var abstractText = await Llm.GenerateAsync("為下文產生<=1000字摘要: ...原文...");
-await Mskm.ImportAsync(new MemoryRecord{
-    Text = abstractText, Tags = new[]{"type:abstract","topic:WSL"}
-});
+// 伪代码：合成摘要/FAQ/PSR 後送入 MSKM
+var abstracts = await kernel.InvokeAsync("summarize", new { text = article });
+var faqs = await kernel.InvokeAsync("buildFAQ", new { text = article });
+var psr = await kernel.InvokeAsync("extractPSR", new { text = article });
+// 加 tags 後批量送入 MSKM
+await mskmClient.ImportAsync(new[]{ abstracts, faqs, psr }, tags: new[]{ "type:abstract","type:FAQ","type:PSR" });
 ```
+Implementation Example（實作範例）
 
-- 實際案例：Day 6（Synthesize Content for RAG；Multiple Plugins Demo）
-- 實作環境：SK + MSKM；OpenAI o1（文章示範用）
-- 實測數據：
-  - 改善前：向量檢索命中段落常不對焦
-  - 改善後：優先命中摘要/FAQ/案例，品質顯著提升
-  - 改善幅度：定性改善（未量化）
+實際案例：Synthesize Content for RAG（SK→MSKM）
+實作環境：.NET、SK、MSKM、OpenAI（o1 用於生成）
+實測數據：
+改善前：長文檢索易取錯段，回答牛頭不對馬嘴
+改善後：視角對齊素材提升召回與精度
+改善幅度：檢索相關性顯著提升（以人工審查與命中率為指標）
 
-- Learning Points
-  - 核心知識點：生成式增強檢索（先生成後向量化）
-  - 技能要求：Prompt 設計、標籤策略
-  - 延伸思考：如何以自動化 Pipeline 量產派生內容？
+Learning Points（學習要點）
+核心知識點：
+- 向量檢索的語意對齊
+- 合成素材（abstract/FAQ/PSR）
+- 標籤治理
+技能要求：
+必備技能：Prompt 設計、SK 調用
+進階技能：RAG 查詢策略設計
+延伸思考：
+- 依領域客製視角集合
+- 引入多路召回（multi-retriever）
+- 指標化精度評估
 
-- Practice Exercise
-  - 基礎：為一篇文章產生 500 字摘要並入庫（30 分）
-  - 進階：為每段產生段落摘要與 FAQ（2 小時）
-  - 專案：建立自動化合成+入庫流水線（8 小時）
+Practice Exercise（練習題）
+基礎練習：為一篇長文生成摘要並入庫（30 分鐘）
+進階練習：生成 FAQ/PSR 並設計 tags（2 小時）
+專案練習：完整視角對齊 RAG 管線（8 小時）
 
-- Assessment Criteria
-  - 功能完整性（40%）：四類派生內容與檢索策略
-  - 程式碼品質（30%）：可重入與錯誤復原
-  - 效能優化（20%）：批次/快取/重用
-  - 創新性（10%）：動態 rerank 或混檢索
+Assessment Criteria（評估標準）
+功能完整性（40%）：合成→入庫→檢索→引用
+程式碼品質（30%）：管線封裝與測試
+效能優化（20%）：批量處理與入庫性能
+創新性（10%）：視角設計與指標化評估
 
 ---
 
-## Case #10: 嵌入模型與 Chunk 尺寸對齊（Embedding Strategy）
+## Case #9: MSKM Pipeline 加入 Summarization Handler
 
 ### Problem Statement（問題陳述）
-- 業務場景：使用 text-embedding-3-large 進行向量化，需設定合適 chunk 尺寸以提升語意檢索效果。
-- 技術挑戰：模型建議輸入 512 tokens（上限 8191），若 chunk 不佳會影響相似度。
-- 影響範圍：向量檢索失準，RAG 效果打折。
-- 複雜度評級：中
+業務場景：文章無摘要時，檢索常命中細節段落，缺乏高層次對齊；需要在 MSKM pipeline 內自動生成摘要以提升召回質量。
+技術挑戰：在 ingestion 中自動生成摘要後再 chunk/embedding/store。
+影響範圍：索引品質與查詢精度，影響整體 RAG 效果。
+複雜度評級：中
 
-### Root Cause Analysis
-- 直接原因：
-  1. 未依模型建議設定 chunk 長度。
-  2. 中文/多語 token 計數差異。
-  3. 忽略重疊策略造成邊界資訊流失。
-- 深層原因：
-  - 架構層面：缺少可配置 chunker。
-  - 技術層面：不熟 tokenization 差異。
-  - 流程層面：無 A/B 測試不同 chunk 策略。
+### Root Cause Analysis（根因分析）
+直接原因：
+1. 原文缺乏摘要，無高階概述用於檢索。
+2. 單純 chunking 以長度為主，忽略語義層次。
+3. pipeline 缺少合成步驟。
+深層原因：
+- 架構層面：管線未內建語義增益元件。
+- 技術層面：未加 Summarization handler。
+- 流程層面：未定義摘要生成與標籤規則。
 
-### Solution Design
-- 解決策略：以 512 tokens 為目標 chunk size；針對中文加入重疊（如 10%）；提供可配置化 chunker 並對不同文類進行 A/B 測試。
+### Solution Design（解決方案設計）
+解決策略：在 MSKM Import pipeline 中啟用 Summarization handler，生成摘要並入庫，標記為摘要類型，供檢索優先召回。
 
-- 實施步驟：
-  1. 設定 chunker
-  - 實作細節：target=512,max=800；overlap=10~15%
-  - 所需資源：Tokenizer/Chunker
-  - 預估時間：0.5 天
-  2. A/B 測試
-  - 實作細節：不同 chunk size/overlap 對比
-  - 所需資源：簡單測試集
-  - 預估時間：1 天
-  3. 上線與觀測
-  - 實作細節：收集查詢成功率與用戶回饋
-  - 所需資源：Telemetry
-  - 預估時間：1 天
+實施步驟：
+1. Pipeline 配置
+- 實作細節：啟用 Summarization handler；設 handler 次序。
+- 所需資源：MSKM pipeline 設定。
+- 預估時間：0.5 天
+2. 標籤與存儲
+- 實作細節：摘要以 "type:abstract" 標記；入庫。
+- 所需資源：MSKM 存儲。
+- 預估時間：0.5 天
+3. 檢索策略更新
+- 實作細節：查詢優先命中摘要，提升回答準確性。
+- 所需資源：Query pipeline。
+- 預估時間：0.5 天
 
-- 關鍵程式碼/設定：
-```json
-// 假想的 chunk 設定
-{
-  "chunker": {
-    "targetTokens": 512,
-    "maxTokens": 800,
-    "overlapRatio": 0.1,
-    "language": "zh"
-  }
+關鍵程式碼/設定：
+```csharp
+// 伪代码：MSKM ImportText 使用自訂 pipeline 啟用 Summarization
+var pipeline = new Pipeline()
+  .Use(new ContentExtraction())
+  .Use(new Summarization())
+  .Use(new Chunking())
+  .Use(new Embedding())
+  .Use(new Store());
+
+await mskm.ImportTextAsync(text, pipeline);
+```
+Implementation Example（實作範例）
+
+實際案例：MSKM 預設管線 + Summarization
+實作環境：.NET、MSKM
+實測數據：
+改善前：無摘要，召回多落在細節段落
+改善後：摘要優先召回，回覆更貼題
+改善幅度：精度提升（以人工審查為指標）
+
+Learning Points（學習要點）
+核心知識點：
+- MSKM pipeline 設計
+- Summarization 的召回價值
+- 檢索策略的重要性
+技能要求：
+必備技能：MSKM 配置
+進階技能：管線調優
+延伸思考：
+- 自訂多種摘要形態（標題摘要、段落摘要）
+- 階層化檢索策略（HNSW + reranker）
+- 加入引用治理
+
+Practice Exercise（練習題）
+基礎練習：在 pipeline 中加入 Summarization（30 分鐘）
+進階練習：標籤與檢索策略調整（2 小時）
+專案練習：多層摘要與檢索（8 小時）
+
+Assessment Criteria（評估標準）
+功能完整性（40%）：管線合成與檢索
+程式碼品質（30%）：設定封裝與測試
+效能優化（20%）：管線吞吐
+創新性（10%）：摘要策略
+
+---
+
+## Case #10: 多插件協作（位置/天氣/搜尋）旅遊建議
+
+### Problem Statement（問題陳述）
+業務場景：使用者詢問「我現在這邊有什麼景點？出門前要準備什麼？」需綜合位置、天氣、搜尋結果，給出建議並提醒。
+技術挑戰：LLM 必須在多插件間規劃順序（先取得位置→查天氣→搜尋景點→合成回覆）。
+影響範圍：回覆完整性與實用性；多工具協作可靠性。
+複雜度評級：高
+
+### Root Cause Analysis（根因分析）
+直接原因：
+1. 單工具無法滿足多面向資訊。
+2. 無編排策略，工具呼叫易混亂。
+3. 無回覆模板，資訊散亂。
+深層原因：
+- 架構層面：缺少工具編排與狀態管理。
+- 技術層面：多插件輸入/輸出格式不一致。
+- 流程層面：無引用與提醒規範。
+
+### Solution Design（解決方案設計）
+解決策略：以 SK 掛載多插件（Location/Weather/Search），在 system prompt 中指示工具使用策略；合成回覆時引用來源並給出提醒。
+
+實施步驟：
+1. 插件掛載
+- 實作細節：SK 掛 Location/Weather/BingSearch。
+- 所需資源：各 API。
+- 預估時間：1 天
+2. 使用策略與回覆模板
+- 實作細節：先位置→天氣→搜尋→合成；引用 URL；提醒攜帶物品。
+- 所需資源：Prompt 模板。
+- 預估時間：0.5 天
+3. 編排與審計
+- 實作細節：記錄工具呼叫次序與結果。
+- 所需資源：Logger。
+- 預估時間：0.5 天
+
+關鍵程式碼/設定：
+```csharp
+// 伪代码：多插件協作
+kernel.Plugins.Add(new LocationPlugin());
+kernel.Plugins.Add(new WeatherPlugin(apiKey));
+kernel.Plugins.Add(new BingSearchPlugin(apiKey));
+var result = await kernel.InvokeAsync("travelAdvisor", new { ask = "what to visit and prepare?" });
+```
+Implementation Example（實作範例）
+
+實際案例：Multiple Plugins Demo
+實作環境：.NET、SK、多外部 API
+實測數據：
+改善前：單一資料源導致回答片面
+改善後：多工具合成，資訊完整與實用
+改善幅度：可用性提升（以用戶滿意度與引用比為指標）
+
+Learning Points（學習要點）
+核心知識點：
+- 多工具編排策略
+- 引用與提醒模板
+- 可觀測性與審計
+技能要求：
+必備技能：多 API 整合
+進階技能：編排與狀態機
+延伸思考：
+- 加入價格與時間預估
+- 工具健康檢查與降級
+- 回覆品質指標化
+
+Practice Exercise（練習題）
+基礎練習：掛載兩個插件並呼叫（30 分鐘）
+進階練習：三插件編排與引用（2 小時）
+專案練習：旅遊建議助理（8 小時）
+
+Assessment Criteria（評估標準）
+功能完整性（40%）：多工具合成與引用
+程式碼品質（30%）：封裝與測試
+效能優化（20%）：呼叫延遲與降級
+創新性（10%）：編排策略
+
+---
+
+## Case #11: 自訂 Kernel Memory 插件（領域特化檢索）
+
+### Problem Statement（問題陳述）
+業務場景：需將特定領域（例如內部 SOP/異常案例庫）的檢索功能以插件暴露，讓 LLM 能直接操作 MSKM 進行領域檢索與引用。
+技術挑戰：需以自訂插件介面包裝 MSKM 特定功能與查詢條件，支援 tags 與分域查詢。
+影響範圍：檢索精度與整合便利性。
+複雜度評級：中
+
+### Root Cause Analysis（根因分析）
+直接原因：
+1. 通用插件不足以滿足領域的查詢條件。
+2. 無法以 tags/屬性做分域檢索。
+3. 無引用模板與治理。
+深層原因：
+- 架構層面：缺乏領域化插件介面。
+- 技術層面：MSKM 查詢參數未被封裝。
+- 流程層面：查詢與回覆一致性不足。
+
+### Solution Design（解決方案設計）
+解決策略：以自訂 MSKM 插件包裝查詢介面，提供領域特化方法（searchByTag/searchByTopic），並在 SK 中注入，形成工具列表。
+
+實施步驟：
+1. 插件封裝
+- 實作細節：C# 封裝 mskmClient.SearchAsync(tag/topic/limit)。
+- 所需資源：MSKM SDK、SK。
+- 預估時間：1 天
+2. Prompt 與引用模板
+- 實作細節：回覆必附來源與 tags；限制回答範圍。
+- 所需資源：模板。
+- 預估時間：0.5 天
+3. 測試與指標化
+- 實作細節：以測試集評估召回與精度。
+- 所需資源：標註資料。
+- 預估時間：1 天
+
+關鍵程式碼/設定：
+```csharp
+public class KernelMemoryDomainPlugin {
+  private readonly IMskmClient _client;
+  public Task<IEnumerable<Result>> SearchByTagAsync(string tag, int limit)
+    => _client.SearchAsync(new Query{ Tag = tag, Limit = limit });
 }
 ```
+Implementation Example（實作範例）
 
-- 實際案例：Day 6 對模型建議長度的說明
-- 實作環境：OpenAI text-embedding-3-large；MSKM/自建 chunker
-- 實測數據：
-  - 改善前：檢索不穩定
-  - 改善後：命中率提升（定性）
-  - 改善幅度：定性改善（未量化）
+實際案例：RAG with Kernel Memory Custom Plugins
+實作環境：.NET、MSKM、SK
+實測數據：
+改善前：通用檢索精度不足
+改善後：領域特化檢索，召回品質提升
+改善幅度：精度提升（以人工審查與命中率為指標）
 
-- Learning Points
-  - 核心知識點：chunk size/overlap 對檢索影響
-  - 技能要求：tokenization、A/B
-  - 延伸思考：多語場景如何自適應？
+Learning Points（學習要點）
+核心知識點：
+- 插件封裝與領域化查詢
+- 引用與回答範圍治理
+- 指標化評估
+技能要求：
+必備技能：SDK 封裝
+進階技能：領域知識與標註
+延伸思考：
+- 多維度標籤與權重
+- 與 reranker 結合
+- 引入安全與權限
 
-- Practice Exercise
-  - 基礎：用 512 tokens chunk 一篇文章（30 分）
-  - 進階：比較 256/512/1024 命中差異（2 小時）
-  - 專案：自動化 chunk 調參（8 小時）
+Practice Exercise（練習題）
+基礎練習：封裝一個 searchByTag（30 分鐘）
+進階練習：加入引用模板（2 小時）
+專案練習：領域 RAG 工具集（8 小時）
 
-- Assessment Criteria
-  - 功能完整性（40%）：可配置 chunker
-  - 程式碼品質（30%）：參數可追蹤
-  - 效能優化（20%）：批次向量化
-  - 創新性（10%）：動態 chunking
-
----
-
-## Case #11: 非文本內容（PDF/圖片）匯入與自訂 Handler
-
-### Problem Statement（問題陳述）
-- 業務場景：需將 PDF/圖片等非文本內容進行 OCR/文字擷取後再做 RAG。
-- 技術挑戰：建立可擴展 pipeline：content extraction -> chunking -> embedding -> store。
-- 影響範圍：若無法處理多媒體內容，知識覆蓋不足。
-- 複雜度評級：中
-
-### Root Cause Analysis
-- 直接原因：
-  1. 僅處理純文字，忽略前處理。
-  2. 缺乏可插拔 handler。
-  3. OCR/擷取品質不控。
-- 深層原因：
-  - 架構層面：管線無標準化。
-  - 技術層面：缺少多媒體處理經驗。
-  - 流程層面：未定義清洗與檢核。
-
-### Solution Design
-- 解決策略：使用 MSKM pipeline（或自訂外部 pipeline）加入 Content Extraction handler（PDF->Text、Image->OCR），後續照 RAG 流程處理；可擴展自訂 handler。
-
-- 實施步驟：
-  1. 啟用 content extraction
-  - 實作細節：為 PDF/圖片配置對應 handler
-  - 所需資源：MSKM/外部服務
-  - 預估時間：0.5~1 天
-  2. 清洗與格式化
-  - 實作細節：移除雜訊、表格/標題處理
-  - 所需資源：文字處理工具
-  - 預估時間：1 天
-  3. 入庫與驗證
-  - 實作細節：少量驗證品質後批量匯入
-  - 所需資源：SDK/HTTP
-  - 預估時間：0.5 天
-
-- 關鍵程式碼/設定：
-```json
-{
-  "pipeline": {
-    "handlers": [
-      "ContentExtractionHandler",
-      "ChunkingHandler",
-      "EmbeddingHandler",
-      "StoreHandler"
-    ]
-  }
-}
-```
-
-- 實際案例：Day 6 對 handler 與 pipeline 的說明
-- 実作環境：MSKM pipeline、自訂 handler
-- 實測數據：
-  - 改善前：非文本無法納入 RAG
-  - 改善後：多媒體可檢索
-  - 改善幅度：定性改善（未量化）
-
-- Learning Points
-  - 核心知識點：處理鏈設計、OCR 品質控制
-  - 技能要求：文件處理、規則清洗
-  - 延伸思考：如何記錄來源座標以精準引用？
-
-- Practice Exercise
-  - 基礎：將 PDF 轉文字並入庫（30 分）
-  - 進階：加入 OCR 與清洗規則（2 小時）
-  - 專案：通用文件匯入器（8 小時）
-
-- Assessment Criteria
-  - 功能完整性（40%）：支援多格式
-  - 程式碼品質（30%）：可插拔、容錯
-  - 效能優化（20%）：批次並發
-  - 創新性（10%）：版面保留與引用
+Assessment Criteria（評估標準）
+功能完整性（40%）：封裝與查詢可用
+程式碼品質（30%）：介面與測試
+效能優化（20%）：查詢性能與快取
+創新性（10%）：領域策略
 
 ---
 
-## Case #12: 多插件組合回答複合問題（地點+天氣+搜尋）
+## Case #12: MCP Server 整合 MSKM 與 Claude Desktop（跨平台工具協定）
 
 ### Problem Statement（問題陳述）
-- 業務場景：查「我在這附近有什麼景點、出門帶什麼」，需用地點/天氣/搜尋三工具聯動。
-- 技術挑戰：LLM 要能自行規劃工具順序與參數。
-- 影響範圍：單一工具無法產生完整答案。
-- 複雜度評級：中
+業務場景：希望在 Claude Desktop 等 MCP Host 內使用 MSKM 作 RAG，需以 MCP 協定暴露工具（tools/list、tools/invoke），讓不同語言與平台統一存取。
+技術挑戰：實作 MCP server（stdio/SSE），正確處理 initialize/notifications，並支援工具清單與呼叫。
+影響範圍：跨工具互通、整合效率、可移植性。
+複雜度評級：高
 
-### Root Cause Analysis
-- 直接原因：
-  1. 缺少多工具協作設計。
-  2. 參數（城市、日期）需自動抽取。
-  3. 無法將工具結果綜合成最終回答。
-- 深層原因：
-  - 架構層面：工具組合規劃未設計。
-  - 技術層面：未用框架承載工具鏈。
-  - 流程層面：未設計引用來源規則。
+### Root Cause Analysis（根因分析）
+直接原因：
+1. 各家 Function Calling 介面不同，整合成本高。
+2. MCP JSON-RPC 需正確實作與編碼處理。
+3. 未解決中文編碼與顯示問題。
+深層原因：
+- 架構層面：缺乏統一工具協定（MCP）。
+- 技術層面：通訊與編碼不一致。
+- 流程層面：版本與相容性治理不足。
 
-### Solution Design
-- 解決策略：在 SK 掛載 Location/Weather/BingSearch 三工具；以 Function Calling + JSON Mode 自動抽取參數；最後統整回答，附來源。
+### Solution Design（解決方案設計）
+解決策略：使用 MCP 官方 csharp-sdk 實作 MCP server，暴露 MSKM 搜索工具為 MCP tools；以 stdio 或 SSE 與 Host 連線；修正編碼。
 
-- 實施步驟：
-  1. 掛載三工具
-  - 實作細節：Location, Weather, Search（Swagger 或原生）
-  - 所需資源：API 金鑰與規格
-  - 預估時間：0.5 天
-  2. 對話治理
-  - 實作細節：要求附來源並說明建議
-  - 所需資源：Prompt
-  - 預估時間：0.5 天
-  3. 測試與微調
-  - 實作細節：邊界情境（無網、無城市）
-  - 所需資源：測試集
-  - 預估時間：0.5 天
+實施步驟：
+1. MCP server 骨架
+- 實作細節：initialize、notifications/initialized、tools/list。
+- 所需資源：csharp-sdk。
+- 預估時間：1 天
+2. tools/invoke 封裝 MSKM
+- 實作細節：name:"search" → mskmClient.Search(query,limit)。
+- 所需資源：MSKM SDK。
+- 預估時間：0.5 天
+3. 編碼修正與測試
+- 實作細節：中文以 \uXXXX 編碼；Claude Desktop 測試。
+- 所需資源：JsonSerializerOptions。
+- 預估時間：0.5 天
 
-- 關鍵程式碼/設定：
-```csharp
-kernel.Plugins.Add(LocationPlugin);
-kernel.Plugins.Add(WeatherPlugin);
-kernel.Plugins.Add(SearchPlugin);
-
-var answer = await kernel.InvokePromptAsync(
-  "請問我現在這邊有哪些值得逛的景點？出門要帶什麼？請附來源。"
-);
-```
-
-- 實際案例：Day 4（RAG with Bing Search；多工具組合）
-- 實作環境：Semantic Kernel + 多工具
-- 實測數據：
-  - 改善前：單工具回答不完整
-  - 改善後：多源整合、實用性提升
-  - 改善幅度：定性改善（未量化）
-
-- Learning Points
-  - 核心知識點：多工具規劃與協作
-  - 技能要求：工具註冊、參數抽取
-  - 延伸思考：如何透過規劃（planning）最少步驟達成？
-
-- Practice Exercise
-  - 基礎：註冊兩個工具完成簡單任務（30 分）
-  - 進階：加入第三工具並整合結果（2 小時）
-  - 專案：打造旅遊建議 Agent（8 小時）
-
-- Assessment Criteria
-  - 功能完整性（40%）：完整回答且附來源
-  - 程式碼品質（30%）：工具管理清晰
-  - 效能優化（20%）：步驟最少化
-  - 創新性（10%）：智慧規劃策略
-
----
-
-## Case #13: 以 MCP 將 MSKM 能力帶進 Claude Desktop
-
-### Problem Statement（問題陳述）
-- 業務場景：希望在桌面 LLM（Claude Desktop）直接使用本地/私有 RAG（MSKM）能力。
-- 技術挑戰：不同客戶端需一致協定；需支援工具列出/呼叫、資源列表、提示等。
-- 影響範圍：若無通用協定，整合成本高且不可移植。
-- 複雜度評級：高
-
-### Root Cause Analysis
-- 直接原因：
-  1. 缺少通用協定連接 LLM 客戶端與後端工具。
-  2. 每家客戶端整合方式不同。
-  3. 中文傳輸編碼與通訊細節（見 Case #14）問題。
-- 深層原因：
-  - 架構層面：缺少標準化 Host-Server 協定。
-  - 技術層面：不了解 JSON-RPC + stdio/SSE。
-  - 流程層面：沒有工具生命週期管理。
-
-### Solution Design
-- 解決策略：實作 MCP server（csharp-sdk/自製），實作 initialize、tools/list、tools/call、resources/list 等；以 stdio 或 SSE 連 Claude Desktop；將 MSKM 查詢/匯入包裝為 MCP 工具。
-
-- 實施步驟：
-  1. 建立 MCP server 專案
-  - 實作細節：引用官方 csharp-sdk 或 MCPSharp
-  - 所需資源：Repo 範例
-  - 預估時間：1 天
-  2. 實作 tools/list/call
-  - 實作細節：包裝 MSKM 檢索/匯入
-  - 所需資源：MSKM SDK
-  - 預估時間：1 天
-  3. 連線與測試
-  - 實作細節：console+stdio、Claude Desktop 連線
-  - 所需資源：測試 Prompt（文章提供）
-  - 預估時間：0.5 天
-
-- 關鍵程式碼/設定：
+關鍵程式碼/設定：
 ```json
 {"method":"initialize","params":{"protocolVersion":"2024-11-05","capabilities":{},"clientInfo":{"name":"claude-ai","version":"0.1.0"}},"jsonrpc":"2.0","id":0}
 {"method":"tools/list","params":{},"jsonrpc":"2.0","id":2}
 {"method":"tools/call","params":{"name":"search","arguments":{"query":"SDK design","limit":3}},"jsonrpc":"2.0","id":9}
 ```
+Implementation Example（實作範例）
 
-- 實際案例：Day 7（MCP Server 整合示範與截圖）
-- 實作環境：Claude Desktop + MCP csharp-sdk/MCPSharp + MSKM
-- 實測數據：
-  - 改善前：桌面端無法直接用私有 RAG
-  - 改善後：一鍵接入，像「AI 的 USB-C」
-  - 改善幅度：定性改善（未量化）
+實際案例：KernelMemory_MCPServer（官方/自製 SDK 兩版）
+實作環境：.NET、MSKM、Claude Desktop、MCP csharp-sdk
+實測數據：
+改善前：跨平台工具整合困難
+改善後：MCP 統一協定；可在 Claude 中直接查 MSKM
+改善幅度：整合效率顯著提升
 
-- Learning Points
-  - 核心知識點：MCP 協定（JSON-RPC、tools、resources、prompts）
-  - 技能要求：stdio/SSE、協定落地
-  - 延伸思考：MCP 與 SK/GPTs 的關係與取捨
+Learning Points（學習要點）
+核心知識點：
+- MCP 協定與工具暴露
+- stdio/SSE 通訊
+- JSON-RPC 與編碼治理
+技能要求：
+必備技能：通訊協定、序列化
+進階技能：工具封裝與跨平台測試
+延伸思考：
+- 加入 resources/prompts 列表
+- 安全與權限的 MCP 擴展
+- 觀測與告警
 
-- Practice Exercise
-  - 基礎：用 stdio 直連自製 MCP server（30 分）
-  - 進階：在 MCP 暴露 MSKM 搜尋工具（2 小時）
-  - 專案：完成「Claude x MSKM」查詢解決方案（8 小時）
+Practice Exercise（練習題）
+基礎練習：實作 tools/list（30 分鐘）
+進階練習：封裝 search 並於 Claude 測試（2 小時）
+專案練習：多工具 MCP server（8 小時）
 
-- Assessment Criteria
-  - 功能完整性（40%）：工具列出/呼叫完整
-  - 程式碼品質（30%）：協定實作清晰
-  - 效能優化（20%）：串流與資源管理
-  - 創新性（10%）：工具組合與資源快取
+Assessment Criteria（評估標準）
+功能完整性（40%）：MCP 基本方法與工具可用
+程式碼品質（30%）：通訊實作與測試
+效能優化（20%）：傳輸與序列化
+創新性（10%）：跨平台擴展
 
 ---
 
-## Case #14: 修正 MCP csharp-sdk 中文 JSON 編碼相容性
+## Case #13: MCP 中文 JSON 編碼問題修正（\uXXXX）
 
 ### Problem Statement（問題陳述）
-- 業務場景：MCP 回應包含中文 JSON，Claude Desktop 偶發無法解析，需確保跨端相容。
-- 技術挑戰：csharp-sdk 預設序列化對中文處理不符客戶端預期，需強制 Unicode escape。
-- 影響範圍：中文資料傳輸失敗，整體整合無法實測。
-- 複雜度評級：中
+業務場景：在 Claude Desktop 呼叫 MCP server 時，包含中文的 JSON 內容顯示或解析異常，需要轉為 \uXXXX 編碼以正常顯示與解析。
+技術挑戰：正確設定 JsonSerializationOptions，保證中文安全輸出。
+影響範圍：使用者體驗、工具可用性。
+複雜度評級：低
 
-### Root Cause Analysis
-- 直接原因：
-  1. JSON 編碼未轉為 \uXXXX 形式。
-  2. 客戶端對非 ASCII JSON 支援不穩。
-  3. SDK 尚未修正（文章時點）。
-- 深層原因：
-  - 架構層面：跨端編碼約定缺失。
-  - 技術層面：序列化選項未客製。
-  - 流程層面：缺乏編碼一致性測試。
+### Root Cause Analysis（根因分析）
+直接原因：
+1. Host 對中文直接輸出處理不佳。
+2. 預設序列化未轉換為 \uXXXX。
+3. 無測試用例覆蓋中文場景。
+深層原因：
+- 架構層面：跨平台編碼策略缺失。
+- 技術層面：序列化配置未調整。
+- 流程層面：版本相容測試不足。
 
-### Solution Design
-- 解決策略：暫時自行 build SDK 或替換 JsonSerializerOptions，將 Encoder 設為僅允許 BasicLatin，使非 ASCII 以 \uXXXX 轉義；待官方修正後回歸。
+### Solution Design（解決方案設計）
+解決策略：調整 JSON 序列化配置，強制將非 ASCII 字元轉為 \uXXXX；以 Claude Desktop 實測驗證。
 
-- 實施步驟：
-  1. 客製序列化選項
-  - 實作細節：Encoder=JavaScriptEncoder.Create(UnicodeRanges.BasicLatin)
-  - 所需資源：System.Text.Encodings.Web
-  - 預估時間：0.5 天
-  2. 回歸測試
-  - 實作細節：含中文資料的 tools/call 回應驗證
-  - 所需資源：測試用例
-  - 預估時間：0.5 天
-  3. 追蹤官方修補
-  - 實作細節：待 SDK 更新後回退客製
-  - 所需資源：版本管理
-  - 預估時間：0.5 天
+實施步驟：
+1. 序列化設定
+- 實作細節：使用 Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping 或自訂策略。
+- 所需資源：System.Text.Json。
+- 預估時間：0.5 天
+2. 中文測試用例
+- 實作細節：建立含中文的工具回應測試。
+- 所需資源：測試框架。
+- 預估時間：0.5 天
+3. Host 驗證
+- 實作細節：Claude Desktop 實測。
+- 所需資源：Claude Desktop。
+- 預估時間：0.5 天
 
-- 關鍵程式碼/設定：
+關鍵程式碼/設定：
 ```csharp
-var options = new JsonSerializerOptions{
-  Encoder = JavaScriptEncoder.Create(UnicodeRanges.BasicLatin) // 非 Latin 將被 \uXXXX 轉義
+var options = new JsonSerializerOptions {
+  Encoder = JavaScriptEncoder.Create(UnicodeRanges.BasicLatin, UnicodeRanges.CjkUnifiedIdeographs)
 };
+var json = JsonSerializer.Serialize(data, options); // 確保中文轉碼安全
 ```
+Implementation Example（實作範例）
 
-- 實際案例：Day 7（作者回報 issue 並暫解）
-- 實作環境：MCP csharp-sdk + Claude Desktop
-- 實測數據：
-  - 改善前：中文 JSON 偶發無法處理
-  - 改善後：以 \uXXXX 表示可穩定解析
-  - 改善幅度：定性改善（未量化）
+實際案例：MCP 官方 SDK 手動調整序列化後暫時可用
+實作環境：.NET、MCP csharp-sdk、Claude Desktop
+實測數據：
+改善前：中文顯示/解析異常
+改善後：\uXXXX 編碼下正常
+改善幅度：可用性恢復（以人工驗證為指標）
 
-- Learning Points
-  - 核心知識點：JSON 編碼/轉義與跨端相容
-  - 技能要求：.NET 序列化客製
-  - 延伸思考：是否需內容壓縮/簽章？
+Learning Points（學習要點）
+核心知識點：
+- JSON 編碼策略
+- Host 相容性實測
+- 跨平台序列化治理
+技能要求：
+必備技能：序列化設定
+進階技能：跨平台相容測試
+延伸思考：
+- 自動偵測 Host 能力切換編碼策略
+- 建立編碼健康檢查
+- 上游 SDK issue 追蹤
 
-- Practice Exercise
-  - 基礎：將含中文的物件序列化為 \uXXXX（30 分）
-  - 進階：為 MCP 回應管線加入統一 Encoder（2 小時）
-  - 專案：端到端中文相容測試套件（8 小時）
+Practice Exercise（練習題）
+基礎練習：輸出含中文 JSON 並驗證（30 分鐘）
+進階練習：封裝編碼策略（2 小時）
+專案練習：加入編碼健康檢查（8 小時）
 
-- Assessment Criteria
-  - 功能完整性（40%）：中文資料可通
-  - 程式碼品質（30%）：封裝 Encoder 與注入
-  - 效能優化（20%）：序列化成本可控
-  - 創新性（10%）：多語支援策略
+Assessment Criteria（評估標準）
+功能完整性（40%）：中文可正常顯示與解析
+程式碼品質（30%）：封裝與可測試性
+效能優化（20%）：序列化性能
+創新性（10%）：自適應策略
 
 ---
 
-## Case #15: 回退 MSKM 版本以避開中文 chunking「晶晶體」Bug
+## Case #14: MSKM 版本回退避免中文 chunk「晶晶體」
 
 ### Problem Statement（問題陳述）
-- 業務場景：MSKM 新版本（2025/02 附近）重寫 chunking，中文出現疊字「晶晶體」現象，影響檢索品質。
-- 技術挑戰：需快速恢復可用環境並等待官方修復。
-- 影響範圍：中文內容品質下降、引用錯誤。
-- 複雜度評級：低
+業務場景：MSKM 2025/02 版按 token 分段的 chunking 對中文處理不佳，出現疊字「晶晶體」；需回退至 0.96.x 版本以恢復正常。
+技術挑戰：在不影響其他功能的前提下進行版本回退；控制部署風險。
+影響範圍：中文索引品質、檢索精度、整體 RAG 有效性。
+複雜度評級：中
 
-### Root Cause Analysis
-- 直接原因：
-  1. 以 token 斷句的 chunking 新實作未妥善處理中文。
-  2. 版本更新缺少中文測試覆蓋。
-- 深層原因：
-  - 架構層面：語言特性未納入 chunking 設計考量。
-  - 技術層面：tokenizer/segmenter 選擇不當。
-  - 流程層面：多語回歸測試缺失。
+### Root Cause Analysis（根因分析）
+直接原因：
+1. 新版 chunking 演算法未處理中文 token 化特殊性。
+2. 未有修復版本釋出。
+3. 生產環境未 pin 版本。
+深層原因：
+- 架構層面：版本策略與回滾機制不足。
+- 技術層面：文本處理演算法變更風險。
+- 流程層面：中文場景測試不足。
 
-### Solution Design
-- 解決策略：臨時回退到 0.96.x 版本維持穩定；持續追蹤官方 issue 與修復進度。
+### Solution Design（解決方案設計）
+解決策略：暫時回退至 0.96.x；建立版本 pin 與升級前測試流程；追蹤 issue 直至修復。
 
-- 實施步驟：
-  1. 鎖定版本
-  - 實作細節：Docker image 指定 0.96.x
-  - 所需資源：部署管線
-  - 預估時間：0.5 天
-  2. 驗證匯入
-  - 實作細節：抽樣檢查中文內容品質
-  - 所需資源：測試集
-  - 預估時間：0.5 天
-  3. 後續升級策略
-  - 實作細節：待官方修復後灰度上線
-  - 所需資源：版本管理
-  - 預估時間：0.5 天
+實施步驟：
+1. 版本回退
+- 實作細節：Docker 標記指定版本；NuGet 指定版本。
+- 所需資源：部署系統。
+- 預估時間：0.5 天
+2. 測試覆蓋中文場景
+- 實作細節：長文中文分段與檢索測試。
+- 所需資源：測試集。
+- 預估時間：0.5 天
+3. 版本策略與告警
+- 實作細節：pin 版本；升級前灰度測試；告警。
+- 所需資源：CI/CD。
+- 預估時間：0.5 天
 
-- 關鍵程式碼/設定：
+關鍵程式碼/設定：
 ```bash
-# 指定拉舊版 image（實際 image 名稱以官方為準）
-docker pull kernelmemory:0.96.x
-docker run -p 8000:8000 kernelmemory:0.96.x
+# 指定 Docker 版本
+docker pull mskm:0.96.x
+docker run -d --name mskm -p 8080:8080 mskm:0.96.x
 ```
+Implementation Example（實作範例）
 
-- 實際案例：Day 7（作者提醒回退版本）
-- 實作環境：MSKM Docker
-- 實測數據：
-  - 改善前：中文疊字
-  - 改善後：恢復正常
-  - 改善幅度：定性改善（未量化）
+實際案例：直播示範時建議回退至 0.96.x 避免中文疊字
+實作環境：Docker、MSKM
+實測數據：
+改善前：中文 chunk 出現疊字，檢索失真
+改善後：回退版本後中文正常
+改善幅度：中文檢索品質恢復
 
-- Learning Points
-  - 核心知識點：版本治理與回退策略
-  - 技能要求：Docker/DevOps
-  - 延伸思考：如何建立多語自動化回歸測試？
+Learning Points（學習要點）
+核心知識點：
+- 版本管理與回滾
+- 文本處理演算法風險
+- 灰度測試與告警
+技能要求：
+必備技能：部署與版本管理
+進階技能：測試策略與可觀測性
+延伸思考：
+- 升級前自動化健康檢查
+- 演算法差異可視化
+- 多語系測試集建立
 
-- Practice Exercise
-  - 基礎：回退並驗證一段中文匯入（30 分）
-  - 進階：建立多語煙囪測試腳本（2 小時）
-  - 專案：版本灰度發布與監控（8 小時）
+Practice Exercise（練習題）
+基礎練習：版本回退操作（30 分鐘）
+進階練習：中文長文測試（2 小時）
+專案練習：建立版本策略（8 小時）
 
-- Assessment Criteria
-  - 功能完整性（40%）：能回退並穩定運行
-  - 程式碼品質（30%）：部署腳本清晰
-  - 效能優化（20%）：回退切換時間
-  - 創新性（10%）：驗證自動化
+Assessment Criteria（評估標準）
+功能完整性（40%）：中文處理正常
+程式碼品質（30%）：版本控制與腳本
+效能優化（20%）：部署穩定性
+創新性（10%）：升級治理
 
 ---
 
-## Case #16: 在不支援 Function Calling 的模型上「土炮」實作工具調用
+## Case #15: 土炮 Function Calling（不支援 FC 的模型）
 
 ### Problem Statement（問題陳述）
-- 業務場景：希望使用 DeepSeek r1 等未支援 FC 的模型實現工具調用，探索替代方式。
-- 技術挑戰：無 tools/parameters 機制，需用純文字約定驅動程式攔截。
-- 影響範圍：若約定不穩，可能誤觸或混淆。
-- 複雜度評級：中
+業務場景：某些 MCP Client 支援 Deepseek r1，但模型不支援原生 Function Calling；需要在不換模型情況下模擬工具呼叫。
+技術挑戰：以 prompt 規約與應用邏輯攔截來模擬工具回合，維持任務閉環。
+影響範圍：功能覆蓋範圍、可靠性、維護成本。
+複雜度評級：中
 
-### Root Cause Analysis
-- 直接原因：
-  1. 模型不支援 tool use。
-  2. 缺乏標準工具管道。
-  3. 對話規約未定義。
-- 深層原因：
-  - 架構層面：功能依賴模型能力。
-  - 技術層面：需以約定代替協定。
-  - 流程層面：需嚴格測試避免誤判。
+### Root Cause Analysis（根因分析）
+直接原因：
+1. 模型不支援 FC，無 tool_calls/tool-result 結構。
+2. 無角色化約定，難以區分對誰說話。
+3. 應用端缺少攔截與執行器。
+深層原因：
+- 架構層面：缺乏工具回合協議。
+- 技術層面：對話規約不清晰。
+- 流程層面：任務閉環缺失。
 
-### Solution Design
-- 解決策略：在 system prompt 自定雙角色標記（例如「安德魯大人您好」=回覆用戶、「請執行指令」=給秘書/工具）；應用程式攔截「請執行指令」開頭訊息，執行並把結果再餵回模型，循環至最終回答。
+### Solution Design（解決方案設計）
+解決策略：以 system prompt 規約兩種前置詞（給使用者 vs 給秘書/工具），應用端攔截「請執行指令」訊息並執行，結果再追加到對話，直到任務完成。
 
-- 實施步驟：
-  1. 設計對話規約
-  - 實作細節：兩種前綴詞與格式
-  - 所需資源：Prompt 模板
-  - 預估時間：0.5 天
-  2. 攔截與執行
-  - 實作細節：程式檢測前綴，分流給工具
-  - 所需資源：後端程式
-  - 預估時間：0.5 天
-  3. 測試與防呆
-  - 實作細節：避免誤判，加入校驗碼
-  - 所需資源：測試集
-  - 預估時間：0.5 天
+實施步驟：
+1. Prompt 規約
+- 實作細節：定義「安德魯大人您好」→給使用者；「請執行指令」→給工具。
+- 所需資源：Prompt 模板。
+- 預估時間：0.5 天
+2. 攔截與執行器
+- 實作細節：應用端攔截工具訊息，執行並追加結果。
+- 所需資源：執行器模組。
+- 預估時間：1 天
+3. 任務完成回覆
+- 實作細節：以人類可讀訊息結案。
+- 所需資源：回覆模板。
+- 預估時間：0.5 天
 
-- 關鍵程式碼/設定：
+關鍵程式碼/設定：
 ```text
-System Prompt 範例（節錄）：
-- 若回覆使用者，請以「安德魯大人您好」開頭。
-- 若要請秘書執行指令，請以「請執行指令」開頭，並附上 JSON 參數。
-
-App 偵測：
-if (msg.StartsWith("請執行指令")) { ExecuteTool(...); } else { ShowToUser(...); }
+System prompt（節錄）：
+- 若是「安德魯大人您好：...」，此段為給使用者的回覆。
+- 若是「請執行指令：...」，此段為給秘書（工具）執行的指令，請列出執行參數。
 ```
+Implementation Example（實作範例）
 
-- 實際案例：Day 8（土炮 Function Calling）
-- 實作環境：任一 ChatCompletion 相容模型；應用程式攔截器
-- 實測數據：
-  - 改善前：不可使用工具
-  - 改善後：可藉由約定達到類 FC 的行為
-  - 改善幅度：定性改善（未量化）
+實際案例：土炮 FC 對話紀錄（ChatGPT 測試）
+實作環境：.NET、任意 ChatCompletion 模型
+實測數據：
+改善前：無法呼叫工具
+改善後：透過規約模擬工具回合
+改善幅度：功能覆蓋提升（以任務完成率為指標）
 
-- Learning Points
-  - 核心知識點：協定 vs 約定；循環驅動
-  - 技能要求：Prompt 規約、字串攔截
-  - 延伸思考：正式環境仍建議使用支援 FC 的模型與框架
+Learning Points（學習要點）
+核心知識點：
+- 對話規約設計
+- 攔截與執行回合
+- 任務閉環
+技能要求：
+必備技能：Prompt 設計
+進階技能：狀態管理與編排
+延伸思考：
+- 正規場合仍建議用原生 FC
+- 與 MCP/SDK 結合可提升可靠性
+- 風險：prompt 對抗性
 
-- Practice Exercise
-  - 基礎：用前綴詞觸發一個假工具（30 分）
-  - 進階：加入 JSON 參數與結果回填（2 小時）
-  - 專案：做一個簡易排程助理（8 小時）
+Practice Exercise（練習題）
+基礎練習：設計前置詞規約（30 分鐘）
+進階練習：攔截工具訊息並執行（2 小時）
+專案練習：完整任務編排（8 小時）
 
-- Assessment Criteria
-  - 功能完整性（40%）：可呼叫與回填
-  - 程式碼品質（30%）：攔截與解析穩定
-  - 效能優化（20%）：循環回合控制
-  - 創新性（10%）：防呆與校驗
+Assessment Criteria（評估標準）
+功能完整性（40%）：可模擬工具回合
+程式碼品質（30%）：攔截與封裝
+效能優化（20%）：回合延遲
+創新性（10%）：規約設計
 
 ---
 
-## Case #17: 完整傳遞 tool/tool-result 訊息防止決策中斷
+## Case #16: SK Memory vs MSKM（長期記憶管線的正確選擇）
 
 ### Problem Statement（問題陳述）
-- 業務場景：多輪工具流程常因未帶齊 tool/tool-result 訊息導致模型遺失上下文或無法判定下一步。
-- 技術挑戰：每次呼叫都需帶上從 0 開始的完整歷史（含 tool 與 result）。
-- 影響範圍：決策中斷、無效迴圈、誤用工具。
-- 複雜度評級：中
+業務場景：SK 提供 Memory 抽象與 Vector Store CRUD，但 RAG ingestion（抽取/分段/向量化/儲存/查詢）需完整管線；需正確選擇工具。
+技術挑戰：理解 SK Memory 與 MSKM 的分工，避免誤用導致功能缺失。
+影響範圍：長期記憶可用性與維護成本。
+複雜度評級：低
 
-### Root Cause Analysis
-- 直接原因：
-  1. 僅帶 user/assistant，不帶 tool/result。
-  2. 回合間丟失關鍵上下文。
-  3. 未抽象對話歷程管理。
-- 深層原因：
-  - 架構層面：缺少對話記錄儲存設計。
-  - 技術層面：不熟 message schema。
-  - 流程層面：測試場景覆蓋不足。
+### Root Cause Analysis（根因分析）
+直接原因：
+1. 認為 SK Memory 足以勝任完整 RAG。
+2. 忽略 ingestion 管線的複雜性。
+3. 未評估長任務處理需求。
+深層原因：
+- 架構層面：長期記憶服務化缺失。
+- 技術層面：管線元件未組裝。
+- 流程層面：數據治理缺失。
 
-### Solution Design
-- 解決策略：制定訊息儲存規約；每輪都將最新 tool_calls 與 tool-result 追加至 messages 並回送模型；以「直到 assistant 給出最終回覆」為終止條件。
+### Solution Design（解決方案設計）
+解決策略：以 MSKM 提供完整 RAG 服務與 SDK；SK 作為前端工具編排；兩者分層協作。
 
-- 實施步驟：
-  1. 擴充 ConversationStore
-  - 實作細節：支援 tool 與 tool-result 角色與序號
-  - 所需資源：儲存層
-  - 預估時間：0.5 天
-  2. 建立推進函式
-  - 實作細節：回應中檢測 tool_calls -> 執行 -> 追加 result -> 再呼叫
-  - 所需資源：client/adaptor
-  - 預估時間：0.5 天
-  3. 測試與保證
-  - 實作細節：確保可重放與一致性
-  - 所需資源：自動測試
-  - 預估時間：0.5 天
+實施步驟：
+1. 角色分工
+- 實作細節：SK 做對話/工具編排；MSKM 做長記憶管線。
+- 所需資源：SK、MSKM。
+- 預估時間：0.5 天
+2. 整合接口
+- 實作細節：SK 掛 MSKM Plugin；前端直接用工具。
+- 所需資源：MSKM NuGet。
+- 預估時間：0.5 天
+3. 治理與監控
+- 實作細節：對 ingestion 成功率與索引品質做監控。
+- 所需資源：Logger/監控。
+- 預估時間：0.5 天
 
-- 關鍵程式碼/設定：
-```json
-"messages":[
-  {"role":"system","content":"...tools spec..."},
-  {"role":"user","content":"find a 30 min slot..."},
-  {"role":"assistant","tool_calls":[{"name":"check_schedules","args":{...}}]},
-  {"role":"tool","content":"[...]","name":"check_schedules"},
-  {"role":"assistant","tool_calls":[{"name":"add_event","args":{...}}]},
-  {"role":"tool","content":"[\"success\"]","name":"add_event"}
-]
-```
-
-- 實際案例：Day 3（完整對話歷程）
-- 實作環境：OpenAI ChatCompletion + 任一框架
-- 實測數據：
-  - 改善前：遺失上下文導致中斷
-  - 改善後：可穩定走完任務
-  - 改善幅度：定性改善（未量化）
-
-- Learning Points
-  - 核心知識點：全歷程回放的重要性
-  - 技能要求：訊息序列管理
-  - 延伸思考：如何壓縮歷史以控 token？
-
-- Practice Exercise
-  - 基礎：把一輪 tool/result 補回 messages（30 分）
-  - 進階：寫一個「直到完成」的驅動 loop（2 小時）
-  - 專案：封裝通用對話驅動器（8 小時）
-
-- Assessment Criteria
-  - 功能完整性（40%）：可重放且完成
-  - 程式碼品質（30%）：封裝得宜
-  - 效能優化（20%）：歷史壓縮策略
-  - 創新性（10%）：歷史摘要化
-
----
-
-## Case #18: MSKM 部署模式抉擇：服務化 vs 嵌入式
-
-### Problem Statement（問題陳述）
-- 業務場景：需在不同規模（本地內嵌/雲端服務）下運行 RAG，如何選擇 MSKM 運行模式。
-- 技術挑戰：在擴展性、延遲、運維成本間取得平衡；避免 localhost-HTTP 的折衷方案。
-- 影響範圍：影響開發效率、部署複雜度與成本。
-- 複雜度評級：中
-
-### Root Cause Analysis
-- 直接原因：
-  1. 忽略服務化帶來的擴展與治理優勢。
-  2. 小型場景又不想引入外部依賴。
-  3. 不清楚 MSKM 既可服務化也可內嵌。
-- 深層原因：
-  - 架構層面：未做容量與延遲評估。
-  - 技術層面：對兩種模式的優缺點不熟悉。
-  - 流程層面：Dev/Prod 治理策略未制定。
-
-### Solution Design
-- 解決策略：小規模/離線測試採用嵌入式（同進程）；正式環境採用服務化（Docker/K8s）；以相同 SDK 抽象呼叫，降低切換成本。
-
-- 實施步驟：
-  1. 定義場景
-  - 實作細節：根據 QPS、資料量、整合對象評估
-  - 所需資源：測試報告
-  - 預估時間：0.5 天
-  2. 兩套樣板
-  - 實作細節：Service 與 Embedded 啟動腳本/程式
-  - 所需資源：模板專案
-  - 預估時間：1 天
-  3. 切換策略
-  - 実作細節：以設定檔切換 BaseUrl/內嵌實例
-  - 所需資源：設定管理
-  - 預估時間：0.5 天
-
-- 關鍵程式碼/設定：
+關鍵程式碼/設定：
 ```csharp
-// Service 模式
-var client = new KernelMemoryClient(baseUrl: "http://mskm:8000");
-
-// Embedded 模式（示意）
-var mskm = new KernelMemoryEmbedded(options);
+// 分工示意：SK 為 Orchestrator，MSKM 為 LTM Service
+kernel.Plugins.Add(new KernelMemoryPlugin(mskmClient));
 ```
+Implementation Example（實作範例）
 
-- 實際案例：Day 5（兩種應用方式示意）
-- 實作環境：MSKM（Service/Embedded）、.NET
-- 實測數據：
-  - 改善前：單一路徑無法適應不同規模
-  - 改善後：可按場景切換
-  - 改善幅度：定性改善（未量化）
+實際案例：RAG as a Service（MSKM）與 SK 整合
+實作環境：.NET、SK、MSKM
+實測數據：
+改善前：誤用 SK Memory 導致管線缺失
+改善後：分工清晰，服務化落地
+改善幅度：架構健壯性提升
 
-- Learning Points
-  - 核心知識點：部署拓撲與取捨
-  - 技能要求：雲原生基礎、.NET 嵌入
-  - 延伸思考：如何做藍綠/灰度與回退（見 Case #15）？
+Learning Points（學習要點）
+核心知識點：
+- Memory vs LTM Service 分工
+- 插件化整合
+- 管線治理
+技能要求：
+必備技能：架構設計
+進階技能：服務化思維
+延伸思考：
+- 以事件驅動串連 ingestion
+- 指標化索引品質
+- 多模型支持
 
-- Practice Exercise
-  - 基礎：同專案支援兩模式切換（30 分）
-  - 進階：K8s 部署 Service 模式（2 小時）
-  - 專案：生產級 RAG 服務治理方案（8 小時）
+Practice Exercise（練習題）
+基礎練習：繪製分工架構圖（30 分鐘）
+進階練習：SK+MSKM 整合 PoC（2 小時）
+專案練習：完整 LTM 管線（8 小時）
 
-- Assessment Criteria
-  - 功能完整性（40%）：兩模式皆可運行
-  - 程式碼品質（30%）：抽象與設定清楚
-  - 效能優化（20%）：延遲/QPS 測量
-  - 創新性（10%）：自動化切換
+Assessment Criteria（評估標準）
+功能完整性（40%）：分工與整合到位
+程式碼品質（30%）：封裝與依賴清晰
+效能優化（20%）：管線吞吐
+創新性（10%）：治理策略
 
+---
 
-========================
+## Case #17: 成本治理：單一職責與 Code vs LLM 的正確分工
+
+### Problem Statement（問題陳述）
+業務場景：開發者傾向把可由程式完成的任務交給 LLM（搜尋、格式轉換、計算），導致成本高、延遲大且品質不穩；需將 LLM 僅用於不可替代任務。
+技術挑戰：建立單一職責策略與成本感知管道，降低 tokens 花費與不必要的 API。
+影響範圍：雲端費用、性能與品質。
+複雜度評級：中
+
+### Root Cause Analysis（根因分析）
+直接原因：
+1. 便利性導致過度使用 LLM。
+2. 未評估 Azure Function vs ChatCompletion 的成本差。
+3. 需求混合在一個 prompt，無法分離。
+深層原因：
+- 架構層面：無責任分界與治理。
+- 技術層面：缺少成本追蹤與路由策略。
+- 流程層面：無標準化任務分解。
+
+### Solution Design（解決方案設計）
+解決策略：單一職責分解：LLM 處理抽取/理解/規劃；程式碼處理查詢/計算/格式；建立成本指標與路由策略。
+
+實施步驟：
+1. 任務分解
+- 實作細節：將需求分拆為 LLM 任務與 Code 任務。
+- 所需資源：設計審查。
+- 預估時間：0.5 天
+2. 成本監控
+- 實作細節：記錄 tokens、API 成本、延遲。
+- 所需資源：Logger/監控。
+- 預估時間：1 天
+3. 路由策略
+- 實作細節：能由程式完成則路由至 code；否則用 LLM。
+- 所需資源：策略引擎。
+- 預估時間：1 天
+
+關鍵程式碼/設定：
+```csharp
+if (CanCodeHandle(task)) {
+  return ExecuteByCode(task); // 低成本高可靠
+} else {
+  return CallLLM(task); // 僅限不可替代任務
+}
+```
+Implementation Example（實作範例）
+
+實際案例：地址抽取 → LLM；地圖查詢 → Code
+實作環境：.NET、OpenAI、外部 API
+實測數據：
+改善前：混合任務全部交 LLM，成本高
+改善後：路由分工，成本與延遲降低
+改善幅度：成本治理顯著（以 tokens 與延遲為指標）
+
+Learning Points（學習要點）
+核心知識點：
+- 單一職責原則
+- 成本感知與路由
+- 指標化治理
+技能要求：
+必備技能：架構設計
+進階技能：策略引擎
+延伸思考：
+- 以 A/B 測試優化路由
+- 自動化成本預估
+- 加入品質門檻（如引用比例）
+
+Practice Exercise（練習題）
+基礎練習：將一需求分解為 LLM/Code（30 分鐘）
+進階練習：記錄成本指標（2 小時）
+專案練習：建立路由策略引擎（8 小時）
+
+Assessment Criteria（評估標準）
+功能完整性（40%）：分工與路由落地
+程式碼品質（30%）：封裝與可測
+效能優化（20%）：成本與延遲
+創新性（10%）：自動化治理
+
+---
+
+## Case #18: 以 OpenAPI/Swagger 管理工具規格（SK/GPTs/Dify/MCP）
+
+### Problem Statement（問題陳述）
+業務場景：需在不同宿主（ChatGPT GPTs、Dify、SK、Claude MCP）中暴露同一套工具，避免重做規格；希望用 OpenAPI（Swagger）作為統一合約。
+技術挑戰：多平台工具規格一致與自動生成客戶端；以最小成本暴露功能。
+影響範圍：整合效率、維護成本、相容性。
+複雜度評級：中
+
+### Root Cause Analysis（根因分析）
+直接原因：
+1. 各平台工具定義方式不同。
+2. 無統一合約導致重複工作。
+3. 缺少自動化生成客戶端。
+深層原因：
+- 架構層面：工具合約管理缺失。
+- 技術層面：缺乏標準接口描述。
+- 流程層面：版本一致性與測試不足。
+
+### Solution Design（解決方案設計）
+解決策略：以 OpenAPI Spec 作工具合約；在 SK 注入 Swagger；在 GPTs/Dify/MCP 中以相同規格暴露；統一生成客戶端。
+
+實施步驟：
+1. OpenAPI Spec 編寫
+- 實作細節：定義 /search、/lookup、/add_event 等端點與 schema。
+- 所需資源：Swagger Editor。
+- 預估時間：1 天
+2. 注入至各宿主
+- 實作細節：SK 支援注入 Swagger；GPTs/Dify 以 Custom Action/Tool。
+- 所需資源：各平台配置。
+- 預估時間：1 天
+3. 客戶端生成與測試
+- 實作細節：生成 C# 客戶端；跨平台測試。
+- 所需資源：OpenAPI Generator。
+- 預估時間：1 天
+
+關鍵程式碼/設定：
+```csharp
+// SK 注入 Swagger（伪代码）
+kernel.Plugins.Add(PluginFactory.FromOpenApi("MyTools", "openapi.yaml"));
+```
+Implementation Example（實作範例）
+
+實際案例：ChatGPT GPTs + Custom Action、Dify Custom Tools、SK 注入 Swagger、MCP 對應工具
+實作環境：.NET、SK、OpenAPI/GPTs/Dify/MCP
+實測數據：
+改善前：各平台重複定義工具
+改善後：以 OpenAPI 作為單一合約
+改善幅度：整合效率與一致性顯著提升
+
+Learning Points（學習要點）
+核心知識點：
+- 工具合約管理（OpenAPI）
+- 多宿主注入方法
+- 客戶端生成與版本治理
+技能要求：
+必備技能：OpenAPI/Swagger
+進階技能：多平台整合
+延伸思考：
+- 加入 OAuth 安全
+- 版本化與相容性測試
+- 自動化文檔生成
+
+Practice Exercise（練習題）
+基礎練習：撰寫一個 /search 的 OpenAPI（30 分鐘）
+進階練習：在 SK 注入並呼叫（2 小時）
+專案練習：多宿主工具整合（8 小時）
+
+Assessment Criteria（評估標準）
+功能完整性（40%）：工具合約與跨平台注入
+程式碼品質（30%）：Spec 與客戶端生成
+效能優化（20%）：呼叫延遲與錯誤處理
+創新性（10%）：治理與自動化
+
+---
+
 案例分類
-========================
 
-1) 按難度分類
+1. 按難度分類
 - 入門級（適合初學者）
-  - Case 1（Chat Completion 基礎循環）
-  - Case 2（JSON Mode 擷取地址）
-  - Case 3（單一職責降成本）
-  - Case 4（Function Calling 基礎）
+  - Case #1、#2、#13、#14
 - 中級（需要一定基礎）
-  - Case 6（用框架簡化多工具）
-  - Case 7（以 FC 觸發 RAG）
-  - Case 10（Embedding/Chunk 對齊）
-  - Case 11（PDF/OCR Handler）
-  - Case 12（多插件組合）
-  - Case 17（tool/tool-result 完整傳遞）
-  - Case 18（MSKM 部署抉擇）
+  - Case #3、#5、#6、#7、#16、#17、#18
 - 高級（需要深厚經驗）
-  - Case 5（Sequential FC 排程）
-  - Case 8（MSKM 作為服務）
-  - Case 9（生成檢索專用內容）
-  - Case 13（MCP 整合 Claude Desktop）
-  - Case 14（MCP 中文編碼修正）
-  - Case 15（版本回退與中文 bug）
+  - Case #4、#8、#9、#10、#11、#12、#15
 
-2) 按技術領域分類
+2. 按技術領域分類
 - 架構設計類
-  - Case 3, 6, 8, 9, 18
+  - Case #6、#7、#16、#17、#18
 - 效能優化類
-  - Case 3, 10, 17
+  - Case #4、#8、#9、#10、#14、#17
 - 整合開發類
-  - Case 6, 7, 11, 12, 13, 18
+  - Case #3、#5、#6、#10、#11、#12、#18
 - 除錯診斷類
-  - Case 14, 15, 17
+  - Case #13、#14、#15
 - 安全防護類
-  -（本篇未直接聚焦安全，可在工具治理與部署時延伸：Case 6, 18）
+  - Case #18（OAuth 可延伸）
 
-3) 按學習目標分類
+3. 按學習目標分類
 - 概念理解型
-  - Case 1, 2, 4, 7, 10
+  - Case #1、#2、#16
 - 技能練習型
-  - Case 6, 11, 12, 17, 18
+  - Case #3、#5、#6、#9、#10、#11
 - 問題解決型
-  - Case 3, 5, 8, 9, 14, 15
+  - Case #4、#8、#12、#13、#14、#15、#17
 - 創新應用型
-  - Case 13, 16
+  - Case #18、#10、#11
 
-========================
 案例關聯圖（學習路徑建議）
-========================
-- 建議先學：
-  1) Case 1（Chat Completion 基礎對話循環）
-  2) Case 2（JSON Mode/Schema）
-  3) Case 4（Function Calling 基礎）
-- 依賴關係：
-  - Case 5（Sequential FC）依賴 Case 1/4 與 Case 17（完整歷史）
-  - Case 7（以 FC 觸發 RAG）依賴 Case 2/4
-  - Case 6（用框架簡化）建立於 Case 4/5/7 之上
-  - Case 8（MSKM 服務）可獨立，但與 Case 6/7 結合最佳
-  - Case 9（生成檢索資訊）強依賴 Case 8
-  - Case 10（Chunk/Embedding）與 Case 8/9 同步優化
-  - Case 11（Handler）串接於 Case 8 管線
-  - Case 12（多插件）建立於 Case 6/7
-  - Case 13（MCP）可在 Case 8 打底後整合
-  - Case 14/15 屬運維/除錯，與 Case 13/8 分別耦合
-  - Case 16（土炮 FC）可在 Case 4 理解後作為替代方案
-  - Case 18（部署抉擇）貫穿 Case 8/9/11/13
+- 先學：
+  - Case #1（Chat 基礎）
+  - Case #2（JSON Mode/Schema）
+- 再學：
+  - Case #3（FC 基礎）
+  - Case #4（FC 連續工具）
+- 進入 RAG：
+  - Case #5（以 FC 觸發檢索）
+  - Case #6（MSKM 作為 RAG 服務）
+  - Case #7（部署選型）
+- 提升檢索品質：
+  - Case #9（Summarization handler）
+  - Case #8（合成檢索素材）
+  - Case #11（自訂領域插件）
+  - Case #10（多插件協作）
+- 跨平台整合：
+  - Case #12（MCP server 與 Claude）
+  - Case #18（OpenAPI 合約）
+- 穩定性與除錯：
+  - Case #13（中文編碼）
+  - Case #14（版本回退）
+- 成本治理與特例：
+  - Case #17（單一職責與成本）
+  - Case #15（土炮 FC，作為備援）
 
-- 完整學習路徑建議：
-  - 基礎層：Case 1 → 2 → 4 → 17（建立對話與工具基礎與歷史處理）
-  - 進階層：Case 5 → 6 → 7 → 12（多工具規劃與以工具觸發 RAG）
-  - RAG 層：Case 8 → 10 → 11 → 9（搭建 MSKM，優化 chunk/embedding，處理多媒體，最後用生成式方法提升檢索）
-  - 整合層：Case 18（部署策略）→ Case 13（MCP 整合）
-  - 運維/除錯層：Case 14（編碼）→ Case 15（版本回退）
-  - 特殊技巧：Case 16（在不支援 FC 的模型上土炮）作為補充
+依賴關係：
+- Case #1、#2 → Case #3、#4（FC）
+- Case #3、#4 → Case #5（觸發 RAG）
+- Case #5 → Case #6、#7（MSKM）
+- Case #6、#7 → Case #9、#8、#11（品質提升）
+- Case #6 → Case #12、#18（跨平台工具）
+- Case #12 → Case #13（編碼修正）
+- Case #6 → Case #14（版本治理）
+- Case #2、#17 → 全案（分工與成本）
 
-說明
-- 本整理完整對齊文章的示例與觀念，實測數據部分文章多為定性描述，未提供量化數字，故以定性改善註記。所有實作細節與 demo 來源均對應文中 Day 0~8 說明與 GitHub 連結所示範例。
+完整學習路徑建議：
+1. 打底：Case #1 → #2（理解 Chat/JSON 合約）
+2. 工具：Case #3 → #4（掌握 FC 與連續工具）
+3. 檢索：Case #5 → #6 → #7（以 FC 觸發 RAG、導入 MSKM）
+4. 品質：Case #9 → #8 → #11 → #10（摘要/合成/領域插件/多工具協作）
+5. 跨平台：Case #18 → #12 → #13（OpenAPI 合約 → MCP 整合 → 中文編碼修正）
+6. 穩定性：Case #14（版本治理）、#17（成本治理）
+7. 特例：Case #15（土炮 FC，當模型不支援 FC 時的備援策略）
+
+以上案例可直接對應文中 Demo、敘事與設計觀點，以利教學、實作與評估。

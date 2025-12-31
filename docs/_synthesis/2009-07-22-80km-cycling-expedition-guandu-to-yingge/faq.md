@@ -5,6 +5,7 @@ synthesis_type: faq
 source_post: /2009/07/22/80km-cycling-expedition-guandu-to-yingge/
 redirect_from:
   - /2009/07/22/80km-cycling-expedition-guandu-to-yingge/faq/
+postid: 2009-07-22-80km-cycling-expedition-guandu-to-yingge
 ---
 
 # 拼了! 80公里長征... (關渡 - 鶯歌)

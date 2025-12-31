@@ -5,6 +5,7 @@ synthesis_type: summary
 source_post: /2009/01/20/tricky-entity-framework-cross-context-queries/
 redirect_from:
   - /2009/01/20/tricky-entity-framework-cross-context-queries/summary/
+postid: 2009-01-20-tricky-entity-framework-cross-context-queries
 ---
 
 # 難搞的 Entity Framework - 跨越 Context 的查詢

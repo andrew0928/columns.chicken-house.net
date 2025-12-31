@@ -5,6 +5,7 @@ synthesis_type: summary
 source_post: /2022/04/25/microservices16-api-implement/
 redirect_from:
   - /2022/04/25/microservices16-api-implement/summary/
+postid: 2022-04-25-microservices16-api-implement
 ---
 
 # 微服務架構 - 從狀態圖來驅動 API 的實作範例

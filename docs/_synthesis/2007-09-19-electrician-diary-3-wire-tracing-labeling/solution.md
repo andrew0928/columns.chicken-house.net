@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2007/09/19/electrician-diary-3-wire-tracing-labeling/
 redirect_from:
   - /2007/09/19/electrician-diary-3-wire-tracing-labeling/solution/
+postid: 2007-09-19-electrician-diary-3-wire-tracing-labeling
 ---
 
 以下內容根據原文抽取並擴展為可教學、可練習、可評估的 17 個結構化案例。每一個案例都包含問題、根因、方案、實作步驟、量測標準（阻值阈值、數量規劃）、與學習與評估模組，便於在實戰教學與專案演練中直接使用。

@@ -5,6 +5,7 @@ synthesis_type: summary
 source_post: /2008/04/04/run-pc-2008-april-issue/
 redirect_from:
   - /2008/04/04/run-pc-2008-april-issue/summary/
+postid: 2008-04-04-run-pc-2008-april-issue
 ---
 
 # [RUN! PC] 2008 四月號

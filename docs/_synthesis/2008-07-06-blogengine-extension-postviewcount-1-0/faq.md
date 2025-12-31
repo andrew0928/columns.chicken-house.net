@@ -5,6 +5,7 @@ synthesis_type: faq
 source_post: /2008/07/06/blogengine-extension-postviewcount-1-0/
 redirect_from:
   - /2008/07/06/blogengine-extension-postviewcount-1-0/faq/
+postid: 2008-07-06-blogengine-extension-postviewcount-1-0
 ---
 
 # [BlogEngine Extension] PostViewCount 1.0

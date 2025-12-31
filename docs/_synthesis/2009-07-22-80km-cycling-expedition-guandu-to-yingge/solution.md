@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2009/07/22/80km-cycling-expedition-guandu-to-yingge/
 redirect_from:
   - /2009/07/22/80km-cycling-expedition-guandu-to-yingge/solution/
+postid: 2009-07-22-80km-cycling-expedition-guandu-to-yingge
 ---
 
 以下內容依據提供的單車長征文章，萃取並重構為可教可練的 18 個問題解決案例。每個案例都包含問題、根因、解法、步驟、關鍵設定/程式碼、實作與效益、學習要點與練習評量，便於實戰演練與能力評估。

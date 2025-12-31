@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2008/03/06/tips-remote-desktop-connection-tricks/
 redirect_from:
   - /2008/03/06/tips-remote-desktop-connection-tricks/solution/
+postid: 2008-03-06-tips-remote-desktop-connection-tricks
 ---
 
 以下內容基於原文的三大痛點與解法（儲存 RDP 設定、命令列自訂解析度、連線至 Console），延展出 15 個具教學價值的實戰案例。每個案例均包含問題、根因、解法、步驟、指令示例與練習評估，便於課程與專案演練。

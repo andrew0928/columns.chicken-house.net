@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2017/01/15/docker-networks/
 redirect_from:
   - /2017/01/15/docker-networks/solution/
+postid: 2017-01-15-docker-networks
 ---
 
 以下內容將文章中的所有問題解決實務拆解為可教學、可演練、可評估的 15 個案例，皆遵循統一結構，含問題、根因、方案、實作步驟、關鍵程式碼、實測成效與練習與評估要點。案例環境除另行註明外，均以文中環境為主：

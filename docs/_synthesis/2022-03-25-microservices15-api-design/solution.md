@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2022/03/25/microservices15-api-design/
 redirect_from:
   - /2022/03/25/microservices15-api-design/solution/
+postid: 2022-03-25-microservices15-api-design
 ---
 
 以下為根據文章內容抽取與整理的 16 個問題解決案例，全部以「用 FSM 驅動微服務 API 設計」為主軸，涵蓋狀態、動作、事件、授權、並與程式碼實作對應。每個案例均包含問題、根因、方案、實施步驟、關鍵程式碼、實際效益/指標、學習要點、練習題與評估標準。若文中無提供數值，我以「可驗證的測試結果與建議量測指標」呈現供教學與評估使用。

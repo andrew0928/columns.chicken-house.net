@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2008/07/06/blogengine-extension-postviewcount-1-0/
 redirect_from:
   - /2008/07/06/blogengine-extension-postviewcount-1-0/solution/
+postid: 2008-07-06-blogengine-extension-postviewcount-1-0
 ---
 
 ## Case #1: 併發寫入導致點閱數遺失的同步化設計

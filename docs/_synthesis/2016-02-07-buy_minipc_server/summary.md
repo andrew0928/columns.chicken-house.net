@@ -5,6 +5,7 @@ synthesis_type: summary
 source_post: /2016/02/07/buy_minipc_server/
 redirect_from:
   - /2016/02/07/buy_minipc_server/summary/
+postid: 2016-02-07-buy_minipc_server
 ---
 
 # [敗家] 對岸的迷你 PC (i5-5250U), 當自用 server 的好選擇

@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2016/09/15/microservice-case-study-01/
 redirect_from:
   - /2016/09/15/microservice-case-study-01/solution/
+postid: 2016-09-15-microservice-case-study-01
 ---
 
 以下內容依據文章中的關鍵脈絡（微服務 vs 單體式、容器化佈署、開發與維運觀點差異、Windows Container 與 .NET 場景）萃取出完整可教學的方案案例，並補足通用實作與設定示例，供實戰教學、專案練習與能力評估之用。實測數據部分為示意與可量化指標範本，便於落地時自訂與驗證。

@@ -5,6 +5,7 @@ synthesis_type: faq
 source_post: /2007/01/18/children-age-user-control/
 redirect_from:
   - /2007/01/18/children-age-user-control/faq/
+postid: 2007-01-18-children-age-user-control
 ---
 
 # 皮哥皮妹的年齡 user control ...

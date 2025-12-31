@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2005/04/08/annoying-dont-want-to-use-skype/
 redirect_from:
   - /2005/04/08/annoying-dont-want-to-use-skype/solution/
+postid: 2005-04-08-annoying-dont-want-to-use-skype
 ---
 
 以下解析說明：原文僅包含情緒性標題與一個「Skype International」連結與圖片，未提供具體問題描述、根因、解法與指標。為滿足教學、專案與評估的實戰價值，以下案例為依據當年與現今常見的 Skype/VoIP 使用與部署痛點所進行的「推測性重構」，每案均提供可操作的方案、設定與驗證方法，供訓練與評估使用。

@@ -5,6 +5,7 @@ synthesis_type: summary
 source_post: /2005/03/06/smart-card-reader/
 redirect_from:
   - /2005/03/06/smart-card-reader/summary/
+postid: 2005-03-06-smart-card-reader
 ---
 
 # 晶片卡讀卡機

@@ -5,6 +5,7 @@ synthesis_type: faq
 source_post: /2016/02/29/labs_docker_cloud_with_azure/
 redirect_from:
   - /2016/02/29/labs_docker_cloud_with_azure/faq/
+postid: 2016-02-29-labs_docker_cloud_with_azure
 ---
 
 # [實戰] 十分鐘搞定! 在 Azure 上面佈署 Docker Container! - Docker Cloud 託管服務體驗

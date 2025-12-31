@@ -5,6 +5,7 @@ synthesis_type: summary
 source_post: /2008/07/02/blogengine-net-widgets/
 redirect_from:
   - /2008/07/02/blogengine-net-widgets/summary/
+postid: 2008-07-02-blogengine-net-widgets
 ---
 
 # [BlogEngine.NET] Widgets

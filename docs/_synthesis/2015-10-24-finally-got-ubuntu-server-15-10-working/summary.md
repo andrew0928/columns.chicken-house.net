@@ -5,6 +5,7 @@ synthesis_type: summary
 source_post: /2015/10/24/finally-got-ubuntu-server-15-10-working/
 redirect_from:
   - /2015/10/24/finally-got-ubuntu-server-15-10-working/summary/
+postid: 2015-10-24-finally-got-ubuntu-server-15-10-working
 ---
 
 # 終於搞定 Ubuntu Server 15.10 @@

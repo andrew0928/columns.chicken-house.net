@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2006/10/26/generic-singleton-patterns/
 redirect_from:
   - /2006/10/26/generic-singleton-patterns/solution/
+postid: 2006-10-26-generic-singleton-patterns
 ---
 
 以下內容基於文章「泛型 + Singleton Patterns」中的情境與程式片段，將其拆解為可教學、可練習、可評估的結構化案例。部分案例補充了文章中已明確提到的解決方向（繼承 + 泛型）以形成完整可落地的實作方案；對於文章未提供之量化數據，以下均以質化成效說明。

@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2016/04/03/docker-toolbox-under-vm/
 redirect_from:
   - /2016/04/03/docker-toolbox-under-vm/solution/
+postid: 2016-04-03-docker-toolbox-under-vm
 ---
 
 以下內容為依據原文梳理出的 15 個結構化解決方案案例，涵蓋面對的難題、根因、可落地的步驟與指令、實測成效與教學訓練所需的學習與評估要點。所有案例均來自文中明確描述或直接可驗證的操作脈絡。

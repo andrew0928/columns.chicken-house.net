@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2008/02/26/challenging-x64-issues/
 redirect_from:
   - /2008/02/26/challenging-x64-issues/solution/
+postid: 2008-02-26-challenging-x64-issues
 ---
 
 以下整理自文章的 16 個可落地的問題解決案例，均含問題、根因、方案、實測與教學練習，便於實戰教學、專案演練與能力評估。

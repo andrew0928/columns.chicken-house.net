@@ -5,6 +5,7 @@ synthesis_type: summary
 source_post: /2006/02/14/hard-disk-space-message-question/
 redirect_from:
   - /2006/02/14/hard-disk-space-message-question/summary/
+postid: 2006-02-14-hard-disk-space-message-question
 ---
 
 # 我的硬碟到底要加多大, 才會顯示這訊息...?

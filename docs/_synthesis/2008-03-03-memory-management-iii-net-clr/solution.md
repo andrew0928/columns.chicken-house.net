@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2008/03/03/memory-management-iii-net-clr/
 redirect_from:
   - /2008/03/03/memory-management-iii-net-clr/solution/
+postid: 2008-03-03-memory-management-iii-net-clr
 ---
 
 ## Case #1: 用管理式語言移除指標以解決不可搬移的記憶體配置

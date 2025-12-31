@@ -5,6 +5,7 @@ synthesis_type: faq
 source_post: /2005/04/05/x31-new-case-replacement/
 redirect_from:
   - /2005/04/05/x31-new-case-replacement/faq/
+postid: 2005-04-05-x31-new-case-replacement
 ---
 
 # X31 換新殼

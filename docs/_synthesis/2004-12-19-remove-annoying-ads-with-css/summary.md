@@ -5,6 +5,7 @@ synthesis_type: summary
 source_post: /2004/12/19/remove-annoying-ads-with-css/
 redirect_from:
   - /2004/12/19/remove-annoying-ads-with-css/summary/
+postid: 2004-12-19-remove-annoying-ads-with-css
 ---
 
 # 靠 CSS , 除掉討厭的廣告

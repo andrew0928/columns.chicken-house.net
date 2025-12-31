@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2005/03/09/evil-google/
 redirect_from:
   - /2005/03/09/evil-google/solution/
+postid: 2005-03-09-evil-google
 ---
 
 以下內容基於原文的核心場景「在 zh-TW 環境下，搜尋『吃驚』時，系統給出不恰當或離題的『您是不是要查：』建議」進行系統化擴展，整理為可教、可練、可評的實戰案例。原文並無技術細節與數據，故以下案例屬於從該問題場景衍生的實務化教學設計，含實作步驟、代碼範例與可量測指標，便於培訓與評估。

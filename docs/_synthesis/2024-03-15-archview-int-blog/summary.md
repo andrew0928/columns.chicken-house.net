@@ -5,6 +5,7 @@ synthesis_type: summary
 source_post: /2024/03/15/archview-int-blog/
 redirect_from:
   - /2024/03/15/archview-int-blog/summary/
+postid: 2024-03-15-archview-int-blog
 ---
 
 # 替你的應用程式加上智慧! 談 RAG 的檢索與應用

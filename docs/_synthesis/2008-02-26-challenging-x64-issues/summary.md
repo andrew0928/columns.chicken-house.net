@@ -5,6 +5,7 @@ synthesis_type: summary
 source_post: /2008/02/26/challenging-x64-issues/
 redirect_from:
   - /2008/02/26/challenging-x64-issues/summary/
+postid: 2008-02-26-challenging-x64-issues
 ---
 
 # 困難重重的 x64

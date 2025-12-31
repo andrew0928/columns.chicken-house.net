@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2013/03/21/azure-multi-tenancy-application-3-data-layer-implementation/
 redirect_from:
   - /2013/03/21/azure-multi-tenancy-application-3-data-layer-implementation/solution/
+postid: 2013-03-21-azure-multi-tenancy-application-3-data-layer-implementation
 ---
 
 以下內容根據原文的明確意圖與實作方向，萃取並組織為可教、可練、可評的實戰案例。每一案都圍繞「在資料層完成租戶隔離、MVC 路由虛擬化租戶、Azure Table Storage 的實作細節、以及雲端應用的測試與部署挑戰」等主題，並盡量對齊原文的技術棧與語境（MVC4 + Azure Table Storage，Hub/HubData 概念，單元測試導向）。由於原文為 POC 等級說明，未提供量化指標，以下實測數據以定性描述為主，並標示為 POC 層級。

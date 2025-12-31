@@ -5,6 +5,7 @@ synthesis_type: faq
 source_post: /2004/12/16/freetextbox-3-0-released/
 redirect_from:
   - /2004/12/16/freetextbox-3-0-released/faq/
+postid: 2004-12-16-freetextbox-3-0-released
 ---
 
 # FreeTextBox 3.0 Released !

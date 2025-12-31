@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2005/02/21/usb-bluetooth-dongle/
 redirect_from:
   - /2005/02/21/usb-bluetooth-dongle/solution/
+postid: 2005-02-21-usb-bluetooth-dongle
 ---
 
 以下內容基於使用者提供的文章情境（USB 藍芽接收器、ActiveSync 與 PDA 同步、重覆安裝導致 COM Port 異常、改回 COM3 後解決），萃取並延伸出可教學、可實作的結構化案例。僅在文章有具體情境或可明確推導之處標記為「實際案例」，其餘為同類問題的系統化教學案例（以確保完整訓練價值）。

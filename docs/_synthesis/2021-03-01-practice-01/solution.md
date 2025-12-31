@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2021/03/01/practice-01/
 redirect_from:
   - /2021/03/01/practice-01/solution/
+postid: 2021-03-01-practice-01
 ---
 
 以下為根據文章內容整理出的 18 個問題解決案例，皆具備問題、根因、解法（含流程/程式碼/方法）與效益指標，並可直接用於實戰教學、專案練習與能力評估。

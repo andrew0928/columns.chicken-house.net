@@ -5,6 +5,7 @@ synthesis_type: summary
 source_post: /2008/09/06/blogengine-extension-secure-post-v1-0/
 redirect_from:
   - /2008/09/06/blogengine-extension-secure-post-v1-0/summary/
+postid: 2008-09-06-blogengine-extension-secure-post-v1-0
 ---
 
 # BlogEngine Extension: Secure Post v1.0

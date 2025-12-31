@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2008/01/19/msdn-magazine-reading-notes-stream-pipeline/
 redirect_from:
   - /2008/01/19/msdn-magazine-reading-notes-stream-pipeline/solution/
+postid: 2008-01-19-msdn-magazine-reading-notes-stream-pipeline
 ---
 
 以下內容基於文章中的核心觀點（Stream Pipeline、Producer/Consumer 協調、BlockingStream、GzipStream/CryptoStream、與 Pipeline 與 ThreadPool 的對比、優缺點與效益評估）重構為 15 個具教學價值的實戰案例。每個案例皆包含問題、根因、方案、關鍵程式碼、實測或指標、練習與評估。

@@ -5,6 +5,7 @@ synthesis_type: faq
 source_post: /2011/10/30/linq-to-object-2-indexes-for-objects/
 redirect_from:
   - /2011/10/30/linq-to-object-2-indexes-for-objects/faq/
+postid: 2011-10-30-linq-to-object-2-indexes-for-objects
 ---
 
 # LINQ to Object #2, Indexes for Objects — FAQ

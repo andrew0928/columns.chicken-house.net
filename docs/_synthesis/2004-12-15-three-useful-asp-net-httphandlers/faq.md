@@ -5,6 +5,7 @@ synthesis_type: faq
 source_post: /2004/12/15/three-useful-asp-net-httphandlers/
 redirect_from:
   - /2004/12/15/three-useful-asp-net-httphandlers/faq/
+postid: 2004-12-15-three-useful-asp-net-httphandlers
 ---
 
 # 三個好用的 ASP.NET HttpHandler

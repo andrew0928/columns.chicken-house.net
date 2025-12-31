@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2009/11/22/finally-broke-100km-single-day-cycling-taipei-daxi/
 redirect_from:
   - /2009/11/22/finally-broke-100km-single-day-cycling-taipei-daxi/solution/
+postid: 2009-11-22-finally-broke-100km-single-day-cycling-taipei-daxi
 ---
 
 ## Case #1: 路線預估不足，破百目標差一口氣

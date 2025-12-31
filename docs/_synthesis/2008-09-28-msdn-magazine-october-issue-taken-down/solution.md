@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2008/09/28/msdn-magazine-october-issue-taken-down/
 redirect_from:
   - /2008/09/28/msdn-magazine-october-issue-taken-down/solution/
+postid: 2008-09-28-msdn-magazine-october-issue-taken-down
 ---
 
 以下為根據文章中提及的主題（多核心效能、平行處理、TPL、PLINQ、F#、False Sharing、高效能演算法等）所萃取與擴充的 16 個實戰問題解決案例。每個案例均包含問題、根因、解法、程式碼、實測效益與學習要點，便於教學、練習與評估。

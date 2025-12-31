@@ -5,6 +5,7 @@ synthesis_type: summary
 source_post: /2008/12/08/system-xml-xmlwellformedwriter-bug/
 redirect_from:
   - /2008/12/08/system-xml-xmlwellformedwriter-bug/summary/
+postid: 2008-12-08-system-xml-xmlwellformedwriter-bug
 ---
 
 # 原來 System.Xml.XmlWellFormedWriter 有 Bug ..

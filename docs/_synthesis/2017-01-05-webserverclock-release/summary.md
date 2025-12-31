@@ -5,6 +5,7 @@ synthesis_type: summary
 source_post: /2017/01/05/webserverclock-release/
 redirect_from:
   - /2017/01/05/webserverclock-release/summary/
+postid: 2017-01-05-webserverclock-release
 ---
 
 # 網路搶票小幫手 - 遠端網站時鐘, WebServerClock v1.0

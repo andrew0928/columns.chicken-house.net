@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2022/04/25/microservices16-api-implement/
 redirect_from:
   - /2022/04/25/microservices16-api-implement/solution/
+postid: 2022-04-25-microservices16-api-implement
 ---
 
 以下為基於原文內容萃取、整理的 18 個可落地且具教學價值的問題解決案例。每案均包含問題、根因、解法設計、步驟、關鍵程式碼、實測與學習要點等，便於用於實戰教學、專案練習與能力評估。

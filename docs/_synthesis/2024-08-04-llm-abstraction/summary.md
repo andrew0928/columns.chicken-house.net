@@ -5,6 +5,7 @@ synthesis_type: summary
 source_post: /2024/08/04/llm-abstraction/
 redirect_from:
   - /2024/08/04/llm-abstraction/summary/
+postid: 2024-08-04-llm-abstraction
 ---
 
 # [架構師觀點] LLM 的抽象化介面設計

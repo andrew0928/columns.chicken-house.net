@@ -5,6 +5,7 @@ synthesis_type: summary
 source_post: /2007/05/05/secretly-upgraded-to-cs2007/
 redirect_from:
   - /2007/05/05/secretly-upgraded-to-cs2007/summary/
+postid: 2007-05-05-secretly-upgraded-to-cs2007
 ---
 
 # 偷偷升級到 CS2007 ..

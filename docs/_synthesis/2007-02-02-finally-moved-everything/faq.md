@@ -5,6 +5,7 @@ synthesis_type: faq
 source_post: /2007/02/02/finally-moved-everything/
 redirect_from:
   - /2007/02/02/finally-moved-everything/faq/
+postid: 2007-02-02-finally-moved-everything
 ---
 
 # 總算搬完了

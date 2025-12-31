@@ -5,6 +5,7 @@ synthesis_type: summary
 source_post: /2008/10/01/how-to-learn-programming-well-2-why-programmers-should-learn-data-structures/
 redirect_from:
   - /2008/10/01/how-to-learn-programming-well-2-why-programmers-should-learn-data-structures/summary/
+postid: 2008-10-01-how-to-learn-programming-well-2-why-programmers-should-learn-data-structures
 ---
 
 # 該如何學好 "寫程式" #2. 為什麼 programmer 該學資料結構 ??

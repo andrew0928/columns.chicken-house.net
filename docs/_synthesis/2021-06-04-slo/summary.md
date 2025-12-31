@@ -5,6 +5,7 @@ synthesis_type: summary
 source_post: /2021/06/04/slo/
 redirect_from:
   - /2021/06/04/slo/summary/
+postid: 2021-06-04-slo
 ---
 
 # [架構師的修練] #2, SLO - 如何確保服務水準?

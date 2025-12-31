@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2006/12/06/volume-shadow-copy-service/
 redirect_from:
   - /2006/12/06/volume-shadow-copy-service/solution/
+postid: 2006-12-06-volume-shadow-copy-service
 ---
 
 以下為根據原文內容，提煉並結構化的 15 個教學型問題解決案例。每個案例均圍繞 Windows Server 2003 的 Volume Shadow Copy Service（VSS）及其實戰應用，包含問題、根因、解法與可衡量效益，並附上可直接操作的指令或腳本片段。

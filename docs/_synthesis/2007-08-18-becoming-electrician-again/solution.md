@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2007/08/18/becoming-electrician-again/
 redirect_from:
   - /2007/08/18/becoming-electrician-again/solution/
+postid: 2007-08-18-becoming-electrician-again
 ---
 
 ## Case #1: 全屋星狀佈線一次到位規劃

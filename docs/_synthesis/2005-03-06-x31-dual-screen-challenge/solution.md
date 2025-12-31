@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2005/03/06/x31-dual-screen-challenge/
 redirect_from:
   - /2005/03/06/x31-dual-screen-challenge/solution/
+postid: 2005-03-06-x31-dual-screen-challenge
 ---
 
 以下內容基於原文中實際遇到的問題、明確的根因與已驗證的解法，重組為可操作、可評估的 15 個實戰案例。每個案例均包含問題、根因、解決方案、步驟、必要配置/程式碼、成效與練習評估，方便教學、專案演練與能力檢核。

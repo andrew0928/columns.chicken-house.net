@@ -5,6 +5,7 @@ synthesis_type: faq
 source_post: /2008/06/23/using-wpf-to-read-canon-cr2-exif-and-thumbnails-csharp-example/
 redirect_from:
   - /2008/06/23/using-wpf-to-read-canon-cr2-exif-and-thumbnails-csharp-example/faq/
+postid: 2008-06-23-using-wpf-to-read-canon-cr2-exif-and-thumbnails-csharp-example
 ---
 
 # 利用 WPF 讀取 CANON (.CR2) 的 EXIF 及縮圖 (C# 範例程式說明)

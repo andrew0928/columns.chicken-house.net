@@ -5,6 +5,7 @@ synthesis_type: faq
 source_post: /2006/10/31/new-hard-drive-hitachi-travelstar-5k160/
 redirect_from:
   - /2006/10/31/new-hard-drive-hitachi-travelstar-5k160/faq/
+postid: 2006-10-31-new-hard-drive-hitachi-travelstar-5k160
 ---
 
 # 新硬碟... Hitachi Travelstar 5K160...

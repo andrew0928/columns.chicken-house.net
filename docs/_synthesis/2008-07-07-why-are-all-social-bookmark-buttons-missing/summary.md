@@ -5,6 +5,7 @@ synthesis_type: summary
 source_post: /2008/07/07/why-are-all-social-bookmark-buttons-missing/
 redirect_from:
   - /2008/07/07/why-are-all-social-bookmark-buttons-missing/summary/
+postid: 2008-07-07-why-are-all-social-bookmark-buttons-missing
 ---
 
 # 為什麼一堆推文的按鈕都不見了?

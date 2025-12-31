@@ -5,6 +5,7 @@ synthesis_type: faq
 source_post: /2016/02/24/casestudy_license_03_digital_signature/
 redirect_from:
   - /2016/02/24/casestudy_license_03_digital_signature/faq/
+postid: 2016-02-24-casestudy_license_03_digital_signature
 ---
 
 # [設計案例] 授權碼 如何實作? #3, 數位簽章

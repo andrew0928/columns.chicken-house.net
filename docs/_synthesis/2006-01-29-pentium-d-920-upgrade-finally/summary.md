@@ -5,6 +5,7 @@ synthesis_type: summary
 source_post: /2006/01/29/pentium-d-920-upgrade-finally/
 redirect_from:
   - /2006/01/29/pentium-d-920-upgrade-finally/summary/
+postid: 2006-01-29-pentium-d-920-upgrade-finally
 ---
 
 # Pentium D 920, 早該換了 (Y)

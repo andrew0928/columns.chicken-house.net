@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2007/02/14/good-job-dopod/
 redirect_from:
   - /2007/02/14/good-job-dopod/solution/
+postid: 2007-02-14-good-job-dopod
 ---
 
 以下內容基於原文中實際提及的問題、原因、解法與效益，萃取並延伸為可教學、可實作的完整案例。每個案例皆可獨立練習與評估，並相互組成學習路徑。

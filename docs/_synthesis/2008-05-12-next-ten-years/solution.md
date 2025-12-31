@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2008/05/12/next-ten-years/
 redirect_from:
   - /2008/05/12/next-ten-years/solution/
+postid: 2008-05-12-next-ten-years
 ---
 
 ## Case #1: 從 IDE 容量瓶頸到 SATA 擴容，讓網站恢復穩定

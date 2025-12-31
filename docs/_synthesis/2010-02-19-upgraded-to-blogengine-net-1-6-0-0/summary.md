@@ -5,6 +5,7 @@ synthesis_type: summary
 source_post: /2010/02/19/upgraded-to-blogengine-net-1-6-0-0/
 redirect_from:
   - /2010/02/19/upgraded-to-blogengine-net-1-6-0-0/summary/
+postid: 2010-02-19-upgraded-to-blogengine-net-1-6-0-0
 ---
 
 # 升級到 BlogEngine.NET 1.6.0.0 了!

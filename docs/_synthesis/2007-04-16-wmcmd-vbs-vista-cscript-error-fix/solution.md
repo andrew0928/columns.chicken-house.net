@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2007/04/16/wmcmd-vbs-vista-cscript-error-fix/
 redirect_from:
   - /2007/04/16/wmcmd-vbs-vista-cscript-error-fix/solution/
+postid: 2007-04-16-wmcmd-vbs-vista-cscript-error-fix
 ---
 
 說明：原始文章僅包含 1 個符合「有問題、有根因、有解法、且有成效」的已解決案例。以下為該案例的完整結構化整理；若需 15-20 個案例，請提供更多素材或同意延展衍生情境。

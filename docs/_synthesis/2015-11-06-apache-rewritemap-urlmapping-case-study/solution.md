@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2015/11/06/apache-rewritemap-urlmapping-case-study/
 redirect_from:
   - /2015/11/06/apache-rewritemap-urlmapping-case-study/solution/
+postid: 2015-11-06-apache-rewritemap-urlmapping-case-study
 ---
 
 以下內容基於提供的文章，梳理並結構化出 15 個可落地、可教學的解決方案案例，涵蓋從問題辨識、根因分析、解法設計、實作範例到成效驗證與練習題，並在最後提供分類與學習路徑建議。

@@ -5,6 +5,7 @@ synthesis_type: summary
 source_post: /2008/09/01/please-cite-article-content-correctly/
 redirect_from:
   - /2008/09/01/please-cite-article-content-correctly/summary/
+postid: 2008-09-01-please-cite-article-content-correctly
 ---
 
 # 請正確的引用文章內容!

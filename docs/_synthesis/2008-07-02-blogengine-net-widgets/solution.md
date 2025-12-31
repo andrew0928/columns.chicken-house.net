@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2008/07/02/blogengine-net-widgets/
 redirect_from:
   - /2008/07/02/blogengine-net-widgets/solution/
+postid: 2008-07-02-blogengine-net-widgets
 ---
 
 以下案例均根據原文內容所涉及的真實場景與技術脈絡重組，聚焦「BlogEngine.NET 1.4 Widget」帶來的遷移、開發、部署與可視化管理能力。每一案皆包含問題、根因、可落地的解決方案（附關鍵程式碼/設定）、可觀察的實際效益與可執行的練習與評估標準。共 16 案。

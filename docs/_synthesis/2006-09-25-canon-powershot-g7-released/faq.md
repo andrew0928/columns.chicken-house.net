@@ -5,6 +5,7 @@ synthesis_type: faq
 source_post: /2006/09/25/canon-powershot-g7-released/
 redirect_from:
   - /2006/09/25/canon-powershot-g7-released/faq/
+postid: 2006-09-25-canon-powershot-g7-released
 ---
 
 # Canon PowerShot G7 出現了...

@@ -5,6 +5,7 @@ synthesis_type: summary
 source_post: /2005/03/29/excellent-youth-no-holiday-329/
 redirect_from:
   - /2005/03/29/excellent-youth-no-holiday-329/summary/
+postid: 2005-03-29-excellent-youth-no-holiday-329
 ---
 
 # 優秀青年, 329 不放假

@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2016/10/23/microservice4/
 redirect_from:
   - /2016/10/23/microservice4/solution/
+postid: 2016-10-23-microservice4
 ---
 
 ## Case #1: 釐清 API 與 SDK 的邊界與責任

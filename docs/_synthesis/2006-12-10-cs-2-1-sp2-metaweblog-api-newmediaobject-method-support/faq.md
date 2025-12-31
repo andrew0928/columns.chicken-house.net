@@ -5,6 +5,7 @@ synthesis_type: faq
 source_post: /2006/12/10/cs-2-1-sp2-metaweblog-api-newmediaobject-method-support/
 redirect_from:
   - /2006/12/10/cs-2-1-sp2-metaweblog-api-newmediaobject-method-support/faq/
+postid: 2006-12-10-cs-2-1-sp2-metaweblog-api-newmediaobject-method-support
 ---
 
 # CS 2.1 SP2 - MetaWeblog API / newMediaObject method support ..

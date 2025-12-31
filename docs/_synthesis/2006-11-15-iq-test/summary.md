@@ -5,6 +5,7 @@ synthesis_type: summary
 source_post: /2006/11/15/iq-test/
 redirect_from:
   - /2006/11/15/iq-test/summary/
+postid: 2006-11-15-iq-test
 ---
 
 # IQ test ...

@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2005/07/03/chickenhouse-web-communityserver-extension-new-features-part-2/
 redirect_from:
   - /2005/07/03/chickenhouse-web-communityserver-extension-new-features-part-2/solution/
+postid: 2005-07-03-chickenhouse-web-communityserver-extension-new-features-part-2
 ---
 
 以下內容基於文章所描述的真實場景（Community Server 沒有「最新留言」功能、樣版/多專案結構導致追程式困難、實際熬夜實作出來並帶來使用效益），拆解為可教可練的 15 個結構化問題解決案例。每個案例皆含問題、根因、解法、實作步驟、範例程式與評估方式，供教學、練習與能力評估使用。

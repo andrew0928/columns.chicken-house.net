@@ -5,6 +5,7 @@ synthesis_type: faq
 source_post: /2009/09/24/design-case-study-game-of-life-5-intermission/
 redirect_from:
   - /2009/09/24/design-case-study-game-of-life-5-intermission/faq/
+postid: 2009-09-24-design-case-study-game-of-life-5-intermission
 ---
 
 # 設計案例 生命遊戲 #5, 中場休息

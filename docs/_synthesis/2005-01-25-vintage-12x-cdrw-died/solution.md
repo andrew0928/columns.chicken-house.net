@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2005/01/25/vintage-12x-cdrw-died/
 redirect_from:
   - /2005/01/25/vintage-12x-cdrw-died/solution/
+postid: 2005-01-25-vintage-12x-cdrw-died
 ---
 
 以下內容基於原文描述的兩個核心事件進行延展與教學化重構：1) LiteOn 12x CDRW 遇到「雷射頭老化」後失效；2) DVD-RW 因刷入破解韌體由 4x 升 8x 而導致無法再用官方韌體、也一度無法回刷，最後透過「爛招」恢復 4x。文中亦提到「筆電無法穩定 8x 燒錄」。下列 15 個案例從這些情境出發，拆解成可實戰的問題解決模板，並補充可操作的流程、指標與練習題，供專案演練與評估使用。

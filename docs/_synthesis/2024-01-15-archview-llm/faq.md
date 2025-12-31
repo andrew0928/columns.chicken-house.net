@@ -5,6 +5,7 @@ synthesis_type: faq
 source_post: /2024/01/15/archview-llm/
 redirect_from:
   - /2024/01/15/archview-llm/faq/
+postid: 2024-01-15-archview-llm
 ---
 
 # [架構師觀點] 開發人員該如何看待 AI 帶來的改變?

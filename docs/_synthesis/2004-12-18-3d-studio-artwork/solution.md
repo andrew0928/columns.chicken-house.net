@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2004/12/18/3d-studio-artwork/
 redirect_from:
   - /2004/12/18/3d-studio-artwork/solution/
+postid: 2004-12-18-3d-studio-artwork
 ---
 
 以下內容依據文章情境（386DX-33、8MB RAM、640x480 靜態圖需整晚、4 秒動畫需至少整個週末、線框預覽、動作不自然）提取並擴展為可落地的問題解決案例。所有案例皆以「弱硬體、長回饋迴圈、動畫自然度」為核心痛點，設計可教學可實作的解法與練習。

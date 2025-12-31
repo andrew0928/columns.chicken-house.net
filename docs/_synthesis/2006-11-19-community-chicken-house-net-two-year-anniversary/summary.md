@@ -5,6 +5,7 @@ synthesis_type: summary
 source_post: /2006/11/19/community-chicken-house-net-two-year-anniversary/
 redirect_from:
   - /2006/11/19/community-chicken-house-net-two-year-anniversary/summary/
+postid: 2006-11-19-community-chicken-house-net-two-year-anniversary
 ---
 
 # Ya!! Community.Chicken-House.Net 滿兩週年了 :D

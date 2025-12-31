@@ -5,6 +5,7 @@ synthesis_type: faq
 source_post: /2008/06/18/ff3-download-day/
 redirect_from:
   - /2008/06/18/ff3-download-day/faq/
+postid: 2008-06-18-ff3-download-day
 ---
 
 # Firefox 3 下載日（FF3 Download Day）FAQ

@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2007/10/05/electrician-diary-6-rack-equipment-showcase/
 redirect_from:
   - /2007/10/05/electrician-diary-6-rack-equipment-showcase/solution/
+postid: 2007-10-05-electrician-diary-6-rack-equipment-showcase
 ---
 
 以下內容基於提供的文章情境，萃取並重構出具教學價值的解決方案案例。每個案例均包含問題、根因、解法、步驟、關鍵設定/程式碼、實作參考、成效指標建議與練習評估。涉及的實測數據若非原文明確提供，以下以「可量測指標/建議目標」方式呈現，避免誤引。

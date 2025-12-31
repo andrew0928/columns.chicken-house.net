@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2020/01/01/microservice13-event-sourcing/
 redirect_from:
   - /2020/01/01/microservice13-event-sourcing/solution/
+postid: 2020-01-01-microservice13-event-sourcing
 ---
 
 ## Case #1: 從 CRUD 過帳轉向 Event Sourcing 保留完整交易歷程

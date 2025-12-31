@@ -5,6 +5,7 @@ synthesis_type: summary
 source_post: /2008/09/28/msdn-magazine-october-issue-taken-down/
 redirect_from:
   - /2008/09/28/msdn-magazine-october-issue-taken-down/summary/
+postid: 2008-09-28-msdn-magazine-october-issue-taken-down
 ---
 
 # MSDN Magazine 十月號竟然下架了...

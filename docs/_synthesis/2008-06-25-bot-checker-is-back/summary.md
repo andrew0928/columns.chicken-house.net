@@ -5,6 +5,7 @@ synthesis_type: summary
 source_post: /2008/06/25/bot-checker-is-back/
 redirect_from:
   - /2008/06/25/bot-checker-is-back/summary/
+postid: 2008-06-25-bot-checker-is-back
 ---
 
 # Bot Checker 回來了!

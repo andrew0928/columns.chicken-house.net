@@ -5,6 +5,7 @@ synthesis_type: faq
 source_post: /2007/01/01/new-gadget-target-dopod-c720w/
 redirect_from:
   - /2007/01/01/new-gadget-target-dopod-c720w/faq/
+postid: 2007-01-01-new-gadget-target-dopod-c720w
 ---
 
 # 敗家新目標... Dopod C720w（智慧型手機選購與比較 FAQ）

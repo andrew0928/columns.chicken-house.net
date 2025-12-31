@@ -5,6 +5,7 @@ synthesis_type: faq
 source_post: /2005/10/15/resonance/
 redirect_from:
   - /2005/10/15/resonance/faq/
+postid: 2005-10-15-resonance
 ---
 
 # 共振...

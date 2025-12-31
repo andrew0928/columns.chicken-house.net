@@ -5,6 +5,7 @@ synthesis_type: faq
 source_post: /2010/07/09/run-pc-2010-july-combining-file-and-database-transaction-processing/
 redirect_from:
   - /2010/07/09/run-pc-2010-july-combining-file-and-database-transaction-processing/faq/
+postid: 2010-07-09-run-pc-2010-july-combining-file-and-database-transaction-processing
 ---
 
 # [RUN! PC] 2010 七月號 - 結合檔案及資料庫的交易處理（TxF、TransactionScope、AlphaFS）

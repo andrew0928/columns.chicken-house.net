@@ -5,6 +5,7 @@ synthesis_type: faq
 source_post: /2008/08/15/thread-sync-2-implementation-two-threads-waiting-for-each-other/
 redirect_from:
   - /2008/08/15/thread-sync-2-implementation-two-threads-waiting-for-each-other/faq/
+postid: 2008-08-15-thread-sync-2-implementation-two-threads-waiting-for-each-other
 ---
 
 # Thread Sync #2. 實作篇 - 互相等待的兩個執行緒

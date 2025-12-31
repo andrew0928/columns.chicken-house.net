@@ -5,6 +5,7 @@ synthesis_type: summary
 source_post: /2009/10/08/home-server-enthusiasts-are-more-common-than-expected/
 redirect_from:
   - /2009/10/08/home-server-enthusiasts-are-more-common-than-expected/summary/
+postid: 2009-10-08-home-server-enthusiasts-are-more-common-than-expected
 ---
 
 # 原來在家裝 SERVER 的魔人還真不少...

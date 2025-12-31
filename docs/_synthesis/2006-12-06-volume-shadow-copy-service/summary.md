@@ -5,6 +5,7 @@ synthesis_type: summary
 source_post: /2006/12/06/volume-shadow-copy-service/
 redirect_from:
   - /2006/12/06/volume-shadow-copy-service/summary/
+postid: 2006-12-06-volume-shadow-copy-service
 ---
 
 # Volume Shadow Copy Service ...

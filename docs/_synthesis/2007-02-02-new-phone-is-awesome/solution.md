@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2007/02/02/new-phone-is-awesome/
 redirect_from:
   - /2007/02/02/new-phone-is-awesome/solution/
+postid: 2007-02-02-new-phone-is-awesome
 ---
 
 ## Case #1: 多日待機與電力管理實作

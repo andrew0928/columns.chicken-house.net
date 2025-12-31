@@ -5,6 +5,7 @@ synthesis_type: faq
 source_post: /2024/07/20/devopsdays-keynote/
 redirect_from:
   - /2024/07/20/devopsdays-keynote/faq/
+postid: 2024-07-20-devopsdays-keynote
 ---
 
 # 從 API First 到 AI First

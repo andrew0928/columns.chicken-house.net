@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2008/09/27/how-to-learn-programming-well/
 redirect_from:
   - /2008/09/27/how-to-learn-programming-well/solution/
+postid: 2008-09-27-how-to-learn-programming-well
 ---
 
 以下內容基於提供文章中所描述的問題脈絡與建議方向，萃取並延伸為可教、可練、可評估的實戰型解決方案案例。每個案例都覆蓋問題、根因、方案、程式碼、實測與評估。共 16 個案例。

@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2007/02/16/web-site-application-sandcastle/
 redirect_from:
   - /2007/02/16/web-site-application-sandcastle/solution/
+postid: 2007-02-16-web-site-application-sandcastle
 ---
 
 以下為依據文章內容重構的 16 個可教學、可演練、可評估的問題解決案例。每個案例均包含問題、根因、解法、關鍵程式碼/設定、實測或效益、學習要點與練習與評估。

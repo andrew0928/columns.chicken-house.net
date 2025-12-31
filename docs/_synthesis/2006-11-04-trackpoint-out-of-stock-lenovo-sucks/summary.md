@@ -5,6 +5,7 @@ synthesis_type: summary
 source_post: /2006/11/04/trackpoint-out-of-stock-lenovo-sucks/
 redirect_from:
   - /2006/11/04/trackpoint-out-of-stock-lenovo-sucks/summary/
+postid: 2006-11-04-trackpoint-out-of-stock-lenovo-sucks
 ---
 
 # 小紅點缺料? Lenovo Sucks...

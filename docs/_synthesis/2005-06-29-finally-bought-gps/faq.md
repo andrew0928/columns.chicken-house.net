@@ -5,6 +5,7 @@ synthesis_type: faq
 source_post: /2005/06/29/finally-bought-gps/
 redirect_from:
   - /2005/06/29/finally-bought-gps/faq/
+postid: 2005-06-29-finally-bought-gps
 ---
 
 # 終於買了 GPS

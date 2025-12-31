@@ -5,6 +5,7 @@ synthesis_type: faq
 source_post: /2007/08/29/windows-live-writer-beta2-new-version/
 redirect_from:
   - /2007/08/29/windows-live-writer-beta2-new-version/faq/
+postid: 2007-08-29-windows-live-writer-beta2-new-version
 ---
 
 # Windows Live Writer Beta 2（新版）FAQ

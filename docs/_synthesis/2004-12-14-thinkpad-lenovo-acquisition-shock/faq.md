@@ -5,6 +5,7 @@ synthesis_type: faq
 source_post: /2004/12/14/thinkpad-lenovo-acquisition-shock/
 redirect_from:
   - /2004/12/14/thinkpad-lenovo-acquisition-shock/faq/
+postid: 2004-12-14-thinkpad-lenovo-acquisition-shock
 ---
 
 # ThinkPad? 聯想墊子? My god...

@@ -5,6 +5,7 @@ synthesis_type: summary
 source_post: /2019/06/01/nested-query/
 redirect_from:
   - /2019/06/01/nested-query/summary/
+postid: 2019-06-01-nested-query
 ---
 
 # 架構面試題 #3, RDBMS 處理樹狀結構的技巧

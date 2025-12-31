@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2008/10/31/vista-uac-wont-turn-off/
 redirect_from:
   - /2008/10/31/vista-uac-wont-turn-off/solution/
+postid: 2008-10-31-vista-uac-wont-turn-off
 ---
 
 以下內容基於原文主題「Vista UAC 無法從控制台關閉」的實際場景，擴展出完整的實戰型案例。每個案例都從相同問題域衍生，但切入點、根因、解法與教學目標各有不同，便於分階段訓練、專案演練與評估。文中凡涉及系統鍵值、工具與指令，均以 Windows Vista（Business/Ultimate, 32/64-bit）可用方法為準。

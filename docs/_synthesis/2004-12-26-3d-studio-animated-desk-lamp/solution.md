@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2004/12/26/3d-studio-animated-desk-lamp/
 redirect_from:
   - /2004/12/26/3d-studio-animated-desk-lamp/solution/
+postid: 2004-12-26-3d-studio-animated-desk-lamp
 ---
 
 說明與前置聲明：

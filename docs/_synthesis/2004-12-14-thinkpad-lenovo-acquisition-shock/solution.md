@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2004/12/14/thinkpad-lenovo-acquisition-shock/
 redirect_from:
   - /2004/12/14/thinkpad-lenovo-acquisition-shock/solution/
+postid: 2004-12-14-thinkpad-lenovo-acquisition-shock
 ---
 
 以下說明：原文是一篇對「IBM 將 PC 事業出售給聯想」的感想，未提供完整的技術問題、根因、解法與量化成效。為了滿足教學與實作需求，我依據文中情境（品牌轉移、用戶信任動搖、是否續用 ThinkPad 的決策焦慮）擴展並構造可實戰的案例。所有「實測數據」均為示例/模擬數據，用於教學與評估目的，並非原文實際報告。

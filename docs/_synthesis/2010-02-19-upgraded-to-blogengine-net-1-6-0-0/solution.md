@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2010/02/19/upgraded-to-blogengine-net-1-6-0-0/
 redirect_from:
   - /2010/02/19/upgraded-to-blogengine-net-1-6-0-0/solution/
+postid: 2010-02-19-upgraded-to-blogengine-net-1-6-0-0
 ---
 
 以下內容基於原文「升級到 BlogEngine.NET 1.6.0.0」所描述的動機（垃圾留言過多）、升級後觀察（CSS 走樣）、新版功能（Nested comments）、以及前言中可見的 redirect_from（多組舊網址重導）等訊息，擴充為可落地實作的 15 個教學型案例。每個案例皆包含問題、根因、方案、實施步驟與程式碼示例，並補充可量測的成效指標設計（原文未提供具體數字，以下以建議的量測方式替代）。

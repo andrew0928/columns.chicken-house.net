@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2007/12/12/canon-raw-codec-wpf-2-threadpool/
 redirect_from:
   - /2007/12/12/canon-raw-codec-wpf-2-threadpool/solution/
+postid: 2007-12-12-canon-raw-codec-wpf-2-threadpool
 ---
 
 以下內容依據提供的文章，提取並結構化 15 個具教學價值的問題解決案例。每個案例均包含問題、根因、解法、實測效果、學習要點與練習評估，便於用於實戰教學、專案練習與能力評估。

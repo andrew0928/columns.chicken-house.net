@@ -5,6 +5,7 @@ synthesis_type: faq
 source_post: /2016/01/15/dnxcore50_05_compute_pi_test/
 redirect_from:
   - /2016/01/15/dnxcore50_05_compute_pi_test/faq/
+postid: 2016-01-15-dnxcore50_05_compute_pi_test
 ---
 
 # .NET Core 跨平台 #5, 多工運算效能大考驗 – 計算圓周率測試

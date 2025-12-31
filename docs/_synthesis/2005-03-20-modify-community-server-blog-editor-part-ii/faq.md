@@ -5,6 +5,7 @@ synthesis_type: faq
 source_post: /2005/03/20/modify-community-server-blog-editor-part-ii/
 redirect_from:
   - /2005/03/20/modify-community-server-blog-editor-part-ii/faq/
+postid: 2005-03-20-modify-community-server-blog-editor-part-ii
 ---
 
 # 修改 Community Server 的 blog editor ( Part II )

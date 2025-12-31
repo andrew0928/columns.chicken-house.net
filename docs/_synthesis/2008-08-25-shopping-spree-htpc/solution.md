@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2008/08/25/shopping-spree-htpc/
 redirect_from:
   - /2008/08/25/shopping-spree-htpc/solution/
+postid: 2008-08-25-shopping-spree-htpc
 ---
 
 以下內容根據原文逐一抽取、整理，並補充可落地的步驟與設定，形成 16 個具教學與實作價值的案例。每個案例都包含問題、根因、解法設計、實作與指標，便於課程、專案練習與評估。

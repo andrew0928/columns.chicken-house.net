@@ -5,6 +5,7 @@ synthesis_type: faq
 source_post: /2008/07/10/canon-raw-codec-1-3-released/
 redirect_from:
   - /2008/07/10/canon-raw-codec-1-3-released/faq/
+postid: 2008-07-10-canon-raw-codec-1-3-released
 ---
 
 # Canon RAW Codec 1.3 Released！

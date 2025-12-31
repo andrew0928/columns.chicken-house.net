@@ -5,6 +5,7 @@ synthesis_type: summary
 source_post: /2006/12/10/finally-upgraded-successfully/
 redirect_from:
   - /2006/12/10/finally-upgraded-successfully/summary/
+postid: 2006-12-10-finally-upgraded-successfully
 ---
 
 # 終於升級上來了...

@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2008/09/01/please-cite-article-content-correctly/
 redirect_from:
   - /2008/09/01/please-cite-article-content-correctly/solution/
+postid: 2008-09-01-please-cite-article-content-correctly
 ---
 
 ## Case #1: 正確引用規範與「引用此文」一鍵產生器

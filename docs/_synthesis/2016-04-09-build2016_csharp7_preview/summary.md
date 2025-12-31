@@ -5,6 +5,7 @@ synthesis_type: summary
 source_post: /2016/04/09/build2016_csharp7_preview/
 redirect_from:
   - /2016/04/09/build2016_csharp7_preview/summary/
+postid: 2016-04-09-build2016_csharp7_preview
 ---
 
 # //build/2016 - The Future of C#

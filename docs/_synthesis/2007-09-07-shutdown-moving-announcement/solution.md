@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2007/09/07/shutdown-moving-announcement/
 redirect_from:
   - /2007/09/07/shutdown-moving-announcement/solution/
+postid: 2007-09-07-shutdown-moving-announcement
 ---
 
 ## Case #1: 搬遷停機視窗與變更管理落地

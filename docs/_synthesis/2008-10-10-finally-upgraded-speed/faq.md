@@ -5,6 +5,7 @@ synthesis_type: faq
 source_post: /2008/10/10/finally-upgraded-speed/
 redirect_from:
   - /2008/10/10/finally-upgraded-speed/faq/
+postid: 2008-10-10-finally-upgraded-speed
 ---
 
 # 終於升速了!

@@ -5,6 +5,7 @@ synthesis_type: faq
 source_post: /2015/11/01/synology-nas-docker-run-net-core-clr-console-app/
 redirect_from:
   - /2015/11/01/synology-nas-docker-run-net-core-clr-console-app/faq/
+postid: 2015-11-01-synology-nas-docker-run-net-core-clr-console-app
 ---
 
 # 同場加映: 用 Synology NAS 的 Docker 環境，執行 .NET Core CLR Console App

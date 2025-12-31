@@ -5,6 +5,7 @@ synthesis_type: faq
 source_post: /2007/12/17/threadpool-implementation-2-csharp-code/
 redirect_from:
   - /2007/12/17/threadpool-implementation-2-csharp-code/faq/
+postid: 2007-12-17-threadpool-implementation-2-csharp-code
 ---
 
 # ThreadPool 實作 #2. 程式碼 (C#)

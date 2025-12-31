@@ -5,6 +5,7 @@ synthesis_type: summary
 source_post: /2007/08/18/becoming-electrician-again/
 redirect_from:
   - /2007/08/18/becoming-electrician-again/summary/
+postid: 2007-08-18-becoming-electrician-again
 ---
 
 # 又變成水電工了..

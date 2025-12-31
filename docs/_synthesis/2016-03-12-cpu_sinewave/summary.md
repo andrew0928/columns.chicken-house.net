@@ -5,6 +5,7 @@ synthesis_type: summary
 source_post: /2016/03/12/cpu_sinewave/
 redirect_from:
   - /2016/03/12/cpu_sinewave/summary/
+postid: 2016-03-12-cpu_sinewave
 ---
 
 # [樂CODE] Microsoft 面試考題: 用 CPU utilization 畫出正弦波

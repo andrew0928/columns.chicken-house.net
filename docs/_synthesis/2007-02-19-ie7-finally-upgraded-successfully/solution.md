@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2007/02/19/ie7-finally-upgraded-successfully/
 redirect_from:
   - /2007/02/19/ie7-finally-upgraded-successfully/solution/
+postid: 2007-02-19-ie7-finally-upgraded-successfully
 ---
 
 以下內容根據原文所揭示的核心症狀（IE7 安裝後一開啟即應用程式錯誤並自動關閉，後續在安裝一批安全性修補後恢復正常）進行結構化重組。原文本身訊息有限，為滿足教學、練習與評估之完整性，下列案例在不背離原文情境的前提下，擴展出常見且可實作的根因、修復路徑、與量化指標，供實戰練習之用。

@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2008/04/01/botcheck-revamp/
 redirect_from:
   - /2008/04/01/botcheck-revamp/solution/
+postid: 2008-04-01-botcheck-revamp
 ---
 
 說明

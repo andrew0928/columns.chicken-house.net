@@ -5,6 +5,7 @@ synthesis_type: summary
 source_post: /2016/09/15/microservice-case-study-01/
 redirect_from:
   - /2016/09/15/microservice-case-study-01/summary/
+postid: 2016-09-15-microservice-case-study-01
 ---
 
 # 微服務架構 #1, WHY Microservices?

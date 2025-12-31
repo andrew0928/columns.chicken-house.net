@@ -5,150 +5,138 @@ synthesis_type: summary
 source_post: /2025/09/16/chat-with-my-blog/
 redirect_from:
   - /2025/09/16/chat-with-my-blog/summary/
+postid: 2025-09-16-chat-with-my-blog
 ---
-
 # 讓 Agent 懂我的部落格: MCP-first 的服務化設計
 
 ## 摘要提示
-- MCP-first: 以「工作流程優先」設計 MCP tools，讓 Agent 真正能理解並運用部落格內容。
-- 三大目標: 內容服務化、內容正規化、流程效率化，分別對應 tools 設計、LLM 預處理與 repo 重構。
-- Context Engineering: 以精準檢索與分段讀取策略，控制 context window，避免資訊爆量。
-- Tools 設計心法: MCP 不是 API，需貼合 Agent 的思考脈絡與工作流程。
-- Synthesis 預處理: 先將長文轉成「合用」結構（FAQ、Solutions 等），再進行 RAG。
-- Workflow First: 由使用情境（訂閱、解答、解題、學習）反推出工具需求。
-- 實作工具集: GetInstructions、SearchChunks、SearchPosts、GetPostContent、GetRelatedPosts。
-- 實戰案例: Chat 對話、歷史整理、vibe coding，展現 Agent + MCP 的效率與精準。
-- 產業觀察: SaaS 的 API-first 正轉向 MCP-first，Agent 成為主要使用者。
-- 標竿學習: Shopify.Dev 與 Context7 以「發現/規劃/執行」分層與嵌入式 instructions 保障準確性。
+- MCP-first: 以 MCP 為核心把部落格資源服務化，讓 Agent 能在工作流程中精準運用內容。
+- Workflow First: MCP 不是 API 包裝，必須從使用者與 Agent的工作流程設計出 Tools、Prompts、Resources。
+- Tools 設計: 核心工具包含 GetInstructions、SearchChunks、SearchPosts、GetPostContent、GetRelatedPosts，對應發現/檢索/取用。
+- 內容正規化: 以 LLM 預先生成 FAQ、Solution 等合用型態，提升 RAG 精度與可用性。
+- 效率化重構: 透過 AI IDE 清技術債、轉 Markdown、修路徑與連結，優化內容管線。
+- 實作案例: 問答對話、部落格演進史整理、依文章 vibe coding 三類任務驗證設計。
+- 產業參考: Shopify.Dev 與 Context7 的 MCP 設計示範分層工具與「為 Agent 而設計」的最佳實務。
+- API→MCP: 預示 SaaS 的下一步是 MCP 作為 Agent 時代的 API，朝「工作流程訂閱」演化。
+- Context 工程: 以「先檢索後讀取」與強制流程起手式控管資訊量，讓回答更穩定精準。
+- 使用說明: 提供 Streamable HTTP 的 MCP URL，可於 VSCode/ChatGPT Plus 直接加入使用。
 
 ## 全文重點
-作者將長期以深度、脈絡性強的技術文章轉化為可供 Agent 高效運用的資源，提出以 MCP-first 的服務化設計實作「Chat with My Blog」。核心是把部落格重構為 Agent 可使用的工具與素材，透過三大方向推進：一是內容服務化，用 MCP 提供貼合工作流程的 tools；二是內容正規化，先以 LLM 將長文精煉為可檢索與可應用的結構化素材（如 FAQ、Solutions、Origin、Summary 等 synthesis 型態），再進行 RAG；三是流程效率化，利用 AI IDE 清除技術債，重構 repo、轉檔與修復資源，以支援後續自動化處理。
+作者提出「讓 Agent 懂我的部落格」的目標，以 MCP-first 重構部落格，把內容變成可被 Agent在工作流程中有效使用的工具與素材。動機來自長文心法對人類讀者門檻高，但 AI 能把碎片化知識轉為可解題的上下文。整體改造分三路：一是內容服務化，設計 MCP Tools 對應 Agent 的思考脈絡與操作流程；二是內容正規化，先以 LLM 將長文重煉成適合 RAG 的型態（FAQ、Solution、Summary、Origin等），讓檢索更精準可用；三是流程效率化，用 AI IDE 清技術債、轉格式與修管線，讓後續預處理與服務化更順暢。
 
-作者強調 MCP 與 API 本質不同：MCP 是為 Agent 的「context + workflow」而設計，tools 必須對齊「真人會怎麼做」的流程，透過工作情境（訂閱、解答、解題、學習）的分析，萃取出 Agent 需要被授權的操作能力，形成 tools 規格。由此導出一組精煉的工具：GetInstructions（說明與動態指引）、SearchChunks（向量檢索片段）、SearchPosts（文章清單）、GetPostContent（文章內容與 synthesis 區塊）、GetRelatedPosts（相關文章）。
+文章核心主張「MCP != API」，要從 Workflow First 出發思考 Agent 如何解題，將人類的操作拆解為工具介面。作者以「微服務的排程處理」為例，分析真人會先理解專家用法（GetInstructions），再找線索（SearchChunks）、定位原文（GetPostContent）、延展相關（GetRelatedPosts），因此 MCP 工具就自然落在這些步驟。並以三個案例驗證：ChatGPT 問答能精準引用與回鏈；在 VSCode + Copilot 中用 MCP 快速整理部落格演進史；依文章以 Coding Agent 生成符合現代 .NET 寫法的並行 CLI 管線，展現從「找→讀→用」的端到端體驗。
 
-文中以三個實作案例展示：在 ChatGPT/Claude 中以問答抓準分散式交易知識並正確回引；在 VS Code + Copilot 中快速整理「部落格演進史」並直接編修 markdown；以「vibe coding」把文章內方法論轉化為可執行程式碼（如 STDIN JSONL 平行處理），且產生測試數據與腳本，證明 MCP + Agent 能把「知識 → 解法 → 代碼」打通。
-
-在標竿學習部分，作者深入剖析 Shopify.Dev MCP 與 Context7 的工具設計。Shopify 以「learn_shopify_api」強制對話初始化取得 conversationId 並注入 instructions，結合 search_docs_chunks/fetch_full_docs 的先檢索後讀取，以及 GraphQL 的 introspect/validate 雙保險，完整落實「發現-規劃-執行」分層與品質門檻。Context7 則以兩個極簡工具（resolve-library-id、get-library-docs）配上回應中內嵌 instructions 與權重資訊（trust score），讓 Agent 自主選源、取例、組裝解法。
-
-作者進一步提出產業觀察：當 Agent 成為主要使用者，MCP 將成為下一代 API。SaaS 從「服務訂閱」邁向「工作流程訂閱」，工具生態將圍繞 MCP 發展。開發者工作型態亦正由大型 IDE → 輕量 IDE + Agent → 純 CLI Agent 遷移，文件與規格的價值躍升。結尾提供公開 MCP 伺服器（Streamable HTTP）與使用指引，並總結 Context Engineering 的核心觀念：以嚴謹的檢索與分段讀取策略，確保只將必要資訊帶入 context；以內容預處理提升 RAG 精度；以 workflow-first 的 tools 設計，讓 Agent 穩定重現人類專家流程。下一篇將詳述內容預處理與發佈流水線。
+後半探討 Shopify.Dev 與 Context7 的 MCP 設計：Shopify 以「洋蔥式分層」工具與強制起手式 learn_shopify_api（發 conversationId）保證流程一致，再以 search_docs_chunks/fetch_full_docs 控管上下文，並提供 GraphQL introspect/validate 確保代碼正確；Context7 以兩個簡單工具 resolve-library-id 與 get-library-docs，直接把「最新、版本化、可執行」的官方片段寫入上下文，避免幻覺與過時代碼。作者據此提出產業觀察：SaaS 的 API 將演化為 MCP，「Agent 成為主要使用者」後，軟體服務的價值在於能否以 MCP 提供可直接被 Agent操作的工作流程。收尾指出 Context 管理是效率關鍵，需用「先檢索後讀取」與流程護欄避免爆量資訊；並提供 MCP URL 與 VSCode/ChatGPT 使用方式。下一篇將深入內容預處理的設計。
 
 ## 段落重點
 ### 1, 為什麼要把部落格做成 MCP?
-作者期望讓部落格內容被 Agent 有效理解與應用，縮短讀者「看懂到能用」的距離。將改造目標分為三項：內容服務化（用 MCP 對齊 workflow 設計 tools）、內容正規化（LLM 預先生成適合 RAG 的結構化素材，解決長文切片無效問題）、流程效率化（用 AI IDE 清理技術債與重構 repo）。關鍵發現是：MCP 設計重點不在規格本身，而在於 context 與 workflow 的設計，tools 好壞直影 Agent 表現。預處理方面以 synthesis 型態（FAQ、solution 等）提升檢索精確度；流程上大規模處理 HTML → Markdown、檔名規範、資源路徑修復等，以確保後續自動化順暢。
+作者目標是讓長文心法能被 Agent有效理解與應用，縮短從閱讀到解題的距離。改造分三項：內容服務化（設計 MCP Tools 對應 Agent流程）、內容正規化（先以 LLM 重煉成利於RAG的型態，解決長文切片不完整的問題）、流程效率化（用 AI IDE 清技術債與重構 repo）。其中 Tools 的介面設計是成敗關鍵，必須以情境與工作流程為導向，而非僅把既有 REST 包裝成 MCP。作者亦回顧對 MCP 的理解源於研究 Shopify.Dev 與社群分享，體認「Model Context Protocol」的重點在於如何為模型塑造可操作的上下文。
 
 ### 2, MCP != API, 從流程的角度設計
-作者回顧「API First → AI First」的觀念轉移：API 必須合情合理、可被 AI 可靠使用；且需精準對應領域問題，而非 UI 導向與檯面下溝通。進一步體會到 MCP 並非 API 包裝，而是「Workflow First」的設計：先界定 Agent 在特定任務中的操作步驟，再反推出應授權的工具。作者給出本專案 tools 清單（GetInstructions、SearchChunks、SearchPosts、GetPostContent、GetRelatedPosts），並指出資源也有支援但暫不展開，強調設計過程受 Shopify 與 Anthropic MCP 心法啟發。
+作者強調 MCP 不是 API 包裝，設計要從 Workflow First 出發。提出自己的 MCP Tools 規格：GetInstructions、SearchChunks、SearchPosts、GetPostContent、GetRelatedPosts，並解釋其對應「發現/檢索/取用/延展」的步驟。再回扣過去「API First→AI First」的演講要點：API 要合情合理、可靠、精準對應領域問題、避免 UI 導向與檯面下溝通。如今進一步體會到，面對 Agent 呼叫不可預測，必須以工作流程設計工具，讓 LLM 能在上下文中自然操作，降低誤用與幻覺。
 
 ### 參考1: 從 API First 到 AI First
-摘錄作者過往演講觀點：API 設計需符合「常理」與「可靠」兩基礎，避免 UI 偏斜與檯面下默契；面對 AI 呼叫不可預測，唯有讓介面對應領域本質、或做到邏輯無懈可擊。作者反思當時是用「排除壞習慣」方式接近目標，如今回望其實已在靠攏「context + workflow」設計。於是提出更直接的主張：「別用 API 角度設計 MCP，要從工作流程來設計」，讓工具自然服務於任務脈絡。
+整理兩篇舊文的核心：為 AI 設計的介面要合乎常理、邊界嚴密、直指領域問題；避免 UI導向與人類默契的黑箱。作者自省去年仍以 API視角排除障礙，如今意識到真正焦點是「context + workflow」。結論是：不要用 API 的角度設計 MCP，改以工作流程設計，讓工具自然嵌入 Agent 的解題脈絡。
 
 ### 參考2: iHower 電子報 #31
-引用 iHower 整理的資源與 Block Playbook：未來是「人 × Agent」協作，MCP 是使用者授權給 Agent 的工具集。重點在於授權步驟與工具對齊流程，以減少 prompt 轉換與幻覺。Block 的「發現/規劃/執行」分層有助於在多工具環境下規模化；同時強調從工具思維轉向 Agent 思維：為「會問什麼」設計工具介面，而非把 API 生硬映射到 MCP。
+引用 iHower 的整理與 Block 的 Playbook：當工具爆量時，用分層（發現/規劃/執行）引導 Agent；MCP-first 是開發典範轉移，工具介面要為 AI 使用者設計。作者補充 Agent 擬人化的觀點：使用者授權工具給 Agent，MCP 的設計需符合使用者工作流程，使 Prompt 無需額外轉譯，避免幻覺與偏差。
 
 ### 參考 3: Workflow First, 使用情境分析
-從四大使用情境拆解需求：訂閱、解答、解題、學習。以「解題」為例，模擬向前輩請益的流程：先取得使用說明（GetInstructions）、再請前輩給線索（SearchChunks）、取得原文與延伸（GetPostContent、GetRelatedPosts）。將這些步驟轉為 MCP tools，即是將「真人流程」授權給 Agent 操作。並展示最終採用的 tools 規格與參數（含 synthesis 與限制），強調工具對齊流程能降低 Agent 操作成本與失敗率。
+以讀者常見需求（訂閱/解答/解題/學習）分析工作流程，選「解題」示範：真人會先理解前輩（GetInstructions）、索取線索（SearchChunks）、獲取原文與延伸（GetPostContent/GetRelatedPosts）。因此 MCP Tools 直接設計為上述動作。作者列出第一版工具規格與參數設計，說明工具越貼近流程，Agent 操作成本越低，應變更好。後續以案例驗證此設計。
 
 ### 3, 三個實際的案例示範
-展示三類任務：1) 問答對話以分散式交易為題，比較 Claude 與 ChatGPT 在查詢策略與文字風格的差異，兩者皆可正確回引；2) 在 VS Code + Copilot 以 MCP 整理「部落格演進史」，一分鐘生成可用的時間序清單與連結；3) vibe coding：以「CLI + Pipeline」文章為知識源，自動產出 C# 平行處理 JSONL 的骨架碼、測試資料與腳本，展現從文章到代碼的快速落地。三例共同顯示 MCP 將「知識 → 操作 → 交付」打通。
+三類任務展示端到端體驗：1）問答對話：在 ChatGPT/Claude 皆能準確檢索與引用，查詢策略略有不同但結果正確且可回鏈；2）部落格演進史整理：在 VSCode + Copilot 下以 MCP 快速彙整多篇散佈內容，產出時間序摘要與連結，效率遠勝手工；3）vibe coding：依文章用 Coding Agent 產生現代化 .NET 並行 CLI 管線，示範從 SearchPosts/GetPostContent/SearchChunks到程式生成的完整流程，且語法與庫選擇更新至當代最佳做法。
 
 ### 案例 1, 直接對話的應用 (ChatGPT)
-以同一問題測試 ChatGPT（GPT-5 + Thinking）與 Claude Sonnet 4：Claude流程直線（GetInstructions→SearchChunks→生成），ChatGPT採兩段檢索微調查詢。兩者皆正確引用文章與連結，差異在語氣與組織。作者公開 ChatGPT 對話連結供參。此例展示 tools 資訊如何進入 context 並有效引導答案生成。
+同題在 ChatGPT Plus（GPT-5 + Thinking）與 Claude Sonnet 4 的使用觀察：兩者皆先 GetInstructions，再以 SearchChunks 檢索相關主題片段；Claude直線思考一次查詢，ChatGPT傾向分兩次迭代查詢優化範圍。回覆皆能準確摘要並附正確引用連結，展現 MCP 工具在問答場景的可用性與穩定性。附分享連結以供讀者參考完整對話。
 
 ### 案例 2, 整理我的部落格演進史
-在 VS Code 的 agent mode 直接下指令生成時間序的系統遷移紀錄，含要點摘要與參考連結（2008 起：BlogEngine.NET、客製化與擴充、WordPress 嘗試、2016 Jekyll + GitHub Pages）。效果與正確性高，遠勝以往手工蒐整。作者強調雖不以 AI 代筆整文，但讓 AI 處理資料搜整、交叉引用與編修是自然且高效的應用。
+在 VSCode + Copilot 中以提示要求彙整部落格系統演進（年份/系統/客製化/參考文），Agent 透過 MCP 快速檢索並回填 Markdown。示範段落包含 BlogEngine.NET 時期的匯入與擴充、短期 WordPress 嘗試、改用 Jekyll + GitHub Pages 等。作者對比九年前的手工整理，感嘆生成式AI在文本整編上的躍進，強調不以 AI 代寫文章，但高度接受其在資料搜集與整理上的賦能。
 
 ### 案例 3, 拿文章來 vibe coding
-以「後端工程師必備: CLI + PIPELINE 開發技巧」為源，在空白 console app 中請 Agent 生成以 STDIN 消費 JSONL、限制平行度的處理骨架，並自動給出 Channel 實作、測試資料與 shell 腳本。與作者 2019 年寫法相比，AI 生成版本採用較新語法/庫（Channel 取代 BlockingCollection），同時滿足架構設計意圖與現代風格；顯示「文章知識 + MCP 檢索 + LLM 程式設計」能快速產出可跑的解法。
+切換至 VSCode + Copilot 的 Coding Agent，要求依「後端工程師必備：CLI + Pipeline」文章實作 STDIN JSONL 並行處理框架。Agent 先透過 MCP 檢索文章與片段，再輸出以 Channel reader/writer 的現代 .NET 寫法、生成測試資料與腳本，完成端到端驗證。作者指出此法不僅滿足架構要求，還自動更新到更佳語法與庫，展現以「找→讀→用」串起知識到產出。
 
 ### 案例小結
-除展示的三例外，作者也試過直接以 resource 讀文章、加 context 附件、從部落格生成學習計劃、測驗題、Hands-on Labs 講義等，效果皆佳。結論是：當工具設計貼合流程與內容結構優化後，Agent 可以高效重現作者當年寫作時的核心洞見與方法論。
+除文中示範，作者亦測試了 Resource 用法（在 VSCode 直接以 URI取文）、agent mode 下 add context、從部落格作為知識庫生成學習計畫、測驗題與實作講義等。整體證明內容服務化後，可大量衍生教育與工程應用，且能精準對齊作者當年觀念與心法。
 
 ### 4, 參考 Shopify / Context7 的 MCP 設計
-兩個標竿案例凸顯 MCP 設計要點。Shopify.Dev 以「learn_shopify_api」作為強制第一步，嵌入 conversationId 與 instructions 以維持對話狀態與規範遵循；以 search_docs_chunks/fetch_full_docs 實作「先檢索、後讀取」，且統一傳回 Markdown 降噪；GraphQL 提供 introspect 與 validate 雙工具，確保產出的代碼可用。Context7 以兩個工具實現端到端：解析庫 ID 與抓取對應主題的最新文件與範例，回應中同時夾帶使用規則與信任分數，讓 Agent 自主選擇最佳來源，兼顧精準度與可操作性。
+選兩個優秀 MCP 做設計觀摩：Shopify.Dev 對開發者場景設計分層工具、流程護欄與 GraphQL 支援；Context7 專注於通用開發文件檢索，以最小工具集將「官方、最新、版本化」片段寫入上下文。兩者共同重點：先「發現」與「學習」規則，再「檢索」與「取用」內容，並以 Markdown 輸出提升 LLM 理解品質，杜絕幻覺與過時資訊。
 
 ### MCP 設計參考 1: Shopify.Dev MCP
-工具包含 learn_shopify_api、search_docs_chunks、fetch_full_docs、introspect_graphql_schema、validate_graphql_codeblocks。learn_shopify_api 強制產生 conversationId 並注入使用規則，未攜帶即拒絕後續工具呼叫，等於建立「發現層」與「會前準備」。檢索工具回傳 Markdown 片段以降低雜訊，full docs 在需要時再取；GraphQL 以 introspect 產生正確 schema 片段、validate 驗證生成 code blocks，形成規劃與執行的閉環，最大化正確率與安全性。
+工具集包含 learn_shopify_api（強制起手式，發 conversationId）、search_docs_chunks/fetch_full_docs（先檢索片段再取全文）、introspect_graphql_schema/validate_graphql_codeblocks（先得正確Schema、後驗代碼）。關鍵巧思是把使用規則與會話ID嵌入回應，迫使Agent遵循流程；以 Markdown 供上下文閱讀更精準；並以最後一步的驗證工具保障產出正確，形成完整的「發現/檢索/生成/驗證」鏈。
 
 ### MCP 設計參考 2: Context7
-兩工具極簡：resolve-library-id 與 get-library-docs。前者回覆包含 Library ID、描述、代碼片段數與 trust score，且在回覆中內嵌明確 instructions，引導 Agent 正確選擇；後者按主題與 token 限額回傳對應文件與可複製的範例代碼。設計理念是「把真人查文件→選例子→拼解法」流程內化到 MCP，並用嵌入式說明與加權資訊輔助 Agent 自主決策。
+僅兩個工具：resolve-library-id（把泛名庫解析為 Context7 兼容ID）與 get-library-docs（依ID與主題取回官方最新片段），但回應同時夾帶「使用規則」與「信任分數/片段數等元資料」，讓 Agent 能即時理解並選擇最佳來源。此設計直攻 Coding Agent 需求：減少分頁切換、避免幻覺、避免過時代碼，使「寫在上下文的官方片段」成為生成保真度的核心。
 
 ### MCP 應用的想像 - 下個世代的 API
-作者判斷 MCP 將成為 Agent 時代的 API：SaaS 從「有 API 供人串接」轉為「有 MCP 供 Agent 即插即用」。開發工具也顯示典範轉移：由大型 IDE 向輕量 IDE + Agent，再到 CLI Agent；文件/規格被重新重視，像 AWS Kiro、GitHub Spec Kit 等工具崛起。當使用者與服務的互動轉由 Agent 主導，MCP 品質將成為服務競爭力關鍵，未來可能走向「工作流程訂閱」型態。
+作者預測 MCP 將成為 Agent 時代的 API。SaaS 過去靠 API 供整合，如今 Agent 能自讀規格與主動呼叫，服務方更該提供 MCP 以工作流程為單位交付能力。軟體產業從套裝→服務訂閱→工作流程訂閱演化，開發者工具的變遷（大型IDE→輕量IDE+Agent→CLI Agent）與文件成為顯學，正是典範轉移證據。結論：未來軟體公司必須 MCP-first，品質決定服務能否長遠。
 
 ### 5, 總結
-作者公開 MCP 伺服器（Streamable HTTP：https://columns-lab.chicken-house.net/api/mcp/，URL 結尾須含 /，免登入與 API Key），並建議在 VS Code 以「MCP: Add Server…」加入；必要時可用「/mcp GetInstruction」強制載入說明。示範查詢範例與使用提示後，作者總結本專案的核心收穫：Agent 的瓶頸在 context window，MCP 設計須以「精準檢索→選讀必要片段」控量；Shopify 的流程控管與 Context7 的嵌入說明，皆是優良實踐。下一篇將深入內容預處理與發佈流程，說明如何把文章轉成適合 RAG 的 synthesis 結構，以達到極致的 Context Management。
-
-### 我的 MCP 使用說明
-提供使用通道：Streamable HTTP，URL 為 https://columns-lab.chicken-house.net/api/mcp/（需保留結尾 /）。VS Code 以 MCP: Add Server 加入即可；ChatGPT Plus 亦可（MCP Beta）。可先執行 /mcp GetInstruction 導入說明。示例提問：請列出安德魯文章中處理微服務交易的重要技巧，並附上引用標題與連結，驗證 tools 的檢索與回引能力。
-
-### Side Project 的觀察與心得
-MCP 的價值在於「Context Engineering」：以流程化工具組合，確保只把必要資訊帶進 context；以「先檢索後取全文」與 synthesis 化內容結構提升精準度與可用性。作者在這次實作中建立 MCP 設計手感，也看見產業由 API-first 轉向 MCP-first 的趨勢。內容面，將長文轉為 FAQ、Solutions 等應用型結構比單純壓縮更有效；流程面，清理技術債與自動化 pipeline 是規模推進的基礎。下一篇將完整揭露內容預處理方法與實作細節。
+作者提供 MCP 使用方式：Streamable HTTP，URL 為 https://columns-lab.chicken-house.net/api/mcp/（請保留尾斜線），可在 VSCode（MCP: Add Server→HTTP→URL）或 ChatGPT Plus（Beta）使用；可用 /mcp GetInstruction 強制起手式。測試題例如「安德魯文章中的微服務交易技巧與引用」。心得總結：效率關鍵在 Context Window 管理與流程護欄（先檢索後讀取、強制 learn），Shopify/Context7 的設計印證了 Context Engineering 的極致。作者自此習得 MCP 的設計手感，並看清 API→MCP 的產業路線。下篇將深入內容預處理與合用型態的設計法，說明如何把 MCP 與 Context 管理整合到最佳效益。
 
 ## 資訊整理
 
 ### 知識架構圖
 1. 前置知識：
-   - 理解 MCP（Model Context Protocol）的基本概念與與 API 的差異
-   - LLM 的 context window、RAG、向量檢索與內容分塊（chunks）概念
-   - Workflow-first 思維：以任務流程與語境設計工具，而非以端點/畫面為中心
-   - 基礎開發實務：GitHub Pages/Jekyll、Markdown、CLI/IDE 與 Coding Agent（如 VSCode + Copilot）
-   - 基本安全與可靠性思維：介面邊界、錯誤處理、可靠呼叫與指令遵循
+   - 基本了解 LLM、RAG、向量檢索與 Prompt/Instructions 概念
+   - API 設計與 Domain-driven 介面思維（API First 的優缺點）
+   - Agent 與 MCP（Model Context Protocol）的角色與結構：Prompts、Tools、Resources
+   - 工作流程（Workflow）設計與 Context Engineering（上下文管理）
 
-2. 核心概念及關係：
-   - MCP-first 服務化：以 Agent 為主要使用者，提供「工具」而非僅是 API
-   - Workflow-first 設計：先還原使用情境與工作流程，再反推必要 tools、prompts、resources
-   - 內容正規化與預處理：用 LLM 將長文精煉為適合檢索/應用的結構（如 FAQ/solutions/summary）
-   - 精準 Context 管理：先檢索後取用，控制進入 context 的資訊總量與必要性
-   - 工具分層與指令引導：發現/規劃/執行分層、強制指令（如 conversationId）確保正確流程
+2. 核心概念：
+   - MCP-first 而非 API-first：以工作流程與上下文為核心設計工具
+   - 內容服務化＋正規化：先將長文精煉為可用的「合用型態」，再提供檢索
+   - Workflow-first 工具介面：以「發現—規劃—執行」分層設計工具，降低 Agent 操作障礙
+   - Context 管理與效率：先查片段（chunks）再取全文（full docs），只把必要內容放入 context window
+   - 實戰應用閉環：訂閱／解答／解題／學習等場景由 MCP Tools 串起，示範 Q&A、vibe writing、vibe coding
 
 3. 技術依賴：
-   - MCP Host（支援 Streamable HTTP）與 MCP Server（工具/資源/提示）
-   - 向量檢索與 RAG 管線（chunks、post meta、synthesis 型態）
-   - LLM 模型（Claude/ChatGPT/本地/雲端）與 Prompt 設計
-   - IDE/Agent 整合（VSCode + Copilot、CLI Agents、ChatGPT MCP Beta）
-   - 部落格內容資產與發佈管線（Jekyll/GitHub Pages、Markdown、Repo 重構）
+   - MCP Host（支援 Streamable HTTP）
+   - 向量檢索與內容預處理（LLM 精煉、synthesis 標註：origin/solution/faq/summary）
+   - 開發環境與 Agent：VSCode + GitHub Copilot、ChatGPT Plus（MCP Beta）、Claude
+   - 參考設計：Shopify Dev MCP（conversationId＋tools discipline）、Context7（resolve + get docs）
+   - 部落格內容治理：Markdown 化、檔名與連結修復、Repo 重構（AI IDE）
 
 4. 應用場景：
-   - 問答式檢索（Chat with My Blog）：將部落格作為精準知識庫供 Agent 回答
-   - 情境解題：從問題到方案的工作流程導向檢索與串接（chunks → posts → related）
-   - Vibe coding/vibe writing：以文章方案直接驅動代碼骨架與文檔整理
-   - 開發文件/API 助理：如 Shopify/Context7 的設計，為開發者提供即時、版本化、可驗證的資源
-   - 學習路徑生成：從部落格知識生成學習計畫、測驗與 hands-on 指南
+   - 問答對話：把部落格當知識庫，Agent 精準回答並附引用
+   - 資料整理（vibe writing）：跨文檔彙整演進史、計畫、講義、考題
+   - 程式生成（vibe coding）：依文章解法直接產出骨架與現代化程式碼
+   - 學習路徑生成：由文章生成教學計畫與 Handson Labs
+   - 開發者工作台：在 VSCode 以 MCP Tools 檢索、取用、引用文章與片段
 
 ### 學習路徑建議
 1. 入門者路徑：
-   - 了解 MCP 與 API 的差異、三大原語（Prompts/Tools/Resources）
-   - 練習 Workflow-first：用一個具體情境列出步驟→映射為 tools
-   - 安裝並試用現成 MCP（如本篇提供 URL），觀察 Agent 的 tool calls 與結果
-   - 以簡單檢索任務驗證：SearchChunks → SearchPosts → GetPostContent
+   - 了解 MCP 與 Agent 的基礎概念、MCP ≠ API 的差異
+   - 熟悉「Workflow-first」與「Context + Workflow」設計思維
+   - 安裝並試用 MCP Server（HTTP Streamable），體驗 Tools 呼叫與回應
+   - 基礎 RAG、向量檢索與「chunks→全文」的操作心法
 
 2. 進階者路徑：
-   - 設計符合流程的 tools 介面與嚴格指令（例如「必須先 GetInstructions」）
-   - 建置內容預處理管線：LLM 精煉為 synthesis（origin/solution/faq/summary）
-   - 向量索引與 chunk 策略：控制長文分片、meta、position/length 查取
-   - 整合 IDE/Agent：在 VSCode + Copilot 中以 MCP 資源驅動 coding 任務
-   - 導入分層工具策略（發現/規劃/執行），並加入驗證工具（如 GraphQL 校驗）
+   - 設計自有 MCP Tools（GetInstructions、SearchChunks、SearchPosts、GetPostContent、GetRelatedPosts）
+   - 內容正規化：用 LLM 將長文轉為可檢索的 synthesis 型態（origin/solution/faq/summary）
+   - 引入「發現—規劃—執行」分層與「指令即回應」的工具內嵌指引（仿 Shopify 的 conversation discipline）
+   - Context Engineering：控制窗口大小、避免信息爆量、分步取得必要內容
 
 3. 實戰路徑：
-   - 實作一個 MCP Server：至少包含 GetInstructions、SearchChunks、SearchPosts、GetPostContent、GetRelatedPosts
-   - 建置內容管線：HTML→Markdown、檔名正規化、圖檔與連結修復、RAG 索引
-   - 端到端測試：用 ChatGPT/Claude/VSCode 驅動三類任務（問答/整理/寫碼）
-   - 量測與調優：context token 使用、檢索精度、回覆正確性、工具使用路徑
-   - 安全與可靠性：強制流程令牌（conversationId）、邊界檢查、錯誤防護
+   - 在 VSCode + Copilot 實作：以 SearchPosts + GetPostContent + SearchChunks 支援 vibe coding
+   - 以 ChatGPT Plus（MCP）進行 Q&A，觀察不同模型的查詢策略與工具連鎖
+   - 建構內容處理管線：HTML→Markdown、檔名與連結規範、圖檔工具、Disqus 遷移表
+   - 導入測試場景：生成教學計畫、考題、講義，驗證 MCP Tools 的覆蓋度與穩定性
 
 ### 關鍵要點清單
-- MCP-first 思維：以 Agent 為主要使用者設計工具與流程，而非把 REST 端點搬運過來 (優先級: 高)
-- Workflow-first 設計：先定義使用者/Agent的實際工作流程，再反推 tools 規格 (優先級: 高)
-- GetInstructions 作為必經步驟：用工具返回動態指令與會話令牌，強制正確流程 (優先級: 高)
-- 工具分層（發現/規劃/執行）：降低「太多工具」的選擇困難，提高路徑可控性 (優先級: 中)
-- 內容預處理/正規化：將長文精煉為可檢索、可應用的結構（FAQ/solution/summary） (優先級: 高)
-- 精準 Context 管理：先檢索（chunks）再取全文，嚴控進入 context 的資訊量 (優先級: 高)
-- 向量檢索與 RAG 策略：為長文設定 chunk、meta、synthesis 提升命中與可用性 (優先級: 高)
-- 工具介面貼近語境：參數命名與回傳格式偏向 Agent可讀（Markdown + 指令），而非僅 JSON (優先級: 中)
-- 驗證工具（如 GraphQL 校驗）：在產生程式碼/查詢後加入機器可驗證的防護 (優先級: 中)
-- IDE/Agent 整合：在 VSCode/Copilot 中以 MCP 餵入知識，直接驅動 coding (優先級: 中)
-- 技術債清理與資料管線：HTML→Markdown、檔名/連結正規化，確保檢索與維運效率 (優先級: 中)
-- 案例導向驗證：問答、部落格史整理、vibe coding 三類場景端到端測試 (優先級: 中)
-- API vs MCP 差異：MCP 是為「工作流程工具」與「Agent語境」設計，不同於端點交換 (優先級: 高)
-- 安全與可靠性：即使被「胡亂呼叫」也守邊界，流程令牌與規則放入工具回覆 (優先級: 中)
-- 未來趨勢：MCP 將成為 Agent 時代的「下個世代 API」，SaaS 需要 MCP 品質作為護城河 (優先級: 中)
+- MCP-first 設計：以 Agent 的工作流程為中心設計工具介面，不是把 REST API 直接包成 MCP (優先級: 高)
+- Workflow-first 思維：先定義「使用情境→工作流程→所需工具」，再落規格 (優先級: 高)
+- Tools 清單與責任：GetInstructions、SearchChunks、SearchPosts、GetPostContent、GetRelatedPosts 的分工 (優先級: 高)
+- GetInstructions 作為動態指令源：把「使用規則」做成可呼叫的工具，確保指令進入 context (優先級: 高)
+- 內容正規化（synthesis）：將長文轉為 origin/solution/faq/summary 等型態以提升檢索精度 (優先級: 高)
+- 先查片段再取全文：SearchChunks→Fetch Full（或 GetPostContent）以降低 context 汙染 (優先級: 高)
+- Context Engineering：嚴控窗口大小與資訊密度，避免「爆量」造成理解失效 (優先級: 高)
+- RAG 的適配：長文不適合直接切塊，需先 LLM 精煉再入庫，提升檢索與應用效果 (優先級: 高)
+- Shopify Dev MCP 心法：mandatory discovery tool、conversationId 紀律、工具層級分工 (優先級: 中)
+- Context7 心法：resolve library → get docs，回應內嵌使用規則＋信任與覆蓋度提示 (優先級: 中)
+- 問題 vs 難題：question（有明確答案）與 problem（需因地制宜解法）分辨，設計不同工具支持 (優先級: 中)
+- AI IDE 重構：HTML→Markdown、檔案規範、連結修補、Repo 結構清理，為內容處理管線打底 (優先級: 中)
+- Vibe coding 實戰：以文章解法與片段為上下文，生成現代化程式碼（如 channel 替代 BlockingCollection） (優先級: 中)
+- MCP Host 與接入：Streamable HTTP、在 VSCode/ChatGPT Plus 安裝與使用流程 (優先級: 低)
+- 成本與效益：內容預處理最耗時耗 token，但帶來精準檢索與高效實作（需雲資源與額度） (優先級: 低)
+

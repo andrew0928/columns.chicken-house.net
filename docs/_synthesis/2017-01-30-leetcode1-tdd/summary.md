@@ -5,6 +5,7 @@ synthesis_type: summary
 source_post: /2017/01/30/leetcode1-tdd/
 redirect_from:
   - /2017/01/30/leetcode1-tdd/summary/
+postid: 2017-01-30-leetcode1-tdd
 ---
 
 # 不只是 TDD #1, 單元測試, 寫出高品質 code 的基本功夫

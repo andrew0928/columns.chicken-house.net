@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2008/07/26/x64-programming-2-asp-net-odbc-reading-csv/
 redirect_from:
   - /2008/07/26/x64-programming-2-asp-net-odbc-reading-csv/solution/
+postid: 2008-07-26-x64-programming-2-asp-net-odbc-reading-csv
 ---
 
 ## Case #1: IIS6 x64 部署 ODBC CSV 連線失敗（32/64 位元不相容）

@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2005/03/18/text-upgrade/
 redirect_from:
   - /2005/03/18/text-upgrade/solution/
+postid: 2005-03-18-text-upgrade
 ---
 
 以下內容基於原文所揭示的升級事實（.Text 0.95 升級至 Community Server 1.0 RTM、網址調整、整合為 Blog + Forum + Gallery），並結合此類升級專案的標準實務，整理出具可實作與教學價值的 15 個案例。對於原文未提供的「實測數據」，以下以「作者未提供，建議量測方式」呈現，避免虛構。

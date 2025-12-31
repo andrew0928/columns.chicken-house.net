@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2018/10/10/microservice11-devopsdays-servicediscovery/
 redirect_from:
   - /2018/10/10/microservice11-devopsdays-servicediscovery/solution/
+postid: 2018-10-10-microservice11-devopsdays-servicediscovery
 ---
 
 以下內容基於原文中對微服務與 Service Discovery 的痛點、根因與解法所述，結合作者提及的技術棧（Docker、.NET、Consul），整理出 17 個具實戰價值的解決方案案例。每個案例皆提供可落地的步驟、關鍵設定/程式碼、可衡量的成效與練習與評估方式，便於在教學、專案實作與能力評估中使用。

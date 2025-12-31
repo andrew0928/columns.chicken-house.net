@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2004/12/16/battlestar-galactica/
 redirect_from:
   - /2004/12/16/battlestar-galactica/solution/
+postid: 2004-12-16-battlestar-galactica
 ---
 
 經檢視您提供的文章（含 Jekyll 前置欄位 front matter 與內文），未發現任何同時滿足下列四項條件的技術問題解決案例，故無法依指示產出 15-20 個完整案例：

@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2005/01/01/teflon-tape/
 redirect_from:
   - /2005/01/01/teflon-tape/solution/
+postid: 2005-01-01-teflon-tape
 ---
 
 以下內容基於文章「鐵弗龍膠帶」可辨識的資訊重組。原文僅提供一個完整且可落地的問題-解決方案案例，因此本回覆產出1個高品質教學案例。若需15-20個案例，請提供更多素材或允許延伸至相近主題之推論與通用實務。

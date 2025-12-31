@@ -5,6 +5,7 @@ synthesis_type: faq
 source_post: /2007/02/28/new-phone-awesome-part-iii/
 redirect_from:
   - /2007/02/28/new-phone-awesome-part-iii/faq/
+postid: 2007-02-28-new-phone-awesome-part-iii
 ---
 
 # 新手機真是讚 (y) - III

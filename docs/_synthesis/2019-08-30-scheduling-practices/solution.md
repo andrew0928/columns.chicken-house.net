@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2019/08/30/scheduling-practices/
 redirect_from:
   - /2019/08/30/scheduling-practices/solution/
+postid: 2019-08-30-scheduling-practices
 ---
 
 以下為基於原文萃取與擴充的 18 個結構化解決方案案例。每個案例均對應文中實際出現的問題、根因、方案與成效指標，並補上可直接動手的實作步驟與練習。

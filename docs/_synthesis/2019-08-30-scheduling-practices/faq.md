@@ -5,6 +5,7 @@ synthesis_type: faq
 source_post: /2019/08/30/scheduling-practices/
 redirect_from:
   - /2019/08/30/scheduling-practices/faq/
+postid: 2019-08-30-scheduling-practices
 ---
 
 # 後端工程師必備: 排程任務的處理機制練習

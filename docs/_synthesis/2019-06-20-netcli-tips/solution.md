@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2019/06/20/netcli-tips/
 redirect_from:
   - /2019/06/20/netcli-tips/solution/
+postid: 2019-06-20-netcli-tips
 ---
 
 ## Case #1: 以 JSON 行為單位在 CLI Pipeline 傳遞物件（行分隔 JSON）

@@ -5,6 +5,7 @@ synthesis_type: faq
 source_post: /2024/05/01/permission-design/
 redirect_from:
   - /2024/05/01/permission-design/faq/
+postid: 2024-05-01-permission-design
 ---
 
 # xxxxx 架構面試題 #6: 權限管理機制的設計

@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2023/04/01/practice-02-abstraction/
 redirect_from:
   - /2023/04/01/practice-02-abstraction/solution/
+postid: 2023-04-01-practice-02-abstraction
 ---
 
 以下為基於原文內容，萃取並結構化的 15 個具教學價值的問題解決案例。每一個案例都包含：問題、根因、設計方案（含程式碼/設定）、實施步驟、實際效益與學習練習與評估方式。案例集中圍繞文中「折扣計算的抽象化設計」「API First／Spec First」「AI 輔助設計與驗證」「資料與 API 準備度」「團隊刻意練習」等主題。

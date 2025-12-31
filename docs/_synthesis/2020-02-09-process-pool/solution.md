@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2020/02/09/process-pool/
 redirect_from:
   - /2020/02/09/process-pool/solution/
+postid: 2020-02-09-process-pool
 ---
 
 以下為基於文章內容萃取與結構化的 18 個教學型實戰案例，涵蓋問題、根因、解法（含關鍵程式碼/流程）、實測數據與學習與評估設計。所有案例皆來自文中場景與測試數據，便於在專案練習與能力評估中落地應用。

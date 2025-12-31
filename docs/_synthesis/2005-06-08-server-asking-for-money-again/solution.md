@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2005/06/08/server-asking-for-money-again/
 redirect_from:
   - /2005/06/08/server-asking-for-money-again/solution/
+postid: 2005-06-08-server-asking-for-money-again
 ---
 
 ## Case #1: 硬碟噪音異常的預警與處置流程

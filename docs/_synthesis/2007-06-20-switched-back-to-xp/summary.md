@@ -5,6 +5,7 @@ synthesis_type: summary
 source_post: /2007/06/20/switched-back-to-xp/
 redirect_from:
   - /2007/06/20/switched-back-to-xp/summary/
+postid: 2007-06-20-switched-back-to-xp
 ---
 
 # 還是換回 XP 了...

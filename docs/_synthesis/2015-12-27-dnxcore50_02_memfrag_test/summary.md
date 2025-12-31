@@ -5,6 +5,7 @@ synthesis_type: summary
 source_post: /2015/12/27/dnxcore50_02_memfrag_test/
 redirect_from:
   - /2015/12/27/dnxcore50_02_memfrag_test/summary/
+postid: 2015-12-27-dnxcore50_02_memfrag_test
 ---
 
 # .NET Core 跨平台 #2, 記憶體管理大考驗 - setup environment

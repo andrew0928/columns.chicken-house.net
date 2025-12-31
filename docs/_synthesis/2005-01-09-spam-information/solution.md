@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2005/01/09/spam-information/
 redirect_from:
   - /2005/01/09/spam-information/solution/
+postid: 2005-01-09-spam-information
 ---
 
 以下內容基於原文所揭示的核心問題「Blog 回應被垃圾留言（Spam Comments）攻擊」而系統化設計，提供 15 個具有完整教學價值的解決方案案例。由於原文未提供具體方案與數據，以下「實測數據」均為 PoC/模擬測試或可量測指標範例，實際專案請自行驗證。

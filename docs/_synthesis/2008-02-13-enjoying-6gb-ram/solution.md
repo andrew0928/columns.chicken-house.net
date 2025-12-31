@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2008/02/13/enjoying-6gb-ram/
 redirect_from:
   - /2008/02/13/enjoying-6gb-ram/solution/
+postid: 2008-02-13-enjoying-6gb-ram
 ---
 
 以下內容根據原文情境「突破 4GB 限制、改用 64 位元 OS、避免使用 Server 版與 PAE、升級到 6GB RAM、採購受節慶影響」進行問題拆解與實戰化整理，彙整為 16 個完整教學案例，涵蓋架構原理、遷移策略、相容性、效能量測、風險與落地實施。

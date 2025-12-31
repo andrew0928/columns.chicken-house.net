@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2008/05/19/flickrproxy-2-implementation/
 redirect_from:
   - /2008/05/19/flickrproxy-2-implementation/solution/
+postid: 2008-05-19-flickrproxy-2-implementation
 ---
 
 以下內容基於提供的文章，萃取並結構化出 16 個可落地教學的問題解決案例。每個案例均包含問題、根因、方案、程式碼、效益與練習評估，便於實戰練習與能力評估。

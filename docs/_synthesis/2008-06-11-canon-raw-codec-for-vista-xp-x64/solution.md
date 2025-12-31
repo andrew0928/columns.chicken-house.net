@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2008/06/11/canon-raw-codec-for-vista-xp-x64/
 redirect_from:
   - /2008/06/11/canon-raw-codec-for-vista-xp-x64/solution/
+postid: 2008-06-11-canon-raw-codec-for-vista-xp-x64
 ---
 
 以下內容基於原文主題（Vista/XP x64 上的 Canon CR2 RAW 檔案預覽/解碼問題）萃取並延伸出可操作的教學案例。說明：原文明確提到兩條解法線索（第三方 x64 編解碼器、在 Vista x64 以 WOW64 跑 32 位元方案），但並未提供實測數據。因此所有案例均不虛構效益數值，並提供可量測的方法。若需嚴格只取原文直述範圍，優先參考 Case 1 與 Case 2。

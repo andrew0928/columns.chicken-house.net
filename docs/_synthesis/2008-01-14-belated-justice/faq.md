@@ -5,6 +5,7 @@ synthesis_type: faq
 source_post: /2008/01/14/belated-justice/
 redirect_from:
   - /2008/01/14/belated-justice/faq/
+postid: 2008-01-14-belated-justice
 ---
 
 # 遲來的正義

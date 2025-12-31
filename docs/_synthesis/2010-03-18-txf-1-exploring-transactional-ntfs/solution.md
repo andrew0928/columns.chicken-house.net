@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2010/03/18/txf-1-exploring-transactional-ntfs/
 redirect_from:
   - /2010/03/18/txf-1-exploring-transactional-ntfs/solution/
+postid: 2010-03-18-txf-1-exploring-transactional-ntfs
 ---
 
 以下內容基於提供的文章，抽取與延伸出可落地實作的問題解決案例。每個案例均聚焦於文章中已提及的技術要點（TxF/TxR、DTC、TransactionScope、P/Invoke、AlphaFS、效能與適用時機等），並補充教學所需的設計、程式碼與評估方式。數據欄位若文中未提供，則以可驗證的量測方法與指標建議替代，供實作時填入。

@@ -5,6 +5,7 @@ synthesis_type: summary
 source_post: /2009/09/15/design-case-study-game-of-life-3-timing-control/
 redirect_from:
   - /2009/09/15/design-case-study-game-of-life-3-timing-control/summary/
+postid: 2009-09-15-design-case-study-game-of-life-3-timing-control
 ---
 
 # [設計案例] 生命遊戲#3, 時序的控制

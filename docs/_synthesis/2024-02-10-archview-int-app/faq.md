@@ -5,6 +5,7 @@ synthesis_type: faq
 source_post: /2024/02/10/archview-int-app/
 redirect_from:
   - /2024/02/10/archview-int-app/faq/
+postid: 2024-02-10-archview-int-app
 ---
 
 # 替你的應用程式加上智慧! 談 LLM 的應用程式開發

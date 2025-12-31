@@ -5,6 +5,7 @@ synthesis_type: faq
 source_post: /2006/10/27/generic-singleton-patterns-ii/
 redirect_from:
   - /2006/10/27/generic-singleton-patterns-ii/faq/
+postid: 2006-10-27-generic-singleton-patterns-ii
 ---
 
 # 泛型 + Singleton Patterns (II)

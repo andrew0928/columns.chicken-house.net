@@ -5,6 +5,7 @@ synthesis_type: faq
 source_post: /2006/11/17/canon-digital-camera-organizer-release-notes/
 redirect_from:
   - /2006/11/17/canon-digital-camera-organizer-release-notes/faq/
+postid: 2006-11-17-canon-digital-camera-organizer-release-notes
 ---
 
 # Canon Digital Camera 記憶卡歸檔工具 - Release Notes

@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2008/08/14/trending-figure/
 redirect_from:
   - /2008/08/14/trending-figure/solution/
+postid: 2008-08-14-trending-figure
 ---
 
 以下內容基於文章中描述的實際情境（被盜文、未經同意轉貼、原頁下架、對方站封鎖 IP、RSS 全文被抓、可能被自動轉簡體等），抽取並延伸成可落地實作的 16 個教學型問題解決案例。每個案例包含問題、根因、方案、實作步驟與程式碼、實測指標與練習與評估標準，適用於實戰教學與能力評估。

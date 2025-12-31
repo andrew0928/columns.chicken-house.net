@@ -5,6 +5,7 @@ synthesis_type: faq
 source_post: /2007/03/27/upgrading-to-vista/
 redirect_from:
   - /2007/03/27/upgrading-to-vista/faq/
+postid: 2007-03-27-upgrading-to-vista
 ---
 
 # 升級 Vista ...

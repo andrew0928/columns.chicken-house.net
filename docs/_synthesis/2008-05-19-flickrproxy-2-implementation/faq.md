@@ -5,6 +5,7 @@ synthesis_type: faq
 source_post: /2008/05/19/flickrproxy-2-implementation/
 redirect_from:
   - /2008/05/19/flickrproxy-2-implementation/faq/
+postid: 2008-05-19-flickrproxy-2-implementation
 ---
 
 # FlickrProxy #2 - 實作

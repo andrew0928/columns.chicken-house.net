@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2008/12/10/xmlwellformedwriter-writeraw-bug-followup/
 redirect_from:
   - /2008/12/10/xmlwellformedwriter-writeraw-bug-followup/solution/
+postid: 2008-12-10-xmlwellformedwriter-writeraw-bug-followup
 ---
 
 以下內容基於文章中描述的情境與提供的官方解法（InnerXml、XmlReader + ConformanceLevel.Fragment + WriteNode），將問題拆解為多個可教學、可實作的案例。每個案例均包含問題、根因、解法、代碼、驗證方法與練習與評估標準，利於實戰教學與能力評估。

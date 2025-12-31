@@ -5,6 +5,7 @@ synthesis_type: summary
 source_post: /2009/09/14/design-case-study-game-of-life-2-oop-example-program/
 redirect_from:
   - /2009/09/14/design-case-study-game-of-life-2-oop-example-program/summary/
+postid: 2009-09-14-design-case-study-game-of-life-2-oop-example-program
 ---
 
 # [設計案例] 生命遊戲#2, OOP版的範例程式

@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2008/06/25/bot-checker-is-back/
 redirect_from:
   - /2008/06/25/bot-checker-is-back/solution/
+postid: 2008-06-25-bot-checker-is-back
 ---
 
 以下案例是依據文章「Bot Checker 回來了！」所描述的真實情境（在 BlogEngine.NET 上整合 Bot Checker，面臨 AJAX 評論流程、程式碼混亂、前端與後端驗證權衡等問題）所萃取與擴充，形成可重現、可實作、可評估的教學案例。每一案均提供完整教學要素與可操作的程式碼片段。

@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2016/01/15/dnxcore50_05_compute_pi_test/
 redirect_from:
   - /2016/01/15/dnxcore50_05_compute_pi_test/solution/
+postid: 2016-01-15-dnxcore50_05_compute_pi_test
 ---
 
 以下內容基於提供的文章，萃取並結構化為可落地操作的 15 個問題解決案例，涵蓋測試設計、跨平台對比、平行化策略、效能指標詮釋與實務選型。每個案例均包含問題、根因、解法、關鍵程式碼/設定、實測結論與練習與評估建議。

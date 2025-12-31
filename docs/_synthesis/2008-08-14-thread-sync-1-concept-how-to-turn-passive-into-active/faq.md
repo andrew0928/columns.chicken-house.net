@@ -5,6 +5,7 @@ synthesis_type: faq
 source_post: /2008/08/14/thread-sync-1-concept-how-to-turn-passive-into-active/
 redirect_from:
   - /2008/08/14/thread-sync-1-concept-how-to-turn-passive-into-active/faq/
+postid: 2008-08-14-thread-sync-1-concept-how-to-turn-passive-into-active
 ---
 
 # Thread Sync #1. 概念篇 - 如何化被動為主動?

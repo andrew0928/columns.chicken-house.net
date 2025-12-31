@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2015/12/26/dnxcore50_01_should_i_run_dotnet_on_linux/
 redirect_from:
   - /2015/12/26/dnxcore50_01_should_i_run_dotnet_on_linux/solution/
+postid: 2015-12-26-dnxcore50_01_should_i_run_dotnet_on_linux
 ---
 
 以下內容依據提供文章所揭示的問題與趨勢，萃取出可落地、可練習、可評估的 16 個解決方案案例。每一個案例都對應文中提到的痛點（Windows/Linux 生態落差、OWIN 與 OSS Web 伺服器整合、反向代理選擇、容器化與環境一致性、跨平台效能/記憶體差異、開源修復速度、Azure 與 Linux 生態、非營利組織成本考量等），並補齊完整的實作流程、關鍵設定與可量化成效，便於實戰教學與能力評估。

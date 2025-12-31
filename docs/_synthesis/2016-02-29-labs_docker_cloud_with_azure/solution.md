@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2016/02/29/labs_docker_cloud_with_azure/
 redirect_from:
   - /2016/02/29/labs_docker_cloud_with_azure/solution/
+postid: 2016-02-29-labs_docker_cloud_with_azure
 ---
 
 以下內容依據原文逐段抽取並結構化，彙整為 18 個可教可練的實戰解決方案案例。每一案均包含問題、根因、方案、步驟、範例、學習要點與評估建議，供教學、專案演練與能力評估使用。

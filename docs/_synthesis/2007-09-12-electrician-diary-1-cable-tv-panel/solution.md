@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2007/09/12/electrician-diary-1-cable-tv-panel/
 redirect_from:
   - /2007/09/12/electrician-diary-1-cable-tv-panel/solution/
+postid: 2007-09-12-electrician-diary-1-cable-tv-panel
 ---
 
 以下內容根據原文抽取與重構，整理出 16 個具完整教學價值的實戰案例。每個案例均包含問題、根因、解法、實施步驟、環境與可驗證的效益指標（以定性為主），可用於教學、練習與評估。

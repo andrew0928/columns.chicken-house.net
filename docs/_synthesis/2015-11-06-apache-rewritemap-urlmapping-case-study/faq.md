@@ -5,6 +5,7 @@ synthesis_type: faq
 source_post: /2015/11/06/apache-rewritemap-urlmapping-case-study/
 redirect_from:
   - /2015/11/06/apache-rewritemap-urlmapping-case-study/faq/
+postid: 2015-11-06-apache-rewritemap-urlmapping-case-study
 ---
 
 # Case Study: BlogEngine -> WordPress 大量(舊)網址轉址問題處理

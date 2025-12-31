@@ -5,6 +5,7 @@ synthesis_type: faq
 source_post: /2008/02/12/switching-to-vista-ultimate-x64-again/
 redirect_from:
   - /2008/02/12/switching-to-vista-ultimate-x64-again/faq/
+postid: 2008-02-12-switching-to-vista-ultimate-x64-again
 ---
 
 # 再度換裝 Vista ... Vista Ultimate (x64)

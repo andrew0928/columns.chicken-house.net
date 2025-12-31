@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2008/06/04/run-pc-2008-june-issue/
 redirect_from:
   - /2008/06/04/run-pc-2008-june-issue/solution/
+postid: 2008-06-04-run-pc-2008-june-issue
 ---
 
 以下為對您提供文章內容的完整技術梳理說明。先說明限制：原文是一篇發佈貼，未直接描述技術難題、根因、解法與成效指標；但文內與 YAML 前置資料透露出一些可抽取的技術線索：大量 redirect_from（多歷史網址）、wordpress_postid（平台遷移痕跡）、comments: true（開放留言）、tags/categories（分類與標籤策略）、圖片連結含空白/括號（資產命名與 URL 編碼）、線上 demo 與 sample code 下載（部屬與可靠性）、以及雜誌稿擠導致無法刊出網址（內容發佈與銜接）。基於這些可驗證線索，以下整理出 16 個具有教學價值的可實作案例。原文未提供實測數據與量化成效，以下各案例的「實測數據」欄位提供的是度量方法建議（而非原文數據）。

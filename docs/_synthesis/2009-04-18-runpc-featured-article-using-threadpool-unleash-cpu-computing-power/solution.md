@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2009/04/18/runpc-featured-article-using-threadpool-unleash-cpu-computing-power/
 redirect_from:
   - /2009/04/18/runpc-featured-article-using-threadpool-unleash-cpu-computing-power/solution/
+postid: 2009-04-18-runpc-featured-article-using-threadpool-unleash-cpu-computing-power
 ---
 
 重要說明

@@ -5,6 +5,7 @@ synthesis_type: summary
 source_post: /2008/11/06/resurrected-ibm-thinkpad-x40/
 redirect_from:
   - /2008/11/06/resurrected-ibm-thinkpad-x40/summary/
+postid: 2008-11-06-resurrected-ibm-thinkpad-x40
 ---
 
 # 重生的 IBM ThinkPad X40 ...

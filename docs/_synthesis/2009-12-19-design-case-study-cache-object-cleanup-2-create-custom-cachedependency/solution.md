@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2009/12/19/design-case-study-cache-object-cleanup-2-create-custom-cachedependency/
 redirect_from:
   - /2009/12/19/design-case-study-cache-object-cleanup-2-create-custom-cachedependency/solution/
+postid: 2009-12-19-design-case-study-cache-object-cleanup-2-create-custom-cachedependency
 ---
 
 ## Case #1: 標籤化批次失效：以 Host 為維度的一鍵清除

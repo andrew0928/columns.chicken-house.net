@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2016/04/09/build2016_csharp7_preview/
 redirect_from:
   - /2016/04/09/build2016_csharp7_preview/solution/
+postid: 2016-04-09-build2016_csharp7_preview
 ---
 
 ## Case #1: 擺脫單一回傳值限制：用 C# 7 Tuples 設計多回傳 API

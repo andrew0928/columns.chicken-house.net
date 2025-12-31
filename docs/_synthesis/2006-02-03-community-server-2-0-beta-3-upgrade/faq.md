@@ -5,6 +5,7 @@ synthesis_type: faq
 source_post: /2006/02/03/community-server-2-0-beta-3-upgrade/
 redirect_from:
   - /2006/02/03/community-server-2-0-beta-3-upgrade/faq/
+postid: 2006-02-03-community-server-2-0-beta-3-upgrade
 ---
 
 # 換新系統了!! CS 2.0 Beta 3

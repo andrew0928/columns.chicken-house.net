@@ -5,6 +5,7 @@ synthesis_type: faq
 source_post: /2022/06/10/home-networking/
 redirect_from:
   - /2022/06/10/home-networking/faq/
+postid: 2022-06-10-home-networking
 ---
 
 # 水電工日誌 #8. 家用網路設備整合, UniFi + NAS 升級之路

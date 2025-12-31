@@ -5,6 +5,7 @@ synthesis_type: faq
 source_post: /2007/12/12/canon-raw-codec-wpf-2-threadpool/
 redirect_from:
   - /2007/12/12/canon-raw-codec-wpf-2-threadpool/faq/
+postid: 2007-12-12-canon-raw-codec-wpf-2-threadpool
 ---
 
 # Canon Raw Codec + WPF #2, ThreadPool

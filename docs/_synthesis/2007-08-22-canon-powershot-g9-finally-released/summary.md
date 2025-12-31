@@ -5,6 +5,7 @@ synthesis_type: summary
 source_post: /2007/08/22/canon-powershot-g9-finally-released/
 redirect_from:
   - /2007/08/22/canon-powershot-g9-finally-released/summary/
+postid: 2007-08-22-canon-powershot-g9-finally-released
 ---
 
 # 不用再龜了... Canon PowerShot G9 現身...

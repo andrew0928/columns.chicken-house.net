@@ -5,6 +5,7 @@ synthesis_type: summary
 source_post: /2016/04/29/rancher-on-azure-lab/
 redirect_from:
   - /2016/04/29/rancher-on-azure-lab/summary/
+postid: 2016-04-29-rancher-on-azure-lab
 ---
 
 # Rancher - 管理內部及外部 (Azure) Docker Cluster 的好工具

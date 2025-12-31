@@ -5,6 +5,7 @@ synthesis_type: summary
 source_post: /2010/11/06/extension-methods-application-save-dataset-as-excel-file/
 redirect_from:
   - /2010/11/06/extension-methods-application-save-dataset-as-excel-file/summary/
+postid: 2010-11-06-extension-methods-application-save-dataset-as-excel-file
 ---
 
 # Extension Methods 的應用: Save DataSet as Excel file...

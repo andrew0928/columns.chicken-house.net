@@ -5,6 +5,7 @@ synthesis_type: summary
 source_post: /2007/03/27/upgrading-to-vista/
 redirect_from:
   - /2007/03/27/upgrading-to-vista/summary/
+postid: 2007-03-27-upgrading-to-vista
 ---
 
 # 升級 Vista ...

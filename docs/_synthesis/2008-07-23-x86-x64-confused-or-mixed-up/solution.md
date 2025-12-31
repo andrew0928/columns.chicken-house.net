@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2008/07/23/x86-x64-confused-or-mixed-up/
 redirect_from:
   - /2008/07/23/x86-x64-confused-or-mixed-up/solution/
+postid: 2008-07-23-x86-x64-confused-or-mixed-up
 ---
 
 以下內容基於原文所述的實戰經歷，提取並結構化為可教學、可實作、可評估的問題解決案例。每個案例都包含問題、根因、解法（含步驟與範例）、以及實際效益與練習建議。共 16 個案例。

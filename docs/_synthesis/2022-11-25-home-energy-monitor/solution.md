@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2022/11/25/home-energy-monitor/
 redirect_from:
   - /2022/11/25/home-energy-monitor/solution/
+postid: 2022-11-25-home-energy-monitor
 ---
 
 以下內容基於原文，將文中可識別的問題、根因、解法與可量化或可驗證的效益整理為 16 個完整教學型案例，並附上分級、分類與學習路徑建議。

@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2017/10/04/lcow/
 redirect_from:
   - /2017/10/04/lcow/solution/
+postid: 2017-10-04-lcow
 ---
 
 以下內容基於原文的實驗與觀察，萃取並擴充為可操作、可評估的實戰案例。每個案例均包含問題、根因、解決方案、步驟與練習，並盡可能引用文中真實數據與環境。

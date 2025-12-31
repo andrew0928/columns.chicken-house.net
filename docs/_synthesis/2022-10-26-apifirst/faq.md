@@ -5,6 +5,7 @@ synthesis_type: faq
 source_post: /2022/10/26/apifirst/
 redirect_from:
   - /2022/10/26/apifirst/faq/
+postid: 2022-10-26-apifirst
 ---
 
 # 架構師觀點 - API First 的開發策略

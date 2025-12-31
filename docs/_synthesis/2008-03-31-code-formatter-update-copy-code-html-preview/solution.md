@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2008/03/31/code-formatter-update-copy-code-html-preview/
 redirect_from:
   - /2008/03/31/code-formatter-update-copy-code-html-preview/solution/
+postid: 2008-03-31-code-formatter-update-copy-code-html-preview
 ---
 
 以下內容基於原文所描述的 Live Writer 外掛「Code Formatter」更新，聚焦兩大功能：Copy Code 與 HTML Preview，延伸並結構化 16 個具教學價值的實戰解決方案案例。每一案均以實作導向呈現，便於課程、專案與評測使用。

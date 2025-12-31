@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2008/06/03/flickrproxy-4-fixed-synchronous-upload-issues/
 redirect_from:
   - /2008/06/03/flickrproxy-4-fixed-synchronous-upload-issues/solution/
+postid: 2008-06-03-flickrproxy-4-fixed-synchronous-upload-issues
 ---
 
 以下為根據文章內容提取並結構化的 15 個問題解決案例。每個案例皆包含問題、根因、解法、程式碼、實測效益與教學要點，適合用於實戰教學、專案練習與能力評估。

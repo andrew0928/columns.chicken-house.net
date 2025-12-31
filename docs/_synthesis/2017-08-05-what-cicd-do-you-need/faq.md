@@ -5,6 +5,7 @@ synthesis_type: faq
 source_post: /2017/08/05/what-cicd-do-you-need/
 redirect_from:
   - /2017/08/05/what-cicd-do-you-need/faq/
+postid: 2017-08-05-what-cicd-do-you-need
 ---
 
 # 架構師觀點: 你需要什麼樣的 CI / CD ?

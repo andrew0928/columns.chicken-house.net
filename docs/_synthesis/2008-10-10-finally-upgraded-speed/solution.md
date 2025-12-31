@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2008/10/10/finally-upgraded-speed/
 redirect_from:
   - /2008/10/10/finally-upgraded-speed/solution/
+postid: 2008-10-10-finally-upgraded-speed
 ---
 
 以下內容基於原文「終於升速了!」所描述的升速背景（無 FTTB 覆蓋、由 ADSL 2M/256K 升至 8M/640K、申請過程遇到狀況、實際上傳提升 2.5 倍），萃取並延展出可實作的問題解決案例。各案例的實測數據與效益，均以文中提供之明確數據（2M/256K → 8M/640K，上傳約 2.5 倍）為核心度量；若涉及更細緻的效能數據，則以「升速後達成宣告頻寬」為準則，不新增未被提及的具體數字。

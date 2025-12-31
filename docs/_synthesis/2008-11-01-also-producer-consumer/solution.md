@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2008/11/01/also-producer-consumer/
 redirect_from:
   - /2008/11/01/also-producer-consumer/solution/
+postid: 2008-11-01-also-producer-consumer
 ---
 
 ## Case #1: 日誌暴增導致磁碟爆滿的「生產者-消費者」失衡

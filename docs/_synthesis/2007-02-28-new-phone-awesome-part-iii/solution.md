@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2007/02/28/new-phone-awesome-part-iii/
 redirect_from:
   - /2007/02/28/new-phone-awesome-part-iii/solution/
+postid: 2007-02-28-new-phone-awesome-part-iii
 ---
 
 ## Case #1: RSS 同步變慢—圖片自動下載造成延遲

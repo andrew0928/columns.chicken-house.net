@@ -5,6 +5,7 @@ synthesis_type: summary
 source_post: /2013/04/15/large-data-processing-techniques-async-await/
 redirect_from:
   - /2013/04/15/large-data-processing-techniques-async-await/summary/
+postid: 2013-04-15-large-data-processing-techniques-async-await
 ---
 
 # 處理大型資料的技巧 – Async / Await

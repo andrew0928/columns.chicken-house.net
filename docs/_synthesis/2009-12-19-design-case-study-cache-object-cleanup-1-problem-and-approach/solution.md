@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2009/12/19/design-case-study-cache-object-cleanup-1-problem-and-approach/
 redirect_from:
   - /2009/12/19/design-case-study-cache-object-cleanup-1-problem-and-approach/solution/
+postid: 2009-12-19-design-case-study-cache-object-cleanup-1-problem-and-approach
 ---
 
 以下內容基於原文的實際場景與方法，將所有可辨識的問題—根因—解法整理為可教學、可實作的 16 個案例。每個案例皆附有示意程式碼與練習/評估建議，便於教學與專案演練。

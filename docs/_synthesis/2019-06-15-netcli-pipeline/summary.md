@@ -5,6 +5,7 @@ synthesis_type: summary
 source_post: /2019/06/15/netcli-pipeline/
 redirect_from:
   - /2019/06/15/netcli-pipeline/summary/
+postid: 2019-06-15-netcli-pipeline
 ---
 
 # 後端工程師必備: CLI + PIPELINE 開發技巧

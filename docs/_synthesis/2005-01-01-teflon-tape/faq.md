@@ -5,6 +5,7 @@ synthesis_type: faq
 source_post: /2005/01/01/teflon-tape/
 redirect_from:
   - /2005/01/01/teflon-tape/faq/
+postid: 2005-01-01-teflon-tape
 ---
 
 # 鐵弗龍膠帶

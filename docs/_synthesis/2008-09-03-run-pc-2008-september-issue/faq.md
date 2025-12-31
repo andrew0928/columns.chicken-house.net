@@ -5,6 +5,7 @@ synthesis_type: faq
 source_post: /2008/09/03/run-pc-2008-september-issue/
 redirect_from:
   - /2008/09/03/run-pc-2008-september-issue/faq/
+postid: 2008-09-03-run-pc-2008-september-issue
 ---
 
 # [RUN! PC] 2008 九月號（多執行緒與 ThreadPool 應用總結）

@@ -5,6 +5,7 @@ synthesis_type: summary
 source_post: /2024/07/20/devopsdays-keynote/
 redirect_from:
   - /2024/07/20/devopsdays-keynote/summary/
+postid: 2024-07-20-devopsdays-keynote
 ---
 
 # 從 API First 到 AI First

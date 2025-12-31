@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2008/02/27/memory-management-i-fragment/
 redirect_from:
   - /2008/02/27/memory-management-i-fragment/solution/
+postid: 2008-02-27-memory-management-i-fragment
 ---
 
 以下內容基於原文主題「記憶體碎裂、虛擬記憶體與配置行為」延伸為可操作的教學與實戰案例。每個案例都包含問題、根因、方案、步驟、程式碼、測試數據（教學實驗測得/模擬），並可直接用於課程、專案與評量。

@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2011/01/03/code-textwriter-that-outputs-to-textbox-textboxwriter/
 redirect_from:
   - /2011/01/03/code-textwriter-that-outputs-to-textbox-textboxwriter/solution/
+postid: 2011-01-03-code-textwriter-that-outputs-to-textbox-textboxwriter
 ---
 
 以下為基於文章內容所整理的 15 個結構化解決方案案例。每個案例均包含問題、根因、解法設計、實作與學習要點，並附上練習與評估建議。最後提供分類與學習路徑建議。

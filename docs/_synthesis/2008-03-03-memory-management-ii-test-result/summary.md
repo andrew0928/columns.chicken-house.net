@@ -5,6 +5,7 @@ synthesis_type: summary
 source_post: /2008/03/03/memory-management-ii-test-result/
 redirect_from:
   - /2008/03/03/memory-management-ii-test-result/summary/
+postid: 2008-03-03-memory-management-ii-test-result
 ---
 
 # Memory Management (II) - Test Result

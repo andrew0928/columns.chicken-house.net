@@ -5,6 +5,7 @@ synthesis_type: faq
 source_post: /2008/10/20/how-to-learn-programming-well-4-is-your-program-reliable-enough/
 redirect_from:
   - /2008/10/20/how-to-learn-programming-well-4-is-your-program-reliable-enough/faq/
+postid: 2008-10-20-how-to-learn-programming-well-4-is-your-program-reliable-enough
 ---
 
 # 該如何學好 "寫程式" #4. 你的程式夠 "可靠" 嗎?

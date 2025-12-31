@@ -5,6 +5,7 @@ synthesis_type: summary
 source_post: /2011/10/25/code-linq-to-object-adding-indexes-to-objects/
 redirect_from:
   - /2011/10/25/code-linq-to-object-adding-indexes-to-objects/summary/
+postid: 2011-10-25-code-linq-to-object-adding-indexes-to-objects
 ---
 
 # [CODE] LINQ to Object - 替物件加上索引!

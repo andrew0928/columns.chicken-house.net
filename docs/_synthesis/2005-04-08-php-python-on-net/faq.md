@@ -5,6 +5,7 @@ synthesis_type: faq
 source_post: /2005/04/08/php-python-on-net/
 redirect_from:
   - /2005/04/08/php-python-on-net/faq/
+postid: 2005-04-08-php-python-on-net
 ---
 
 # php python on .net

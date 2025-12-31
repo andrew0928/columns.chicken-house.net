@@ -5,6 +5,7 @@ synthesis_type: faq
 source_post: /2007/12/21/damn-someone-stole-my-article/
 redirect_from:
   - /2007/12/21/damn-someone-stole-my-article/faq/
+postid: 2007-12-21-damn-someone-stole-my-article
 ---
 
 # 可惡, 竟然偷貼我的文章... :@

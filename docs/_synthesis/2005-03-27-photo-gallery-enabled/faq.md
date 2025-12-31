@@ -5,6 +5,7 @@ synthesis_type: faq
 source_post: /2005/03/27/photo-gallery-enabled/
 redirect_from:
   - /2005/03/27/photo-gallery-enabled/faq/
+postid: 2005-03-27-photo-gallery-enabled
 ---
 
 # Photo Gallery 啟用與批次上傳：概念、原理、實作與排錯 FAQ

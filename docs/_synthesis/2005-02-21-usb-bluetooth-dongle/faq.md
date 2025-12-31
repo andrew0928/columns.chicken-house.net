@@ -5,6 +5,7 @@ synthesis_type: faq
 source_post: /2005/02/21/usb-bluetooth-dongle/
 redirect_from:
   - /2005/02/21/usb-bluetooth-dongle/faq/
+postid: 2005-02-21-usb-bluetooth-dongle
 ---
 
 # USB Bluetooth Dongle 選購與 ActiveSync 同步：概念、原理與實作常見問題集

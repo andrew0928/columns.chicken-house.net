@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2007/04/03/vista-day-4/
 redirect_from:
   - /2007/04/03/vista-day-4/solution/
+postid: 2007-04-03-vista-day-4
 ---
 
 以下內容基於原文所提的實際痛點（Vista 改版導致 IME 習慣斷裂、Console 拖拉功能消失、RAW/Image PowerToys 失效、UAC 干擾、工具列行為改變等），整理出可教可練的 16 個技術解決方案案例。每一個案例皆包含問題、根因、可落地的解法與實作範例，並附成效量化、練習與評量標準，便於實戰教學與專案演練。

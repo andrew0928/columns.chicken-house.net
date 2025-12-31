@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2009/08/05/jpeg-xr-microsoft-hd-photo-now-iso-official-standard/
 redirect_from:
   - /2009/08/05/jpeg-xr-microsoft-hd-photo-now-iso-official-standard/solution/
+postid: 2009-08-05-jpeg-xr-microsoft-hd-photo-now-iso-official-standard
 ---
 
 以下內容基於原文情境延伸與結構化，將文中提到的痛點（JPEG 動態範圍不足、工具相容性、RAW+JPEG 雙檔的儲存壓力、WPF/WIC 支援與轉檔實務等）提煉為可教學、可落地的 15 個實戰案例，含完整問題架構、解決步驟、關鍵程式碼與評估方式。若有實測數據，均為示範專案量測值，便於教學與演練。

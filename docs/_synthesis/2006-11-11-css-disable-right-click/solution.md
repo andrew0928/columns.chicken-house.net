@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2006/11/11/css-disable-right-click/
 redirect_from:
   - /2006/11/11/css-disable-right-click/solution/
+postid: 2006-11-11-css-disable-right-click
 ---
 
 以下內容基於原文中「以 CSS 綁定 DHTML Behaviors（.htc）攔截 oncontextmenu，達成全站擋右鍵且不需在每頁加入 script」的核心做法，挖掘與延展成 15 個教學型的實戰案例。各案例均聚焦於問題、根因、解法與可衡量效益，並提供可操作的程式碼或設定。

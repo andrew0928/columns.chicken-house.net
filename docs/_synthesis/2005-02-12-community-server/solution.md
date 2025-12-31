@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2005/02/12/community-server/
 redirect_from:
   - /2005/02/12/community-server/solution/
+postid: 2005-02-12-community-server
 ---
 
 以下內容依據原文情境（.Text 停更、評估與試用 Community Server RC2、規劃升級 blog 與 forum、退休未完成討論區，以及前言中可見之多組舊網址重導設定）萃取與擴展為可教學與實作的 15 個問題解決案例。說明：其中 1-3 個案例直接對應原文描述，其餘為在相同遷移專案情境下的常見工程挑戰之擴充實務案例，用於實戰教學與能力評估；涉及數據者標示為示範或建議量測指標，非源自原文量測結果。

@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2015/11/01/synology-nas-docker-run-net-core-clr-console-app/
 redirect_from:
   - /2015/11/01/synology-nas-docker-run-net-core-clr-console-app/solution/
+postid: 2015-11-01-synology-nas-docker-run-net-core-clr-console-app
 ---
 
 以下內容基於原文所描述的實作情境，抽取並結構化為 15 個具教學價值的問題解決案例。每個案例均包含：問題、根因、完整解法（含命令/設定/程式碼片段）、以及實測或可觀察的效益指標。技術背景以 Visual Studio 2015 + DNX Core 5.0 + Synology DSM Docker + microsoft/aspnet:1.0.0-beta8-coreclr 為主。

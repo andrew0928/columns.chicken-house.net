@@ -5,6 +5,7 @@ synthesis_type: summary
 source_post: /2006/10/29/writing-unit-tests-for-app-code-directory/
 redirect_from:
   - /2006/10/29/writing-unit-tests-for-app-code-directory/summary/
+postid: 2006-10-29-writing-unit-tests-for-app-code-directory
 ---
 
 # 替 App_Code 目錄下的 code 寫單元測試 ?

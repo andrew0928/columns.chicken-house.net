@@ -5,6 +5,7 @@ synthesis_type: summary
 source_post: /2008/06/30/blogengine-net-transformation-project-integrating-funp-social-bookmarking/
 redirect_from:
   - /2008/06/30/blogengine-net-transformation-project-integrating-funp-social-bookmarking/summary/
+postid: 2008-06-30-blogengine-net-transformation-project-integrating-funp-social-bookmarking
 ---
 
 # [BlogEngine.NET] 改造工程 - 整合 FunP 推推王

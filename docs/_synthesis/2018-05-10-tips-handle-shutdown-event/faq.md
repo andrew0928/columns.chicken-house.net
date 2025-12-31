@@ -5,6 +5,7 @@ synthesis_type: faq
 source_post: /2018/05/10/tips-handle-shutdown-event/
 redirect_from:
   - /2018/05/10/tips-handle-shutdown-event/faq/
+postid: 2018-05-10-tips-handle-shutdown-event
 ---
 
 # Tips: 在 .NET Console Application 中處理 Shutdown 事件

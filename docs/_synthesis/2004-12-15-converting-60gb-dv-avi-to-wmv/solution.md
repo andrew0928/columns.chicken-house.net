@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2004/12/15/converting-60gb-dv-avi-to-wmv/
 redirect_from:
   - /2004/12/15/converting-60gb-dv-avi-to-wmv/solution/
+postid: 2004-12-15-converting-60gb-dv-avi-to-wmv
 ---
 
 以下內容基於原文情境（DV-AVI 60GB 堆積、手動點擊轉檔麻煩、採用 Microsoft Media Encoder 9.0 批次化產出 5 種 WMV、上傳網站播放、XBOX/PocketPC/SmartPhone 播放）抽取並擴展為可教學與實作的 16 個完整案例。每一案皆含問題、根因、解法、實作與評估要點。

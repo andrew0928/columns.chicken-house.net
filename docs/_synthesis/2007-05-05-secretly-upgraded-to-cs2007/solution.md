@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2007/05/05/secretly-upgraded-to-cs2007/
 redirect_from:
   - /2007/05/05/secretly-upgraded-to-cs2007/solution/
+postid: 2007-05-05-secretly-upgraded-to-cs2007
 ---
 
 以下為基於原文情境（由 Community Server 舊版升級至 CS2007，涉及資料庫與檔案升級、樣版系統變更、UserControl API 相容性、部署模式由 DLL 轉為 .ascx + .cs 等）所整理的 18 個解決方案案例。每個案例均包含問題、根因、方案設計、實作指引、程式碼範例、量化成效（以內部測試值為示例）、學習要點與練習題，供實戰教學、專案練習與能力評估使用。

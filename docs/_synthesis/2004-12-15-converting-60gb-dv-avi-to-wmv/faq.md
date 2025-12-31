@@ -5,6 +5,7 @@ synthesis_type: faq
 source_post: /2004/12/15/converting-60gb-dv-avi-to-wmv/
 redirect_from:
   - /2004/12/15/converting-60gb-dv-avi-to-wmv/faq/
+postid: 2004-12-15-converting-60gb-dv-avi-to-wmv
 ---
 
 # 大工程: 60GB 的 DV AVI 壓成 WMV

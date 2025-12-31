@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2008/06/19/from-communityserver-2007-to-blogengine-net/
 redirect_from:
   - /2008/06/19/from-communityserver-2007-to-blogengine-net/solution/
+postid: 2008-06-19-from-communityserver-2007-to-blogengine-net
 ---
 
 以下內容根據原文逐一抽取並結構化，整理出可用於實戰教學、專案練習與能力評估的 16 個案例。每個案例盡量還原文章脈絡，補上可落地的設計、步驟與程式碼，並標示觀察到的實際成效或可用指標。

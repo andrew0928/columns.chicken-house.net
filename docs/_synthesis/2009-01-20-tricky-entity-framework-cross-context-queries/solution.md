@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2009/01/20/tricky-entity-framework-cross-context-queries/
 redirect_from:
   - /2009/01/20/tricky-entity-framework-cross-context-queries/solution/
+postid: 2009-01-20-tricky-entity-framework-cross-context-queries
 ---
 
 以下內容依據原文中可提煉的真實問題、根因、解法與實際效益，整理出 15 個具教學與實作價值的案例，並補充必要的程式碼與步驟，方便直接用於實戰教學、專案練習與能力評估。實作環境預設為 .NET 3.5 SP1、Entity Framework v1（VS2008），模型以 .edmx 維護，編譯時由 EntityDeploy 產生 csdl/ssdl/msl 內嵌資源。

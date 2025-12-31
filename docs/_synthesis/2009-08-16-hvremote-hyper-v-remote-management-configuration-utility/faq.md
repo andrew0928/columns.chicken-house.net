@@ -5,6 +5,7 @@ synthesis_type: faq
 source_post: /2009/08/16/hvremote-hyper-v-remote-management-configuration-utility/
 redirect_from:
   - /2009/08/16/hvremote-hyper-v-remote-management-configuration-utility/faq/
+postid: 2009-08-16-hvremote-hyper-v-remote-management-configuration-utility
 ---
 
 # HVRemote (Hyper-V Remote Management Configuration Utility)

@@ -5,6 +5,7 @@ synthesis_type: summary
 source_post: /2007/01/01/new-gadget-target-dopod-c720w/
 redirect_from:
   - /2007/01/01/new-gadget-target-dopod-c720w/summary/
+postid: 2007-01-01-new-gadget-target-dopod-c720w
 ---
 
 # 敗家新目標... Dopod C720w

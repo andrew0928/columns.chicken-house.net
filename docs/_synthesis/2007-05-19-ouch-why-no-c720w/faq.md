@@ -5,6 +5,7 @@ synthesis_type: faq
 source_post: /2007/05/19/ouch-why-no-c720w/
 redirect_from:
   - /2007/05/19/ouch-why-no-c720w/faq/
+postid: 2007-05-19-ouch-why-no-c720w
 ---
 
 # Ouch, 為什麼沒有 c720w ...

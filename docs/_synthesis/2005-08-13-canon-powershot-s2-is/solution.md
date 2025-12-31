@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2005/08/13/canon-powershot-s2-is/
 redirect_from:
   - /2005/08/13/canon-powershot-s2-is/solution/
+postid: 2005-08-13-canon-powershot-s2-is
 ---
 
 ## Case #1: G2 與 S2 IS 升級抉擇的加權決策法

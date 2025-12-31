@@ -5,6 +5,7 @@ synthesis_type: faq
 source_post: /2015/10/13/docker-first-experience-synology-dsm-wordpress-redmine-reverse-proxy/
 redirect_from:
   - /2015/10/13/docker-first-experience-synology-dsm-wordpress-redmine-reverse-proxy/faq/
+postid: 2015-10-13-docker-first-experience-synology-dsm-wordpress-redmine-reverse-proxy
 ---
 
 # Docker 初體驗 - Synology DSM 上面架設 WordPress / Redmine / Reverse Proxy

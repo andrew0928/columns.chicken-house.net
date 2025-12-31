@@ -5,6 +5,7 @@ synthesis_type: summary
 source_post: /2008/01/14/belated-justice/
 redirect_from:
   - /2008/01/14/belated-justice/summary/
+postid: 2008-01-14-belated-justice
 ---
 
 # 遲來的正義

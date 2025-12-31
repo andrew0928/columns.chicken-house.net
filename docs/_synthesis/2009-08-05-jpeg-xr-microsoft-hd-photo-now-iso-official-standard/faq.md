@@ -5,6 +5,7 @@ synthesis_type: faq
 source_post: /2009/08/05/jpeg-xr-microsoft-hd-photo-now-iso-official-standard/
 redirect_from:
   - /2009/08/05/jpeg-xr-microsoft-hd-photo-now-iso-official-standard/faq/
+postid: 2009-08-05-jpeg-xr-microsoft-hd-photo-now-iso-official-standard
 ---
 
 # JPEG XR（就是 Microsoft HD Photo 啦）已經是 ISO 正式標準了：FAQ

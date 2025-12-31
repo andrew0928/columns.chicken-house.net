@@ -5,6 +5,7 @@ synthesis_type: summary
 source_post: /2007/04/06/system-net-mail-bug-discovered/
 redirect_from:
   - /2007/04/06/system-net-mail-bug-discovered/summary/
+postid: 2007-04-06-system-net-mail-bug-discovered
 ---
 
 # 原來 System.Net.Mail 也會有 Bug ...

@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2008/12/08/system-xml-xmlwellformedwriter-bug/
 redirect_from:
   - /2008/12/08/system-xml-xmlwellformedwriter-bug/solution/
+postid: 2008-12-08-system-xml-xmlwellformedwriter-bug
 ---
 
 ## Case #1: XmlWellFormedWriter.WriteRaw 將原始片段錯誤編碼（雙重轉義）

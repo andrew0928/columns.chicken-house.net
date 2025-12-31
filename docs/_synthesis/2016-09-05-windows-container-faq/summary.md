@@ -5,6 +5,7 @@ synthesis_type: summary
 source_post: /2016/09/05/windows-container-faq/
 redirect_from:
   - /2016/09/05/windows-container-faq/summary/
+postid: 2016-09-05-windows-container-faq
 ---
 
 # Windows Container FAQ - 官網沒有說的事

@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2007/09/11/finally/
 redirect_from:
   - /2007/09/11/finally/solution/
+postid: 2007-09-11-finally
 ---
 
 說明：原文僅描述家庭佈線未完成、僅一台設備上線、電話線未接、但自架 blog server 已上線，以及線材凌亂等情境。為滿足實戰教學需求，以下案例均基於原文情境推導與標準做法設計，用於訓練與評估；包含的實測數據為教學示意或常見可達成水準，非原文直接提供之數據。

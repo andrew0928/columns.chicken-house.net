@@ -5,6 +5,7 @@ synthesis_type: faq
 source_post: /2005/03/18/text-upgrade/
 redirect_from:
   - /2005/03/18/text-upgrade/faq/
+postid: 2005-03-18-text-upgrade
 ---
 
 # .Text Upgrade

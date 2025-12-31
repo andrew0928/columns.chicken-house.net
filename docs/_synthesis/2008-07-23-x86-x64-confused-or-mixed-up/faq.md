@@ -5,6 +5,7 @@ synthesis_type: faq
 source_post: /2008/07/23/x86-x64-confused-or-mixed-up/
 redirect_from:
   - /2008/07/23/x86-x64-confused-or-mixed-up/faq/
+postid: 2008-07-23-x86-x64-confused-or-mixed-up
 ---
 
 # x86? x64? 傻傻分不清楚...

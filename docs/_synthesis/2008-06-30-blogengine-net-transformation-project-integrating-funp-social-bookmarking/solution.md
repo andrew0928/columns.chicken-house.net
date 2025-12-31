@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2008/06/30/blogengine-net-transformation-project-integrating-funp-social-bookmarking/
 redirect_from:
   - /2008/06/30/blogengine-net-transformation-project-integrating-funp-social-bookmarking/solution/
+postid: 2008-06-30-blogengine-net-transformation-project-integrating-funp-social-bookmarking
 ---
 
 以下為根據文章整理出的 15 個結構化問題解決案例，聚焦於 BlogEngine.NET 與 FunP 推推王的整合、佈局調整與可用性提升。每個案例均含問題、根因、可落地解法與教學要點，便於實戰教學、專案練習與能力評估。

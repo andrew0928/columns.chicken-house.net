@@ -5,6 +5,7 @@ synthesis_type: summary
 source_post: /2005/07/04/papago-loves-small-roads/
 redirect_from:
   - /2005/07/04/papago-loves-small-roads/summary/
+postid: 2005-07-04-papago-loves-small-roads
 ---
 
 # 愛鑽小路的 PaPaGo ...

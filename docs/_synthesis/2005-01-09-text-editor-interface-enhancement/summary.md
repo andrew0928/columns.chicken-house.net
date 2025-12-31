@@ -5,6 +5,7 @@ synthesis_type: summary
 source_post: /2005/01/09/text-editor-interface-enhancement/
 redirect_from:
   - /2005/01/09/text-editor-interface-enhancement/summary/
+postid: 2005-01-09-text-editor-interface-enhancement
 ---
 
 # .TEXT 的編輯介面補強 (自己爽一下)..

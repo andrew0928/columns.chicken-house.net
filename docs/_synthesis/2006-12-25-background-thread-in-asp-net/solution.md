@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2006/12/25/background-thread-in-asp-net/
 redirect_from:
   - /2006/12/25/background-thread-in-asp-net/solution/
+postid: 2006-12-25-background-thread-in-asp-net
 ---
 
 以下內容基於原文所提到的問題、原因、解法與示例脈絡，整理出 16 個具備教學價值的實戰案例。每一個案例都以「ASP.NET Web 應用中以背景執行緒處理非請求型工作」與其替代途徑為核心，含完整的問題陳述、根因、解法設計、示例程式與評估點。

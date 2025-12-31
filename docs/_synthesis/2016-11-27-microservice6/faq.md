@@ -5,6 +5,7 @@ synthesis_type: faq
 source_post: /2016/11/27/microservice6/
 redirect_from:
   - /2016/11/27/microservice6/faq/
+postid: 2016-11-27-microservice6
 ---
 
 # API & SDK Design #4, API 上線前的準備 - Swagger + Azure API Apps

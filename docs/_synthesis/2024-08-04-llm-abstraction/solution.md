@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2024/08/04/llm-abstraction/
 redirect_from:
   - /2024/08/04/llm-abstraction/solution/
+postid: 2024-08-04-llm-abstraction
 ---
 
 以下內容根據原文的抽象化介面設計思路，整理出 18 個可實作、可教學、可評估的案例。每個案例都含問題、根因、解決方案、步驟、關鍵程式、實測數據（POC 示意）、學習要點與練習題，便於課程與專案實作。

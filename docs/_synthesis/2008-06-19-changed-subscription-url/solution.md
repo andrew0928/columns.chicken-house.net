@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2008/06/19/changed-subscription-url/
 redirect_from:
   - /2008/06/19/changed-subscription-url/solution/
+postid: 2008-06-19-changed-subscription-url
 ---
 
 以下案例皆以本文描述的部落格訂閱網址更換為背景，擴展出在實務遷移 RSS/Atom 訂閱、舊網址轉址、相對路徑導致掉圖、第三方聚合服務等常見問題的完整解決方案。每個案例都含問題、根因、方案、程式碼或設定與可度量指標，便於教學、練習與評估。

@@ -5,6 +5,7 @@ synthesis_type: faq
 source_post: /2005/06/08/server-asking-for-money-again/
 redirect_from:
   - /2005/06/08/server-asking-for-money-again/faq/
+postid: 2005-06-08-server-asking-for-money-again
 ---
 
 # 機器又要討錢了:~

@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2018/05/10/tips-handle-shutdown-event/
 redirect_from:
   - /2018/05/10/tips-handle-shutdown-event/solution/
+postid: 2018-05-10-tips-handle-shutdown-event
 ---
 
 以下為基於原文萃取並延展的 15 個高教學價值的解決方案案例，涵蓋問題、根因、解法、實作、實測與評估，適合用於實戰教學與能力評估。

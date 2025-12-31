@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2006/02/03/community-server-2-0-beta-3-upgrade/
 redirect_from:
   - /2006/02/03/community-server-2-0-beta-3-upgrade/solution/
+postid: 2006-02-03-community-server-2-0-beta-3-upgrade
 ---
 
 以下內容基於原文所揭示的實務情境與明確限制（IIS 6.0 在 64 位 Windows 上無法同時執行 32/64 位模式、CS 1.0 依賴 ASP.NET 1.1、.NET 1.1 無 64 位 Runtime、作者因而升級至 CS 2.0 Beta 3 並暫時放棄客製功能），抽取並擴展為可操作的教學型案例。每案皆包含可復現的步驟與設定片段。若原文未提供量化數據，以下以可用性/可部署性等客觀可驗證的成效作為衡量。

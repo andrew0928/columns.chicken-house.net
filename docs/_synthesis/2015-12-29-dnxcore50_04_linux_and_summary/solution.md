@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2015/12/29/dnxcore50_04_linux_and_summary/
 redirect_from:
   - /2015/12/29/dnxcore50_04_linux_and_summary/solution/
+postid: 2015-12-29-dnxcore50_04_linux_and_summary
 ---
 
 ## Case #1: 消除 Linux 虛高記憶體數據：以隨機初始化避免 SPARSEMEM/延遲配置誤判

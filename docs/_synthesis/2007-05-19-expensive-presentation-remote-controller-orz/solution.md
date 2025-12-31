@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2007/05/19/expensive-presentation-remote-controller-orz/
 redirect_from:
   - /2007/05/19/expensive-presentation-remote-controller-orz/solution/
+postid: 2007-05-19-expensive-presentation-remote-controller-orz
 ---
 
 以下內容基於原文敘述的實際使用情境（Windows Mobile 手機 + Salling Clicker for Windows 3.5 透過藍牙/WiFi 遙控 PowerPoint/WMP/iTunes），抽取並擴充為可教學、可實作的結構化問題解決案例。每個案例包含問題、根因、解法、步驟、關鍵設定/程式碼與評估方式，供實戰教學、專案練習與能力評估使用。

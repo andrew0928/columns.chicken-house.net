@@ -5,6 +5,7 @@ synthesis_type: summary
 source_post: /2008/10/31/vista-uac-wont-turn-off/
 redirect_from:
   - /2008/10/31/vista-uac-wont-turn-off/summary/
+postid: 2008-10-31-vista-uac-wont-turn-off
 ---
 
 # 關不掉的 Vista UAC !?

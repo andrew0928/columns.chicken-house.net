@@ -5,6 +5,7 @@ synthesis_type: faq
 source_post: /2007/04/03/vista-day-4/
 redirect_from:
   - /2007/04/03/vista-day-4/faq/
+postid: 2007-04-03-vista-day-4
 ---
 
 # Vista Day 4...

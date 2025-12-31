@@ -5,6 +5,7 @@ synthesis_type: summary
 source_post: /2008/08/23/end-of-century-software-revolution-reprint/
 redirect_from:
   - /2008/08/23/end-of-century-software-revolution-reprint/summary/
+postid: 2008-08-23-end-of-century-software-revolution-reprint
 ---
 
 # 世紀末軟體革命復刻版

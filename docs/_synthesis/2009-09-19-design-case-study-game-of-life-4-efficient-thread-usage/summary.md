@@ -5,6 +5,7 @@ synthesis_type: summary
 source_post: /2009/09/19/design-case-study-game-of-life-4-efficient-thread-usage/
 redirect_from:
   - /2009/09/19/design-case-study-game-of-life-4-efficient-thread-usage/summary/
+postid: 2009-09-19-design-case-study-game-of-life-4-efficient-thread-usage
 ---
 
 # [設計案例] 生命遊戲 #4, 有效率的使用執行緒

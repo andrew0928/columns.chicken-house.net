@@ -5,6 +5,7 @@ synthesis_type: faq
 source_post: /2007/03/13/how-to-transfer-files-from-phone-via-command-line/
 redirect_from:
   - /2007/03/13/how-to-transfer-files-from-phone-via-command-line/faq/
+postid: 2007-03-13-how-to-transfer-files-from-phone-via-command-line
 ---
 
 # 如何透過命令列, 從手機搬檔案到電腦?

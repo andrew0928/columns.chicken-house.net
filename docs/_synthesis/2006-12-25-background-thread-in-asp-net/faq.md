@@ -5,6 +5,7 @@ synthesis_type: faq
 source_post: /2006/12/25/background-thread-in-asp-net/
 redirect_from:
   - /2006/12/25/background-thread-in-asp-net/faq/
+postid: 2006-12-25-background-thread-in-asp-net
 ---
 
 # ASP.NET 中的 Background Thread 實務與原理

@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2007/12/21/damn-someone-stole-my-article/
 redirect_from:
   - /2007/12/21/damn-someone-stole-my-article/solution/
+postid: 2007-12-21-damn-someone-stole-my-article
 ---
 
 以下為基於原文情境（部落格文章被 Blogger/Blogspot 來源的自動轉貼、以 RSS 全文擷取並投放廣告）的完整問題解決案例彙整。每個案例可單獨教學或整合為一條完整的「發現→取證→下架→預防→監控」實戰路徑。

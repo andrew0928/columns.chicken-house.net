@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2016/09/05/windows-container-faq/
 redirect_from:
   - /2016/09/05/windows-container-faq/solution/
+postid: 2016-09-05-windows-container-faq
 ---
 
 ## Case #1: 判斷並選擇正確的容器平台（Windows Container vs Docker for Windows）

@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2018/12/12/microservice11-lineup/
 redirect_from:
   - /2018/12/12/microservice11-lineup/solution/
+postid: 2018-12-12-microservice11-lineup
 ---
 
 以下內容基於原文完整萃取並結構化為 18 個可落地的問題解決案例，涵蓋演算法、系統設計、元件開發、效能、監控與 DevOps 方法。每個案例皆含業務場景、根因、解法、實作與評量，便於用於實戰教學、專案練習與能力評估。

@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2013/03/17/azure-multi-tenancy-application-2-data-layer-choices/
 redirect_from:
   - /2013/03/17/azure-multi-tenancy-application-2-data-layer-choices/solution/
+postid: 2013-03-17-azure-multi-tenancy-application-2-data-layer-choices
 ---
 
 以下為基於原文所提到的問題、根因、解決方式與可量化指標的 16 個結構化案例，適合用於實戰教學與專案練習。

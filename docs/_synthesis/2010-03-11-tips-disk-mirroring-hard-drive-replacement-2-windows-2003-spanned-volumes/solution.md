@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2010/03/11/tips-disk-mirroring-hard-drive-replacement-2-windows-2003-spanned-volumes/
 redirect_from:
   - /2010/03/11/tips-disk-mirroring-hard-drive-replacement-2-windows-2003-spanned-volumes/solution/
+postid: 2010-03-11-tips-disk-mirroring-hard-drive-replacement-2-windows-2003-spanned-volumes
 ---
 
 以下為基於文章所提流程與要點，整理出的 16 個可實戰的問題解決案例。每個案例均包含問題、根因、解法（含 GUI 流程與可選用的 DiskPart 指令）、可量化效益與練習與評估，方便用於教學、專案演練與評估。

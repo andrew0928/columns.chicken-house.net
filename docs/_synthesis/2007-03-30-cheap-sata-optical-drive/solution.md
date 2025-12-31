@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2007/03/30/cheap-sata-optical-drive/
 redirect_from:
   - /2007/03/30/cheap-sata-optical-drive/solution/
+postid: 2007-03-30-cheap-sata-optical-drive
 ---
 
 ## Case #1: ICH8 主機板 IDE 相容性不佳，改用 SATA 光碟機避開驅動問題

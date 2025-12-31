@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2019/12/12/home-networking/
 redirect_from:
   - /2019/12/12/home-networking/solution/
+postid: 2019-12-12-home-networking
 ---
 
 以下整理自文章的實戰問題解決案例，共 16 則。每則皆含問題、根因、解法（含設定/程式碼/流程）、與實測或效益，便於教學、練習與評估。

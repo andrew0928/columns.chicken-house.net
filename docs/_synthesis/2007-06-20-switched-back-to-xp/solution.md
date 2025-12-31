@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2007/06/20/switched-back-to-xp/
 redirect_from:
   - /2007/06/20/switched-back-to-xp/solution/
+postid: 2007-06-20-switched-back-to-xp
 ---
 
 以下內容基於原文情境，整理並擴展成可教學、可實作的 16 個問題解決案例。每一案皆含問題、根因、解法、實測與練習，利於課堂教學、專案演練與評估。

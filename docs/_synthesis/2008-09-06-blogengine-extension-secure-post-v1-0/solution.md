@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2008/09/06/blogengine-extension-secure-post-v1-0/
 redirect_from:
   - /2008/09/06/blogengine-extension-secure-post-v1-0/solution/
+postid: 2008-09-06-blogengine-extension-secure-post-v1-0
 ---
 
 ## Case #1: 以 Extension 實作「單篇貼文密碼保護」以完成系統切換

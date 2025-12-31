@@ -5,6 +5,7 @@ synthesis_type: summary
 source_post: /2007/09/14/electrician-diary-2-info-socket-panel/
 redirect_from:
   - /2007/09/14/electrician-diary-2-info-socket-panel/summary/
+postid: 2007-09-14-electrician-diary-2-info-socket-panel
 ---
 
 # 水電工日誌 2. 資訊插座 + 面板

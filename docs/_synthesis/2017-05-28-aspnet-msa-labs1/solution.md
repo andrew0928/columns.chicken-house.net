@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2017/05/28/aspnet-msa-labs1/
 redirect_from:
   - /2017/05/28/aspnet-msa-labs1/solution/
+postid: 2017-05-28-aspnet-msa-labs1
 ---
 
 以下內容依據原文情境抽取，整理為 16 個可教學、可實作、可評估的解決方案案例。每個案例包含問題、根因、解法、程式碼/設定、實測與學習要點，便於在實戰教學、專案練習與能力評估中使用。

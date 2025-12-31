@@ -5,6 +5,7 @@ synthesis_type: summary
 source_post: /2016/10/23/microservice4/
 redirect_from:
   - /2016/10/23/microservice4/summary/
+postid: 2016-10-23-microservice4
 ---
 
 # API & SDK Design #2, 設計專屬的 SDK

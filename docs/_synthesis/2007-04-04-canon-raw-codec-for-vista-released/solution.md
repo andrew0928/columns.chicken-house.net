@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2007/04/04/canon-raw-codec-for-vista-released/
 redirect_from:
   - /2007/04/04/canon-raw-codec-for-vista-released/solution/
+postid: 2007-04-04-canon-raw-codec-for-vista-released
 ---
 
 以下內容基於原文的場景：WPF 的 WIC 在 Vista 上沒有內建 Canon RAW 編解碼器，Canon RAW Codec 已釋出（僅支援 .CR2，不含 .CRW），舊機（例如 G2 使用 .CRW）受影響。針對此情境延展出可落地實作的教學型案例，涵蓋安裝、偵測、降級策略、相容性、效能、安全、部署與測試等，供專案練習與能力評估。

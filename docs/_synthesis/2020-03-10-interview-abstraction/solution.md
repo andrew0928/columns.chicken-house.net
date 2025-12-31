@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2020/03/10/interview-abstraction/
 redirect_from:
   - /2020/03/10/interview-abstraction/solution/
+postid: 2020-03-10-interview-abstraction
 ---
 
 ## Case #1: 折扣規則抽象化：以 RuleBase 解耦結帳流程

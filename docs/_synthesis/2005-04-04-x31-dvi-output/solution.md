@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2005/04/04/x31-dvi-output/
 redirect_from:
   - /2005/04/04/x31-dvi-output/solution/
+postid: 2005-04-04-x31-dvi-output
 ---
 
 ## Case #1: 讓 ThinkPad X31 透過 Dock + PCI 顯示卡輸出 DVI

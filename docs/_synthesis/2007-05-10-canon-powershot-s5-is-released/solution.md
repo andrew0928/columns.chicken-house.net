@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2007/05/10/canon-powershot-s5-is-released/
 redirect_from:
   - /2007/05/10/canon-powershot-s5-is-released/solution/
+postid: 2007-05-10-canon-powershot-s5-is-released
 ---
 
 ## Case #1: 啟用 Canon S3 IS RAW 輸出（免刷機 CHDK）

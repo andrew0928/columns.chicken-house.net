@@ -5,6 +5,7 @@ synthesis_type: summary
 source_post: /2022/11/25/home-energy-monitor/
 redirect_from:
   - /2022/11/25/home-energy-monitor/summary/
+postid: 2022-11-25-home-energy-monitor
 ---
 
 # 水電工日誌 #9. 監控全家用電神器, Emporia Vue 2

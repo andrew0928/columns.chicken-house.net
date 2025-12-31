@@ -9,28 +9,27 @@
     "\u6280\u8853\u96A8\u7B46"
   ],
   "tech-stacks": [
-    "HackMD",
+    "Jekyll",
     "Google Slides",
+    "HackMD",
+    "Disqus",
+    "Facebook Comments",
     "Gitalk",
-    "DevOps"
+    "Markdown"
   ],
   "keywords": [
-    "DevOpsDays",
     "DevOpsDays Taipei",
-    "DevOpsDays Taipei 2025",
-    "Prompt",
-    "Product",
     "\u5F9E Prompt \u5230 Product",
     "\u7C21\u5831",
     "\u5171\u7B46",
-    "QA",
     "\u5FC3\u5F97",
-    "\u6F14\u8B1B",
+    "QA",
+    "\u67B6\u69CB\u5E2B\u89C0\u9EDE",
+    "\u6280\u8853\u96A8\u7B46",
     "2025/06/05",
-    "HackMD",
-    "Google Slides"
+    "\u6F14\u8B1B"
   ],
-  "generator": "BlogIndex.SyncPost v0.3.0.0, gpt-5",
+  "generator": "BlogIndex.SyncPost v0.3.0.0, GPT-5",
   "references": [
     "/images/2025-06-05-devopsdays/logo.jpg",
     "https://docs.google.com/presentation/d/e/2PACX-1vQxjwDVoiFso6bL-Tn5sDXSPDxYlBIKqCXNxiH4jvWgWR6w_L7F56ut0wtnyAg23h6yT0czExPh4hGb/pubembed?start=false\u0026loop=false\u0026delayms=3000",

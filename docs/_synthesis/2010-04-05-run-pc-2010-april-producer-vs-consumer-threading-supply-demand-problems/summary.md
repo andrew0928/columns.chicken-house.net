@@ -5,6 +5,7 @@ synthesis_type: summary
 source_post: /2010/04/05/run-pc-2010-april-producer-vs-consumer-threading-supply-demand-problems/
 redirect_from:
   - /2010/04/05/run-pc-2010-april-producer-vs-consumer-threading-supply-demand-problems/summary/
+postid: 2010-04-05-run-pc-2010-april-producer-vs-consumer-threading-supply-demand-problems
 ---
 
 # [RUN! PC] 2010 四月號 - 生產者vs消費者– 執行緒的供需問題

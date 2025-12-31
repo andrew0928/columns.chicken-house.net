@@ -5,6 +5,7 @@ synthesis_type: faq
 source_post: /2005/12/06/electrician-work/
 redirect_from:
   - /2005/12/06/electrician-work/faq/
+postid: 2005-12-06-electrician-work
 ---
 
 # 水電工

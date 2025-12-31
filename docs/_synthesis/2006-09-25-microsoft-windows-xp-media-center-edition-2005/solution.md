@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2006/09/25/microsoft-windows-xp-media-center-edition-2005/
 redirect_from:
   - /2006/09/25/microsoft-windows-xp-media-center-edition-2005/solution/
+postid: 2006-09-25-microsoft-windows-xp-media-center-edition-2005
 ---
 
 ## Case #1: 用 MCE 2005 取代電視卡原廠軟體，提升穩定性與體驗

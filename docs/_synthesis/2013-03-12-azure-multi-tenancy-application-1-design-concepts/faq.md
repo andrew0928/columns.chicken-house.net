@@ -5,6 +5,7 @@ synthesis_type: faq
 source_post: /2013/03/12/azure-multi-tenancy-application-1-design-concepts/
 redirect_from:
   - /2013/03/12/azure-multi-tenancy-application-1-design-concepts/faq/
+postid: 2013-03-12-azure-multi-tenancy-application-1-design-concepts
 ---
 
 # [Azure] Multi-Tenancy Application #1, 設計概念 — FAQ

@@ -5,6 +5,7 @@ synthesis_type: summary
 source_post: /2006/12/30/background-thread-in-asp-net-ii/
 redirect_from:
   - /2006/12/30/background-thread-in-asp-net-ii/summary/
+postid: 2006-12-30-background-thread-in-asp-net-ii
 ---
 
 # Background Thread in ASP.NET (II)

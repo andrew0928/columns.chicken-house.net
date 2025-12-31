@@ -5,6 +5,7 @@ synthesis_type: faq
 source_post: /2009/12/19/design-case-study-cache-object-cleanup-1-problem-and-approach/
 redirect_from:
   - /2009/12/19/design-case-study-cache-object-cleanup-1-problem-and-approach/faq/
+postid: 2009-12-19-design-case-study-cache-object-cleanup-1-problem-and-approach
 ---
 
 # [設計案例] 清除Cache物件：問題與作法 FAQ

@@ -5,6 +5,7 @@ synthesis_type: faq
 source_post: /2008/06/19/changed-subscription-url/
 redirect_from:
   - /2008/06/19/changed-subscription-url/faq/
+postid: 2008-06-19-changed-subscription-url
 ---
 
 # 換訂閱的網址了!

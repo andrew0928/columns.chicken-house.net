@@ -5,6 +5,7 @@ synthesis_type: faq
 source_post: /2009/01/16/runpc-featured-article-production-line-pattern-multithreading/
 redirect_from:
   - /2009/01/16/runpc-featured-article-production-line-pattern-multithreading/faq/
+postid: 2009-01-16-runpc-featured-article-production-line-pattern-multithreading
 ---
 
 # RUN!PC 精選文章 - 生產線模式的多執行緒應用

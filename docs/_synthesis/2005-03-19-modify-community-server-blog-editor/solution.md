@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2005/03/19/modify-community-server-blog-editor/
 redirect_from:
   - /2005/03/19/modify-community-server-blog-editor/solution/
+postid: 2005-03-19-modify-community-server-blog-editor
 ---
 
 以下內容根據原文所描述的實際情境（Community Server 使用 FreeTextBox，卻被自研 Editor Wrapper 擋住，且缺少 wrapper 原始碼，導致無法把自訂圖片/表情工具整合進原生工具列）進行系統化重組，產出 15 個完整且可操作的教學案例。每個案例均含問題、根因、解法、實作步驟、關鍵程式、學習要點與練習與評估建議。實測數據部分以可驗收的目標指標呈現，供教學/專案練習使用。

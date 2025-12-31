@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2023/01/01/api-design-workshop/
 redirect_from:
   - /2023/01/01/api-design-workshop/solution/
+postid: 2023-01-01-api-design-workshop
 ---
 
 以下為根據原文內容，萃取並結構化的 18 個問題解決案例。每一案均覆蓋問題、根因、解決方案（含程式碼/流程）、效益與訓練要點，方便用於教學、專案演練與評估。

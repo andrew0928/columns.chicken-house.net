@@ -5,6 +5,7 @@ synthesis_type: summary
 source_post: /2007/12/12/canon-raw-codec-wpf-1-wpf-image-codec-metadata/
 redirect_from:
   - /2007/12/12/canon-raw-codec-wpf-1-wpf-image-codec-metadata/summary/
+postid: 2007-12-12-canon-raw-codec-wpf-1-wpf-image-codec-metadata
 ---
 
 # Canon Raw Codec + WPF #1, WPF Image Codec, Metadata

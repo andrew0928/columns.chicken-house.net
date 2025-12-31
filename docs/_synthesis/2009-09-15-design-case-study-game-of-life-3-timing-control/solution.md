@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2009/09/15/design-case-study-game-of-life-3-timing-control/
 redirect_from:
   - /2009/09/15/design-case-study-game-of-life-3-timing-control/solution/
+postid: 2009-09-15-design-case-study-game-of-life-3-timing-control
 ---
 
 以下為基於原文內容，萃取並擴寫的 15 個結構化問題解決案例。每個案例皆含：問題、根因、解法（含程式碼/流程）、實際效益/指標，以及教學所需的練習與評估。技術背景以 C#/.NET 多執行緒為主，情境以「生命遊戲（Game of Life）—即時時序控制」為軸。

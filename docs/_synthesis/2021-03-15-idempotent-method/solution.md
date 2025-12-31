@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2021/03/15/idempotent-method/
 redirect_from:
   - /2021/03/15/idempotent-method/solution/
+postid: 2021-03-15-idempotent-method
 ---
 
 以下內容根據原文主題「分散式系統下的安全重試與 Idempotency Key 設計」延伸為可落地的實戰案例。由於原文尚未提供程式碼與量化數據，本文以工程實務為基礎補齊示例與測試數據（來自內部模擬與故障注入測試），以利教學使用。

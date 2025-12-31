@@ -5,6 +5,7 @@ synthesis_type: faq
 source_post: /2007/07/25/adding-push-button/
 redirect_from:
   - /2007/07/25/adding-push-button/faq/
+postid: 2007-07-25-adding-push-button
 ---
 
 # 推!!!

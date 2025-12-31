@@ -5,6 +5,7 @@ synthesis_type: summary
 source_post: /2010/05/05/run-pc-2010-may-txf-enables-file-system-transaction-control/
 redirect_from:
   - /2010/05/05/run-pc-2010-may-txf-enables-file-system-transaction-control/summary/
+postid: 2010-05-05-run-pc-2010-may-txf-enables-file-system-transaction-control
 ---
 
 # [RUN! PC] 2010 五月號 - TxF讓檔案系統也能達到交易控制

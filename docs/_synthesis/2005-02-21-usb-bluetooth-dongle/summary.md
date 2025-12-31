@@ -5,6 +5,7 @@ synthesis_type: summary
 source_post: /2005/02/21/usb-bluetooth-dongle/
 redirect_from:
   - /2005/02/21/usb-bluetooth-dongle/summary/
+postid: 2005-02-21-usb-bluetooth-dongle
 ---
 
 # USB BlueTooth Dongle...

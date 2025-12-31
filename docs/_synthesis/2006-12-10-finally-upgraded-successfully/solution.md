@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2006/12/10/finally-upgraded-successfully/
 redirect_from:
   - /2006/12/10/finally-upgraded-successfully/solution/
+postid: 2006-12-10-finally-upgraded-successfully
 ---
 
 ## Case #1: 自動記住登入用戶失效（Cookie 路徑/網域錯誤）

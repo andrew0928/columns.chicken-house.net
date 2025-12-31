@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2008/04/10/canon-cr2-jpeg-speed-doubled-time-for-core2-quad/
 redirect_from:
   - /2008/04/10/canon-cr2-jpeg-speed-doubled-time-for-core2-quad/solution/
+postid: 2008-04-10-canon-cr2-jpeg-speed-doubled-time-for-core2-quad
 ---
 
 以下內容基於提供文章所描述的真實情境，將同一個實戰主題拆解為 15 個具教學價值的「問題解決案例」。每個案例都包含問題、根因、解法、關鍵程式碼、成效指標與練習與評估，用於專案演練與能力評估。

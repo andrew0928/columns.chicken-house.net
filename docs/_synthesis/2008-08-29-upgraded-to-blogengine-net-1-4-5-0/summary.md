@@ -5,6 +5,7 @@ synthesis_type: summary
 source_post: /2008/08/29/upgraded-to-blogengine-net-1-4-5-0/
 redirect_from:
   - /2008/08/29/upgraded-to-blogengine-net-1-4-5-0/summary/
+postid: 2008-08-29-upgraded-to-blogengine-net-1-4-5-0
 ---
 
 # 升級到 BlogEngine.NET 1.4.5.0 了

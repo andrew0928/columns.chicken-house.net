@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2020/07/01/microservice14-database/
 redirect_from:
   - /2020/07/01/microservice14-database/solution/
+postid: 2020-07-01-microservice14-database
 ---
 
 以下整理並結構化 16 個可落地的問題解決案例，均以文中核心觀點與 Q&A 線索為基礎（RDBMS vs NoSQL、微服務資料治理、CQRS、Saga、Event、API First、Cache 命中率與正確性、封存、多版本、GraphQL/BFF、反正規化、Replay 等），每案包含完整教學價值的要素：問題、根因、方案（含流程/程式碼）、效益與練習與評估方式。

@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2008/08/14/thread-sync-1-concept-how-to-turn-passive-into-active/
 redirect_from:
   - /2008/08/14/thread-sync-1-concept-how-to-turn-passive-into-active/solution/
+postid: 2008-08-14-thread-sync-1-concept-how-to-turn-passive-into-active
 ---
 
 ## Case #1: 將遊戲主迴圈的被動邏輯改為事件驅動

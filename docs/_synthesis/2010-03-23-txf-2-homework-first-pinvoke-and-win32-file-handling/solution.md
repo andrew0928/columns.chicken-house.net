@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2010/03/23/txf-2-homework-first-pinvoke-and-win32-file-handling/
 redirect_from:
   - /2010/03/23/txf-2-homework-first-pinvoke-and-win32-file-handling/solution/
+postid: 2010-03-23-txf-2-homework-first-pinvoke-and-win32-file-handling
 ---
 
 ## Case #1: 無管理版 TxF 函式庫下，以 P/Invoke 介接 Win32

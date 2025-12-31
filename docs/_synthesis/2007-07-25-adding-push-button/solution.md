@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2007/07/25/adding-push-button/
 redirect_from:
   - /2007/07/25/adding-push-button/solution/
+postid: 2007-07-25-adding-push-button
 ---
 
 注意：原文僅簡述「將 FunP 推文 button 嵌入 ASP.NET Blog」的想法與做法（包成 User Control 加入樣板），缺少完整問題敘述、根因、指標與代碼細節。為滿足實戰教學/專案練習/能力評估的需求，以下案例是基於該主題的典型落地情境延展與系統化整理，均圍繞「在 ASP.NET（WebForms）中整合第三方推文/分享按鈕」的常見問題與可驗證方案，附上示意代碼與測試性指標，供實做與評估。

@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2016/02/17/casestudy_license_01_requirement/
 redirect_from:
   - /2016/02/17/casestudy_license_01_requirement/solution/
+postid: 2016-02-17-casestudy_license_01_requirement
 ---
 
 以下內容基於提供的文章主題與情境（Install-Based 部署、Service A/B/C、離線授權、API KEY、DX 與安全強度與擴充性），將需求與問題拆解為 16 個教學導向的實戰解決方案案例。因本篇原文為「需求篇」，未提供具體度量數據與程式碼細節；為滿足教學/練習/評估用途，以下案例之流程、程式碼片段與成效指標為可落地的設計與測試基準建議，適用於實作與評估。

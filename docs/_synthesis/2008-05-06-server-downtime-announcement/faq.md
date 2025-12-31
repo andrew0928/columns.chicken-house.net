@@ -5,6 +5,7 @@ synthesis_type: faq
 source_post: /2008/05/06/server-downtime-announcement/
 redirect_from:
   - /2008/05/06/server-downtime-announcement/faq/
+postid: 2008-05-06-server-downtime-announcement
 ---
 
 # 停機公告

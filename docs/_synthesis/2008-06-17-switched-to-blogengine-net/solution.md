@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2008/06/17/switched-to-blogengine-net/
 redirect_from:
   - /2008/06/17/switched-to-blogengine-net/solution/
+postid: 2008-06-17-switched-to-blogengine-net
 ---
 
 以下內容基於原文的真實情境（從 Community Server 遷移到 BlogEngine.NET），將其中隱含的問題、成因與落地解決方法拆解為可教可練的 16 個實戰案例。每個案例都附帶可操作的流程、程式碼示例與可量測的成效指標，便於教學、練習與評估。

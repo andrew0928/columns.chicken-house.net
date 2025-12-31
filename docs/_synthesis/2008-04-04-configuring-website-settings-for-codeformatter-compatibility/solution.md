@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2008/04/04/configuring-website-settings-for-codeformatter-compatibility/
 redirect_from:
   - /2008/04/04/configuring-website-settings-for-codeformatter-compatibility/solution/
+postid: 2008-04-04-configuring-website-settings-for-codeformatter-compatibility
 ---
 
 以下內容基於原文的具體情境（使用 CodeFormatter 於部落格平台、以 Community Server 為例、希望提供「copy code」並在預覽避免安全警告），萃取並拆解為可教學、可實作、可評測的 15 個結構化案例。每個案例都包含問題、根因、解法、程式碼與練習／評估。

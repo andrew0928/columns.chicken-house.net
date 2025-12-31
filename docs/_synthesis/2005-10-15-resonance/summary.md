@@ -5,6 +5,7 @@ synthesis_type: summary
 source_post: /2005/10/15/resonance/
 redirect_from:
   - /2005/10/15/resonance/summary/
+postid: 2005-10-15-resonance
 ---
 
 # 共振...

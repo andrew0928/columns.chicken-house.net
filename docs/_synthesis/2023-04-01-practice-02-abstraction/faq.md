@@ -5,6 +5,7 @@ synthesis_type: faq
 source_post: /2023/04/01/practice-02-abstraction/
 redirect_from:
   - /2023/04/01/practice-02-abstraction/faq/
+postid: 2023-04-01-practice-02-abstraction
 ---
 
 # [架構師的修練] #3, 刻意練習 - 如何鍛鍊你的抽象化能力

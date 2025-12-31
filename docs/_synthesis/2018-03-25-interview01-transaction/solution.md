@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2018/03/25/interview01-transaction/
 redirect_from:
   - /2018/03/25/interview01-transaction/solution/
+postid: 2018-03-25-interview01-transaction
 ---
 
 以下內容基於使用者提供的文章，提取與重構 15 個具完整教學價值的問題解決案例。每一案例均包含問題、根因、可落地的解法（含程式碼/流程）、實測或成效指標，以及可操作的練習與評估標準。案例間相互銜接，形成逐步擴展從單機到分散式的學習路徑。

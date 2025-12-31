@@ -5,6 +5,7 @@ synthesis_type: faq
 source_post: /2008/06/21/blogengine-net-transformation-project-cs2007-data-import/
 redirect_from:
   - /2008/06/21/blogengine-net-transformation-project-cs2007-data-import/faq/
+postid: 2008-06-21-blogengine-net-transformation-project-cs2007-data-import
 ---
 
 # [BlogEngine.NET] 改造工程 - CS2007 資料匯入

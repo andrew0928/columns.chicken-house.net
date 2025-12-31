@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2007/12/17/threadpool-implementation-2-csharp-code/
 redirect_from:
   - /2007/12/17/threadpool-implementation-2-csharp-code/solution/
+postid: 2007-12-17-threadpool-implementation-2-csharp-code
 ---
 
 以下為基於原文內容，提取並結構化的 16 個可用於實戰教學的解決方案案例。每一案皆聚焦於文章中明確提出的需求、關鍵設計與程式片段，並補足可操作的實作步驟、關鍵代碼與教學用的示例量測指標（示意數據，非來源文章的實測）。

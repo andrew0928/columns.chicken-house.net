@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2005/12/06/electrician-work/
 redirect_from:
   - /2005/12/06/electrician-work/solution/
+postid: 2005-12-06-electrician-work
 ---
 
 ## Case #1: ADSL 與多分機互相干擾，改為源頭分離

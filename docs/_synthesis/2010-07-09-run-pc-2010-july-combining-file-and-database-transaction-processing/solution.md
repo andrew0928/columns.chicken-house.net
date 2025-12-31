@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2010/07/09/run-pc-2010-july-combining-file-and-database-transaction-processing/
 redirect_from:
   - /2010/07/09/run-pc-2010-july-combining-file-and-database-transaction-processing/solution/
+postid: 2010-07-09-run-pc-2010-july-combining-file-and-database-transaction-processing
 ---
 
 以下內容基於原文主題「以 TransactionScope 結合 TxF（Transactional NTFS）讓檔案系統與資料庫納入同一個交易」與文中提到的重點（.NET 尚未原生支援 TxF、以 AlphaFS 取代手寫 P/Invoke、TxF 可與 TransactionScope 互動、AlphaFS 支援 NTFS 進階功能如 VSS、HardLink），系統化整理成 16 個具教學價值的解決方案案例。每一案均包含問題、根因、解法（含程式碼/流程）、與實際效益指標等。

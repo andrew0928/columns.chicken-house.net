@@ -5,6 +5,7 @@ synthesis_type: faq
 source_post: /2008/11/03/how-to-learn-programming-well-5-using-trace-assert/
 redirect_from:
   - /2008/11/03/how-to-learn-programming-well-5-using-trace-assert/faq/
+postid: 2008-11-03-how-to-learn-programming-well-5-using-trace-assert
 ---
 
 # 該如何學好 "寫程式" #5. 善用 TRACE / ASSERT

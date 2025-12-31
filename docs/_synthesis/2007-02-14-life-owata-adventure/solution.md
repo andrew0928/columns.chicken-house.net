@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2007/02/14/life-owata-adventure/
 redirect_from:
   - /2007/02/14/life-owata-adventure/solution/
+postid: 2007-02-14-life-owata-adventure
 ---
 
 說明

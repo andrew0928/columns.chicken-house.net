@@ -5,6 +5,7 @@ synthesis_type: faq
 source_post: /2007/05/19/expensive-presentation-remote-controller-orz/
 redirect_from:
   - /2007/05/19/expensive-presentation-remote-controller-orz/faq/
+postid: 2007-05-19-expensive-presentation-remote-controller-orz
 ---
 
 # 一個一萬多的簡報器... Orz..

@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2008/11/06/resurrected-ibm-thinkpad-x40/
 redirect_from:
   - /2008/11/06/resurrected-ibm-thinkpad-x40/solution/
+postid: 2008-11-06-resurrected-ibm-thinkpad-x40
 ---
 
 以下為根據原文萃取並擴充教學價值後的 15 個結構化解決方案案例。每個案例嚴格對齊原文的問題、根因、解法與實際效益描述，並補齊可操作的流程、設定與練習評估內容，方便用於實戰教學與能力評估。

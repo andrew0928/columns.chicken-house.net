@@ -5,6 +5,7 @@ synthesis_type: summary
 source_post: /2005/01/09/spam-information/
 redirect_from:
   - /2005/01/09/spam-information/summary/
+postid: 2005-01-09-spam-information
 ---
 
 # 垃圾資訊...

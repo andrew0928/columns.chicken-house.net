@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2007/02/18/community-server-2007-beta-1-available-now/
 redirect_from:
   - /2007/02/18/community-server-2007-beta-1-available-now/solution/
+postid: 2007-02-18-community-server-2007-beta-1-available-now
 ---
 
 以下內容根據原文提到的功能點與典型落地場景，萃取並延展為可教學、可實作、可評估的解決方案案例。每個案例都以 Community Server 2007（ASP.NET 2.0 時代）與常見企業落地需求為背景，提供可操作的流程、設定與程式碼示例，並附上可量測的成效指標與練習建議。

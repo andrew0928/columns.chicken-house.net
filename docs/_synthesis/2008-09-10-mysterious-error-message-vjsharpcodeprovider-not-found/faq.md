@@ -5,6 +5,7 @@ synthesis_type: faq
 source_post: /2008/09/10/mysterious-error-message-vjsharpcodeprovider-not-found/
 redirect_from:
   - /2008/09/10/mysterious-error-message-vjsharpcodeprovider-not-found/faq/
+postid: 2008-09-10-mysterious-error-message-vjsharpcodeprovider-not-found
 ---
 
 # 莫明奇妙的錯誤訊息: 找不到 VJSharpCodeProvider ?

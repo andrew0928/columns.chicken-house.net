@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2008/05/16/flickrproxy-1-overview/
 redirect_from:
   - /2008/05/16/flickrproxy-1-overview/solution/
+postid: 2008-05-16-flickrproxy-1-overview
 ---
 
 ## Case #1: ADSL 自架站相片流量外移至 Flickr 的伺服器端方案

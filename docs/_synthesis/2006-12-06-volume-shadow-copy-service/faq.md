@@ -5,6 +5,7 @@ synthesis_type: faq
 source_post: /2006/12/06/volume-shadow-copy-service/
 redirect_from:
   - /2006/12/06/volume-shadow-copy-service/faq/
+postid: 2006-12-06-volume-shadow-copy-service
 ---
 
 # Volume Shadow Copy Service（VSS）與快照備份實務

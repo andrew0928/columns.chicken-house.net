@@ -5,6 +5,7 @@ synthesis_type: summary
 source_post: /2004/12/26/3d-studio-animated-desk-lamp/
 redirect_from:
   - /2004/12/26/3d-studio-animated-desk-lamp/summary/
+postid: 2004-12-26-3d-studio-animated-desk-lamp
 ---
 
 # 3D Studio 作品: 跳動的檯燈

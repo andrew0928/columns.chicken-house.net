@@ -5,6 +5,7 @@ synthesis_type: faq
 source_post: /2020/02/09/process-pool/
 redirect_from:
   - /2020/02/09/process-pool/faq/
+postid: 2020-02-09-process-pool
 ---
 
 # 微服務基礎建設: Process Pool 的設計與應用

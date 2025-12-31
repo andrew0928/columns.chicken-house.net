@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2009/08/16/hvremote-hyper-v-remote-management-configuration-utility/
 redirect_from:
   - /2009/08/16/hvremote-hyper-v-remote-management-configuration-utility/solution/
+postid: 2009-08-16-hvremote-hyper-v-remote-management-configuration-utility
 ---
 
 以下為基於文章內容所整理的 15 個可操作的實戰案例，聚焦於無 AD 環境下遠端管理 Hyper-V 的各種典型問題、根因、可複製的解決方案（含腳本/設定範例）、以及可量化的效益。

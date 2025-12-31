@@ -5,6 +5,7 @@ synthesis_type: faq
 source_post: /2005/01/09/text-editor-interface-enhancement/
 redirect_from:
   - /2005/01/09/text-editor-interface-enhancement/faq/
+postid: 2005-01-09-text-editor-interface-enhancement
 ---
 
 # .TEXT 的編輯介面補強（加入插圖與表情工具列）

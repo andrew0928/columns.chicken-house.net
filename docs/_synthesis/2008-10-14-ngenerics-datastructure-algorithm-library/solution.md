@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2008/10/14/ngenerics-datastructure-algorithm-library/
 redirect_from:
   - /2008/10/14/ngenerics-datastructure-algorithm-library/solution/
+postid: 2008-10-14-ngenerics-datastructure-algorithm-library
 ---
 
 以下內容基於原文情境，將文中明確提及的問題與可行解法整理為可教學、可實作、可評估的 15 個案例。每一案均包含完整的「問題—根因—解法—代碼—效益—練習—評估」結構，便於用於實戰教學與專案練習。

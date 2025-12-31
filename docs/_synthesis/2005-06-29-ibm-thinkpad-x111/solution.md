@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2005/06/29/ibm-thinkpad-x111/
 redirect_from:
   - /2005/06/29/ibm-thinkpad-x111/solution/
+postid: 2005-06-29-ibm-thinkpad-x111
 ---
 
 以下結果基於原文有限資訊加以整理。說明：原文主要是採購與使用滿意度的簡述，未提供具體問題細節、量化數據與完整解法流程。為了達成教學、練習與評估的需求，以下共列出15個案例，其中：

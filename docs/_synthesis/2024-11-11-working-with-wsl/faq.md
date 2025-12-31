@@ -5,6 +5,7 @@ synthesis_type: faq
 source_post: /2024/11/11/working-with-wsl/
 redirect_from:
   - /2024/11/11/working-with-wsl/faq/
+postid: 2024-11-11-working-with-wsl
 ---
 
 # 用 WSL + VSCode 重新打造 Linux 開發環境

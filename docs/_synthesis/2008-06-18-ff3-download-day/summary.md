@@ -5,6 +5,7 @@ synthesis_type: summary
 source_post: /2008/06/18/ff3-download-day/
 redirect_from:
   - /2008/06/18/ff3-download-day/summary/
+postid: 2008-06-18-ff3-download-day
 ---
 
 # FF3 Download Day...

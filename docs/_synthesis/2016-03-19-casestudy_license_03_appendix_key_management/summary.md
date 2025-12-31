@@ -5,6 +5,7 @@ synthesis_type: summary
 source_post: /2016/03/19/casestudy_license_03_appendix_key_management/
 redirect_from:
   - /2016/03/19/casestudy_license_03_appendix_key_management/summary/
+postid: 2016-03-19-casestudy_license_03_appendix_key_management
 ---
 
 # [設計案例] 授權碼 如何實作? #3 (補) - 金鑰的保護

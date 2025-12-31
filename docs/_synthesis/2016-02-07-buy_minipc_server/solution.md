@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2016/02/07/buy_minipc_server/
 redirect_from:
   - /2016/02/07/buy_minipc_server/solution/
+postid: 2016-02-07-buy_minipc_server
 ---
 
 以下為依據文章內容，整理出的 18 個可落地的問題解決案例。每個案例均包含問題、根因、解法、實測或量化指標、學習要點與練習與評估。

@@ -5,6 +5,7 @@ synthesis_type: faq
 source_post: /2008/09/18/c-yield-return-1-how-it-work/
 redirect_from:
   - /2008/09/18/c-yield-return-1-how-it-work/faq/
+postid: 2008-09-18-c-yield-return-1-how-it-work
 ---
 
 # [C#: yield return] #1. How It Work ?

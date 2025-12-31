@@ -5,6 +5,7 @@ synthesis_type: faq
 source_post: /2008/04/04/run-pc-2008-april-issue/
 redirect_from:
   - /2008/04/04/run-pc-2008-april-issue/faq/
+postid: 2008-04-04-run-pc-2008-april-issue
 ---
 
 # [RUN! PC] 2008 四月號：ASP.NET 與執行緒、IE 連線上限測試要點

@@ -5,6 +5,7 @@ synthesis_type: faq
 source_post: /2006/05/21/new-usb-keyboard-purchase/
 redirect_from:
   - /2006/05/21/new-usb-keyboard-purchase/faq/
+postid: 2006-05-21-new-usb-keyboard-purchase
 ---
 
 # 新鍵盤...

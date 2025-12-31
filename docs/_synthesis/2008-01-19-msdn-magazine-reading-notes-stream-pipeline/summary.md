@@ -5,6 +5,7 @@ synthesis_type: summary
 source_post: /2008/01/19/msdn-magazine-reading-notes-stream-pipeline/
 redirect_from:
   - /2008/01/19/msdn-magazine-reading-notes-stream-pipeline/summary/
+postid: 2008-01-19-msdn-magazine-reading-notes-stream-pipeline
 ---
 
 # MSDN Magazine 閱讀心得: Stream Pipeline

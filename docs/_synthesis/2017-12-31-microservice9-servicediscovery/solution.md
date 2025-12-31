@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2017/12/31/microservice9-servicediscovery/
 redirect_from:
   - /2017/12/31/microservice9-servicediscovery/solution/
+postid: 2017-12-31-microservice9-servicediscovery
 ---
 
 以下內容基於原文所述的問題脈絡、常見根因與可行解決模式，萃取並擴展成 18 個可教可練的實戰案例。每個案例皆包含問題、根因、方案、程式碼/設定示例與可評估的效益，便於課程、專案實作與評估使用。

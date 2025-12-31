@@ -5,6 +5,7 @@ synthesis_type: faq
 source_post: /2007/11/12/website-upgrade-communityserver-2007-1/
 redirect_from:
   - /2007/11/12/website-upgrade-communityserver-2007-1/faq/
+postid: 2007-11-12-website-upgrade-communityserver-2007-1
 ---
 
 # 網站升級: CommunityServer 2007.1

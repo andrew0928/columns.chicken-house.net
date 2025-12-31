@@ -5,6 +5,7 @@ synthesis_type: faq
 source_post: /2017/01/31/leetcode2-assert/
 redirect_from:
   - /2017/01/31/leetcode2-assert/faq/
+postid: 2017-01-31-leetcode2-assert
 ---
 
 # 不只是 TDD #2, 兩個版本自我驗證 + 執行期驗證

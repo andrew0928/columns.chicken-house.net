@@ -5,6 +5,7 @@ synthesis_type: faq
 source_post: /2008/11/18/policy-injection-application-block-small-discovery/
 redirect_from:
   - /2008/11/18/policy-injection-application-block-small-discovery/faq/
+postid: 2008-11-18-policy-injection-application-block-small-discovery
 ---
 
 # Policy Injection Application Block 小發現...

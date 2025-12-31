@@ -5,6 +5,7 @@ synthesis_type: faq
 source_post: /2007/04/04/canon-raw-codec-for-vista-released/
 redirect_from:
   - /2007/04/04/canon-raw-codec-for-vista-released/faq/
+postid: 2007-04-04-canon-raw-codec-for-vista-released
 ---
 
 # Canon RAW Codec for Vista：WIC、WPF 與 CR2/CRW 支援

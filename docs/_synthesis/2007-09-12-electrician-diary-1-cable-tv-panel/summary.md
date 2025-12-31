@@ -5,6 +5,7 @@ synthesis_type: summary
 source_post: /2007/09/12/electrician-diary-1-cable-tv-panel/
 redirect_from:
   - /2007/09/12/electrician-diary-1-cable-tv-panel/summary/
+postid: 2007-09-12-electrician-diary-1-cable-tv-panel
 ---
 
 # 水電工日誌 1. Cable TV 面板

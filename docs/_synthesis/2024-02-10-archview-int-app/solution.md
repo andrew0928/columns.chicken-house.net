@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2024/02/10/archview-int-app/
 redirect_from:
   - /2024/02/10/archview-int-app/solution/
+postid: 2024-02-10-archview-int-app
 ---
 
 以下內容依據提供文章，萃取並重構 18 個有教學價值的問題解決案例，涵蓋問題、根因、方案、程式碼、效益與實作練習。每個案例皆可作為實戰教學、專案練習與能力評估素材。

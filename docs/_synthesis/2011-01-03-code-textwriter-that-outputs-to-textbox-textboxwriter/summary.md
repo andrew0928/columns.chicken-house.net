@@ -5,6 +5,7 @@ synthesis_type: summary
 source_post: /2011/01/03/code-textwriter-that-outputs-to-textbox-textboxwriter/
 redirect_from:
   - /2011/01/03/code-textwriter-that-outputs-to-textbox-textboxwriter/summary/
+postid: 2011-01-03-code-textwriter-that-outputs-to-textbox-textboxwriter
 ---
 
 # [CODE] 可以輸出到 TextBox 的 TextWriter: TextBoxWriter!

@@ -5,6 +5,7 @@ synthesis_type: faq
 source_post: /2007/12/12/canon-raw-codec-wpf-1-wpf-image-codec-metadata/
 redirect_from:
   - /2007/12/12/canon-raw-codec-wpf-1-wpf-image-codec-metadata/faq/
+postid: 2007-12-12-canon-raw-codec-wpf-1-wpf-image-codec-metadata
 ---
 
 # Canon Raw Codec + WPF #1：WPF Image Codec 與 Metadata

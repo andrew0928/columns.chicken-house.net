@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2006/12/10/cs-2-1-sp2-metaweblog-api-newmediaobject-method-support/
 redirect_from:
   - /2006/12/10/cs-2-1-sp2-metaweblog-api-newmediaobject-method-support/solution/
+postid: 2006-12-10-cs-2-1-sp2-metaweblog-api-newmediaobject-method-support
 ---
 
 ## Case #1: 以 MetaWeblog newMediaObject 取代 FTP 的圖片上傳流程

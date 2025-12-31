@@ -5,6 +5,7 @@ synthesis_type: summary
 source_post: /2018/07/28/labs-LCOW-volume/
 redirect_from:
   - /2018/07/28/labs-LCOW-volume/summary/
+postid: 2018-07-28-labs-LCOW-volume
 ---
 
 # 使用 LCOW 掛載 Volume 的效能陷阱

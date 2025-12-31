@@ -5,6 +5,7 @@ synthesis_type: summary
 source_post: /2007/12/12/parallel-processing-technology-evolution/
 redirect_from:
   - /2007/12/12/parallel-processing-technology-evolution/summary/
+postid: 2007-12-12-parallel-processing-technology-evolution
 ---
 
 # 平行處理的技術演進

@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2024/03/15/archview-int-blog/
 redirect_from:
   - /2024/03/15/archview-int-blog/solution/
+postid: 2024-03-15-archview-int-blog
 ---
 
 以下為針對原文萃取與重構的 18 個教學型問題解決案例，均依模板整理，涵蓋 RAG 全流程（Ingestion/ Retrieval/ Synthesis）、GPTs Custom Action 整合、成本/安全/效能/可維運性等核心議題，並附帶示範程式片段、操作步驟、實測觀察與練習題。

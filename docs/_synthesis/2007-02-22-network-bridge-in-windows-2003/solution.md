@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2007/02/22/network-bridge-in-windows-2003/
 redirect_from:
   - /2007/02/22/network-bridge-in-windows-2003/solution/
+postid: 2007-02-22-network-bridge-in-windows-2003
 ---
 
 以下內容基於提供的文章，抽取並結構化所有可形成完整教學價值的問題解決案例。每個案例都包含問題、根因、方案（流程/設定/範例）、以及文章中可得的實際效益或指標描述。共計 16 個案例。

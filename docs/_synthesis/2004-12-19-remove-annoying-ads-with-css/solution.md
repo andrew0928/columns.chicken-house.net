@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2004/12/19/remove-annoying-ads-with-css/
 redirect_from:
   - /2004/12/19/remove-annoying-ads-with-css/solution/
+postid: 2004-12-19-remove-annoying-ads-with-css
 ---
 
 以下說明基於您提供的文章主題（以 CSS 對付浮動/遮罩式廣告）進行系統化擴充與教學設計。原文未包含可直接抽取的細節（代碼、步驟、量化指標），因此下列 16 個案例為通用實作範本與可驗證的練習腳本，方便教學、專案練習與能力評估。所有實測數據為示例測試結果，請在實際站點再度驗證。

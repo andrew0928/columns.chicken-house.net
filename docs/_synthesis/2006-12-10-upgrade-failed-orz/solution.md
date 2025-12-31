@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2006/12/10/upgrade-failed-orz/
 redirect_from:
   - /2006/12/10/upgrade-failed-orz/solution/
+postid: 2006-12-10-upgrade-failed-orz
 ---
 
 以下內容基於原文「升級失敗… Orz」重構，圍繞「CS 2.0 RTM → 2.1 SP2 升級後整站無法啟動且錯誤被產品機制隱藏」這一核心情境，擴展為可實作、可教學、可評估的 15 個完整案例。每個案例都包含問題、根因、方案、實施步驟、範例程式與評估方式。實測數據部分如未出現在原文，提供可替換的示例口徑與量測方法。

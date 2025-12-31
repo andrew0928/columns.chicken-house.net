@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2016/04/29/rancher-on-azure-lab/
 redirect_from:
   - /2016/04/29/rancher-on-azure-lab/solution/
+postid: 2016-04-29-rancher-on-azure-lab
 ---
 
 ## Case #1: 選型轉換—以 Rancher 取代 Docker Cloud 降本並補強監控

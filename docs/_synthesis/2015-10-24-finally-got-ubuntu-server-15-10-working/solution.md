@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2015/10/24/finally-got-ubuntu-server-15-10-working/
 redirect_from:
   - /2015/10/24/finally-got-ubuntu-server-15-10-working/solution/
+postid: 2015-10-24-finally-got-ubuntu-server-15-10-working
 ---
 
 以下為基於原文內容提取與延展的 16 個可教學、可實作、可評估的實戰案例。每個案例均包含問題、根因、解法、步驟、程式碼與學習要點等，供課程、專案練習與評量使用。

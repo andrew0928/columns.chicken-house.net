@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2006/11/18/digital-camera-filer-source-code-update/
 redirect_from:
   - /2006/11/18/digital-camera-filer-source-code-update/solution/
+postid: 2006-11-18-digital-camera-filer-source-code-update
 ---
 
 以下內容基於原文所述的工具架構、程式範式與使用到的外部元件，整理出 16 個可教學、可實作、可評估的結構化案例。每一個案例均涵蓋問題、根因、解法設計、關鍵程式碼、實測（以架構效果與可量化維護成本為主）、學習要點與練習/評估。

@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2007/02/03/new-phone-awesome-part-ii/
 redirect_from:
   - /2007/02/03/new-phone-awesome-part-ii/solution/
+postid: 2007-02-03-new-phone-awesome-part-ii
 ---
 
 以下內容基於原文逐段萃取，將其中具備「問題、根因、解法、效益」四要素的資訊重組為可教、可練、可評的實戰案例。每案均附實施步驟、設定/代碼示例、量化或可觀察的效果與練習指引。

@@ -5,6 +5,7 @@ synthesis_type: faq
 source_post: /2005/04/08/annoying-dont-want-to-use-skype/
 redirect_from:
   - /2005/04/08/annoying-dont-want-to-use-skype/faq/
+postid: 2005-04-08-annoying-dont-want-to-use-skype
 ---
 
 # 真可惡, 不想用 skype 了..... :@

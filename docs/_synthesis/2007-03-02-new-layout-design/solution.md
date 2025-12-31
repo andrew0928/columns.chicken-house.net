@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2007/03/02/new-layout-design/
 redirect_from:
   - /2007/03/02/new-layout-design/solution/
+postid: 2007-03-02-new-layout-design
 ---
 
 經檢視提供的文章「換新版面了 :D」：此為簡短公告，主要內容是「網站換新版面」與「提醒只用 RSS 的讀者知悉」。文中未包含可直接萃取的完整「問題—根因—解法（含程式/流程）—實測成效」四要素，因此無法依要求產出 15-20 個完整實戰案例。

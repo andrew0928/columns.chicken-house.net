@@ -5,6 +5,7 @@ synthesis_type: summary
 source_post: /2008/09/27/how-to-learn-programming-well/
 redirect_from:
   - /2008/09/27/how-to-learn-programming-well/summary/
+postid: 2008-09-27-how-to-learn-programming-well
 ---
 
 # 該如何學好 "寫程式" ??

@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2004/12/15/three-useful-asp-net-httphandlers/
 redirect_from:
   - /2004/12/15/three-useful-asp-net-httphandlers/solution/
+postid: 2004-12-15-three-useful-asp-net-httphandlers
 ---
 
 以下內容基於文章中提出的三個 ASP.NET HttpHandler（MediaService、RssMonitor、ZipVirtualFolder）所衍生的實戰型案例，共 16 個。每個案例均以實務場景、根因、方案、代碼與練習評估構成，便於教學、專案實作與能力評估。

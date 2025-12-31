@@ -5,6 +5,7 @@ synthesis_type: summary
 source_post: /2008/04/01/botcheck-revamp/
 redirect_from:
   - /2008/04/01/botcheck-revamp/summary/
+postid: 2008-04-01-botcheck-revamp
 ---
 
 # BotCheck 改版...

@@ -5,6 +5,7 @@ synthesis_type: summary
 source_post: /2007/03/28/vista-first-experience-disk-edition/
 redirect_from:
   - /2007/03/28/vista-first-experience-disk-edition/summary/
+postid: 2007-03-28-vista-first-experience-disk-edition
 ---
 
 # Vista 初體驗 - (DISK篇)...

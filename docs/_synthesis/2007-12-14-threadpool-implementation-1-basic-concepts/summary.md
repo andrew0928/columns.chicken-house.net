@@ -5,6 +5,7 @@ synthesis_type: summary
 source_post: /2007/12/14/threadpool-implementation-1-basic-concepts/
 redirect_from:
   - /2007/12/14/threadpool-implementation-1-basic-concepts/summary/
+postid: 2007-12-14-threadpool-implementation-1-basic-concepts
 ---
 
 # ThreadPool 實作 #1. 基本概念

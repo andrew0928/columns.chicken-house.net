@@ -5,6 +5,7 @@ synthesis_type: summary
 source_post: /2007/02/22/network-bridge-in-windows-2003/
 redirect_from:
   - /2007/02/22/network-bridge-in-windows-2003/summary/
+postid: 2007-02-22-network-bridge-in-windows-2003
 ---
 
 # Network Bridge in Windows 2003...

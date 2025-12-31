@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2007/02/07/windows-live-writer-plugin-first-work/
 redirect_from:
   - /2007/02/07/windows-live-writer-plugin-first-work/solution/
+postid: 2007-02-07-windows-live-writer-plugin-first-work
 ---
 
 以下為依據文章萃取並延展的 18 個可實作、可評估的解決方案案例。每個案例均包含問題、根因、解法、實作與教學要點，供實戰教學、專案練習與能力評估之用。

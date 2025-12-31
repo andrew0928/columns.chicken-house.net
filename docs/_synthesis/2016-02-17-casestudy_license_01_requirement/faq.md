@@ -5,6 +5,7 @@ synthesis_type: faq
 source_post: /2016/02/17/casestudy_license_01_requirement/
 redirect_from:
   - /2016/02/17/casestudy_license_01_requirement/faq/
+postid: 2016-02-17-casestudy_license_01_requirement
 ---
 
 # [設計案例]「授權碼」如何實作？#1 需求與問題 — FAQ

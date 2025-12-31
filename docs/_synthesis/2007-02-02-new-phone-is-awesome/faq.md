@@ -5,6 +5,7 @@ synthesis_type: faq
 source_post: /2007/02/02/new-phone-is-awesome/
 redirect_from:
   - /2007/02/02/new-phone-is-awesome/faq/
+postid: 2007-02-02-new-phone-is-awesome
 ---
 
 # 新手機真是讚 (y)

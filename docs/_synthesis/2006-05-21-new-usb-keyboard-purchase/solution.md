@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2006/05/21/new-usb-keyboard-purchase/
 redirect_from:
   - /2006/05/21/new-usb-keyboard-purchase/solution/
+postid: 2006-05-21-new-usb-keyboard-purchase
 ---
 
 ## Case #1: PS/2 需重開機才能抓到鍵盤，改用 USB 熱插拔

@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2017/04/15/microservice8-case-study/
 redirect_from:
   - /2017/04/15/microservice8-case-study/solution/
+postid: 2017-04-15-microservice8-case-study
 ---
 
 以下為基於原文內容，梳理出的 15 個可落地、可教學、可評估的結構化解決方案案例。每個案例均覆蓋問題、根因、解法（含流程或程式片段）、以及實測或可量化的效益指標，便於教學與實作評估。

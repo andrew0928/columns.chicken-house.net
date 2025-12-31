@@ -5,6 +5,7 @@ synthesis_type: faq
 source_post: /2005/07/03/chickenhouse-web-communityserver-extension-new-features-part-2/
 redirect_from:
   - /2005/07/03/chickenhouse-web-communityserver-extension-new-features-part-2/faq/
+postid: 2005-07-03-chickenhouse-web-communityserver-extension-new-features-part-2
 ---
 
 # ChickenHouse.Web.CommunityServerExtension 新功能之二：Blog 側邊欄顯示最新十筆回應

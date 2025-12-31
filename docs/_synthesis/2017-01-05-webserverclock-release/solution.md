@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2017/01/05/webserverclock-release/
 redirect_from:
   - /2017/01/05/webserverclock-release/solution/
+postid: 2017-01-05-webserverclock-release
 ---
 
 以下內容基於原文完整抽取並延展成具教學價值的 15 個問題解決案例。每個案例均包含：問題、根因、解法（含程式碼）、實測/指標、學習要點與練習與評估，並在最後提供分類與學習路徑。

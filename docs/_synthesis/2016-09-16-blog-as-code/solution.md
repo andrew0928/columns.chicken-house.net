@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2016/09/16/blog-as-code/
 redirect_from:
   - /2016/09/16/blog-as-code/solution/
+postid: 2016-09-16-blog-as-code
 ---
 
 以下內容基於原文逐一抽取並結構化整理，共 17 個完整的實戰型解決方案案例。每一案均包含問題、根因、方案、實施步驟、程式碼與可量化（或功能性）成效。

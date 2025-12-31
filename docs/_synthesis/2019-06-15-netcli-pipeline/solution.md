@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2019/06/15/netcli-pipeline/
 redirect_from:
   - /2019/06/15/netcli-pipeline/solution/
+postid: 2019-06-15-netcli-pipeline
 ---
 
 以下為基於原文內容，提取並結構化的 16 個完整教學價值的問題解決案例。每個案例均包含問題、根因、解法（含程式碼/流程）、實測指標與練習評估，以便用於實戰教學、專案練習與能力評估。

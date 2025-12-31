@@ -5,6 +5,7 @@ synthesis_type: summary
 source_post: /2007/08/29/windows-live-writer-beta2-new-version/
 redirect_from:
   - /2007/08/29/windows-live-writer-beta2-new-version/summary/
+postid: 2007-08-29-windows-live-writer-beta2-new-version
 ---
 
 # Windows Live Writer Beta2 ... (新版)

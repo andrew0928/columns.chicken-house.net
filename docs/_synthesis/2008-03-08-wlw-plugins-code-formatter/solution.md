@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2008/03/08/wlw-plugins-code-formatter/
 redirect_from:
   - /2008/03/08/wlw-plugins-code-formatter/solution/
+postid: 2008-03-08-wlw-plugins-code-formatter
 ---
 
 以下內容基於原文逐段抽取並重構，聚焦於「面對的難題—根因—解法—成效」四要素，產出可用於教學、練習與評估的 16 個完整案例。

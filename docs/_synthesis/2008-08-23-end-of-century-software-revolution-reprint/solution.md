@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2008/08/23/end-of-century-software-revolution-reprint/
 redirect_from:
   - /2008/08/23/end-of-century-software-revolution-reprint/solution/
+postid: 2008-08-23-end-of-century-software-revolution-reprint
 ---
 
 以下內容基於原文的主題與暗示訊息（OOP觀念長青、範例GUI、技術過時與環境不可得、磁片大小與資源限制等），將其抽象與延展為可操作的實戰案例。原文並未提供完整技術細節與量測數據，下列案例的實作方案、程式片段與成效指標均為教學用途的具體化設計與示例數據，用以支援教學、練習與評估。

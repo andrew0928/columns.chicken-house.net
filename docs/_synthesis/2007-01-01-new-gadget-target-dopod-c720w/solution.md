@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2007/01/01/new-gadget-target-dopod-c720w/
 redirect_from:
   - /2007/01/01/new-gadget-target-dopod-c720w/solution/
+postid: 2007-01-01-new-gadget-target-dopod-c720w
 ---
 
 以下內容是根據原文中提到的實際問題與取捨（待機過短、低電量掉話、螢幕相容性、WiFi/3G取捨、鍵盤效率、綁約時程等）所萃取與延展的可教學解決方案案例。為保持嚴謹，凡原文未提供數據的部分，以下均以「建議指標／待量測」方式呈現，不杜撰未出現的實測數據。

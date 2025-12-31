@@ -5,6 +5,7 @@ synthesis_type: faq
 source_post: /2006/05/21/cs-control-recent-comments/
 redirect_from:
   - /2006/05/21/cs-control-recent-comments/faq/
+postid: 2006-05-21-cs-control-recent-comments
 ---
 
 # CS Control: Recent Comments

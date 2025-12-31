@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2017/08/05/what-cicd-do-you-need/
 redirect_from:
   - /2017/08/05/what-cicd-do-you-need/solution/
+postid: 2017-08-05-what-cicd-do-you-need
 ---
 
 以下內容基於提供文章的觀點與實務經驗，抽取並結構化 17 個具完整教學價值的解決方案案例。每個案例包含問題、根因、解法、實作步驟、示例設定/程式、實際效益與評估方式，便於在實戰教學、專案練習與能力評估中使用。

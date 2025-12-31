@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2016/02/24/casestudy_license_03_digital_signature/
 redirect_from:
   - /2016/02/24/casestudy_license_03_digital_signature/solution/
+postid: 2016-02-24-casestudy_license_03_digital_signature
 ---
 
 以下內容基於文章中已出現的問題、根因、解法與驗證結果，整理為可落地演練的 18 個解決方案案例。每一案均含業務與技術視角、實作步驟、關鍵程式碼、實測結果與練習/評估指標，便於課堂教學、專案實作與評量。

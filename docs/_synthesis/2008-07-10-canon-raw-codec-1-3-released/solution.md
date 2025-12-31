@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2008/07/10/canon-raw-codec-1-3-released/
 redirect_from:
   - /2008/07/10/canon-raw-codec-1-3-released/solution/
+postid: 2008-07-10-canon-raw-codec-1-3-released
 ---
 
 以下內容基於原文中明確提到的痛點（Canon RAW Codec 1.3 與 .NET 3.0 + WPF 應用及 Microsoft Pro Photo Tools 的不相容、版本混亂、Vista SP1 支援差異、缺乏 x64 支援、新機種支援等），延伸成可教學、可演練的 15 個實戰案例。每個案例均包含問題、根因、解法（含程式碼/流程）、以及可量測的成效，便於專案練習與能力評估。

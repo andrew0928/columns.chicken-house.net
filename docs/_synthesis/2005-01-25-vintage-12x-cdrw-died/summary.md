@@ -5,6 +5,7 @@ synthesis_type: summary
 source_post: /2005/01/25/vintage-12x-cdrw-died/
 redirect_from:
   - /2005/01/25/vintage-12x-cdrw-died/summary/
+postid: 2005-01-25-vintage-12x-cdrw-died
 ---
 
 # 古董 12X CDRW 終於壽終正寢...

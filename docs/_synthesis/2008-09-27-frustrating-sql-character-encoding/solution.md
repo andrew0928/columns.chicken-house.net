@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2008/09/27/frustrating-sql-character-encoding/
 redirect_from:
   - /2008/09/27/frustrating-sql-character-encoding/solution/
+postid: 2008-09-27-frustrating-sql-character-encoding
 ---
 
 ## Case #1: 中繼資料庫 + Linked Server 的跨系統資料轉換架構

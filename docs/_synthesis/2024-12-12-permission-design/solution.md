@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2024/12/12/permission-design/
 redirect_from:
   - /2024/12/12/permission-design/solution/
+postid: 2024-12-12-permission-design
 ---
 
 以下內容基於文章中對 RAG 檢索安全、向量資料庫缺少 record-level 授權、以 Tags + Filters 降維的設計思路，以及 RBAC/ABAC/PBAC 與資料/人/操作貼標的實務，重組為可落地的 16 個教學型案例。部分「實測數據」以文章示例或設計指標呈現（原文未提供具體量測值）。

@@ -5,6 +5,7 @@ synthesis_type: summary
 source_post: /2009/05/05/cycling-in-guandu/
 redirect_from:
   - /2009/05/05/cycling-in-guandu/summary/
+postid: 2009-05-05-cycling-in-guandu
 ---
 
 # 關渡騎單車

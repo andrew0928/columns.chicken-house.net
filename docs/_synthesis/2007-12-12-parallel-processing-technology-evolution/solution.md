@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2007/12/12/parallel-processing-technology-evolution/
 redirect_from:
   - /2007/12/12/parallel-processing-technology-evolution/solution/
+postid: 2007-12-12-parallel-processing-technology-evolution
 ---
 
 以下內容基於原文「平行處理的技術演進」所述的問題脈絡（多核心利用、平行迴圈、Critical Section、資料交換、thread 問題、TPL/TBB 等），提煉為可教學、可實作、可評估的 16 個問題解決案例。每一案皆含問題、根因、方案、程式碼、實測與學習要點，並在文末提供完整分類與學習路徑。

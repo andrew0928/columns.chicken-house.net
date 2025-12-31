@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2018/06/10/microservice10-throttle/
 redirect_from:
   - /2018/06/10/microservice10-throttle/solution/
+postid: 2018-06-10-microservice10-throttle
 ---
 
 以下內容基於文章中出現的問題、根因、解法與實測數據，整理為 18 個可教學、可實作、可評估的解決方案案例。每個案例都包含完整結構、關鍵代碼、實測指標與練習題。

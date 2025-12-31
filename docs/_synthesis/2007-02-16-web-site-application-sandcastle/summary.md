@@ -5,6 +5,7 @@ synthesis_type: summary
 source_post: /2007/02/16/web-site-application-sandcastle/
 redirect_from:
   - /2007/02/16/web-site-application-sandcastle/summary/
+postid: 2007-02-16-web-site-application-sandcastle
 ---
 
 # Web Site Application + Sandcastle

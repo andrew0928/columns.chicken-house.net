@@ -5,6 +5,7 @@ synthesis_type: faq
 source_post: /2009/04/20/personal-files-version-control/
 redirect_from:
   - /2009/04/20/personal-files-version-control/faq/
+postid: 2009-04-20-personal-files-version-control
 ---
 
 # 個人檔案 + 版本控制：USB Disk + SVN 的實務與原理

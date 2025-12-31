@@ -5,6 +5,7 @@ synthesis_type: summary
 source_post: /2007/09/26/electrician-diary-4-phone-network-wiring/
 redirect_from:
   - /2007/09/26/electrician-diary-4-phone-network-wiring/summary/
+postid: 2007-09-26-electrician-diary-4-phone-network-wiring
 ---
 
 # 水電工日誌 4. 配接電話線 & 網路線

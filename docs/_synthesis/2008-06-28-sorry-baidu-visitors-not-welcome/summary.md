@@ -5,6 +5,7 @@ synthesis_type: summary
 source_post: /2008/06/28/sorry-baidu-visitors-not-welcome/
 redirect_from:
   - /2008/06/28/sorry-baidu-visitors-not-welcome/summary/
+postid: 2008-06-28-sorry-baidu-visitors-not-welcome
 ---
 
 # 很抱歉，本站不歡迎來自 [百度] (Baidu.com) 的訪客 !!

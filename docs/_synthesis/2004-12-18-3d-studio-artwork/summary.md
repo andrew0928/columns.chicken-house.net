@@ -5,6 +5,7 @@ synthesis_type: summary
 source_post: /2004/12/18/3d-studio-artwork/
 redirect_from:
   - /2004/12/18/3d-studio-artwork/summary/
+postid: 2004-12-18-3d-studio-artwork
 ---
 
 # 3D Studio 作品

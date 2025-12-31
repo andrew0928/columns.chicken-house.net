@@ -5,6 +5,7 @@ synthesis_type: faq
 source_post: /2005/03/06/x31-dual-screen-challenge/
 redirect_from:
   - /2005/03/06/x31-dual-screen-challenge/faq/
+postid: 2005-03-06-x31-dual-screen-challenge
 ---
 
 # X31 + 雙螢幕的挑戰 @_@

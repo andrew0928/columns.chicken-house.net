@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2022/05/29/datetime-mock/
 redirect_from:
   - /2022/05/29/datetime-mock/solution/
+postid: 2022-05-29-datetime-mock
 ---
 
 以下為基於文章內容所提煉的 16 個結構化解決方案案例，涵蓋 DateTime 可控化、事件觸發、測試穩定性、PoC 降維打擊與多種替代策略。每個案例含完整問題、根因、方案、程式碼與實測/效益說明，便於教學、實作與評估。

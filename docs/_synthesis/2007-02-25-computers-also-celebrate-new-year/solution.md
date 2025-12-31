@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2007/02/25/computers-also-celebrate-new-year/
 redirect_from:
   - /2007/02/25/computers-also-celebrate-new-year/solution/
+postid: 2007-02-25-computers-also-celebrate-new-year
 ---
 
 以下內容基於原文提到的更新情境（SQL Server 2005 SP2、ActiveSync 4.5、Virtual PC 2007、一次爆出多個安全性修補）所抽象與延展出的實戰性案例。每個案例均以教學與評測為目的設計，含問題、根因、解法、步驟、程式碼/設定、學習要點與練習。

@@ -5,6 +5,7 @@ synthesis_type: faq
 source_post: /2007/09/11/finally/
 redirect_from:
   - /2007/09/11/finally/faq/
+postid: 2007-09-11-finally
 ---
 
 # Finally...

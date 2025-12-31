@@ -5,6 +5,7 @@ synthesis_type: summary
 source_post: /2006/11/11/css-disable-right-click/
 redirect_from:
   - /2006/11/11/css-disable-right-click/summary/
+postid: 2006-11-11-css-disable-right-click
 ---
 
 # CSS 擋右鍵

@@ -5,6 +5,7 @@ synthesis_type: faq
 source_post: /2008/04/04/configuring-website-settings-for-codeformatter-compatibility/
 redirect_from:
   - /2008/04/04/configuring-website-settings-for-codeformatter-compatibility/faq/
+postid: 2008-04-04-configuring-website-settings-for-codeformatter-compatibility
 ---
 
 # 搭配 CodeFormatter，網站須要配合的設定

@@ -5,6 +5,7 @@ synthesis_type: faq
 source_post: /2006/10/29/using-nunitlite-in-app-code-for-unit-testing/
 redirect_from:
   - /2006/10/29/using-nunitlite-in-app-code-for-unit-testing/faq/
+postid: 2006-10-29-using-nunitlite-in-app-code-for-unit-testing
 ---
 
 # 利用 NUnitLite 在 App_Code 下寫單元測試

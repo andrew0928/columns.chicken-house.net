@@ -5,6 +5,7 @@ synthesis_type: faq
 source_post: /2005/06/30/chickenhouse-web-communityserver-extension-new-features/
 redirect_from:
   - /2005/06/30/chickenhouse-web-communityserver-extension-new-features/faq/
+postid: 2005-06-30-chickenhouse-web-communityserver-extension-new-features
 ---
 
 # ChickenHouse.Web.CommunityServiceExtension 新增功能

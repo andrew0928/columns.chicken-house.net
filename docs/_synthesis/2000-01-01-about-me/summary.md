@@ -5,6 +5,7 @@ synthesis_type: summary
 source_post: /2000/01/01/about-me/
 redirect_from:
   - /2000/01/01/about-me/summary/
+postid: 2000-01-01-about-me
 ---
 
 # 安德魯是誰?

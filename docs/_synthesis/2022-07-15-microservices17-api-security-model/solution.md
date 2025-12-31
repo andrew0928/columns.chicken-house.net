@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2022/07/15/microservices17-api-security-model/
 redirect_from:
   - /2022/07/15/microservices17-api-security-model/solution/
+postid: 2022-07-15-microservices17-api-security-model
 ---
 
 以下內容基於原文脈絡，提取並結構化為 15 個可落地的問題解決案例。每個案例均包含：問題、根因、可操作方案與範例程式碼、學習要點、練習與評估。原文未提供具體效益數據；各案例提供建議的可量測指標與目標值，供實作後自行量測。

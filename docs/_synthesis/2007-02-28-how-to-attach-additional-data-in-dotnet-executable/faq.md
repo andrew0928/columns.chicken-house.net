@@ -5,6 +5,7 @@ synthesis_type: faq
 source_post: /2007/02/28/how-to-attach-additional-data-in-dotnet-executable/
 redirect_from:
   - /2007/02/28/how-to-attach-additional-data-in-dotnet-executable/faq/
+postid: 2007-02-28-how-to-attach-additional-data-in-dotnet-executable
 ---
 
 # 如何在執行檔 (.NET) 裡附加額外的資料?

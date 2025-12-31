@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2006/11/17/canon-digital-camera-organizer-release-notes/
 redirect_from:
   - /2006/11/17/canon-digital-camera-organizer-release-notes/solution/
+postid: 2006-11-17-canon-digital-camera-organizer-release-notes
 ---
 
 以下內容基於提供的文章（Canon Digital Camera 記憶卡歸檔工具 - Release Notes）所描述的功能、使用方式與工作流，抽取並重構為可教學、可實作與可評估的 15 個問題解決案例。每個案例均圍繞文中明確提到的功能點（EXIF 驅動的歸檔、JPEG 旋轉、CRW/AVI 的 THM 搭配、格式化樣式配置、Console 批次作業、指令列變數列舉等），並補充可操作的實作細節與評估標準，方便實戰演練與能力評量。

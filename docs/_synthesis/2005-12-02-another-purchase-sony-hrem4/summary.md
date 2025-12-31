@@ -5,6 +5,7 @@ synthesis_type: summary
 source_post: /2005/12/02/another-purchase-sony-hrem4/
 redirect_from:
   - /2005/12/02/another-purchase-sony-hrem4/summary/
+postid: 2005-12-02-another-purchase-sony-hrem4
 ---
 
 # 又敗家了... SONY HREM4

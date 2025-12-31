@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2006/05/21/cs-control-recent-comments/
 redirect_from:
   - /2006/05/21/cs-control-recent-comments/solution/
+postid: 2006-05-21-cs-control-recent-comments
 ---
 
 以下內容基於原文的具體脈絡（CS 2.0 改為 Provider Model 與 Theme Model、Post 物件統一承載資料、Theme Control 對應 Skin-*.ascx、邏輯需在 DLL 中完成），萃取並擴充為可教學、可實作的案例。各案例包含問題、根因、解法、實作步驟、示意程式碼與可評估的指標。原文未提供量化數據，實測數據部分提供建議性量化指標，便於教學與評估。

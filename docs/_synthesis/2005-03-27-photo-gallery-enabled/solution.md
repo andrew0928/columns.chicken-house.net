@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2005/03/27/photo-gallery-enabled/
 redirect_from:
   - /2005/03/27/photo-gallery-enabled/solution/
+postid: 2005-03-27-photo-gallery-enabled
 ---
 
 以下整理說明：原文僅明確指出「現有 Photo Gallery 只能逐張上傳，面對大量照片時操作成本過高，因此作者自建了簡單的批次上傳工具」。為滿足實戰教學、專案練習與評估的需求，以下案例從該核心痛點出發，拆解為 16 個可落地的典型問題—解決方案。除「原文提及」之外的流程、程式碼與數據為通用實務化設計與教學用測試數據（非原文測得），用於訓練與評估。

@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2008/11/03/how-to-learn-programming-well-5-using-trace-assert/
 redirect_from:
   - /2008/11/03/how-to-learn-programming-well-5-using-trace-assert/solution/
+postid: 2008-11-03-how-to-learn-programming-well-5-using-trace-assert
 ---
 
 ## Case #1: 以 Trace.Assert 強化 API 前置條件（避免 XML 參數為 null 或結構不一致）

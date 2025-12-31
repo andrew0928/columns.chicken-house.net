@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2017/01/30/leetcode1-tdd/
 redirect_from:
   - /2017/01/30/leetcode1-tdd/solution/
+postid: 2017-01-30-leetcode1-tdd
 ---
 
 以下內容基於文章中的觀念、做法與實作片段，抽取並結構化為 15 個具完整教學價值的問題解決案例。每個案例均包含問題、根因、方案、代碼/設定、實測效益與練習與評估要點。案例之間可串聯作為實戰教學路徑。

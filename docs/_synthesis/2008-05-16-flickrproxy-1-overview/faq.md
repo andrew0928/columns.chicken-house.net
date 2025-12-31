@@ -5,6 +5,7 @@ synthesis_type: faq
 source_post: /2008/05/16/flickrproxy-1-overview/
 redirect_from:
   - /2008/05/16/flickrproxy-1-overview/faq/
+postid: 2008-05-16-flickrproxy-1-overview
 ---
 
 # FlickrProxy #1 - Overview

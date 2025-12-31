@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2018/05/12/msa-labs2-selfhost/
 redirect_from:
   - /2018/05/12/msa-labs2-selfhost/solution/
+postid: 2018-05-12-msa-labs2-selfhost
 ---
 
 以下內容基於文章「容器化的微服務開發 #2, IIS or Self Host ?」萃取並結構化成可用於實戰教學、專案練習與能力評估的 16 個解決方案案例。

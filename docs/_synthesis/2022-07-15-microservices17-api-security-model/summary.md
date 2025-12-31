@@ -5,6 +5,7 @@ synthesis_type: summary
 source_post: /2022/07/15/microservices17-api-security-model/
 redirect_from:
   - /2022/07/15/microservices17-api-security-model/summary/
+postid: 2022-07-15-microservices17-api-security-model
 ---
 
 # 微服務架構 - API 的安全管控模型

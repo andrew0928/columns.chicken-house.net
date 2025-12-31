@@ -5,6 +5,7 @@ synthesis_type: summary
 source_post: /2015/10/31/coreclr-helloworld-consoleapp/
 redirect_from:
   - /2015/10/31/coreclr-helloworld-consoleapp/summary/
+postid: 2015-10-31-coreclr-helloworld-consoleapp
 ---
 
 # 在 Docker 上面執行 .NET (CoreCLR) Console App

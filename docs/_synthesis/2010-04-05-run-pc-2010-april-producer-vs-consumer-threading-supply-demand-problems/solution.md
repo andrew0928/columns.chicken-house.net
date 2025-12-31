@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2010/04/05/run-pc-2010-april-producer-vs-consumer-threading-supply-demand-problems/
 redirect_from:
   - /2010/04/05/run-pc-2010-april-producer-vs-consumer-threading-supply-demand-problems/solution/
+postid: 2010-04-05-run-pc-2010-april-producer-vs-consumer-threading-supply-demand-problems
 ---
 
 以下案例是依據文章主題「生產者/消費者、PIPE 生產線模式、BlockQueue 與 BlockingStream 的應用」所重組的教學與實戰案例。原文未提供具體數據與完整程式碼，以下案例以原文概念為基礎補全實作細節、測試方式與可衡量指標，便於教學、專案練習與能力評估。

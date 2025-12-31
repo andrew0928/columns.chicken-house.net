@@ -5,6 +5,7 @@ synthesis_type: summary
 source_post: /2016/10/25/microsoft-mvp-award-get/
 redirect_from:
   - /2016/10/25/microsoft-mvp-award-get/summary/
+postid: 2016-10-25-microsoft-mvp-award-get
 ---
 
 # 暌違多年的獎盃 - Microsoft MVP Award Get!

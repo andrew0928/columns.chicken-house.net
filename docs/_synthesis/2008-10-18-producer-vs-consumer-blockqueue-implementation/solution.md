@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2008/10/18/producer-vs-consumer-blockqueue-implementation/
 redirect_from:
   - /2008/10/18/producer-vs-consumer-blockqueue-implementation/solution/
+postid: 2008-10-18-producer-vs-consumer-blockqueue-implementation
 ---
 
 以下是基於文章「生產者 vs 消費者 - BlockQueue 實作」所萃取並結構化的 16 個可教學的解決方案案例。每個案例均包含問題、根因、解法（含樣例程式碼/流程）、實測或可觀察到的效益、學習要點與練習與評估方式。為避免重覆與冗長，重點程式碼在關鍵處節錄，完整 BlockQueue 程式碼於案例 1 提供，其餘案例在該基礎上延伸或變形。

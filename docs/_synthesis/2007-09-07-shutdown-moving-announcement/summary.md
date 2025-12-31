@@ -5,6 +5,7 @@ synthesis_type: summary
 source_post: /2007/09/07/shutdown-moving-announcement/
 redirect_from:
   - /2007/09/07/shutdown-moving-announcement/summary/
+postid: 2007-09-07-shutdown-moving-announcement
 ---
 
 # 停機搬家了 :D

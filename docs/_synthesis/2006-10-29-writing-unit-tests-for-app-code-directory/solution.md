@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2006/10/29/writing-unit-tests-for-app-code-directory/
 redirect_from:
   - /2006/10/29/writing-unit-tests-for-app-code-directory/solution/
+postid: 2006-10-29-writing-unit-tests-for-app-code-directory
 ---
 
 以下為基於原文情境（ASP.NET 2.0 Web Site 模型、App_Code 動態編譯、NUnit/NUnitLite 測試）所整理的 15 個可落地、可教學、可實作的問題解決案例。每一案皆圍繞原文兩大難題（無固定 DLL、依賴 Hosting 環境/HttpContext）與作者最後採用的方向（NUnitLite 於同一 AppDomain/特殊環境可執行），並補足可操作的實作步驟與範例碼，供實戰練習與評估使用。

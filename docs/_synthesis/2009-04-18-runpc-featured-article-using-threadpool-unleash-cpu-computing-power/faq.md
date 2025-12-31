@@ -5,6 +5,7 @@ synthesis_type: faq
 source_post: /2009/04/18/runpc-featured-article-using-threadpool-unleash-cpu-computing-power/
 redirect_from:
   - /2009/04/18/runpc-featured-article-using-threadpool-unleash-cpu-computing-power/faq/
+postid: 2009-04-18-runpc-featured-article-using-threadpool-unleash-cpu-computing-power
 ---
 
 # RUNPC 精選文章 - 運用ThreadPool發揮CPU運算能力

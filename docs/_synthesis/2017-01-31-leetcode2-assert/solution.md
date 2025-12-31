@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2017/01/31/leetcode2-assert/
 redirect_from:
   - /2017/01/31/leetcode2-assert/solution/
+postid: 2017-01-31-leetcode2-assert
 ---
 
 以下內容基於原文的技術脈絡，萃取並重組為可教學、可實作、可評估的 16 個解決方案案例。每個案例均包含問題、根因、方案、實作片段、實測數據與練習與評估設計。

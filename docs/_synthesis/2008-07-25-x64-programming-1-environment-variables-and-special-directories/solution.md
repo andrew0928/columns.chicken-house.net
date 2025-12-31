@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2008/07/25/x64-programming-1-environment-variables-and-special-directories/
 redirect_from:
   - /2008/07/25/x64-programming-1-environment-variables-and-special-directories/solution/
+postid: 2008-07-25-x64-programming-1-environment-variables-and-special-directories
 ---
 
 以下內容基於原文中呈現的實測現象（x86 與 x64 在 SpecialFolder 與環境變數上的差異、WOW64 重新導向、Registry 與檔案系統的雙版本等），整理出 15 個具實戰教學價值的問題解決案例。每個案例均包含：問題、根因、解法步驟、關鍵程式碼、可複製的實作環境與測試觀察、學習要點、練習與評估標準。

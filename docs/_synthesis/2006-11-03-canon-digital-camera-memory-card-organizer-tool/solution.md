@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2006/11/03/canon-digital-camera-memory-card-organizer-tool/
 redirect_from:
   - /2006/11/03/canon-digital-camera-memory-card-organizer-tool/solution/
+postid: 2006-11-03-canon-digital-camera-memory-card-organizer-tool
 ---
 
 ## Case #1: 批次檔一鍵自動歸檔至日期+主題目錄

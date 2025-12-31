@@ -5,6 +5,7 @@ synthesis_type: summary
 source_post: /2008/11/01/also-producer-consumer/
 redirect_from:
   - /2008/11/01/also-producer-consumer/summary/
+postid: 2008-11-01-also-producer-consumer
 ---
 
 # 也是 "生產者 & 消費者" ...

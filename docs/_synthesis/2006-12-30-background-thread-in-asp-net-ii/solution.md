@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2006/12/30/background-thread-in-asp-net-ii/
 redirect_from:
   - /2006/12/30/background-thread-in-asp-net-ii/solution/
+postid: 2006-12-30-background-thread-in-asp-net-ii
 ---
 
 以下案例均圍繞文中同一主題「在 ASP.NET（IIS）環境中執行背景工作（background thread）」，將作者觀察的兩個關鍵問題（App Pool 空閒逾時導致背景執行緒終止、w3wp.exe 因例外停止）擴展為可教學、可實作的完整解決方案集。說明中的「實測數據」若非出自原文觀察（例如 20 分鐘即停、調整設定後跑了數小時），均以教學示意為主，實務請自行量測。

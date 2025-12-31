@@ -5,6 +5,7 @@ synthesis_type: summary
 source_post: /2006/08/16/windows-live-writer/
 redirect_from:
   - /2006/08/16/windows-live-writer/summary/
+postid: 2006-08-16-windows-live-writer
 ---
 
 # Windows Live Writer...

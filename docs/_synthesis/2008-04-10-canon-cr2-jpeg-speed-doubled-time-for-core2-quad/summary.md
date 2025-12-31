@@ -5,6 +5,7 @@ synthesis_type: summary
 source_post: /2008/04/10/canon-cr2-jpeg-speed-doubled-time-for-core2-quad/
 redirect_from:
   - /2008/04/10/canon-cr2-jpeg-speed-doubled-time-for-core2-quad/summary/
+postid: 2008-04-10-canon-cr2-jpeg-speed-doubled-time-for-core2-quad
 ---
 
 # Canon CR2 --> .JPEG 速度加倍.. 該換 Core2 Quad 了嘛?

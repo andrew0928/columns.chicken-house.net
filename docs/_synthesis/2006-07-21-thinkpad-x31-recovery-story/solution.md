@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2006/07/21/thinkpad-x31-recovery-story/
 redirect_from:
   - /2006/07/21/thinkpad-x31-recovery-story/solution/
+postid: 2006-07-21-thinkpad-x31-recovery-story
 ---
 
 以下內容基於原文事件脈絡，將實際遇到的問題、根因、解法與成效，整理為可教學、可演練、可評估的 15 個實戰案例。每案都以工作流與操作步驟為主（必要時提供設定範例），確保能在課堂、專案與評估中直接使用。

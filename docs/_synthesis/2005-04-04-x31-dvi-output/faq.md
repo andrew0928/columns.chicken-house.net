@@ -5,6 +5,7 @@ synthesis_type: faq
 source_post: /2005/04/04/x31-dvi-output/
 redirect_from:
   - /2005/04/04/x31-dvi-output/faq/
+postid: 2005-04-04-x31-dvi-output
 ---
 
 # ThinkPad X31 以 PCI 顯示卡啟用 DVI 輸出：概念、原理、實作與故障排除 FAQ

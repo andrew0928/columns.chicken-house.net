@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2006/10/31/new-hard-drive-hitachi-travelstar-5k160/
 redirect_from:
   - /2006/10/31/new-hard-drive-hitachi-travelstar-5k160/solution/
+postid: 2006-10-31-new-hard-drive-hitachi-travelstar-5k160
 ---
 
 以下內容基於文章中提及的實際情境（筆電硬碟出現壞軌、資料轉移難、單艙位限制、購買通路缺貨、介面錯配風險、避免重灌、使用 Acronis True Image、轉好後正常開機、舊碟送保）與其延伸的實務操作，整理出 15 個完整、可實戰演練的解決方案案例。每個案例均含問題、根因、方案、步驟、關鍵設定、實測與學習要點等。

@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2023/10/01/reorder/
 redirect_from:
   - /2023/10/01/reorder/solution/
+postid: 2023-10-01-reorder
 ---
 
 以下內容基於原文抽取與重組，整理出可用於實戰教學、專案演練與能力評估的 17 個完整案例。每一個案例都涵蓋問題、根因、解法（含程式碼/流程）、實測數據、學習與練習、評估標準，並在最後提供分類與學習路徑建議。

@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2005/06/29/finally-bought-gps/
 redirect_from:
   - /2005/06/29/finally-bought-gps/solution/
+postid: 2005-06-29-finally-bought-gps
 ---
 
 以下為根據文章情境（PDA + 藍牙 GPS 接收器 + PaPaGo 導航）所整理與延展的實戰型解決方案案例。所有案例均聚焦在文章已提及的典型痛點（導航規畫不佳、AI 不準、使用者不熟、迷路可靠定位自救、低成本建置等），並設計可操作的流程、程式碼和評估方法。注意：實測數據部分提供的是教學用範例與評估框架，非來源文章之實際數據。

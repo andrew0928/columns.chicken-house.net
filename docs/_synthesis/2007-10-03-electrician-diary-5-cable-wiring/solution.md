@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2007/10/03/electrician-diary-5-cable-wiring/
 redirect_from:
   - /2007/10/03/electrician-diary-5-cable-wiring/solution/
+postid: 2007-10-03-electrician-diary-5-cable-wiring
 ---
 
 以下內容基於原文逐條提取並結構化成可教、可練、可評的 15 個實戰案例，皆包含問題、根因、解法與效益描述。

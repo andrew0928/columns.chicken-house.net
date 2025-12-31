@@ -5,6 +5,7 @@ synthesis_type: faq
 source_post: /2008/10/02/won-an-award/
 redirect_from:
   - /2008/10/02/won-an-award/faq/
+postid: 2008-10-02-won-an-award
 ---
 
 # Thread Sync、yield return 與架構取向：從猜數字比賽的設計思考

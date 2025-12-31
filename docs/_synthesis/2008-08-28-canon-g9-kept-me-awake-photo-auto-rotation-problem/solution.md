@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2008/08/28/canon-g9-kept-me-awake-photo-auto-rotation-problem/
 redirect_from:
   - /2008/08/28/canon-g9-kept-me-awake-photo-auto-rotation-problem/solution/
+postid: 2008-08-28-canon-g9-kept-me-awake-photo-auto-rotation-problem
 ---
 
 ## Case #1: 桌面縮圖程式未依 EXIF 自動轉正（JPG）

@@ -5,6 +5,7 @@ synthesis_type: summary
 source_post: /2008/08/23/tips-disconnecting-remote-desktop-users/
 redirect_from:
   - /2008/08/23/tips-disconnecting-remote-desktop-users/summary/
+postid: 2008-08-23-tips-disconnecting-remote-desktop-users
 ---
 
 # Tips: 踢掉遠端桌面連線的使用者

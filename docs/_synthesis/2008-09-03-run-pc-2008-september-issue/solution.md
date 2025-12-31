@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2008/09/03/run-pc-2008-september-issue/
 redirect_from:
   - /2008/09/03/run-pc-2008-september-issue/solution/
+postid: 2008-09-03-run-pc-2008-september-issue
 ---
 
 以下結果基於您提供的文章內容而來。原文主要聚焦於多執行緒、同步機制（旗標）、ThreadPool 的綜合應用與效能影響，並提到 AutoResetEvent/ManualResetEvent 以及可下載之範例程式。由於原文未包含具體數據、完整程式或明確案例描述，以下案例為對文中議題的教學化、可實作化重構與延伸；所有「實測數據」均以測試方法與建議指標呈現，數值需依您環境量測填補。每個案例都聚焦於「問題—根因—解法—練習—評估」閉環，且盡量使用 .NET/ThreadPool/同步旗標等主題。

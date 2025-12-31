@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2008/11/04/run-pc-2008-november-issue/
 redirect_from:
   - /2008/11/04/run-pc-2008-november-issue/solution/
+postid: 2008-11-04-run-pc-2008-november-issue
 ---
 
 以下內容依據文章中提到的多執行緒設計主題（生產者-消費者、Stream Pipeline、.NET 平行處理等）萃取與延伸為可教學且可實作的 16 個實戰案例。每個案例皆包含問題、根因、解法、實作與評估指標，供教學、練習與評估使用。

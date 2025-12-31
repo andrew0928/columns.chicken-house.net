@@ -5,6 +5,7 @@ synthesis_type: faq
 source_post: /2017/10/04/lcow/
 redirect_from:
   - /2017/10/04/lcow/faq/
+postid: 2017-10-04-lcow
 ---
 
 # LCOW Labs: Linux Container On Windows

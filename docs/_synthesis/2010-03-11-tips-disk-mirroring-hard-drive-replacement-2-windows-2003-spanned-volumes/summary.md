@@ -5,6 +5,7 @@ synthesis_type: summary
 source_post: /2010/03/11/tips-disk-mirroring-hard-drive-replacement-2-windows-2003-spanned-volumes/
 redirect_from:
   - /2010/03/11/tips-disk-mirroring-hard-drive-replacement-2-windows-2003-spanned-volumes/summary/
+postid: 2010-03-11-tips-disk-mirroring-hard-drive-replacement-2-windows-2003-spanned-volumes
 ---
 
 # [Tips] 用 磁碟鏡像 更換硬碟 #2, Windows 2003 的跨距磁區

@@ -5,6 +5,7 @@ synthesis_type: faq
 source_post: /2008/12/10/xmlwellformedwriter-writeraw-bug-followup/
 redirect_from:
   - /2008/12/10/xmlwellformedwriter-writeraw-bug-followup/faq/
+postid: 2008-12-10-xmlwellformedwriter-writeraw-bug-followup
 ---
 
 # XmlWellFormedWriter.WriteRaw( ) 的 Bug 後續發展

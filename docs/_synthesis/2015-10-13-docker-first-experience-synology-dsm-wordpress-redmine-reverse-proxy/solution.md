@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2015/10/13/docker-first-experience-synology-dsm-wordpress-redmine-reverse-proxy/
 redirect_from:
   - /2015/10/13/docker-first-experience-synology-dsm-wordpress-redmine-reverse-proxy/solution/
+postid: 2015-10-13-docker-first-experience-synology-dsm-wordpress-redmine-reverse-proxy
 ---
 
 ## Case #1: 用 Docker 補齊 DSM 套件缺口與更新時滯

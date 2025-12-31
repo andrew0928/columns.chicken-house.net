@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2015/12/06/net-core-running-net-core-rc1-on-docker/
 redirect_from:
   - /2015/12/06/net-core-running-net-core-rc1-on-docker/solution/
+postid: 2015-12-06-net-core-running-net-core-rc1-on-docker
 ---
 
 以下內容基於文章所提供的資訊，萃取並整理出15個具教學價值的「問題解決案例」。每個案例聚焦在實際遇到的問題、可追溯的成因、可操作的解法（含命令與程式碼片段），以及可評估的效益與練習建議。文中若未提供明確數據，則以「建議指標」形態呈現評估方式，便於教學與能力評估。

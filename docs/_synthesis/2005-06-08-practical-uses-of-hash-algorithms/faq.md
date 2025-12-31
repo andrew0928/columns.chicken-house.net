@@ -5,6 +5,7 @@ synthesis_type: faq
 source_post: /2005/06/08/practical-uses-of-hash-algorithms/
 redirect_from:
   - /2005/06/08/practical-uses-of-hash-algorithms/faq/
+postid: 2005-06-08-practical-uses-of-hash-algorithms
 ---
 
 # Hash 的妙用

@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2019/07/06/pipeline-practices/
 redirect_from:
   - /2019/07/06/pipeline-practices/solution/
+postid: 2019-07-06-pipeline-practices
 ---
 
 以下為基於原文萃取與重組的 18 個完整教學案例，聚焦於平行任務處理、管線化（pipeline）、資源精準控制與效能度量。每個案例皆包含問題、根因、可複製的解決步驟與實測指標，便於實戰教學、專案練習與評估。

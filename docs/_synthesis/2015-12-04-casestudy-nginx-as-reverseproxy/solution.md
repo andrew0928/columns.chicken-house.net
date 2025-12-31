@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2015/12/04/casestudy-nginx-as-reverseproxy/
 redirect_from:
   - /2015/12/04/casestudy-nginx-as-reverseproxy/solution/
+postid: 2015-12-04-casestudy-nginx-as-reverseproxy
 ---
 
 以下內容基於原文逐段抽取、拆解並重構，整理出 16 個具完整教學價值的問題解決案例。每個案例包含問題、根因、可操作的解法（含程式碼/設定）、實測觀察、學習要點與練習與評估標準。可用於課堂實戰、專案練習與能力評估。

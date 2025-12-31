@@ -2,89 +2,67 @@
 
 ### Summary 品質檢核
 - [x] 涵蓋所有核心技術點
-  - 說明完整涵蓋 MCP-first、workflow-first、tools 規格、synthesis/預處理、Context Engineering、Shopify/Context7 標竿、案例與使用指引。
-  - 建議補充：標明 Resources 在本專案的實際用法與邊界，避免只提未展開。
+  - 已涵蓋 MCP-first、Workflow First、Tools 設計、內容正規化、流程效率化、三個實作案例、Shopify/Context7 觀摩、API→MCP 產業觀察、Context 工程與使用說明。
 - [x] 建立清晰的知識架構
-  - 已提供「資訊整理/知識架構圖」且條理分明（前置知識/核心概念/技術依賴/應用場景）。
-- [x] 提供明確的學習路徑
-  - 已分「入門/進階/實戰」，並搭配案例關聯圖、步驟化建議。
+  - 有「知識架構圖」「學習路徑建議」「關鍵要點清單」三層，脈絡清楚。
+- [ ] 提供明確的學習路徑
+  - 具體步驟與分階段有，但可再明確對應「每階段輸出物與預估時數」以利執行。
 - [ ] 包含可量化的成效指標
-  - 目前多為作者觀察（10-100x），缺少可重複量測的 KPI。
-  - 建議補充：precision@k、citation 正確率、平均 token/回合、工具呼叫成功率、首次答案時間、耗時統計等。
+  - 僅有「體感 10-100 倍」等定性描述；建議補充如「平均回應時間、Token 成本、命中片段可用率、引用正確率」等指標與基線。
 - [x] 適合不同程度的學習者
-  - 提供三階學習清單與多層次素材（概念→實作→評量）。
-
-改進建議（Summary）
-- 補一節「評估與指標」：列出3-5項可量測 KPI、基線與目標值、量測方法。
-- 增補 Resources 實際清單與用例，完成「Prompts/Tools/Resources」三原語的閉環描述。
-
----
+  - 入門/進階/實戰路徑已區分，涵蓋 Host 安裝到設計工具的多層次任務。
 
 ### FAQ 品質檢核
 - [x] 問題涵蓋廣度（概念/原理/實作/問題）
-  - A/B/C/D 四類覆蓋面廣，對齊原文重點與延伸主題。
+  - 概念（A）、技術原理（B）、實作應用（C）、問題解決（D）均充分，並含產業觀察。
 - [x] 答案層次分明（簡答/詳答）
-  - 一致提供 A簡/A詳，層次清晰。
+  - 每題均含 A簡/A詳，結構清楚。
 - [x] 難度標註準確
-  - 每題皆標示難度與學習階段，與內容深度相符。
+  - 以初級/中級/高級標註，與內容難度相符。
 - [x] 知識點關聯性明確
-  - 每題有關聯概念，且提供學習路徑索引。
+  - 每題標註「關聯概念」與跨類別連結，利於導讀。
 - [x] 學習順序合理
-  - 初/中/高分層與索引清楚，順序由基礎→進階→實作合理。
-
-改進建議（FAQ）
-- 在部分高階題（如 B-Q7/B-Q8/B-Q9）附一則「常見誤區與排錯清單」，提升可操作性。
-- 增加2-3題安全與濫用情境（速率限制、資料外洩風險、越權呼叫）Q&A。
-
----
+  - 附「學習路徑索引」分初/中/高，順序從基礎概念→設計原理→實作/除錯合理。
 
 ### Solution 品質檢核
 - [x] 問題描述具體且真實
-  - 17 個案例皆基於實際場景（Q/A、vibe coding、Repo 重構等），與原文一致。
+  - 每 Case 有 Problem Statement，含業務場景/技術挑戰/影響範圍/複雜度。
 - [x] 根因分析深入透徹
-  - 每案含直接/深層原因，覆蓋架構/技術/流程三層。
+  - 均分「直接原因/深層原因（架構/技術/流程）」三層，深度足夠。
 - [x] 解決方案步驟清晰
-  - 皆有「解決策略→實施步驟→關鍵設定/程式碼」。
+  - Solution Design + 實施步驟分點，含所需資源與預估時間（多數案例）。
 - [x] 包含可執行的範例
-  - 含 JSON/程式碼/指令片段，落地性高。
+  - 提供工具呼叫參數、程式碼片段（C#、bash）、配置（YAML、JSON、Markdown 回應模板）。
 - [x] 提供練習題與評估標準
-  - 每案含練習（時間估）與評分比重（完整性/品質/效能/創新）。
-- [x] 標註學習難度與所需時間
-  - 每案皆有難度；多數步驟含預估時間（仍可更一致化）。
-
-改進建議（Solution）
-- 補充統一的「案例度量範本」：每個案例附最小可量測指標（如 tokens、P@k、回應時延、工具調用次數）。
-- 對跨案例共用的關鍵參數（synthesis、limit、position/length）加附「建議預設值範圍表」。
-
----
+  - 每 Case 均有 Practice Exercise 與 Assessment Criteria，標準化明確。
+- [ ] 標註學習難度與所需時間
+  - 難度已標；步驟中多數含時數，但未統一標註「每案例總耗時」。建議為每 Case 補「總學習/實作預估時間」。
 
 ### 整體一致性檢核
 - [ ] 三份文件的技術術語一致
-  - 主要一致，但有輕微不一致：
-    - 工具名：GetInstructions vs GetInstruction（原文使用說明指令範例為 /mcp GetInstruction；工具清單與本文多處為 GetInstructions）。
-    - 建議統一用 GetInstructions；並在「使用範例」同步修正命令為 /mcp GetInstructions。
+  - 多數一致，但存在小幅不一致：
+    - 工具名：原文/使用說明示例有「GetInstruction」（單數）；Summary/FAQ/Solution 以「GetInstructions」（複數）為主。建議全站統一為「GetInstructions」，並註記 Chat/VSCode 中的命令格式「/mcp GetInstruction」是否為 Host 指令名差異。
+    - 模型/Host 命名：ChatGPT Plus（GPT-5 + Thinking）、Claude Sonnet 4 一致；請維持相同寫法。
+    - synthesis 型別：origin/solution/faq/summary 三份文件一致。
 - [x] 知識點交叉引用正確
-  - Shopify/Context7 參考對應正確；工具與案例映射一致。
+  - FAQ 與 Solution 多處回扣原文工具清單與案例；引用 Shopify/Context7 設計特點一致無誤。
 - [x] 學習路徑邏輯連貫
-  - 概念→檢索→上下文→實作→部署→可靠性，節奏清楚。
+  - 從理念（MCP-first/Workflow-first）→內容工程（synthesis/檢索策略/窗口化）→應用（Q&A/寫作/程式碼）→觀摩（Shopify/Context7）→產業觀察，遞進合理。
 - [x] 難度評級標準統一
-  - 入門/中級/高級的定義與分配一致；可再補一段「難度分級說明」。
+  - FAQ 與 Solution 難度劃分一致，與任務複雜度相符。
 
-改進建議（整體）
-- 補「名詞與介面對照表」：工具名稱、參數（synthesis/limit/position/length）、常見查詢模板，避免細節不一致。
-- 在 Summary/FAQ/Solution 首次出現關鍵術語時，加入統一定義（如「synthesis 型態集合 = {origin, solution, faq, summary}」）。
-
----
-
-加值改進清單（可選強化）
-- 指標儀表板（Dashboard）範本：
-  - 指標：工具呼叫成功率、citation 正確率、平均 tokens/答案、P@k、平均延遲。
-  - 報表區間：每日/每週，並標註模型與 Host 差異。
-- 可靠性與安全：
-  - 加入速率限制與審計策略範例（per-session/per-IP），以及錯誤碼對照。
-- Resources 實作補完：
-  - 在 VSCode 端提供「以 post URI 加上下文」的具體路徑規格與例子，並列出資源型別清單（原文 Markdown、程式碼、圖片/連結）。
-- 範例參數表（預設值）：
-  - SearchChunks.limit：5-10；GetPostContent.length：512-2048；synthesis 預設按情境選擇（Q/A→faq/summary；解題→solution；引用核對→origin）。
-- FAQ 增補「疑難排解速查表」：
-  - 例如：工具不回應、結果離題、token 超限、URL 404、conversationId 漏帶等對應處置。
+建議修正與補強事項
+- 術語統一：
+  - 將工具名統一為「GetInstructions」，並在使用說明中補充「/mcp GetInstruction 為 Host 命令字串」的對應關係，避免混淆。
+- 可量化指標：
+  - 在 Summary 與 Solution 案例中，補充量化欄位（示例）：
+    - 平均回應延遲（秒）
+    - 單次任務 Token 使用量/成本
+    - 檢索片段可用率（命中後可直接引用的比例）
+    - 引用正確率（含網址可用性）
+- 時間標註一致化：
+  - 在每個 Solution Case 結尾新增「預估總耗時（學習/實作）」彙總欄，以便教學/實作規劃。
+- 交叉導引：
+  - 在 FAQ 答案末尾附「對應 Solution Case 編號」以利從知識到實作的跳轉（例如：A-Q8 對應 Case #4/#5）。
+- 風險與防呆清單：
+  - 補充一頁「常見誤用與防呆對策」總表（如未先調用 GetInstructions、上下文爆量、synthesis 使用不當、工具過多選擇困難），對應到解法（Case #2/#3/#11/#12/#16）。

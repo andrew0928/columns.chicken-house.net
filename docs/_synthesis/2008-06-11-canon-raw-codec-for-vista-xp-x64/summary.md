@@ -5,6 +5,7 @@ synthesis_type: summary
 source_post: /2008/06/11/canon-raw-codec-for-vista-xp-x64/
 redirect_from:
   - /2008/06/11/canon-raw-codec-for-vista-xp-x64/summary/
+postid: 2008-06-11-canon-raw-codec-for-vista-xp-x64
 ---
 
 # Canon Raw Codec for Vista / XP x64 ...

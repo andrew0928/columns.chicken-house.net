@@ -5,6 +5,7 @@ synthesis_type: faq
 source_post: /2015/12/04/casestudy-nginx-as-reverseproxy/
 redirect_from:
   - /2015/12/04/casestudy-nginx-as-reverseproxy/faq/
+postid: 2015-12-04-casestudy-nginx-as-reverseproxy
 ---
 
 # CaseStudy: 網站重構, NGINX (REVERSE PROXY) + 文章連結轉址 (Map)

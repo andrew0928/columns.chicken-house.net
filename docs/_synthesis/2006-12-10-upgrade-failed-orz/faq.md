@@ -5,6 +5,7 @@ synthesis_type: faq
 source_post: /2006/12/10/upgrade-failed-orz/
 redirect_from:
   - /2006/12/10/upgrade-failed-orz/faq/
+postid: 2006-12-10-upgrade-failed-orz
 ---
 
 # 升級失敗... Orz

@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2017/07/25/wc-swarm-labs/
 redirect_from:
   - /2017/07/25/wc-swarm-labs/solution/
+postid: 2017-07-25-wc-swarm-labs
 ---
 
 以下為基於原文整理出的 15 個可教學、可實作的結構化問題解決案例。每個案例均包含問題、根因、解方、步驟、關鍵指令/程式碼、學習要點與練習評估，便於實戰教學與專案演練。

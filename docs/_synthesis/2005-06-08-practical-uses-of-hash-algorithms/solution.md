@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2005/06/08/practical-uses-of-hash-algorithms/
 redirect_from:
   - /2005/06/08/practical-uses-of-hash-algorithms/solution/
+postid: 2005-06-08-practical-uses-of-hash-algorithms
 ---
 
 以下內容基於原文中提出的哈希（Hash）演算法用途，擴展為可落地的 18 個實戰解決方案案例。每個案例均包含問題、根因、解法、實作與評估，適合作為教學、練習與評量素材。

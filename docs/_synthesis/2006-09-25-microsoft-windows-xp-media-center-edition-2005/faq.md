@@ -5,6 +5,7 @@ synthesis_type: faq
 source_post: /2006/09/25/microsoft-windows-xp-media-center-edition-2005/
 redirect_from:
   - /2006/09/25/microsoft-windows-xp-media-center-edition-2005/faq/
+postid: 2006-09-25-microsoft-windows-xp-media-center-edition-2005
 ---
 
 # Microsoft Windows XP Media Center Edition 2005

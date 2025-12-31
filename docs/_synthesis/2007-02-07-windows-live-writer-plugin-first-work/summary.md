@@ -5,6 +5,7 @@ synthesis_type: summary
 source_post: /2007/02/07/windows-live-writer-plugin-first-work/
 redirect_from:
   - /2007/02/07/windows-live-writer-plugin-first-work/summary/
+postid: 2007-02-07-windows-live-writer-plugin-first-work
 ---
 
 # Windows Live Writer - Plugin 處女作...

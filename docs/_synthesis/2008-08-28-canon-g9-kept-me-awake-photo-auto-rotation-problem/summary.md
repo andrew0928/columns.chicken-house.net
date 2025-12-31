@@ -5,6 +5,7 @@ synthesis_type: summary
 source_post: /2008/08/28/canon-g9-kept-me-awake-photo-auto-rotation-problem/
 redirect_from:
   - /2008/08/28/canon-g9-kept-me-awake-photo-auto-rotation-problem/summary/
+postid: 2008-08-28-canon-g9-kept-me-awake-photo-auto-rotation-problem
 ---
 
 # Canon G9 害我沒睡好... 相片自動轉正的問題

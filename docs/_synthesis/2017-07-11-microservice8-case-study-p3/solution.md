@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2017/07/11/microservice8-case-study-p3/
 redirect_from:
   - /2017/07/11/microservice8-case-study-p3/solution/
+postid: 2017-07-11-microservice8-case-study-p3
 ---
 
 ## Case #1: API Gateway 聚合，消除首頁 N 次後端呼叫的轉圈延遲

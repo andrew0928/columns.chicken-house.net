@@ -5,6 +5,7 @@ synthesis_type: summary
 source_post: /2017/07/11/microservice8-case-study-p3/
 redirect_from:
   - /2017/07/11/microservice8-case-study-p3/summary/
+postid: 2017-07-11-microservice8-case-study-p3
 ---
 
 # 架構師觀點 - 轉移到微服務架構的經驗分享 (Part 3)

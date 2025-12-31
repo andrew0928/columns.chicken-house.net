@@ -5,6 +5,7 @@ synthesis_type: faq
 source_post: /2013/03/21/azure-multi-tenancy-application-3-data-layer-implementation/
 redirect_from:
   - /2013/03/21/azure-multi-tenancy-application-3-data-layer-implementation/faq/
+postid: 2013-03-21-azure-multi-tenancy-application-3-data-layer-implementation
 ---
 
 # [Azure] Multi-Tenancy Application #3, (資料層)實作案例

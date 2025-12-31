@@ -5,6 +5,7 @@ synthesis_type: summary
 source_post: /2004/12/17/zoom-webpage-content-with-css/
 redirect_from:
   - /2004/12/17/zoom-webpage-content-with-css/summary/
+postid: 2004-12-17-zoom-webpage-content-with-css
 ---
 
 # 任意放大/縮小網頁的內容

@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2020/11/23/security-talk/
 redirect_from:
   - /2020/11/23/security-talk/solution/
+postid: 2020-11-23-security-talk
 ---
 
 以下為基於原文提煉並重構的 17 個可落地的資安問題解決案例。每一案皆包含問題、根因、方案、程式碼示例、效益指標與教學練習，便於實戰導入與能力評估。

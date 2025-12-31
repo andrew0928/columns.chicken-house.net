@@ -5,6 +5,7 @@ synthesis_type: faq
 source_post: /2000/01/01/about-me/
 redirect_from:
   - /2000/01/01/about-me/faq/
+postid: 2000-01-01-about-me
 ---
 
 # 安德魯是誰?

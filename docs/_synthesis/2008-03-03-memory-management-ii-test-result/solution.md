@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2008/03/03/memory-management-ii-test-result/
 redirect_from:
   - /2008/03/03/memory-management-ii-test-result/solution/
+postid: 2008-03-03-memory-management-ii-test-result
 ---
 
 以下內容基於原文的實測與結論，將測到的問題與可行對策整理為可教學、可練習、可評估的 15 個實戰案例。每個案例均包含問題、根因、方案、關鍵程式碼、成效數據（以文中實測為主）、學習要點與練習題。

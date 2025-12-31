@@ -5,6 +5,7 @@ synthesis_type: faq
 source_post: /2010/03/06/tips-painless-hard-drive-replacement-with-disk-mirroring/
 redirect_from:
   - /2010/03/06/tips-painless-hard-drive-replacement-with-disk-mirroring/faq/
+postid: 2010-03-06-tips-painless-hard-drive-replacement-with-disk-mirroring
 ---
 
 # [Tips] 用 磁碟鏡像 無痛更換硬碟

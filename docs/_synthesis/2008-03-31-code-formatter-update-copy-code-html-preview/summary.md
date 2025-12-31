@@ -5,6 +5,7 @@ synthesis_type: summary
 source_post: /2008/03/31/code-formatter-update-copy-code-html-preview/
 redirect_from:
   - /2008/03/31/code-formatter-update-copy-code-html-preview/summary/
+postid: 2008-03-31-code-formatter-update-copy-code-html-preview
 ---
 
 # Code Formatter 更新: 複製CODE及HTML預覽

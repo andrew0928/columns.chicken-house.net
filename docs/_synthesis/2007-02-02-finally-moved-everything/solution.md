@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2007/02/02/finally-moved-everything/
 redirect_from:
   - /2007/02/02/finally-moved-everything/solution/
+postid: 2007-02-02-finally-moved-everything
 ---
 
 以下為基於原文情境，提煉出的 16 個「可教可練」的結構化解決方案案例。每一案均涵蓋：問題、根因、方案、實施步驟、關鍵設定/指令、效益與指標、學習要點、練習與評估。原文的實際事件與限制已在「實際案例」欄標註，數據部分若原文未提供，則以「建議量測與目標值」呈現，避免誤導。

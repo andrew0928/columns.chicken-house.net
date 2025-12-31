@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2024/05/01/permission-design/
 redirect_from:
   - /2024/05/01/permission-design/solution/
+postid: 2024-05-01-permission-design
 ---
 
 ## Case #1: 以 RBAC 將「使用者×功能」組合降維

@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2008/11/18/policy-injection-application-block-small-discovery/
 redirect_from:
   - /2008/11/18/policy-injection-application-block-small-discovery/solution/
+postid: 2008-11-18-policy-injection-application-block-small-discovery
 ---
 
 以下內容基於原文觀點與範例，聚焦於「Policy Injection Application Block (PIAB)」帶來的實作方式與效益，將可落地的問題—根因—解法—效益整理為 15 個可教學、可練習、可評估的案例。每個案例盡可能引用文中已提及的概念、行為與範例碼模式（AuthorizationCallHandler、Create/Wrap 代理、各種 Handler：Authorization/Caching/Exception/Logging/Performance Counter/Validation/Custom Pipeline），並以可操作的步驟與示例補齊教學需求。

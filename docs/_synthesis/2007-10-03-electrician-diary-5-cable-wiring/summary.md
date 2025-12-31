@@ -5,6 +5,7 @@ synthesis_type: summary
 source_post: /2007/10/03/electrician-diary-5-cable-wiring/
 redirect_from:
   - /2007/10/03/electrician-diary-5-cable-wiring/summary/
+postid: 2007-10-03-electrician-diary-5-cable-wiring
 ---
 
 # 水電工日誌 5. 配接 cable 線

@@ -5,6 +5,7 @@ synthesis_type: summary
 source_post: /2007/02/18/community-server-2007-beta-1-available-now/
 redirect_from:
   - /2007/02/18/community-server-2007-beta-1-available-now/summary/
+postid: 2007-02-18-community-server-2007-beta-1-available-now
 ---
 
 # Community Server 2007 Beta 1 Available Now

@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2022/10/26/apifirst/
 redirect_from:
   - /2022/10/26/apifirst/solution/
+postid: 2022-10-26-apifirst
 ---
 
 以下內容根據原文「架構師觀點 - API First 的開發策略」逐一萃取、重構，產出 18 個具教學價值的「問題解決案例」。每個案例均涵蓋問題、根因、解法、實施步驟、關鍵設定/程式碼、成效與學習要點等，供實戰教學、專案練習與能力評估之用。

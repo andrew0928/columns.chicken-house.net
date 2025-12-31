@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2006/02/27/ipod-tie-accessory/
 redirect_from:
   - /2006/02/27/ipod-tie-accessory/solution/
+postid: 2006-02-27-ipod-tie-accessory
 ---
 
 說明

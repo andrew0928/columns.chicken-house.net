@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2016/03/19/casestudy_license_03_appendix_key_management/
 redirect_from:
   - /2016/03/19/casestudy_license_03_appendix_key_management/solution/
+postid: 2016-03-19-casestudy_license_03_appendix_key_management
 ---
 
 以下內容根據你提供的文章，將核心議題「授權碼與金鑰管理」拆解為 15 個可落地的教學型案例。每個案例包含問題、根因、方案、實作與練習，並在最後給出分類與學習路徑建議。

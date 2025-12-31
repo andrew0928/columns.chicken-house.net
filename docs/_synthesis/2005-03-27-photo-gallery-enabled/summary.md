@@ -5,6 +5,7 @@ synthesis_type: summary
 source_post: /2005/03/27/photo-gallery-enabled/
 redirect_from:
   - /2005/03/27/photo-gallery-enabled/summary/
+postid: 2005-03-27-photo-gallery-enabled
 ---
 
 # Photo Gallery 啟用 !!

@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2009/10/08/home-server-enthusiasts-are-more-common-than-expected/
 redirect_from:
   - /2009/10/08/home-server-enthusiasts-are-more-common-than-expected/solution/
+postid: 2009-10-08-home-server-enthusiasts-are-more-common-than-expected
 ---
 
 ## Case #1: 以 NT4 RRAS 實現家用撥接上網共享

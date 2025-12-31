@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2018/07/28/labs-LCOW-volume/
 redirect_from:
   - /2018/07/28/labs-LCOW-volume/solution/
+postid: 2018-07-28-labs-LCOW-volume
 ---
 
 以下內容基於提供的文章，萃取並結構化 15 個具完整教學價值的「問題解決案例」。每一案例均包含問題、根因、解決方案（含實作與程式碼）、實測數據與學習要點，並在最後提供分類與學習路徑建議。

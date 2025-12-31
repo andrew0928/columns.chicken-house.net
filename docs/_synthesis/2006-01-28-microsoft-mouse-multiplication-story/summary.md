@@ -5,6 +5,7 @@ synthesis_type: summary
 source_post: /2006/01/28/microsoft-mouse-multiplication-story/
 redirect_from:
   - /2006/01/28/microsoft-mouse-multiplication-story/summary/
+postid: 2006-01-28-microsoft-mouse-multiplication-story
 ---
 
 # 老鼠的繁殖力真強... [H]

@@ -5,6 +5,7 @@ synthesis_type: summary
 source_post: /2008/05/06/server-downtime-announcement/
 redirect_from:
   - /2008/05/06/server-downtime-announcement/summary/
+postid: 2008-05-06-server-downtime-announcement
 ---
 
 # 停機公告

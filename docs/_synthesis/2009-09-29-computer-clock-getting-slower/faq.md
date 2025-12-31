@@ -5,6 +5,7 @@ synthesis_type: faq
 source_post: /2009/09/29/computer-clock-getting-slower/
 redirect_from:
   - /2009/09/29/computer-clock-getting-slower/faq/
+postid: 2009-09-29-computer-clock-getting-slower
 ---
 
 # 電腦時鐘越來越慢：Hyper-V 與網域時間同步的迷思與解方

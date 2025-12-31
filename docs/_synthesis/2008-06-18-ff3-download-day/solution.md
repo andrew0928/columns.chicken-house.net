@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2008/06/18/ff3-download-day/
 redirect_from:
   - /2008/06/18/ff3-download-day/solution/
+postid: 2008-06-18-ff3-download-day
 ---
 
 經審閱你提供的文章內容（關於 Firefox 3 下載日的短文），無法從中萃取出符合你指定「問題—根因—解法—成效」四項條件的技術型問題解決案例。文章屬敘事性紀錄（參與創世界紀錄的活動、個人使用習慣、附圖），未包含技術難題描述、根因分析、解決方案細節、或任何實測成效與指標。

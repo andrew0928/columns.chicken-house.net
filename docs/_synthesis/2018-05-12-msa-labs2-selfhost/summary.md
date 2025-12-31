@@ -5,6 +5,7 @@ synthesis_type: summary
 source_post: /2018/05/12/msa-labs2-selfhost/
 redirect_from:
   - /2018/05/12/msa-labs2-selfhost/summary/
+postid: 2018-05-12-msa-labs2-selfhost
 ---
 
 # 容器化的微服務開發 #2, IIS or Self Host ?

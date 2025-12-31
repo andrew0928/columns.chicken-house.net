@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2005/01/09/text-editor-interface-enhancement/
 redirect_from:
   - /2005/01/09/text-editor-interface-enhancement/solution/
+postid: 2005-01-09-text-editor-interface-enhancement
 ---
 
 以下內容根據文章「.TEXT 的編輯介面補強」所描述的情境（.TEXT 部落格系統 + FreeTextBox v1.6 編輯器，缺少插入圖片與表情符號功能，作者自行加一排工具列補強）進行系統化拆解，擴充為可教學、可實作、可評估的 15 個完整解決方案案例。每一案均含問題、根因、方案、步驟、程式碼、效益與練習與評估標準。若原文未量化數據，本文以可重現的小型實驗與觀察數據形式提供參考基準。

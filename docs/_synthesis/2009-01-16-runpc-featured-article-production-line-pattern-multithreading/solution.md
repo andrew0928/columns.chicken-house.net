@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2009/01/16/runpc-featured-article-production-line-pattern-multithreading/
 redirect_from:
   - /2009/01/16/runpc-featured-article-production-line-pattern-multithreading/solution/
+postid: 2009-01-16-runpc-featured-article-production-line-pattern-multithreading
 ---
 
 ## Case #1: 以生產線（Pipeline）模式平行化「縮圖→壓縮」相依流程

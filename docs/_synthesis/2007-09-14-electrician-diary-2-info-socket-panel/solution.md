@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2007/09/14/electrician-diary-2-info-socket-panel/
 redirect_from:
   - /2007/09/14/electrician-diary-2-info-socket-panel/solution/
+postid: 2007-09-14-electrician-diary-2-info-socket-panel
 ---
 
 以下內容基於原文，將可辨識到「問題—根因—解法—實際效益」的片段重構為可教學、可練習、可評估的實戰案例。共 17 個案例。

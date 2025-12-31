@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2007/06/23/using-vhdmount-with-virtual-pc/
 redirect_from:
   - /2007/06/23/using-vhdmount-with-virtual-pc/solution/
+postid: 2007-06-23-using-vhdmount-with-virtual-pc
 ---
 
 以下內容基於文章「Using VHDMount with Virtual PC」所提到的情境（VHDMount、Virtual Server 2005 R2 SP1、Virtual PC、Hardware Assisted Virtualization、VHD 格式互通、Undo/Commit/Discard 機制等），萃取與延展成具備完整教學價值的 15 個解決方案案例。每個案例均包含問題、根因、方案、關鍵指令、實作與學習評估構面。若文章未提供量化數據，實測數據以定性描述為主。

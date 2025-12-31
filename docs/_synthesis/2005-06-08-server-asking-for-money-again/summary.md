@@ -5,6 +5,7 @@ synthesis_type: summary
 source_post: /2005/06/08/server-asking-for-money-again/
 redirect_from:
   - /2005/06/08/server-asking-for-money-again/summary/
+postid: 2005-06-08-server-asking-for-money-again
 ---
 
 # 機器又要討錢了:~

@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2006/01/29/pentium-d-920-upgrade-finally/
 redirect_from:
   - /2006/01/29/pentium-d-920-upgrade-finally/solution/
+postid: 2006-01-29-pentium-d-920-upgrade-finally
 ---
 
 ## Case #1: 選擇支援 VT 與 EM64T 的 CPU（由 Pentium D 820 到 920）

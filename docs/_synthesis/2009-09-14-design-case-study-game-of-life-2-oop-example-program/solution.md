@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2009/09/14/design-case-study-game-of-life-2-oop-example-program/
 redirect_from:
   - /2009/09/14/design-case-study-game-of-life-2-oop-example-program/solution/
+postid: 2009-09-14-design-case-study-game-of-life-2-oop-example-program
 ---
 
 以下內容基於文章中的程式與設計，提煉出可教學、可實作、可評估的 15 個問題解決案例。每個案例都給出問題、根因、解法、關鍵程式碼、實作細節與練習與評估標準，便於課堂演練與專案實作。

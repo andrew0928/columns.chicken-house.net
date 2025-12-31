@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2005/12/06/msdn-visual-studio-add-ins-every-developer-should-download-now/
 redirect_from:
   - /2005/12/06/msdn-visual-studio-add-ins-every-developer-should-download-now/solution/
+postid: 2005-12-06-msdn-visual-studio-add-ins-every-developer-should-download-now
 ---
 
 說明與處理策略

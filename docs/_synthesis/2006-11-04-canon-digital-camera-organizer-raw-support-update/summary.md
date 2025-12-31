@@ -5,6 +5,7 @@ synthesis_type: summary
 source_post: /2006/11/04/canon-digital-camera-organizer-raw-support-update/
 redirect_from:
   - /2006/11/04/canon-digital-camera-organizer-raw-support-update/summary/
+postid: 2006-11-04-canon-digital-camera-organizer-raw-support-update
 ---
 
 # Canon Digital Camera 記憶卡歸檔工具 - RAW Support Update

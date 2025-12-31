@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2008/09/28/is-google-making-us-dumber/
 redirect_from:
   - /2008/09/28/is-google-making-us-dumber/solution/
+postid: 2008-09-28-is-google-making-us-dumber
 ---
 
 ## Case #1: 官方資料優先的研究與查證 SOP

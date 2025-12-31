@@ -5,6 +5,7 @@ synthesis_type: faq
 source_post: /2008/02/13/enjoying-6gb-ram/
 redirect_from:
   - /2008/02/13/enjoying-6gb-ram/faq/
+postid: 2008-02-13-enjoying-6gb-ram
 ---
 
 # 爽一下, 6GB RAM ...

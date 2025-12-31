@@ -5,6 +5,7 @@ synthesis_type: summary
 source_post: /2008/06/23/plagiarized-again/
 redirect_from:
   - /2008/06/23/plagiarized-again/summary/
+postid: 2008-06-23-plagiarized-again
 ---
 
 # 又被盜文了... :@

@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2015/12/28/dnxcore50_03_windows_server_2016/
 redirect_from:
   - /2015/12/28/dnxcore50_03_windows_server_2016/solution/
+postid: 2015-12-28-dnxcore50_03_windows_server_2016
 ---
 
 以下為依據文章內容所梳理出的 16 個教學型問題解決案例。每個案例均包含問題、根因、解法（含流程或指令）、實測或指標、學習要點與練習與評估。數據與觀察皆以原文所述為準，未提供數據之處以「定性指標」表述。

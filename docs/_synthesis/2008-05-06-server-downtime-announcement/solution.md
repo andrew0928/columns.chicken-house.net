@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2008/05/06/server-downtime-announcement/
 redirect_from:
   - /2008/05/06/server-downtime-announcement/solution/
+postid: 2008-05-06-server-downtime-announcement
 ---
 
 以下內容基於原文情境「個人主機移至雜物間、維護困難、預計安排停機、影響讀者/網站/DNS/VPN/鄰居 Wi-Fi 使用者」等訊息，延伸成 18 個具教學價值的實作型解決方案案例。每個案例均聚焦於原文隱含的難題（可用性、維運流程、主機可及性、DNS/VPN 依賴、家用網路承載多服務等），並提供可落地的設計與程式碼示例。若有「實測數據」，為實務常見或測試環境的合理量測，非原文自行宣稱。

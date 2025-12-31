@@ -5,6 +5,7 @@ synthesis_type: summary
 source_post: /2018/06/10/microservice10-throttle/
 redirect_from:
   - /2018/06/10/microservice10-throttle/summary/
+postid: 2018-06-10-microservice10-throttle
 ---
 
 # 微服務基礎建設: 斷路器 #1, 服務負載的控制

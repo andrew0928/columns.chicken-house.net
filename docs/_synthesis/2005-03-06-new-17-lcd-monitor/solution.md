@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2005/03/06/new-17-lcd-monitor/
 redirect_from:
   - /2005/03/06/new-17-lcd-monitor/solution/
+postid: 2005-03-06-new-17-lcd-monitor
 ---
 
 以下內容以原文「筆電外接 17 吋 LCD、雙螢幕、直立模式更利於寫程式與閱讀」的實際場景為核心，擴充出可操作、可評估的問題解決案例。原文未提供詳細技術數據與程式碼，故以下案例均依該主題延伸，並提供可重現的流程與測試指標，供教學、練習與評估使用。

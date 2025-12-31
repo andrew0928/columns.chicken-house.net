@@ -5,6 +5,7 @@ synthesis_type: faq
 source_post: /2008/03/06/tips-remote-desktop-connection-tricks/
 redirect_from:
   - /2008/03/06/tips-remote-desktop-connection-tricks/faq/
+postid: 2008-03-06-tips-remote-desktop-connection-tricks
 ---
 
 # Tips: 遠端桌面連線的小技巧

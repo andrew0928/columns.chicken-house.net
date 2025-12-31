@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2011/10/25/code-linq-to-object-adding-indexes-to-objects/
 redirect_from:
   - /2011/10/25/code-linq-to-object-adding-indexes-to-objects/solution/
+postid: 2011-10-25-code-linq-to-object-adding-indexes-to-objects
 ---
 
 ## Case #1: 用 HashSet 建索引，將 LINQ to Objects 等值查詢從 O(n) 降為 O(1)

@@ -5,6 +5,7 @@ synthesis_type: faq
 source_post: /2008/06/23/plagiarized-again/
 redirect_from:
   - /2008/06/23/plagiarized-again/faq/
+postid: 2008-06-23-plagiarized-again
 ---
 
 # 又被盜文了... :@

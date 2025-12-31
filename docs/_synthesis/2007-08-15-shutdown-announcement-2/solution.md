@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2007/08/15/shutdown-announcement-2/
 redirect_from:
   - /2007/08/15/shutdown-announcement-2/solution/
+postid: 2007-08-15-shutdown-announcement-2
 ---
 
 以下內容基於文章中「九月起將停機一段時間、DNS/Blog 等服務托管在單一節點、僅剩約兩週可準備備援」的情境，重組為可用于實戰教學的 15 個完整問題解決案例。每個案例都聚焦於可落地的遷移與高可用方案，包含步驟、關鍵設定/程式碼、與可度量的效益。

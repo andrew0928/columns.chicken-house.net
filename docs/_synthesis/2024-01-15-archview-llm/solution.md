@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2024/01/15/archview-llm/
 redirect_from:
   - /2024/01/15/archview-llm/solution/
+postid: 2024-01-15-archview-llm
 ---
 
 以下內容基於原文中的 PoC、經驗與觀點，提煉出可落地的實戰型案例。每個案例包含問題、根因、解法、關鍵設定/程式碼、環境與指標、學習要點與練習題，便於教學、專案演練與能力評估。共 18 個案例。

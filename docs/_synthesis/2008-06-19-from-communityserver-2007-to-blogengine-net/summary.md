@@ -5,6 +5,7 @@ synthesis_type: summary
 source_post: /2008/06/19/from-communityserver-2007-to-blogengine-net/
 redirect_from:
   - /2008/06/19/from-communityserver-2007-to-blogengine-net/summary/
+postid: 2008-06-19-from-communityserver-2007-to-blogengine-net
 ---
 
 # 從 CommunityServer 2007 到 BlogEngine.NET

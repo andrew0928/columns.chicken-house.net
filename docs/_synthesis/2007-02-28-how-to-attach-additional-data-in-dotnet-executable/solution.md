@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2007/02/28/how-to-attach-additional-data-in-dotnet-executable/
 redirect_from:
   - /2007/02/28/how-to-attach-additional-data-in-dotnet-executable/solution/
+postid: 2007-02-28-how-to-attach-additional-data-in-dotnet-executable
 ---
 
 以下內容基於原文觀點與流程，抽取並重構為可教學、可實作、可評估的 15 個實戰案例。每個案例均包含問題、根因、解法（附流程/指令/程式碼）、實際效益或定性指標，以及學習與評估要點。

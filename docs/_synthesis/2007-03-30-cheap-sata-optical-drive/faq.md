@@ -5,6 +5,7 @@ synthesis_type: faq
 source_post: /2007/03/30/cheap-sata-optical-drive/
 redirect_from:
   - /2007/03/30/cheap-sata-optical-drive/faq/
+postid: 2007-03-30-cheap-sata-optical-drive
 ---
 
 # 便宜的 SATA 光碟機

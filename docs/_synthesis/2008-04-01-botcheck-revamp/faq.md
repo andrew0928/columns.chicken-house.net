@@ -5,6 +5,7 @@ synthesis_type: faq
 source_post: /2008/04/01/botcheck-revamp/
 redirect_from:
   - /2008/04/01/botcheck-revamp/faq/
+postid: 2008-04-01-botcheck-revamp
 ---
 
 # BotCheck 改版：在驗證通過時附加題目與答案

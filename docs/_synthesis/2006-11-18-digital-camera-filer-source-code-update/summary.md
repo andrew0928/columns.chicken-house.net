@@ -5,6 +5,7 @@ synthesis_type: summary
 source_post: /2006/11/18/digital-camera-filer-source-code-update/
 redirect_from:
   - /2006/11/18/digital-camera-filer-source-code-update/summary/
+postid: 2006-11-18-digital-camera-filer-source-code-update
 ---
 
 # Digital Camera Filer - Source Code (update)

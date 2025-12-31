@@ -5,6 +5,7 @@ synthesis_type: faq
 source_post: /2009/05/13/555555-page-views-milestone/
 redirect_from:
   - /2009/05/13/555555-page-views-milestone/faq/
+postid: 2009-05-13-555555-page-views-milestone
 ---
 
 # 555555 人次紀念!

@@ -5,6 +5,7 @@ synthesis_type: summary
 source_post: /2007/06/23/using-vhdmount-with-virtual-pc/
 redirect_from:
   - /2007/06/23/using-vhdmount-with-virtual-pc/summary/
+postid: 2007-06-23-using-vhdmount-with-virtual-pc
 ---
 
 # Using VHDMount with Virtual PC

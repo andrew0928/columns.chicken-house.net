@@ -5,6 +5,7 @@ synthesis_type: faq
 source_post: /2008/10/08/how-to-learn-programming-well-3-advanced-application-data-structures-problem-analysis/
 redirect_from:
   - /2008/10/08/how-to-learn-programming-well-3-advanced-application-data-structures-problem-analysis/faq/
+postid: 2008-10-08-how-to-learn-programming-well-3-advanced-application-data-structures-problem-analysis
 ---
 
 # 該如何學好 "寫程式" #3. 進階應用 - 資料結構 + 問題分析

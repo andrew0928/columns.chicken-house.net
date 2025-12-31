@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2024/11/11/working-with-wsl/
 redirect_from:
   - /2024/11/11/working-with-wsl/solution/
+postid: 2024-11-11-working-with-wsl
 ---
 
 以下內容根據原文逐一萃取並重構為可教學、可實作、可評測的問題解決案例。每個案例包含問題、根因、方案、實施、程式碼、實測數據、學習要點、練習與評估標準。共 18 個案例。

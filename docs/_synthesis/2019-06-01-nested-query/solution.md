@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2019/06/01/nested-query/
 redirect_from:
   - /2019/06/01/nested-query/solution/
+postid: 2019-06-01-nested-query
 ---
 
 以下內容依據原文逐一抽取並整理為可教學、可演練且可評估的 18 個問題解決案例。每一則案例均包含業務與技術脈絡、根因分析、解決方案與程式碼、量化效益、學習要點、練習題與評估標準。

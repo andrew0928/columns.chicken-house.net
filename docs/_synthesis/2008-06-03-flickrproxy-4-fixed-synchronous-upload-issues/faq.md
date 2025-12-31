@@ -5,6 +5,7 @@ synthesis_type: faq
 source_post: /2008/06/03/flickrproxy-4-fixed-synchronous-upload-issues/
 redirect_from:
   - /2008/06/03/flickrproxy-4-fixed-synchronous-upload-issues/faq/
+postid: 2008-06-03-flickrproxy-4-fixed-synchronous-upload-issues
 ---
 
 # FlickrProxy #4 - 修正同步上傳的問題

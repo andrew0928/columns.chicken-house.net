@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2017/07/25/wc-swarm-labs2/
 redirect_from:
   - /2017/07/25/wc-swarm-labs2/solution/
+postid: 2017-07-25-wc-swarm-labs2
 ---
 
 以下內容基於原文梳理並擴充為可教學、可落地的 16 個實戰案例。每個案例均包含問題、根因、方案、操作細節、指令與實測觀察，便於教學、專案練習與評估。

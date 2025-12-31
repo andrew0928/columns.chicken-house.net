@@ -5,6 +5,7 @@ synthesis_type: faq
 source_post: /2016/04/03/docker-toolbox-under-vm/
 redirect_from:
   - /2016/04/03/docker-toolbox-under-vm/faq/
+postid: 2016-04-03-docker-toolbox-under-vm
 ---
 
 # 如何在 VM 裡面使用 Docker Toolbox ?

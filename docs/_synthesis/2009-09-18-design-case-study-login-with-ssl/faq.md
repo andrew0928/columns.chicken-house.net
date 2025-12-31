@@ -5,6 +5,7 @@ synthesis_type: faq
 source_post: /2009/09/18/design-case-study-login-with-ssl/
 redirect_from:
   - /2009/09/18/design-case-study-login-with-ssl/faq/
+postid: 2009-09-18-design-case-study-login-with-ssl
 ---
 
 # 設計案例：Login With SSL？

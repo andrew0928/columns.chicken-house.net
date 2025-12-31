@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2005/03/29/excellent-youth-no-holiday-329/
 redirect_from:
   - /2005/03/29/excellent-youth-no-holiday-329/solution/
+postid: 2005-03-29-excellent-youth-no-holiday-329
 ---
 
 以下內容僅能從提供的文章與其 front matter 資訊中擷取與推論。文章本體雖無技術討論，但 front matter 顯示了多個舊網址 redirect_from、含 .aspx 舊路徑、含中文與十六進位 slug、多來源舊平台路徑與 wordpress_postid 等，能明確反映出「部落格/內容系統遷移」的技術問題與做法。下列 16 個案例均以此為依據進行結構化整理，提供完整的教學與實作價值；數據面因原文未提供，改以可量測指標與測試方法描述。

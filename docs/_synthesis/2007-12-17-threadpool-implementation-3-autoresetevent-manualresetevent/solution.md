@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2007/12/17/threadpool-implementation-3-autoresetevent-manualresetevent/
 redirect_from:
   - /2007/12/17/threadpool-implementation-3-autoresetevent-manualresetevent/solution/
+postid: 2007-12-17-threadpool-implementation-3-autoresetevent-manualresetevent
 ---
 
 以下為依據原文內容，整理出的 16 個結構化問題解決案例。每個案例皆以 AutoResetEvent/ManualResetEvent 的選型與 SimpleThreadPool 原始碼為核心，延伸出設計、除錯、優化與驗證的完整實戰情境。

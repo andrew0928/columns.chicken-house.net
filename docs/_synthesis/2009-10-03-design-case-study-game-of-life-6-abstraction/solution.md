@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2009/10/03/design-case-study-game-of-life-6-abstraction/
 redirect_from:
   - /2009/10/03/design-case-study-game-of-life-6-abstraction/solution/
+postid: 2009-10-03-design-case-study-game-of-life-6-abstraction
 ---
 
 以下內容基於原文（C#、生命遊戲抽象化設計與擴充感染規則）抽取並結構化為 15 個可落地的實戰案例，涵蓋問題、根因、解法、程式碼與實際效益，方便教學、練習與評估。

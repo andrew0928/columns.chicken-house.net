@@ -5,6 +5,7 @@ synthesis_type: summary
 source_post: /2007/04/04/canon-raw-codec-for-vista-released/
 redirect_from:
   - /2007/04/04/canon-raw-codec-for-vista-released/summary/
+postid: 2007-04-04-canon-raw-codec-for-vista-released
 ---
 
 # Canon RAW Codec for Vista 出來了..

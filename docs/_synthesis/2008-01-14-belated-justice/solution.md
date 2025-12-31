@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2008/01/14/belated-justice/
 redirect_from:
   - /2008/01/14/belated-justice/solution/
+postid: 2008-01-14-belated-justice
 ---
 
 以下內容依據文章「遲來的正義」所呈現的實際事件與脈絡，拆解並擴充可落地的問題解決案例。每個案例皆圍繞相同核心事件（文章遭盜用、平台申訴流程反覆、語言策略調整後獲得處理），從不同面向抽取「問題—根因—解法—成效」形成完整教學單元，便於實戰演練、專案練習與評估。

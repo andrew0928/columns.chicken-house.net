@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2007/09/26/electrician-diary-4-phone-network-wiring/
 redirect_from:
   - /2007/09/26/electrician-diary-4-phone-network-wiring/solution/
+postid: 2007-09-26-electrician-diary-4-phone-network-wiring
 ---
 
 ## Case #1: 以 T568A 標準統一網路/電話佈線，確保 RJ11 相容

@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2007/04/23/fiddler-tfs-conflict-solution-part-1/
 redirect_from:
   - /2007/04/23/fiddler-tfs-conflict-solution-part-1/solution/
+postid: 2007-04-23-fiddler-tfs-conflict-solution-part-1
 ---
 
 以下內容依據文章所述的核心情境（Fiddler 啟用後成為系統 Proxy，導致 Visual Studio 2005 與 TFS 之間的 HTTP 連線被攔截與 401 認證失敗）進行擴展與結構化整理，聚焦於不同面向的可操作解決方案、診斷方法與自動化實務，形成 15 個可教學、可實作、可評估的案例。每個案例皆包含問題、根因、方案與實際成效，並以同一個實務脈絡（VS2005 + TFS + Fiddler）拆分出多個具教學價值的子題。

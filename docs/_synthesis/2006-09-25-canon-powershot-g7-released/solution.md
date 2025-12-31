@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2006/09/25/canon-powershot-g7-released/
 redirect_from:
   - /2006/09/25/canon-powershot-g7-released/solution/
+postid: 2006-09-25-canon-powershot-g7-released
 ---
 
 以下內容基於原文中針對 Canon G7 相對 G2/S3 IS 的功能取捨、痛點與偏好，重整為可實作、可評估的 16 個教學型問題解決案例。每一案均包含問題、根因、方案、步驟、程式碼/設定、實測指標與教學要點，便於實戰演練、專案練習與評估。

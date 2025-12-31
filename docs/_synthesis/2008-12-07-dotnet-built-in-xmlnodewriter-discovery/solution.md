@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2008/12/07/dotnet-built-in-xmlnodewriter-discovery/
 redirect_from:
   - /2008/12/07/dotnet-built-in-xmlnodewriter-discovery/solution/
+postid: 2008-12-07-dotnet-built-in-xmlnodewriter-discovery
 ---
 
 以下內容基於原文中可辨識的問題、根因、解法與效益描述，萃取並重組為可教學、可練習、可評估的 18 個案例。每一個案例都以實務導向呈現，並附示範程式碼與練習題。

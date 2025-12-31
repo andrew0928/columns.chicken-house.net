@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2007/12/14/threadpool-implementation-1-basic-concepts/
 redirect_from:
   - /2007/12/14/threadpool-implementation-1-basic-concepts/solution/
+postid: 2007-12-14-threadpool-implementation-1-basic-concepts
 ---
 
 以下內容基於原文中的概念、範例片段與敘述重點，將涉及的問題、根因與解法整理為可教學、可實作、可評估的案例。每個案例皆包含問題、根因、解決方案（含範例程式碼/流程）、以及可量測的成效指標。範例程式以 .NET/C# 為主，並以實驗性測試值作為教學性指標（可據此重現與驗證）。

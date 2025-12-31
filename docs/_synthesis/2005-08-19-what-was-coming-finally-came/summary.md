@@ -5,6 +5,7 @@ synthesis_type: summary
 source_post: /2005/08/19/what-was-coming-finally-came/
 redirect_from:
   - /2005/08/19/what-was-coming-finally-came/summary/
+postid: 2005-08-19-what-was-coming-finally-came
 ---
 
 # 該來的終於來了 :~~~

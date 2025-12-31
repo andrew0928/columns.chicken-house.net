@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2006/10/27/generic-singleton-patterns-ii/
 redirect_from:
   - /2006/10/27/generic-singleton-patterns-ii/solution/
+postid: 2006-10-27-generic-singleton-patterns-ii
 ---
 
 以下內容基於原文的泛型 Singleton 基底類別設計，系統化拆解並延伸出可直接實作與教學使用的 16 個問題解決案例。每一案皆以原文程式碼為核心，逐步補強在實務上會遇到的效能、測試、序列化、生命週期、DI 整合等議題。原文中的實例與程式片段均在「實際案例」或「關鍵程式碼/設定」中標示。

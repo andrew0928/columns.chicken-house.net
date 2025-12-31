@@ -5,6 +5,7 @@ synthesis_type: faq
 source_post: /2022/03/25/microservices15-api-design/
 redirect_from:
   - /2022/03/25/microservices15-api-design/faq/
+postid: 2022-03-25-microservices15-api-design
 ---
 
 # 微服務架構 - 從狀態圖來驅動 API 的設計

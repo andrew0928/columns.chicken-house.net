@@ -5,6 +5,7 @@ synthesis_type: faq
 source_post: /2007/02/19/ie7-finally-upgraded-successfully/
 redirect_from:
   - /2007/02/19/ie7-finally-upgraded-successfully/faq/
+postid: 2007-02-19-ie7-finally-upgraded-successfully
 ---
 
 # IE7 終於升級成功了.. :~

@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2008/06/28/sorry-baidu-visitors-not-welcome/
 redirect_from:
   - /2008/06/28/sorry-baidu-visitors-not-welcome/solution/
+postid: 2008-06-28-sorry-baidu-visitors-not-welcome
 ---
 
 以下為基於文章內容所整理的 18 個可教學、可練習、可評估的結構化解決方案案例。每個案例均來自文中描述的實務情境（遭遇盜文、平台處理不當、以 ASP.NET HttpModule 實作抗議頁），並延伸出工程上必需考慮的設計與實作要點。

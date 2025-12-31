@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2005/04/04/community-server-customization-project/
 redirect_from:
   - /2005/04/04/community-server-customization-project/solution/
+postid: 2005-04-04-community-server-customization-project
 ---
 
 ## Case #1: 以自訂 TextEditorProvider 解鎖 FTB 3.0 進階功能

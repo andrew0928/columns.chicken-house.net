@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2016/02/24/casestudy_license_02_serialization/
 redirect_from:
   - /2016/02/24/casestudy_license_02_serialization/solution/
+postid: 2016-02-24-casestudy_license_02_serialization
 ---
 
 以下內容基於提供的文章，萃取並擴展成 18 個具有完整教學價值的實戰案例。每個案例均包含問題、根因、解法設計、程式碼、實作成效與學習要點，便於課程與專案演練使用。

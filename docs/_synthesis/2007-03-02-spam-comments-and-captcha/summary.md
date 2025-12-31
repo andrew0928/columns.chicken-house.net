@@ -5,6 +5,7 @@ synthesis_type: summary
 source_post: /2007/03/02/spam-comments-and-captcha/
 redirect_from:
   - /2007/03/02/spam-comments-and-captcha/summary/
+postid: 2007-03-02-spam-comments-and-captcha
 ---
 
 # Spam Comments And CAPTCHA...

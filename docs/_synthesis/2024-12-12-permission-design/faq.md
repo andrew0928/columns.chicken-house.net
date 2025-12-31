@@ -5,6 +5,7 @@ synthesis_type: faq
 source_post: /2024/12/12/permission-design/
 redirect_from:
   - /2024/12/12/permission-design/faq/
+postid: 2024-12-12-permission-design
 ---
 
 # 權限管理機制的設計（以 RAG/向量檢索為例）

@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2011/10/30/linq-to-object-2-indexes-for-objects/
 redirect_from:
   - /2011/10/30/linq-to-object-2-indexes-for-objects/solution/
+postid: 2011-10-30-linq-to-object-2-indexes-for-objects
 ---
 
 以下內容基於你提供的文章，聚焦 LINQ to Objects 在大型集合上的等值查詢與索引化的實戰，萃取並擴充成具教學價值的 16 個案例。每個案例均包含問題、根因、方案、關鍵程式碼、實測指標描述、學習要點、練習與評估標準，方便課堂實作、專案演練與能力評估。

@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2010/05/05/run-pc-2010-may-txf-enables-file-system-transaction-control/
 redirect_from:
   - /2010/05/05/run-pc-2010-may-txf-enables-file-system-transaction-control/solution/
+postid: 2010-05-05-run-pc-2010-may-txf-enables-file-system-transaction-control
 ---
 
 以下內容是根據文章中點出的主題與參考資源（TxF/TxR、System.Transactions/DTC、AlphaFS、P/Invoke、Performance/When-to-use 等）所能整理出的可教學、可實作的問題解決案例。由於原文未提供完整實測數據與指標，相關欄位以「文章未提供」標示，並補上可量測方法與預期效益作為練習與評估的依據。

@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2008/06/21/blogengine-net-transformation-project-cs2007-data-import/
 redirect_from:
   - /2008/06/21/blogengine-net-transformation-project-cs2007-data-import/solution/
+postid: 2008-06-21-blogengine-net-transformation-project-cs2007-data-import
 ---
 
 以下內容基於文章提到的遷移經驗與具體做法，整理出 16 個可教學、可實作、可評估的解決方案案例。每個案例均包含問題、根因、解法、步驟、程式碼與學習評估，便於用於實戰教學、專案練習與能力評估。

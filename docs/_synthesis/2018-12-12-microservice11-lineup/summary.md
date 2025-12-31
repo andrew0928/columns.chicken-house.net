@@ -5,6 +5,7 @@ synthesis_type: summary
 source_post: /2018/12/12/microservice11-lineup/
 redirect_from:
   - /2018/12/12/microservice11-lineup/summary/
+postid: 2018-12-12-microservice11-lineup
 ---
 
 # 微服務基礎建設 - 線上購物排隊機制設計

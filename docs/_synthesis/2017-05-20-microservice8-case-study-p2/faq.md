@@ -5,6 +5,7 @@ synthesis_type: faq
 source_post: /2017/05/20/microservice8-case-study-p2/
 redirect_from:
   - /2017/05/20/microservice8-case-study-p2/faq/
+postid: 2017-05-20-microservice8-case-study-p2
 ---
 
 # 架構師觀點 - 轉移到微服務架構的經驗分享 (Part 2)

@@ -5,6 +5,7 @@ synthesis_type: faq
 source_post: /2007/12/17/threadpool-implementation-3-autoresetevent-manualresetevent/
 redirect_from:
   - /2007/12/17/threadpool-implementation-3-autoresetevent-manualresetevent/faq/
+postid: 2007-12-17-threadpool-implementation-3-autoresetevent-manualresetevent
 ---
 
 # ThreadPool 實作 #3. AutoResetEvent / ManualResetEvent

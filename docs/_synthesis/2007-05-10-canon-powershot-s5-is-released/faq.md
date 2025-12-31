@@ -5,6 +5,7 @@ synthesis_type: faq
 source_post: /2007/05/10/canon-powershot-s5-is-released/
 redirect_from:
   - /2007/05/10/canon-powershot-s5-is-released/faq/
+postid: 2007-05-10-canon-powershot-s5-is-released
 ---
 
 # Canon PowerShot S5 IS 出來了

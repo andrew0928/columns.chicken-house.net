@@ -5,6 +5,7 @@ synthesis_type: summary
 source_post: /2007/08/15/shutdown-announcement-2/
 redirect_from:
   - /2007/08/15/shutdown-announcement-2/summary/
+postid: 2007-08-15-shutdown-announcement-2
 ---
 
 # 停機公告...

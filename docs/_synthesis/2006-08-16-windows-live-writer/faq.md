@@ -5,6 +5,7 @@ synthesis_type: faq
 source_post: /2006/08/16/windows-live-writer/
 redirect_from:
   - /2006/08/16/windows-live-writer/faq/
+postid: 2006-08-16-windows-live-writer
 ---
 
 # Windows Live Writer...

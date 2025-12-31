@@ -5,6 +5,7 @@ synthesis_type: summary
 source_post: /2008/06/09/switched-to-quad-core-mce-broke/
 redirect_from:
   - /2008/06/09/switched-to-quad-core-mce-broke/summary/
+postid: 2008-06-09-switched-to-quad-core-mce-broke
 ---
 
 # 換了四核心，MCE就掛了...

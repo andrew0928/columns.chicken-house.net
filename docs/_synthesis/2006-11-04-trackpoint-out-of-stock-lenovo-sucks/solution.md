@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2006/11/04/trackpoint-out-of-stock-lenovo-sucks/
 redirect_from:
   - /2006/11/04/trackpoint-out-of-stock-lenovo-sucks/solution/
+postid: 2006-11-04-trackpoint-out-of-stock-lenovo-sucks
 ---
 
 說明：原文僅描述「ThinkPad 小紅點（TrackPoint cap）缺料」與對成本、庫存與服務策略的質疑。以下為基於該情境所設計的教學型實戰案例，聚焦於供應鏈、客服流程、系統架構與資料分析等多維解法，以利專案練習與能力評估。若標示實測數據，為試點或模擬結果，用於教學目的。

@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2018/04/01/interview02-stream-statistic/
 redirect_from:
   - /2018/04/01/interview02-stream-statistic/solution/
+postid: 2018-04-01-interview02-stream-statistic
 ---
 
 以下內容基於提供的文章，抽取並結構化 15 個具完整教學價值的問題解決案例。每個案例均包含問題、根因、解法（含關鍵程式碼/設定）、實測數據與練習/評估，便於用於實戰教學、專案練習與能力評估。

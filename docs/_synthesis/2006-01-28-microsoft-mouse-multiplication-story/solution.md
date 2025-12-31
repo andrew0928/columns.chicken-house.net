@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2006/01/28/microsoft-mouse-multiplication-story/
 redirect_from:
   - /2006/01/28/microsoft-mouse-multiplication-story/solution/
+postid: 2006-01-28-microsoft-mouse-multiplication-story
 ---
 
 以下內容係依據文章中的實際事件（滑鼠左鍵故障、保固寄修、更換型號、跨部門調貨、重複寄送、等待幾天、半價購買與感受值回票價）延伸為可落地的 15 個技術型實戰案例，聚焦流程、資料與系統的設計與優化。每個案例均包含問題、根因、可執行解法（含流程或程式碼片段）、可跟蹤的成效指標與練習建議。

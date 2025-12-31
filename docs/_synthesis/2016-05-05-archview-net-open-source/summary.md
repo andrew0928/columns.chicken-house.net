@@ -5,6 +5,7 @@ synthesis_type: summary
 source_post: /2016/05/05/archview-net-open-source/
 redirect_from:
   - /2016/05/05/archview-net-open-source/summary/
+postid: 2016-05-05-archview-net-open-source
 ---
 
 # [架構師觀點] .NET 開發人員該如何看待 Open Source Solutions?

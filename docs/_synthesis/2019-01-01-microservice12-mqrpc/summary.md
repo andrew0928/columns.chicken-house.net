@@ -5,6 +5,7 @@ synthesis_type: summary
 source_post: /2019/01/01/microservice12-mqrpc/
 redirect_from:
   - /2019/01/01/microservice12-mqrpc/summary/
+postid: 2019-01-01-microservice12-mqrpc
 ---
 
 # 高可靠度的微服務通訊 - Message Queue

@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2008/08/23/tips-disconnecting-remote-desktop-users/
 redirect_from:
   - /2008/08/23/tips-disconnecting-remote-desktop-users/solution/
+postid: 2008-08-23-tips-disconnecting-remote-desktop-users
 ---
 
 以下為依據原文梳理出的 15 個可實作、可教學、可評估的解決方案案例。每個案例皆包含問題、根因、方案、指令與教學要點，並在最後提供分類與學習路徑建議。

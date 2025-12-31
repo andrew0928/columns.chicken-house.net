@@ -5,6 +5,7 @@ synthesis_type: faq
 source_post: /2007/04/24/fiddler-tfs-conflict-solution-part-2/
 redirect_from:
   - /2007/04/24/fiddler-tfs-conflict-solution-part-2/faq/
+postid: 2007-04-24-fiddler-tfs-conflict-solution-part-2
 ---
 
 # Fiddler 跟 TFS 相衝的問題解決 - II

@@ -5,6 +5,7 @@ synthesis_type: summary
 source_post: /2008/07/25/x64-programming-1-environment-variables-and-special-directories/
 redirect_from:
   - /2008/07/25/x64-programming-1-environment-variables-and-special-directories/summary/
+postid: 2008-07-25-x64-programming-1-environment-variables-and-special-directories
 ---
 
 # x64 programming #1: 環境變數及特殊目錄..

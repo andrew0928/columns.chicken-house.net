@@ -5,6 +5,7 @@ synthesis_type: faq
 source_post: /2008/07/02/blogengine-net-widgets/
 redirect_from:
   - /2008/07/02/blogengine-net-widgets/faq/
+postid: 2008-07-02-blogengine-net-widgets
 ---
 
 # [BlogEngine.NET] Widgets

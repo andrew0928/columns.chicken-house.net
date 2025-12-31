@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2008/05/21/flickrproxy-3-finally-fixed-large-image-url-error-issue/
 redirect_from:
   - /2008/05/21/flickrproxy-3-finally-fixed-large-image-url-error-issue/solution/
+postid: 2008-05-21-flickrproxy-3-finally-fixed-large-image-url-error-issue
 ---
 
 ## Case #1: 修正 Flickr 大圖網址錯誤：由 PhotosGetInfo 改為 PhotosGetSizes

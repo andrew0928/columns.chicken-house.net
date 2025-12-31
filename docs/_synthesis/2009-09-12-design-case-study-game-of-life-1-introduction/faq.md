@@ -5,6 +5,7 @@ synthesis_type: faq
 source_post: /2009/09/12/design-case-study-game-of-life-1-introduction/
 redirect_from:
   - /2009/09/12/design-case-study-game-of-life-1-introduction/faq/
+postid: 2009-09-12-design-case-study-game-of-life-1-introduction
 ---
 
 # [設計案例] 生命遊戲#1, 前言

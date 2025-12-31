@@ -5,6 +5,7 @@ synthesis_type: summary
 source_post: /2005/04/04/x31-dvi-output/
 redirect_from:
   - /2005/04/04/x31-dvi-output/summary/
+postid: 2005-04-04-x31-dvi-output
 ---
 
 # X31 + DVI output

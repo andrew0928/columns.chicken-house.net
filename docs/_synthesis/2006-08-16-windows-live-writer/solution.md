@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2006/08/16/windows-live-writer/
 redirect_from:
   - /2006/08/16/windows-live-writer/solution/
+postid: 2006-08-16-windows-live-writer
 ---
 
 說明與限制說明

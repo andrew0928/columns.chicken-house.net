@@ -5,6 +5,7 @@ synthesis_type: summary
 source_post: /2006/11/03/canon-digital-camera-memory-card-organizer-tool/
 redirect_from:
   - /2006/11/03/canon-digital-camera-memory-card-organizer-tool/summary/
+postid: 2006-11-03-canon-digital-camera-memory-card-organizer-tool
 ---
 
 # Canon Digital Camera 相機獨享 - 記憶卡歸檔工具

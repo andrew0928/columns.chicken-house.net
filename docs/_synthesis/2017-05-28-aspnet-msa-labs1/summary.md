@@ -5,6 +5,7 @@ synthesis_type: summary
 source_post: /2017/05/28/aspnet-msa-labs1/
 redirect_from:
   - /2017/05/28/aspnet-msa-labs1/summary/
+postid: 2017-05-28-aspnet-msa-labs1
 ---
 
 # 容器化的微服務開發 #1, IP查詢架構與開發範例

@@ -5,6 +5,7 @@ synthesis_type: summary
 source_post: /2007/11/05/canon-g9-purchased-however/
 redirect_from:
   - /2007/11/05/canon-g9-purchased-however/summary/
+postid: 2007-11-05-canon-g9-purchased-however
 ---
 
 # Canon G9 入手, 不過...

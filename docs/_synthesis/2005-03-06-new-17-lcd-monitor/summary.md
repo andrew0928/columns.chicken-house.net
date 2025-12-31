@@ -5,6 +5,7 @@ synthesis_type: summary
 source_post: /2005/03/06/new-17-lcd-monitor/
 redirect_from:
   - /2005/03/06/new-17-lcd-monitor/summary/
+postid: 2005-03-06-new-17-lcd-monitor
 ---
 
 # 新 17" LCD monitor

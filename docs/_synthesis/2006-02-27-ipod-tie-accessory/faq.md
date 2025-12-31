@@ -5,6 +5,7 @@ synthesis_type: faq
 source_post: /2006/02/27/ipod-tie-accessory/
 redirect_from:
   - /2006/02/27/ipod-tie-accessory/faq/
+postid: 2006-02-27-ipod-tie-accessory
 ---
 
 # iPod 領帶...

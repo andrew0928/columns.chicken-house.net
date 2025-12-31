@@ -5,6 +5,7 @@ synthesis_type: summary
 source_post: /2007/02/14/good-job-dopod/
 redirect_from:
   - /2007/02/14/good-job-dopod/summary/
+postid: 2007-02-14-good-job-dopod
 ---
 
 # 好樣的多普達...

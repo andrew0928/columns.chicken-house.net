@@ -5,6 +5,7 @@ synthesis_type: faq
 source_post: /2020/01/01/microservice13-event-sourcing/
 redirect_from:
   - /2020/01/01/microservice13-event-sourcing/faq/
+postid: 2020-01-01-microservice13-event-sourcing
 ---
 
 # 微服務架構設計 - Event Sourcing

@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2005/10/15/resonance/
 redirect_from:
   - /2005/10/15/resonance/solution/
+postid: 2005-10-15-resonance
 ---
 
 ## Case #1: 浮球連動桿加重，改變振動週期以避開共振

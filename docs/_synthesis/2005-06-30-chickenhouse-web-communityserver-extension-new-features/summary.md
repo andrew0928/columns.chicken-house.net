@@ -5,6 +5,7 @@ synthesis_type: summary
 source_post: /2005/06/30/chickenhouse-web-communityserver-extension-new-features/
 redirect_from:
   - /2005/06/30/chickenhouse-web-communityserver-extension-new-features/summary/
+postid: 2005-06-30-chickenhouse-web-communityserver-extension-new-features
 ---
 
 # ChickenHouse.Web.CommunityServiceExtension 新增功能

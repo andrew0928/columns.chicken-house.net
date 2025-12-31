@@ -5,6 +5,7 @@ synthesis_type: summary
 source_post: /2005/03/09/evil-google/
 redirect_from:
   - /2005/03/09/evil-google/summary/
+postid: 2005-03-09-evil-google
 ---
 
 # 邪惡的 Google...

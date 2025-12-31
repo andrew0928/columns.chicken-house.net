@@ -5,6 +5,7 @@ synthesis_type: summary
 source_post: /2017/01/15/docker-networks/
 redirect_from:
   - /2017/01/15/docker-networks/summary/
+postid: 2017-01-15-docker-networks
 ---
 
 # 掃雷回憶錄 - Windows Container Network & Docker Compose

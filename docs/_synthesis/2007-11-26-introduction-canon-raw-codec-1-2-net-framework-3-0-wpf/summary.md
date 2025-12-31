@@ -5,6 +5,7 @@ synthesis_type: summary
 source_post: /2007/11/26/introduction-canon-raw-codec-1-2-net-framework-3-0-wpf/
 redirect_from:
   - /2007/11/26/introduction-canon-raw-codec-1-2-net-framework-3-0-wpf/summary/
+postid: 2007-11-26-introduction-canon-raw-codec-1-2-net-framework-3-0-wpf
 ---
 
 # 前言: Canon Raw Codec 1.2 + .NET Framework 3.0 (WPF)

@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2005/12/02/another-purchase-sony-hrem4/
 redirect_from:
   - /2005/12/02/another-purchase-sony-hrem4/solution/
+postid: 2005-12-02-another-purchase-sony-hrem4
 ---
 
 以下內容基於原文中出現的實際情境、難題、採購與選型決策、功能特徵與前後對照陳述（例如15HR 舊充電器 vs 300 分鐘充電器、單顆充電、LCD 顯示、可放電、AA 轉 C/D 轉接殼、線上購買、品牌口碑與價格權衡、用量成長與兒童玩具耗電等），整理出可落地演練的案例。每個案例均以文章可直接映射的資訊為核心，並以通用工作流細化實作。

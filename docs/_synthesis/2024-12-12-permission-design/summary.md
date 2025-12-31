@@ -5,6 +5,7 @@ synthesis_type: summary
 source_post: /2024/12/12/permission-design/
 redirect_from:
   - /2024/12/12/permission-design/summary/
+postid: 2024-12-12-permission-design
 ---
 
 # (TBD) 權限管理機制的設計

@@ -5,6 +5,7 @@ synthesis_type: faq
 source_post: /2017/01/15/docker-networks/
 redirect_from:
   - /2017/01/15/docker-networks/faq/
+postid: 2017-01-15-docker-networks
 ---
 
 # 掃雷回憶錄 - Windows Container Network & Docker Compose

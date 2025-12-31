@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2005/06/30/chickenhouse-web-communityserver-extension-new-features/
 redirect_from:
   - /2005/06/30/chickenhouse-web-communityserver-extension-new-features/solution/
+postid: 2005-06-30-chickenhouse-web-communityserver-extension-new-features
 ---
 
 以下案例皆以文章所描述的「為 Community Server 的 Photo Gallery 新增整本相簿 ZIP 下載」為核心情境，延展出完整的實務問題、根因、解法與實測指標，便於實戰教學與能力評估。為了具有教學價值，提供了可運用於 ASP.NET/Community Server 類似專案的具體程式碼與流程。實測數據為基於實作環境的測試結果，用於說明效益衡量方法。

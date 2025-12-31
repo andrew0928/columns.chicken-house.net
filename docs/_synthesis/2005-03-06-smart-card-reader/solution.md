@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2005/03/06/smart-card-reader/
 redirect_from:
   - /2005/03/06/smart-card-reader/solution/
+postid: 2005-03-06-smart-card-reader
 ---
 
 以下內容基於提供的文章情境（網路銀行多重密碼難記、改用IC晶片卡讀卡機提升體驗、分攤運費、讀寫手機SIM卡通訊錄），擴展並結構化出15個具教學價值的實戰解決方案案例。每個案例均包含問題、根因、方案、實作指引、程式碼/設定示例、學習要點、練習與評估標準，供教學、專案與評量使用。

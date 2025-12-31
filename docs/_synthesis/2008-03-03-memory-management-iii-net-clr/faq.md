@@ -5,6 +5,7 @@ synthesis_type: faq
 source_post: /2008/03/03/memory-management-iii-net-clr/
 redirect_from:
   - /2008/03/03/memory-management-iii-net-clr/faq/
+postid: 2008-03-03-memory-management-iii-net-clr
 ---
 
 # Memory Management (III) - .NET CLR ?

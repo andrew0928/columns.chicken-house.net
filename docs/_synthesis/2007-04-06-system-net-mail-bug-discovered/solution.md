@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2007/04/06/system-net-mail-bug-discovered/
 redirect_from:
   - /2007/04/06/system-net-mail-bug-discovered/solution/
+postid: 2007-04-06-system-net-mail-bug-discovered
 ---
 
 ## Case #1: Console.WriteLine 觸發 MailAddress.ToString 導致寄信失敗

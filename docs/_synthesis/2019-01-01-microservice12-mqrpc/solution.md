@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2019/01/01/microservice12-mqrpc/
 redirect_from:
   - /2019/01/01/microservice12-mqrpc/solution/
+postid: 2019-01-01-microservice12-mqrpc
 ---
 
 ```markdown

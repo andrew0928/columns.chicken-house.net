@@ -5,6 +5,7 @@ synthesis_type: faq
 source_post: /2016/10/03/microservice2/
 redirect_from:
   - /2016/10/03/microservice2/faq/
+postid: 2016-10-03-microservice2
 ---
 
 # 微服務架構 #2, 按照架構，重構系統

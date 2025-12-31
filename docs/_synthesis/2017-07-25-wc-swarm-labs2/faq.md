@@ -5,6 +5,7 @@ synthesis_type: faq
 source_post: /2017/07/25/wc-swarm-labs2/
 redirect_from:
   - /2017/07/25/wc-swarm-labs2/faq/
+postid: 2017-07-25-wc-swarm-labs2
 ---
 
 # Azure Labs: Mixed-OS Docker Swarm

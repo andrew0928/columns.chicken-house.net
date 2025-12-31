@@ -5,6 +5,7 @@ synthesis_type: faq
 source_post: /2009/12/19/design-case-study-cache-object-cleanup-2-create-custom-cachedependency/
 redirect_from:
   - /2009/12/19/design-case-study-cache-object-cleanup-2-create-custom-cachedependency/faq/
+postid: 2009-12-19-design-case-study-cache-object-cleanup-2-create-custom-cachedependency
 ---
 
 # [設計案例] 清除Cache物件 #2. Create Custom CacheDependency

@@ -5,6 +5,7 @@ synthesis_type: faq
 source_post: /2008/10/31/vista-uac-wont-turn-off/
 redirect_from:
   - /2008/10/31/vista-uac-wont-turn-off/faq/
+postid: 2008-10-31-vista-uac-wont-turn-off
 ---
 
 # 關不掉的 Vista UAC！？——原因、原理與解法全指南

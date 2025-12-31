@@ -5,6 +5,7 @@ synthesis_type: summary
 source_post: /2006/12/10/here-we-go-again/
 redirect_from:
   - /2006/12/10/here-we-go-again/summary/
+postid: 2006-12-10-here-we-go-again
 ---
 
 # 又來了...

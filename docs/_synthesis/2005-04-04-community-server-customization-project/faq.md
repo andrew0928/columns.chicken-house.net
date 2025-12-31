@@ -5,6 +5,7 @@ synthesis_type: faq
 source_post: /2005/04/04/community-server-customization-project/
 redirect_from:
   - /2005/04/04/community-server-customization-project/faq/
+postid: 2005-04-04-community-server-customization-project
 ---
 
 # community server 改造工程

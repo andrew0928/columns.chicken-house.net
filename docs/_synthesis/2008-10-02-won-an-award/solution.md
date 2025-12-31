@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2008/10/02/won-an-award/
 redirect_from:
   - /2008/10/02/won-an-award/solution/
+postid: 2008-10-02-won-an-award
 ---
 
 以下內容根據文章中點出的主題與線索（多執行緒、Thread Sync 概念與實作、yield return 的原理與替代同步做法、GameHost/Player 誰主誰次的架構討論、猜數字比賽程式的實作）所歸納與重構，整理為可供實戰教學、專案練習與能力評估的案例。每個案例均包含問題、根因、解法、實作重點與練習評估項。

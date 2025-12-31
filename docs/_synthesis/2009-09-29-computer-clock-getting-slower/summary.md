@@ -5,6 +5,7 @@ synthesis_type: summary
 source_post: /2009/09/29/computer-clock-getting-slower/
 redirect_from:
   - /2009/09/29/computer-clock-getting-slower/summary/
+postid: 2009-09-29-computer-clock-getting-slower
 ---
 
 # 電腦時鐘越來越慢...

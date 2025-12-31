@@ -5,6 +5,7 @@ synthesis_type: faq
 source_post: /2016/02/24/casestudy_license_02_serialization/
 redirect_from:
   - /2016/02/24/casestudy_license_02_serialization/faq/
+postid: 2016-02-24-casestudy_license_02_serialization
 ---
 
 # [設計案例] 授權碼 如何實作? #2, 序列化

@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2016/06/11/docker-for-window-beta-evaluate/
 redirect_from:
   - /2016/06/11/docker-for-window-beta-evaluate/solution/
+postid: 2016-06-11-docker-for-window-beta-evaluate
 ---
 
 以下內容為依據原文整理出的可實作、可教學的 17 個問題解決案例。每一案均包含問題、根因、解法、關鍵指令/設定、實測成效及練習與評估要點，適用於實戰教學、專案演練與能力評估。

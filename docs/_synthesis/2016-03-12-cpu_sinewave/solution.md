@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2016/03/12/cpu_sinewave/
 redirect_from:
   - /2016/03/12/cpu_sinewave/solution/
+postid: 2016-03-12-cpu_sinewave
 ---
 
 以下為根據文章內容萃取並結構化的15個問題解決案例，涵蓋問題、根因、解法、實作與評估，並附上案例分類與學習路徑建議。

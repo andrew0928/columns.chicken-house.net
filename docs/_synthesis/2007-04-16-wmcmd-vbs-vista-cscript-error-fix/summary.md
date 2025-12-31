@@ -5,6 +5,7 @@ synthesis_type: summary
 source_post: /2007/04/16/wmcmd-vbs-vista-cscript-error-fix/
 redirect_from:
   - /2007/04/16/wmcmd-vbs-vista-cscript-error-fix/summary/
+postid: 2007-04-16-wmcmd-vbs-vista-cscript-error-fix
 ---
 
 # WMCmd.vbs 在 VISTA 下執行會導至 cscript.exe 發生錯誤...

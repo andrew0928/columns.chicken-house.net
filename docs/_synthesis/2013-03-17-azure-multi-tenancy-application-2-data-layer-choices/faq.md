@@ -5,6 +5,7 @@ synthesis_type: faq
 source_post: /2013/03/17/azure-multi-tenancy-application-2-data-layer-choices/
 redirect_from:
   - /2013/03/17/azure-multi-tenancy-application-2-data-layer-choices/faq/
+postid: 2013-03-17-azure-multi-tenancy-application-2-data-layer-choices
 ---
 
 # [Azure] Multi-Tenancy Application #2, 資料層的選擇

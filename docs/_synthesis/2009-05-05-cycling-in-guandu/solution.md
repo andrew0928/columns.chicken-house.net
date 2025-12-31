@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2009/05/05/cycling-in-guandu/
 redirect_from:
   - /2009/05/05/cycling-in-guandu/solution/
+postid: 2009-05-05-cycling-in-guandu
 ---
 
 以下內容根據原文逐段抽取「問題—根因—解法—成效」訊息，並轉化為可教學、可實作、可評估的實戰案例。共提供15個案例，涵蓋路線規劃、電力管理、裝備、風險控管與體驗優化等面向。

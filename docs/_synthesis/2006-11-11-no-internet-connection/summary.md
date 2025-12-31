@@ -5,6 +5,7 @@ synthesis_type: summary
 source_post: /2006/11/11/no-internet-connection/
 redirect_from:
   - /2006/11/11/no-internet-connection/summary/
+postid: 2006-11-11-no-internet-connection
 ---
 
 # 沒網路...

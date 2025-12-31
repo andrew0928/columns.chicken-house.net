@@ -5,6 +5,7 @@ synthesis_type: summary
 source_post: /2007/02/25/computers-also-celebrate-new-year/
 redirect_from:
   - /2007/02/25/computers-also-celebrate-new-year/summary/
+postid: 2007-02-25-computers-also-celebrate-new-year
 ---
 
 # 電腦也要過年..

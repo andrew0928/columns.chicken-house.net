@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2007/11/12/website-upgrade-communityserver-2007-1/
 redirect_from:
   - /2007/11/12/website-upgrade-communityserver-2007-1/solution/
+postid: 2007-11-12-website-upgrade-communityserver-2007-1
 ---
 
 以下內容基於提供的 Community Server 2007.1 (3.1) 版本發佈說明，萃取並結構化為可用於實戰教學的案例。每個案例皆包含問題、根因、解法、實作步驟、程式碼/設定示例與可衡量成效，便於教學、專案練習與能力評估。

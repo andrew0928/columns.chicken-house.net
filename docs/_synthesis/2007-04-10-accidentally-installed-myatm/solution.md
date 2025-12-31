@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2007/04/10/accidentally-installed-myatm/
 redirect_from:
   - /2007/04/10/accidentally-installed-myatm/solution/
+postid: 2007-04-10-accidentally-installed-myatm
 ---
 
 以下內容基於文章中的實際情境（Windows Vista 上安裝台新銀行 MyATM、WebATM 連線當機、無法移除且顯示「權限不足」訊息，最後透過修改 UninstallString 成功移除），萃取並延展出可實作、可教學的 15 個問題解決案例。每個案例都包含對應的問題、根因、方案、步驟、程式碼與練習與評估，適用於實戰教學與能力評估。

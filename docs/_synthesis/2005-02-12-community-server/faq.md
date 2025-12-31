@@ -5,6 +5,7 @@ synthesis_type: faq
 source_post: /2005/02/12/community-server/
 redirect_from:
   - /2005/02/12/community-server/faq/
+postid: 2005-02-12-community-server
 ---
 
 # Community Server

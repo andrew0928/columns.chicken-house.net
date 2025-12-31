@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2009/05/13/555555-page-views-milestone/
 redirect_from:
   - /2009/05/13/555555-page-views-milestone/solution/
+postid: 2009-05-13-555555-page-views-milestone
 ---
 
 ## Case #1: 里程碑被機器人計入導致數據失真

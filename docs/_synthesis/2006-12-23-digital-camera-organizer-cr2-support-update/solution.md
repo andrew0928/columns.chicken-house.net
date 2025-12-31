@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2006/12/23/digital-camera-organizer-cr2-support-update/
 redirect_from:
   - /2006/12/23/digital-camera-organizer-cr2-support-update/solution/
+postid: 2006-12-23-digital-camera-organizer-cr2-support-update
 ---
 
 以下內容基於文章「歸檔工具更新 - .CR2 Supported」重構，整理出 15 個具完整教學價值的實戰解決方案案例。每一案均包含問題、根因、方案、實作、代碼、實測與學習要點，便於教學、專案練習與能力評估。

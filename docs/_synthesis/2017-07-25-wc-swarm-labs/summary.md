@@ -5,6 +5,7 @@ synthesis_type: summary
 source_post: /2017/07/25/wc-swarm-labs/
 redirect_from:
   - /2017/07/25/wc-swarm-labs/summary/
+postid: 2017-07-25-wc-swarm-labs
 ---
 
 # Azure Labs: Windows Container Swarm

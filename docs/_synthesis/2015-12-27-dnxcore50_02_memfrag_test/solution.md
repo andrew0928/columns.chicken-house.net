@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2015/12/27/dnxcore50_02_memfrag_test/
 redirect_from:
   - /2015/12/27/dnxcore50_02_memfrag_test/solution/
+postid: 2015-12-27-dnxcore50_02_memfrag_test
 ---
 
 以下為基於原文整合出的 16 個可操作的問題解決案例，聚焦於 .NET/.NET Core 記憶體碎片、GC 行為、跨平台與容器/虛擬化測試設計。每個案例均提供完整教學結構、可落地的步驟與程式片段。原文尚未提供最終量測數據；因此各案例在「實測數據」欄位以「指標設計與驗收口徑」呈現，便於日後補充與評估。

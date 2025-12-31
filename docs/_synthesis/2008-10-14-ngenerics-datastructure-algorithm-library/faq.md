@@ -5,6 +5,7 @@ synthesis_type: faq
 source_post: /2008/10/14/ngenerics-datastructure-algorithm-library/
 redirect_from:
   - /2008/10/14/ngenerics-datastructure-algorithm-library/faq/
+postid: 2008-10-14-ngenerics-datastructure-algorithm-library
 ---
 
 # NGenerics - DataStructure / Algorithm Library

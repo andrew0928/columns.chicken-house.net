@@ -5,6 +5,7 @@ synthesis_type: summary
 source_post: /2008/05/12/next-ten-years/
 redirect_from:
   - /2008/05/12/next-ten-years/summary/
+postid: 2008-05-12-next-ten-years
 ---
 
 # Next Ten Years...

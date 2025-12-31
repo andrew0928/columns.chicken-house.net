@@ -5,6 +5,7 @@ synthesis_type: faq
 source_post: /2009/11/22/finally-broke-100km-single-day-cycling-taipei-daxi/
 redirect_from:
   - /2009/11/22/finally-broke-100km-single-day-cycling-taipei-daxi/faq/
+postid: 2009-11-22-finally-broke-100km-single-day-cycling-taipei-daxi
 ---
 
 # 終於突破單日 100km 了! (台北-大溪)

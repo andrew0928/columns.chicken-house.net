@@ -5,6 +5,7 @@ synthesis_type: summary
 source_post: /2010/03/18/txf-1-exploring-transactional-ntfs/
 redirect_from:
   - /2010/03/18/txf-1-exploring-transactional-ntfs/summary/
+postid: 2010-03-18-txf-1-exploring-transactional-ntfs
 ---
 
 # [TxF] #1. 初探 Transactional NTFS

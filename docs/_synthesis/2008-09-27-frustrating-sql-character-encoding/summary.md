@@ -5,6 +5,7 @@ synthesis_type: summary
 source_post: /2008/09/27/frustrating-sql-character-encoding/
 redirect_from:
   - /2008/09/27/frustrating-sql-character-encoding/summary/
+postid: 2008-09-27-frustrating-sql-character-encoding
 ---
 
 # 令人火大的 SQL 字元編碼...

@@ -5,6 +5,7 @@ synthesis_type: summary
 source_post: /2006/10/28/asp-net-tips-launch-asp-net-web-sites-without-iis-vs2005/
 redirect_from:
   - /2006/10/28/asp-net-tips-launch-asp-net-web-sites-without-iis-vs2005/summary/
+postid: 2006-10-28-asp-net-tips-launch-asp-net-web-sites-without-iis-vs2005
 ---
 
 # ASP.NET Tips: Launch ASP.NET Web Sites without IIS / VS2005

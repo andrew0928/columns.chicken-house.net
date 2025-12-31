@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2007/01/18/children-age-user-control/
 redirect_from:
   - /2007/01/18/children-age-user-control/solution/
+postid: 2007-01-18-children-age-user-control
 ---
 
 以下內容依據文章情境，圍繞「年齡顯示 User Control」的實作與延伸，萃取並擴展出 17 個具教學價值的實戰案例。每個案例皆包含問題、根因、解法、程式碼、實測與練習與評估，適合用於課程、專案與能力檢核。

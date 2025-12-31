@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2004/12/16/freetextbox-3-0-released/
 redirect_from:
   - /2004/12/16/freetextbox-3-0-released/solution/
+postid: 2004-12-16-freetextbox-3-0-released
 ---
 
 以下案例以文章所提到的 FreeTextBox 3.0（ASP.NET Web Control HTML 編輯器）及其典型導入情境為核心，整理出可教學且可實作的解決方案範本。原文未提供細節數據與代碼，故以下屬教學型推演案例（非原文逐字實例），可作為專案實戰與能力評估之用。

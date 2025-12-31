@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2006/10/29/using-nunitlite-in-app-code-for-unit-testing/
 redirect_from:
   - /2006/10/29/using-nunitlite-in-app-code-for-unit-testing/solution/
+postid: 2006-10-29-using-nunitlite-in-app-code-for-unit-testing
 ---
 
 以下為基於文章內容，萃取並擴展的 15 個可落地的問題解決案例，皆包含問題、根因、方案、實作示例與可評估的學習與實作指引。

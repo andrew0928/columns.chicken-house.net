@@ -5,6 +5,7 @@ synthesis_type: summary
 source_post: /2004/12/22/paint-net-2-0/
 redirect_from:
   - /2004/12/22/paint-net-2-0/summary/
+postid: 2004-12-22-paint-net-2-0
 ---
 
 # Paint.NET 2.0

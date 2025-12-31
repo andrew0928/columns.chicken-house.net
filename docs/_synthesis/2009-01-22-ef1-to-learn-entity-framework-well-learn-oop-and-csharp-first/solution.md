@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2009/01/22/ef1-to-learn-entity-framework-well-learn-oop-and-csharp-first/
 redirect_from:
   - /2009/01/22/ef1-to-learn-entity-framework-well-learn-oop-and-csharp-first/solution/
+postid: 2009-01-22-ef1-to-learn-entity-framework-well-learn-oop-and-csharp-first
 ---
 
 以下內容依據文章中提及的關鍵難題、根因、解法與效益，梳理為 18 個具教學價值的「問題解決案例」。每個案例包含完整的教學結構、關鍵程式碼、實作建議與評估指標，可直接用於實戰教學、專案練習與能力評估。

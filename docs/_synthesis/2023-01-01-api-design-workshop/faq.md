@@ -5,6 +5,7 @@ synthesis_type: faq
 source_post: /2023/01/01/api-design-workshop/
 redirect_from:
   - /2023/01/01/api-design-workshop/faq/
+postid: 2023-01-01-api-design-workshop
 ---
 
 # 架構師觀點 - API Design Workshop

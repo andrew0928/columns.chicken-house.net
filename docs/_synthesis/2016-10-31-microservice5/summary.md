@@ -5,6 +5,7 @@ synthesis_type: summary
 source_post: /2016/10/31/microservice5/
 redirect_from:
   - /2016/10/31/microservice5/summary/
+postid: 2016-10-31-microservice5
 ---
 
 # API & SDK Design #3, API 的向前相容機制

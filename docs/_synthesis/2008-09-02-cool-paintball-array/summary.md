@@ -5,6 +5,7 @@ synthesis_type: summary
 source_post: /2008/09/02/cool-paintball-array/
 redirect_from:
   - /2008/09/02/cool-paintball-array/summary/
+postid: 2008-09-02-cool-paintball-array
 ---
 
 # 好酷的漆彈陣列...

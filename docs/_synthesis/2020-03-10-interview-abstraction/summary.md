@@ -5,6 +5,7 @@ synthesis_type: summary
 source_post: /2020/03/10/interview-abstraction/
 redirect_from:
   - /2020/03/10/interview-abstraction/summary/
+postid: 2020-03-10-interview-abstraction
 ---
 
 # 架構面試題 #4 - 抽象化設計；折扣規則的設計機制 (06/25 補完)

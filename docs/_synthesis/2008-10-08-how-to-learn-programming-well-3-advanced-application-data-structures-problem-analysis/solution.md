@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2008/10/08/how-to-learn-programming-well-3-advanced-application-data-structures-problem-analysis/
 redirect_from:
   - /2008/10/08/how-to-learn-programming-well-3-advanced-application-data-structures-problem-analysis/solution/
+postid: 2008-10-08-how-to-learn-programming-well-3-advanced-application-data-structures-problem-analysis
 ---
 
 以下為基於原文梳理出的 15 個結構化解決方案案例。每個案例對應文章中出現的實際難題、根因、解法與效益描述，並補齊可操作的實作細節與練習評估。

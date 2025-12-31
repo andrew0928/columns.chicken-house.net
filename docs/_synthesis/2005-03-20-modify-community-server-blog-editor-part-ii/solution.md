@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2005/03/20/modify-community-server-blog-editor-part-ii/
 redirect_from:
   - /2005/03/20/modify-community-server-blog-editor-part-ii/solution/
+postid: 2005-03-20-modify-community-server-blog-editor-part-ii
 ---
 
 以下內容基於文章「修改 Community Server 的 blog editor ( Part II )」所述的場景（Community Server 1.0、以 Provider Pattern 擴展 TextEditorWrapper 與安全機制、以設定檔 communityserver.config 切換 Provider、擴充 FreeTextBox 功能與加入表情符號工具列），萃取並擴充為具教學價值的 15 個實戰解決方案案例。每個案例均包含問題、根因、方案、關鍵程式與可操作練習，並於文末提供分類與學習路徑建議。

@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2006/11/15/iq-test/
 redirect_from:
   - /2006/11/15/iq-test/solution/
+postid: 2006-11-15-iq-test
 ---
 
 以下內容為基於該篇「IQ test ...」文章及其前言 Front Matter（Jekyll 格式）所能萃取且可延伸為實戰教學的問題解決案例。說明：原文並未提供大量「完整問題—根因—解法—成效」的技術案例；因此以下案例以文中可觀察的實體設定（如 redirect_from、wordpress_postid、comments、外部圖片與連結等）、內容特徵（中英混寫、百分位敘述）為依據，設計為可實作的教學型案例。若原文無提供成效數據，將以「示範專案」的參考實測或可量化目標呈現，並明確註記。

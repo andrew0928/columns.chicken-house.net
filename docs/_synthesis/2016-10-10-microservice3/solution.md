@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2016/10/10/microservice3/
 redirect_from:
   - /2016/10/10/microservice3/solution/
+postid: 2016-10-10-microservice3
 ---
 
 以下為本文中可提煉的 16 個問題解決案例，皆含問題、根因、方案、程式碼與可量化或可驗證的效益指標，便於教學與評估。

@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2006/11/19/community-chicken-house-net-two-year-anniversary/
 redirect_from:
   - /2006/11/19/community-chicken-house-net-two-year-anniversary/solution/
+postid: 2006-11-19-community-chicken-house-net-two-year-anniversary
 ---
 
 以下為基於文章與其前置 YAML 中可觀察到的歷史脈絡（多重舊網址、WordPress 遷移標記、Jekyll 前置欄位、ASP.NET 舊論壇鏈結、中文網址等）所提煉並結構化的 16 個可教學、可實作、可評估的問題解決案例。每案均含問題、根因、方案、步驟、範例程式、實測數據與練習評量。

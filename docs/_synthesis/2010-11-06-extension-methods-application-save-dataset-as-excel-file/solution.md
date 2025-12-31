@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2010/11/06/extension-methods-application-save-dataset-as-excel-file/
 redirect_from:
   - /2010/11/06/extension-methods-application-save-dataset-as-excel-file/solution/
+postid: 2010-11-06-extension-methods-application-save-dataset-as-excel-file
 ---
 
 以下內容基於原文，將具教學價值的問題解決點梳理為 18 個可實作的案例，皆包含問題、根因、解法、關鍵程式碼與練習與評估項，便於實戰教學、專案演練與能力評估。

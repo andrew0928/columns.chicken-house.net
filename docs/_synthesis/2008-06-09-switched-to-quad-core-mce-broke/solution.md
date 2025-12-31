@@ -5,6 +5,7 @@ synthesis_type: solution
 source_post: /2008/06/09/switched-to-quad-core-mce-broke/
 redirect_from:
   - /2008/06/09/switched-to-quad-core-mce-broke/solution/
+postid: 2008-06-09-switched-to-quad-core-mce-broke
 ---
 
 以下案例均基於原文情境（Vista + MCE + WMP 與 .dvr-ms，在將 E6300 換成 Q9300 後全面無法播放，錯誤模組顯示 Indiv01.key，依 KB891664 清除 DRM 個別化與授權後復原），擴展出可教學、可實作、可評估的 15 個實戰解決方案。
