@@ -7,6 +7,7 @@ redirect_from:
   - /2017/07/11/microservice8-case-study-p3/solution/
 postid: 2017-07-11-microservice8-case-study-p3
 ---
+{% raw %}
 
 ## Case #1: API Gateway 聚合，消除首頁 N 次後端呼叫的轉圈延遲
 
@@ -1700,3 +1701,4 @@ Assessment Criteria
 10) 擴展 #19/#20 → 安全外觀與用戶可視化體驗
 
 以上 18 個核心案例覆蓋文章提出的關鍵基礎建設（API Gateway、Service Discovery、通信/事件、Log/追蹤）與導入微服務的黑暗面與對策，可直接用於實戰教學、專案練習與評估。
+{% endraw %}

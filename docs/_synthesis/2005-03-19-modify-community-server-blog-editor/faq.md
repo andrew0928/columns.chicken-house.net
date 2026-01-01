@@ -7,6 +7,7 @@ redirect_from:
   - /2005/03/19/modify-community-server-blog-editor/faq/
 postid: 2005-03-19-modify-community-server-blog-editor
 ---
+{% raw %}
 
 # 修改 Community Server 的 blog editor
 
@@ -625,3 +626,4 @@ D-Q10: 要不要更換編輯器（決策）？
     - D-Q7: 上傳功能的安全風險與對策？
     - D-Q8: 升級 Community Server 後客製化失效？
     - D-Q10: 要不要更換編輯器（決策）？
+{% endraw %}

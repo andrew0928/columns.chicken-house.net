@@ -7,6 +7,7 @@ redirect_from:
   - /2016/09/16/blog-as-code/faq/
 postid: 2016-09-16-blog-as-code
 ---
+{% raw %}
 
 # Blogging as code !!
 
@@ -585,3 +586,4 @@ D-Q10: 如何預防資料遺失與版本回溯失敗？
     - D-Q10: 如何預防資料遺失與版本回溯失敗？
     - C-Q7: 如何把 WordPress 匯出資料轉成 Jekyll 文章？
     - C-Q9: 如何加入 Facebook Open Graph 與分享按鈕？
+{% endraw %}

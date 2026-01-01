@@ -7,6 +7,7 @@ redirect_from:
   - /2008/09/28/is-google-making-us-dumber/solution/
 postid: 2008-09-28-is-google-making-us-dumber
 ---
+{% raw %}
 
 ## Case #1: 官方資料優先的研究與查證 SOP
 
@@ -1447,3 +1448,4 @@ Assessment Criteria（評估標準）
   4) 團隊實施：Case 13 → 10 → 16 → 17 → 持續迭代
 
 以上案例均基於原文核心問題（過度依賴搜尋、知識碎片化、忽視根因、輕忽基礎）設計，提供可落地的流程、工具與度量，以用於實戰教學與評估。
+{% endraw %}

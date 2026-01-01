@@ -7,6 +7,7 @@ redirect_from:
   - /2008/09/01/please-cite-article-content-correctly/faq/
 postid: 2008-09-01-please-cite-article-content-correctly
 ---
+{% raw %}
 
 # 請正確的引用文章內容!
 
@@ -435,3 +436,4 @@ D-Q10: 如何預防未來再被誤用或盜文？
     - D-Q8: 被 Trackback 濫用或轟炸如何因應？
     - D-Q9: 發現多人到處轉貼，如何系統化應對？
     - D-Q10: 如何預防未來再被誤用或盜文？
+{% endraw %}

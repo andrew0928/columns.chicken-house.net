@@ -7,6 +7,7 @@ redirect_from:
   - /2008/06/25/bot-checker-is-back/solution/
 postid: 2008-06-25-bot-checker-is-back
 ---
+{% raw %}
 
 以下案例是依據文章「Bot Checker 回來了！」所描述的真實情境（在 BlogEngine.NET 上整合 Bot Checker，面臨 AJAX 評論流程、程式碼混亂、前端與後端驗證權衡等問題）所萃取與擴充，形成可重現、可實作、可評估的教學案例。每一案均提供完整教學要素與可操作的程式碼片段。
 
@@ -1255,3 +1256,4 @@ Assessment Criteria
   6) Case 9（重構）→ Case 10（跨平台抽象）
 
 以上 15 個案例可覆蓋從前端整合、後端安全、可用性到架構抽象與營運數據的完整實戰路徑，能直接支援實作教學、專案演練與能力評估。
+{% endraw %}

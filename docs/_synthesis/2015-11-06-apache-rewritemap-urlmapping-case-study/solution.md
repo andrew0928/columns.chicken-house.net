@@ -7,6 +7,7 @@ redirect_from:
   - /2015/11/06/apache-rewritemap-urlmapping-case-study/solution/
 postid: 2015-11-06-apache-rewritemap-urlmapping-case-study
 ---
+{% raw %}
 
 以下內容基於提供的文章，梳理並結構化出 15 個可落地、可教學的解決方案案例，涵蓋從問題辨識、根因分析、解法設計、實作範例到成效驗證與練習題，並在最後提供分類與學習路徑建議。
 
@@ -823,3 +824,4 @@ Learning Points：正則工程化與測試。
   6) 回到 Case 3（處理例外），迭代收斂成效與風險控制
 
 以上 15 個案例均對應文中實際問題、根因、解決方法（含設定/程式碼）、與可量化成效，適合教學、演練與評估。
+{% endraw %}

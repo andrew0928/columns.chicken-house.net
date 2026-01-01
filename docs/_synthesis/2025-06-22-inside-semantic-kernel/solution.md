@@ -7,6 +7,7 @@ redirect_from:
   - /2025/06/22/inside-semantic-kernel/solution/
 postid: 2025-06-22-inside-semantic-kernel
 ---
+{% raw %}
 以下為從文章中整理出的 18 個可教學、可實作、可評估的問題解決案例。每個案例皆包含問題、根因、解法設計、關鍵程式碼、實測指標與練習與評估標準。案例內容以文中 Demo、敘述與設計觀點為基礎彙整與結構化。
 
 ## Case #1: 建立 Chat Completion 基準型（Role/Context 正確使用）
@@ -1495,3 +1496,4 @@ Assessment Criteria（評估標準）
 7. 特例：Case #15（土炮 FC，當模型不支援 FC 時的備援策略）
 
 以上案例可直接對應文中 Demo、敘事與設計觀點，以利教學、實作與評估。
+{% endraw %}

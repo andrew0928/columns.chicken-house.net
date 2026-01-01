@@ -7,6 +7,7 @@ redirect_from:
   - /2006/12/10/cs-2-1-sp2-metaweblog-api-newmediaobject-method-support/solution/
 postid: 2006-12-10-cs-2-1-sp2-metaweblog-api-newmediaobject-method-support
 ---
+{% raw %}
 
 ## Case #1: 以 MetaWeblog newMediaObject 取代 FTP 的圖片上傳流程
 
@@ -1407,3 +1408,4 @@ Assessment Criteria（評估標準）
 - #13/#15 依賴 #2/#3 完整可用以支援遷移與教育
 
 以上案例皆以「MetaWeblog API 的 newMediaObject 直接上傳圖片，免 FTP」為核心場景延展，涵蓋從後端實作、用戶端整合、安全治理、效能優化到遷移與運維的全鏈路實戰。
+{% endraw %}

@@ -7,6 +7,7 @@ redirect_from:
   - /2008/03/31/code-formatter-update-copy-code-html-preview/faq/
 postid: 2008-03-31-code-formatter-update-copy-code-html-preview
 ---
+{% raw %}
 
 # Code Formatter 更新: 複製CODE及HTML預覽
 
@@ -398,7 +399,7 @@ C-Q9: 在 Jekyll/Hugo 等靜態站如何實作？
   - 步驟: 1) 定義短碼（如 previewhtml）。2) 過濾器將 Markdown 代碼區塊轉模板。3) 併入全站 JS/CSS。4) 部署測試。
   - 片段（Jekyll Liquid）:
     ```liquid
-    {% include codeblock.html code=page.code lang="html" preview=true %}
+    {​% include codeblock.html code=page.code lang="html" preview=true %​}
     ```
   - 注意: 與語法高亮器協同、避免雙重轉義與樣式衝突。
 - 難度: 中級
@@ -587,3 +588,4 @@ D-Q10: 安全掃描通報內嵌腳本風險？
     - D-Q5: 預覽樣式干擾文章整體風格？
     - D-Q6: 發佈後按鈕失效（腳本被移除）？
     - D-Q10: 安全掃描通報內嵌腳本風險？
+{% endraw %}

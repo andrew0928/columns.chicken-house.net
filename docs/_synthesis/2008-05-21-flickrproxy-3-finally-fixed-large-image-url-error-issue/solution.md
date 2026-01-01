@@ -7,6 +7,7 @@ redirect_from:
   - /2008/05/21/flickrproxy-3-finally-fixed-large-image-url-error-issue/solution/
 postid: 2008-05-21-flickrproxy-3-finally-fixed-large-image-url-error-issue
 ---
+{% raw %}
 
 ## Case #1: 修正 Flickr 大圖網址錯誤：由 PhotosGetInfo 改為 PhotosGetSizes
 
@@ -1476,3 +1477,4 @@ Case 15 依賴 Case 14（取得 variants）
 
 - 完整學習路徑建議：
 先掌握正確 API 使用（Case 13 → Case 1），建立通用回退與尺寸選擇（Case 10 → Case 3），去除脆弱檢查並導入快取（Case 2 → Case 4），強化可觀測與抽象封裝（Case 5 → Case 6 → Case 7），以開關灰度安全上線（Case 12），在此基礎上導入非同步與限流退避提升穩定性（Case 16 → Case 8），完成資料模型演進與歷史修復（Case 9 → Case 11），最後對外統一能力並優化前端呈現（Case 14 → Case 15）。
+{% endraw %}

@@ -7,6 +7,7 @@ redirect_from:
   - /2007/09/07/shutdown-moving-announcement/solution/
 postid: 2007-09-07-shutdown-moving-announcement
 ---
+{% raw %}
 
 ## Case #1: 搬遷停機視窗與變更管理落地
 
@@ -1550,3 +1551,4 @@ Assessment Criteria（評估標準）
   5) Case 13 → 17 → 18（資料/效能/演進架構）
 
 以上 18 個案例均以文章中的停機搬遷、電信移機、布線、換機殼、重裝與上機櫃等情境為核心，延展出可操作的解決方案、流程與代碼示例，用於實戰教學、專案練習與能力評估。
+{% endraw %}

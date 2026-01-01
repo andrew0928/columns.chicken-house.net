@@ -7,6 +7,7 @@ redirect_from:
   - /2009/05/13/555555-page-views-milestone/solution/
 postid: 2009-05-13-555555-page-views-milestone
 ---
+{% raw %}
 
 ## Case #1: 里程碑被機器人計入導致數據失真
 
@@ -1406,3 +1407,4 @@ Assessment Criteria（評估標準）
 3) 架構升級 Case #9，並導入自動化里程碑 Case #8；
 4) 打造數據可信度 Case #6 → #7 → #10 → #14；
 5) 以 Case #15 建立監控與告警閉環，實現持續防護與優化。
+{% endraw %}

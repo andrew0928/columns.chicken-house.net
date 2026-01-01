@@ -7,6 +7,7 @@ redirect_from:
   - /2007/05/10/canon-powershot-s5-is-released/solution/
 postid: 2007-05-10-canon-powershot-s5-is-released
 ---
+{% raw %}
 
 ## Case #1: 啟用 Canon S3 IS RAW 輸出（免刷機 CHDK）
 
@@ -1387,3 +1388,4 @@ Assessment Criteria（評估標準）
   5) 綜合決策：8 → 4（支援性與 ROI）
   6) 進階實戰：11（時滯與連拍）
   最終以 16 的 QC 收束，完成可用、可回退、可量測的實戰工作流。
+{% endraw %}

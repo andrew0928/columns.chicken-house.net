@@ -7,6 +7,7 @@ redirect_from:
   - /2016/09/05/windows-container-faq/solution/
 postid: 2016-09-05-windows-container-faq
 ---
+{% raw %}
 
 ## Case #1: 判斷並選擇正確的容器平台（Windows Container vs Docker for Windows）
 
@@ -1242,3 +1243,4 @@ Assessment Criteria
   - Case #11、#12 依賴 HNS 概念（可由 #10 引入）
   - Case #15 依賴 #10/#11 的服務連線與發現策略
   - Case #8 依賴 #4/#5（環境）與 #7（映像）
+{% endraw %}

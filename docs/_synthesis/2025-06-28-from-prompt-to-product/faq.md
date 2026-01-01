@@ -7,6 +7,7 @@ redirect_from:
   - /2025/06/28/from-prompt-to-product/faq/
 postid: 2025-06-28-from-prompt-to-product
 ---
+{% raw %}
 # 從 Prompt 到 Product
 
 ## 問題與答案 (FAQ)
@@ -585,3 +586,4 @@ Q10: 團隊對 AI 焦慮或抗拒（例如只想寫 code、不想溝通）怎麼
   - D-Q8: tool calling 失敗改善
   - D-Q9: 資安/法遵推進策略
   - D-Q10: 團隊抗拒與焦慮的落地解法
+{% endraw %}

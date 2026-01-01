@@ -7,6 +7,7 @@ redirect_from:
   - /2009/09/18/design-case-study-login-with-ssl/solution/
 postid: 2009-09-18-design-case-study-login-with-ssl
 ---
+{% raw %}
 
 ```markdown
 ## Case #1: 僅在登入流程使用 HTTPS，避免全站加密的效能代價
@@ -1506,3 +1507,4 @@ Assessment Criteria
   4) 擴充與效能：#6 → #13 → #18 → #7  
   完成以上路徑即可從零建立「僅登入走 HTTPS」的安全交握方案，並具備擴充、監控與效能調優能力。
 ```
+{% endraw %}

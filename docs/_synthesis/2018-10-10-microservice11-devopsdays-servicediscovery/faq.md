@@ -7,6 +7,7 @@ redirect_from:
   - /2018/10/10/microservice11-devopsdays-servicediscovery/faq/
 postid: 2018-10-10-microservice11-devopsdays-servicediscovery
 ---
+{% raw %}
 
 # DevOpsDays 專刊: Service Discovery, 微服務架構的基礎建設
 
@@ -505,3 +506,4 @@ D-Q10: 健康檢查震盪（flapping）如何處置？
     - B-Q5: 如何以標籤實現 SLA 分級路由？
     - B-Q6: 版本導向的藍綠/金絲雀路由如何運作？
     - B-Q11: 多資料中心/可用區感知路由如何設計？
+{% endraw %}

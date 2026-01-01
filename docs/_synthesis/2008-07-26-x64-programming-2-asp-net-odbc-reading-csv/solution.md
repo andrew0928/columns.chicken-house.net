@@ -7,6 +7,7 @@ redirect_from:
   - /2008/07/26/x64-programming-2-asp-net-odbc-reading-csv/solution/
 postid: 2008-07-26-x64-programming-2-asp-net-odbc-reading-csv
 ---
+{% raw %}
 
 ## Case #1: IIS6 x64 部署 ODBC CSV 連線失敗（32/64 位元不相容）
 
@@ -1481,3 +1482,4 @@ Assessment Criteria（評估標準）
   5) 替代與延伸：Case 10 -> 18 -> 4 -> 5
 
 依此路徑，學習者可由讀取 CSV 的基本功，逐步建立對 x64/x86 位元相容、IIS 部署、診斷與長期架構策略的完整能力圖譜。
+{% endraw %}

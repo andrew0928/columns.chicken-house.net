@@ -7,6 +7,7 @@ redirect_from:
   - /2005/06/08/server-asking-for-money-again/solution/
 postid: 2005-06-08-server-asking-for-money-again
 ---
+{% raw %}
 
 ## Case #1: 硬碟噪音異常的預警與處置流程
 
@@ -1702,3 +1703,4 @@ watch -n 5 sensors
   6) 長期治理：Case #19 建立數據化維運與汰換策略
 
 此路徑由「先保護資料與可用性」出發，逐步導入遷移與升級，再完成監控與切換，最後進行優化與治理，對應文章中的噪音、老化風險與升級考量，形成完整可實踐的學習與專案練習框架。
+{% endraw %}

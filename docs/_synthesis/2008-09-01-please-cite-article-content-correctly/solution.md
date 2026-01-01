@@ -7,6 +7,7 @@ redirect_from:
   - /2008/09/01/please-cite-article-content-correctly/solution/
 postid: 2008-09-01-please-cite-article-content-correctly
 ---
+{% raw %}
 
 ## Case #1: 正確引用規範與「引用此文」一鍵產生器
 
@@ -1286,3 +1287,4 @@ Assessment
   5) 度量與優化：15
 
 以上 17 個案例完整對應文章中的問題、根因、解法與效益，並提供可操作的程式碼與實作路徑，可用於實戰教學、專案練習與能力評估。
+{% endraw %}

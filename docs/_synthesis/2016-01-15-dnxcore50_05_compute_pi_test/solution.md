@@ -7,6 +7,7 @@ redirect_from:
   - /2016/01/15/dnxcore50_05_compute_pi_test/solution/
 postid: 2016-01-15-dnxcore50_05_compute_pi_test
 ---
+{% raw %}
 
 以下內容基於提供的文章，萃取並結構化為可落地操作的 15 個問題解決案例，涵蓋測試設計、跨平台對比、平行化策略、效能指標詮釋與實務選型。每個案例均包含問題、根因、解法、關鍵程式碼/設定、實測結論與練習與評估建議。
 
@@ -1214,3 +1215,4 @@ docker run --rm mcr.microsoft.com/dotnet/runtime:${DOTNET_TAG} dotnet --info
 
 說明
 - 所有「實測數據」均以文章描述為準：Windows 2016 在效率率上最佳（≈ 531%）、Windows 2012R2 次之（≈ 470%）、Win2016 與 Ubuntu 總時間差 ≈ 10.4%，Boot2Docker 在 1 Core 下最快，4 Core 比 8 Thread 的收益更顯著。未提供確切毫秒值之處採定性描述。所有範例程式碼皆為可重現的實作示例，與文中方法論一致，可用於建立同等測試流程。
+{% endraw %}

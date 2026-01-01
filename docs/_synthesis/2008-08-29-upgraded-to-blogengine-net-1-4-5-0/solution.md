@@ -7,6 +7,7 @@ redirect_from:
   - /2008/08/29/upgraded-to-blogengine-net-1-4-5-0/solution/
 postid: 2008-08-29-upgraded-to-blogengine-net-1-4-5-0
 ---
+{% raw %}
 
 ## Case #1: 以目錄交換實作零停機升級 BlogEngine.NET
 
@@ -1326,3 +1327,4 @@ Learning Points（學習要點）
 #8 → #7 → #11 → #1 → #4 → #5 → #2 → #13 → #12 → #9 → #10 → #6 → #15
 
 此路徑由基礎可靠部署到現代化自動化，覆蓋升級 BlogEngine.NET 的關鍵實戰能力。
+{% endraw %}

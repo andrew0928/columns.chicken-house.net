@@ -7,6 +7,7 @@ redirect_from:
   - /2007/08/29/windows-live-writer-beta2-new-version/solution/
 postid: 2007-08-29-windows-live-writer-beta2-new-version
 ---
+{% raw %}
 
 以下內容是根據你提供的文章（含前置 metadata/front matter）所能明確抽取到的「問題—根因—解法—效益」資訊，並結合可複製的實作流程與程式碼，整理成15個具有教學價值的解決方案案例。重點聚焦於：部落格多次遷移後的連結維護（front matter 中大量 redirect_from）、多國語系 slug/編碼問題、WordPress → Jekyll 轉換與評論保留、Windows Live Writer（WLW）設定與輸入法問題等實務主題。
 
@@ -1638,3 +1639,4 @@ Assessment Criteria（評估標準）
   6) Case 6 → 10 → 11 → 12 → 18 → 17（編輯器整合、穩定性與平台選型）
 
 以上15+案例皆直接或間接源自原文與其front matter中呈現的真實問題樣態（多重歷史URL、中文slug、WP→Jekyll遷移、WLW整合與IME問題），並補上可落地的程式碼、流程與評估方法，便於教學、實作與評量。
+{% endraw %}

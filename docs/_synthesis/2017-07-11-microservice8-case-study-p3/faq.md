@@ -7,6 +7,7 @@ redirect_from:
   - /2017/07/11/microservice8-case-study-p3/faq/
 postid: 2017-07-11-microservice8-case-study-p3
 ---
+{% raw %}
 
 # 架構師觀點 - 轉移到微服務架構的經驗分享 (Part 3)
 
@@ -448,3 +449,4 @@ D-Q10: 遷移微服務後團隊維運失靈如何修正？
     - D-Q7: 事件驅動交易部分失敗如何回復？
     - D-Q8: DNS快取造成服務切換不即時怎麼辦？
     - D-Q10: 遷移微服務後團隊維運失靈如何修正？
+{% endraw %}

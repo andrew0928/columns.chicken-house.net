@@ -7,6 +7,7 @@ redirect_from:
   - /2017/05/28/aspnet-msa-labs1/faq/
 postid: 2017-05-28-aspnet-msa-labs1
 ---
+{% raw %}
 
 # 容器化的微服務開發 #1：IP查詢架構與開發範例（FAQ）
 
@@ -482,3 +483,4 @@ D-Q10: 以 Compose 多容器部署後出現 403/404，怎麼排查？
     - D-Q9: 容器無法連網的常見原因與解法？
     - D-Q10: 以 Compose 多容器部署後出現 403/404，怎麼排查？
     - A-Q8: 什麼是不可變伺服器（Immutable Server）？
+{% endraw %}

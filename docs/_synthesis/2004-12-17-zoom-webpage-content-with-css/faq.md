@@ -7,6 +7,7 @@ redirect_from:
   - /2004/12/17/zoom-webpage-content-with-css/faq/
 postid: 2004-12-17-zoom-webpage-content-with-css
 ---
+{% raw %}
 
 # 任意放大/縮小網頁的內容
 
@@ -609,3 +610,4 @@ Q10: 1px 邊框在縮放後變模糊或消失怎麼解？
     - B-Q30: zoom 與絕對長度單位在列印的互動？
     - C-Q6: 如何建立支援拖拽平移的縮放畫布容器？
     - C-Q10: 如何撰寫自動化測試驗證縮放行為？
+{% endraw %}

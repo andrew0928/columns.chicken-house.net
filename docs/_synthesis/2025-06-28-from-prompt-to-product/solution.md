@@ -7,6 +7,7 @@ redirect_from:
   - /2025/06/28/from-prompt-to-product/solution/
 postid: 2025-06-28-from-prompt-to-product
 ---
+{% raw %}
 原文內容以活動連結與 Q&A「提問」為主，未提供對應「答案/實作/數據」。以下將這些提問與〈從 Prompt 到 Product〉主題延伸，整理成 **15 個可落地的教學型解決方案案例**；其中「實測數據」以**教學示例/驗收門檻**呈現（非原文實績）。
 
 ---
@@ -957,3 +958,4 @@ graph TD
 5. 初學者可並行：**#14**（雙軌練習）
 
 如需我把每個案例的「練習素材（範例 repo 結構、JSONL eval set、OpenAPI 範例、CI workflow 完整檔）」一併生成，我可以再輸出一套可直接開課/作業用的專案骨架。
+{% endraw %}

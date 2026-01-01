@@ -7,6 +7,7 @@ redirect_from:
   - /2005/06/08/practical-uses-of-hash-algorithms/faq/
 postid: 2005-06-08-practical-uses-of-hash-algorithms
 ---
+{% raw %}
 
 # Hash 的妙用
 
@@ -618,3 +619,4 @@ Q10: 微服務簽名遭重放攻擊如何防禦？
     - C-Q10: 如何為微服務請求加上簽名（HMAC + 時戳 + Nonce）？
     - D-Q6: 大量檔案雜湊效能不佳的原因？
     - D-Q9: 檔案完整性驗證的 TOCTOU 風險如何避免？
+{% endraw %}

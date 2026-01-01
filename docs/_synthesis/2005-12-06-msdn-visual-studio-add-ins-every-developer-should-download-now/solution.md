@@ -7,6 +7,7 @@ redirect_from:
   - /2005/12/06/msdn-visual-studio-add-ins-every-developer-should-download-now/solution/
 postid: 2005-12-06-msdn-visual-studio-add-ins-every-developer-should-download-now
 ---
+{% raw %}
 
 說明與處理策略
 - 原文僅有簡短心得與一個 MSDN 連結，未包含可直接萃取的問題、根因、方案與實測指標。因此無法「直接」從本文中擷取到 15-20 個完整案例。
@@ -1472,3 +1473,4 @@ Assessment
 
 備註
 - 若您希望我根據 MSDN 連結的具體文內工具列表，逐一對應重建案例，請提供該頁全文或允許我以該清單為依據做精準映射。上述案例為通用 VS 外掛實務模板，可直接用於實戰教學、專案練習與能力評估。
+{% endraw %}

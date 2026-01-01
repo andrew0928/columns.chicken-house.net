@@ -7,6 +7,7 @@ redirect_from:
   - /2008/07/02/blogengine-net-widgets/solution/
 postid: 2008-07-02-blogengine-net-widgets
 ---
+{% raw %}
 
 以下案例均根據原文內容所涉及的真實場景與技術脈絡重組，聚焦「BlogEngine.NET 1.4 Widget」帶來的遷移、開發、部署與可視化管理能力。每一案皆包含問題、根因、可落地的解決方案（附關鍵程式碼/設定）、可觀察的實際效益與可執行的練習與評估標準。共 16 案。
 
@@ -1248,3 +1249,4 @@ Assessment Criteria：
 步驟 E：完成升級與主題改造，達成全面 Widget 化（Case 6 -> 7 -> 13 -> 16）
 
 以上 16 個案例可做為從概念到落地、從單點到整體遷移的完整學習藍圖，與原文情境一致且可直接複製到實務教學、專案實作與能力評估中。
+{% endraw %}
