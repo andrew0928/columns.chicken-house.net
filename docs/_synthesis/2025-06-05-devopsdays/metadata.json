@@ -9,31 +9,25 @@
     "\u6280\u8853\u96A8\u7B46"
   ],
   "tech-stacks": [
-    "Jekyll",
+    "DevOpsDays Taipei",
     "Google Slides",
-    "HackMD",
-    "Disqus",
-    "Facebook Comments",
-    "Gitalk",
-    "Markdown"
+    "HackMD"
   ],
   "keywords": [
-    "DevOpsDays Taipei",
-    "\u5F9E Prompt \u5230 Product",
+    "DevOpsDays Taipei 2025",
+    "Prompt",
+    "Product",
     "\u7C21\u5831",
-    "\u5171\u7B46",
+    "\u5834\u6B21\u5171\u7B46",
     "\u5FC3\u5F97",
     "QA",
-    "\u67B6\u69CB\u5E2B\u89C0\u9EDE",
-    "\u6280\u8853\u96A8\u7B46",
-    "2025/06/05",
-    "\u6F14\u8B1B"
+    "\u5171\u7B46"
   ],
-  "generator": "BlogIndex.SyncPost v0.3.0.0, GPT-5",
+  "generator": "BlogIndex.SyncPost v0.3.0.0, GPT-5.2",
   "references": [
     "/images/2025-06-05-devopsdays/logo.jpg",
     "https://docs.google.com/presentation/d/e/2PACX-1vQxjwDVoiFso6bL-Tn5sDXSPDxYlBIKqCXNxiH4jvWgWR6w_L7F56ut0wtnyAg23h6yT0czExPh4hGb/pubembed?start=false\u0026loop=false\u0026delayms=3000",
     "https://hackmd.io/@DevOpsDay/2025/%2FSkkpnJ8zxg"
   ],
-  "summary": "\u7B2C\u4E03\u6B21\u53C3\u52A0 DevOpsDays Taipei \u4E86, \u9019\u7BC7\u6703\u653E\u6211\u7684\u7C21\u5831, \u9084\u6709\u6211\u7684\u5834\u6B21\u5171\u7B46\u9023\u7D50\u3002\u5F8C\u7E8C\u7684\u5FC3\u5F97\uFF0C\u4EE5\u53CA QA \u56DE\u8986\u7B49, \u6703\u9678\u9678\u7E8C\u7E8C\u88DC\u5728\u5F8C\u9762\u3002"
+  "summary": "\u4F5C\u8005\u7B2C\u4E03\u6B21\u53C3\u52A0 DevOpsDays Taipei\uFF0C\u672C\u6587\u5C07\u5F59\u6574\u5176\u65BC DevOpsDays Taipei 2025\u300C\u5F9E Prompt \u5230 Product\u300D\u7684\u76F8\u95DC\u8CC7\u8A0A\u3002\u6587\u7AE0\u63D0\u4F9B\u6D3B\u52D5\u7576\u65E5\uFF082025/06/05\uFF09\u7684\u6F14\u8B1B\u7C21\u5831\u5D4C\u5165\u9023\u7D50\uFF0C\u4E26\u9644\u4E0A\u5927\u6703\u5171\u7B46\uFF08HackMD\uFF09\u4F9B\u8B80\u8005\u53C3\u8003\u3002\u4F5C\u8005\u4E5F\u8AAA\u660E\u5F8C\u7E8C\u6703\u6301\u7E8C\u88DC\u4E0A\u53C3\u8207\u5FC3\u5F97\u8207 QA \u56DE\u8986\u7B49\u5167\u5BB9\u3002\u6458\u8981\u4EE5\u6587\u4E2D \u003C!--more--\u003E \u524D\u6BB5\u843D\u70BA\u6E96\u3002"
 }

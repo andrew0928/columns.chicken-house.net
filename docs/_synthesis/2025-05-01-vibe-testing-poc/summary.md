@@ -10,112 +10,112 @@ postid: 2025-05-01-vibe-testing-poc
 # 從 Intent 到 Assertion #1, 聊聊 Vibe Testing 實驗心得
 
 ## 摘要提示
-- Vibe Testing PoC: 以 LLM 的 Tool Use/Function Calling 驅動從意圖到斷言的 API 自動化測試，驗證概念可行
-- 測試輸入分層: 將 domain 層級情境（Given/When/Then）與介面規格（OpenAPI）分離，再由 Test Runner 合併執行
-- 技術路徑: 使用 .NET + Microsoft Semantic Kernel，將 OpenAPI 一鍵匯入成 Plugin，交由模型自動選工具
-- 報告輸出: 同步生成人讀取的 Markdown 與系統整合用的 JSON（Structured Output）
-- 認證處理: 以統一 Plugin 處理 OAuth2，將環境控制（user/locale/currency/timezone）從測試步驟抽離
-- 典型案例: 購物車超過 10 件限制的負向測試，AI 正確呼叫 API 並回報「測試不過」
-- AI Ready API: API 需具備領域導向設計與精確 OpenAPI 規格，否則自動化成效不佳
-- 工程成熟度: 規模化需要 CICD 自動產生同步的 API Spec，否則將放大技術債
-- 未來擴展: 同一組 domain 測試案例可望跨 UI/API、多端（Web/Android/iOS）以不同 Runner 執行
-- 角色轉變: 測試價值在「決定測什麼」，而非撰寫腳本；工程師需擅用 Prompt、Function Calling、結構化輸出
+- Intent→Assertion: 想把「知道要測什麼」一路自動化到「產出可判定的測試結果」。
+- Tool Use / Function Calling: 把 LLM 當成會呼叫 API 的 Agent，替代人工寫 script 串接步驟與參數。
+- Domain 測試案例: 以商業情境（Given/When/Then）描述要驗證的規則，刻意不綁 API 參數細節。
+- Spec 驅動執行: 依賴精確 OpenAPI/Swagger，讓 AI 能決定該呼叫哪支 API、如何組 request。
+- Test Runner PoC: 用 .NET Console + Microsoft Semantic Kernel Plugins 快速驗證核心可行性。
+- OpenAPI→Plugin: Semantic Kernel 可直接把 Swagger 匯入成 Tools，省掉手工包裝多個函式。
+- Prompt SOP: 用 system prompt 規範「不可編造 response、必須實呼叫 API」與報告格式。
+- 測試報告產出: 同時產 markdown（給人看）與 json（給系統彙整/警示）的結構化輸出。
+- AI Ready API: API 若只剩 CRUD、缺乏領域語意封裝，AI 執行測試會更混亂、可靠性差。
+- 外圍挑戰: 認證授權、環境控制、報告彙整與規模化（MCP 等）是後續要補的重點。
 
 ## 全文重點
-作者以 Side Project 驗證「從 Intent 到 Assertion」的自動化測試構想：讓 LLM 依據高層級的 domain 測試案例（Given/When/Then）與 API 規格（OpenAPI），自動決定應呼叫之 API、組合參數、執行步驟並生成測試報告。核心 Test Runner 以 .NET + Microsoft Semantic Kernel 開發，透過 Import OpenAPI → Plugin 的方式，讓模型以 Function Calling 自動選用工具，省去手工包裝每個端點的成本。測試報告同時輸出 Markdown（人讀）與 JSON（系統整合），並以統一 Plugin 處理 OAuth2 等環境因子，將認證、語系、幣別、時區等環境控制與測試步驟解耦。
+作者在做一個小型 PoC side project：利用 LLM 的 Function Calling/Tool Use 能力，把工程師原本需要寫腳本才能完成的 API 自動化測試流程，改成「用自然語言描述測試情境→AI 自行決定呼叫哪些 API、組出參數、執行→產出報告」。核心目標是讓測試從「Intent（測試意圖/驗收條件）」一路走到「Assertion（斷言/結果判定）」的翻譯與執行，盡可能由 AI 代勞，以減少大量人力投入在撰寫測試文件與手動/半自動執行的文書與腳本工作。
 
-在示範案例中，測試「購物車單品最多 10 件」的約束。Runner 自動建立空購物車、取得商品清單定位「可口可樂」ID，嘗試加入 11 件並查詢購物車；由於後端尚未實作限制，AI 確實執行 API 並回傳「測試不過」，符合先寫測試再補實作的 TDD/規格驅動思路。作者強調，要讓此法有效，API 必須 AI Ready：以領域為中心設計（而非單純 CRUD），並具備精確、可自動產生與同步的 OpenAPI 文件；否則 LLM 難以正確生成呼叫、案例容易發散，且工程管控成本過高。
+作者把整體拆解為三類輸入資訊：①你想驗證什麼（AC/Acceptance Criteria），②領域知識（流程、狀態、重要概念），③系統規格（UI 流程或 API spec、範例等）。本篇聚焦在右半部的 Test Runner：輸入已「展開」成 Given/When/Then 的 domain 測試案例（仍不含 API 細節），再結合精確 API 規格（OpenAPI/Swagger），由 LLM 推論每一步應呼叫的 API、前後資料如何傳遞（例如先建立購物車取得 cart id，再查商品清單找到可口可樂的 productId，最後加入商品並查詢購物車），並生成可閱讀的測試報告。作者也延伸想像：若未來 UI 操作型 agent 更成熟，同一份 domain 案例也可能在不同介面（API/Web/iOS/Android）上重複驗證相同商業規則。
 
-技術面，作者提供三段關鍵 Prompt：系統指令定義測試鐵律與嚴禁臆測 API 結果、使用者訊息帶入測試案例、輸出報告格式要求；並以 FunctionChoiceBehavior.Auto 交由 Kernel 代管工具選擇與對話流程。執行時可清楚看到實際 API 請求與動態 Token。最後於「心得」中提出四大規模化前提：API 領域化設計、精準規格文件、認證授權標準化與環境插件化、報告結構化與彙整機制；否則 AI 反而加速技術債。展望未來，若 UI 自動操作（Browser Use/Computer Use）更穩定低成本，則同組 domain 測試案例可在不同介面規格與 Runner 下重用，實現跨 API/UI、多端一致驗證。作者並計畫續文探討「案例展開」與「規模化（含 MCP、認證）」，呼應測試角色應轉向「選擇與評估有意義的測項」以及工程師「引導 AI 把事做好」的新能力模型。
+實作上作者以「安德魯小舖」既有購物車 API 作為測試標的，準備一個刻意會失敗的案例：嘗試加入 11 件同商品，預期系統限制上限 10 件應回 400 且購物車仍為空，但實際 API 並未實作此限制，所以測試應該失敗。技術選型採 .NET Console + Microsoft Semantic Kernel，直接將 OpenAPI 匯入為 Kernel Plugin，讓 LLM 在 Auto tool choice 模式下呼叫 API；並以 system prompt 規範 Given/When/Then 的執行原則、禁止編造 API 回應、要求輸出固定格式報告。結果顯示 AI 確實逐步呼叫 API、處理 OAuth2 token、最後產出報告且判定「測試不過」，與作者預期一致，證明「用 LLM 驅動 API 測試執行與報告」在核心環節可行。
+
+最後作者整理幾點關鍵心得：要讓這類作法成功，API 必須更「AI Ready」——用領域語意封裝行為而非只有 CRUD，並且必須有精準且能與程式同步的 API Spec（最好由 CI/CD 自動產生），否則 LLM 無法可靠組 request；此外認證授權與環境控制應標準化並在 runner 層處理，避免把不必要的環境因素混進測試步驟；當測試量放大時，報告需要可彙整的結構化輸出（如 JSON）以便統計與告警。作者表示本文只涵蓋整體想法約三成，後續會補上「如何從 AC/領域知識展開案例」與「如何規模化（含 MCP、認證等設計）」。
 
 ## 段落重點
-### 前言與動機
-作者回顧先前「安德魯小舖」的 API 驅動型 Agent 經驗，思考既然 LLM 已能可靠進行 Function Calling，是否可用於簡化 API 自動化測試腳本撰寫。PoC 成果證實可行：僅提供商業情境的正反案例，Test Runner 即能自動決定呼叫之 API 與參數並產生報告。此舉帶來「出一張嘴，測試自動跑」的體驗，也呼應業界對 DevOps 與工程流程被 AI 重塑的觀察。作者將焦點鎖定在驗證核心可行性而非產品化，並指出真正挑戰在於「讓 API AI Ready」與「如何自動化尚未 AI Ready 的 API」。
 
 ### 1, 構想: 拿 Tool Use 來做自動化測試
-核心理念是讓 LLM 從「意圖（Intent）」推導至「斷言（Assertion）」：由 Given/When/Then 的需求意圖，結合領域知識與系統規格，透過 Tool Use 自動展開執行步驟與驗證。作者將輸入分成三層：要驗證什麼（AC/意圖）、領域知識（概念/流程/狀態）、精確系統規格（UI 或 API）。Test Runner 僅接收「展開後的測試案例」並輸出報告。若未來 UI 操作（Browser Use/Computer Use）更成熟，則同一組 domain 測試案例可在不同介面規格與 Runner（API/UI/多端）重用，統一驗證商業規則。
+作者提出「從 Intent 到 Assertion」的願景：測試最難的是掌握要驗證的意圖（AC），而不是把意圖翻成一堆細碎的操作指令；傳統自動化測試之所以人力密集，是因為電腦需要非常明確的步驟與判定點，導致大量測試文件與腳本都靠人手翻譯與串接。作者觀察到人之所以能憑意圖執行測試，是因為腦中具備領域知識與系統規格，能把意圖翻譯成行動；而這正是 LLM 的 Function Calling/Tool Use 的可用之處：在提供足夠規格（例如 API spec）時，LLM 可以自行決定要用哪些工具、怎麼組參數、怎麼依序完成任務。本文聚焦在 Test Runner 的 PoC：輸入是 domain 層級測試案例（不是直接 AC），輸出是測試報告。作者也提出更大的想像：若未來 UI 操作 agent 技術更精準且低成本，同一份 domain 案例可搭配不同介面規格與 runner，對 API/UI（Web/Android/iOS）做一致的商業規則驗證。
 
 ### 2, 實作: 準備測試案例 (domain)
-示例案例以購物車單品上限 10 件為約束，描述在空購物車加入 11 件「可口可樂」並檢查結果，Then 預期應被拒與購物車維持空。此為純粹的 domain 情境，刻意不含技術細節，利於跨介面重用與獨立審閱。作者強調「知道該測什麼」的能力仍在於人，AI 可列舉但需人工評估。此分層能使 Runner 在執行階段再合併規格與案例，降低規格變動的影響。
+作者示範一則 domain 測試案例（Given/When/Then）：測試前清空購物車、指定商品可口可樂；步驟嘗試加入 11 件並檢查購物車；預期加入時應回 400（超過 10）且購物車仍為空。作者強調此層級案例刻意不寫 API 細節，只描述商業情境與期望，目的是讓案例能在 UI 或 API 規格改動時保持穩定，降低撰寫與 review 成本。產生案例可以讓 AI 列舉，但人仍需負責「測什麼才有意義」的判斷與審核，避免把重點錯放在展開操作步驟。作者也引用敏捷三叔公的觀點：GenAI 不會讓測試消失，而是讓「思考測什麼」變得更重要，適合交給 AI 的文書與展開工作應盡快外包給 AI，人去做更有價值的決策。
 
 ### 3, 實作: 準備 API 的規格 (spec)
-使用「安德魯小舖」既有 API 與公開 Swagger。作者先「腦補」人會怎麼解題，轉化為提示策略：Given 以建立新購物車取代清空，並以「取得商品清單」找出可口可樂的 productId；When 則直接呼叫加入項目與查詢購物車。Then 僅做結果判斷無須額外 API。此步驟凸顯精確 OpenAPI 的價值：模型可據規格自動產生 URI/Headers/Payload，避免臆測。
+作者使用「安德魯小舖」的既有購物車 domain API，並依賴其 OpenAPI/Swagger 作為 AI 可理解且可精準呼叫的規格來源。作者先以「人類如何解題」的方式腦補流程，再用以設計 prompt：Given 中「清空購物車」因無 EmptyCart API，改用 CreateCart 建立新車；指定商品「可口可樂」因無搜尋 API，必須先 GetProducts 列舉後找出 productId。When 的步驟則直接對應 AddItemToCart 與 GetCart。Then 則是針對前述回應做斷言，不一定需要新 API 呼叫。這段意在說明：domain 測試案例雖不綁定細節，但在 runner 執行時仍必須結合「精確規格」把情境落地成可執行的 API 序列與資料傳遞。
 
 ### 4, 實作: 挑選對應的技術來驗證
-作者以 .NET Console App 搭配 Microsoft Semantic Kernel 開發 Runner，聚焦 PoC 而非 MCP 規模化。Kernel 可直接將 OpenAPI 匯入為 Plugin，省去手工包裝端點。接著以三段 Prompt 驅動：系統訊息定義測試鐵律與禁止臆測 API 結果；使用者訊息傳入測試案例；最後指定 Markdown 報告格式。以 FunctionChoiceBehavior.Auto 讓 Kernel 自動處理工具選擇與多輪對話。執行過程可見實際 HTTP 請求與 Authorization Header；OAuth2 以專屬 Plugin 預先處理。
-
-### 4-1, 將 OpenApi 匯入成為 Kernel Plugin
-透過 Kernel.ImportPluginFromOpenApiAsync 直接載入 Swagger，內建處理 Json Schema、Function Schema 與 OpenAPI 映射，快速把 API 暴露為 Tools。再由模型依據任務自行決定何時呼叫哪些函式。此能力大幅降低將既有 API 變成 AI 可用工具的門檻，是落地自動化的關鍵加速器。
-
-### 4-2, 準備 Prompts
-三段訊息構成流程：System 定義 Given/When/Then 的執行規範、失敗分類，以及嚴禁產生虛構的 API 回應；User 以變數注入測試案例文本；最後要求輸出包含步驟、Request/Response、判定與總結的 Markdown 報告格式。以 Prompt Template 一次組裝，並設定 Auto Tool Choice，避免手動管理 ChatHistory 與函式選用細節。
-
-### 4-3, 測試結果報告
-因購物車屬普及概念，PoC 未額外提供領域知識文件。執行時可見每次請求的實際 OAuth Token，證明非快取或臆造。最終報告顯示：加入 11 件時未回 400，購物車亦非空，判定 test_fail。這與預期一致（後端尚未實作上限），呼應先寫規格/測試、紅燈再補實作的 TDD 範式。另提供同內容的 JSON 版本，便於集中彙整與系統指標。
+作者以 PoC 為目標選擇 .NET Console App，採用 Microsoft Semantic Kernel（SK）+ Plugins 來實作 OpenAI Function Calling 的工具呼叫流程；是否做成 MCP 屬於「規模化推廣」階段才需要處理的問題，因此先略過。核心實作包含三部分：其一，利用 SK 內建能力將 OpenAPI Spec 直接匯入成 Kernel Plugin，省下把多支 API 手工轉成 functions 的大量工作；其二，設計 prompts（system + user messages）作為「測試 SOP」與輸出格式：system prompt 定義 Given/When/Then 的處理規則、失敗分類（無法執行/執行失敗/測試不過/測試通過），並嚴格要求不得臆造 request/response、必須實際呼叫 API；user prompt 分別提供測試案例與報告 markdown 模板；其三，設定 FunctionChoiceBehavior=Auto 讓 kernel 自動處理 tool selection 與多輪 function calling 細節，最後用 InvokePromptAsync 直接取得報告文字。執行結果顯示 AI 真的完成 API 呼叫流程，且作者補充 runner 內另外處理 OAuth2：每次測試自動取得 token 並附加到 Authorization header；最後 AI 產出報告並判定測試失敗，符合作者刻意設計的「先紅燈」TDD 式驗證（規格/案例先行，功能尚未實作限制）。
 
 ### 5, 心得
-作者歸納四大落地前提。其一，API 必須以領域為中心設計，避免讓呼叫端承擔商業邏輯導致路徑失控；其二，需具備可自動產生且與程式碼嚴格同步的 OpenAPI，否則 LLM 難以正確呼叫；其三，認證與環境設定要標準化與插件化，將「環境控制」自測試步驟抽離；其四，報告需結構化輸出以便彙整監控。最後強調工程師價值轉向「定義與引導」，善用 Structured Output、Function Calling 與良好 Prompt 思路，便能快速拼裝跨系統整合的測試能力。作者預告後續將深入「案例展開」與「規模化（含 MCP、認證）」。
+作者整理 PoC 之後的幾個關鍵結論與門檻。第一，API 設計需以領域行為封裝，若只提供 CRUD，商業邏輯與狀態控制落在呼叫端，會讓 AI 執行路徑發散、可靠性變差；因此「AI Ready」本質多在設計而非技術。第二，必須有精確且同步的 API Spec：LLM 能精準組出 URI/headers/payload 是建立在 Swagger/OpenAPI 的嚴謹描述上；若 spec 需人工維護，開發迭代下幾乎不可能與程式一致，反而讓自動化測試製造更多麻煩，應先把 CI/CD 與自動產 spec 的工程成熟度補齊。第三，認證授權與環境控制要標準化：測試通常關心「認證後的行為」，而非把登入流程當成每個案例步驟，因此作者在 runner 以 plugin 方式處理 user 與 token，並指出語系/幣別/時區等環境因素也應有類似處理模式。第四，報告需要可彙整：markdown 適合人讀，但大量測試需要 JSON 等結構化輸出做統計與告警，作者提供了同一份報告的 JSON 範例並提到 Structured Output 技巧。最後作者總結：工程師的價值在於把 AI 技術包裝成可用工具，善用 Structured Output + Function Calling + 正確 prompt 思路即可做出現成工具做不到的整合型能力；本文僅覆蓋整體構想的一部分，後續將補完「案例展開」與「規模化細節（含 MCP、認證等）」两篇。
 
 ## 資訊整理
 
 ### 知識架構圖
-1. 前置知識：
-   - 測試基本觀念與測試設計：Given/When/Then、Assertion、AC（Acceptance Criteria）
-   - API 基礎：REST、OpenAPI/Swagger、OAuth2 認證與授權
-   - LLM 能力：Function Calling/Tool Use、Structured Output（JSON Mode）
-   - 微軟 Semantic Kernel 與 Plugins 基本用法
+1. **前置知識**：學習本主題前需要掌握什麼？
+   - API 自動化測試基本觀念：Given/When/Then、Assertion、測試報告、TDD 心法（先紅再綠）
+   - OpenAPI / Swagger 基礎：端點、參數、Schema、認證（OAuth2）在 spec 的表達方式
+   - LLM Tool Use / Function Calling 概念：模型如何「選擇工具→組參數→呼叫→讀回應→推論下一步」
+   - .NET 與整合能力：Console App、HTTP 呼叫、日誌、基本 CI/CD 與文件自動生成觀念
+   - Prompting 基礎：System/User message 分工、約束「不得瞎猜」、輸出格式要求（Markdown/JSON）
 
-2. 核心概念：
-   - Intent → Assertion：從測試意圖（商業規則層級）自動推導到可執行步驟與斷言
-   - AI Ready API 設計：以領域為中心的 API（封裝商業邏輯）、精準規格（OpenAPI）、標準化認證
-   - Function Calling Test Runner：以 LLM 工具使用能力串起「案例展開→API 呼叫→報告輸出」
-   - Prompt 與結構化輸出：以 SOP 驅動 LLM 執行策略、同時生成給人讀的 Markdown與給系統讀的 JSON
-   - 測試環境控制：使用者身份、語系/幣別/時區等上下文以插件統一處理
+2. **核心概念**：本文的 3-5 個核心概念及其關係
+   - **Intent → Action → Assertion**：把「要測什麼(意圖)」透過 LLM 的推論轉成「可執行的 API 行動」，最後再產出「斷言與報告」
+   - **Domain 測試案例 vs Spec**：測試案例維持在「商業/領域層級」；執行時再結合「精確 API 規格」展開成可呼叫步驟
+   - **AI Test Runner（LLM 驅動執行器）**：由 LLM 依案例決定要打哪些 API、如何串參數、如何判斷結果並輸出報告
+   - **AI Ready API 的門檻**：要讓 AI 能穩定測試，API 必須是領域導向、文件精準、認證授權可標準化處理
+   - **報告雙格式**：Markdown 給人讀；JSON 給系統彙整、統計與告警（Structured Output / JSON Schema）
 
-3. 技術依賴：
-   - LLM（如 OpenAI o4-mini）→ 依賴 Semantic Kernel 的 Function Choice（Auto）→ 依賴 Plugins
-   - OpenAPI/Swagger → 匯入 Semantic Kernel Plugin（ImportPluginFromOpenApiAsync）→ 由 LLM具體化 URI/Headers/Payload
-   - OAuth2 認證 → 測試環境插件統一附加 Token → 供 API 呼叫使用
-   - Prompt Template → 指示 Given/When/Then 流程與生成報告 → Structured Output（JSON Schema/模式化）供整合
+3. **技術依賴**：相關技術之間的依賴關係
+   - LLM（支援 Tool Use / Function Calling 的模型，如 o4-mini）
+     → Semantic Kernel（負責對話/工具協調、Auto tool choice）
+     → OpenAPI Spec（輸入給 SK 匯入成 Plugin 的依據）
+     → API 服務（實際被呼叫的端點，含 OAuth2）
+     → 測試輸出（Markdown/JSON）→ 測試彙整系統（後續規模化需求）
+   - 認證授權（OAuth2）
+     → Test Runner 的環境控制 Plugin（代管 token / user / locale 等 context）
+     → 每次 API 呼叫自動附帶 Authorization header
 
-4. 應用場景：
-   - API 自動化測試（端到端情境測試、TDD 支援）
-   - DevOps 測試流水線：自動收集測試報告、統計與告警
-   - 多介面一致性驗證（未來延伸）：用同一套 Domain Test Case 驗證 API/UI（Browser Use/Computer Use）
-   - 教育與研發：示範 LLM Tool Use 與測試工程融合、PoC 驗證新流程可行性
+4. **應用場景**：適用於哪些實際場景？
+   - 以「領域情境」快速生成/執行 API 端到端（或整合）測試 PoC
+   - 規格先行（或類 TDD）：先定規格與測試案例，再用 Runner 持續驗證 API 是否逐步符合
+   - API First / AI First 團隊：OpenAPI 自動生成、文件同步成熟，適合導入「AI 驅動測試」
+   - 未來延伸：同一份 domain 測試案例 + 不同介面規格（API/UI/Web/APP）+ 對應 Runner，做跨介面一致性驗證（本文先聚焦 API）
+
+---
 
 ### 學習路徑建議
-1. 入門者路徑：
-   - 理解 Given/When/Then 與 Assertion 的測試語法與精神
-   - 熟悉 OpenAPI/Swagger、基本 REST 呼叫（GET/POST）、認識 OAuth2 概念
-   - 了解 LLM 的 Function Calling 與 Structured Output 是什麼、何時適用
-   - 嘗試用現成 API 撰寫 1-2 個 Domain 層級測試案例（不含技術細節）
+1. **入門者路徑**：零基礎如何開始？
+   - 先補測試語言：Given/When/Then、Assertion、測試報告怎麼讀
+   - 了解 OpenAPI/Swagger：能看懂端點、request/response schema、認證宣告
+   - 理解 LLM Function Calling / Tool Use 的工作流程（工具選擇與參數生成）
+   - 跑通最小 PoC：用現成 OpenAPI + 2~3 個測試案例，產 Markdown 報告
 
-2. 進階者路徑：
-   - 使用 Microsoft Semantic Kernel，練習 Import OpenAPI 為 Plugin，設定 FunctionChoiceBehavior=Auto
-   - 設計 System/User Prompts：用 SOP 描述測試原則，輸入測試案例，要求 Markdown+JSON 報告
-   - 建立環境控制插件：統一注入 OAuth2 Token、語系/幣別/時區等上下文
-   - 練習將測試報告結構化輸出，串接測試管理系統或統計面板
+2. **進階者路徑**：已有基礎如何深化？
+   - 用 Semantic Kernel 匯入 OpenAPI 成 Plugin（ImportPluginFromOpenApiAsync）
+   - 設計 Prompt 結構：System 放 SOP 與約束、User 放 testcase、再一段要求報告格式
+   - 加入 Structured Output：同時輸出 JSON（方便彙整）+ Markdown（方便閱讀）
+   - 補齊環境控制：把 user/token/locale/timezone/currency 抽成 context 與專用 Plugin
 
-3. 實戰路徑：
-   - 選取一組「AI Ready」的領域式 API，導入到 CI/CD，自動產生最新 Swagger
-   - 建立測試案例集（Domain 層級）、Test Runner（Console或服務），整合報告收集與告警
-   - 規模化議題：處理多使用者、多環境、多語系；評估 MCP、Browser Use/Computer Use 的跨介面測試延伸
-   - 持續改進：在 PoC 之上加上版本控管、測試覆蓋率、失敗案例追蹤與回歸測試流程
+3. **實戰路徑**：如何應用到實際專案？
+   - 先盤點「AI Ready」缺口：API 是否領域導向、Spec 是否自動同步、認證是否一致
+   - 建立測試資料與環境策略：測試帳號、token 取得、資料重置（Given 的可重複性）
+   - 導入 CI：每次 build 自動產 spec、觸發 runner、收集 JSON 報告、做趨勢與告警
+   - 規模化治理：測試案例版本控管、報告彙整平台、失敗分類（start_fail/exec_fail/test_fail）
+
+---
 
 ### 關鍵要點清單
-- Intent→Assertion 自動化：用 LLM 將商業意圖轉譯為執行步驟與斷言，縮短測試腳本撰寫成本（優先級: 高）
-- Domain 層級測試案例：以領域規則撰寫案例，避免耦合具體技術細節（優先級: 高）
-- AI Ready API 設計：封裝商業邏輯於 API，避免純 CRUD 導致行為不確定（優先級: 高）
-- 精準 OpenAPI 規格：讓 LLM可正確生成 URI/Headers/Payload，避免手動文件不同步（優先級: 高）
-- 標準化認證與環境控制：OAuth2、語系/幣別/時區等上下文由插件統一處理（優先級: 高）
-- Semantic Kernel Plugins：以 ImportPluginFromOpenApiAsync 快速把 Swagger 變成可用工具（優先級: 高）
-- FunctionChoiceBehavior=Auto：讓 Kernel 代管工具選擇與往返細節，降低實作複雜度（優先級: 中）
-- Prompt 設計 SOP：System Prompt明確規範 Given/When/Then 流程與不可造假原則（優先級: 高）
-- 實際 API 呼叫原則：禁止生成/快取回應，測試必須基於真實呼叫（優先級: 高）
-- 結構化測試報告：同時輸出 Markdown（給人看）與 JSON（系統整合）（優先級: 高）
-- 測試報告彙整機制：集中收集、統計與告警，支援規模化測試管理（優先級: 中）
-- TDD 式工作流：先有規格與案例，讓紅燈轉綠燈驅動開發與驗證（優先級: 中）
-- 介面多樣化願景：同一套案例測 API/UI/Web/Android/iOS（依賴 Browser/Computer Use）（優先級: 低）
-- 開發者能力轉型：重點是「更懂如何引導 AI 把事做好」，而非單純寫程式更快（優先級: 中）
-- CI/CD 與規格自動化：確保每次測試前規格與實作同步，避免技術債擴張（優先級: 高）
+- Intent→Assertion 目標: 希望從「測試意圖」到「斷言/報告」都交給 AI 推進 (優先級: 高)
+- Domain 層級測試案例: 用商業情境描述「測什麼」，避免綁死 API/UI 細節 (優先級: 高)
+- Spec 驅動展開步驟: 透過精確 OpenAPI 讓 AI 能決定要打哪些端點與參數 (優先級: 高)
+- LLM Tool Use/Function Calling: 讓模型能選工具、呼叫 API、讀回應再決定下一步 (優先級: 高)
+- Test Runner 的定位: 輸入測試案例，輸出測試報告；PoC 先打通核心流程 (優先級: 高)
+- Semantic Kernel Plugins: 把可呼叫的 API 包成工具給 LLM 使用，降低 Function Calling 雜務 (優先級: 高)
+- OpenAPI→Plugin 匯入: SK 內建 ImportPluginFromOpenApiAsync 可大幅省去手工包 16 個 API (優先級: 中)
+- Prompt SOP（System message）: 明確規範 Given/When/Then、失敗分類、禁止瞎猜 response (優先級: 高)
+- FunctionChoiceBehavior=Auto: 交給 SK 自動處理 tool selection 與多輪呼叫流程 (優先級: 中)
+- 認證授權標準化: OAuth2 不適合每次讓 AI「自己登入」；應由 Runner 統一處理並注入 token (優先級: 高)
+- API 必須領域導向設計: CRUD 導致呼叫端承擔商業邏輯，AI 測試路徑易發散失控 (優先級: 高)
+- Spec 必須精準且同步: 文件若靠人工維護，開發期頻繁變更會使自動化測試變成負擔 (優先級: 高)
+- 報告雙格式策略: Markdown 給人看、JSON 給系統彙整統計與告警（Structured Output）(優先級: 中)
+- 先紅再綠（類 TDD）: 規格/案例先寫，Runner 先驗證失敗，功能補齊後逐步轉綠 (優先級: 中)
+- 未來擴展想像: 同一份 domain 案例可對 API/UI/Web/iOS/Android 用不同 Runner 驗證一致商規 (優先級: 低)

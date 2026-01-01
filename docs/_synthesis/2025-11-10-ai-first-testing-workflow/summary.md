@@ -10,152 +10,114 @@ postid: 2025-11-10-ai-first-testing-workflow
 # AI-First Testing, 以 AI 為核心重新設計測試流程
 
 ## 摘要提示
-- 流程再設計: 別把 AI 塞進舊流程，從 AI 能力出發重構測試工作流，分清 Brain/GPU/CPU 的分工與邊界
-- 左移策略: 將「文件維護」與「自動化執行」左移，把 AC→決策表→抽象 Test Case 先定準
-- 決策表驅動: 用 Decision Table 系統化展開條件組合，收斂「有價值的測試」與邊界
-- 探索不執行: 讓 AI 做「探索步驟」而非「重複執行」，降低 GPU 成本與不確定性
-- 生成測試程式: 以探索留下的 session log + 規格，精準生成可重複執行的測試程式碼
-- 測試資產化: Test Case 抽象化可跨介面複用，同規格覆蓋 API 與 Web UI
-- MCP 分層: 以 MCP 抽象 API/Browser 操作，隔離雜訊、縮小 context、提升 Agent 穩定性
-- 成本試算: 由 4 萬次 AI 任務（GPU）收斂為「探索+產碼」800 次（GPU）+ 4 萬次 CPU 測試
-- 可近用性: Web UI 無障礙設計成為 AI 操作「通用介面」，提升可自動化可操控性
-- TestKit 實作: 以 TestKit 封裝 gentest/api.run/web.run/api.gencode 流程，展示端到端可行性
+- AI-First 思維: 不要把 AI 塞進舊流程做「局部最佳化」，而是從能力與成本結構出發重塑測試流程。
+- 三段式流程: 先決定「測什麼」、再由 AI「探索怎麼測」、最後把結果「自動化成程式碼」。
+- Decision Table: 用決策表收斂測試範圍與條件組合，降低文件與案例數量級並提升覆蓋掌控。
+- 探索 vs 回歸: AI 適合探索與推理，不適合高頻重複執行；回歸應交給可重複的自動化測試（CPU）。
+- 成本模型 Brain/GPU/CPU: 把判斷交給人腦、探索交給 AI、穩定重跑交給程式碼以壓低成本與不確定性。
+- TestKit 封裝: 參考 SpecKit，把 prompts/doc/tools 封裝成 gentest/run/gencode 指令化工作流。
+- MCP 抽象 API 操作: 用 MCP 隔離 swagger/認證等雜訊，避免塞爆 context window，提升 agent 成功率。
+- Session Logs 資產化: 探索過程留存 session logs，供人工 review 與後續生成測試程式碼。
+- 跨介面共用 Test Case: 同一份 test case 可同時用於 API 與 Web UI（探索層不同，自動化層可分流）。
+- 無障礙=AI 介面: Playwright MCP 依賴 accessibility 標記，無障礙做得越好，網站越 AI-friendly、越可測。
 
 ## 全文重點
-本文聚焦「AI-First Testing」：不是把 AI 充當人工自動化，而是從 AI 的長處與限制出發，重新設計測試流程。作者反思先前「vibe testing」雖可省人工，但仍屬「局部最佳化」：用 AI 去重複執行測試既昂貴又不穩定，且流程瓶頸沒有根本改變。面對 coding agent 帶來的 10x 變化，真正的瓶頸轉移到需求與規格清晰度，測試也應承接這種「流程變革」。
+作者反思半年前「vibe testing：用 AI 直接重複跑 API 測試」的做法雖可行，但本質只是把「人力執行」換成「AI 執行」，並未改變測試 workflow，因此落入局部最佳化：測試量體一大（AC 展開多個 test case、再乘上多操作介面與 NFR），重複執行次數更驚人（例如一年上百輪），若用 AI 每次去跑，不僅昂貴、慢，結果也可能不穩定。作者借用「把 ChatGPT 當 OS」的觀點，主張應從 AI 的能力與資源邊界出發，重新配置 Brain/GPU/CPU：人負責判斷與決策、AI 負責探索與整理、程式碼負責穩定大量重跑。
 
-核心改造有三點。第一，用 Decision Table 收斂出「有價值的測試」：從 AC 展開條件組合與邊界，用一張決策表對齊範圍與優先順序，再生成保持抽象的 Test Case。如此可避免因操作介面差異而維護多份冗餘案例，將文件量由 400 份級數降至可控規模。第二，把 AI 放在「探索步驟」而不是「重複執行」，以 Agent+MCP 對照 API Spec/無障礙 UI 標記來實際嘗試、修正與驗證，留下可讀的 session logs 與請求/回應快照，供後續自動化程式碼的「規格證據」。第三，將探索結果一次性轉成穩定可回歸的測試程式（CPU 執行）。如此把 4 萬次 GPU 任務降為「探索 400 次 + 產碼 400 次（GPU）」與「執行 4 萬次（CPU）」，同時解決速度、成本與一致性問題。
+基於此，他提出 AI-First Testing 的三步：第一步用 Decision Table 把驗收條件（AC）系統化展開成條件組合與預期行為，並透過人工 review 校正 AI 容易犯的規則誤解與算錯；第二步讓 AI agent 在清楚的操作規格（API spec / UI spec）與工具（MCP/Playwright）支持下「探索」可行的測試操作步驟，並把過程記錄成 session logs 供人檢核；第三步把「已驗證的 test case + 探索步驟」交給 AI 一次性生成自動化測試程式碼，讓後續回歸測試以 CPU 低成本、可重複且一致地執行。這樣 AI 任務次數由「每次回歸都要 AI」縮減為「每個案例探索一次、生成一次」，大幅降低成本與不確定性。
 
-作者以 TestKit 整合整套流程：GenTest 由 AC 生成 Decision Table 與 Test Case；API/Web Run 以 MCP 探索並記錄步驟；API GenCode 以 session log + 規格生成 xUnit 自動化測試。示例系統為「安得魯小舖」API/Web。實測發現：API 端空車仍可結帳（預期應拒絕）而失敗；Web UI 因實作「空車不顯示結帳」而通過。這驗證了「同一 Test Case 可覆蓋 API/UI」，也顯示探索步驟能暴露後端規則缺口。
-
-MCP 設計是關鍵：以 QuickStart/ListOperations/CreateSession/RunStep 四工具抽象 API 操作，避免把完整 Swagger 塞進 Agent 的 context，減少雜訊（context rot），讓主 Agent 專注於「按照 Test Case 完成任務」，由 MCP 子層 LLM 進行 text-to-call 解析與 OAuth 等瑣事。Web 端則以 Playwright MCP 搭配無障礙標記（Accessibility）作為「通用介面」，顯著提升可被 AI 操控的穩定度與成功率。
-
-最後，作者建議未來大規模推行時導入 SpecKit 與 Test Management 規格，把「API 規格、測試內規、Test Case、探索步驟、環境秘密」統一為高品質規格後再生成程式碼，以確保跨專案一致性。總結而言：人腦決策選「測什麼」，AI 探索找「怎麼測」，程式碼負責「穩定重複執行」。AI 帶來的是流程變革而不只是工具改良；唯有先行試煉新流程，碰到舊流程瓶頸時才有替代方案。
+為了把流程落地，作者仿 SpecKit 做了 TestKit（gentest / api.run / api.gencode / web.run / web.gencode），並以「安得魯小舖」的購物車結帳折扣規則為案例：先用決策表定義 14 個規則/案例（含邊界與超限），再用 MCP 抽象化 API 操作（避免 swagger/認證雜訊影響 agent），完成探索並產出 session logs 與測試摘要；Web 端則示範同一份 test case 搭配 Playwright MCP 探索 UI 操作，並指出無障礙標記對 AI 操作與測試成功率至關重要。最後用 .NET + xUnit 示範依 session logs 生成可在 CI 重複跑的自動化 API 測試，成功抓出「空購物車仍可結帳」的缺陷。作者總結：AI 帶來的是流程變革而非單純改善，正確方向是用決策表收斂價值、用 AI 做探索、把成果資產化成可重複執行的測試程式。
 
 ## 段落重點
-### 導言：從「自動執行」到「流程變革」
-作者反思半年前的 vibe testing 實驗：用 AI 取代人工執行測試雖有效，但落入舊流程的局部最佳化。受 Sam Altman「把 AI 當 OS 使用」啟發，作者轉向以 AI 能力為中心來重塑測試工作流，辨識 Brain/GPU/CPU 三種資源的邊界與分工。coding 變 10x 後，真正瓶頸移到需求/規格清晰度，測試也需重構。本文提出 AI-First Testing 策略與 TestKit 實作，聚焦三步：決定測什麼（Decision Table）、決定怎麼測（AI 探索步驟）、決定如何自動化（生成測試程式），並讓 Test Case 跨 API/Web 複用。
 
 ### 1. AI-First Testing
-以 AC→Test Case→執行為軸，估算量體：單一 AC 展開可能導致 400 份腳本、一年 4 萬次執行，若全用 AI 執行成本高且不穩定。解法是「左移」：文件左移（AC→Decision Table→抽象 Test Case，減量）、自動化左移（AI 專注探索，確定方案後一次性生成測試程式，執行交給 CPU）。提出三步驟流程與對應產出（Decision Table/Test Case、Session Log/Summary、Test Code），以 TestKit 指令封裝。資源包含操作規格（API Spec/無障礙 UI）、Test Case、探索 Session Log，三者即是生成可靠測試程式的完整規格來源。
-
-### 1-1. Workflow Design Concept
-詳列測試量體與瓶頸：測項數量、探索步驟、執行次數與成本試算，證明「每次用 AI 跑測試」不可擴。提出新配置：AI 專注探索（400 次）、AI 產碼（400 次）、CPU 回歸（4 萬次），把不確定性降到可控。文件左移用 Decision Table 收斂有價值測項，Test Case 抽象化以便跨介面複用。以流程圖說明新舊差異，指出下一步要用實例驗證。
-
-### 1-2. TestKit 的構想
-參考 SpecKit，設計 TestKit 五組指令：GenTest、API.Run、API.GenCode、WEB.Run、WEB.GenCode。三步各自輸出：Decision Table/Test Case、探索 Session Log、Test Code。執行策略：AI 協助專家決策（產出 Decision Table/Test Case）、MCP 協助 AI 探索並記錄步驟、AI+SpecKit 生成大量一致的自動化測試。強調規格充分：操作規格、Test Case、操作範例（Session Log）即足以生成穩定程式碼。
-
-### 1-3. Init TestKit
-說明開發環境（VS Code + Copilot/Haiku 4.5）與範例專案（AndrewDemo.TestKitTemplate）。測試標的為「安得魯小舖」API/Web/Swagger。接下來章節將依 TestKit 工作流逐步實作：先決策表與 Test Case，再用 MCP 探索 API/Web，最後生成 API 測試程式。
-
-### 1-4. AI-First Workflow 小結
-AI-First 不只改善，更需新流程。要點：把 Agent 所需 context 與 Tools（MCP）配置好；先行試作才能在舊流程遇瓶頸時無縫轉換。本文後續以小舖 API 為例，演練整個端到端流程，驗證可行性與效益。
+本章建立問題意識：直接讓 AI 取代人去「重複跑測試」會碰到量體、費用、速度、結果不一致等瓶頸，本質仍是舊流程的替身。作者以量體估算示例：1 個 AC 可能展開 10+ test cases，再乘上 4 種操作介面與 10 種 NFR，文件與腳本數量級爆炸；若每週 release、每次前後各測一次，年執行次數上萬，若用 AI 每次跑，Token 成本與時間都不合理。於是提出左移思路：把「AI 的價值」放在探索與產出，而不是高頻執行；把高頻回歸交給自動化測試程式碼（CPU）以確保一致與便宜。作者因此封裝出 TestKit 構想，流程分三步：GenTest（AC→Decision Table→Test Cases）、Run（AI+工具探索操作步驟並記錄）、GenCode（把 test case + steps 轉為可重複的 test code）。並說明成功關鍵在於：流程各階段都能產出高品質 spec（操作規格、測試案例、探索日志），使得後續生成穩定程式碼變得可控。最後以 side project（repo + 安得魯小舖 API/UI + OpenAPI）示範可行性，強調「先改善可，但更要研究新流程」，以因應舊流程瓶頸。
 
 ### 2. 用 Decision Table 定義「有價值的測試」
-以 GenTest 從 AC 展開 Decision Table，核心是用系統化條件組合掌握覆蓋範圍、邊界與優先級，避免測試通膨。AI 可協助生成格式，但 Criteria/Action/Rule 需人工審視與修正（AI 常誤解商業規則或算錯）。Decision Table 適合條件組合，不適合效能/安全/壓測/狀態機/高併發等類型。
-
-### 2-1. Prepare and Review
-輸入 AC（購物車結帳、優惠規則、限購 10 件、帳密），AI 初版 Decision Table 過度簡化，經對談調整為以三商品數量為條件，產出 14 條規則，明確定義優惠組數、總金額、總優惠、結帳金額與是否允許結帳，並給每條規則的測試企圖與重要性（涵蓋空車、臨界值、超限、混合等）。過程中糾正 AI 對「第二件六折」的誤解與數值計算錯誤。
-
-### 2-2. Generate All Test Cases
-依決策表自動展開 14 份 Test Case（含 G/W/T、輸入與預期、金額明細、驗證點、API 呼叫序列與重要性）。展示 R2 範例，品質達標。此階段完成後，進入探索步驟。
+本章聚焦第一步：如何用最少文件決定真正有價值的測試。作者採用 Decision Table（決策表）把條件組合、預期行為系統化展開，藉此掌握覆蓋率、分類與優先順序；但也提醒決策表非萬能，對效能、安全、壓力、狀態機等測試未必適用。實作上，作者用 gentest 輸入簡化 AC：購物車結帳需依折扣規則（指定商品第二件六折）、商品單價與限購（每種最多 10）正確計算。AI 先產出「格式正確但內容粗糙」的表（Y/N 過度簡化），作者要求重構為以「各商品數量」為條件、以「優惠組數/總額/折扣/結帳金額/是否允許」為動作，並列出 14 條規則含邊界與超限。過程中也揭露 AI 風險：可能誤解規則（把第二件六折誤當第二件起都六折）或算錯數字，因此必須人工 review 校正。決策表定案後，AI 依規則批次生成 14 份 test case（Given-When-Then、輸入輸出、金額明細、驗證點、API 序列建議、重要性），把文書工作自動化，為後續探索與自動化鋪路。
 
 ### 3. 讓 AI 探索並記錄 API 的執行步驟
-以 TestKit.API.Run 啟動探索：context 由 Test Case、API Spec 與 text-to-calls MCP 組成。先以 MCP 的 QuickStart/ListOperations 供 Agent 查操作，再 CreateSession（含 OAuth2），最後 RunStep（operation+action+context 抽象指令，由 MCP 內層 LLM 解析並呼叫 API）。所有 request/response 與抽象步驟記錄於 session 目錄與 session-logs.md，為後續產碼提供可追溯依據。
+本章是第二步核心：AI 在「test case + API spec + MCP 工具」的 context 下探索如何正確呼叫 API 完成測試，並產出可 review、可再利用的 session logs。作者詳細說明 MCP 的必要性：若直接把 swagger/請求回應細節塞進 agent，context window 會被噪音塞爆，且 OAuth2 等機械流程不適合交給 agent；因此自建 MCP 抽象化 API 呼叫，只暴露「可用 operation 摘要」與「RunStep（operation+action+context）」介面，並在 MCP 內以另一個 LLM 負責 text→function calling→HTTP 請求，達到分層與降噪。流程上 agent 先 QuickStart、ListOperations，挑出 CreateCart/GetCart/EstimatePrice/CreateCheckout 等操作，再 CreateSession（含認證與 token），最後用 RunStep 執行並留下兩層紀錄：一是 request/response 原始足跡（可追溯），二是 session-logs.md 的抽象敘述（給人 review、給後續產 code 用）。作者用 TC-01 空購物車結帳示範：探索確實按步驟建立空車、試算為 0、嘗試結帳，並判定結果與預期不符（API 未拒絕），進而產生 suite 摘要報告與缺陷定位。並強調「探索」屬於找出正確測試步驟的前置工作，不應放在 CI/CD 回歸階段高頻執行。
 
-### 3-1. 讓 MCP 負責處理 API call
-說明不直接餵 Swagger 的原因：雜訊多、塞爆 context、含不適合動作（如 OAuth2）。MCP 抽象化 API 操作，主 Agent 聚焦任務，由 MCP 子 LLM 做 text-to-call；RunStep 接收 operation/action/context，對應多次 API 呼叫並落檔。此為分層式 A2A 協作，降低 context rot 風險，強化穩定性。
-
-### 3-2. Session Logs
-以 TC-01（空車應拒絕）展示探索紀錄：建立空購物車、估價為 0、嘗試結帳時實際並未被拒絕，符合「預期應失敗」。Session Log 清楚紀錄步驟、回應與後續建議，便於人工 Review 與調整。
-
-### 3-3. Test Suite Result
-針對 R1–R6 執行結果：TC-01 失敗（API 未拒絕空車），TC-02–06 通過。AI 報告對失敗原因給出清楚判讀。所有歷程（OAuth、Spec 快照、每次呼叫）均落檔。這些材料將用於生成自動化測試程式碼。
-
-### 3-4. AI 探索測試步驟－小結
-探索是「嘗試直到找到理想步驟」，不追求靜態一次到位。該階段屬前置驗證，不應放進 CI/CD 的反覆執行；真正要反覆的是「探索完後生成的測試程式」。將探索與回歸分離，是穩定性與成本的關鍵。
-
-### 4. 共用 Test Case，同時探索 API / Web
-以 Test Case 跨介面複用，改用 TestKit.WEB.Run + Playwright MCP 操作小舖 Web。步驟包含啟動、OAuth 登入、加入商品、結帳驗證等。雖然執行較慢，但 R1–R6 全數通過；原因在 Web UI 以「空車隱藏結帳按鈕」實作了規則，和 API 的缺口形成對照，凸顯跨介面驗證價值。
-
-### 4-1. 無障礙設計的重要性
-Web 端可靠自動化的關鍵是無障礙（Accessibility）。Playwright MCP 以精簡的可存取性樹作為「通用介面」讓 Agent 感知與操作；相較逐畫面影像辨識（慢）或完整 HTML（context 過肥），無障礙標記提供高訊噪比的選擇。結論：做好無障礙，即是對 AI 友善的產品設計。
+### 4. 共用 Test Case, 同時探索 API / Web
+本章延伸「test case 抽象化」的好處：同一份 test case 可跨操作介面復用，作者以 Web UI + Playwright MCP 示範同樣跑 R1-R6。準備的 context 改為 test case + UI spec（無障礙）+ Playwright MCP。雖然作者未像 API 那樣自建 MCP 以 session/req-res 記錄，只用 prompt + shell 產生較簡化的文字紀錄，但仍能讓 agent 自動操作瀏覽器、完成登入、加入商品、結帳等流程。結果上 Web 測試 6 個案例全通過，原因是 Web UI 端額外做了「空購物車不能結帳」（直接隱藏按鈕），與 API 行為不同，這也凸顯同一商業情境在不同介面可能存在不同驗證點與實作落差。作者特別強調無障礙設計的重要性：AI/Playwright 常遇到「按鈕就在眼前卻找不到」的問題，影像辨識太慢、讀完整 HTML 又太肥；Playwright MCP 透過 accessibility 標記把 DOM 精簡成可用結構，無障礙做得越好，網站越容易被 AI 正確理解與操作，成為「AI 時代的通用介面」。
 
 ### 5. 將探索結果自動化
-最後一步：以 TestKit.API.GenCode 將 session logs + 規格生成 xUnit 測試。示例生成三個測試並以環境變數提供 token，執行顯示 TC-01 失敗、TC-02/03 通過，用時 4.3 秒，達成「CPU 穩定回歸」。Web + Playwright 自動化亦可行，但足跡與例外較多，本文聚焦 API。
-
-### 5-1. 生成 API TEST 測試專案
-展示專案結構與完整 TC01 程式碼：依 Session Log 邏輯步驟（CreateCart→EstimatePrice→TryCreateCheckout→檢查行為），在 API 允許空車結帳時回報失敗，否則通過。實測證明「探索→產碼→穩定反覆執行」閉環成立。
-
-### 5-2. 進階用途，改用 SpecKit 替代
-若要規模化，建議導入 Test Management 與 SpecKit，把「API 規格、測試內規、Test Case、API 呼叫步驟、環境設定」形成高品質規格，一次性生成符合團隊標準的測試程式碼，提升跨專案一致性與可維運性。
+本章進入第三步：把探索出的 steps 轉成可重複執行的自動化測試程式碼，將回歸從 GPU 任務移轉為 CPU 執行。作者示範 API 自動化：用 testkit.api.gencode 指定 session logs 來源，要求產生 .NET 9 + xUnit 測試專案，並規定 access token 由環境變數提供、不要在測試碼中重做 OAuth2 登入。AI 依 session logs 生成多個測試檔（如 TC01_EmptyCart），包含清楚的 Arrange/Act/Assert、log 輸出與斷言；實跑結果僅數秒即完成，TC01 如預期失敗（抓到空購物車仍可建立結帳交易的缺陷），其他案例通過，達成「快速、穩定、可重跑」目標。作者也指出若要正式導入，需面對 test management 整合、報告回拋、參數/規範一致性等需求，單靠 prompt 難以擴充；更理想做法是把內部規範與外部規格（OpenAPI）、工作流產物（test case、api call steps、secrets 管理）整理成完整 spec，改用 SDD/SpecKit 產生更一致的測試程式碼。
 
 ### 6. 總結
-回應開題：AI-First Testing 的關鍵在流程再設計。三原則：用 Decision Table 收斂有價值測試；讓 AI 專注探索而非執行；把探索結果固化為可重複的測試資產。以 Brain/GPU/CPU 清楚分工：人決策、AI 探索、程式碼重複。AI 帶來的是「變革」非「改善」；沒有所謂標準新流程，唯有實作與驗證才能在舊流程撞牆時拿得出替代解。文末附多篇參考資料（Sam Altman、A16Z、context-rot 研究、DTT 文章等）供延伸閱讀。
+作者回到起點：問題不是「AI 能不能幫你跑測試」，而是「從 AI 能力出發，測試該怎麼做才不只是把 AI 塞進舊流程」。他收斂為三個結論：用 Decision Table 收斂有價值的測試；讓 AI 負責探索而非重複執行；把探索成果資產化為可重複執行的自動化測試。並用 Brain/GPU/CPU 分工概括新流程：人做判斷（測什麼）、AI 做探索（怎麼測）、程式做穩定回歸（反覆驗證）。文章強調 AI 帶來的是變革，不是改善；若只用新工具優化舊戰術，很快撞上成本/效能/維護天花板。因為「正確的新流程」仍在摸索，作者以 side project 實驗與多個外部參考（Sam Altman 訪談、context 噪音研究、無障礙趨勢、決策表測試文章等）鼓勵讀者持續試驗，及早建立能因應 AI 時代的流程設計能力。
 
 ## 資訊整理
 
 ### 知識架構圖
-1. 前置知識
-- 了解軟體測試的基本類型與流程：功能/非功能測試、回歸測試、測試覆蓋率、邊界值分析
-- 決策表（Decision Table）與 DTT 方法：如何以條件/動作/規則展開測試範圍
-- API/WEB 測試基礎：OpenAPI/Swagger、OAuth2、Playwright、xUnit 等
-- Agent 與 MCP 概念：LLM 驅動的探索代理、工具層（MCP）與 context 管理
-- Spec 驅動開發（SDD/SpecKit）思維：以高品質規格生成穩定程式碼
+1. **前置知識**：學習本主題前需要掌握什麼？
+   - 軟體測試基本概念：AC(驗收條件)、Test Case、回歸測試、NFR(非功能性需求)。
+   - Decision Table / DTT（Decision Table Testing）：用條件組合系統化展開測試範圍與涵蓋率。
+   - API 測試與規格：OpenAPI/Swagger、OAuth2/Access Token、HTTP Request/Response。
+   - 自動化測試框架：API（例：.NET + xUnit）、UI（例：Playwright）。
+   - AI agent 與工具鏈概念：coding agent、prompt/Spec、MCP（工具調用/分層處理/紀錄 session log）、context window 與雜訊管理。
 
-2. 核心概念
-- AI-First Testing：從 AI 能力出發重設測試流程，分工「人（判斷）/AI（探索）/程式碼（重複執行）」
-- 左移策略：把「文件維護」與「自動化生成」前置，降低執行成本與不確定性
-- Decision Table 驅動：以決策表收斂有價值的測試，抽象化 Test Case 以提升複用
-- 探索與自動化分離：AI負責探索測試步驟，穩定重複交由自動化測試程式
-- 共用測試資產：同一 Test Case 覆蓋 API / Web UI，以規格與探索足跡生成對應 Test Code
+2. **核心概念**：本文的 3-5 個核心概念及其關係
+   - **AI-First Testing**：不是「把 AI 塞進舊流程」，而是以 AI 能力重新設計 workflow。
+   - **三段式流程（TestKit）**：  
+     (1) 用 **Decision Table** 收斂測試範圍 → 產出可複用的抽象 test case；  
+     (2) 讓 **AI 探索測試步驟**（透過 MCP/工具實際操作系統）→ 產出 session logs；  
+     (3) 用 **AI 一次性生成自動化測試程式碼** → 由 CPU 穩定重複執行回歸。
+   - **運算資源分工**（Brain/GPU/CPU）：判斷交給人、探索交給 AI、重複執行交給程式。
+   - **可複用 test case**：同一份 test case 可套用不同介面規格（API / Web UI），降低文件與案例倍增。
+   - **Context Engineering / 雜訊隔離**：MCP 抽象化 API/操作細節，避免塞爆 context，提升 agent 探索成功率。
 
-3. 技術依賴
-- LLM/Agent 平台（Copilot/Claude 等）依賴 MCP（API/Playwright）工具層抽象化操作
-- API 測試依賴 OpenAPI 規格、OAuth2 授權、Session/Log 步驟記錄
-- Web 測試依賴 Playwright MCP 與無障礙（Accessibility）語意結構以穩定定位操作元素
-- 程式碼生成依賴高品質規格輸入：Test Case、Session Logs、API Spec、內部測管規範
-- 規格驅動（SpecKit/SDD）整合測試管理系統與環境密鑰管理
+3. **技術依賴**：相關技術之間的依賴關係
+   - AC/需求 →（AI + 人 review）→ Decision Table → Test Cases（抽象、介面無關）
+   - Test Cases + 介面規格（OpenAPI / UI 可存取性標記）→ AI Agent 探索 → Session Logs（可追溯足跡）
+   - Session Logs + Test Cases + 內部測試規範 → AI 生成 Test Code（xUnit / Playwright 等）
+   - MCP（API 工具層）依賴：OpenAPI 摘要/操作清單、OAuth2 token 管理、紀錄 request/response、session 管理
+   - UI 探索依賴：Playwright MCP + **Accessibility 標記**（可讓 agent 更可靠定位與操作 UI 元件）
 
-4. 應用場景
-- 大量回歸測試與頻繁發版（週更/日更）下的成本與穩定性控制
-- API 與 Web UI 並存的產品，期望一份測試定義覆蓋多介面
-- 邊界條件與業務規則複雜（折扣、限購、授權）的功能驗證
-- CI/CD 流水線中將探索成果沉澱為可重複執行的測試資產
-- 導入測試管理與規格化生成以提升跨專案一致性
+4. **應用場景**：適用於哪些實際場景？
+   - 需求/規格不夠清楚、測試量體爆炸（多介面、多 NFR、多組合）需要「收斂測試價值」的團隊。
+   - 需要快速把「探索出來的操作步驟」沉澱成可重跑資產（回歸測試）的專案。
+   - 同一套商業流程同時提供 API + Web/App UI，希望共用測試意圖、避免多份案例維護。
+   - 需要降低「每次用 AI 直接跑測試」的成本與不穩定性（結果漂移、token 成本、耗時）。
+
+---
 
 ### 學習路徑建議
-1. 入門者路徑
-- 學會 Decision Table（條件/動作/規則）並能手工展開簡單業務情境
-- 熟悉基本 API/Web 測試；理解 OpenAPI、OAuth2、Playwright 基礎操作
-- 初步認識 Agent/MCP 角色分工與 context 管理概念
-- 以小案例（單一 AC）練習從 AC → Decision Table → Test Case 的轉換
+1. **入門者路徑**：零基礎如何開始？
+   1) 補測試基本詞彙：AC、Test Case、回歸測試、NFR。  
+   2) 學會 Decision Table（DTT）：用 1 個小需求練習展開條件/規則/動作。  
+   3) 了解 API 測試：用 Postman 或 curl 跑過 OAuth2 + 2~3 個 API 操作。  
+   4) 用 LLM 先做「文件整理」：把 AC → decision table → 3~5 個 test case，練習人工 review 找錯。
 
-2. 進階者路徑
-- 實作 AI 探索流程：用 MCP 封裝 API/Playwright，記錄 Session Logs
-- 練習抽象化 Test Case（不含操作細節），提升跨介面複用率
-- 建立測試覆蓋策略與優先級（邊界值、風險、價值），控制測試通膨
-- 導入自動化測試生成（xUnit/Playwright），驗證穩定性與成本模型
+2. **進階者路徑**：已有基礎如何深化？
+   1) 建立「抽象 test case」寫法：介面無關（不綁 API endpoint / UI selector），把操作細節留給探索階段。  
+   2) 練習「探索 vs 回歸」分離：探索階段允許 AI 試錯並產 log；回歸階段只跑 deterministic code。  
+   3) 強化 context 管理：學習把規格摘要化、把噪音隔離到工具層（MCP/子代理）。  
+   4) 建立可追溯的 session logs 格式：能還原步驟、對照預期、支援後續產碼。
 
-3. 實戰路徑
-- 以 SpecKit/SDD 整合測試管理規範：報告格式、環境參數、密鑰管理
-- 將探索足跡（Session Logs、API Request/Response）標準化為生成輸入
-- 在 CI/CD 中分離「探索（AI/GPU）」與「執行（CPU）」：探索一次、重複萬次
-- 建立共用 Test Case 資產庫，覆蓋 API/Web 並維持規格一致性與版本控制
+3. **實戰路徑**：如何應用到實際專案？
+   1) 從「單一 AC」挑一段最痛的流程（如結帳/折扣/權限）建立 decision table 與 10~15 個案例。  
+   2) 針對 API：用 MCP/工具層封裝 OAuth2、列 operation、RunStep、request/response 紀錄。  
+   3) 針對 Web：先把 UI 做好 Accessibility（role/name/label），再用 Playwright agent 探索。  
+   4) 以 session logs + test case 生成測試碼（xUnit/pytest 等），把回歸測試納入 CI。  
+   5) 規模化時導入 SpecKit/SDD：把「測試程式的內部規範、報告、參數、secret 管理」明文化成 spec 再生成。
+
+---
 
 ### 關鍵要點清單
-- AI-First Testing 分工心法: 人判斷、AI探索、程式碼重複執行，重設流程以發揮 AI 潛力 (優先級: 高)
-- 左移策略（文件與自動化）: 將 AC 展開與程式碼生成前置，降低執行階段成本與不確定性 (優先級: 高)
-- Decision Table 驅動測試: 以條件/動作/規則系統性收斂有價值的測試範圍 (優先級: 高)
-- 抽象化 Test Case: 減少介面耦合，讓同一案例可覆蓋 API/Web 多介面 (優先級: 高)
-- AI 探索步驟（非執行）: 讓 AI 用 MCP 嘗試並記錄步驟，避免用 AI做大量回歸 (優先級: 高)
-- MCP 作為工具層抽象: 以簡化 operation/action/context協議，隔離規格噪音 (優先級: 高)
-- Session Logs 作為規格資產: 詳實保留 request/response與抽象步驟，供後續生成測試碼 (優先級: 中)
-- OpenAPI 與 OAuth2 管理: API 測試的必要規格與授權流程需在 MCP/程式層處理 (優先級: 中)
-- Web 無障礙設計（Accessibility）: 以語意結構讓 Playwright/Agent能可靠定位操作 (優先級: 高)
-- 成本模型（Brain > GPU > CPU）: 以探索少次（GPU）、執行多次（CPU）取代大量AI執行 (優先級: 高)
-- 覆蓋率與邊界值優先級: 以風險/價值/邊界條件排序，抑制測試通膨 (優先級: 中)
-- Spec 驅動生成（SDD/SpecKit）: 多規格整合生成一致的測試碼與報告整合 (優先級: 中)
-- 介面共用與一致性: 單一 Test Case 驅動 API/Web 測試，減少重複維護 (優先級: 中)
-- Context 管理與降噪: 控制規格注入量，避免 LLM能力因噪音下降（context rot） (優先級: 高)
-- CI/CD 實務落地: 探索在開發階段完成，回歸在流水線用CPU穩定運行 (優先級: 中)
+- AI-First Testing: 以 AI 能力重新設計測試流程，而非替換人力跑舊流程 (優先級: 高)
+- 測試量體通膨模型: AC × 操作介面 × NFR × 測試規則，導致文件/案例倍增不可維護 (優先級: 高)
+- Brain/GPU/CPU 分工: 判斷交給人、探索交給 AI、穩定重複交給程式碼以降成本提可靠性 (優先級: 高)
+- Decision Table 收斂測試範圍: 用條件/動作/規則系統化展開組合並排序重要性 (優先級: 高)
+- Decision Table 需要人類 review: AI 產表常出現規則誤解/算錯，表格品質直接決定後續測試品質 (優先級: 高)
+- 抽象化 Test Case: 維持「測什麼」而非「怎麼操作」，讓案例可跨 API/UI 複用 (優先級: 高)
+- 探索(Exploration) vs 回歸(Regression)切分: 探索是找步驟與驗證可行性，不應放進每次 CI 重跑 (優先級: 高)
+- Session Logs 作為資產: 將探索過程沉澱為可追溯規格，支援後續產碼與除錯 (優先級: 高)
+- MCP 抽象化 API 操作: 以 ListOperations/CreateSession/RunStep 隔離 OAuth2 與 request/response 細節，減少 context 雜訊 (優先級: 高)
+- Context 雜訊管理: 過多 spec/response 會塞爆 context window，降低 agent 成功率，需分層處理 (優先級: 中)
+- 成本估算觀念: 直接用 AI 跑 4 萬次測試會變昂貴且慢；轉成「少量探索 + 一次產碼 + 大量 CPU 執行」 (優先級: 高)
+- UI 測試的 Accessibility 關鍵性: Playwright agent 依賴無障礙標記定位元件，提升可操作性與穩定性 (優先級: 中)
+- 自動化測試碼生成策略: 用 test case + session logs + 介面規格生成 deterministic 測試碼（例 .NET+xUnit） (優先級: 高)
+- 規模化需 SpecKit/內部規範: 測試碼要一致性/整合 test management 時，應把規格外顯並用 SpecKit 生成 (優先級: 中)
+- 缺陷偵測示範價值: 透過流程抓到「空購物車/超限未拒絕」等未實作規則，證明流程能有效找問題 (優先級: 中)
