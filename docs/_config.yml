@@ -106,16 +106,10 @@ collections:
 
 defaults:
   - scope:
-      path: "_synthesis"
-    values:
-      layout: synthesis
-      render_with_liquid: false
-  - scope:
       path: ""
       type: "synthesis"
     values:
       layout: synthesis
-      render_with_liquid: false
   - scope:
       path: ""
       type: "facebook"
