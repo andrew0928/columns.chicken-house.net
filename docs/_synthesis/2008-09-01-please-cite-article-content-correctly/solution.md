@@ -6,6 +6,7 @@ source_post: /2008/09/01/please-cite-article-content-correctly/
 redirect_from:
   - /2008/09/01/please-cite-article-content-correctly/solution/
 postid: 2008-09-01-please-cite-article-content-correctly
+excerpt: ""
 ---
 {% raw %}
 
