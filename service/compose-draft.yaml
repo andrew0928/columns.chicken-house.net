@@ -1,0 +1,9 @@
+services:
+  github-pages:
+    image: mcr.microsoft.com/devcontainers/jekyll:latest
+    command: jekyll serve --source /usr/src/app --watch --host 0.0.0.0 --drafts --future --unpublished --trace --config /usr/src/app/_config.yml,/usr/src/app/_config.draft.yml
+    init: true
+    ports:
+      - 4000:4000
+    volumes:
+      - ../docs:/usr/src/app:cached

@@ -23,6 +23,11 @@
 ## start preview environment
 docker compose -f service/compose-preview.yaml up -d --force-recreate --remove-orphans
 
+## start draft preview environment (快速預覽，僅處理 2026 年文章)
+docker compose -f service/compose-draft.yaml up -d --force-recreate --remove-orphans
+# 排除 _synthesis, _facebook, 以及 2025 年以前的文章
+# 建置時間從 ~30s 降到 ~3s
+
 
 
 ## start build environment (qdrant + kernelmemoryservice)
