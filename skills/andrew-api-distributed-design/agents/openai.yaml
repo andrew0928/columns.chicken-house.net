@@ -1,0 +1,4 @@
+interface:
+  display_name: "Andrew API Distributed Design"
+  short_description: "API contracts, messaging, and distributed correctness"
+  default_prompt: "Use $andrew-api-distributed-design to design a lifecycle-driven API or worker-based distributed workflow with explicit retry, idempotency, ordering, and operational semantics."
