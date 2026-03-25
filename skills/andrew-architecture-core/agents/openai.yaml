@@ -1,0 +1,4 @@
+interface:
+  display_name: "Andrew Architecture Core"
+  short_description: "Cross-domain architecture foundations and design drills"
+  default_prompt: "Use $andrew-architecture-core to turn a cross-domain architecture problem into a stable model with explicit data/storage tradeoffs, measurable POC design, and reviewable refactor triggers."
