@@ -1,0 +1,4 @@
+interface:
+  display_name: "Andrew Microservice Architecture"
+  short_description: "Microservice fit, migration, platform capabilities, and delivery model"
+  default_prompt: "Use $andrew-microservice-architecture to decide whether microservices fit, define service boundaries and migration steps, and design the platform, runtime, and delivery capabilities needed to run many services safely."
