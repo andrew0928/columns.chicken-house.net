@@ -1,0 +1,4 @@
+interface:
+  display_name: "Andrew Architect Design"
+  short_description: "Abstraction-first design and deliberate practice workflow"
+  default_prompt: "Use $andrew-architect-design to turn a messy requirement into an abstraction-first, metrics-driven design, or to turn an architecture problem into a deliberate-practice exercise with problem analysis, modeling, metrics, POC, evaluation, and next learning targets."
