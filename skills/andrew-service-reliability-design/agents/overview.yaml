@@ -1,0 +1,80 @@
+positioning: |
+  此 domain 聚焦在 service reliability 與 quality control 的設計，不混進 API lifecycle、
+  security policy、permission model 與微服務平台治理等其他專屬領域內容。它的定位是從
+  service promise、SLO/SLI、bottleneck 與 workload control 出發，建立一套可設計、
+  可監控、可營運的服務品質保證方法。
+main_flow:
+  description: |
+    主流程從服務承諾與可量測目標開始，逐步收斂到 bottleneck/workload model、admission
+    control、queue semantics、observability 與 ops response，最後再用可量測 POC 驗證
+    overload 行為與控制策略是否真的有效。
+  steps:
+    - "Problem Analysis"
+    - "Service Objective Model"
+    - "Bottleneck And Workload Model"
+    - "Capacity Control And Admission"
+    - "Queue And Lineup Design"
+    - "Observability And Metrics"
+    - "Operational Controls And Response"
+    - "POC"
+    - "Evaluation"
+  ascii_chart: |
+    +----------------------------------+
+    | Problem Analysis                 |
+    +----------------------------------+
+                    |
+                    v
+    +----------------------------------+
+    | Service Objective Model          |
+    +----------------------------------+
+                    |
+                    v
+    +----------------------------------+
+    | Bottleneck And Workload Model    |
+    +----------------------------------+
+                    |
+                    v
+    +----------------------------------+
+    | Capacity Control And Admission   |
+    +----------------------------------+
+                    |
+                    v
+    +----------------------------------+
+    | Queue And Lineup Design          |
+    +----------------------------------+
+                    |
+                    v
+    +----------------------------------+
+    | Observability And Metrics        |
+    +----------------------------------+
+                    |
+                    v
+    +----------------------------------+
+    | Operational Controls And Response|
+    +----------------------------------+
+                    |
+                    v
+    +----------------------------------+
+    | POC                              |
+    +----------------------------------+
+                    |
+                    v
+    +----------------------------------+
+    | Evaluation                       |
+    +----------------------------------+
+references:
+  - file: "slo-and-toc-principles.md"
+    summary:
+      - "這份參考聚焦 service promise、SLO、SLI 與 TOC 之間的整體設計關係，是 reliability domain 的理論主幹。"
+      - "它特別適合處理目標拆解、bottleneck diagnosis、workload separation 與 upstream control 的策略判斷。"
+      - "當你要定義何謂達標、如何量測、何時該保護瓶頸、以及何時要拒絕註定失敗的流量時，這份最重要。"
+  - file: "throttle-and-qos-principles.md"
+    summary:
+      - "這份參考聚焦 throttling 與 QoS，不只問 how to limit，而是先問 service amount 該怎麼定義與量測。"
+      - "它會幫你拆清楚 admission control 的兩個核心問題：怎麼量化負載，以及超限後該採取什麼動作。"
+      - "當設計涉及 rate limit、reject/defer/queue、capacity reservation 或 burst control 時，應優先看這份。"
+  - file: "lineup-and-queue-fairness-principles.md"
+    summary:
+      - "這份參考聚焦 queue/lineup 不只保護系統，也要維持可解釋的公平性與使用者體驗。"
+      - "它強調 queue semantics、user feedback、operator control、abandonment handling 與 O(1)-style status query。"
+      - "當題目涉及 waiting room、position/ETA、公平性、manual removal 或 queue state metrics 時，這份最直接。"

@@ -1,0 +1,88 @@
+positioning: |
+  此 domain 保留所有 cross-domain 的 core 方法，不混進 API lifecycle、security policy、
+  SLO 與運維治理等專屬領域內容。它的定位是在問題還太早、太廣、或還不適合直接套用
+  domain-specific skill 時，先把架構思考收斂成穩定模型、資料與邊界設計，以及可驗證的
+  POC 與評估方式。
+main_flow:
+  description: |
+    主流程聚焦在從問題定義一路走到可量測驗證的八個步驟，目的不是直接給出某個特定
+    領域的答案，而是先把架構題拆成可分析、可建模、可驗證、可回頭評估的核心工作流。
+  steps:
+    - "Problem Analysis"
+    - "Modeling"
+    - "Data And Storage Design"
+    - "Class And Boundary Design"
+    - "Scenario And Flow Mapping"
+    - "Metrics And Theory Limits"
+    - "POC"
+    - "Evaluation"
+  ascii_chart: |
+    +---------------------------+
+    | Problem Analysis          |
+    +---------------------------+
+                  |
+                  v
+    +---------------------------+
+    | Modeling                  |
+    +---------------------------+
+                  |
+                  v
+    +---------------------------+
+    | Data And Storage Design   |
+    +---------------------------+
+                  |
+                  v
+    +---------------------------+
+    | Class And Boundary Design |
+    +---------------------------+
+                  |
+                  v
+    +---------------------------+
+    | Scenario And Flow Mapping |
+    +---------------------------+
+                  |
+                  v
+    +---------------------------+
+    | Metrics And Theory Limits |
+    +---------------------------+
+                  |
+                  v
+    +---------------------------+
+    | POC                       |
+    +---------------------------+
+                  |
+                  v
+    +---------------------------+
+    | Evaluation                |
+    +---------------------------+
+references:
+  - file: "interview-abstraction-principles.md"
+    summary:
+      - "這份參考整理的是抽象化設計最核心的判準：先抽出穩定關注點，再把變動細節藏到實作之後。"
+      - "它特別適合拿來檢查 contract、main flow 與 extension point 是否切在真正的痛點上。"
+      - "當你懷疑目前設計只是把案例硬分類，而不是形成穩定抽象時，應優先回頭看這份參考。"
+  - file: "deliberate-practice-principles.md"
+    summary:
+      - "這份參考把能力培養本身也當成一個設計題，強調用可重跑的練習取代模糊的成長目標。"
+      - "它的重點是先定義 correctness、measurements 與 baseline，再逐步迭代設計能力。"
+      - "當任務焦點是如何練習架構思考、如何設計演練題、或如何找出知識缺口時，這份最有用。"
+  - file: "time-mock-poc-principles.md"
+    summary:
+      - "這份參考說明只要時間會影響 correctness，時間就必須成為可控制的依賴，而不是隱藏背景條件。"
+      - "它強調 POC 要用 low-friction 的 controllable time，而不是靠 realtime waiting 或改系統時間。"
+      - "當設計涉及 schedule、expiry、timeout、delay 或 deterministic replay，應直接套用這份原則。"
+  - file: "data-shape-and-storage-principles.md"
+    summary:
+      - "這份參考聚焦資料形狀、存取模式、tenant boundary 與 storage choice 之間的架構取捨。"
+      - "它提醒你不要抽象地問 RDBMS or NoSQL，而要從 dominant operations 與 hardest constraint 出發。"
+      - "當問題核心落在 schema、index、projection、materialization 或 multi-tenancy 設計時，這份是主參考。"
+  - file: "pipeline-and-object-stream-principles.md"
+    summary:
+      - "這份參考整理 batch、stream、pipeline 三種思考模式的差異，特別適合 staged processing 類題目。"
+      - "它強調 stage contract、restartability、structured stream 與 first-result latency 等設計重點。"
+      - "當設計涉及多階段處理、CLI composition、物件流傳遞或 throughput/latency 取捨時，應先看這份。"
+  - file: "event-sourcing-materialization-principles.md"
+    summary:
+      - "這份參考聚焦 event history、projection、materialization 與 late/corrected data 的整體設計觀。"
+      - "它的核心不是把 event sourcing 當成流行名詞，而是界定何時需要以 change history 作為 source of truth。"
+      - "當題目涉及 replay、audit、correction、projection lag 或 event time 與 process time 的區分時，這份能補足判準。"

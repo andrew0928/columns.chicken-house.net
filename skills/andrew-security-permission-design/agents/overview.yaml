@@ -1,0 +1,91 @@
+positioning: |
+  此 domain 聚焦在 security 與 permission 的設計，不混進 API lifecycle、distributed
+  workflow、SLO、微服務平台治理等其他專屬領域內容。它的定位是先釐清 trust boundary，
+  再把 authentication、authorization、credential、enforcement 與 permission
+  management 收斂成一套可設計、可驗證、可營運的安全模型。
+main_flow:
+  description: |
+    主流程從 threat model 與 trust boundary 開始，逐步收斂到 identity、authorization、
+    token/key 設計、enforcement boundary、permission scaling 與 audit/ops，最後再用
+    hostile-path POC 驗證安全模型是否真的能成立。
+  steps:
+    - "Problem Analysis"
+    - "Trust Boundary And Threat Model"
+    - "Identity And Authentication"
+    - "Authorization Model"
+    - "Token, Key, And Credential Design"
+    - "Enforcement Boundaries"
+    - "Permission Management And Scaling"
+    - "Operational Controls And Audit"
+    - "POC"
+    - "Evaluation"
+  ascii_chart: |
+    +------------------------------------+
+    | Problem Analysis                   |
+    +------------------------------------+
+                    |
+                    v
+    +------------------------------------+
+    | Trust Boundary And Threat Model    |
+    +------------------------------------+
+                    |
+                    v
+    +------------------------------------+
+    | Identity And Authentication        |
+    +------------------------------------+
+                    |
+                    v
+    +------------------------------------+
+    | Authorization Model                |
+    +------------------------------------+
+                    |
+                    v
+    +------------------------------------+
+    | Token, Key, And Credential Design  |
+    +------------------------------------+
+                    |
+                    v
+    +------------------------------------+
+    | Enforcement Boundaries             |
+    +------------------------------------+
+                    |
+                    v
+    +------------------------------------+
+    | Permission Management And Scaling  |
+    +------------------------------------+
+                    |
+                    v
+    +------------------------------------+
+    | Operational Controls And Audit     |
+    +------------------------------------+
+                    |
+                    v
+    +------------------------------------+
+    | POC                                |
+    +------------------------------------+
+                    |
+                    v
+    +------------------------------------+
+    | Evaluation                         |
+    +------------------------------------+
+references:
+  - file: "credential-and-signature-principles.md"
+    summary:
+      - "這份參考聚焦 token、license、digital signature 與 key management 的核心設計原則。"
+      - "它會幫你區分 readable payload 與 authenticity proof、offline verification、replay defense 與 trust-anchor 保護。"
+      - "當題目涉及 signed token、API token、client binding、private key 保護或 public key 發佈時，這份是主參考。"
+  - file: "security-by-design-principles.md"
+    summary:
+      - "這份參考把 security 視為 quality requirement，而不是功能列表中的附加選項。"
+      - "它的重點是標準機制優先、集中 enforcement、縮小 exposed surface，以及不要把 UI visibility 當成 authorization。"
+      - "當你需要建立安全設計的基本立場，或要說明為何某些問題不能留到事後 patch 時，這份很適合先看。"
+  - file: "api-security-model-principles.md"
+    summary:
+      - "這份參考聚焦 public API 與 multi-service API ecosystem 的 security model，而不是傳統 UI 時代的權限假設。"
+      - "它適合處理 caller type、scope、delegation、multi-tenant exposure 與 enforcement layer 轉移等問題。"
+      - "當你要設計 partner API、third-party integration 或考慮未來把控制下放到 gateway/proxy 時，這份最有幫助。"
+  - file: "permission-model-principles.md"
+    summary:
+      - "這份參考聚焦 permission management 是業務問題先於技術問題，核心取捨在 precision 與 management complexity 之間。"
+      - "它整理了 subject、role、permission、session、operation 與 data scope 的基本模型，以及 cache/precompute 的策略。"
+      - "當你要設計 RBAC、policy model、permission matrix、admin-side definition 或 application-side check interface 時，這份最直接。"
