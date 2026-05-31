@@ -326,6 +326,68 @@ public void EnabledRule_IsAppliedToMatchingCart()
 必須高度受到保護, 驗證, 檢視的核心流程, 在 project 的層級已經獨立出來, 就能跟 .Abstract 專案一樣, 從管理的角度確保他不會受到意料之外的變更 (例如要改特定客戶的折扣, 不小心異動核心流程), 這些改變都有利於系統的可靠度與一致性, 同時也保留高度的擴充能力｡
 
 
+
+# 3, 案例 - 仿照 Apple BTS 優惠機制
+
+基本結構重構完成後, 開始來模擬第一個客戶需求, 我需要在 .Core 的基礎上, 靠架構上允許的擴充機制, 做出 Apple BTS 教育方案的優惠內容, 流程中必須保留原本的結帳流程 (checkout) 完全不能異動, 確保關鍵的流程穩固可靠 (尤其是交易的處理)
+
+這次的擴充範圍有兩個:
+
+1. 追加身分驗證, 確認消費者是否符合 BTS 教育方案的資格? (必須通過 email address 驗證, 且在有效期間內)
+2. 追加 BTS 主商品優惠, 以及指定贈品優惠
+
+
+以 container diagram 來看, 原本的標準系統應該長這樣:
+
+// docker-compose-deployment-topology.md
+// C4 Context Diagram
+
+在系統架構上, 官網勢必要重做, 但是核心的 database + core + api 則不可變更;
+客製化終究有新的資料要儲存, 因此 database 與 api 必須追加額外的設計, 因此最終的設計就會變成這樣:
+
+// apple-bts-docker-compose-deployment-topology.md
+// Docker Compose C4 Context Diagram
+
+摘要變更的部分:
+
+1. 官網 (ASP.NET Core) 改寫了, 從 CommonStorefront -> AppleBTS.Storefront
+2. 追加 bts-api (原本的 /api 存在不變), 擴充的功能都擺在這, 例如依據 BTS 商品查詢贈品清單, 或是查詢會員優惠資格
+3. 原 api 不變, 掛載 AppleBTS 擴充套件, 並且在 appsettings.json 內啟用
+4. 原 database 不變 (schema 完全跟標準系統一致), 但是追加擴充用的 tables (我這邊是用 NoSQL, 追加 collections)
+5. 追加 Database Init 專案, 替整個服務初始化正確的資料庫內容 (預先建立已包含上架商品與優惠內容的資料庫)
+
+我實際在進行這部份開發時, 順序其實是反過來思考的, 架構師很需要的思考模式都是以終為始, 從期待的結果開始思考, 往回推敲設計以及施工的步驟來達成任務｡ 按照這藍圖, 這次任務追加了這幾個 .NET 專案的開發:
+
+- .AppleBTS.Extension,      .Core 的擴充套件主要在這, 包含 IDiscountRule, 額外的 logic 以及 model
+- .AppleBTS.API,            封裝新邏輯的 api 端點
+- .AppleBTS.Storefront,     客製化的官網, 可以選擇是否從標準官網修改, 或是完全自己開發
+- .AppleBTS.DatabaseInit,   初始測試環境的 database content
+
+整個開發過程中, 其實我都不斷的再重複這個流程:
+
+1. 從理想的架構設計往回推, 拆解成多個可被 agent 獨立處理的小階段. 每個階段都在執行這樣的循環: 有明確的邊界規格 (contract), 有明確的期待 (validate), 建立可讓 agent 自我開發與驗證環境, 我花最多時間就是定義出這些 contract / validate.
+2. 不斷的從 agent 的設計判斷合理性, 尤其是有些很繞路的設計, 起因是 .Core 主系統設計不佳, 我會主觀判定是否需要重構主系統, 或是讓客戶系統繞開這設計缺失, 不論結果是哪個, 都重複 (1) 的結構
+3. 按照 context diagram 的切割, 每個區塊各自獨立推動, 例如我會改完 .Extension 後, 再開始改 .API, 最後才改 .Storefront, 我不會一次丟一個 ui 規格就讓 AI 一次從 .Extension / .API / .Storefront 改到完｡ 跨越這些模組的邊界 contract 時, 我一定會停下來親自 review
+
+雖然這樣在初期規劃與設計階段很花時間, 但是在最後的實作, 開發, 測試, 部署階段幾乎都不需要人力介入. 以上數的例子來看, 我在 Storefront 幾乎沒有人工介入, 給他 ui 設計規範, 看完 ui 預覽, 剩下的就是 ai 放著讓他自己寫完測完就結束了
+
+這是我預期的結果, 因為 ai 的工作模式改變, 放大了設計階段的重要性 (尤其是那些跨越邊界的設計取捨), 而後面的實作, 你可以想像, 在真正有規模的開發團隊, 這些模組 (.Core / .Extension / .API / .Storefront ) 可能都事由完全不同的團隊個別開發, 如果再後面階段才發現前面的規格開錯了, 你會需要花多少時間溝通? .Storefront 團隊的 "AI" 根本改不動 .API 團隊的 "程式碼", 跨團隊溝通這件事, 目前的 AI 如果還只是個 "工具" 的話是無法改變的, 而這時 AI 就變成架構師的武器, 架構師可以藉由 AI 更精準更早的確認規格是否合理, 做出設計改變的決策, 而個模組收到設計改變的決策後, 各自執行變更｡
+
+經過這次的模擬演練, 我想確認的就是: 如何讓規格精確到 ai 能高度自主執行, 則是這工作模式是否有效率的關鍵了｡ 如果我在這案例都能藉由掌控好規格, 提升交付的速度, 將來這些規格交給每個團隊執行效率也會提升｡ SDD 是個很好的流程, 但是你要給他夠好的 spec 才會成立｡ 如果 spec 很糟糕一直在改, 那麼 SDD 的本質是很高速的執行一連串的 waterfall 流程這件事的隱藏缺點就會被放大, 你會開始體會到 spec 一直改, token 一直燒, 但是專案進展緩慢的詭異現象
+
+攤開這階段的 decisions 記錄, 我實際上再整個過程做了這些決策:
+
+// list decisions
+
+簡單的統計我花費的時間, 以及產出的文件異動 (行數) + 產出的程式碼異動 (行數) 當作對照參考:
+
+
+
+
+
+
+
+
 <!--
 
 // TODO: 暫時保留, 這段心得到時候要移到整篇文章的總結
