@@ -1,6 +1,6 @@
 ---
 layout: post
-title: ""
+title: "untitled"
 categories:
 - "系列文章: 架構師觀點"
 tags: ["架構師觀點","技術隨筆"]
@@ -12,6 +12,11 @@ redirect_from:
 logo: 
 ---
 
+略
+
+<!--more-->
+
+略
 
 # 一、更新後文章結構（以 Agent 開發流程為主軸）
 
