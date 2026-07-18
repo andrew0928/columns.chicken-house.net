@@ -43,8 +43,8 @@ navs:
     label: 主題分類
 
   -
-    href: /facebook/
-    label: Facebook 貼文留存
+    href: https://slides.chicken-house.net/?f=f-dfdd1175
+    label: 演講簡報
 
 #  -
 #    href: /wiki/
@@ -97,12 +97,12 @@ collections:
 #    wiki:
 #        output: true
 #        permalink: /wiki/:path/
-    synthesis:
-        output: true
-        permalink: /synthesis/:path/
-    facebook:
-        output: true
-        permalink: /facebook/:name/
+   synthesis:
+       output: false
+       permalink: /synthesis/:path/
+   facebook:
+       output: false
+       permalink: /facebook/:name/
 
 defaults:
   - scope:
