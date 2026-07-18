@@ -45,6 +45,8 @@ navs:
   -
     href: https://slides.chicken-house.net/?f=f-dfdd1175
     label: 演講簡報
+    target: _blank
+    rel: noopener noreferrer
 
 #  -
 #    href: /wiki/
