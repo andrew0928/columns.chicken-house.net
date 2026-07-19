@@ -1,0 +1,8 @@
+# Overview (zh-TW):
+# - 聚焦 service reliability 與 quality control，不混進 API lifecycle、security policy、permission model 與微服務平台治理內容。
+# - 主流程收斂為：Problem Analysis -> Service Objective Model -> Bottleneck And Workload Model -> Capacity Control And Admission -> Queue And Lineup Design -> Observability And Metrics -> Operational Controls And Response -> POC -> Evaluation
+# - 詳細說明與 reference 簡述請見同目錄的 overview.yaml。
+interface:
+  display_name: "Andrew Service Reliability Design"
+  short_description: "SLO-driven quality, bottlenecks, throttling, and queue control"
+  default_prompt: "Use $andrew-service-reliability-design to design service-quality guarantees with explicit SLO/SLI decomposition, bottleneck protection, admission control, queue fairness, and operable monitoring."

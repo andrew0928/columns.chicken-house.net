@@ -1,0 +1,101 @@
+positioning: |
+  此 domain 聚焦在 API 契約與 distributed workflow 的設計，不混進微服務平台治理、
+  security policy、permission model、SLO 與整體營運治理等專屬領域內容。它的定位是把
+  domain lifecycle、message flow、retry 與 worker 協作收斂成一套可設計、可驗證、
+  可衡量的 distributed contract 方法。
+main_flow:
+  description: |
+    主流程從問題與互動模型開始，逐步收斂到 contract surface、state machine、
+    correctness boundary、worker topology、scenario mapping 與 metrics，最後再用
+    failure-aware POC 驗證這份設計是否真的成立。
+  steps:
+    - "Problem Analysis"
+    - "Domain And Interaction Modeling"
+    - "Contract Surfaces"
+    - "State Machine And Delivery Semantics"
+    - "Correctness And Coordination"
+    - "Worker And Runtime Topology"
+    - "Scenario Mapping"
+    - "Metrics"
+    - "POC"
+    - "Evaluation"
+  ascii_chart: |
+    +--------------------------------------+
+    | Problem Analysis                     |
+    +--------------------------------------+
+                       |
+                       v
+    +--------------------------------------+
+    | Domain And Interaction Modeling      |
+    +--------------------------------------+
+                       |
+                       v
+    +--------------------------------------+
+    | Contract Surfaces                    |
+    +--------------------------------------+
+                       |
+                       v
+    +--------------------------------------+
+    | State Machine And Delivery Semantics |
+    +--------------------------------------+
+                       |
+                       v
+    +--------------------------------------+
+    | Correctness And Coordination         |
+    +--------------------------------------+
+                       |
+                       v
+    +--------------------------------------+
+    | Worker And Runtime Topology          |
+    +--------------------------------------+
+                       |
+                       v
+    +--------------------------------------+
+    | Scenario Mapping                     |
+    +--------------------------------------+
+                       |
+                       v
+    +--------------------------------------+
+    | Metrics                              |
+    +--------------------------------------+
+                       |
+                       v
+    +--------------------------------------+
+    | POC                                  |
+    +--------------------------------------+
+                       |
+                       v
+    +--------------------------------------+
+    | Evaluation                           |
+    +--------------------------------------+
+references:
+  - file: "api-first-strategy-principles.md"
+    summary:
+      - "這份參考聚焦 API First 的出發點：當介面本身是長期、共享、跨團隊的資產時，契約必須先於實作。"
+      - "它適合用來提醒設計者不要把 API 當成某個現有 UI flow 的包裝，而要把它視為 domain service 的外顯形式。"
+      - "當你要先做 contract review、mock、spec 驗證，或判斷最小 API surface 該長什麼樣子時，應優先看這份。"
+  - file: "api-state-machine-principles.md"
+    summary:
+      - "這份參考整理的是 Andrew 式 API 設計的核心骨架：先畫 primary subject 的 state machine，再從 transition 反推出 action、event 與 authorization。"
+      - "它特別適合處理 lifecycle-driven API、state/property 區分、contract extraction 與 thin controller 的分層設計。"
+      - "當你想驗證 API 命名、狀態轉移合法性與 scenario mapping 是否一致，這份就是主參考。"
+  - file: "distributed-correctness-principles.md"
+    summary:
+      - "這份參考聚焦 distributed correctness 的底層判準：先定義 invariant，再決定 critical section 應由哪一層機制保護。"
+      - "它把 transaction correctness、idempotent retry、rolling statistic 與 late-arrival interpretation 收斂成同一套思考框架。"
+      - "當題目涉及 money-like operation、dedupe、retry、distributed lock 或 O(1) aggregation 設計時，應先看這份。"
+  - file: "messaging-and-operation-principles.md"
+    summary:
+      - "這份參考聚焦 message queue 不只用於 fire-and-forget，也可支撐 RPC、reply routing 與 cross-service context propagation。"
+      - "它很適合拿來規劃 message envelope、correlation id、worker abstraction 與 graceful shutdown 等 operability 細節。"
+      - "當你要把 broker complexity 從業務 handler 中切出去，或設計 DevOps-ready 的 messaging runtime 時，這份會很有幫助。"
+  - file: "pipeline-scheduling-principles.md"
+    summary:
+      - "這份參考把 pipeline、scheduler、reorder 與 timing window 類問題收斂到同一套 metrics-driven evaluation 方法。"
+      - "它特別強調 first-result、last-completion、delay variance、polling cost、duplicate execution 與 theory limit 的量測。"
+      - "當你要比較不同 scheduling 參數、處理 reorder buffer、或驗證 multi-instance scheduler 的正確性時，應先讀這份。"
+  - file: "worker-isolation-principles.md"
+    summary:
+      - "這份參考聚焦 worker isolation 是一個成本與 blast radius 的架構選擇，而不是單純的 runtime 偏好。"
+      - "它會幫你比較 in-process、thread、process 與 infrastructure orchestration 的隔離能力與啟動成本。"
+      - "當你要決定任務單位該由哪一層執行、是否需要 custom runtime、或 process pool 是否比 thread pool 更合理時，這份最直接。"

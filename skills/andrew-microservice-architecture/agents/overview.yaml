@@ -1,0 +1,89 @@
+positioning: |
+  此 domain 聚焦在整體 microservice architecture 與 migration 的規劃，不混進單一 API
+  契約、security policy、permission model 或 SLO 控制細節。它的定位是回答「是否該做
+  微服務」、「要怎麼切」、「要怎麼分階段遷移」，以及「平台、runtime、交付流程要準備到什麼程度」。
+main_flow:
+  description: |
+    主流程從問題與微服務適配性開始，逐步收斂到 boundary、migration strategy、
+    platform capability、runtime/hosting 與 delivery model，最後再用高風險 POC 驗證
+    技術與團隊是否真能承接這個架構。
+  steps:
+    - "Problem Analysis"
+    - "Microservice Fit"
+    - "Service Boundaries"
+    - "Migration Strategy"
+    - "Platform Capabilities"
+    - "Runtime And Hosting Model"
+    - "Delivery And Operability Model"
+    - "POC"
+    - "Evaluation"
+  ascii_chart: |
+    +----------------------------------+
+    | Problem Analysis                 |
+    +----------------------------------+
+                    |
+                    v
+    +----------------------------------+
+    | Microservice Fit                 |
+    +----------------------------------+
+                    |
+                    v
+    +----------------------------------+
+    | Service Boundaries               |
+    +----------------------------------+
+                    |
+                    v
+    +----------------------------------+
+    | Migration Strategy               |
+    +----------------------------------+
+                    |
+                    v
+    +----------------------------------+
+    | Platform Capabilities            |
+    +----------------------------------+
+                    |
+                    v
+    +----------------------------------+
+    | Runtime And Hosting Model        |
+    +----------------------------------+
+                    |
+                    v
+    +----------------------------------+
+    | Delivery And Operability Model   |
+    +----------------------------------+
+                    |
+                    v
+    +----------------------------------+
+    | POC                              |
+    +----------------------------------+
+                    |
+                    v
+    +----------------------------------+
+    | Evaluation                       |
+    +----------------------------------+
+references:
+  - file: "microservice-fit-and-boundary-principles.md"
+    summary:
+      - "這份參考聚焦最根本的問題：微服務是不是當下真的適合，以及 boundary 應該沿著什麼脈絡來切。"
+      - "它會幫你從 business flow、organizational ownership、technical heterogeneity 與 over-splitting risk 來看整體架構。"
+      - "當你還在判斷是否該拆、該怎麼切、以及團隊是否已具備門票時，這份最值得先讀。"
+  - file: "microservice-evolution-and-build-vs-buy-principles.md"
+    summary:
+      - "這份參考聚焦 staged evolution：先重構、再模組化、再服務化，而不是直接 rewrite-from-scratch。"
+      - "它同時整理了 transitional glue code、incremental extraction 與 build-vs-buy 的判準。"
+      - "當題目涉及 monolith 漸進拆分、取代舊系統、引進成熟外部服務或評估 custom build 是否值得時，應優先看這份。"
+  - file: "microservice-platform-and-discovery-principles.md"
+    summary:
+      - "這份參考聚焦微服務不是只靠 service code 就能成立，還必須有 API gateway、service discovery、messaging 與 config management 等共享能力。"
+      - "它會幫你區分 registry、query、health signal、metadata/tag 與 client-side/server-side discovery 的設計差異。"
+      - "當你要規劃平台 baseline、internal routing、service metadata 或選擇 discovery pattern 時，這份最有幫助。"
+  - file: "container-driven-runtime-principles.md"
+    summary:
+      - "這份參考聚焦 container-driven runtime design，提醒你 service 往往不只一個 web endpoint，而是包含 worker、scheduler、proxy、SDK 等角色。"
+      - "它很適合處理 one-process-per-container、self-host vs IIS-style host、lifecycle control 與 runtime composition 這些題目。"
+      - "當你在決定 container 內部的執行模型、啟停方式與 health/deregistration 邏輯時，應先看這份。"
+  - file: "delivery-and-system-as-code-principles.md"
+    summary:
+      - "這份參考聚焦 delivery model 與 system-as-code，強調 source control、CI、artifact、release management 應先形成最小可靠基線。"
+      - "它也把 blog-as-code 這類經驗收斂成更通用的判準：能在 build time 決定的東西，就不要硬留成 runtime system。"
+      - "當題目涉及 CI/CD baseline、artifact trust chain、registry/package feed、static generation 或 deployment definition as code 時，這份最直接。"

@@ -1,0 +1,8 @@
+# Overview (zh-TW):
+# - 聚焦 security 與 permission 設計，不混進 API lifecycle、distributed workflow、SLO 與 microservice platform 專屬內容。
+# - 主流程收斂為：Problem Analysis -> Trust Boundary And Threat Model -> Identity And Authentication -> Authorization Model -> Token, Key, And Credential Design -> Enforcement Boundaries -> Permission Management And Scaling -> Operational Controls And Audit -> POC -> Evaluation
+# - 詳細說明與 reference 簡述請見同目錄的 overview.yaml。
+interface:
+  display_name: "Andrew Security Permission Design"
+  short_description: "Authentication, authorization, and permission design"
+  default_prompt: "Use $andrew-security-permission-design to design a security model with clear trust boundaries, token or key strategy, authorization structure, and enforceable permission rules."

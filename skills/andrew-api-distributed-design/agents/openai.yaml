@@ -1,0 +1,8 @@
+# Overview (zh-TW):
+# - 聚焦 API 與 distributed workflow 的契約設計，不混進微服務平台治理、security policy、SLO 與 permission 專屬內容。
+# - 主流程收斂為：Problem Analysis -> Domain And Interaction Modeling -> Contract Surfaces -> State Machine And Delivery Semantics -> Correctness And Coordination -> Worker And Runtime Topology -> Scenario Mapping -> Metrics -> POC -> Evaluation
+# - 詳細說明與 reference 簡述請見同目錄的 overview.yaml。
+interface:
+  display_name: "Andrew API Distributed Design"
+  short_description: "API contracts, messaging, and distributed correctness"
+  default_prompt: "Use $andrew-api-distributed-design to design a lifecycle-driven API or worker-based distributed workflow with explicit retry, idempotency, ordering, and operational semantics."

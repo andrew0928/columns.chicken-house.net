@@ -1,0 +1,8 @@
+# Overview (zh-TW):
+# - 聚焦整體 microservice architecture 與 migration，不混進單一 API 契約、security policy 或 SLO 控制細節。
+# - 主流程收斂為：Problem Analysis -> Microservice Fit -> Service Boundaries -> Migration Strategy -> Platform Capabilities -> Runtime And Hosting Model -> Delivery And Operability Model -> POC -> Evaluation
+# - 詳細說明與 reference 簡述請見同目錄的 overview.yaml。
+interface:
+  display_name: "Andrew Microservice Architecture"
+  short_description: "Microservice fit, migration, platform capabilities, and delivery model"
+  default_prompt: "Use $andrew-microservice-architecture to decide whether microservices fit, define service boundaries and migration steps, and design the platform, runtime, and delivery capabilities needed to run many services safely."

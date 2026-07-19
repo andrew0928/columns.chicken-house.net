@@ -1,0 +1,8 @@
+# Overview (zh-TW):
+# - 保留 cross-domain core 方法，不混進 API lifecycle、security policy、SLO 專用內容。
+# - 主流程收斂為：Problem Analysis -> Modeling -> Data And Storage Design -> Class And Boundary Design -> Scenario And Flow Mapping -> Metrics And Theory Limits -> POC -> Evaluation
+# - 詳細說明與 reference 簡述請見同目錄的 overview.yaml。
+interface:
+  display_name: "Andrew Architecture Core"
+  short_description: "Cross-domain architecture foundations and design drills"
+  default_prompt: "Use $andrew-architecture-core to turn a cross-domain architecture problem into a stable model with explicit data/storage tradeoffs, measurable POC design, and reviewable refactor triggers."

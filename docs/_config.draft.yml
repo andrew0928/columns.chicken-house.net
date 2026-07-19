@@ -2,13 +2,6 @@
 # 專為快速預覽設計，只處理最新文章
 # 使用方式: jekyll serve --config _config.yml,_config.draft.yml
 
-# 停用 synthesis 和 facebook collections
-collections:
-  synthesis:
-    output: false
-  facebook:
-    output: false
-
 # 限制只處理最新 5 篇文章
 limit_posts: 20
 
@@ -18,5 +11,5 @@ exclude:
   - _facebook
 
 # 加速建置
-incremental: true
+# incremental: true
 profile: true
