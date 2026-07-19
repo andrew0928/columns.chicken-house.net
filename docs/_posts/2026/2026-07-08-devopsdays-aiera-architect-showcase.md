@@ -19,9 +19,10 @@ logo: /images/2026-07-08-devopsdays-aiera-architect-showcase/image.png
 
 這篇, 我換了另一個案例當作練習, 我挑的題目是:
 
-> 
+> **需求規格**
 > 我的系統有很多操作需要計費, 而計費的機制我希望做的像 Claude Code 的使用量限制那樣的規則, 有每 5 小時, 也有每 7 天的額度限制, 超過額度可以選擇從儲值的點數扣除｡ 系統上的要求則是我只能用 SQLite, 設計上我想盡量降低 database 處理交易的負擔｡  
 > 
+{: .callout-note }
 
 
 我改用這個案例, 重新用我在台上分享的流程來做一次, 並且把過程記錄下來, 讓大家親自體驗跟直接不經思考就把需求扔給 AI 開發的差別｡ 這些過程跟步驟, 我在台上其實沒機會好好說明 (畢竟我的場合是演講, 不是工作坊), 所以我把這段用文章形式放在這裡, 有興趣的人可以參考~
@@ -66,27 +67,24 @@ logo: /images/2026-07-08-devopsdays-aiera-architect-showcase/image.png
 於是第一版規格就這樣完成了, 以下所有操作, 若沒有特別說明, 我都是在同樣的環境 (  codex + gpt5.5 xhigh + fast mode ) 執行的 , 用這段 prompt 產生了這次的規格:
 
 
-```
-(prompt)
-
-替我準備第一版規格
-這版規格只描述外在能觀測的行為跟結果, 不要描述任何系統內部的實作跟設計
-我先簡述我的期待, 替我轉成正式的規格跟驗收案例
-
---
-我有我自己的計費服務使用量管制機制, 我想要有個基於 database 運作的 rate limit, 行為就比照大家熟悉的 claude code 那樣
-對於 credit 的 usage, 有 5h 的窗口限制, 有 7d 的窗口限制
-超過有額外 extra pool 的機制
-
-單位都用整數, credit 來計算
-
-我想要在單一 database 管理多個 user 的 subscription 用量
-我希望架構越單純越好, 可以的話我希望能在入門等級的資料庫就能運作 (sqlite), 並且有良好的結構設計, 帳務出現異常時能夠有完整記錄回溯
-
-設計考量, 帳務絕對不能出錯這是基本的, 但是對我而言最優先的是建置成本, 能使用的 infrastructure 越精簡越好
-
-
-```
+> **Prompt**
+>
+> 替我準備第一版規格
+> 這版規格只描述外在能觀測的行為跟結果, 不要描述任何系統內部的實作跟設計
+> 我先簡述我的期待, 替我轉成正式的規格跟驗收案例
+>
+> --
+> 我有我自己的計費服務使用量管制機制, 我想要有個基於 database 運作的 rate limit, 行為就比照大家熟悉的 claude code 那樣
+> 對於 credit 的 usage, 有 5h 的窗口限制, 有 7d 的窗口限制
+> 超過有額外 extra pool 的機制
+>
+> 單位都用整數, credit 來計算
+>
+> 我想要在單一 database 管理多個 user 的 subscription 用量
+> 我希望架構越單純越好, 可以的話我希望能在入門等級的資料庫就能運作 (sqlite), 並且有良好的結構設計, 帳務出現異常時能夠有完整記錄回溯
+>
+> 設計考量, 帳務絕對不能出錯這是基本的, 但是對我而言最優先的是建置成本, 能使用的 infrastructure 越精簡越好
+{: .callout-note }
 
 產出的結果我就不貼了, 我放 github 連結: [spec/subscription-credit-rate-limit-v1.md](https://github.com/andrew0928/AndrewDemo.AgentRateLimit/blob/e60674f406852d778ab747612c1d4673948603d0/spec/subscription-credit-rate-limit-v1.md)
 
@@ -114,10 +112,10 @@ logo: /images/2026-07-08-devopsdays-aiera-architect-showcase/image.png
 
 這個分支是第一個 vibe coding 的代表, 我直接開啟 /goal 模式讓 codex 一路跑到完成為止, 花了 12m 5s 完成這任務 (如果沒開 fast mode 加速, 那應該要花掉 20m 以上了吧)
 
-```
-(prompt)
-use dotnet10 and sqlite to implement this spec
-```
+> **Prompt**
+>
+> use dotnet10 and sqlite to implement this spec
+{: .callout-note }
 
 我仗勢著我有 "完整的規格" (事後證明這遠遠不夠), 就可以無腦丟給 agent 完成後面所有任務, 因此記錄上你只看到一個 commit 就結束了, 實際上也真的只有一個步驟而已｡ 做法說明先到這邊, 成果後面一起看｡
 
@@ -129,10 +127,10 @@ use dotnet10 and sqlite to implement this spec
 我使用的 prompt 完全一樣, 一字不差的直接 copy 上面的案例, 差別只在用了不同的工具跟模型而已, 而這個任務一次就把我 5x 訂閱的 5h 額度用光了, 晾了幾個小時才接續完成, 時間我就不特別記錄了:
 
 
-```
-(prompt)
-use dotnet10 and sqlite to implement this spec
-```
+> **Prompt**
+>
+> use dotnet10 and sqlite to implement this spec
+{: .callout-note }
 
 一樣, 成果也有做出來, 跟我期待的落差後面一起看｡
 
@@ -220,12 +218,10 @@ use dotnet10 and sqlite to implement this spec
 因此第一步驟很單純, 直接讓 AI 替我生成 [第一版介面規格](https://github.com/andrew0928/AndrewDemo.AgentRateLimit/blob/3daf49fc85a4190418f214dd693f644d0ff509c5/docs/architecture/subscription-credit-abstract-design.md)｡ 而經過我的 review (這段我真的一行一行看), 我開始刪減我認為不必要的設計:
 
 
-```
-(ptompt)
-
-我需要 schema 設計能支持重新計算 但是我不需要在 abstract 支援這些介面 .abstract 只要支援正常的服務處理 "判定與消費" 就夠了 我的判斷是: IUsageReconciliationExporter, IExtraPoolAdjustmentService 介面是不必要的
-
-```
+> **Prompt**
+>
+> 我需要 schema 設計能支持重新計算 但是我不需要在 abstract 支援這些介面 .abstract 只要支援正常的服務處理 "判定與消費" 就夠了 我的判斷是: IUsageReconciliationExporter, IExtraPoolAdjustmentService 介面是不必要的
+{: .callout-note }
 
 我修正的差異在於:  
 
@@ -279,13 +275,11 @@ public interface ISubscriptionCreditUsageService
 
 直接叫 AI 按照現在的 .Abstract 設計, 產生一段示範怎麼使用的程式碼, 我直接來看這段 example code 是否飄出了程式碼的壞味道..., 這件事情過去我做的太多次了, 對我來說這是讓我驗證 DX 最有效率的方法, 於是我這樣要求 agent:
 
-```
-
-(prompt)
-試著寫第一個 test case, 我要用實際使用 .abstract code 的 test 來評估 developer experience
-測試不需要通過, 只需要讓我理解以後我會怎麼用 .abstract 就足夠, 還未實作的你可以用註解說明略過
-
-```
+> **Prompt**
+>
+> 試著寫第一個 test case, 我要用實際使用 .abstract code 的 test 來評估 developer experience
+> 測試不需要通過, 只需要讓我理解以後我會怎麼用 .abstract 就足夠, 還未實作的你可以用註解說明略過
+{: .callout-note }
 
 Agent 給了我這版, 用 unit test 風格寫的 test case, 省略掉 Assert 的部分, 其實真正用起來就是這樣:
 
@@ -359,13 +353,10 @@ var consumed = await usage.ConsumeAsync(request, CancellationToken.None);
 
 我按照我跟 agent 對話的順序來說明這部份｡ 初始化的 schema design:
 
-```
-
-(prompt)
-
-給我 database schema 的設計, 類似 abstract 一樣, 我先看主要結構, 細節 (例如 type, relation, constraint 等等) 可以晚點再補
-
-```
+> **Prompt**
+>
+> 給我 database schema 的設計, 類似 abstract 一樣, 我先看主要結構, 細節 (例如 type, relation, constraint 等等) 可以晚點再補
+{: .callout-note }
 
 第一版得到的結果大致是這樣, 跟第一版的 .Abstract 設計類似, 結構上工程觀點都作的很正確, 但是給太多了, 對我來說有點過度設計...
 
@@ -395,19 +386,16 @@ var consumed = await usage.ConsumeAsync(request, CancellationToken.None);
 接著我用前面相同的做法: 直接讓 agent 用這版 schema 設計, 套用我指定的情境, 並且把表格資料變化逐筆列出來給我確認:
 
 
-```
-
-(prompt)
-
-用這個案例演示 table 內容給我確認
-
-1. 初始化, 2026/07/01 23:01:23 第一次使用服務, 5h limit: 100, 7d limit: 1000, call: decide
-2. 使用, 2026/07/01 23:10:00, 使用 30
-3. 使用, 23:30:00, 使用 80
-4. 使用, 23:45:00, 使用 20
-5. 使用, 2026/07/02 08:00:00, 使用 50
-
-```
+> **Prompt**
+>
+> 用這個案例演示 table 內容給我確認
+>
+> 1. 初始化, 2026/07/01 23:01:23 第一次使用服務, 5h limit: 100, 7d limit: 1000, call: decide
+> 2. 使用, 2026/07/01 23:10:00, 使用 30
+> 3. 使用, 23:30:00, 使用 80
+> 4. 使用, 23:45:00, 使用 20
+> 5. 使用, 2026/07/02 08:00:00, 使用 50
+{: .callout-note }
 
 這段我還沒有真正建立資料庫, 完全只是存在於 context 內的 database schema 設計而已｡ 而這樣的設計我能夠給情境, 就能模擬的出來操作過程, 靠的是 LLM 的推論能力, 因此你要記得挑選數理以及推理能力好一點的模型來用, 同時也不要 100% 相信他是正確的. 即使如此, 這方法還是很有用的, 因為現在的模型能力都很不錯, 正確率其實是夠的, 對我而言, 更重要的是協助我驗證結果, 我需要確認的是結構, 而不是要真的計算...
 
@@ -430,20 +418,17 @@ var consumed = await usage.ConsumeAsync(request, CancellationToken.None);
 
 於是我再次補充規格:
 
-```
-
-(prompt)
-
-重來一次, 我只列出每次要消費的額度, 每次消費都是獨立的操作 (不是連續不可分割的操作)
-我會假設每次消費前都會先 decide 確認餘額, 確認能否使用
-
-1. 初始化, 2026/07/01 23:01:23 第一次使用服務, 5h limit: 100, 7d limit: 1000, call: decide
-2. 使用, 2026/07/01 23:10:00, 使用 30
-3. 使用, 23:30:00, 使用 80
-4. 使用, 23:45:00, 使用 20
-5. 使用, 2026/07/02 08:00:00, 使用 50
-
-```
+> **Prompt**
+>
+> 重來一次, 我只列出每次要消費的額度, 每次消費都是獨立的操作 (不是連續不可分割的操作)
+> 我會假設每次消費前都會先 decide 確認餘額, 確認能否使用
+>
+> 1. 初始化, 2026/07/01 23:01:23 第一次使用服務, 5h limit: 100, 7d limit: 1000, call: decide
+> 2. 使用, 2026/07/01 23:10:00, 使用 30
+> 3. 使用, 23:30:00, 使用 80
+> 4. 使用, 23:45:00, 使用 20
+> 5. 使用, 2026/07/02 08:00:00, 使用 50
+{: .callout-note }
 
 
 經過這樣的修正過程, 結果正確了, 至此需求規格算是清楚了 ( agent 的回應我就略過了 )｡  接下來我開始確認計算的問題｡ 
@@ -458,34 +443,31 @@ var consumed = await usage.ConsumeAsync(request, CancellationToken.None);
 所以我繼續問了這個問題:
 
 
-```
-
-(query)
-
-系統怎麼追蹤剩餘額度? 存在哪個 table?
-如何知道超過 5hr 額度可以重置?
-我在意每次 decide 都有大量運算 (ex: 必須 scan 過去 5hr / 24x7hr 的記錄)
-
-```
+> **Prompt**
+>
+> 系統怎麼追蹤剩餘額度? 存在哪個 table?
+> 如何知道超過 5hr 額度可以重置?
+> 我在意每次 decide 都有大量運算 (ex: 必須 scan 過去 5hr / 24x7hr 的記錄)
+>
+{: .callout-note }
 
 Agent 這段的回覆很經典, 我覺得是整個過程最關鍵的地方:
 
 
-```
 
-**剩餘額度存哪裡**
-
-存 projection，不存 source table：
-
-`subscription_usage_projection`
-
-| subscription_id | 5h_used | 5h_remaining | 5h_next_expire_at   | 7d_used | 7d_remaining | 7d_next_expire_at   | projection_updated_at |
-| --------------- | ------- | ------------ | ------------------- | ------- | ------------ | ------------------- | --------------------- |
-| sub-a           | 110     | 0            | 2026-07-02 04:10:00 | 110     | 890          | 2026-07-08 23:10:00 | 2026-07-01 23:30:00   |
-
-這張是 fast path 狀態表，給 `DecideAsync` 用。
-
-```
+> **剩餘額度存哪裡**
+>
+> 存 projection，不存 source table：
+>
+> `subscription_usage_projection`
+>
+> | subscription_id | 5h_used | 5h_remaining | 5h_next_expire_at   | 7d_used | 7d_remaining | 7d_next_expire_at   | projection_updated_at |
+> | --------------- | ------- | ------------ | ------------------- | ------- | ------------ | ------------------- | --------------------- |
+> | sub-a           | 110     | 0            | 2026-07-02 04:10:00 | 110     | 890          | 2026-07-08 23:10:00 | 2026-07-01 23:30:00   |
+>
+> 這張是 fast path 狀態表，給 `DecideAsync` 用。
+>
+{: .callout-note }
 
 
 到這裡為止, 我第一次確認到 5h / 7d 的 reset time 的儲存方式. 每個 claude code 的訂閱都有一筆這樣的記錄, 這張表格記錄的是這訂閱當下的使用狀態, 分 5h / 7d 兩組, 個別記錄 used / remaining 點數, 簡單的說你每次查閱 usage 的時候, 就是把你的訂閱對應的這筆資料顯示出來而已｡
@@ -502,15 +484,12 @@ Agent 這段的回覆很經典, 我覺得是整個過程最關鍵的地方:
 
 於是, 我繼續跟 agent 修正需求規格:
 
-```
-
-(prompt)
-
-不對, 按照 claude code, 我長時間沒使用的話什麼是都不會發生
-但是當我這瞬間開始使用, 若 5h 已經重置, 則 5h 是從現在開始 +5h, 7d 比照辦理
-我覺得他的演算法就是模擬 leaking buttle algorithm
-
-```
+> **Prompt**
+>
+> 不對, 按照 claude code, 我長時間沒使用的話什麼是都不會發生
+> 但是當我這瞬間開始使用, 若 5h 已經重置, 則 5h 是從現在開始 +5h, 7d 比照辦理
+> 我覺得他的演算法就是模擬 leaking buttle algorithm
+{: .callout-note }
 
 這次 codex 就真的跑了很久 ( 花了 6m 49s, 我有開 1.5x fast ), 然後修正了整組 database schema 設計, 回應了這些結果給我:
 
@@ -533,20 +512,17 @@ Agent 這段的回覆很經典, 我覺得是整個過程最關鍵的地方:
 
 
 
-```
-
-(prompt)
-
-能正常運作的最小表格
-
-我釐清我的意圖, 對我重要的是:
-1. 實際 consume 的記錄, 這是內部成本, 涉及拆帳分潤等, 必須確實記錄
-2. time window 我不在意, 這只是控制手段, 避免瞬間大量使用. 如果需要重算, 其實消費都已經發生了, 我不會需要重算 time window
-3. 我真正在意的是 consume 記錄跟真實 infra log 比對, 有沒有少算一筆 consume record 才是最關鍵的, 所以我認定的 source of truth 只有這個
-
-其餘應該有必要的資料表 (例如 subscription .. ), 多餘不需要的額外表格都可以刪除
-
-```
+> **Prompt**
+>
+> 能正常運作的最小表格
+>
+> 我釐清我的意圖, 對我重要的是:
+> 1. 實際 consume 的記錄, 這是內部成本, 涉及拆帳分潤等, 必須確實記錄
+> 2. time window 我不在意, 這只是控制手段, 避免瞬間大量使用. 如果需要重算, 其實消費都已經發生了, 我不會需要重算 time window
+> 3. 我真正在意的是 consume 記錄跟真實 infra log 比對, 有沒有少算一筆 consume record 才是最關鍵的, 所以我認定的 source of truth 只有這個
+>
+> 其餘應該有必要的資料表 (例如 subscription .. ), 多餘不需要的額外表格都可以刪除
+{: .callout-note }
 
 很多時候都是你有要求他才會修正, 這次我得到的最小設計只要三張表, 包含先前被 agent 誤認為非必要的 extra pool (額外儲值) 需求, 跟我預期的一致:
 
@@ -561,12 +537,11 @@ Agent 這段的回覆很經典, 我覺得是整個過程最關鍵的地方:
 
 最後, 我再次用一個測試情境來驗證這份 schema 是否合理, 我重新丟出這個測試案例, 只是這次的設計, 除了 5h / 7d 的限制之外, 額外預先儲值了 1000 等待需要時直接扣, 不需要等 reset:
 
-```
-(prompt)
-
-最後用前面我舉的案例, 用這三張表格重跑一次
-假設一開始 extra table 有儲值 1000
-```
+> **Prompt**
+>
+> 最後用前面我舉的案例, 用這三張表格重跑一次
+> 假設一開始 extra table 有儲值 1000
+{: .callout-note }
 
 Agent 模擬試算後給我這答案, extra pool 最後會剩下:
 
@@ -579,17 +554,14 @@ Agent 模擬試算後給我這答案, extra pool 最後會剩下:
 
 前面的設定是 5h 額度 100, 我依序扣掉 30, 80, 20 .. 這次判定錯誤的是 80 那筆, 我的認知是 80 扣掉後, limit 會變成 -10, 這落差由系統吸收, 因為這已經發生才記錄, 而要使用 extra pool 應該要使用者確認, 所以只有最後 20 經過確認後會扣掉 extra pool 才對 (我的期待), 而 agent 的設計是 -10 也會扣掉 extra pool ...
 
-```
-
-(prompt)
-
-修正, 5h 超額 10 那次應該要系統吸收
-因為再下一筆, decide 時才會發現 5h pool 已經不足, 需要動用到 extra pool
-UI 應該要提示, 詢問使用者是否願意使用 extra pool? 或是願意等到 5h reset 在繼續?
-
-前面溢出的 10 沒有詢問, 因此歸在內部吸收
-
-```
+> **Prompt**
+>
+> 修正, 5h 超額 10 那次應該要系統吸收
+> 因為再下一筆, decide 時才會發現 5h pool 已經不足, 需要動用到 extra pool
+> UI 應該要提示, 詢問使用者是否願意使用 extra pool? 或是願意等到 5h reset 在繼續?
+>
+> 前面溢出的 10 沒有詢問, 因此歸在內部吸收
+{: .callout-note }
 
 補足規格, 更新規格文件後, 重新讓 agent 再模擬一次, 最後一切都定案了:
 
@@ -609,29 +581,26 @@ UI 應該要提示, 詢問使用者是否願意使用 extra pool? 或是願意�
 
 這邊我就示範一下 decision table 的操作方式, 我先給了 agent 我想像的第一版要求:
 
-```
-
-(prompt)
-
-接下來 decision table 重新調整
-以一個 run ( detect, and consume 的完整過程 ) 來說, 會決定結果的有幾種條件:
-
-1. 5h expired
-2. 7d expired
-3. 5h quota available
-4. 7d ...
-5. 5h limit enough
-6. 5h limit not enough
-7. 7d ...
-8. 7d ...
-9. extra pool available
-
-若還有其他會影響結果的條件我沒列出來請跟我說
-沒問題的話, 請依據這樣的結果展開 decision table
-
-筆數很多, 先更新表格就好, 有必要我挑選後再展開 test case 內容
-
-```
+> **Prompt**
+>
+> 接下來 decision table 重新調整
+> 以一個 run ( detect, and consume 的完整過程 ) 來說, 會決定結果的有幾種條件:
+>
+> 1. 5h expired
+> 2. 7d expired
+> 3. 5h quota available
+> 4. 7d ...
+> 5. 5h limit enough
+> 6. 5h limit not enough
+> 7. 7d ...
+> 8. 7d ...
+> 9. extra pool available
+>
+> 若還有其他會影響結果的條件我沒列出來請跟我說
+> 沒問題的話, 請依據這樣的結果展開 decision table
+>
+> 筆數很多, 先更新表格就好, 有必要我挑選後再展開 test case 內容
+{: .callout-note }
 
 
 
@@ -655,16 +624,13 @@ UI 應該要提示, 詢問使用者是否願意使用 extra pool? 或是願意�
 
 
 
-```
-
-(prompt)
-
-我先集中測試 End to end run outcome table 的所有測試
-替我展開這部份的 Given/When/Then Testcases, 案例就用我剛才示範的, 5h: 100, 7d:1000, 若有必要放 extra pool 就用 1000
-
-這測試案例是第一版我必須要通過的所有情境
-
-```
+> **Prompt**
+>
+> 我先集中測試 End to end run outcome table 的所有測試
+> 替我展開這部份的 Given/When/Then Testcases, 案例就用我剛才示範的, 5h: 100, 7d:1000, 若有必要放 extra pool 就用 1000
+>
+> 這測試案例是第一版我必須要通過的所有情境
+{: .callout-note }
 
 最後展開的結果在這邊, 連結我直接跳到 end to end run outcome table 這位置, 這表格列出的 16 種情境就是我要求的驗收條件 (同一份文件, 只是我只指定了 [end-to-end-run-outcome-table](https://github.com/andrew0928/AndrewDemo.AgentRateLimit/blob/53982de8477c32b1a1aaa926623f0ae4ec55336f/spec/coverage/subscription-credit-rate-limit-v1-decision-table.md#end-to-end-run-outcome-table) 這張表的測試組合當作我的驗收要求)
 
@@ -710,20 +676,17 @@ Agent 全速跑了 12m 49s (這是有啟用加速的 1.5x fast mode), 結果就�
 
 在額外追加這需求時, 我只追加了一條設計規格, 那就是安全機制的設計: access token. 我指定了 access token 的 database table (前面規劃 database schema 我沒有處理到 access token), 也指定了 http api 使用的 tech stack, 同時要求 agent 在本地端替我打包成 docker compose, 同時要額外準備一個 tool, 用來初始化資料庫..
 
-```
-
-(prompt)
-
-我要開始開發 api hosting, 這 rate limit 需要變成正規的 http rest api, 並且有基本的安全機制
-
-在 database 建立 access token 的管理表, 只有兩個欄位, 一個是 token (type: UUID), 另一個是 subscription id
-
-所有 http api 都要在 authorization header 帶這個 token ( bearer, 全大寫, 不包含減號 )
-後續的 api 都按照 token 對應的 subscription id 來操作
-
-給我 api spec 說明, 先給我文件確認規格設計
-
-```
+> **Prompt**
+>
+> 我要開始開發 api hosting, 這 rate limit 需要變成正規的 http rest api, 並且有基本的安全機制
+>
+> 在 database 建立 access token 的管理表, 只有兩個欄位, 一個是 token (type: UUID), 另一個是 subscription id
+>
+> 所有 http api 都要在 authorization header 帶這個 token ( bearer, 全大寫, 不包含減號 )
+> 後續的 api 都按照 token 對應的 subscription id 來操作
+>
+> 給我 api spec 說明, 先給我文件確認規格設計
+{: .callout-note }
 
 過程我分三個階段實作, 並且 commit, 從 git history 可以清楚看到每個階段 agent 改了什麼｡ 實作階段就這最後 4 個 commit, 分別是:
 
@@ -945,4 +908,3 @@ AI 改變最多的, 就是 coding 本身, 也就是 V-Model 最底下的部分, 
 我的經驗是, 如果 AI 真的能替你帶來短時間 10x 的效率改善, 別把他都用在開發新功能上, 我建議 60% 用在新功能開發, 30% 用在持續重構與優化體質, 10% 用在提升你自身能力
 
 看懂這點後, 好好想想目前的策略, AI 的加速是必然的, 多學習與掌握 AI 技能也是必要的, 但是別忘了重點還是在你的團隊身上, 團隊的成熟度才是最大的競爭優勢啊!
-
