@@ -17,8 +17,9 @@ columns.chicken-house.net/
 │   ├── assets/             # 靜態資源
 │   ├── images/             # 文章附加圖檔
 │   └── pages/              # 靜態頁面
-├── artifacts/
-│   └── synthesis/          # AI 生成的內容分析 (原 /_embedding)
+├── service/
+│   ├── compose-preview.yaml # 完整內容預覽環境
+│   └── compose-draft.yaml   # 草稿快速預覽環境
 ├── .github/
 │   ├── instructions/       # GitHub Copilot 規範檔案
 │   └── prompts/            # AI 提示詞模板
@@ -31,11 +32,6 @@ columns.chicken-house.net/
 - **用途**: GitHub Pages 發布的 Jekyll 網站根目錄
 - **內容**: 所有部落格相關的檔案和配置
 - **發布**: GitHub Pages 直接從此目錄發布網站
-
-### `/artifacts/synthesis` - AI 內容分析
-- **用途**: 儲存從原始文章生成的結構化內容 (embedding / 摘要 / FAQ / metadata)
-- **來源**: 透過 blogindex.syncpost 指令同步產出
-- **功能**: 支援 AI 檢索、摘要、問答、向量資料庫索引
 
 ### `/.github` - 開發規範
 - **instructions/**: GitHub Copilot 智能提示規範

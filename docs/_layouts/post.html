@@ -50,13 +50,7 @@ layout: default
       {% include sidebar-search.html %}
       {% include sidebar-facebook.html %}
       {% include sidebar-mvp.html %}
-      {% comment %} Extract postid from page.id: /YYYY/MM/DD/slug -> YYYY-MM-DD-slug {% endcomment %}
-      {% assign id_parts = page.id | split: "/" | shift %}
-      {% assign postid = id_parts | join: "-" %}
-      {% comment %} {% include sidebar-synthesis.html postid=postid type="content" %} {% endcomment %}
       {% include sidebar-post-nav.html %}
-      {% comment %}
-      {% endcomment %}
     </div>
   </div>
 </section>

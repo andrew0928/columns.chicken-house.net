@@ -95,20 +95,10 @@ plugins_dir:
 #    - jekyll-github-metadata
 #     - jekyll-html-pipeline
 #     - jekyll-mentions
-collections:
+# collections:
 #    wiki:
 #        output: true
 #        permalink: /wiki/:path/
-   synthesis:
-       output: false
-       permalink: /synthesis/:path/
-
-defaults:
-  - scope:
-      path: ""
-      type: "synthesis"
-    values:
-      layout: synthesis
 
 # repository: mzlogin/mzlogin.github.io
 

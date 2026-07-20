@@ -1,78 +1,21 @@
-## overview
+# 部落格預覽指令
 
-寫完文章, preview 沒問題後, 就可以開始 build 了.
+## 完整內容預覽
 
-0. 編輯, 預覽文章內容 (更新 docs/_posts)
-- 啟動 preview env
-- 確認文章內容, http://localhost:4000
-1. 生成摘要等資訊 (sync-post synthesis:true, 更新 artifects/synthesis)
-2. 建立 synthesis 頁面 (build-synthesis.sh, 從 artifacts -> docs/_synthesis)
-3. 更新啟動環境
-- 啟動 build env
-- 匯入資料庫 (sync-post import:true, 更新 services/_storage_volumes/*)
-4. 產生 seed (columns-seed)
-5. 驗證 product env
-6. 推送 seed, github-pages
-7. 備份 _storage_volumes
+完整載入已發布文章、草稿、未來文章與未發布內容：
 
-
-## .env file
-以下都需要透過 service/.env 來指定 AzureOpenAI 的 endpoint, apikey 設定才能正常使用
-執行的工作目錄統一在 repo:/ 下
-
-## start preview environment
+```shell
 docker compose -f service/compose-preview.yaml up -d --force-recreate --remove-orphans
+```
 
-## start draft preview environment (快速預覽，僅處理 2026 年文章)
+預覽網址：<http://localhost:4000>
+
+## 草稿快速預覽
+
+只處理最新 20 篇文章，適合撰寫與調整新文章時使用：
+
+```shell
 docker compose -f service/compose-draft.yaml up -d --force-recreate --remove-orphans
-# 排除 _synthesis, _facebook, 以及 2025 年以前的文章
-# 建置時間從 ~30s 降到 ~3s
+```
 
-
-
-## start build environment (qdrant + kernelmemoryservice)
-docker compose -f service/compose-build.yaml up -d
-
-## start production environment (init with columns-seed)
-docker compose -f service/compose-prod.yaml up -d
-
-## build columns-seed (multi-arch for M4/x86 compatibility)
-### Setup multi-arch builder (run once)
-docker buildx create --name multiarch --driver docker-container --use
-docker buildx inspect --bootstrap multiarch
-
-### Build and push for both linux/amd64 and linux/arm64
-docker buildx build -f service/dockerfile-seed \
-  --platform linux/amd64,linux/arm64 \
-  -t andrew0928.azurecr.io/columns-seed:develop \
-  -t andrew0928.azurecr.io/columns-seed:$(date +%Y%m%d) \
-  --push .
-
-### Alternative: Build for amd64 only (faster, for x86 server)
-# docker build -f service/dockerfile-seed \
-#   --platform linux/amd64 \
-#   -t andrew0928.azurecr.io/columns-seed:develop \
-#   -t andrew0928.azurecr.io/columns-seed:$(date +%Y%m%d) . \
-#   && docker push andrew0928.azurecr.io/columns-seed:develop \
-#   && docker push andrew0928.azurecr.io/columns-seed:$(date +%Y%m%d)
-
-
-## run sync-post (synthesis)
-docker run --rm -it --user 1000:1000 -v $PWD:/workspaces/columns.chicken-house.net/ --env-file service/.env andrew0928.azurecr.io/columns-syncpost:develop --postname 2025-09-16 --synthesis true --forcesync true
-
-## build synthesis pages (artifacts -> docs/_synthesis)
-# Build all synthesis files
-./build-synthesis.sh
-
-# Build only specific year
-./build-synthesis.sh 2025
-
-## run sync-post (import)
-> 注意 network host, 這樣才能在 container 內連到 kernelmemoryservice ( localhost:9001 )
-docker run --rm --network host -it --user 1000:1000 -v $PWD:/workspaces/columns.chicken-house.net/ --env-file service/.env andrew0928.azurecr.io/columns-syncpost:develop --postname 2025 --import true --forcesync true
-
-## archive service volumes
-tar -czvf ../service-storage-volumes-$(date +%Y%m%d).tgz service/_storage_volumes
-
-## extract service volumes
-tar -zxvf ../service-storage-volumes-20261016.tgz service/_storage_volumes
+預覽網址：<http://localhost:4000>
