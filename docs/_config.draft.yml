@@ -5,11 +5,6 @@
 # 限制只處理最新 5 篇文章
 limit_posts: 20
 
-# 排除大量靜態內容
-exclude:
-  - _synthesis
-  - _facebook
-
 # 加速建置
 # incremental: true
 profile: true
