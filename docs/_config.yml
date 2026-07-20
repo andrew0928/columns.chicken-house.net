@@ -102,9 +102,6 @@ collections:
    synthesis:
        output: false
        permalink: /synthesis/:path/
-   facebook:
-       output: false
-       permalink: /facebook/:name/
 
 defaults:
   - scope:
@@ -112,11 +109,6 @@ defaults:
       type: "synthesis"
     values:
       layout: synthesis
-  - scope:
-      path: ""
-      type: "facebook"
-    values:
-      layout: facebook
 
 # repository: mzlogin/mzlogin.github.io
 
