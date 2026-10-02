@@ -1,0 +1,7 @@
+# The image only needs dependency manifests, not posts, drafts, or local secrets.
+**
+!service/
+!service/Dockerfile
+!docs/
+!docs/Gemfile
+!docs/Gemfile.lock

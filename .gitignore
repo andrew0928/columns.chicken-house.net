@@ -8,8 +8,8 @@ _site/
 
 
 
-# Jekyll settings
-/docs/Gemfile.lock
+# Local Bundler settings (Gemfile.lock is tracked for reproducible builds)
+**/.bundle/
 
 
 # SpecStory artifacts - keep locally but don't commit
