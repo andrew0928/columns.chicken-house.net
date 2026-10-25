@@ -17,11 +17,13 @@ logo:
 
 這看起來像是個老問題, 不過因為最近我都在研究 design for agents 的軟體設計, 如果這個服務也是要給 agent 使用的一環, 那麼這些資料, 跟這個環境, 就是這個應用程式要提供給 agent 最重要的 context 啊, "測試資料" 不再只是能讓功能正確操作的必要條件而已, 而是已經進化到 "要能呈現合理的真實情境" 的資料了, 如果你只是胡亂建立一堆 "xxx測試" 這樣的資料, 那這樣的 context 你是沒辦法拿 agent 來跑 evaluate 的... 這需求範圍遠比過去 "測試資料" 的涵蓋面更大了, 也因為 agent 這個課題, 再度喚起我對他的重視...
 
+也因為有這些企圖, 因此我花了點時間, 把以前沒認真思考的問題也一次挖出來好好研究了｡ 從搞清楚 "測試" 的意圖, 研究業界的實作案例, 定義自己想要的 "測試" 的邊界跟原則, 最後拿我自己的 [Andrew Shop](https://github.com/andrew0928/AndrewDemo.NetConf2023) 真正實作一次, 留下的記錄文章｡ 這個 side project, 是延續先前我在 DevOpsDays Taipei 談的案例, 做法也是延續這個場次提到的 Core Context 做法, 你可以把這篇的內容當作這場演講的延續, 也可以獨立看 Test Mdoe 這個課題來看待.
+
 <!--more-->
 
 
+繼續往下看之前, 多補一段想法...
 
-也因為有這些企圖, 因此我花了點時間, 把以前沒認真思考的問題也一次挖出來好好研究了｡ 從搞清楚 "測試" 的意圖, 研究業界的實作案例, 定義自己想要的 "測試" 的邊界跟原則, 最後拿我自己的 Andrew Shop 真正實作一次, 留下的記錄文章｡
 
 現在很少人願意 "親自" 寫文章了, 尤其是這種很花時間的長文... 不過這篇除了中間有兩段, 我明確標示由 AI 整理的內容之外, 其他是我自己寫的, 這篇文章定位是我自己學習後的心得分享, 既然是心得, 本來就應該是我消化後再輸出的不是嗎? 何況在整理的過程中我自己也會有收穫, 我也習慣用這種方式累積經驗跟能力了, 我為何要把這樣的機會讓給 AI 呢? XDD ... 
 
@@ -108,7 +110,7 @@ TiP 是想辦法讓你能安全的在正式環境 "測試" 功能正確性的做
 我覺得挺有意思的, 這三家的差別, 不在技術能力的優劣, 三家都是國際級的大廠, 我覺得都在水準之上了, 這三種模式, 反應了三家公司的業務需求跟技術選型的不同... , 我就逐一來說明一下:
 
 (1) Salesforce, 提供企業層級付費的 Sandbox
-https://www.salesforce.com/ap/platform/sandboxes-environments/
+[Salesforce Sandboxes 官方介紹](https://www.salesforce.com/ap/platform/sandboxes-environments/)
 
 做法: 提供完全隔離的環境, 這裡 "隔離" 的單位是整個 site, 建立獨立環境後, 依方案幫你複製正式環境的設定與資料, 讓你一開始就有看似一樣的環境可以體驗｡
 
@@ -120,7 +122,7 @@ https://www.salesforce.com/ap/platform/sandboxes-environments/
 
 
 (2) Shopify, 提供開發者替客戶建立 Client transfer store
-https://shopify.dev/docs/apps/build/stores
+[Shopify 商店類型官方說明](https://shopify.dev/docs/apps/build/stores)
 
 做法: 免費建立測試商店, 需密碼存取, 只限模擬交易, 無法使用真實世界的金流; 這裡也是在做 "隔離", 只是隔離的單位是 "Store", 不同的是 store 的設定, 某些功能 (金流, 交易) 會被關閉｡
 
@@ -136,11 +138,11 @@ Shopify 特地為了 Partner 準備了這樣的服務: 你可以替客戶開一�
 
 Shopify 的產品 / 架構團隊, 應該花了不少心思設計這樣的體系, 來支撐他們的業務形態
 
-現行文件已區分 **Dev stores** 與 **Client transfer stores**，前者不能轉交客戶。平台禁止真實交易、限制有效運送面單，也不足以推論所有第三方發票／物流整合都會自動隔離。[現行商店分類](https://shopify.dev/docs/apps/build/stores)、[限制說明](https://help.shopify.com/en/partners/manage-clients-stores/client-transfer-stores)|
+現行文件已區分 **Dev stores** 與 **Client transfer stores**，前者不能轉交客戶。平台禁止真實交易、限制有效運送面單，也不足以推論所有第三方發票／物流整合都會自動隔離。[現行商店分類](https://shopify.dev/docs/apps/build/stores)、[限制說明](https://help.shopify.com/en/partners/manage-clients-stores/client-transfer-stores#limitations-of-client-transfer-stores)|
 
 (3) Stripe, 提供客戶 "Test Mode" API token, 不需真實金流就能測試完整流程
-https://docs.stripe.com/testing
-https://docs.stripe.com/testing-use-cases
+[Stripe 測試指南](https://docs.stripe.com/testing)
+[Stripe 測試環境與使用情境](https://docs.stripe.com/testing-use-cases)
 
 
 做法: 同一套 API 透過不同 key 選擇正式／測試用途, 正式付款跟測試付款都會走完相同流程, 測試付款不經真實金流網路。
@@ -150,6 +152,7 @@ https://docs.stripe.com/testing-use-cases
 Stripe 的做法更細緻了, 這裡先談官方所稱的 test mode sandbox, 看文件說明, 應該是在同一組 API 背後, 靠不同的 APIKEY 區隔 Live Mode 跟 Test Mode, 兩者會共享 account 的部分設定, 但是產生的交易資料是隔離的, 測試的交易也會走完完整的流程, 對開發者來說是最無痛的做法, 大概就是換掉 APIKEY 就可以切換到正式環境, 而測試資料的隔離 (例如帳務等等相關功能) Stripe 端都已經處理妥當, 你可以在同一個 account 內測試, 不讓測試交易混入正式帳務; 不過調整共用設定仍可能影響 live mode｡ 其他 general sandboxes 則隔離設定與資料, 詳見[官方比較](https://docs.stripe.com/testing-use-cases)。
 
 Stripe 隔離涵蓋 Customer、Product 等 API 物件，**不只交易**。本次查閱的官方文件沒有揭露 database／table 的實體配置；測試卡也不會把 live key 的請求自動轉成 test mode。不能由此推論它免除了測試資料準備。[API 模式判定](https://docs.stripe.com/api)、[物件隔離規則](https://docs.stripe.com/keys)
+
 
 
 
@@ -180,39 +183,23 @@ Stripe 隔離涵蓋 Customer、Product 等 API 物件，**不只交易**。本�
 
 我先濃縮設計的取捨, 我覺得每個大廠都是在做這兩個決定, 只是他們的答案不同而已; 同樣的, 我需要決定的是我的 Andrew Shop 這兩個問題的答案應該是什麼?
 
-關鍵決策:
+我先參考了 Dry Run 的設計方式, 支援 Dry Run 用法的 CLI, 通常都有明確參數 --dryrun 代表這次指令要 "啟用" Test Mode, 而 Test Mode 跟 Live Mode 差別在哪, 則由個別的功能自行定義, 只是切換的開關統一而已｡ 但是執行單一任務的 CLI, 終究跟提供完整服務的 Andrew Shop 不同, 需要更妥善的架構規劃
 
-1. 明確的界定測試的邊界在哪裡 ( Live Mode / Test Mode 的邊界 )
+
+不過, 我先以此為基礎, 我覺得關鍵決策至少要包含這兩個:
+
+1. 明確的界定測試的邊界在哪裡 ( Live Mode / Test Mode 的邊界 )? 如何區隔這兩種 Mode?
 2. 明確的界定行為差距 ( Test Mode 邊界內的行為要有哪些不同 )
 
-<!--
-我試著用這兩個問題, 分別回答一次三個案例的答案..
 
-// hint: 換成表格, 或做成簡報
-
-Salesforce
-1. 給測試環境 "完全隔離的基礎建設", 從登入網址開始就完全獨立, (推測) 會有完全隔離的實體環境
-2. 所有行為都跟正式環境完全獨立, 只有明確手動的資料搬移
-
-Shopify
-1. 多租戶的隔離層級, 可能位於同一個 site / cluster, 但是靠 tenant 的不同來區隔
-2. 依據租戶 (店) 決定特定功能是否開放 ( ex: 真實的金流 , 物流 等功能選項 )
-
-Stripe
-1. Live Mode / Test Mode Sandbox 的隔離, 但是整合在同一個 API endpoints, 靠不同的 APIKEY 區隔
-2. 不同 Sandbox 的資料完全隔離, 物件也不會跨 Sandbox 參照, callback 會標記 mode 作為區隔
-
-
-那麼, Andrew Shop 呢?
--->
-
-我用一張對照表, 把前面三個案例擺在一起看:
+我用一張對照表, 把前面三個案例, 用這個視角擺在一起看:
 
 | 案例 | 隔離邊界：在哪個範圍內測試？ | 行為差異：測試時有哪些不同？ |
 | --- | --- | --- |
 | Salesforce | **環境 (Environment)**：建立與正式環境分開的 Sandbox。 | **複製設定與資料**：依方案將正式環境的設定與資料複製到 Sandbox，在獨立環境內測試。 |
 | Shopify | **商店 (Store / Tenant)**：以不同商店區分正式與測試用途。 | **限制部分功能**：依商店類型限制真實付款等功能，使用模擬交易進行測試。 |
-| Stripe | **帳號下的模式 / Sandbox**：在同一個 Account 下區隔正式與測試資料，透過不同 API Key 選擇。 | **模擬付款行為**：透過相同的 API 介面測試付款流程，但不產生真實扣款。 |
+| Stripe | **帳號下的模式 / Sandbox**：在同一個 Account 下區隔正式與測試資料區域，透過不同 API Key 選擇。 | **模擬付款行為**：透過相同的 API 介面測試付款流程，但不產生真實扣款。 |
+| Andrew Shop | (TBD) | (TBD) |
 
 
 我希望 Andrew Shop 的這兩個決策的答案是? 這部份就是我自己的 "許願" 了, 我想先定義我要的開發者測試體驗, 再來決定做法, 理解大廠的設計模式後, 我重新想了一下我的期待: 交易部分我想要像 Stripe 能明確隔離, 但是很難建立或是累積的資料 (例如上架商品等等) 我想要共用.. 
@@ -225,7 +212,7 @@ Stripe
 
 因為更高度的整合了, 所以規則也更難釐清, 因為上架商品跟庫存資訊我不打算隔離, 因此是共用的, 那難題來了, 我用 test credit 買了一件商品並完成結帳成立訂單, 那我到底要不要扣掉庫存?
 
-扣了的話, 測試訂單不收錢, 不出貨, 庫存扣了就間接影響實際銷售了 (有貨但是不能賣), 所以我多了一條原則:
+扣了的話, 測試訂單不收錢, 不出貨, 庫存扣了就間接影響實際銷售了 (有貨但是不能賣), 所以我多了第三條原則 (憲法):
 
 3. 測試的行為, 絕對不能影響真實業務的進行
    (隔離的邊界: 真實業務影響, 任何違背這條規則的設計都視為不合格)
@@ -243,7 +230,7 @@ Stripe
 我覺得整個研究, 對我而言最有價值的就是這段 "規格" 了, 要是沒有前面那些研究過程, 我是開不出這樣精確的規格的｡ 在這個年代, 你講不出規格, 你就無法期待 AI 做出來的東西是 100% 符合你預期的, 講不出規格, 你也無法把整個系統 (大黑箱) 拆成多個子系統, 個別突破 (呼應到我在 DevOpsDays 2026 提到的 黑箱解構 這頁簡報)
 
 ![alt text](/images/2026-10-26-test-mode-design-practice/image-8.png)
-https://slides.chicken-house.net/s/2026-DEVOPSDAYS?p=29
+[DevOpsDays Taipei 2026 簡報：黑箱解構（第 29 頁）](https://slides.chicken-house.net/s/2026-DEVOPSDAYS?p=29)
 
 
 
@@ -295,7 +282,7 @@ Schema 很明確, 就是儲存這些資料的原則, 我希望在 schema 設計�
 
     因此, 這段的規格就必須納入考量, 稍後你挑選的每種設計, 都得確實符合要求才行, 這是你要把關的第一個環節｡
     
-    當時明確保留來源判定、資料儲存與 contract，等後續需求收斂才決定。大原則決策被 Harness 自動留下決策記錄 (docs/decisions/2026-10-16-tip-no-real-business-effects.md:15)
+    當時明確保留來源判定、資料儲存與 contract，等後續需求收斂才決定。大原則決策被 Harness 自動留下決策記錄 ([docs/decisions/2026-10-16-tip-no-real-business-effects.md:15](https://github.com/andrew0928/AndrewDemo.NetConf2023/blob/c67e2d37d426698571246dc97676cb68a2c3e83b/docs/decisions/2026-10-16-tip-no-real-business-effects.md?plain=1#L15))
     
 2. **盤點領域物件，把抽象原則轉成保護範圍。**
     
@@ -306,7 +293,7 @@ Schema 很明確, 就是儲存這些資料的原則, 我希望在 schema 設計�
     
     同時確認：身分、權限與業務檢查仍須執行，不能看到 test 就直接成功。
     
-    這個分類也曾調整：最初 Cart 被納入用途分類，10/17 縮小實作範圍後，改成 Cart 共用且不標記用途，交易用途到 Checkout 建立時才決定。原始物件分類 (docs/decisions/2026-10-16-tip-domain-object-classification.md:13)、範圍修訂 (docs/decisions/2026-10-17-tip-standard-scope-and-context.md:25)
+    這個分類也曾調整：最初 Cart 被納入用途分類，10/17 縮小實作範圍後，改成 Cart 共用且不標記用途，交易用途到 Checkout 建立時才決定。原始物件分類 ([docs/decisions/2026-10-16-tip-domain-object-classification.md:13](https://github.com/andrew0928/AndrewDemo.NetConf2023/blob/c67e2d37d426698571246dc97676cb68a2c3e83b/docs/decisions/2026-10-16-tip-domain-object-classification.md?plain=1#L13))、範圍修訂 ([docs/decisions/2026-10-17-tip-standard-scope-and-context.md:25](https://github.com/andrew0928/AndrewDemo.NetConf2023/blob/c67e2d37d426698571246dc97676cb68a2c3e83b/docs/decisions/2026-10-17-tip-standard-scope-and-context.md?plain=1#L25))
     
 3. **用 Given／When／Then，把原則展開成能觀察結果的案例。**
     
@@ -320,7 +307,7 @@ Schema 很明確, 就是儲存這些資料的原則, 我希望在 schema 設計�
     |AC-003：失敗的測試交易|庫存只有 1，測試會員買 2 件|正常回報庫存不足、不建立訂單；不能虛構「略過扣庫存」紀錄|
     |AC-009：正式與測試並行|庫存 10，正式會員買 3 件、測試會員買 2 件|最後庫存 7；正式統計只增加 1 筆、300 元|
     
-    這裡我另外補上兩個驗收要求：**正式統計必須比較實際結果，不能只看 log；只有真正走到、且因 test 略過的操作，才能留下略過紀錄。**逐條確認紀錄 (docs/decisions/2026-10-16-tip-domain-object-classification.md:22)
+    這裡我另外補上兩個驗收要求：**正式統計必須比較實際結果，不能只看 log；只有真正走到、且因 test 略過的操作，才能留下略過紀錄。**逐條確認紀錄 ([docs/decisions/2026-10-16-tip-domain-object-classification.md:22](https://github.com/andrew0928/AndrewDemo.NetConf2023/blob/c67e2d37d426698571246dc97676cb68a2c3e83b/docs/decisions/2026-10-16-tip-domain-object-classification.md?plain=1#L22))
     
 4. **用邊界案例修正過度簡化的規則，進而形成 context 模型。**
     
@@ -340,28 +327,28 @@ Schema 很明確, 就是儲存這些資料的原則, 我希望在 schema 設計�
 
     因此, AC-012 原草案曾把到期更新也當成測試寫入而略過，我在這邊則明確要求修正。這案例的結果很重要, 我都還沒決定實作做法, 很慶幸我有 review 這段, 而 agent 也確實的把這衝突挖出來讓我確認, 我才有機會確實的思考這些問題並給出正確的 AC, 這結果跟思考過程都被忠實記錄下來, 成為 Ac-012 + 背後的 decisions 決策記錄｡ 
     
-    這組案例顯示，不能只靠最初呼叫者的 test 標記決定全部後續行為。到期整理的修正紀錄 (docs/decisions/2026-10-16-tip-system-expiration-boundary.md:9)
+    這組案例顯示，不能只靠最初呼叫者的 test 標記決定全部後續行為。到期整理的修正紀錄 ([docs/decisions/2026-10-16-tip-system-expiration-boundary.md:9](https://github.com/andrew0928/AndrewDemo.NetConf2023/blob/c67e2d37d426698571246dc97676cb68a2c3e83b/docs/decisions/2026-10-16-tip-system-expiration-boundary.md?plain=1#L9))
     
     我進一步把判斷依據分成：
     
     - **Identity context：誰正在執行。**
     - **Transaction context：正在處理哪一筆交易，以及它的用途。**
     
-    架構負責正確傳遞或恢復資訊，業務操作負責依資訊執行政策。兩類 context 的決策 (docs/decisions/2026-10-17-tip-contract-and-context-boundaries.md:41)
+    架構負責正確傳遞或恢復資訊，業務操作負責依資訊執行政策。兩類 context 的決策 ([docs/decisions/2026-10-17-tip-contract-and-context-boundaries.md:41](https://github.com/andrew0928/AndrewDemo.NetConf2023/blob/c67e2d37d426698571246dc97676cb68a2c3e83b/docs/decisions/2026-10-17-tip-contract-and-context-boundaries.md?plain=1#L41))
     
 5. **收斂 PoC 範圍，再轉成正式規格、合約與測試。**
     
     10/17 確認標準商店優先，暫不實作 PetShop Test Mode；測試付款以 PaymentId 白名單代表，並在 Checkout 建立時固定用途。
     
-    接著 agent 把 AC 對應到 `/spec/testcases`，例如 AC-002 展開為正式會員使用測試 PaymentId、會員用途不變、交易用途固定等案例。AC 與正式 testcase 對照 (spec/tip-phase1.md:43)
+    接著 agent 把 AC 對應到 [/spec/testcases](https://github.com/andrew0928/AndrewDemo.NetConf2023/tree/c67e2d37d426698571246dc97676cb68a2c3e83b/spec/testcases)，例如 AC-002 展開為正式會員使用測試 PaymentId、會員用途不變、交易用途固定等案例。AC 與正式 testcase 對照 ([spec/tip-phase1.md:43](https://github.com/andrew0928/AndrewDemo.NetConf2023/blob/c67e2d37d426698571246dc97676cb68a2c3e83b/spec/tip-phase1.md?plain=1#L43))
     
-    這裡我也要求 agent 走一次 TDD 的紅綠循環：**白名單與 Context 的 21 項新增測試，先確認可編譯但測試失敗，再以相同行為斷言驗證實作轉綠。**這次針對的是特定基礎合約，並未在一開始就寫好所有 AC 的完整測試。TDD 檢查點 (docs/decisions/2026-10-17-tip-allowlist-and-tdd-checkpoint.md:9)
+    這裡我也要求 agent 走一次 TDD 的紅綠循環：**白名單與 Context 的 21 項新增測試，先確認可編譯但測試失敗，再以相同行為斷言驗證實作轉綠。**這次針對的是特定基礎合約，並未在一開始就寫好所有 AC 的完整測試。TDD 檢查點 ([docs/decisions/2026-10-17-tip-allowlist-and-tdd-checkpoint.md:9](https://github.com/andrew0928/AndrewDemo.NetConf2023/blob/c67e2d37d426698571246dc97676cb68a2c3e83b/docs/decisions/2026-10-17-tip-allowlist-and-tdd-checkpoint.md?plain=1#L9))
     
 6. **Phase 2 之後重新確認隔離要求，追加 Phase 3。**
     
     10/19 的重要決策是：嚴格隔離交易，認證與非交易資料共用；既有交易依保存用途決定 storage 與效果，不能只依照當下 Token 重新分類。
     
-    同時修訂商品改價政策：test identity 必須明確被拒絕，不能回報成功但略過寫入。這直接修改了 AC-005，並新增儲存隔離規格與 26 條案例。交易邊界決策 (docs/decisions/2026-10-19-tip-identity-storage-and-access-boundaries.md:17)、追加 Phase 3 的決策 (docs/decisions/2026-10-19-tip-phase3-spec-and-refactor-plan.md:17)
+    同時修訂商品改價政策：test identity 必須明確被拒絕，不能回報成功但略過寫入。這直接修改了 AC-005，並新增儲存隔離規格與 26 條案例。交易邊界決策 ([docs/decisions/2026-10-19-tip-identity-storage-and-access-boundaries.md:17](https://github.com/andrew0928/AndrewDemo.NetConf2023/blob/c67e2d37d426698571246dc97676cb68a2c3e83b/docs/decisions/2026-10-19-tip-identity-storage-and-access-boundaries.md?plain=1#L17))、追加 Phase 3 的決策 ([docs/decisions/2026-10-19-tip-phase3-spec-and-refactor-plan.md:17](https://github.com/andrew0928/AndrewDemo.NetConf2023/blob/c67e2d37d426698571246dc97676cb68a2c3e83b/docs/decisions/2026-10-19-tip-phase3-spec-and-refactor-plan.md?plain=1#L17))
     
     **因此，拆 collection 與商品改價明確拒絕，是我在後續需求收斂時才確定的設計。**
 
@@ -372,23 +359,50 @@ Schema 很明確, 就是儲存這些資料的原則, 我希望在 schema 設計�
 
 **完整 AC 清單如下，採用最新確認版本。**
 
-|AC|驗收重點|本輪範圍|
-|---|---|---|
-|001 (docs/tip/tip-acceptance-criteria.md:9)|測試會員可完成一般商品結帳；正常計算與驗證，不影響庫存、真實付款、出貨及正式統計；略過效果可追查。|標準商店|
-|002 (docs/tip/tip-acceptance-criteria.md:48)|正式會員使用測試 PaymentId，可成立測試交易；會員／Token 仍為正式用途。|標準商店|
-|003 (docs/tip/tip-acceptance-criteria.md:73)|測試交易庫存不足時正常失敗，不建立訂單，不產生虛構的略過紀錄。|標準商店|
-|004 (docs/tip/tip-acceptance-criteria.md:105)|Member、Token、Checkout、Order 建立後，正式／測試用途不能互轉；其他合法欄位仍可更新。|標準商店|
-|005 (docs/tip/tip-acceptance-criteria.md:131)|test identity 修改商品售價必須明確拒絕；商品與後續正式交易的價格不變。|標準商店；P3 修訂|
-|006 (docs/tip/tip-acceptance-criteria.md:158)|測試修改 SKU，必要檢查照常；通過後略過更新並留紀錄，SKU、關聯與庫存不變。|標準商店|
-|007 (docs/tip/tip-acceptance-criteria.md:185)|測試預約通過檢查後，不建立 Reservation、衍生商品或占用正式時段。|PetShop，未納入|
-|008 (docs/tip/tip-acceptance-criteria.md:215)|測試預約遇到已占用時段，正常拒絕，既有正式預約不受影響。|PetShop，未納入|
-|009 (docs/tip/tip-acceptance-criteria.md:245)|正式與測試交易並行，兩者用途與效果各自隔離，只有正式交易影響正式業務。|標準商店|
-|010 (docs/tip/tip-acceptance-criteria.md:276)|測試會員的購物車增刪正常保存；Cart 不標記用途，不因 test 身分略過寫入。|標準商店|
-|011 (docs/tip/tip-acceptance-criteria.md:305)|測試會員不能完成其他會員的 Checkout，即使雙方都是 test。|標準商店|
-|012 (docs/tip/tip-acceptance-criteria.md:333)|測試查詢發現正式預約逾期，可通知系統正常清理；不因發現者為 test 而停止整理。|PetShop，未納入|
-|013 (docs/tip/tip-acceptance-criteria.md:369)|測試訂單的事件、背景處理與重試維持測試用途，不因改由 System 處理而解除限制。|標準商店|
-|014 (docs/tip/tip-acceptance-criteria.md:395)|用途必須明確；遺失或矛盾視為 BUG，阻止效果，不默認成正式交易。|標準商店|
-|015 (docs/tip/tip-acceptance-criteria.md:419)|測試預約略過建立後，流程停止；不捏造預約商品接續購物車與結帳。|PetShop，未納入|
+1. [AC-001](https://github.com/andrew0928/AndrewDemo.NetConf2023/blob/c67e2d37d426698571246dc97676cb68a2c3e83b/docs/tip/tip-acceptance-criteria.md?plain=1#L9) (標準商店)  
+    測試會員可完成一般商品結帳；正常計算與驗證，不影響庫存、真實付款、出貨及正式統計；略過效果可追查。
+
+2. [AC-002](https://github.com/andrew0928/AndrewDemo.NetConf2023/blob/c67e2d37d426698571246dc97676cb68a2c3e83b/docs/tip/tip-acceptance-criteria.md?plain=1#L48) (標準商店)  
+    正式會員使用測試 PaymentId，可成立測試交易；會員／Token 仍為正式用途。
+
+3. [AC-003](https://github.com/andrew0928/AndrewDemo.NetConf2023/blob/c67e2d37d426698571246dc97676cb68a2c3e83b/docs/tip/tip-acceptance-criteria.md?plain=1#L73) (標準商店)  
+    測試交易庫存不足時正常失敗，不建立訂單，不產生虛構的略過紀錄。
+
+4. [AC-004](https://github.com/andrew0928/AndrewDemo.NetConf2023/blob/c67e2d37d426698571246dc97676cb68a2c3e83b/docs/tip/tip-acceptance-criteria.md?plain=1#L105) (標準商店)  
+    Member、Token、Checkout、Order 建立後，正式／測試用途不能互轉；其他合法欄位仍可更新。
+
+5. [AC-005](https://github.com/andrew0928/AndrewDemo.NetConf2023/blob/c67e2d37d426698571246dc97676cb68a2c3e83b/docs/tip/tip-acceptance-criteria.md?plain=1#L131) (標準商店；P3 修訂)  
+    test identity 修改商品售價必須明確拒絕；商品與後續正式交易的價格不變。
+
+6. [AC-006](https://github.com/andrew0928/AndrewDemo.NetConf2023/blob/c67e2d37d426698571246dc97676cb68a2c3e83b/docs/tip/tip-acceptance-criteria.md?plain=1#L158) (標準商店)  
+    測試修改 SKU，必要檢查照常；通過後略過更新並留紀錄，SKU、關聯與庫存不變。
+
+7. [AC-007](https://github.com/andrew0928/AndrewDemo.NetConf2023/blob/c67e2d37d426698571246dc97676cb68a2c3e83b/docs/tip/tip-acceptance-criteria.md?plain=1#L185) (PetShop，未納入)  
+    測試預約通過檢查後，不建立 Reservation、衍生商品或占用正式時段。
+
+8. [AC-008](https://github.com/andrew0928/AndrewDemo.NetConf2023/blob/c67e2d37d426698571246dc97676cb68a2c3e83b/docs/tip/tip-acceptance-criteria.md?plain=1#L215) (PetShop，未納入)  
+    測試預約遇到已占用時段，正常拒絕，既有正式預約不受影響。
+
+9. [AC-009](https://github.com/andrew0928/AndrewDemo.NetConf2023/blob/c67e2d37d426698571246dc97676cb68a2c3e83b/docs/tip/tip-acceptance-criteria.md?plain=1#L245) (標準商店)  
+    正式與測試交易並行，兩者用途與效果各自隔離，只有正式交易影響正式業務。
+
+10. [AC-010](https://github.com/andrew0928/AndrewDemo.NetConf2023/blob/c67e2d37d426698571246dc97676cb68a2c3e83b/docs/tip/tip-acceptance-criteria.md?plain=1#L276) (標準商店)  
+    測試會員的購物車增刪正常保存；Cart 不標記用途，不因 test 身分略過寫入。
+
+11. [AC-011](https://github.com/andrew0928/AndrewDemo.NetConf2023/blob/c67e2d37d426698571246dc97676cb68a2c3e83b/docs/tip/tip-acceptance-criteria.md?plain=1#L305) (標準商店)  
+    測試會員不能完成其他會員的 Checkout，即使雙方都是 test。
+
+12. [AC-012](https://github.com/andrew0928/AndrewDemo.NetConf2023/blob/c67e2d37d426698571246dc97676cb68a2c3e83b/docs/tip/tip-acceptance-criteria.md?plain=1#L333) (PetShop，未納入)  
+    測試查詢發現正式預約逾期，可通知系統正常清理；不因發現者為 test 而停止整理。
+
+13. [AC-013](https://github.com/andrew0928/AndrewDemo.NetConf2023/blob/c67e2d37d426698571246dc97676cb68a2c3e83b/docs/tip/tip-acceptance-criteria.md?plain=1#L369) (標準商店)  
+    測試訂單的事件、背景處理與重試維持測試用途，不因改由 System 處理而解除限制。
+
+14. [AC-014](https://github.com/andrew0928/AndrewDemo.NetConf2023/blob/c67e2d37d426698571246dc97676cb68a2c3e83b/docs/tip/tip-acceptance-criteria.md?plain=1#L395) (標準商店)  
+    用途必須明確；遺失或矛盾視為 BUG，阻止效果，不默認成正式交易。
+
+15. [AC-015](https://github.com/andrew0928/AndrewDemo.NetConf2023/blob/c67e2d37d426698571246dc97676cb68a2c3e83b/docs/tip/tip-acceptance-criteria.md?plain=1#L419) (PetShop，未納入)  
+    測試預約略過建立後，流程停止；不捏造預約商品接續購物車與結帳。
 
 
 
@@ -461,7 +475,7 @@ public class Order
 }
 ```
 
-來源：Member.cs (src/AndrewDemo.NetConf2023.Core/Member.cs:5)、Token／Checkout Schema (src/AndrewDemo.NetConf2023.Core/ShopDatabaseContext.cs:275)、Order.cs (src/AndrewDemo.NetConf2023.Core/Order.cs:14)。
+來源：Member.cs ([src/AndrewDemo.NetConf2023.Core/Member.cs:5](https://github.com/andrew0928/AndrewDemo.NetConf2023/blob/c67e2d37d426698571246dc97676cb68a2c3e83b/src/AndrewDemo.NetConf2023.Core/Member.cs#L5))、Token／Checkout Schema ([src/AndrewDemo.NetConf2023.Core/ShopDatabaseContext.cs:275](https://github.com/andrew0928/AndrewDemo.NetConf2023/blob/c67e2d37d426698571246dc97676cb68a2c3e83b/src/AndrewDemo.NetConf2023.Core/ShopDatabaseContext.cs#L275))、Order.cs ([src/AndrewDemo.NetConf2023.Core/Order.cs:14](https://github.com/andrew0928/AndrewDemo.NetConf2023/blob/c67e2d37d426698571246dc97676cb68a2c3e83b/src/AndrewDemo.NetConf2023.Core/Order.cs#L14))。
 
 
 
@@ -490,7 +504,7 @@ var order = new Order(_transactions.NextOrderId())
 ```
 
 
-來源：Checkout 建立 (src/AndrewDemo.NetConf2023.Core/Checkouts/CheckoutService.cs:102)、Order 建立 (src/AndrewDemo.NetConf2023.Core/Checkouts/CheckoutService.cs:164)。
+來源：Checkout 建立 ([src/AndrewDemo.NetConf2023.Core/Checkouts/CheckoutService.cs:102](https://github.com/andrew0928/AndrewDemo.NetConf2023/blob/c67e2d37d426698571246dc97676cb68a2c3e83b/src/AndrewDemo.NetConf2023.Core/Checkouts/CheckoutService.cs#L102))、Order 建立 ([src/AndrewDemo.NetConf2023.Core/Checkouts/CheckoutService.cs:164](https://github.com/andrew0928/AndrewDemo.NetConf2023/blob/c67e2d37d426698571246dc97676cb68a2c3e83b/src/AndrewDemo.NetConf2023.Core/Checkouts/CheckoutService.cs#L164))。
 
 
 
@@ -509,7 +523,7 @@ public static string Checkouts(bool isTest, bool archived = false) =>
         : "checkout_transactions");
 ```
 
-來源：TransactionCollections.cs (src/AndrewDemo.NetConf2023.Core/Storage/TransactionCollections.cs:11)。
+來源：TransactionCollections.cs ([src/AndrewDemo.NetConf2023.Core/Storage/TransactionCollections.cs:11](https://github.com/andrew0928/AndrewDemo.NetConf2023/blob/c67e2d37d426698571246dc97676cb68a2c3e83b/src/AndrewDemo.NetConf2023.Core/Storage/TransactionCollections.cs#L11))。
 
 `init` 表達建立後不可任意賦值的意圖；持久化層另外檢查用途與 collection、Checkout／Order 關聯的一致性，不能只靠 `init` 保證資料隔離。
 
@@ -555,7 +569,7 @@ public sealed class TransactionSnapshot
 
 其中 `IdentityKind` 為 `Anonymous`、`Member`、`System`；`TransactionKind` 為 `Checkout`、`Order`。
 
-來源：IdentityContextContracts.cs (src/AndrewDemo.NetConf2023.Abstract/Contexts/IdentityContextContracts.cs:3)、TransactionContextContracts.cs (src/AndrewDemo.NetConf2023.Abstract/Contexts/TransactionContextContracts.cs:3)。
+來源：IdentityContextContracts.cs ([src/AndrewDemo.NetConf2023.Abstract/Contexts/IdentityContextContracts.cs:3](https://github.com/andrew0928/AndrewDemo.NetConf2023/blob/c67e2d37d426698571246dc97676cb68a2c3e83b/src/AndrewDemo.NetConf2023.Abstract/Contexts/IdentityContextContracts.cs#L3))、TransactionContextContracts.cs ([src/AndrewDemo.NetConf2023.Abstract/Contexts/TransactionContextContracts.cs:3](https://github.com/andrew0928/AndrewDemo.NetConf2023/blob/c67e2d37d426698571246dc97676cb68a2c3e83b/src/AndrewDemo.NetConf2023.Abstract/Contexts/TransactionContextContracts.cs#L3))。
 
 這兩個 Context 分別回答不同的問題：
 
@@ -573,7 +587,7 @@ services.AddScoped<ITransactionContext>(
     sp => sp.GetRequiredService<TransactionContext>());
 ```
 
-來源：ExecutionServices.cs (src/AndrewDemo.NetConf2023.Core/Contexts/ExecutionServices.cs:15)。
+來源：ExecutionServices.cs ([src/AndrewDemo.NetConf2023.Core/Contexts/ExecutionServices.cs:15](https://github.com/andrew0928/AndrewDemo.NetConf2023/blob/c67e2d37d426698571246dc97676cb68a2c3e83b/src/AndrewDemo.NetConf2023.Core/Contexts/ExecutionServices.cs#L15))。
 
 HTTP 入口驗證 Token 後建立 Identity；涉及既有 Checkout 時，另外檢查買方，再從保存的 Checkout 載入 Transaction Context。**Context 並不是跨 HTTP request 自動延續，而是在新的執行邊界重新建立。**
 
@@ -594,16 +608,16 @@ services.GetRequiredService<OrderContextLoader>()
 // ...執行事件處理器
 ```
 
-來源：DefaultOrderEventDispatcher.cs (src/AndrewDemo.NetConf2023.Core/Orders/DefaultOrderEventDispatcher.cs:31)。
+來源：DefaultOrderEventDispatcher.cs ([src/AndrewDemo.NetConf2023.Core/Orders/DefaultOrderEventDispatcher.cs:31](https://github.com/andrew0928/AndrewDemo.NetConf2023/blob/c67e2d37d426698571246dc97676cb68a2c3e83b/src/AndrewDemo.NetConf2023.Core/Orders/DefaultOrderEventDispatcher.cs#L31))。
 
-`OrderContextLoader.Bind(orderId)` 會讀取已保存的 Order，再用它的 `IsTest` 建立交易快照。因此，即使原來的 HTTP request 已經結束，新的 System scope 仍然知道這是一筆測試訂單。載入實作 (src/AndrewDemo.NetConf2023.Core/Orders/OrderContextLoader.cs:14)
+`OrderContextLoader.Bind(orderId)` 會讀取已保存的 Order，再用它的 `IsTest` 建立交易快照。因此，即使原來的 HTTP request 已經結束，新的 System scope 仍然知道這是一筆測試訂單。載入實作 ([src/AndrewDemo.NetConf2023.Core/Orders/OrderContextLoader.cs:14](https://github.com/andrew0928/AndrewDemo.NetConf2023/blob/c67e2d37d426698571246dc97676cb68a2c3e83b/src/AndrewDemo.NetConf2023.Core/Orders/OrderContextLoader.cs#L14))
 
 後續政策分成兩種：
 
 - **商品改價**：檢查 Identity，測試身分明確拒絕。
 - **Checkout 扣庫存、Order 衍生效果**：檢查 Transaction，測試交易略過受保護寫入；缺少正確的交易 Context 則視為錯誤。
 
-對應程式集中在 ProtectedWriteExecutor.cs (src/AndrewDemo.NetConf2023.Core/Effects/ProtectedWriteExecutor.cs:17)。
+對應程式集中在 ProtectedWriteExecutor.cs ([src/AndrewDemo.NetConf2023.Core/Effects/ProtectedWriteExecutor.cs:17](https://github.com/andrew0928/AndrewDemo.NetConf2023/blob/c67e2d37d426698571246dc97676cb68a2c3e83b/src/AndrewDemo.NetConf2023.Core/Effects/ProtectedWriteExecutor.cs#L17))。
 
 ---
 
@@ -650,7 +664,7 @@ public AdminOrderResult GetOrders(AdminQueryOptions options) => Read(() =>
 });
 ```
 
-來源：AdminQueryService.cs (src/AndrewDemo.NetConf2023.Core/AdminQueries/AdminQueryService.cs:10)。
+來源：AdminQueryService.cs ([src/AndrewDemo.NetConf2023.Core/AdminQueries/AdminQueryService.cs:10](https://github.com/andrew0928/AndrewDemo.NetConf2023/blob/c67e2d37d426698571246dc97676cb68a2c3e83b/src/AndrewDemo.NetConf2023.Core/AdminQueries/AdminQueryService.cs#L10))。
 
 這段查詢有三個要求：
 
@@ -671,7 +685,7 @@ public AdminOrderResult GetOrders(AdminQueryOptions options) => Read(() =>
 .local/admin-cli/publish/shop-admin stats --source order --type all
 ```
 
-來源：AdminCLI 操作說明 (docs/tip/admin-cli.md:44)。這裡統計的是**保存的訂單金額**；專案沒有接真實金流，不能將它描述成已收款金額。
+來源：AdminCLI 操作說明 ([docs/tip/admin-cli.md:44](https://github.com/andrew0928/AndrewDemo.NetConf2023/blob/c67e2d37d426698571246dc97676cb68a2c3e83b/docs/tip/admin-cli.md?plain=1#L44))。這裡統計的是**保存的訂單金額**；專案沒有接真實金流，不能將它描述成已收款金額。
 
 庫存則有直接讀回資料庫的驗收程式碼。案例預先建立庫存 10 件、購買 2 件，完成 Checkout 後檢查：
 
@@ -694,7 +708,7 @@ Assert.Equal(
 
 參數依序為 `memberTest`、`payment`、`expectedTest`。只有「正式會員＋一般付款」會把庫存從 10 扣到 8，其餘組合仍為 10。
 
-來源：TransactionStorageTests.cs (tests/AndrewDemo.NetConf2023.Core.Tests/TransactionStorageTests.cs:18)。
+來源：TransactionStorageTests.cs ([tests/AndrewDemo.NetConf2023.Core.Tests/TransactionStorageTests.cs:18](https://github.com/andrew0928/AndrewDemo.NetConf2023/blob/c67e2d37d426698571246dc97676cb68a2c3e83b/tests/AndrewDemo.NetConf2023.Core.Tests/TransactionStorageTests.cs#L18))。
 
 商品改價也有相同的讀回檢查：測試身分要求將價格從 100 改成 80，操作必須拒絕，保存價格仍為 100：
 
@@ -706,7 +720,7 @@ Assert.Empty(effects.Skipped);
 Assert.Equal(100, Context.Products.FindById(id).Price);
 ```
 
-來源：商品改價驗收 (tests/AndrewDemo.NetConf2023.Core.Tests/TransactionStorageTests.cs:50)。
+來源：商品改價驗收 ([tests/AndrewDemo.NetConf2023.Core.Tests/TransactionStorageTests.cs:50](https://github.com/andrew0928/AndrewDemo.NetConf2023/blob/c67e2d37d426698571246dc97676cb68a2c3e83b/tests/AndrewDemo.NetConf2023.Core.Tests/TransactionStorageTests.cs#L50))。
 
 這裡的驗收重點是：**驗收會讀回實際庫存、商品價格與訂單統計，確認隔離結果；log 則用來交代哪些操作被略過。**
 
@@ -734,7 +748,7 @@ Assert.Equal(100, Context.Products.FindById(id).Price);
 
 
 
-> 以下是 2026-10-24 在本機 PoC 的實際操作結果。這次使用獨立的 demo 資料庫，按照「先測試、後正式」的順序完成兩筆交易，並在操作前與每次結帳後讀回庫存與訂單統計。
+> 以下是 2026-10-24 在本機 PoC 的實際操作結果。這次使用獨立的 demo 資料庫，按照「先測試、後正式」的順序完成兩筆交易，並在操作前與每次結帳後讀回庫存與訂單統計。程式碼版本為 [c67e2d3](https://github.com/andrew0928/AndrewDemo.NetConf2023/commit/c67e2d37d426698571246dc97676cb68a2c3e83b)；[執行記錄與原始證據](https://github.com/andrew0928/AndrewDemo.NetConf2023/blob/191f9ee5ff3a9294394b088f158c219fe82f10f9/docs/tip/chapter5-demo-2026-10-24/README.md)也一併保留。
 
 ## 5.1, 主軸情境: 安全地走完一次購物流程
 
@@ -788,7 +802,7 @@ Assert.Equal(100, Context.Products.FindById(id).Price);
 .local/admin-cli/publish/shop-admin list --source order --type all --all-pages --format txt
 ```
 
-原始輸出：
+原始輸出（[完整 TXT](https://github.com/andrew0928/AndrewDemo.NetConf2023/blob/191f9ee5ff3a9294394b088f158c219fe82f10f9/docs/tip/chapter5-demo-2026-10-24/cli/orders-all.txt)）：
 
 ```text
 命令：list　來源：order
@@ -830,7 +844,7 @@ Assert.Equal(100, Context.Products.FindById(id).Price);
 .local/admin-cli/publish/shop-admin stats --source order --type normal --format txt
 ```
 
-原始輸出：
+原始輸出（[完整 TXT](https://github.com/andrew0928/AndrewDemo.NetConf2023/blob/191f9ee5ff3a9294394b088f158c219fe82f10f9/docs/tip/chapter5-demo-2026-10-24/cli/stats-normal.txt)）：
 
 ```text
 命令：stats　來源：order
@@ -852,7 +866,7 @@ Assert.Equal(100, Context.Products.FindById(id).Price);
 .local/admin-cli/publish/shop-admin stats --source order --type test --format txt
 ```
 
-原始輸出：
+原始輸出（[完整 TXT](https://github.com/andrew0928/AndrewDemo.NetConf2023/blob/191f9ee5ff3a9294394b088f158c219fe82f10f9/docs/tip/chapter5-demo-2026-10-24/cli/stats-test.txt)）：
 
 ```text
 命令：stats　來源：order
@@ -876,6 +890,8 @@ Assert.Equal(100, Context.Products.FindById(id).Price);
 02-after-normal.json: "SKU-BEER-18D": 97
 ```
 
+原始資料：[操作前](https://github.com/andrew0928/AndrewDemo.NetConf2023/blob/191f9ee5ff3a9294394b088f158c219fe82f10f9/docs/tip/chapter5-demo-2026-10-24/00-baseline.json)、[測試交易後](https://github.com/andrew0928/AndrewDemo.NetConf2023/blob/191f9ee5ff3a9294394b088f158c219fe82f10f9/docs/tip/chapter5-demo-2026-10-24/01-after-test.json)、[正式交易後](https://github.com/andrew0928/AndrewDemo.NetConf2023/blob/191f9ee5ff3a9294394b088f158c219fe82f10f9/docs/tip/chapter5-demo-2026-10-24/02-after-normal.json)。
+
 會員的訂單列表也能看到這兩筆訂單，#1 標示測試用途，#2 標示一般用途。這對應到前面「身分與交易用途分開」的設計；而只有正式交易扣庫存、增加正式訂單總額，則對應到「依交易用途控制商業效果」的要求。
 
 ![同一會員的訂單列表同時保留一般訂單 #2 與測試訂單 #1](/images/2026-10-26-test-mode-design-practice/demo-06-orders.jpg)
@@ -889,7 +905,7 @@ Assert.Equal(100, Context.Products.FindById(id).Price);
 
 # 6, 開發設計心得總結
 
-其實這篇, 除了講主軸 Test Mode, 從架構師的角度來看怎麼設計能支持在 production 環境進行局部測試的做法之外, 另一個角度 (私心), 其實這是我在 DevOpsDays Taipei 2026 這場演講的後半部補完｡
+其實這篇, 除了講主軸 Test Mode, 從架構師的角度來看怎麼設計能支持在 production 環境進行局部測試的做法之外, 另一個角度 (私心), 其實這是我在 [DevOpsDays Taipei 2026](https://slides.chicken-house.net/s/2026-DEVOPSDAYS) 這場演講的後半部補完｡
 
 Andrew Shop 就是我為了這場演講準備的 side project, 這次補完了 test mode + admin cli, 算是完成我想展示的最後一塊拼圖了, 而寫這篇文章的過程中, 中間有一大段 (第四章, 第五章) 的主要內容都是由 agent 準備 (包含測試的執行) + 撰寫完成的, 能做到這點的原因, 並不是我用了什麼厲害的模型或工具 (我就很普通的, 用了 codex + astra 而已), 只是這個禮拜 open ai 幾乎每天都在 reset 額度而已 XD
 
@@ -930,7 +946,7 @@ Andrew Shop 就是我為了這場演講準備的 side project, 這次補完了 t
 
 而這頁, 則是帶出, CLI 終究只是層 "介面", 你的 CLI 能做多少事情, 完全取決於你後面的 API 有多厲害, 安全與授權管控的機制做的多到位｡ CLI 之所以能比 GUI 靈活, 關鍵在於 CLI 能確實完成很多基礎操作, 而使用 CLI 的人能夠搭配 script 快速組合並重複這些基礎操作, 來完成複雜的大型任務, 因此這些基礎操作做的夠不夠確實 (效率, 可靠度, 甚至是指令的設計是否清楚, 狀態是否明確等等), 這些都會反映出 API First 的基礎能力有沒有到位
 
-講到 API First, 我也有一堆東西可以講 XDD, 不過那些我都寫過多篇文章了, 大家自己往前翻...
+講到 API First, 我也有一堆東西可以講 XDD, 不過那些我都寫過多篇文章了, 大家自己往前翻... （[API First 的開發策略](/2022/10/26/apifirst/)、[從 API First 到 AI First](/2024/07/20/devopsdays-keynote/)）
 
 最後分享一個我自己的 CLI 設計技巧, 一般按照慣例, CLI 用 --help 就會列出使用提示, 大家都會這樣設計吧? 讓使用者知道有哪些參數能用 (當然 Agent 也能看), 我拿這次的 admin-query cli 當案例:
 
@@ -963,15 +979,39 @@ Andrew Shop 就是我為了這場演講準備的 side project, 這次補完了 t
 回到這篇最開始, 我抓這個主題的企圖, 就是解決測試跟資料的兩難而已｡ 現在的服務, 使用者已經不只是真人而已, 要讓 agent 操作的比例越來越高了, 而這類應用, 服務背後的資料庫已經是 context 的一部分了, 不管是功能的測試, 或是客戶 / 開發者的評估, 沒有 context 的話, agent 相關的驗證跟測試就沒有意義了, 所以我才再度挖出過去被我放棄沒有好好研究的題目: Test Mode in Application 的設計方式, 同時也把這概念, 順利的加到 Andrew Shop, 我先前研究跟練習架構設計用的 side project, 並且真的能通過驗證跟測試, 可以在同一個環境執行正式的交易邏輯, 也能用不同的信用卡卡號切換到測試的交易邏輯, 並且在實際的資料庫設計跟程式碼架構, 把這些路線清楚的隔離出來, 這一切成果, 都符合我設計的期待｡
 
 
-兩週前我在 Hello World Development Conference 聽了一場演講, 其中講到這段話 (我忘了原文, 只能憑記憶回想), 大意是:
+兩週前我在 Hello World Dev Conference 聽了 Jed（林承毅）的演講「[當架構設計被 AI 加速後，工程判斷力的養成與傳承該怎麼辦？](https://hwdc.ithome.com.tw/2026/session/4967)」, 其中講到這段話 (我忘了原文, 只能憑記憶回想), 大意是:
 
 決策有分兩大類, 一種是很容易重來的, 可以放心的交給 AI 讓他全速跑; 另一種是做錯決策就很麻煩的, 你需要花時間設計, 思考, 評估的決策, 應該要仰賴有經驗的人決定後再交給 AI 補完; 而在中間地帶, 還有一類是決策容易重來, 但是變更的執行成本很高的 (例如: 內部評估用的 prototype, 要實作一個內部使用的 prototype 要寫很多程式碼, 卻又不能賣錢)... 這類決策過去往往難以頻繁的執行, 而現在有了 AI, 大幅降低 coding 的成本, 這類開始也適合讓 AI 來處理｡ 
 
 我會想起這段演講, 就是這題目過去我根本沒機會用閒暇時間做完 PoC 真的開發一遍啊, 這種 "刻意練習" 的題目, 就屬於中間地帶的類型, 過去很花時間的, 現在拜 AI 所賜, 我大約花了一天的時間, 就完成這次 Test Mode 的開發了, 趁著假期也把這篇心得記錄補完了｡ 這速度在過去是無法想像的, 這也是資深人員在 AI 時代新的學習方法｡
 
-在 DevOpsDays 的演講裡, 我也分享過這頁簡報:  
+在 [DevOpsDays 的演講](https://slides.chicken-house.net/s/2026-DEVOPSDAYS)裡, 我也分享過這頁簡報:  
 當 AI 加速之後, 你應該多撥一點時間 (30%), 把他用在改善系統架構或是體質 (像是這次的重構), 以及多花一些時間 (10%) 來培養自己的能力｡ 而這篇文章, 這 30% + 10% 都涵蓋到了
 
 ![alt text](/images/2026-10-26-test-mode-design-practice/image-20.png)
 
 AI 越來越強, 不過如果你的能力沒跟上, 你是沒有機會處理 "架構與邊界設計" 這類需要先經過人工設計過再交給 AI 執行的任務的, 這也是之前我常常在推廣的 "刻意練習", 用這種方式, 你一週就能掌握重要的觀念了, 如果要在實際專案學到這樣的經驗, 以我經驗來看, 至少是 3 ~ 6 個月規模的開發專案才有機會碰的到｡ 所以, 我刻意會花時間自己寫, 一方面也是要驗證我自己是否真的確實掌握這些 knwo how 了? 沒有充分理解, 寫的過程你自己會知道 (心虛), 就會回頭去把這些環節真正的搞懂, 這些能力, 才是未來能高度跟 AI 協作的必要能力吧
+
+
+**參考連結：專案、規格與實測資料**
+
+- GitHub repo：[AndrewDemo.NetConf2023（Andrew Shop）](https://github.com/andrew0928/AndrewDemo.NetConf2023)。目前整合分支為 [master](https://github.com/andrew0928/AndrewDemo.NetConf2023/tree/master)，這次 Test Mode 的原開發分支為 [feature-test-in-production](https://github.com/andrew0928/AndrewDemo.NetConf2023/tree/feature-test-in-production)。
+- 本文程式碼與規格引用固定在 [c67e2d3](https://github.com/andrew0928/AndrewDemo.NetConf2023/commit/c67e2d37d426698571246dc97676cb68a2c3e83b)，也是第五章 demo 使用的程式碼版本；實測證據另外保存於 [191f9ee](https://github.com/andrew0928/AndrewDemo.NetConf2023/commit/191f9ee5ff3a9294394b088f158c219fe82f10f9)，兩者皆已納入 master。
+- 設計與驗收：[Test Mode 文件入口](https://github.com/andrew0928/AndrewDemo.NetConf2023/blob/c67e2d37d426698571246dc97676cb68a2c3e83b/docs/tip/README.md)、[驗收條件 AC](https://github.com/andrew0928/AndrewDemo.NetConf2023/blob/c67e2d37d426698571246dc97676cb68a2c3e83b/docs/tip/tip-acceptance-criteria.md)、[重要決策索引](https://github.com/andrew0928/AndrewDemo.NetConf2023/blob/c67e2d37d426698571246dc97676cb68a2c3e83b/docs/decisions/README.md)。
+- 正式規格：[Phase 1 規格](https://github.com/andrew0928/AndrewDemo.NetConf2023/blob/c67e2d37d426698571246dc97676cb68a2c3e83b/spec/tip-phase1.md)、[測試案例](https://github.com/andrew0928/AndrewDemo.NetConf2023/tree/c67e2d37d426698571246dc97676cb68a2c3e83b/spec/testcases)。
+- 操作與重現：[本機部署說明](https://github.com/andrew0928/AndrewDemo.NetConf2023/blob/c67e2d37d426698571246dc97676cb68a2c3e83b/compose/README.md)、[AdminCLI 操作說明](https://github.com/andrew0928/AndrewDemo.NetConf2023/blob/c67e2d37d426698571246dc97676cb68a2c3e83b/docs/tip/admin-cli.md)。
+- 第五章實測：[完整執行記錄](https://github.com/andrew0928/AndrewDemo.NetConf2023/blob/191f9ee5ff3a9294394b088f158c219fe82f10f9/docs/tip/chapter5-demo-2026-10-24/README.md)、[CLI 命令與退出碼](https://github.com/andrew0928/AndrewDemo.NetConf2023/blob/191f9ee5ff3a9294394b088f158c219fe82f10f9/docs/tip/chapter5-demo-2026-10-24/cli/commands.json)、[原始輸出與擷圖](https://github.com/andrew0928/AndrewDemo.NetConf2023/tree/191f9ee5ff3a9294394b088f158c219fe82f10f9/docs/tip/chapter5-demo-2026-10-24)。
+
+**參考連結：演講與延伸閱讀**
+
+- DevOpsDays Taipei 2026：[完整簡報](https://slides.chicken-house.net/s/2026-DEVOPSDAYS)、前一篇文章 [AI Era, 架構師的注意力該用在哪裡?](/2026/07/08/devopsdays-aiera-architect-showcase/)。
+- .NET Conf 2019：[Scope 與跨執行邊界的 Context 範例（第 74 頁起）](https://slides.chicken-house.net/s/2019-NETCONF2?p=74)。
+- Hello World Dev Conference 2026，Jed（林承毅）：[當架構設計被 AI 加速後，工程判斷力的養成與傳承該怎麼辦？](https://hwdc.ithome.com.tw/2026/session/4967)。上面的演講心得是我的記憶整理，非逐字引用。
+- API 設計延伸閱讀：[API First 的開發策略](/2022/10/26/apifirst/)、[從 API First 到 AI First](/2024/07/20/devopsdays-keynote/)。
+- 本文動機提到的 Facebook 討論：[以後的軟體是寫給 Agent 使用的](https://www.facebook.com/share/p/1F6dBLfe8U/)。
+
+**參考連結：廠商官方文件**
+
+- Salesforce：[Sandboxes](https://www.salesforce.com/ap/platform/sandboxes-environments/)、[Sandbox 類型](https://www.salesforce.com/platform/sandboxes-environments/salesforce-sandbox-guide/)、[Change Sets](https://help.salesforce.com/s/articleView?id=changesets.htm&language=en_US&type=5)、[方案定價](https://www.salesforce.com/ap/platform/sandboxes-environments/pricing/)。
+- Shopify：[商店類型](https://shopify.dev/docs/apps/build/stores)、[Client transfer stores 的限制](https://help.shopify.com/en/partners/manage-clients-stores/client-transfer-stores#limitations-of-client-transfer-stores)。
+- Stripe：[測試指南](https://docs.stripe.com/testing)、[測試環境比較](https://docs.stripe.com/testing-use-cases)、[API 模式判定](https://docs.stripe.com/api)、[API keys 與物件隔離](https://docs.stripe.com/keys)、[Webhooks](https://docs.stripe.com/webhooks)。
