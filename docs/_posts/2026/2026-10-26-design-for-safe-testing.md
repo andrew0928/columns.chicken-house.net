@@ -4,10 +4,10 @@ title: "刻意練習: Design for Safe Testing"
 categories:
 - "系列文章: 架構師觀點"
 tags: ["架構師觀點","技術隨筆"]
-published: false
+published: true
 comments_disqus: false
 comments_facebook: false
-comments_gitalk: false
+comments_gitalk: true
 redirect_from:
 logo: /images/2026-10-26-design-for-safe-testing/cover-safe-testing-overview-1200x630.png
 ---
